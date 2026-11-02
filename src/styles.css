@@ -1,8 +1,20 @@
 :root {
-    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    --color-ink: #243d38;
+    --color-muted: #586e68;
+    --color-border: #cddad5;
+    --color-border-strong: #9db8ae;
+    --color-surface: #fff;
+    --color-surface-soft: #f5f8f6;
+    --color-surface-tint: #eaf1ed;
+    --color-accent: #147568;
+    --color-accent-strong: #0f544b;
+    --color-accent-soft: #dff2ea;
+    --color-accent-border: #8bc8b1;
+
+    font-family: system-ui, sans-serif;
     font-size: 12px;
-    color: #263c53;
-    background: #dce6f1;
+    color: var( --color-ink );
+    background: var( --color-surface-soft );
     font-synthesis: none;
     }
 
@@ -24,19 +36,19 @@ button:disabled {
     opacity: 0.43;
     }
 button, input, select, textarea {
-    border: 1px solid #aebaca;
+    border: 1px solid var( --color-border-strong );
     border-radius: 2px;
     }
 button {
-    background: linear-gradient( #fff, #e8edf3 );
+    background: var( --color-surface );
     padding: 5px 9px;
     }
 button:hover:not(:disabled) {
-    border-color: #d8a642;
-    background: linear-gradient( #fff7df, #ffe7a3 );
+    border-color: var( --color-accent-border );
+    background: var( --color-accent-soft );
     }
 button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-    outline: 2px solid #2878bf;
+    outline: 2px solid var( --color-accent );
     outline-offset: 2px;
     }
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select {
@@ -45,7 +57,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select {
     background: #fff;
     }
 input[type="checkbox"], input[type="radio"] {
-    accent-color: #3b75b0;
+    accent-color: var( --color-accent );
     }
 textarea {
     padding: 8px;
@@ -53,7 +65,7 @@ textarea {
     background: #fff;
     }
 input:disabled {
-    background: #f0f1f3 !important;
+    background: var( --color-surface-soft ) !important;
     }
 svg.lucide {
     width: 16px;
@@ -79,18 +91,17 @@ svg.lucide {
     align-items: center;
     gap: 7px;
     padding: 0 11px;
-    border-bottom: 1px solid #becbdc;
-    background: linear-gradient( #edf3fc, #d1dfef );
+    border-bottom: 1px solid var( --color-border );
+    background: var( --color-surface-tint );
     }
 .app-mark {
     display: grid;
     place-items: center;
-    background: #376591;
+    background: var( --color-accent );
     color: #fff;
     border-radius: 4px;
     width: 23px;
     height: 23px;
-    box-shadow: inset 0 1px 0 #ffffff45;
     }
 .quick-access {
     display: flex;
@@ -120,14 +131,14 @@ svg.lucide {
     white-space: nowrap;
     }
 .titlebar-note {
-    color: #6b7e95;
+    color: var( --color-muted );
     font-size: 10px;
     }
 .ribbon-tabs {
     display: flex;
     align-items: stretch;
     padding-right: 8px;
-    background: #e4edf8;
+    background: var( --color-accent-soft );
     }
 .ribbon-tabs button {
     border: 1px solid transparent;
@@ -136,33 +147,36 @@ svg.lucide {
     border-radius: 3px 3px 0 0;
     }
 .ribbon-tabs button[aria-pressed="true"] {
-    background: linear-gradient( #fff, #f0f3f7 );
-    border-color: #a9b8ca;
-    border-bottom-color: #f0f3f7;
+    background: var( --color-surface );
+    border-color: var( --color-accent );
+    border-bottom-color: var( --color-surface );
+    color: var( --color-accent-strong );
     position: relative;
     z-index: 1;
     }
 .ribbon-tabs .file-tab {
-    background: linear-gradient( #5283b5, #286298 );
+    background: var( --color-accent );
     color: white;
     padding-inline: 23px;
     }
-.ribbon-tabs .file-tab[aria-pressed="true"] {
-    background: #2e689c;
-    border-color: #1b5488;
+.ribbon-tabs .file-tab[aria-pressed="true"],
+.ribbon-tabs .file-tab:hover:not(:disabled) {
+    background: var( --color-accent-strong );
+    border-color: var( --color-accent-strong );
+    color: white;
     }
 .ribbon-spacer {
     flex: 1;
     }
 .ribbon-tabs .help-button {
     padding: 4px;
-    color: #3975b2;
+    color: var( --color-accent );
     }
 .ribbon {
     display: flex;
-    border-top: 1px solid #b9c7d9;
-    border-bottom: 1px solid #a9b7ca;
-    background: linear-gradient( #f5f7fa 0%, #e7edf5 65%, #dde5ef 100% );
+    border-top: 1px solid var( --color-border );
+    border-bottom: 1px solid var( --color-border );
+    background: var( --color-surface );
     padding: 4px 7px 0;
     overflow-x: auto;
     overflow-y: hidden;
@@ -172,7 +186,7 @@ svg.lucide {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 1px solid #c5cfdd;
+    border-right: 1px solid var( --color-border );
     padding: 0 9px 0 3px;
     }
 .ribbon-tools {
@@ -203,7 +217,7 @@ svg.lucide {
 .ribbon-tools .ribbon-large svg {
     width: 25px;
     height: 25px;
-    color: #4879aa;
+    color: var( --color-accent );
     }
 .ribbon-tools .ribbon-wide {
     max-width: 160px;
@@ -213,11 +227,11 @@ svg.lucide {
 .ribbon-wide svg {
     width: 22px;
     height: 22px;
-    color: #4778aa;
+    color: var( --color-accent );
     }
 .ribbon-tools .pressed {
-    background: #e4edf8;
-    border-color: #a8bdd6;
+    background: var( --color-accent-soft );
+    border-color: var( --color-accent-border );
     }
 .ribbon-stack {
     display: flex;
@@ -226,7 +240,7 @@ svg.lucide {
 .ribbon-group-title {
     text-align: center;
     font-size: 10px;
-    color: #64758b;
+    color: var( --color-muted );
     padding: 4px 2px;
     }
 
@@ -238,8 +252,8 @@ svg.lucide {
 .shapes-panel {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #9eacc0;
-    background: #f4f6f9;
+    border-right: 1px solid var( --color-border-strong );
+    background: var( --color-surface-soft );
     min-height: 0;
     }
 .pane-heading {
@@ -249,15 +263,15 @@ svg.lucide {
     align-items: center;
     gap: 6px;
     padding: 4px 9px;
-    background: linear-gradient( #f8faff, #dce6f3 );
-    border-bottom: 1px solid #b9c8da;
+    background: var( --color-surface-tint );
+    border-bottom: 1px solid var( --color-border );
     font-size: 11px;
     font-weight: 600;
     }
 .pane-heading svg {
     width: 13px;
     height: 13px;
-    color: #627b98;
+    color: var( --color-muted );
     }
 .pane-heading button {
     display: flex;
@@ -270,8 +284,8 @@ svg.lucide {
     padding: 10px 9px;
     font-size: 11px;
     font-weight: 600;
-    border-bottom: 1px solid #dce2e9;
-    background: #eef2f7;
+    border-bottom: 1px solid var( --color-border );
+    background: var( --color-surface-tint );
     }
 .shape-palette {
     display: grid;
@@ -295,21 +309,20 @@ svg.lucide {
     height: 32px;
     }
 .entity-preview, .view-preview {
-    border: 1px solid #5b6e84;
+    border: 1px solid var( --color-accent );
     background: white;
-    box-shadow: 2px 2px 0 #c6d1dd;
     }
 .shape-preview b {
     display: block;
     height: 9px;
-    border-bottom: 1px solid #8394a7;
-    background: #e2eaf3;
+    border-bottom: 1px solid var( --color-border-strong );
+    background: var( --color-surface-tint );
     }
 .shape-preview i {
     display: block;
     margin: 6px 6px 0;
     width: 20px;
-    border-top: 1px solid #7d8b9d;
+    border-top: 1px solid var( --color-border-strong );
     }
 .view-preview {
     border-style: dashed;
@@ -319,21 +332,21 @@ svg.lucide {
     }
 .relation-preview {
     font: 28px Georgia, serif;
-    color: #5b6e84;
+    color: var( --color-accent );
     text-align: center;
     line-height: 28px;
     }
 .stencil-tip {
     padding: 8px 13px 21px;
     font-size: 10px;
-    color: #7c899a;
+    color: var( --color-muted );
     line-height: 1.7;
     }
 .model-explorer {
     overflow: auto;
     flex: 1;
     min-height: 70px;
-    border-top: 1px solid #c2cfdf;
+    border-top: 1px solid var( --color-border );
     }
 #entity-list {
     padding: 7px 4px;
@@ -358,19 +371,19 @@ svg.lucide {
 #entity-list button svg {
     width: 13px;
     height: 13px;
-    color: #59799f;
+    color: var( --color-accent );
     }
 #entity-list button small {
     margin-left: auto;
-    color: #8b97a7;
+    color: var( --color-muted );
     }
 #entity-list button.active {
-    background: #dce9f8;
-    border-color: #a6c4e3;
+    background: var( --color-accent-soft );
+    border-color: var( --color-accent-border );
     }
 .explorer-empty {
     padding: 8px;
-    color: #8d98a5;
+    color: var( --color-muted );
     font-size: 11px;
     }
 .shapes-footer {
@@ -378,10 +391,10 @@ svg.lucide {
     gap: 8px;
     align-items: center;
     padding: 13px 10px;
-    color: #8190a1;
+    color: var( --color-muted );
     font-size: 10px;
     line-height: 1.5;
-    border-top: 1px solid #dce2e8;
+    border-top: 1px solid var( --color-border );
     }
 
 .drawing-area {
@@ -399,8 +412,8 @@ svg.lucide {
     justify-content: space-between;
     padding: 0 12px;
     gap: 15px;
-    border-bottom: 1px solid #c3cedb;
-    background: #edf2f8;
+    border-bottom: 1px solid var( --color-border );
+    background: var( --color-surface-tint );
     font-size: 11px;
     }
 .drawing-heading > span:first-child {
@@ -411,11 +424,11 @@ svg.lucide {
 .drawing-heading svg {
     width: 13px;
     height: 13px;
-    color: #5a799b;
+    color: var( --color-accent );
     }
 #save-status {
     font-size: 10px;
-    color: #7a899b;
+    color: var( --color-muted );
     white-space: nowrap;
     }
 .canvas-host {
@@ -432,7 +445,16 @@ svg.lucide {
     touch-action: none;
     user-select: none;
     background-color: #fff;
-    background-image: linear-gradient( #dfe7ef77 1px, transparent 1px ), linear-gradient( 90deg, #dfe7ef77 1px, transparent 1px );
+    background-image:
+        linear-gradient(
+                #dfe8e277 1px,
+                transparent 1px
+                ),
+        linear-gradient(
+                90deg,
+                #dfe8e277 1px,
+                transparent 1px
+                );
     background-size: 17px 17px;
     cursor: grab;
     }
@@ -450,8 +472,14 @@ svg.lucide {
     left: 17px;
     right: 0;
     height: 17px;
-    background: repeating-linear-gradient( 90deg, transparent 0 39px, #9eabba 39px 40px ), #eef2f7;
-    border-bottom: 1px solid #c4cfdb;
+    background:
+        repeating-linear-gradient(
+                90deg,
+                transparent 0 39px,
+                var( --color-border-strong ) 39px 40px
+                ),
+        var( --color-surface-tint );
+    border-bottom: 1px solid var( --color-border );
     }
 .ruler-top::after {
     content: "0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10";
@@ -459,7 +487,7 @@ svg.lucide {
     position: absolute;
     inset: 1px 4px 0;
     font: 8px monospace;
-    color: #8797aa;
+    color: var( --color-muted );
     overflow: hidden;
     }
 .ruler-left {
@@ -468,8 +496,13 @@ svg.lucide {
     top: 17px;
     bottom: 0;
     width: 17px;
-    background: repeating-linear-gradient( transparent 0 39px, #aab7c7 39px 40px ), #eef2f7;
-    border-right: 1px solid #c4cfdb;
+    background:
+        repeating-linear-gradient(
+                transparent 0 39px,
+                var( --color-border-strong ) 39px 40px
+                ),
+        var( --color-surface-tint );
+    border-right: 1px solid var( --color-border );
     }
 .canvas-empty {
     position: absolute;
@@ -483,18 +516,18 @@ svg.lucide {
     background: #ffffffed;
     padding: 25px;
     min-width: 300px;
-    color: #71849b;
+    color: var( --color-muted );
     text-align: center;
     }
 .canvas-empty > svg {
     width: 37px;
     height: 37px;
-    color: #8ba4bd;
+    color: var( --color-muted );
     }
 .canvas-empty strong {
     font-size: 17px;
     font-weight: 500;
-    color: #355675;
+    color: var( --color-accent-strong );
     }
 .canvas-empty button {
     display: flex;
@@ -519,15 +552,15 @@ svg.lucide {
 .page-tabs {
     display: flex;
     align-items: center;
-    background: #eef2f7;
-    border-block: 1px solid #bdcada;
+    background: var( --color-surface-tint );
+    border-block: 1px solid var( --color-border );
     padding-left: 24px;
     }
 .page-tab {
     align-self: stretch;
     padding: 5px 24px;
     background: #fff;
-    border-inline: 1px solid #b4c4d6;
+    border-inline: 1px solid var( --color-border );
     font-size: 10px;
     font-weight: 600;
     }
@@ -537,7 +570,7 @@ svg.lucide {
     gap: 5px;
     margin-left: auto;
     padding-right: 12px;
-    color: #8997a8;
+    color: var( --color-muted );
     font-size: 9px;
     }
 .page-caption svg {
@@ -546,8 +579,8 @@ svg.lucide {
     }
 .pane-splitter {
     cursor: row-resize;
-    background: #d9e2ed;
-    border-top: 1px solid #a9b9cc;
+    background: var( --color-surface-tint );
+    border-top: 1px solid var( --color-border-strong );
     touch-action: none;
     }
 .properties-pane {
@@ -555,10 +588,10 @@ svg.lucide {
     overflow: hidden;
     display: grid;
     grid-template-rows: 26px minmax( 0, 1fr );
-    background: #f8f9fb;
+    background: var( --color-surface-soft );
     }
 #properties-name {
-    color: #6c7e93;
+    color: var( --color-muted );
     font-size: 10px;
     font-weight: 400;
     }
@@ -570,8 +603,8 @@ svg.lucide {
 .categories {
     width: 164px;
     flex: 0 0 164px;
-    border-right: 1px solid #c8d0da;
-    background: #f0f3f7;
+    border-right: 1px solid var( --color-border );
+    background: var( --color-surface-soft );
     padding: 9px 6px;
     overflow: auto;
     }
@@ -592,8 +625,8 @@ svg.lucide {
     font-size: 11px;
     }
 .categories button.active {
-    border-color: #9fbadd;
-    background: #dbe7f6;
+    border-color: var( --color-accent-border );
+    background: var( --color-accent-soft );
     }
 .property-content {
     padding: 13px 16px;
@@ -640,7 +673,7 @@ svg.lucide {
     display: flex;
     flex-direction: column;
     gap: 9px;
-    color: #8792a2;
+    color: var( --color-muted );
     }
 .read-only-fields label {
     display: flex;
@@ -663,7 +696,7 @@ svg.lucide {
     flex: 1;
     min-width: 0;
     overflow: auto;
-    border: 1px solid #aebccd;
+    border: 1px solid var( --color-border-strong );
     background: #fff;
     }
 .property-grid {
@@ -675,17 +708,17 @@ svg.lucide {
 .property-grid th {
     position: sticky;
     top: 0;
-    background: linear-gradient( #fff, #e5ebf3 );
+    background: var( --color-surface-tint );
     font-weight: 400;
     text-align: left;
     padding: 6px 7px;
-    border-bottom: 1px solid #b5c2d2;
-    border-right: 1px solid #ccd5e0;
+    border-bottom: 1px solid var( --color-border );
+    border-right: 1px solid var( --color-border );
     white-space: nowrap;
     }
 .property-grid td {
-    border-right: 1px solid #d8e0e9;
-    border-bottom: 1px solid #e3e8ef;
+    border-right: 1px solid var( --color-border );
+    border-bottom: 1px solid var( --color-border );
     padding: 0;
     }
 .property-grid td input:not([type="checkbox"]) {
@@ -707,11 +740,11 @@ svg.lucide {
     width: 17px;
     min-width: 17px;
     padding-left: 3px;
-    background: #f0f3f8;
-    color: #467ab0;
+    background: var( --color-surface-soft );
+    color: var( --color-accent );
     }
 .property-grid tr.active-row {
-    background: #edf4fd;
+    background: var( --color-accent-soft );
     }
 .column-actions {
     display: flex;
@@ -734,14 +767,14 @@ svg.lucide {
 .column-actions hr {
     margin: 0;
     border: 0;
-    border-top: 1px solid #d0dae6;
+    border-top: 1px solid var( --color-border );
     }
 .no-fields {
     padding: 15px;
-    color: #8492a3;
+    color: var( --color-muted );
     }
 .field-hint {
-    color: #7a8999;
+    color: var( --color-muted );
     font-size: 10px;
     line-height: 1.6;
     max-width: 600px;
@@ -781,7 +814,7 @@ svg.lucide {
     }
 .index-item small {
     display: block;
-    color: #7a8999;
+    color: var( --color-muted );
     margin-top: 4px;
     }
 .indexes-panel > button {
@@ -806,7 +839,7 @@ svg.lucide {
     width: 100%;
     }
 fieldset {
-    border: 1px solid #bac7d6;
+    border: 1px solid var( --color-border );
     padding: 9px 13px;
     border-radius: 2px;
     margin: 0 0 12px;
@@ -822,7 +855,7 @@ legend {
     }
 .radio-code {
     margin-left: auto;
-    color: #8b98a8;
+    color: var( --color-muted );
     font-size: 10px;
     }
 .relationship-misc .field-hint {
@@ -849,7 +882,7 @@ legend {
     justify-content: center;
     gap: 9px;
     margin: auto;
-    color: #8795a8;
+    color: var( --color-muted );
     font-size: 11px;
     padding: 20px;
     text-align: center;
@@ -857,11 +890,11 @@ legend {
 .properties-empty > svg {
     width: 27px;
     height: 27px;
-    color: #9eb0c5;
+    color: var( --color-muted );
     }
 .properties-empty strong {
     font-weight: 500;
-    color: #536e8b;
+    color: var( --color-muted );
     }
 
 .statusbar {
@@ -869,13 +902,13 @@ legend {
     align-items: center;
     gap: 12px;
     padding: 0 10px;
-    border-top: 1px solid #a8b9ce;
-    background: linear-gradient( #edf3fa, #dce6f3 );
-    color: #617790;
+    border-top: 1px solid var( --color-border );
+    background: var( --color-surface-tint );
+    color: var( --color-muted );
     font-size: 10px;
     }
 #selection-status {
-    border-left: 1px solid #b9c6d7;
+    border-left: 1px solid var( --color-border );
     padding-left: 12px;
     }
 .status-spacer {
@@ -896,7 +929,7 @@ legend {
 .statusbar input {
     width: 115px;
     height: 12px;
-    accent-color: #6894bc;
+    accent-color: var( --color-accent );
     }
 #zoom-label {
     min-width: 45px;
@@ -904,26 +937,26 @@ legend {
     }
 
 dialog {
-    border: 1px solid #8da5bf;
+    border: 1px solid var( --color-border-strong );
     border-radius: 5px;
     padding: 0;
     min-width: 410px;
     max-width: min( 780px, 92vw );
     max-height: 88vh;
-    color: #31475e;
-    background: #f3f6fa;
-    box-shadow: 0 13px 50px #122c4c4d;
+    color: var( --color-ink );
+    background: var( --color-surface-soft );
+    box-shadow: 0 13px 50px #243d3840;
     }
 dialog::backdrop {
-    background: #1634543b;
+    background: #243d383b;
     }
 .dialog-titlebar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 9px 12px;
-    background: linear-gradient( #f5f8fd, #d3e2f3 );
-    border-bottom: 1px solid #b6c8dd;
+    background: var( --color-surface-tint );
+    border-bottom: 1px solid var( --color-border );
     font-size: 12px;
     }
 .dialog-titlebar button {
@@ -943,19 +976,24 @@ dialog::backdrop {
     margin-top: 0;
     }
 .dialog-footer {
-    border-top: 1px solid #d0dbe7;
+    border-top: 1px solid var( --color-border );
     display: flex;
     justify-content: flex-end;
     gap: 9px;
     padding: 10px 15px;
-    background: #e9eff6;
+    background: var( --color-surface-tint );
     }
 .dialog-footer button {
     min-width: 80px;
     }
 .primary-button {
-    border-color: #779ac1;
-    background: linear-gradient( #fff, #dce9f8 );
+    border-color: var( --color-accent );
+    background: var( --color-accent );
+    color: white;
+    }
+.primary-button:hover:not(:disabled) {
+    border-color: var( --color-accent-strong );
+    background: var( --color-accent-strong );
     }
 .dialog-fields {
     display: flex;
@@ -976,18 +1014,18 @@ dialog::backdrop {
 .dialog-tabs {
     display: flex;
     gap: 3px;
-    border-bottom: 1px solid #b0bfd2;
+    border-bottom: 1px solid var( --color-border );
     margin-bottom: 17px;
     }
 .dialog-tabs button {
     border-radius: 3px 3px 0 0;
-    border-color: #bcc8d8;
+    border-color: var( --color-border );
     padding: 5px 16px;
     margin-bottom: -1px;
     }
 .dialog-tabs button[aria-selected="true"] {
-    background: #f3f6fa;
-    border-bottom-color: #f3f6fa;
+    background: var( --color-surface-soft );
+    border-bottom-color: var( --color-surface-soft );
     font-weight: 600;
     }
 .dialog-content [data-modal-panel] {
@@ -1026,7 +1064,7 @@ dialog::backdrop {
     align-items: center;
     gap: 11px;
     padding: 11px 0;
-    border-bottom: 1px solid #dce3ed;
+    border-bottom: 1px solid var( --color-border );
     }
 .validation-item.warning svg {
     color: #af7a22;
@@ -1055,12 +1093,12 @@ dialog::backdrop {
     }
 .help-sources {
     font-size: 10px;
-    color: #7c8a9b;
+    color: var( --color-muted );
     padding-top: 10px;
-    border-top: 1px solid #d6e0ea;
+    border-top: 1px solid var( --color-border );
     }
 a {
-    color: #346fa8;
+    color: var( --color-accent );
     }
 .danger-button {
     align-self: flex-start;
@@ -1074,9 +1112,9 @@ a {
     bottom: 43px;
     left: 50%;
     transform: translate( -50%, 15px );
-    background: #263f5bf2;
-    border: 1px solid #486382;
-    box-shadow: 0 4px 15px #162c4433;
+    background: #243d38f2;
+    border: 1px solid var( --color-muted );
+    box-shadow: 0 4px 15px #243d3833;
     color: #fff;
     border-radius: 4px;
     padding: 12px 18px;
