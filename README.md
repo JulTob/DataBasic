@@ -1,17 +1,18 @@
 # DataBasic
 
 Un modelador educativo de bases de datos que funciona en el navegador.
-Reproduce la organización del espacio de trabajo del modelador de Visio 2010:
-cinta superior, formas a la izquierda, diagrama y propiedades abajo.
+Su espacio de trabajo tiene una cinta superior, formas a la izquierda,
+diagrama y propiedades abajo. Microsoft Visio 2010 ha servido como referencia
+funcional y visual para esta implementación independiente.
 
 La primera versión permite crear entidades y vistas, editar columnas, definir
 claves simples o compuestas, conectar tablas y ajustar cardinalidad,
 opcionalidad e integridad referencial. Incluye deshacer/rehacer, índices,
 notas, distribución automática, un ejemplo de biblioteca y exportación SVG/SQL.
 
-Es una implementación independiente y parcial. **Todavía no es una réplica
-exacta de Visio 2010** y no abre archivos VSD. El contraste con los apuntes
-ha identificado que falta implementar IDEF1X y el editor conceptual ERE.
+La cobertura funcional es parcial y no abre archivos VSD. El contraste con
+los apuntes ha identificado que falta implementar IDEF1X y el editor
+conceptual ERE.
 Consulta los [requisitos del curso](docs/course-requirements.md) y el alcance
 en [la especificación](docs/specification.md).
 
@@ -118,9 +119,23 @@ rechazada conserva el estado anterior y explica la causa.
   no se garantizan con una FK por sí sola.
 - La interfaz se ha reconstruido siguiendo la documentación. La comparación
   documental con los apuntes y una prueba de uso online están hechas;
-  la identidad visual con Visio sigue pendiente de verificar.
-  La práctica evaluable exige archivos de Visio y Access, que la aplicación
-  todavía no genera.
+  no constituyen una revisión de derechos sobre la apariencia actual.
+  La práctica evaluable exige archivos de Microsoft Visio y Microsoft Access,
+  que la aplicación todavía no genera.
+
+## Licencia y derechos
+
+Las contribuciones originales de DataBasic se ofrecen bajo la
+[licencia MIT](LICENSE). La finalidad educativa describe el proyecto y no
+limita los usos permitidos por esa licencia, incluidos los comerciales.
+Las bibliotecas conservan sus propias licencias.
+
+Consulta la [página de licencias y derechos](legal.html) y el
+[aviso de derechos](NOTICE.md) para conocer el alcance y las referencias a
+terceros. La interfaz adopta una identidad visual de DataBasic, con superficies
+planas y acentos verdes, conservando el flujo de modelado. La diferenciación
+visual y estos avisos no certifican ausencia de derechos ajenos o reclamaciones.
+El [estado de la revisión](docs/intellectual-property.md) explica sus límites.
 
 ## Bibliotecas y fuentes
 
@@ -130,4 +145,5 @@ rechazada conserva el estado anterior y explica la causa.
 - [Versiones, licencias y código fuente de terceros](public/vendor/THIRD-PARTY.md).
 - [Fuentes de Visio 2010 y trazabilidad funcional](docs/specification.md#fuentes).
 
-Visio es una marca de Microsoft. DataBasic no está afiliado a Microsoft.
+Microsoft Visio y Microsoft Office son marcas de Microsoft.
+DataBasic no está afiliado a Microsoft ni cuenta con su patrocinio o respaldo.
