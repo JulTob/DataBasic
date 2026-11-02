@@ -1,0 +1,20 @@
+[
+  {
+    "file": "lucide.js",
+    "package": "lucide",
+    "version": "1.8.0",
+    "sha256": "ab85225ecc1daa2033607856f03dd2dabcbc08e2d260a5b97e17c690aa929766"
+  },
+  {
+    "file": "idb-keyval.js",
+    "package": "idb-keyval",
+    "version": "6.3.0",
+    "sha256": "1d5aefa0c1cc78962ef116f11b7608dafeabf4950f71cb99fdab410422921d52"
+  },
+  {
+    "file": "viz.js",
+    "package": "@viz-js/viz",
+    "version": "3.25.0",
+    "sha256": "2e4fe91072268d06387a7b91d7ba11db9a235280df764d49399519faa5f5368d"
+  }
+]
