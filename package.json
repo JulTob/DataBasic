@@ -1,0 +1,17 @@
+{
+  "name": "databasic",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Modelador educativo de bases de datos para el navegador.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+    },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.js",
+    "check": "node scripts/check.mjs"
+    },
+  "license": "MIT"
+  }
