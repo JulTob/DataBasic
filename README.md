@@ -117,9 +117,10 @@ rechazada conserva el estado anterior y explica la causa.
   debe revisarse para el motor de clase. Las participaciones mínimas del padre
   no se garantizan con una FK por sí sola.
 - La interfaz se ha reconstruido siguiendo la documentación. La comparación
-  documental con los apuntes está hecha; la comprobación visual real sigue
-  pendiente. La práctica evaluable exige archivos de Visio y Access, que la
-  aplicación todavía no genera.
+  documental con los apuntes y una prueba de uso online están hechas;
+  la identidad visual con Visio sigue pendiente de verificar.
+  La práctica evaluable exige archivos de Visio y Access, que la aplicación
+  todavía no genera.
 
 ## Bibliotecas y fuentes
 
