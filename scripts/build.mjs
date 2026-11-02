@@ -39,10 +39,33 @@ const html = (await readFile( resolve( root, 'index.html' ), 'utf8' ))
     .replaceAll( './public/', './' )
     .replace( './src/styles.css', './styles.css' )
     .replace( '<script type="module" src="./src/app.js"></script>', '<script src="./app.bundle.js"></script>' );
+const legalSource = await readFile(
+        resolve( root, 'legal.html' ),
+        'utf8'
+        );
+const legalHtml = legalSource.replaceAll(
+        './public/',
+        './'
+        );
 
 await mkdir( output, {recursive: true} );
 await cp( resolve( root, 'public' ), output, {recursive: true} );
 await writeFile( resolve( output, 'index.html' ), html );
+await writeFile(
+        resolve( output, 'legal.html' ),
+        legalHtml
+        );
+
+for (const name of [
+        'LICENSE',
+        'NOTICE.md'
+        ]) {
+    await cp(
+            resolve( root, name ),
+            resolve( output, name )
+            );
+    }
+
 await writeFile( resolve( output, 'app.bundle.js' ), bundle );
 await cp( resolve( root, 'src/styles.css' ), resolve( output, 'styles.css' ) );
 await writeFile( resolve( output, '.nojekyll' ), '' );
