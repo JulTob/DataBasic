@@ -1,4 +1,4 @@
-# Verificación de DataBasic 0.1.1
+# Verificación de DataBasic
 
 Comprobación local: 2 de noviembre de 2026.
 Publicación y prueba online: 3 de noviembre de 2026.
@@ -28,7 +28,7 @@ El primer despliegue corresponde al commit `990e999`.
 GitHub mostró avisos sobre la actualización del runtime de sus acciones y
 la imagen de Ubuntu; no impidieron la verificación ni el despliegue.
 
-## Recorrido verificado en la web pública
+## Recorrido funcional verificado en la web pública 0.1.1
 
 - Carga del ejemplo de biblioteca, iconos, cinta, diagrama y propiedades.
 - Creación de una entidad y edición de su nombre con sincronización conceptual.
@@ -71,6 +71,41 @@ de pantalla ni la descarga SVG. Esos casos siguen pendientes de revisión manual
 5. Repetir el guardado y la reapertura en Safari y Firefox.
 6. Exportar SVG/SQL e imprimir un diagrama desplazado y ampliado.
 7. Comparar ventanas, etiquetas y procedimientos con los apuntes del profesor.
+
+## Licencias de la distribución 0.1.2
+
+Comprobación local: 3 de noviembre de 2026.
+
+- `npm run build` incluye `LICENSE`, `NOTICE.md` y `legal.html` en `dist/`.
+- `LICENSE` conserva el texto anterior sin cambios; su copia y la de
+  `NOTICE.md` coinciden byte a byte con los archivos canónicos de la raíz.
+- La página legal conserva sus enlaces en el árbol fuente y adapta
+  `./public/vendor/` a `./vendor/` en la distribución.
+- Se comprobaron 32 referencias locales de los dos HTML en ambos árboles.
+  Las 16 referencias de la distribución también resuelven bajo `/DataBasic/`.
+- El archivo generado conserva el enlace de Ayuda a `./legal.html` y supera
+  `node --check dist/app.bundle.js`.
+- Los 11 archivos de terceros se copian sin cambios; los tres archivos
+  JavaScript coinciden con los hashes SHA-256 del manifiesto.
+
+## Publicación y avisos de 0.1.2
+
+Comprobación online: 3 de noviembre de 2026.
+El [despliegue de la identidad DataBasic](https://github.com/JulTob/DataBasic/actions/runs/41545591439)
+terminó correctamente para el commit `51af33a`.
+La integración local también superó sintaxis y las 43 pruebas con la versión 0.1.2.
+
+- La aplicación pública muestra superficies planas, acentos verde azulado,
+  tipografía `system-ui` y DataBasic al principio del título del documento.
+- Se comprobaron el ejemplo recuperado, la cinta y el panel Columnas.
+- Ayuda muestra independencia, alcance MIT y enlace a licencias; el enlace
+  abre la página de avisos en una pestaña nueva bajo `/DataBasic/`.
+- La descarga pública de `LICENSE` coincide byte a byte con el texto canónico.
+- El enlace a Apache 2.0 muestra su texto completo en el navegador.
+- La consola del navegador no registró errores durante este recorrido.
+
+Estas comprobaciones verifican presentación, acceso a avisos y distribución.
+No certifican ausencia de infracción ni de posibles reclamaciones.
 
 ## Fuentes del comportamiento esperado
 

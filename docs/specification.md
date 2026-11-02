@@ -1,10 +1,12 @@
-# DataBasic 0.1.1 — especificación de la base funcional
+# DataBasic 0.1.2 — especificación de la base funcional
 
 Estado: alcance de implementación de la base funcional. Los apuntes del profesor
 se han recibido y contrastado en [requisitos del curso](course-requirements.md).
-La equivalencia con la asignatura sigue siendo parcial. La distribución visual
-se reconstruye con código propio; no se distribuyen capturas ni recursos de
-Microsoft. No se afirma equivalencia completa ni identidad píxel a píxel.
+La equivalencia con la asignatura sigue siendo parcial. Microsoft Visio 2010
+ha servido como referencia funcional y visual; la interfaz se ha implementado
+con código propio. Esto no determina por sí solo los derechos sobre su
+apariencia. No se afirma equivalencia completa ni identidad píxel a píxel.
+El alcance de las licencias figura en el [aviso de derechos](../NOTICE.md).
 
 ## Flujo y ventanas
 
@@ -56,8 +58,14 @@ Microsoft. No se afirma equivalencia completa ni identidad píxel a píxel.
 - DataBasic 0.1 cubre un subconjunto de la interfaz y del modelador de 2010.
   Conserva ubicación y terminología de los controles documentados. Las pestañas
   del producto completo ajenas al modelado no se reproducen.
-- Se usan iconos libres y una implementación propia de la apariencia de Office
-  2010, con tipografía disponible en el sistema y adaptación al ancho de pantalla.
+- Se usan iconos de Lucide, tipografía disponible en el sistema y adaptación
+  al ancho de pantalla. El diseño inicial buscó una apariencia cercana a
+  Microsoft Office 2010. Se adopta una identidad visual de DataBasic:
+  superficies planas claras, acentos verdes y tipografía del sistema,
+  conservando la distribución de paneles, los comandos y el flujo de modelado.
+  Esta diferenciación y los avisos de licencia no certifican ausencia de
+  derechos ajenos. La identidad visual exacta con otro producto no es un
+  criterio de aceptación.
 - No hay importación/exportación VSD/VDX/VSDX, ingeniería inversa, ODBC,
   ejecución SQL, procedimientos, triggers, tipos objeto, categorías/subtipos,
   colaboración ni rangos arbitrarios de cardinalidad.
@@ -65,10 +73,11 @@ Microsoft. No se afirma equivalencia completa ni identidad píxel a píxel.
   de consultas ni dependencias entre vistas.
 - La creación de relaciones se realiza por dos clics (padre e hijo); no se
   reproduce todavía el enganche de los dos extremos de un conector suelto.
-- La distribución visual requiere contraste con capturas y con los apuntes
-  concretos del curso. La revisión documental ha identificado que la práctica
-  exige IDEF1X; esa notación todavía no está implementada. No se certifica
-  una réplica exacta.
+- La revisión documental ha identificado que la práctica exige IDEF1X;
+  esa notación todavía no está implementada. El contraste funcional con los
+  apuntes no certifica una réplica exacta ni autoriza la reproducción de
+  expresión gráfica o textual protegida. Véase el
+  [estado de la revisión de derechos](intellectual-property.md).
 
 ## Verificación de aceptación
 
