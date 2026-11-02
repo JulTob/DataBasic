@@ -137,12 +137,27 @@ export const DIAGRAM_STYLES = `
     .table-shadow { fill: #00000010; }
     .table-body { fill: #fff; stroke: #465362; stroke-width: 1.2; }
     .table-header { fill: #eef2f7; stroke: #465362; stroke-width: 0.7; }
-    .table-title { font: 600 13px 'Segoe UI', Arial, sans-serif; fill: #182c43; }
-    .field-label { font: 12px 'Segoe UI', Arial, sans-serif; fill: #253445; }
+    .table-title {
+        font: 600 13px system-ui, sans-serif;
+        fill: #182c43;
+        }
+    .field-label {
+        font: 12px system-ui, sans-serif;
+        fill: #253445;
+        }
     .field-required { font-weight: 600; }
-    .key-label { font: 10px Arial, sans-serif; fill: #8e6a20; }
-    .type-label { font: 10px 'Segoe UI', Arial, sans-serif; fill: #7a8490; }
-    .empty-columns { font: italic 11px Arial, sans-serif; fill: #8b96a0; }
+    .key-label {
+        font: 10px system-ui, sans-serif;
+        fill: #8e6a20;
+        }
+    .type-label {
+        font: 10px system-ui, sans-serif;
+        fill: #7a8490;
+        }
+    .empty-columns {
+        font: italic 11px system-ui, sans-serif;
+        fill: #8b96a0;
+        }
     .selection-outline { fill: none; stroke: #3285cf; stroke-width: 1.5; }
     .connect-parent .table-body { stroke: #e18a17; stroke-width: 3; }
     .entity { cursor: move; outline: none; }
@@ -152,8 +167,14 @@ export const DIAGRAM_STYLES = `
     .relation-line { fill: none; stroke: currentColor; stroke-width: 1.4; }
     .selected .relation-line { stroke-width: 2.3; }
     .relation-hit { fill: none; stroke: transparent; stroke-width: 20; }
-    .relation-label { font: 11px 'Segoe UI', Arial, sans-serif; fill: currentColor;
-        paint-order: stroke; stroke: white; stroke-width: 5px; stroke-linejoin: round; }
+    .relation-label {
+        font: 11px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
     `;
 
 export function diagramContents(

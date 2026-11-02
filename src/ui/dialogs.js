@@ -211,8 +211,11 @@ export function showValidation( model ) {
 export function showHelp() {
     openDialog(
             'DataBasic · Guía de práctica',
-            `<div class="help-content"><p>Un modelador de bases de datos para practicar
-            con el flujo de trabajo de Visio 2010.</p>
+            `<div class="help-content"><p>DataBasic es un modelador educativo independiente.
+            Su guía toma como referencia el flujo de modelado de bases de datos de Visio 2010.</p>
+            <p>No está afiliado a Microsoft ni cuenta con su patrocinio.
+                No se afirma contar con autorización de Microsoft.
+                Visio es una marca de Microsoft.</p>
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
             <li><strong>Define columnas.</strong> Haz doble clic en una entidad. Introduce nombre,
                 tipo, requerido y PK en el panel inferior.</li>
@@ -228,6 +231,9 @@ export function showHelp() {
                 Ctrl/⌘ + Mayús + Z rehace, Supr elimina, Escape cancela un conector.</p>
             <p>Los archivos VSD de Visio todavía no se pueden abrir ni guardar.
                 Las opciones de impresión permiten obtener un PDF.</p>
+            <p>Las contribuciones originales de DataBasic se ofrecen bajo la licencia MIT.
+                Los materiales de terceros conservan sus propios derechos y licencias.
+                <a href="./legal.html" target="_blank" rel="noreferrer">Licencias y avisos</a>.</p>
             <p class="help-sources">Referencias:
                 <a href="https://support.microsoft.com/en-us/visio/database-properties-for-entity-and-view-shapes-definition"
                     target="_blank" rel="noreferrer">Propiedades de entidades · Microsoft</a> ·

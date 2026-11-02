@@ -117,7 +117,8 @@ export function initialLayout( state ) {
         ${command( 'save', 'Guardar', 'save', 'title="Guardar archivo · ⌘/Ctrl+S"' )}
         ${command( 'undo', 'Deshacer', 'undo-2', 'title="Deshacer · ⌘/Ctrl+Z"' )}
         ${command( 'redo', 'Rehacer', 'redo-2', 'title="Rehacer · ⌘/Ctrl+Mayús+Z"' )}</nav>
-        <button class="document-title" data-action="rename"><span id="document-name"></span> — DataBasic</button>
+        <button class="document-title" data-action="rename">
+            DataBasic — <span id="document-name"></span></button>
         <span class="titlebar-note">Modelo de base de datos</span></header>
         <nav class="ribbon-tabs" aria-label="Cinta de comandos">
         ${RIBBON_TABS.map(
