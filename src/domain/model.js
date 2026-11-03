@@ -2917,14 +2917,25 @@ export function conceptualStatus( model ) {
             }
         }
 
+    const entityName = id => model.conceptual.entities.find( item => item.id === id )?.name
+        || model.tables.find( item => item.id === id )?.conceptualName
+        || 'Entidad sin nombre';
+
     for (const item of model.conceptual.generalizations) {
         const materialized = item.translation?.kind === 'class-tables';
+        const supertype = entityName( item.supertypeId );
+        const subtypes = item.subtypeIds.map( entityName ).join( ', ' );
+        const decision = materialized
+            ? 'tablas de superclase y subclases materializadas; '
+                + `${item.disjoint ? 'disjunta' : 'solapada'}, `
+                + `${item.total ? 'total' : 'parcial'}. `
+                + 'PK/FK no imponen exclusión ni cobertura entre subclases'
+            : 'superclase, subclases, disyunción y totalidad conservadas; '
+                + 'elige tablas de superclase y subclases para materializar';
 
         report(
                 materialized ? 'documentary' : 'pending',
-                `Jerarquía ${item.id}: ${materialized
-                    ? `tablas de clases materializadas; ${item.disjoint ? 'disjunta' : 'solapada'}, ${item.total ? 'total' : 'parcial'}. PK/FK no imponen exclusión ni cobertura entre subclases`
-                    : 'superclase, subclases, disyunción y totalidad conservadas; elige class-tables para materializar'}.`,
+                `Jerarquía ${supertype} → ${subtypes}: ${decision}.`,
                 item.id
                 );
         }
