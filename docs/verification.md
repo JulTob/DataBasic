@@ -113,6 +113,10 @@ El [despliegue inicial de la interfaz canvas](https://github.com/JulTob/DataBasi
 completó verificación y publicación para el commit `134e7c9`.
 
 - Sintaxis, 44 pruebas y generación estática superadas en local.
+- Las 16 referencias locales de los HTML generados resuelven a archivos
+  incluidos. CSS y código generado llevan una versión derivada de su
+  contenido para renovar la caché al actualizarse; ambas coinciden
+  con los hashes de los archivos de la distribución.
 - Revisión visual en el navegador a 809 × 755 y 1280 × 720 píxeles,
   sin desbordamiento horizontal de la página. En la ventana estrecha,
   la barra de herramientas y las tablas de propiedades permiten desplazamiento.
@@ -124,6 +128,7 @@ completó verificación y publicación para el commit `134e7c9`.
 - Descarga del ejercicio JSON y de un SVG; el SVG descargado es XML válido.
 - Reapertura de la copia previa y recuperación del ejemplo original
   de tres entidades y dos relaciones después de las pruebas.
+- No se registraron errores en la consola durante este recorrido.
 
 Esta revisión no amplía la cobertura manual a impresión, arrastre ni otros
 navegadores. El formato de los ejercicios sigue siendo la versión 1.
