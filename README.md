@@ -2,30 +2,31 @@
 
 Un modelador educativo de bases de datos que funciona en el navegador.
 Su espacio de trabajo combina menús superiores, herramientas flotantes,
-formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010 ha servido como referencia
-funcional y visual para esta implementación independiente.
+formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
+ha servido como referencia funcional y visual para esta implementación independiente.
 
-La primera versión permite crear entidades y vistas, editar columnas, definir
-claves simples o compuestas, conectar tablas y ajustar cardinalidad,
-opcionalidad e integridad referencial. Incluye deshacer/rehacer, índices,
-notas, distribución automática, un ejemplo de biblioteca y exportación SVG/SQL.
+La versión **0.3.0** permite editar un documento con dos representaciones:
+**Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
+conceptuales. El botón cambia la representación; las transformaciones se
+eligen por separado y conservan sus correspondencias.
 
-La cobertura funcional es parcial y no abre archivos VSD. El contraste con
-los apuntes ha identificado que falta implementar IDEF1X y el editor
-conceptual ERE.
-Consulta los [requisitos del curso](docs/course-requirements.md) y el alcance
-en [la especificación](docs/specification.md).
+Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
+dominios, valores predeterminados, acciones referenciales y relaciones N:N
+y ternarias con roles y atributos. Los estados pendientes pueden guardarse;
+no se presentan como transformaciones ya terminadas. Chen es una ampliación
+educativa de DataBasic para el curso.
 
-La versión 0.2.0 presenta un lienzo punteado, entidades en tarjetas y paneles
-suaves, conservando los comandos y los ejercicios guardados.
-La versión 0.1.1 incorporó NUMBER y sus variantes con precisión y escala.
-El editor general todavía admite otros tipos: no verifica por sí solo la
-restricción de usar únicamente los cuatro tipos permitidos en la práctica.
+Empieza por la [guía de práctica](docs/practice-guide.md). La
+[matriz funcional](docs/functional-audit.md) distingue operaciones disponibles,
+pruebas y carencias; los [requisitos del curso](docs/course-requirements.md)
+explican el alcance académico.
 
 ## Abrir la aplicación
 
 Abre [DataBasic online](https://jultob.github.io/DataBasic/) en Safari,
 Chrome o Firefox. No necesitas instalar nada ni iniciar sesión.
+El [registro de verificación](docs/verification.md) identifica qué versión
+se ha publicado y qué recorrido se ha probado en navegador.
 
 Los ejercicios se guardan automáticamente en ese navegador. Descarga una
 copia con **Archivo → Guardar** para conservarla o llevarla a otro equipo.
@@ -44,21 +45,45 @@ npm start
 Abre la dirección que muestra el comando. También puede usarse cualquier
 servidor de archivos estáticos.
 
+### Dos ejercicios en pestañas distintas
+
+Conserva tu trabajo principal abierto y, en otra pestaña, abre
+[una práctica independiente](https://jultob.github.io/DataBasic/?practica=laboratorio).
+La dirección sin `practica` mantiene el guardado principal existente; la
+práctica usa otro guardado local y no lee ni copia el principal.
+El estado muestra **Práctica independiente · …**.
+
+Usa un nombre distinto para cada ejercicio: `?practica=laboratorio`, por
+ejemplo. Se admiten 1–64 caracteres ASCII: letras, números, `_` y `-`,
+comenzando por letra o número. Dos pestañas con el mismo nombre comparten
+ese guardado. Un nombre inválido desactiva el guardado automático sin tocar
+el principal; **Archivo → Guardar** permite descargar JSON igualmente.
+
+Es guardado local separado, sin sincronización entre equipos. Conserva
+copias JSON; para practicar sobre una copia del principal, descarga su JSON
+y ábrelo mediante **Archivo → Abrir** en la pestaña independiente.
+
 ## Primer ejercicio
 
-1. Abre **Archivo → Nuevo**, o estudia el ejemplo de biblioteca inicial.
-2. Arrastra **Entidad** desde Formas al lienzo.
-3. Selecciona la entidad y escribe sus nombres en **Definición**.
-4. Abre **Columnas** o haz doble clic sobre la entidad. Añade columnas,
-   tipos de datos, requerido y PK.
-5. Pulsa **Relación** y selecciona primero el padre y después el hijo.
-   La clave primaria completa del padre se incorpora como clave foránea.
-6. Selecciona la relación y abre **Varios** para ajustar las reglas.
-7. Usa **Comprobar** y descarga una copia con **Archivo → Guardar**.
+1. Abre **Archivo → Nuevo**. Conserva **Relacional** y **Perfil → Curso · 4 tipos**.
+2. Crea una **Entidad** y nómbrala en **Definición**.
+3. Abre **Columnas** o haz doble clic sobre la entidad. Añade nombre, tipo,
+   requerido y PK. **Editar…** abre familia, parámetros, predeterminado y dominio.
+4. Crea otra entidad. Pulsa **Relación**, primero el padre y después el hijo.
+   Se incorpora la PK completa del padre como FK.
+5. Selecciona el conector y abre **Varios** para cardinalidad, dependencia
+   y opcionalidad; usa **Acción referencial** para borrado y actualización.
+6. Cambia a **Chen**. Las tablas anteriores aparecen como proyección parcial,
+   sin inventar su diseño conceptual original. Puedes crear objetos nativos.
+7. Descarga una copia con **Archivo → Guardar** y continúa con la
+   [N:N y la ternaria de la guía](docs/practice-guide.md#relaciones-nn-y-ternarias).
 
 Los archivos propios terminan en `.databasic.json`. Se pueden abrir de nuevo
-en **Archivo → Abrir**. El guardado automático conserva el último ejercicio
-en ese navegador y ese origen; no sincroniza equipos ni publica tus ejercicios.
+en **Archivo → Abrir**. El formato actual es versión 2; admite documentos
+versión 1 conservando sus tipos en el perfil General. El guardado automático
+conserva el último ejercicio de cada práctica en ese navegador y ese origen;
+no sincroniza equipos ni publica tus ejercicios. La dirección sin `practica`
+conserva el guardado principal.
 
 ## Publicar en GitHub Pages
 
@@ -113,17 +138,21 @@ rechazada conserva el estado anterior y explica la causa.
 
 ## Límites de esta versión
 
-- Las FKs referencian la PK completa. No se eligen todavía claves alternativas.
-- No hay ingeniería inversa, ODBC, ejecución SQL, triggers, tipos objeto ni
-  rangos arbitrarios de cardinalidad.
+- Las FKs referencian la PK completa; no pueden elegir una clave alternativa
+  como destino. Las claves alternativas sí pueden crearse y exportarse.
+- Las especializaciones y los atributos multivaluados se editan y guardan,
+  pero su transformación relacional sigue pendiente y bloquea el SQL completo.
+- Las restricciones de participación se conservan por rol; una FK no impone
+  todos los mínimos o máximos conceptuales.
+- No hay ingeniería inversa, ODBC, ejecución SQL, triggers ni tipos objeto.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
   debe revisarse para el motor de clase. Las participaciones mínimas del padre
   no se garantizan con una FK por sí sola.
-- La interfaz se ha reconstruido siguiendo la documentación. La comparación
-  documental con los apuntes y una prueba de uso online están hechas;
-  no constituyen una revisión de derechos sobre la apariencia actual.
-  La práctica evaluable exige archivos de Microsoft Visio y Microsoft Access,
-  que la aplicación todavía no genera.
+- No se abren ni generan VSD, VDX, VSDX o bases de datos Access.
+  JSON, SVG, SQL y la impresión/PDF sirven para practicar y conservar trabajo;
+  no sustituyen por sí solos los formatos de la entrega académica.
+- La [especificación](docs/specification.md) concreta los contratos y límites;
+  la verificación automatizada no acredita equivalencia total con Visio 2010.
 
 ## Licencia y derechos
 
