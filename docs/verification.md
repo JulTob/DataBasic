@@ -7,15 +7,15 @@ Comprobación local, publicación y prueba online: 3 de noviembre de 2026.
 | Comprobación | Estado | Evidencia y alcance |
 | --- | --- | --- |
 | Sintaxis de los módulos, scripts y pruebas | Superada | `npm run check`. |
-| Pruebas automatizadas | 117 superadas en local en 0.3.1 | Dominio, migración v1/v2, SQL, escenas, diálogos, eventos, bundle generado y guardados independientes. |
+| Pruebas automatizadas | 169 superadas en local en 0.4.0, ninguna omitida | Dominio, migración v1/v2, SQL, escenas, diálogos, eventos, bundle generado, ejemplos y guardados independientes. |
 | Motor de distribución Graphviz incluido | Superada | El archivo redistribuido calcula posiciones sin descargar recursos. |
 | Generación estática | Superada | `npm run build` produce `dist/` con todos los recursos locales. |
 | Sintaxis del script generado | Superada | `node --check dist/app.bundle.js`. |
 | Resolución de recursos de la entrega | Superada | Las referencias locales de HTML y los avisos de terceros están incluidos. |
 | Prueba en un navegador real | Superada para el recorrido descrito abajo | Aplicación alojada en GitHub Pages, abierta y manejada en el navegador de la app. |
 | Identidad visual propia | Implementada | La versión 0.2.0 usa un lienzo punteado, tarjetas y paneles suaves. Conserva los comandos de estudio; no busca reproducir la apariencia de Visio. |
-| Contraste con los apuntes del curso | Realizado | [Requisitos del curso](course-requirements.md). La versión 0.3.0 incorpora IDEF1X, perfil del curso y edición Chen; la cobertura y las carencias se detallan por operación. |
-| Repositorio remoto y publicación | Superada | Archivos subidos mediante la interfaz de GitHub; [primer despliegue correcto](https://github.com/JulTob/DataBasic/actions/runs/41542519291). |
+| Contraste con los apuntes del curso | Realizado | [Requisitos del curso](course-requirements.md). La versión 0.4.0 añade transformaciones de multivaluados, jerarquías y cardinalidad ternaria explícita; la cobertura y las carencias se detallan por operación. |
+| Repositorio remoto y publicación | Superada para el código 0.4.0 | Archivos subidos mediante la interfaz de GitHub; [verificación y despliegue del código final](https://github.com/JulTob/DataBasic/actions/runs/41666023631). |
 
 Las pruebas locales se ejecutaron con Node.js 26. El flujo de GitHub Actions
 también completó comprobación, pruebas y generación con Node.js 22.
@@ -26,6 +26,93 @@ La web pública es [DataBasic](https://jultob.github.io/DataBasic/).
 El primer despliegue corresponde al commit `990e999`.
 GitHub mostró avisos sobre la actualización del runtime de sus acciones y
 la imagen de Ubuntu; no impidieron la verificación ni el despliegue.
+
+## Revisión de uso del curso en 0.4.0
+
+Comprobación integrada y uso real: 3 de noviembre de 2026.
+El código final corresponde a `d8edc10`; el flujo 57 completó verificación y
+publicación. Después se recargó la práctica: la web sirvió la versión 0.4.0
+y `app.bundle.js?v=9609c30a913e`, coincidente con el build local. Se recuperó
+el ejercicio anterior y se reabrieron las descargas de jerarquía y ternaria.
+La cabecera mostró «Especialización de Instrumento» y las restricciones
+usaron nombres legibles. No se registraron errores de consola.
+Los recorridos funcionales se hicieron en una pestaña nueva con
+`?practica=full-use-20261103`, sin operar el ejercicio principal ni la práctica
+anterior. La [guía de práctica](practice-guide.md) usa un club de observación
+original y [once archivos de ejemplo](../examples/README.md), con estados
+pendientes y resueltos para comprobar las decisiones de transformación.
+
+### Comprobaciones automatizadas y del artefacto
+
+- Sintaxis, 169 pruebas, generación, sintaxis del bundle y revisión del diff
+  superadas. Ninguna prueba se omitió en local; `xmllint` estuvo disponible.
+- Once ejemplos reales: importación, validación, guardado y relectura;
+  ocho estados resueltos exportan SQL y tres pendientes lo bloquean.
+- Transformaciones atómicas e idempotentes, trazas coherentes y rechazo de
+  cambios que destruyan claves o artefactos consumidos por otros objetos.
+- La distribución copia los once JSON sin modificaciones. Sus 16 referencias
+  HTML resuelven bajo `/DataBasic/`; dependencias y licencias se conservan.
+- El formato permanece en la versión 2: se mantiene la migración v1 y la
+  lectura conservadora de archivos anteriores sin las decisiones nuevas.
+
+### Recorridos realizados en la aplicación pública
+
+- Tipos NUMBER, VARCHAR, CHAR y DATE visibles en ambas representaciones.
+  El inspector mostró precisión 8, escala 2, requerido, predeterminado 0 y
+  mínimo 0 de `valor`; cambiar la precisión a 9 actualizó el atributo Chen.
+  La clave alternativa de `serie` apareció en la tabla y en el SQL.
+- La FK nativa de `Coordina` aceptó CASCADE. SET NULL incompatible se rechazó
+  con un mensaje y se conservó CASCADE. «Editar origen Chen» abrió Coordina;
+  rematerializarla mantuvo la política en el JSON y SQL descargados.
+- N:N: apertura de `Habilitacion`, inspección de la clave y sus dos FKs,
+  rematerialización sin duplicarlas y apertura del SQL resultante.
+- Multivaluados: desde el estado pendiente se crearon `Etiquetas` y
+  `Calibraciones`, esta última con dos componentes. La PK completa del
+  propietario forma parte de cada PK auxiliar y de su FK. Deshacer y rehacer
+  restauraron el estado anterior y posterior a la primera transformación.
+  El JSON descargado se reabrió; el SQL mostró la PK de cuatro columnas.
+- Jerarquía: la primera materialización rechazó las claves locales
+  incompatibles. El JSON descargado después del rechazo fue idéntico al
+  ejemplo pendiente. Tras renombrarlas a `referenciaLocal` y retirar su marca
+  de clave, la transformación creó las PK/FK heredadas y conservó los IDs
+  de los atributos y columnas locales.
+- Ternaria: se eligieron las cardinalidades por combinación de roles,
+  separadas de la participación absoluta. El formulario rechazó un contexto
+  por período sin atributo seleccionado. Al elegir `instante`, materializó
+  tres FKs, PK de los tres roles más instante y UNIQUE de Persona, Sesion e
+  instante. Estas decisiones aparecen en el JSON y SQL reales.
+- Entidad débil: el inspector mostró Puerto, su propietaria Instrumento y
+  Contiene como vínculo identificador. SQL incluyó la clave parcial `numero`
+  más la clave del propietario en su PK y una FK a Instrumento.
+- Compuestos y recursiva: se inspeccionaron los dos roles de Persona en
+  Orienta. SQL incluyó las hojas de los compuestos de entidad y relación,
+  las dos FKs recursivas y omitió el atributo derivado `antiguedad`.
+- Distribuir ejecutó Graphviz y notificó su operación reversible. Se
+  descargaron JSON, SQL y SVG mediante los controles de la aplicación;
+  el SVG real de compuestos y recursiva superó `xmllint --noout`.
+
+Los cuatro JSON descargados de multivaluados y jerarquía/ternaria se
+validaron sin errores ni normalización del parser. Los estados resueltos
+conservan todos los IDs previos; sólo difieren de sus ejemplos resueltos
+en los UUID nuevos y en el título conservado del ejemplo pendiente. El SQL
+generado desde esos JSON coincide con el de sus ejemplos resueltos.
+
+### Límites de esta verificación
+
+No equivale a certificar todas las funciones de Visio 2010. La estrategia
+implementada para jerarquías usa tablas de superclase y subclases; las
+restricciones de cobertura, exclusión y algunos mínimos se conservan y se
+señalan como documentales. No se ejecutó el SQL exportado en un SGBD.
+
+El botón Imprimir/PDF se intentó en el navegador integrado, pero su llamada
+de impresión no permitió comprobar la vista previa. La revisión de fuente
+confirma `window.print()`, el ajuste del SVG y estilos de impresión; no se
+han validado paginación, PDF guardado ni impresión física. Safari, Firefox y
+otros dispositivos quedan fuera de este recorrido. Los arrastres reales de
+rombos y rótulos se verificaron en 0.3.1, como se registra abajo; sus
+regresiones automatizadas siguen incluidas en 0.4.0.
+
+Las secciones siguientes conservan el historial de verificaciones anteriores.
 
 ## Recorrido funcional verificado en la web pública 0.1.1
 
