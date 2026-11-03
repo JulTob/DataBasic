@@ -112,14 +112,16 @@ export function ribbonContents( state ) {
     }
 
 export function initialLayout( state ) {
-    return `<header class="titlebar"><div class="app-mark">${icon( 'database' )}</div>
+    return `<header class="titlebar">
+        <div class="app-brand"><div class="app-mark">${icon( 'database' )}</div>
+            <strong>DataBasic</strong><span class="brand-label">Modelador</span></div>
+        <button class="document-title" data-action="rename" title="Cambiar nombre del ejercicio">
+            ${icon( 'file-spreadsheet' )}<span id="document-name"></span>${icon( 'chevron-down' )}</button>
         <nav class="quick-access" aria-label="Acceso rápido">
-        ${command( 'save', 'Guardar', 'save', 'title="Guardar archivo · ⌘/Ctrl+S"' )}
         ${command( 'undo', 'Deshacer', 'undo-2', 'title="Deshacer · ⌘/Ctrl+Z"' )}
-        ${command( 'redo', 'Rehacer', 'redo-2', 'title="Rehacer · ⌘/Ctrl+Mayús+Z"' )}</nav>
-        <button class="document-title" data-action="rename">
-            DataBasic — <span id="document-name"></span></button>
-        <span class="titlebar-note">Modelo de base de datos</span></header>
+        ${command( 'redo', 'Rehacer', 'redo-2', 'title="Rehacer · ⌘/Ctrl+Mayús+Z"' )}
+        ${command( 'save', 'Guardar', 'save', 'class="save-button" title="Guardar archivo · ⌘/Ctrl+S"' )}
+        </nav></header>
         <nav class="ribbon-tabs" aria-label="Cinta de comandos">
         ${RIBBON_TABS.map(
                 ([id, label]) => `<button data-tab="${id}" class="${id === 'file' ? 'file-tab' : ''}"
@@ -127,35 +129,40 @@ export function initialLayout( state ) {
                 ).join( '' )}
         <span class="ribbon-spacer"></span>
         <button data-action="help" class="help-button" title="Ayuda">${icon( 'circle-help' )}</button></nav>
-        <section id="ribbon" class="ribbon" aria-label="Herramientas"></section>
         <main class="workspace"><aside class="shapes-panel" aria-label="Formas">
         <div class="pane-heading">Formas ${icon( 'panel-left' )}</div>
-        <div class="stencil-heading">Relación entre entidades</div>
+        <div class="stencil-heading">Construye tu modelo</div>
         <div class="shape-palette">
-        <button draggable="true" data-shape="entity" data-action="entity" title="Arrastra al lienzo o pulsa para crear">
-            <span class="shape-preview entity-preview"><b></b><i></i><i></i></span><span>Entidad</span></button>
-        <button data-action="relationship" title="Selecciona el padre y después el hijo">
-            <span class="shape-preview relation-preview">─┤─&lt;</span><span>Relación</span></button>
-        <button draggable="true" data-shape="view" data-action="view-shape">
-            <span class="shape-preview view-preview"><b></b><i></i><i></i></span><span>Vista</span></button>
+        <button draggable="true" data-shape="entity" data-action="entity" aria-label="Entidad"
+            title="Arrastra al lienzo o pulsa para crear">
+            <span class="shape-preview">${icon( 'table-2' )}</span>
+            <span class="shape-label"><strong>Entidad</strong><small>Tabla y columnas</small></span>
+            ${icon( 'plus' )}</button>
+        <button data-action="relationship" aria-label="Relación" title="Selecciona el padre y después el hijo">
+            <span class="shape-preview">${icon( 'git-branch' )}</span>
+            <span class="shape-label"><strong>Relación</strong><small>Conecta dos entidades</small></span>
+            ${icon( 'plus' )}</button>
+        <button draggable="true" data-shape="view" data-action="view-shape" aria-label="Vista">
+            <span class="shape-preview">${icon( 'panels-top-left' )}</span>
+            <span class="shape-label"><strong>Vista</strong><small>Vista del modelo</small></span>
+            ${icon( 'plus' )}</button>
         </div>
-        <div class="stencil-tip">Arrastra una entidad al dibujo.<br>Haz doble clic para editar columnas.</div>
+        <div class="stencil-tip">Arrastra una forma al lienzo.<br>Doble clic para editar sus columnas.</div>
         <div class="model-explorer"><div class="pane-heading">Tablas y vistas</div>
         <div id="entity-list"></div></div>
-        <div class="shapes-footer">${icon( 'graduation-cap' )}<span>DataBasic · Práctica de bases de datos</span></div>
+        <div class="shapes-footer">${icon( 'lock-keyhole' )}<span>Tus ejercicios se guardan<br>en este navegador</span></div>
         </aside>
         <section class="drawing-area" aria-label="Área de dibujo">
+        <div class="canvas-host">
+        <section id="ribbon" class="ribbon" aria-label="Herramientas"></section>
         <div class="drawing-heading"><span>${icon( 'file-spreadsheet' )} Diagrama relacional</span>
             <span id="save-status">Recuperando ejercicio…</span></div>
-        <div class="canvas-host"><div class="ruler-top"></div><div class="ruler-left"></div>
         <svg id="canvas" xmlns="http://www.w3.org/2000/svg" aria-label="Lienzo del modelo de base de datos">
             <g id="viewport"></g></svg>
         <div id="canvas-empty" class="canvas-empty" hidden>${icon( 'table-2' )}
             <strong>Empieza con una entidad</strong><span>Arrástrala desde el panel Formas o pulsa aquí.</span>
             ${command( 'entity', 'Crear entidad', 'plus' )}</div>
         <div id="tool-hint" class="tool-hint" hidden></div></div>
-        <div class="page-tabs"><span class="page-tab">Página-1</span>
-            <span class="page-caption">${icon( 'lock-keyhole' )} Tus ejercicios se guardan en este navegador</span></div>
         <div id="pane-splitter" class="pane-splitter" role="separator"
             aria-label="Cambiar altura de propiedades" aria-orientation="horizontal" tabindex="0"></div>
         <section id="properties-pane" class="properties-pane" aria-label="Propiedades de la base de datos">

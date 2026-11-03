@@ -40,7 +40,7 @@ function tableSVG(
                     ].filter( Boolean ).join( ',' );
                 const divider = field.primary && !fields[index + 1]?.primary
                     ? `<line x1="0" x2="${TABLE_WIDTH}" y1="${y + 8}" y2="${y + 8}"
-                        stroke="#929a9f"/>`
+                        stroke="#e2e8e5"/>`
                     : '';
 
                 return `<g><title>${escapeHTML( field.name )}: ${escapeHTML( field.type )}</title>
@@ -60,15 +60,16 @@ function tableSVG(
         transform="translate(${table.x},${table.y})" tabindex="0" role="button"
         aria-label="${table.kind === 'view' ? 'Vista' : 'Entidad'} ${escapeHTML( table.name )}">
         <title>${escapeHTML( table.name )} · doble clic para editar columnas</title>
-        <rect class="table-shadow" x="3" y="4" width="${TABLE_WIDTH}" height="${height}"/>
-        <rect class="table-body" width="${TABLE_WIDTH}" height="${height}"/>
-        <rect class="table-header" x="0.5" y="0.5" width="${TABLE_WIDTH - 1}" height="${HEADER_HEIGHT}"/>
-        <text x="${TABLE_WIDTH / 2}" y="23" text-anchor="middle" class="table-title">
+        <rect class="table-shadow" x="0" y="5" rx="12" width="${TABLE_WIDTH}" height="${height}"/>
+        <rect class="table-body" rx="12" width="${TABLE_WIDTH}" height="${height}"/>
+        <rect class="table-header" x="1" y="1" rx="11" width="${TABLE_WIDTH - 2}" height="${HEADER_HEIGHT}"/>
+        <rect class="table-header" x="1" y="24" width="${TABLE_WIDTH - 2}" height="11"/>
+        <text x="15" y="23" class="table-title">
             ${table.kind === 'view' ? '◇ ' : ''}${shortText( model.display.conceptual ? table.conceptualName : table.name, 29 )}
         </text>
         ${rows || `<text x="14" y="58" class="empty-columns">Sin columnas</text>`}
         ${selected ? `<rect class="selection-outline" x="-3" y="-3"
-            width="${TABLE_WIDTH + 6}" height="${height + 6}"/>` : ''}
+            rx="15" width="${TABLE_WIDTH + 6}" height="${height + 6}"/>` : ''}
         </g>`;
     }
 
@@ -134,36 +135,36 @@ function relationshipSVG(
     }
 
 export const DIAGRAM_STYLES = `
-    .table-shadow { fill: #00000010; }
-    .table-body { fill: #fff; stroke: #465362; stroke-width: 1.2; }
-    .table-header { fill: #eef2f7; stroke: #465362; stroke-width: 0.7; }
+    .table-shadow { fill: #254b3e0b; }
+    .table-body { fill: #fff; stroke: #cddcd5; stroke-width: 1.2; }
+    .table-header { fill: #edf7f2; }
     .table-title {
-        font: 600 13px system-ui, sans-serif;
-        fill: #182c43;
+        font: 650 14px system-ui, sans-serif;
+        fill: #234b3e;
         }
     .field-label {
         font: 12px system-ui, sans-serif;
-        fill: #253445;
+        fill: #344b43;
         }
     .field-required { font-weight: 600; }
     .key-label {
-        font: 10px system-ui, sans-serif;
-        fill: #8e6a20;
+        font: 600 9px system-ui, sans-serif;
+        fill: #986517;
         }
     .type-label {
         font: 10px system-ui, sans-serif;
-        fill: #7a8490;
+        fill: #667c71;
         }
     .empty-columns {
         font: italic 11px system-ui, sans-serif;
         fill: #8b96a0;
         }
-    .selection-outline { fill: none; stroke: #3285cf; stroke-width: 1.5; }
+    .selection-outline { fill: none; stroke: #2a8a6d; stroke-width: 1.6; }
     .connect-parent .table-body { stroke: #e18a17; stroke-width: 3; }
     .entity { cursor: move; outline: none; }
-    .entity:focus .table-body { stroke: #3285cf; stroke-width: 2; }
-    .relationship { color: #536579; cursor: pointer; outline: none; }
-    .relationship.selected, .relationship:focus { color: #187ac4; }
+    .entity:focus .table-body { stroke: #2a8a6d; stroke-width: 2; }
+    .relationship { color: #789187; cursor: pointer; outline: none; }
+    .relationship.selected, .relationship:focus { color: #18785b; }
     .relation-line { fill: none; stroke: currentColor; stroke-width: 1.4; }
     .selected .relation-line { stroke-width: 2.3; }
     .relation-hit { fill: none; stroke: transparent; stroke-width: 20; }
