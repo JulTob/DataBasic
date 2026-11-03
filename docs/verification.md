@@ -7,14 +7,14 @@ Comprobación local, publicación y prueba online: 3 de noviembre de 2026.
 | Comprobación | Estado | Evidencia y alcance |
 | --- | --- | --- |
 | Sintaxis de los módulos, scripts y pruebas | Superada | `npm run check`. |
-| Pruebas automatizadas | 44 superadas | Modelo, serialización, SQL, SVG, ventanas, eventos simulados, tipos NUMBER y ajuste del dibujo bajo las herramientas flotantes. |
+| Pruebas automatizadas | 97 superadas en local en 0.3.0 | Dominio, migración v1/v2, SQL, escenas, diálogos, eventos, bundle generado y guardados independientes. |
 | Motor de distribución Graphviz incluido | Superada | El archivo redistribuido calcula posiciones sin descargar recursos. |
 | Generación estática | Superada | `npm run build` produce `dist/` con todos los recursos locales. |
 | Sintaxis del script generado | Superada | `node --check dist/app.bundle.js`. |
 | Resolución de recursos de la entrega | Superada | Las referencias locales de HTML y los avisos de terceros están incluidos. |
 | Prueba en un navegador real | Superada para el recorrido descrito abajo | Aplicación alojada en GitHub Pages, abierta y manejada en el navegador de la app. |
 | Identidad visual propia | Implementada | La versión 0.2.0 usa un lienzo punteado, tarjetas y paneles suaves. Conserva los comandos de estudio; no busca reproducir la apariencia de Visio. |
-| Contraste con los apuntes del curso | Realizado | [Requisitos del curso](course-requirements.md). IDEF1X, perfil restrictivo de tipos y editor ERE quedan pendientes de implementar. |
+| Contraste con los apuntes del curso | Realizado | [Requisitos del curso](course-requirements.md). La versión 0.3.0 incorpora IDEF1X, perfil del curso y edición Chen; la cobertura y las carencias se detallan por operación. |
 | Repositorio remoto y publicación | Superada | Archivos subidos mediante la interfaz de GitHub; [primer despliegue correcto](https://github.com/JulTob/DataBasic/actions/runs/41542519291). |
 
 Las pruebas locales se ejecutaron con Node.js 26. El flujo de GitHub Actions
@@ -133,6 +133,133 @@ completó verificación y publicación para el commit `134e7c9`.
 Esta revisión no amplía la cobertura manual a impresión, arrastre ni otros
 navegadores. El formato de los ejercicios sigue siendo la versión 1.
 Los contratos del modelo y los avisos de licencia se conservan.
+
+## Revisión funcional de 0.3.0
+
+Comprobación local integrada: 3 de noviembre de 2026.
+
+- `npm run check`, 97 pruebas, `npm run build` y
+  `node --check dist/app.bundle.js` superados en las fuentes integradas.
+- El ensamblado es común para la entrega y el doble de DOM de aplicación.
+  Una prueba compila una copia temporal sin red y ejecuta su `dist` real:
+  arranque, cambio Chen/relacional, alta y guardado.
+- Se comprueban rutas relativas bajo `/DataBasic/`, versiones por contenido
+  de CSS/JavaScript y presencia de avisos legales en la distribución.
+- Se compararon `LICENSE`, `NOTICE.md`, `legal.html`, favicon y todos los
+  archivos de librerías con la copia previa: se conservan byte a byte.
+  Esa primera comparación precede a una edición remota posterior de
+  `legal.html`, incorporada a la copia local sin sobrescribirla en GitHub.
+- La entrada v1 conserva IDs, tipos y relaciones al migrar al perfil general
+  del formato v2. No se deducen asociaciones a partir de tablas puente.
+- Se reproduce y corrige la reutilización indebida de la PK propia como FK
+  al conectar dos tablas nuevas; también se rechazan parches de identidad
+  y referencias que impidan guardar y reabrir el documento.
+- Se prueban N:N con atributo, ternaria con tres roles y discriminador temporal,
+  entidad débil con clave parcial, AK, dominios, valores predeterminados,
+  propagación de tipos, materialización y rechazo sin mutación.
+- Se prueba el flujo v1 con entidades proyectadas existentes → N:N nativa →
+  atributo → clave explícita → materialización → SQL y reapertura.
+- Diez alternancias conservan IDs, tablas, FKs y SQL. La posición Chen se
+  guarda por separado de las coordenadas relacionales.
+- Los tests de escenas verifican límites compartidos, XML mediante `xmllint`,
+  tipos completos, participaciones por rol y altas sin superposición.
+  La validación XML se ejecutó en local con `xmllint`; en CI ese caso se
+  omite cuando la herramienta no está instalada.
+- IDEF1X se implementó tras leer texto y figuras 1, 4, 5, 6 y 7 de FIPS 184
+  en la copia oficial de GovInfo. Esto establece los símbolos de referencia;
+  la revisión visual de la aplicación se registra aparte.
+- Las pruebas de ventanas ejecutan las rutas de revisión del modelo,
+  generalización, claves alternativas y edición nativa, además de los formularios
+  de tipo/dominio y estrategias de atributos y entidades débiles.
+- Una prueba resuelve una lectura inicial diferida después de abrir otro JSON:
+  el documento importado se conserva. El guardado ya estaba protegido por
+  el historial de la apertura; no hizo falta cambiar ese código.
+- Se añaden casos de ramas Chen cortas con roles largos y extremos en ambos
+  sentidos: las etiquetas no se intersectan y conservan su entidad/rol.
+  Las guías finas y sus anclajes vinculan cada rótulo desplazado a su rama;
+  la regresión incluye una rama diagonal y otra horizontal de 90 unidades.
+- La distribución relacional del ejemplo reproduce dos lecturas que se pisaban.
+  Ahora cada conector agrupa sus lecturas en un bloque con guía; se comprueban
+  el caso con/sin cardinalidad, la separación de tablas/bloques y la conservación
+  exacta de los trazados. Esto no garantiza una distribución óptima de todo grafo.
+
+Las pruebas de DOM simulado no verifican CSS, hit-testing, almacenamiento del
+navegador ni impresión física. Las pruebas de almacenamiento comparten un
+almacén simulado: la clave principal se conserva, dos prácticas no se pisan y
+cada una recupera sólo su propio contenido.
+Multivaluados y generalizaciones se conservan como semántica pendiente de
+materialización; no se presentan como una transformación SQL completa.
+
+## Comprobación online de 0.3.0
+
+El [despliegue de la corrección de colocación](https://github.com/JulTob/DataBasic/actions/runs/41559438338)
+terminó correctamente para `c44b91e`. La comprobación previa detectó que faltaba
+subir el adaptador de `diagram.js`; no se desplegó la subida incompleta.
+Se descargó el repositorio desde GitHub y se compararon 42 archivos de código
+y recursos con las fuentes locales: todos coinciden byte a byte.
+
+Recorrido real en el navegador, 3 de noviembre de 2026:
+
+- Inicio a 100 % con tipos completos. En la ventana observada de 963 × 968,
+  tres altas quedan enteras dentro del lienzo y sin superposición; los clics
+  en sus títulos conectan la primera con la segunda, sin autorrelación accidental.
+- Dos PK llamadas `id` se conservan: la FK hija se crea como `Entidad1_id`.
+- Se usaron Varios, identificación y opcionalidad; la FK identificadora pasa
+  a la PK hija y la caja IDEF1X dependiente cambia sus esquinas.
+- Deshacer y rehacer restaura conjuntamente PK y FK. Se seleccionó el conector
+  y se abrió Acción referencial; SET NULL incompatible se rechaza con mensaje
+  y vuelve a mostrar la política válida, sin confirmar el cambio.
+- El diálogo de columna guardó NUMBER(12,2), requerido, predeterminado 0 y
+  mínimo 0. Se creó una AK separada del índice; el SQL mostró NUMERIC(12,2),
+  NOT NULL, DEFAULT, CHECK y UNIQUE. Se abrió la revisión del modelo correcta.
+- Sobre entidades proyectadas de un archivo anterior se creó una N:N con
+  roles, atributo DATE y clave explícita. Su materialización produjo una tabla
+  y dos FKs; renombrar la columna desde Relacional actualizó el atributo Chen.
+- Diez alternancias finalizaron con JSON idéntico, incluidos IDs, trazas y
+  posiciones, comprobado sobre las dos descargas reales.
+- Se creó una ternaria con período y un participante de PK compuesta. Se
+  conservaron tres roles, tres FKs y todos los componentes de la clave elegida;
+  el archivo descargado se reabrió y mostró sus tres participaciones.
+- El SVG descargado es XML válido y usa los límites de la escena completa.
+- Se arrastró una tabla con un gesto real: cambió de posición y su conector
+  la siguió. Otro arrastre en Chen sólo cambió `presentation.chen`; tablas,
+  FKs y posiciones relacionales permanecieron idénticas en los JSON comparados.
+
+La revisión continuó en otra pestaña para aislar las pruebas del ejercicio abierto.
+La comprobación de recuperación concurrente anterior no se considera evidencia
+de pérdida ni de éxito. Se repitió en `?practica=revision-20261103`: se esperó
+la confirmación de guardado, se recargó la página y se recuperaron la ternaria,
+sus tablas, FKs y participaciones. El indicador confirmó «Práctica independiente».
+La pestaña de trabajo quedó aparte durante el recorrido independiente. Las URLs sin
+`practica` conservan la clave anterior; las prácticas nombradas no leen ni
+copian el ejercicio principal. El formato JSON no cambia por esta separación.
+
+En la práctica independiente de 1280 × 720 también se crearon dos entidades
+nativas, una N:N y un atributo DATE. Se materializó la clave elegida y se
+ejecutó la distribución Graphviz real. Se verificaron los cuatro anclajes
+y guías de sus rótulos en la aplicación publicada, tras el
+[despliegue de las guías Chen](https://github.com/JulTob/DataBasic/actions/runs/41624981059)
+para `0484d75`. No hubo desbordamiento horizontal
+de la página ni errores registrados en la consola durante ese recorrido.
+
+Quedan fuera de esta revisión manual la impresión física, otros navegadores
+y todas las combinaciones posibles de restricciones. Las carencias funcionales
+se detallan en la [matriz](functional-audit.md).
+
+## Comprobación final de los rótulos
+
+El [despliegue del código final](https://github.com/JulTob/DataBasic/actions/runs/41627572686)
+completó verificación y publicación para `434f085`. La pestaña independiente
+se recargó y sirvió `app.bundle.js?v=8d02cef33fb6`, coincidente con el build local.
+El ejemplo se recuperó con sus tres tablas, dos FKs y relación N:N nativa.
+
+Se ocultó el panel y se ajustó cada representación: Relacional al 99 % y Chen
+al 110 %, en 1280 × 720. Las lecturas relacionales quedaron en bloques separados
+con guía al conector, sin pisar tablas ni entre sí en este ejemplo. Los tipos
+NUMBER y DATE permanecieron completos y legibles. Chen conservó roles,
+cardinalidades y anclajes. No se registraron errores de consola. Se guardaron
+capturas y un JSON descargable con las dos disposiciones; el ejercicio principal
+no se utilizó para este recorrido.
 
 ## Fuentes del comportamiento esperado
 
