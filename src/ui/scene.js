@@ -178,8 +178,17 @@ function sceneOverlaps(
 function sceneFreePosition(
         preferred,
         size,
-        occupied
+        occupied,
+        area = null
         ) {
+    if (area) {
+        const visible = sceneVisibleFreePosition( preferred, size, occupied, area );
+
+        if (visible) {
+            return visible;
+            }
+        }
+
     for (let row = 0; row < 80; row += 1) {
         for (let column = 0; column < 4; column += 1) {
             const candidate = {
@@ -199,6 +208,63 @@ function sceneFreePosition(
         }
 
     throw new Error( 'No queda espacio libre en esta zona del diagrama.' );
+    }
+
+function sceneCandidateAxis(
+        start,
+        end,
+        extent
+        ) {
+    const positions = [];
+
+    for (let position = start; position + extent <= end; position += extent + 28) {
+        positions.push( position );
+        }
+
+    if (end - extent >= start) {
+        positions.push( end - extent );
+        }
+
+    return [...new Set( positions )];
+    }
+
+function sceneVisibleFreePosition(
+        preferred,
+        size,
+        occupied,
+        area
+        ) {
+    if (![area.x, area.y, area.width, area.height].every( Number.isFinite )
+        || area.width <= 0 || area.height <= 0) {
+        throw new Error( 'El área visible necesita una posición y un tamaño válidos.' );
+        }
+
+    const left = Math.max( 20, area.x );
+    const top = Math.max( 20, area.y );
+    const right = Math.min( 20000, area.x + area.width );
+    const bottom = Math.min( 20000, area.y + area.height );
+
+    if (right - left < size.width || bottom - top < size.height) {
+        return null;
+        }
+
+    const first = {
+        x: Math.min( right - size.width, Math.max( left, preferred.x ) ),
+        y: Math.min( bottom - size.height, Math.max( top, preferred.y ) )
+        };
+    const candidates = [first];
+
+    for (const y of sceneCandidateAxis( top, bottom, size.height )) {
+        for (const x of sceneCandidateAxis( left, right, size.width )) {
+            candidates.push({x, y});
+            }
+        }
+
+    return candidates.find(
+            position => !occupied.some(
+                    node => sceneOverlaps( {...position, ...size}, node )
+                    )
+            ) || null;
     }
 
 function sceneRelationalNode(
@@ -682,7 +748,8 @@ export function buildDiagramScene( model ) {
 export function sceneFindFreePosition(
         model,
         preferred,
-        size = {width: SCENE_TABLE_WIDTH, height: 180}
+        size = {width: SCENE_TABLE_WIDTH, height: 180},
+        area = null
         ) {
-    return sceneFreePosition( preferred, size, buildDiagramScene( model ).nodes );
+    return sceneFreePosition( preferred, size, buildDiagramScene( model ).nodes, area );
     }
