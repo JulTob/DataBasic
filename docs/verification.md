@@ -1,20 +1,19 @@
 # Verificación de DataBasic
 
-Comprobación local: 2 de noviembre de 2026.
-Publicación y prueba online: 3 de noviembre de 2026.
+Comprobación local, publicación y prueba online: 3 de noviembre de 2026.
 
 ## Resultados
 
 | Comprobación | Estado | Evidencia y alcance |
 | --- | --- | --- |
 | Sintaxis de los módulos, scripts y pruebas | Superada | `npm run check`. |
-| Pruebas automatizadas | 43 superadas | Modelo, serialización, SQL, SVG, ventanas, eventos simulados y tipos NUMBER. |
+| Pruebas automatizadas | 44 superadas | Modelo, serialización, SQL, SVG, ventanas, eventos simulados, tipos NUMBER y ajuste del dibujo bajo las herramientas flotantes. |
 | Motor de distribución Graphviz incluido | Superada | El archivo redistribuido calcula posiciones sin descargar recursos. |
 | Generación estática | Superada | `npm run build` produce `dist/` con todos los recursos locales. |
 | Sintaxis del script generado | Superada | `node --check dist/app.bundle.js`. |
 | Resolución de recursos de la entrega | Superada | Las referencias locales de HTML y los avisos de terceros están incluidos. |
 | Prueba en un navegador real | Superada para el recorrido descrito abajo | Aplicación alojada en GitHub Pages, abierta y manejada en el navegador de la app. |
-| Comparación visual con Visio 2010 | Pendiente | Se reconstruyó la estructura documentada; no se certifica identidad visual. |
+| Identidad visual propia | Implementada | La versión 0.2.0 usa un lienzo punteado, tarjetas y paneles suaves. Conserva los comandos de estudio; no busca reproducir la apariencia de Visio. |
 | Contraste con los apuntes del curso | Realizado | [Requisitos del curso](course-requirements.md). IDEF1X, perfil restrictivo de tipos y editor ERE quedan pendientes de implementar. |
 | Repositorio remoto y publicación | Superada | Archivos subidos mediante la interfaz de GitHub; [primer despliegue correcto](https://github.com/JulTob/DataBasic/actions/runs/41542519291). |
 
@@ -106,6 +105,29 @@ La integración local también superó sintaxis y las 43 pruebas con la versión
 
 Estas comprobaciones verifican presentación, acceso a avisos y distribución.
 No certifican ausencia de infracción ni de posibles reclamaciones.
+
+## Interfaz canvas de 0.2.0
+
+Comprobación local y online: 3 de noviembre de 2026.
+El [despliegue inicial de la interfaz canvas](https://github.com/JulTob/DataBasic/actions/runs/41550082435)
+completó verificación y publicación para el commit `134e7c9`.
+
+- Sintaxis, 44 pruebas y generación estática superadas en local.
+- Revisión visual en el navegador a 809 × 755 y 1280 × 720 píxeles,
+  sin desbordamiento horizontal de la página. En la ventana estrecha,
+  la barra de herramientas y las tablas de propiedades permiten desplazamiento.
+- Creación de una entidad, cambio de nombre y columna `fecha` de tipo `DATE`.
+- Conexión padre-hijo, migración de PK y cambio de opcionalidad.
+- Deshacer y rehacer la relación; comprobación del modelo sin errores.
+- Redimensionado del panel de propiedades con el teclado y modo lienzo
+  al ocultar el panel. Ajuste del dibujo con las herramientas flotantes.
+- Descarga del ejercicio JSON y de un SVG; el SVG descargado es XML válido.
+- Reapertura de la copia previa y recuperación del ejemplo original
+  de tres entidades y dos relaciones después de las pruebas.
+
+Esta revisión no amplía la cobertura manual a impresión, arrastre ni otros
+navegadores. El formato de los ejercicios sigue siendo la versión 1.
+Los contratos del modelo y los avisos de licencia se conservan.
 
 ## Fuentes del comportamiento esperado
 
