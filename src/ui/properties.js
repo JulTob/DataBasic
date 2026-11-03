@@ -4,7 +4,8 @@ import {
     DATA_TYPES,
     parseDataType,
     getConceptualProjection,
-    conceptualStatus
+    conceptualStatus,
+    participationCardinalityLetter
     } from '../domain/model.js';
 import {
     check,
@@ -340,8 +341,9 @@ function nativeProperties(
         const entities = getConceptualProjection( model ).entities;
 
         content = `<h3>Participaciones, roles y límites</h3>
-            <p class="field-hint">Cada par se lee junto a su entidad:
-                cuántas ocurrencias de esta relación admite una ocurrencia de esa entidad.</p>
+            <p class="field-hint">Cada par (mín,máx) se lee junto a su entidad:
+                cuántas ocurrencias de esta relación admite una ocurrencia de esa entidad.
+                La letra 1/N junto al rombo es la razón de cardinalidad de esa rama.</p>
             <div class="participation-list">${relation.participations.map(
                     part => `<fieldset><legend>${escapeHTML( entities.find( entity => entity.id === part.entityId )?.name || part.entityId )}</legend>
                         <label>Rol<input data-participation="${part.id}" data-field="role"
@@ -349,8 +351,20 @@ function nativeProperties(
                         <label>Mínimo<input type="number" min="0" data-participation="${part.id}"
                             data-field="min" value="${part.min}"></label>
                         <label>Máximo<input data-participation="${part.id}" data-field="max"
-                            value="${part.max ?? 'N'}" title="N indica muchos"></label></fieldset>`
-                    ).join( '' )}</div>`;
+                            value="${part.max ?? 'N'}" title="N indica muchos"></label>
+                        <label>Letra junto al rombo<select data-participation="${part.id}"
+                            data-field="cardinality">${options(
+                                [
+                                    ['', `Automática · ${participationCardinalityLetter( relation, part )}`],
+                                    ['1', '1'],
+                                    ['N', 'N']
+                                    ],
+                                part.cardinality || ''
+                                )}</select></label></fieldset>`
+                    ).join( '' )}</div>
+            <p class="field-hint">${relation.participations.length === 2
+                ? 'En una binaria la letra automática es el máximo de la otra rama.'
+                : 'En una ternaria la letra de cada rama la decide el autor; automática muestra N.'}</p>`;
         }
     else if (relation && category === 'translation') {
         content = `<p>${relation.translation

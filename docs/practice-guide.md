@@ -62,7 +62,8 @@ pertenece a un equipo; en una variante provisional puede desconocerse ese equipo
    existir sin equipo. Desmárcalo para exigir equipo a cada revisión.
 6. En **Tipo de relación**, distingue **Identificadora** de **No identificadora**.
    Identificadora incorpora la FK a la PK hija; no significa por sí sola que
-   el diseño conceptual original fuera una entidad débil.
+   el diseño conceptual original fuera una entidad débil. Volver a No
+   identificadora saca la FK de la PK hija y permite de nuevo marcarla Opcional.
 7. Abre **Acción referencial** para elegir qué ocurre al borrar el padre o
    actualizar su clave. Prueba SET NULL solo con FK anulable; SET DEFAULT
    necesita predeterminados. Para conservar el caso obligatorio, usa NO ACTION
@@ -95,6 +96,8 @@ sus límites sin intercambiar los extremos.
    muestran como **proyección parcial**; una tabla con dos FKs sigue siendo tabla.
 5. En nuestro caso, si Equipo tiene cero o muchas revisiones y Revision admite
    cero o un equipo, lee **Equipo (0,N)** y **Revision (0,1)** junto a sus ramas.
+   Junto al rombo aparecen las letras de la razón de cardinalidad: **1** en la
+   rama de Equipo y **N** en la de Revision, como en los apuntes del curso.
 6. Vuelve a **Relacional**. Mueve una forma y alterna de nuevo para comparar las
    disposiciones independientes. Usa **Deshacer** y **Rehacer** para revisar un cambio.
 
@@ -133,6 +136,8 @@ admite varias personas. Suponemos una sola inscripción por pareja.
    atributos clave iniciales en **Atributos**.
 2. Pulsa **Relación**. Pon `Inscripcion`, grado **Binaria**, elige ambas entidades
    y sus roles. Para este ejemplo usa mínimo `0` y máximo `N` en ambas ramas.
+   Deja la **letra junto al rombo** en automática: en una binaria es el máximo
+   de la otra rama, aquí `N` en ambas.
 3. Acepta. La relación puede guardarse **pendiente**; todavía no tiene tabla asociativa.
 4. Selecciona el rombo → **Atributos → Agregar atributo…**. Elige la relación
    como propietario y crea `fechaAlta` con tipo DATE.
@@ -155,8 +160,11 @@ repetirse en meses diferentes, y registramos horas en cada mes.
 2. Pulsa **Relación**, nombre `UsoMensual`, grado **Ternaria**. Elige los tres
    participantes y roles `operador`, `recurso` y `contexto`.
 3. Declara mínimos/máximos por rama según el supuesto del ejemplo; para una
-   prueba sin obligatoriedad, usa `(0,N)` en las tres. Anota la regla del mes
-   en **Notas**: esos pares no describen por sí solos toda restricción ternaria.
+   prueba sin obligatoriedad, usa `(0,N)` en las tres. Elige la **letra junto
+   al rombo** de cada rama (`1` o `N`): en una ternaria no se deduce de los
+   pares, la decides tú y puedes cambiarla después en **Varios**. Anota la
+   regla del mes en **Notas**: esos pares no describen por sí solos toda
+   restricción ternaria.
 4. En **Atributos**, crea `periodo` de tipo DATE y `horas` de tipo NUMBER(6,2).
    Para el ejemplo, acordamos usar el primer día de cada mes como período.
 5. En **Correspondencias → Elegir clave y materializar…**, elige tabla asociativa
@@ -186,6 +194,8 @@ el número de módulo puede repetirse en puestos diferentes.
    **FK binaria · elegir lado receptor**, receptor `Modulo`, y marca
    **Identificadora · incorpora la FK a la clave hija**.
 5. En `Modulo` → **Definición → Vínculo identificador**, elige `Contiene`.
+   El rombo de `Contiene` pasa a dibujarse doble, como el vínculo identificador
+   de los apuntes.
 6. Abre la revisión del modelo y vuelve a Relacional para inspeccionar la PK/FK.
 
 **Qué comprobar.** La PK de Modulo reúne identidad del puesto y número parcial;

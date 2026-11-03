@@ -1,7 +1,7 @@
-# Matriz funcional de DataBasic 0.3.1
+# Matriz funcional de DataBasic 0.3.2
 
 Esta matriz enlaza necesidad, fuente, operación y evidencia. Describe el código
-0.3.1 y el formato de documento 2, con entrada compatible de formato 1.
+0.3.2 y el formato de documento 2, con entrada compatible de formato 1.
 **Disponible** significa que existe una operación y cobertura automatizada
 indicada; no significa que todos los clics y tamaños de pantalla se hayan
 probado en un navegador real. **Documental** conserva hechos que no se imponen
@@ -9,7 +9,9 @@ como reglas ejecutables. **Pendiente** identifica una transformación ausente
 o una decisión todavía no elegida.
 
 Los resultados y conteos vigentes, el artefacto probado y el estado publicado
-se consultan exclusivamente en [verificación](verification.md). Las pruebas de
+se consultan exclusivamente en [verificación](verification.md). La
+[cobertura frente a Visio 2010 y al curso](visio-2010-coverage.md) enumera
+función por función el estado respecto a la plantilla de Visio y a los apuntes. Las pruebas de
 interacciones simulan el DOM; la prueba del bundle comprueba el artefacto
 construido, sin sustituir la revisión visual.
 
@@ -20,7 +22,7 @@ construido, sin sustituir la revisión visual.
 | T2 | [Tema 2](course-requirements.md#fuentes), pp. 2–4, separación de niveles; pp. 5–12, objetos/restricciones; pp. 15–16, jerarquías. |
 | T3 | [Tema 3](course-requirements.md#fuentes), pp. 5–9, dominios y restricciones; §3.6, pp. 19–35, transformación. |
 | P1 | [Práctica evaluable](course-requirements.md#fuentes), pp. 2–3, ERE, IDEF1X, claves, dominios y cuatro tipos; p. 4, identidad de ocurrencias. |
-| ERE | [Introducción al ERE](course-requirements.md#fuentes), pp. 2–5, grafía; pp. 6–10, supuestos y método. |
+| ERE | [Introducción al ERE](course-requirements.md#fuentes), pp. 2–5, grafía (rombo doble, letras 1/N, pares, doble línea, arcos de subclase); pp. 6–10, supuestos y método. |
 | V10 | [DeVry, tutorial 2010 de 18 páginas](https://lms.devry.edu/lms/CourseExport/files/4c59b998-a778-4673-b5b5-1040a4a59543/documents--Creating_ERD_in_MS_Visio_2010.pdf), pp. 5–9 y 14–16, opciones y propiedades; ejemplo Crow’s Foot. |
 | MS-D | [Microsoft, Definition, aplicable a 2010](https://support.microsoft.com/en-us/visio/database-properties-for-entity-and-view-shapes-definition), nombres y sincronización. |
 | MS-R | [Microsoft, integridad referencial, aplicable a 2010](https://support.microsoft.com/en-us/visio/preserve-referential-integrity-in-database-model-diagrams), acciones y predeterminados. |
@@ -49,6 +51,8 @@ construido, sin sustituir la revisión visual.
 | UI-06 · P1 p. 3 / T3 p. 5 | Editar columna → Dominio declarativo y predeterminado. | Disponible; Conceptual, rango/lista y SQL; Aplicación, parámetros y dominio guardados. | No hay evaluación de expresiones ni registros. CHECK libre necesita revisión del autor. |
 | UI-07 · V10 pp. 14–16 | FK → Definición, Nombre, Varios y Acción referencial. | Disponible; Interfaz separa categorías; Aplicación abre propiedades de relación. | Conector por dos clics; no reproduce el arrastre/enganche de extremos de Visio. |
 | UI-08 · V10 pp. 5–6 / F184 | Vista → Opciones de visualización: nombres, tipos, claves y notación. | Disponible; Aplicación conserva modo/notación y booleanos; Escena consume opciones. | Visibilidad y nombres no transforman semántica. |
+| UI-09 · DB | Arrastrar una tabla desde su título o desde una fila de columna. | Disponible; Aplicación, «Arrastrar una fila de columna mueve su tabla…». | Un clic sin movimiento sobre la fila selecciona la columna; no hay selección múltiple. |
+| UI-10 · DB | Comprobar / Revisar modelo sin avisos repetidos; título de la especialización en Propiedades. | Disponible; Aplicación, «Comprobar el modelo muestra cada aviso…» y título «Especialización». | Los avisos documentales siguen siendo responsabilidad del autor. |
 
 ## Integridad y representación relacional
 
@@ -56,6 +60,7 @@ construido, sin sustituir la revisión visual.
 | --- | --- | --- | --- |
 | R-01 · T3 pp. 6–8 | Relación: seleccionar padre y después hijo; migrar PK completa. | Disponible; Modelo, PK compuesta y autorreferencia; Conceptual, ruta inicial id/id conserva identidad hija. | No hay referencia a AK ni asignación arbitraria de un subconjunto de la PK. |
 | R-02 · T3 pp. 8–9 | FK → Varios: cardinalidad, identificación y padre opcional. | Disponible; Modelo, nulos/identificación; Conceptual distingue FK única de FK que solo forma parte de PK compuesta. | Mínimos de hijos no se imponen con FK; unicidad efectiva puede limitar el máximo dibujado. |
+| R-07 · MS-D / DB | FK → Varios: volver a no identificadora saca la FK de la PK hija. | Disponible; Modelo, «Volver a no identificadora saca la FK…» y «La columna FK compartida…». | Una columna se mantiene en la PK si otra relación identificadora la usa; la PK propia del hijo no se toca. |
 | R-03 · MS-R | FK → Acción referencial. | Disponible; Modelo, rechazo SET NULL obligatorio y SET DEFAULT sin predeterminado. | Declaración exportada; sin ejecutar contra datos o SGBD. |
 | R-04 · F184 fig. 1 | IDEF1X: caja independiente/dependiente. | Disponible; Escena comprueba esquinas según dependencia real y separación de claves. | Un vínculo no identificador no vuelve independiente una entidad dependiente por otro vínculo. |
 | R-05 · F184 figs. 4–7 | IDEF1X: continua/discontinua, punto hijo, P/Z/1 y rombo opcional. | Disponible; Escena contrasta los cuatro casos y vínculo identificador. | La prueba SVG no sustituye inspección visual del dibujo final. |
@@ -71,6 +76,9 @@ construido, sin sustituir la revisión visual.
 | C-04 · T2 pp. 7–8 / P1 pp. 2–3 | Relación nativa, 2/3 participaciones, roles y atributos. | Disponible; Conceptual, N:N/ternaria; Escena, un rombo y ramas; Aplicación, N:N y ternaria GUI con período. | No equivale a crear FKs al dibujar; la relación puede quedar pendiente. |
 | C-05 · T2 pp. 8, 12 / ERE p. 4 | Relación → Varios: mínimo/máximo por rol. | Disponible; Conceptual/Escena, PADRE (0,N) e HIJO (0,1), con distintas orientaciones. | Mínimos residuales son documentales; pares por rama no agotan restricciones n-arias. |
 | C-06 · T2 p. 8 | Recursiva: una entidad repetida con dos roles. | Disponible; Conceptual, participaciones distintas; Escena, dos puertos/ramas identificables. | Compartir entidad no autoriza fusionar roles. |
+| C-15 · ERE p. 4 / P1 p. 3 | Letra 1/N junto al rombo en cada rama. | Disponible; Conceptual, «La letra de cardinalidad se deduce…»; Escena, «Cada rama Chen lleva la letra…»; Aplicación, diálogo y Varios. | Binaria: deducida del máximo de la otra rama. Ternaria: la elige el autor; automática muestra N. |
+| C-16 · ERE p. 2 / T2 p. 5 | Rombo doble del vínculo identificador. | Disponible; Conceptual, «El vínculo identificador se reconoce…»; Escena, rombo doble y FK identificadora proyectada. | Se dibuja al elegir el vínculo en la débil o una FK identificadora; no se deduce de nombres. |
+| C-17 · ERE p. 5 / T2 p. 16 | Arcos de subconjunto en las subclases y doble línea de totalidad. | Disponible (dibujo); Escena, «…las subclases llevan el arco». | La transformación relacional de la jerarquía sigue pendiente (C-13). |
 | C-07 · T3 §3.6 | Correspondencias → tabla asociativa y elección explícita de clave. | Disponible; Conceptual, N:N con atributo y ternaria con período; Aplicación, período en clave y persistencia. | No se supone que todas las FKs basten; la política de identidad la elige el autor. |
 | C-08 · T3 §3.6 | Correspondencias → FK binaria, lado receptor e identificación. | Disponible; Conceptual/Aplicación, materialización y receptor compatible. | Cambiar después a otra estrategia no tiene inversa automática; se conserva la decisión existente o se resuelve desde el origen. |
 | C-09 · T2 p. 5 / T3 §3.6 | Entidad débil → propietaria/vínculo; atributo clave parcial; FK identificadora. | Disponible; Conceptual, PK heredada más parcial y SQL; Aplicación ejecuta los controles de debilidad y vínculo. | Una FK del legado no prueba por sí sola entidad débil conceptual. |

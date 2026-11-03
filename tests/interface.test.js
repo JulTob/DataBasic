@@ -189,3 +189,28 @@ test( 'Una N:N pendiente muestra roles y acceso a materialización sin fingir FK
     assert.match( translation, /Pendiente/ );
     assert.match( translation, /data-action="materialize"/ );
     } );
+
+test( 'Varios ofrece la letra junto al rombo por rama, automática o elegida', () => {
+    const state = interfaceState();
+
+    state.model = addConceptualRelationship(
+            setDiagramMode( state.model, 'chen' ),
+            {
+                name: 'Lectura',
+                participations: [
+                    {entityId: state.model.tables[0].id, role: 'lector', min: 0, max: null},
+                    {entityId: state.model.tables[2].id, role: 'obra', min: 1, max: 1}
+                    ],
+                translation: null
+                }
+            );
+    state.selectedId = state.model.conceptual.relationships.at( -1 ).id;
+    state.category = 'misc';
+
+    const html = renderProperties( state.model, state );
+
+    assert.equal( (html.match( /data-field="cardinality"/g ) || []).length, 2 );
+    assert.match( html, /Automática · 1/, 'lector: el máximo de obra es 1' );
+    assert.match( html, /Automática · N/, 'obra: el máximo de lector es N' );
+    assert.match( html, /máximo de la otra rama/ );
+    } );

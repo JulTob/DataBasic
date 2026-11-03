@@ -189,7 +189,11 @@ async function applicationHarness(
                 preventDefault() {},
                 target: {
                     closest: selector => selector === '[data-diagram-kind]'
-                        ? {dataset: {diagramKind: reference.kind, diagramId: reference.id}}
+                        ? {dataset: {
+                            diagramKind: reference.kind,
+                            diagramId: reference.id,
+                            ...(reference.ownerId ? {ownerId: reference.ownerId} : {})
+                            }}
                         : null
                     }
                 });
@@ -716,6 +720,7 @@ test( 'Las acciones de revisión y especialización abren y aplican el diálogo 
 
     assert.equal( created.total, true );
     assert.equal( created.disjoint, true );
+    assert.equal( app.element( '#properties-name' ).textContent, '— Especialización' );
 
     await app.click({action: 'edit-generalization'});
     assert.match( app.element( '#dialog' ).innerHTML, /Generalización \/ Especialización/ );
@@ -1031,11 +1036,18 @@ test( 'Al recuperar el legado se enfoca la primera tarjeta a escala 100%', async
     const transform = app.element( '#viewport' ).attributes.transform.match(
             /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
             );
-    const first = diagramScene( initial ).nodes[0];
+    const scene = diagramScene( initial );
+    const first = scene.nodes[0];
+    // The FK readings above Socio must stay visible below the floating ribbon:
+    // the view starts at the content above the card, never more than 90 units up.
+    const contentTop = scene.bounds.y + 36;
+    const visibleTop = Math.max( contentTop, first.y - 90 );
 
+    assert.ok( contentTop < first.y, 'el ejemplo tiene rótulos sobre la primera tarjeta' );
     assert.equal( Number( transform[3] ), 1 );
     assert.equal( Number( transform[1] ) + first.x, 20 );
-    assert.equal( Number( transform[2] ) + first.y, 100 );
+    assert.equal( Number( transform[2] ) + visibleTop, 100 );
+    assert.ok( Number( transform[2] ) + first.y <= 190 );
     } );
 
 
@@ -1163,4 +1175,86 @@ test( 'La recuperación inicial diferida conserva un JSON abierto manualmente', 
 
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), imported );
+    } );
+
+test( 'Arrastrar una fila de columna mueve su tabla sin tocar sus columnas', async () => {
+    const initial = exampleDocument();
+    const table = initial.tables[0];
+    const reference = {kind: 'column', id: table.columns[1].id, ownerId: table.id};
+    const app = await applicationHarness( 528, JSON.stringify( initial ) );
+    const start = {x: table.x + 100, y: table.y + 80};
+    const target = {x: start.x + 300, y: start.y + 200};
+
+    app.pointer( 'pointerdown', reference, start );
+    app.pointer( 'pointermove', reference, target );
+    app.pointer( 'pointerup', reference, target );
+    await app.flushTimers();
+
+    const moved = JSON.parse( app.saved() );
+
+    assert.notDeepEqual( [moved.tables[0].x, moved.tables[0].y], [table.x, table.y] );
+    assert.deepEqual( moved.tables[0].columns, table.columns );
+    assert.deepEqual( moved.relationships, initial.relationships );
+    assert.equal( app.writes.length, 1 );
+    } );
+
+test( 'Comprobar el modelo muestra cada aviso pendiente una sola vez', async () => {
+    let initial = emptyDocument( 'course' );
+
+    for (const name of ['Persona', 'Actividad']) {
+        initial = addConceptualEntity( initial, {name} );
+        }
+
+    initial = addConceptualRelationship( initial, {
+        name: 'Inscripcion',
+        participations: initial.conceptual.entities.map(
+                entity => ({entityId: entity.id, role: entity.name, min: 0, max: null})
+                ),
+        translation: null
+        } );
+    initial = setDiagramMode( initial, 'chen' );
+
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({action: 'validate'});
+
+    const html = app.element( '#dialog' ).innerHTML;
+
+    assert.equal( (html.match( /pendiente de estrategia/g ) || []).length, 1 );
+    } );
+
+test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', async () => {
+    let initial = emptyDocument( 'course' );
+
+    for (const name of ['Tecnico', 'Equipo', 'Proyecto']) {
+        initial = addConceptualEntity( initial, {name} );
+        }
+
+    initial = setDiagramMode( initial, 'chen' );
+
+    const [first, second, third] = initial.conceptual.entities.map( entity => entity.id );
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({action: 'conceptual-relationship'});
+    assert.match( app.element( '#dialog' ).innerHTML, /name="cardinality2"/ );
+    app.submit({
+        name: 'UsoMensual', degree: '3',
+        entity0: first, role0: 'operador', min0: '0', max0: 'N', cardinality0: '1',
+        entity1: second, role1: 'recurso', min1: '1', max1: 'N', cardinality1: '',
+        entity2: third, role2: 'contexto', min2: '0', max2: '1', cardinality2: 'N'
+        });
+    await app.flushTimers();
+
+    const relation = JSON.parse( app.saved() ).conceptual.relationships[0];
+
+    assert.deepEqual( relation.participations.map( part => part.cardinality ), ['1', null, 'N'] );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Automática · N/ );
+
+    app.change({participation: relation.participations[1].id, field: 'cardinality'}, '1');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, '1' );
+
+    app.change({participation: relation.participations[1].id, field: 'cardinality'}, '');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, null );
     } );

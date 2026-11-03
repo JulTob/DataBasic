@@ -4,7 +4,6 @@ import {
     removeAlternateKey,
     formatDataType,
     getConceptualProjection,
-    conceptualStatus,
     addConceptualAttribute,
     updateConceptualAttribute,
     addConceptualRelationship,
@@ -247,7 +246,9 @@ export function showIndexDialog(
     }
 
 export function showValidation( model ) {
-    const issues = [...validateDocument( model ), ...conceptualStatus( model )];
+    // validateDocument already reports the pending and documentary statuses
+    // of a format 2 document; appending conceptualStatus again duplicated them.
+    const issues = validateDocument( model );
 
     openDialog(
             'Comprobación del modelo',
@@ -292,7 +293,9 @@ export function showHelp() {
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
                 Incluye un período si distingue ocurrencias repetidas. La relación sigue
-                conservando roles y límites que el SQL no pueda expresar.</p>
+                conservando roles y límites que el SQL no pueda expresar.
+                Junto al rombo se lee la letra 1/N de cada rama; en una binaria es el
+                máximo de la otra rama y en una ternaria la eliges en Varios.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -516,10 +519,16 @@ export function showConceptualRelationshipDialog(
                         <label>Rol<input name="role${index}" value="${escapeHTML( `rol${index + 1}` )}"></label>
                         <div class="parameter-fields">
                         <label>Mínimo<input type="number" min="0" name="min${index}" value="0"></label>
-                        <label>Máximo<input name="max${index}" value="N"></label></div></fieldset>`
+                        <label>Máximo<input name="max${index}" value="N"></label>
+                        <label>Letra junto al rombo<select name="cardinality${index}">${options(
+                                [['', 'Automática'], ['1', '1'], ['N', 'N']],
+                                ''
+                                )}</select></label></div></fieldset>`
                     ).join( '' )}
             <p class="field-hint">Una entidad puede participar varias veces con roles distintos.
-                La relación se crea pendiente: añade sus atributos y elige después su clave.</p></div>`,
+                La relación se crea pendiente: añade sus atributos y elige después su clave.
+                En una binaria la letra automática es el máximo de la otra rama;
+                en una ternaria la letra de cada rama la decides tú.</p></div>`,
             values => {
                 const participations = Array.from(
                         {length: Number( values.get( 'degree' ) )},
@@ -529,7 +538,8 @@ export function showConceptualRelationshipDialog(
                             min: Number( values.get( `min${index}` ) ),
                             max: values.get( `max${index}` ).trim().toUpperCase() === 'N'
                                 ? null
-                                : Number( values.get( `max${index}` ) )
+                                : Number( values.get( `max${index}` ) ),
+                            cardinality: values.get( `cardinality${index}` ) || null
                             })
                         );
                 const next = addConceptualRelationship(

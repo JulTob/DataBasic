@@ -503,6 +503,8 @@ export function updateRelationship(
                     }
 
                 rejectGeneratedStructure( next, 'foreign-key', relationshipId );
+                const wasIdentifying = relation.identifying;
+
                 applyDomainPatch(
                         relation,
                         patch,
@@ -516,6 +518,10 @@ export function updateRelationship(
 
                 if (relation.identifying) {
                     relation.optional = false;
+                    }
+
+                if (wasIdentifying && !relation.identifying) {
+                    releaseIdentifyingColumns( next, relation );
                     }
 
                 for (const pair of relation.mappings) {
@@ -535,6 +541,35 @@ export function updateRelationship(
                     }
                 }
             );
+    }
+
+/**
+ * A relationship that stops being identifying takes its FK columns out of the
+ * child PK, as Visio 2010 does. A column stays in the PK only while another
+ * identifying relationship of the same child still needs it.
+ */
+function releaseIdentifyingColumns(
+        model,
+        relation
+        ) {
+    const child = requireTable( model, relation.childId );
+    const keptByOthers = new Set(
+            model.relationships
+                .filter(
+                        other => other.id !== relation.id
+                            && other.childId === relation.childId
+                            && other.identifying
+                        )
+                .flatMap( other => other.mappings.map( pair => pair.childColumnId ) )
+            );
+
+    for (const pair of relation.mappings) {
+        const field = child.columns.find( item => item.id === pair.childColumnId );
+
+        if (field && !keptByOthers.has( field.id )) {
+            field.primary = false;
+            }
+        }
     }
 
 /** Removal retains migrated columns: they may hold data or serve another FK. */
@@ -1136,6 +1171,11 @@ function validateDocumentShape( model ) {
                                 || Number.isSafeInteger( part.max ) && part.max >= part.min),
                         'Participación: exige 0 <= mínimo <= máximo; null representa N.'
                         );
+                demand(
+                        part.cardinality === undefined || part.cardinality === null
+                            || CARDINALITY_LETTERS.includes( part.cardinality ),
+                        'Participación: la letra de cardinalidad debe ser 1, N o quedar automática.'
+                        );
                 }
 
             if (relation.translation !== null) {
@@ -1529,6 +1569,7 @@ export function getConceptualProjection( model ) {
             notes: 'Proyección parcial desde una FK; no reconstruye el ERE original.',
             projected: true,
             foreignKeyId: relation.id,
+            identifying: relation.identifying,
             translation: null,
             participations: [
                 {
@@ -1855,7 +1896,8 @@ export function addConceptualRelationship(
                                 entityId: part.entityId,
                                 role: part.role || '',
                                 min: part.min ?? 0,
-                                max: part.max ?? null
+                                max: part.max ?? null,
+                                cardinality: normalizeCardinalityLetter( part.cardinality )
                                 })
                             ),
                     translation: structuredClone( definition.translation ?? null )
@@ -1906,9 +1948,72 @@ export function updateConceptualParticipation(
                     throw new Error( 'La participación Chen ya no existe.' );
                     }
 
-                applyDomainPatch( part, patch, ['role', 'min', 'max'] );
+                applyDomainPatch( part, patch, ['role', 'min', 'max', 'cardinality'] );
+
+                if ('cardinality' in patch) {
+                    part.cardinality = normalizeCardinalityLetter( patch.cardinality );
+                    }
+
                 materializeConceptualRelationship( next, relation );
                 }
+            );
+    }
+
+export const CARDINALITY_LETTERS = ['1', 'N'];
+
+/** Accepts 1/N in any case; an empty choice means the letter stays automatic. */
+function normalizeCardinalityLetter( value ) {
+    if (value === undefined || value === null || value === '' || value === 'auto') {
+        return null;
+        }
+
+    const letter = String( value ).trim().toUpperCase();
+
+    if (!CARDINALITY_LETTERS.includes( letter )) {
+        throw new Error( 'La letra de cardinalidad de una rama debe ser 1 o N.' );
+        }
+
+    return letter;
+    }
+
+/**
+ * Course notation: the letter next to the diamond on a branch is the
+ * cardinality ratio of that branch. In a binary relationship it is the
+ * maximum of the other participation; in a ternary the author chooses it.
+ */
+export function participationCardinalityLetter(
+        relation,
+        participation
+        ) {
+    if (CARDINALITY_LETTERS.includes( participation.cardinality )) {
+        return participation.cardinality;
+        }
+
+    const others = relation.participations.filter( item => item.id !== participation.id );
+
+    if (others.length !== 1) {
+        return 'N';
+        }
+
+    return others[0].max === 1 ? '1' : 'N';
+    }
+
+/** A weak entity's chosen link, or an identifying FK strategy, is an identifying link. */
+export function isIdentifyingLink(
+        model,
+        relationshipId
+        ) {
+    const relation = model.conceptual?.relationships.find( item => item.id === relationshipId );
+
+    if (relation?.translation?.kind === 'foreign-key'
+        && relation.translation.identifying === true) {
+        return true;
+        }
+
+    return (model.conceptual?.entities || []).some(
+            entity => entity.weak
+                && entity.translation?.kind === 'weak'
+                && entity.translation.relationshipId === relationshipId
             );
     }
 

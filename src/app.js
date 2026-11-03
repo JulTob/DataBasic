@@ -35,7 +35,8 @@ import {
     diagramScene,
     diagramBounds,
     findFreePosition,
-    resolveDiagramPosition
+    resolveDiagramPosition,
+    SCENE_BOUNDS_MARGIN
     } from './ui/diagram.js';
 import {
     command,
@@ -204,6 +205,16 @@ function revealSelected() {
     renderDiagram();
     }
 
+/** Labels placed just above the focused shape stay visible below the floating ribbon. */
+function focusedTop(
+        scene,
+        node
+        ) {
+    const contentTop = scene.bounds.y + SCENE_BOUNDS_MARGIN;
+
+    return Math.max( contentTop, node.y - 90 );
+    }
+
 function focusDiagram() {
     const scene = diagramScene( state.model );
     const node = scene.nodes.find( item => item.ref.id === state.selectedId )
@@ -212,7 +223,7 @@ function focusDiagram() {
 
     state.viewport = {
         x: node ? 20 - node.x : 0,
-        y: node ? Math.min( 100, bounds.height / 3 ) - node.y : 100,
+        y: node ? Math.min( 100, bounds.height / 3 ) - focusedTop( scene, node ) : 100,
         zoom: 1
         };
     renderDiagram();
@@ -224,7 +235,9 @@ function renderPropertyPane() {
         || selectedNative();
 
     document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
-    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selected.name}` : '';
+    document.querySelector( '#properties-name' ).textContent = selected
+        ? `— ${selected.name ?? 'Especialización'}`
+        : '';
     document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
     document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
     document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
@@ -957,7 +970,7 @@ function fieldChanged( target ) {
         if (target.dataset.participation) {
             const parsed = field === 'max' && String( value ).trim().toUpperCase() === 'N'
                 ? null
-                : field === 'role' ? value : Number( value );
+                : ['role', 'cardinality'].includes( field ) ? value : Number( value );
 
             next = updateConceptualParticipation(
                     state.model,
@@ -1152,7 +1165,11 @@ function pointerDown( event ) {
             const caption = scene.edges.find(
                     item => item.ref.id === ref.id && item.caption
                     )?.caption.bounds;
-            const origin = node || caption;
+            // A column row has no shape of its own: dragging it moves its table.
+            const owner = !node && !caption && ref.kind === 'column'
+                ? scene.nodes.find( item => item.ref.id === ref.ownerId )
+                : null;
+            const origin = node || caption || owner;
 
             if (!origin) {
                 state.propertiesShown = true;
@@ -1161,7 +1178,7 @@ function pointerDown( event ) {
                 }
 
             state.drag = {
-                id: ref.id,
+                id: owner ? owner.ref.id : ref.id,
                 startX: point.x,
                 startY: point.y,
                 originX: origin.x,

@@ -1,6 +1,6 @@
 # DataBasic y Fundamentos de Bases de Datos
 
-Cobertura de **DataBasic 0.3.0**, revisada el 3 de noviembre de 2026.
+Cobertura de **DataBasic 0.3.2**, revisada el 3 de noviembre de 2026 con los PDF del curso aportados en esa sesión.
 La aplicación permite practicar operaciones relacionales y construir ERE
 nativos. La cobertura sigue siendo parcial: guardar una restricción conceptual
 no significa haberla traducido al relacional ni implementado en Access.
@@ -23,12 +23,14 @@ La [guía](practice-guide.md) utiliza ejemplos originales. La
 | FIPS PUB 184 | §§3.1.2–3.1.3 y 3.5.2; figuras 1 y 4–7. | Grafía IDEF1X; no describe botones de Visio. |
 
 Las páginas indicadas son páginas del PDF del curso, no números de diapositiva.
+La [cobertura frente a Visio 2010 y al curso](visio-2010-coverage.md) añade
+la lectura íntegra de la Práctica 1, la introducción al ERE y los temas 1 y 2.
 Los materiales originales no se redistribuyen con la aplicación. Se usan para
 identificar requisitos, sin copiar figuras, ejercicios ni sus soluciones.
 
 ## Cobertura del relacional
 
-| ID | Requisito y fuente | Operación en 0.3.0 | Límite concreto |
+| ID | Requisito y fuente | Operación en 0.3.2 | Límite concreto |
 | --- | --- | --- | --- |
 | FBD-R01 | IDEF1X; práctica p. 3. | Vista → Opciones de visualización → Relaciones → Notación → IDEF1X. Se distinguen cajas, dependencia, líneas y marcadores conforme a FIPS 184. | La prueba de símbolos/SVG no acredita identidad de interfaz ni equivalencia completa con Visio 2010. |
 | FBD-R02 | VARCHAR, CHAR, NUMBER, DATE; práctica p. 3. | Perfil → Curso · 4 tipos; Columnas → Editar… ofrece familia y parámetros. Los nuevos documentos usan este perfil. | General conserva tipos heredados; no hay conversiones silenciosas al cambiar de perfil. |
@@ -45,15 +47,15 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 
 ## Cobertura del conceptual y su transformación
 
-| ID | Requisito y fuente | Operación en 0.3.0 | Situación y carencia |
+| ID | Requisito y fuente | Operación en 0.3.2 | Situación y carencia |
 | --- | --- | --- | --- |
-| FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
+| FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. El vínculo elegido se dibuja con rombo doble. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
 | FBD-C02 | Clave y clave parcial; Tema 2 pp. 11–12. | Atributo → Editar: Clave o Clave parcial; PK/AK materializadas en el relacional. | El autor justifica qué identifica cada ocurrencia. |
 | FBD-C03 | Compuestos; Tema 2 pp. 6–7, introducción p. 3. | Estructura Compuesto y componentes; Traducción → Compuesto · descomponer en componentes. | Descomposición explícita disponible. Un compuesto sin componentes o sin estrategia queda pendiente. |
 | FBD-C04 | Multivaluados y derivados; mismas fuentes. | Marca Multivaluado/Derivado y regla; derivados permiten omitir columna o almacenar sin calcular. | Multivaluados se conservan sin transformar y bloquean SQL completo. La derivación es documental: no se calcula ni genera fórmula SQL. |
 | FBD-C05 | Relaciones con atributos, binarias, N:N, recursivas y ternarias; Tema 2 pp. 7–8 y práctica pp. 2–3. | Chen → Relación; dos o tres participaciones con rol; Atributos; Correspondencias → tabla asociativa o FK binaria. | N:N y ternarias se materializan con clave explícita. Una ternaria no se sustituye por tres binarias. |
-| FBD-C06 | Participación, mín./máx. y roles; Tema 2 pp. 8, 12 e introducción pp. 4, 10. | Varios de la relación nativa; par propio por entidad/rol. Una recursiva conserva participaciones distintas. | Los límites se guardan; algunos quedan documentales. No todos los límites ternarios quedan descritos solo por esos pares. |
-| FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16, introducción p. 5. | Chen → Especialización; superclase, subclases, disyunción y totalidad editables. | Se guardan y dibujan, pero su transformación sigue pendiente y bloquea SQL completo. |
+| FBD-C06 | Participación, mín./máx., letras 1/N y roles; Tema 2 pp. 8, 12 e introducción pp. 4, 10; práctica p. 3. | Varios de la relación nativa; par (mín,máx) y letra junto al rombo por entidad/rol. Una recursiva conserva participaciones distintas. | En binarias la letra se deduce del máximo de la otra rama; en ternarias la elige el autor. Algunos límites quedan documentales. |
+| FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16, introducción p. 5. | Chen → Especialización; superclase, subclases, disyunción y totalidad editables; círculo d/s, doble línea si total y arco de subconjunto en cada subclase. | Se guardan y dibujan, pero su transformación sigue pendiente y bloquea SQL completo. |
 | FBD-D01 | Supuestos y semántica perdida; introducción pp. 5–10, práctica p. 2 y Tema 3 p. 9. | Notas por objeto; revisión de pendientes/documentales y Ver origen. | No hay memoria justificativa global generada. La argumentación sigue correspondiendo al autor. |
 | FBD-T01 | Transformar sin perder hechos; Tema 3 §3.6 y práctica p. 4. | Correspondencias conservadas; materialización explícita de binarias, asociaciones, débiles y compuestos; derivados con política. | No hay conversor ERE universal. Jerarquías/multivaluados pendientes; no se reconstruye un ERE único desde cualquier relacional. |
 

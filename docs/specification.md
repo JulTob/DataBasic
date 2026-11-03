@@ -1,4 +1,4 @@
-# DataBasic 0.3.1 — especificación funcional
+# DataBasic 0.3.2 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -7,12 +7,14 @@ atribuye esa función a Visio 2010 ni se promete equivalencia completa.
 
 La [guía](practice-guide.md) describe operaciones; la
 [matriz funcional](functional-audit.md) enlaza fuentes, controles y pruebas.
+La [cobertura frente a Visio 2010 y al curso](visio-2010-coverage.md)
+recorre función por función qué existe, qué es parcial y qué falta.
 Los resultados de ejecución y publicación están en
 [verificación](verification.md).
 
 ## Documento y representaciones
 
-La aplicación 0.3.1 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.3.2 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -42,9 +44,9 @@ haya implementado una base de datos física en un SGBD.
 | Tabla → Identificador principal | Selección de una o varias columnas PK. |
 | Tabla → Índices / Claves alternativas | Índices separados de las claves candidatas alternativas; creación, edición y eliminación. |
 | FK → Definición / Nombre | Correspondencia de todos los componentes PK/FK y textos de lectura. |
-| FK → Varios | Cardinalidad y dependencia: hijos por padre, identificación y si el hijo admite ausencia de padre. |
+| FK → Varios | Cardinalidad y dependencia: hijos por padre, identificación y si el hijo admite ausencia de padre. Volver a no identificadora saca la FK de la PK hija, salvo que otra relación identificadora la necesite. |
 | FK → Acción referencial | Acción al borrar el padre o actualizar su clave. |
-| Chen → Relación | Dos o tres participaciones, entidad, rol y mínimo/máximo por rama. Puede repetirse una entidad en roles distintos. |
+| Chen → Relación | Dos o tres participaciones, entidad, rol, mínimo/máximo y letra 1/N por rama. Puede repetirse una entidad en roles distintos. |
 | Relación nativa → Atributos / Varios / Correspondencias | Atributos propios; roles y límites; elección de estrategia y clave. |
 | Chen → Atributo / Especialización | Tipología y dominio de atributos; superclase, subclases, disyunción y totalidad. La transformación puede seguir pendiente. |
 | Vista → Opciones de visualización | General, Tablas y Relaciones; nombres, tipos, claves, requerido, notación y textos. |
@@ -81,7 +83,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.3.1 |
+| Construcción | Alcance 0.3.2 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -97,6 +99,16 @@ ocurrencias de la relación admite una ocurrencia de la entidad. No se copian
 sin más los marcadores PK/FK. Los pares de una ternaria no expresan por sí
 solos todas sus restricciones posibles; se conservan también las notas.
 
+La grafía Chen sigue la introducción al ERE del curso: la **letra 1/N** junto
+al rombo es la razón de cardinalidad de esa rama. En una binaria se deduce
+como el máximo de la otra participación y no se edita; en una ternaria cada
+rama guarda su letra (`cardinality`, opcional en el formato 2) y el autor la
+elige. La **participación total** (mínimo mayor que cero) se dibuja con doble
+línea. El **vínculo identificador** de una entidad débil, o una estrategia FK
+identificadora, dibuja el rombo doble. En una especialización, el círculo
+muestra `d` o `s`, la doble línea indica totalidad y cada subclase lleva el
+arco de subconjunto abierto hacia el círculo.
+
 ## Dibujo, archivos y SQL
 
 IDEF1X distingue entidades independientes/dependientes, vínculos
@@ -106,7 +118,9 @@ cuervo. Estas últimas y la flecha relacional siguen siendo opciones separadas.
 Tipos completos, nombres y marcadores alimentan los mismos límites para
 ajuste, SVG e impresión. La revisión en navegador sigue su registro propio.
 
-El rombo Chen y el bloque de lecturas de una FK se arrastran. La posición
+El rombo Chen y el bloque de lecturas de una FK se arrastran. Una tabla se
+arrastra desde su título o desde cualquiera de sus filas; un clic sin
+movimiento sobre una fila selecciona esa columna. La posición
 resuelta evita las cajas de otras formas y rótulos; incluye el aviso de una
 relación pendiente. Las etiquetas Chen consideran también las otras ramas
 y las generalizaciones. Las guías permanecen unidas a su conector. No se
@@ -117,7 +131,8 @@ Las posiciones de bloques FK se guardan en el mapa opcional
 formato 2 anteriores sin ese mapa siguen abriendo. Mover no cambia claves,
 participaciones ni SQL. El arrastre sólo se confirma al soltar; Escape o la
 cancelación del puntero lo descartan. Un clic abre las propiedades sin cambiar
-la geometría. Distribuir recoloca los nodos y reinicia las posiciones manuales
+la geometría. Al abrir un documento, la vista deja visibles los rótulos
+situados justo encima de la primera forma, bajo la barra flotante. Distribuir recoloca los nodos y reinicia las posiciones manuales
 de los bloques relacionales en una operación que puede deshacerse.
 Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 

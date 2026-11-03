@@ -589,3 +589,107 @@ test( 'Cambiar la clave de asociación conserva identidades de tablas, columnas 
     assert.equal( model.tables.at( -1 ).columns.filter( field => field.primary ).length, 4 );
     assert.deepEqual( parseDocument( serializeDocument( model ) ), model );
     } );
+
+test( 'La letra de cardinalidad se deduce en binarias y se elige en ternarias', () => {
+    const binary = pendingRelation( 2 );
+    const relation = binary.conceptual.relationships[0];
+
+    assert.equal( domain.participationCardinalityLetter( relation, relation.participations[0] ), 'N' );
+    assert.equal( relation.participations[0].cardinality, null );
+
+    const limited = domain.updateConceptualParticipation(
+            binary,
+            relation.id,
+            relation.participations[1].id,
+            {max: 1}
+            );
+    const updated = limited.conceptual.relationships[0];
+
+    // The letter on a branch is the maximum of the other branch.
+    assert.equal( domain.participationCardinalityLetter( updated, updated.participations[0] ), '1' );
+    assert.equal( domain.participationCardinalityLetter( updated, updated.participations[1] ), 'N' );
+
+    const ternary = pendingRelation( 3 );
+    const three = ternary.conceptual.relationships[0];
+
+    assert.equal( domain.participationCardinalityLetter( three, three.participations[0] ), 'N' );
+
+    const chosen = domain.updateConceptualParticipation(
+            ternary,
+            three.id,
+            three.participations[0].id,
+            {cardinality: '1'}
+            );
+    const chosenRelation = chosen.conceptual.relationships[0];
+
+    assert.equal( chosenRelation.participations[0].cardinality, '1' );
+    assert.equal( domain.participationCardinalityLetter( chosenRelation, chosenRelation.participations[0] ), '1' );
+    assert.throws(
+            () => domain.updateConceptualParticipation( ternary, three.id, three.participations[0].id, {cardinality: 'M'} ),
+            /1 o N/
+            );
+    assert.equal( ternary.conceptual.relationships[0].participations[0].cardinality, null );
+
+    const cleared = domain.updateConceptualParticipation(
+            chosen,
+            three.id,
+            three.participations[0].id,
+            {cardinality: ''}
+            );
+
+    assert.equal( cleared.conceptual.relationships[0].participations[0].cardinality, null );
+    assert.deepEqual( parseDocument( serializeDocument( chosen ) ), chosen );
+
+    const broken = structuredClone( chosen );
+
+    broken.conceptual.relationships[0].participations[0].cardinality = 'M';
+    assert.throws( () => parseDocument( JSON.stringify( broken ) ), /letra de cardinalidad/ );
+    } );
+
+test( 'Un formato 2 anterior sin letras abre y deduce la letra automática', () => {
+    const legacy = JSON.parse( serializeDocument( pendingRelation( 2 ) ) );
+
+    for (const part of legacy.conceptual.relationships[0].participations) {
+        delete part.cardinality;
+        }
+
+    const opened = parseDocument( JSON.stringify( legacy ) );
+    const relation = opened.conceptual.relationships[0];
+
+    assert.equal( relation.participations[0].cardinality, undefined );
+    assert.equal( domain.participationCardinalityLetter( relation, relation.participations[0] ), 'N' );
+    } );
+
+test( 'El vínculo identificador se reconoce por la débil o por la FK identificadora', () => {
+    let model = nativeFixture( 1 );
+    const ownerId = model.conceptual.entities[0].id;
+
+    model = domain.addConceptualEntity( model, {name: 'Pago', weak: true, ownerEntityId: ownerId} );
+
+    const childId = model.conceptual.entities[1].id;
+
+    model = domain.addConceptualRelationship( model, {
+        name: 'Realiza',
+        participations: [
+            {entityId: ownerId, role: 'pagador', min: 0, max: null},
+            {entityId: childId, role: 'abono', min: 1, max: 1}
+            ]
+        });
+
+    const relation = model.conceptual.relationships[0];
+
+    assert.equal( domain.isIdentifyingLink( model, relation.id ), false );
+
+    const identifying = domain.updateConceptualRelationship( model, relation.id, {
+        translation: {kind: 'foreign-key', childParticipationId: relation.participations[1].id, identifying: true}
+        });
+
+    assert.equal( domain.isIdentifyingLink( identifying, relation.id ), true );
+
+    const declared = domain.updateConceptualEntity( model, childId, {
+        translation: {kind: 'weak', relationshipId: relation.id}
+        });
+
+    assert.equal( domain.isIdentifyingLink( declared, relation.id ), true );
+    assert.equal( domain.isIdentifyingLink( pendingRelation( 2 ), pendingRelation( 2 ).conceptual.relationships[0].id ), false );
+    } );

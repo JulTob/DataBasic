@@ -1,8 +1,13 @@
-import { getConceptualProjection } from '../domain/model.js';
+import {
+    getConceptualProjection,
+    isIdentifyingLink,
+    participationCardinalityLetter
+    } from '../domain/model.js';
 
 export const SCENE_TABLE_WIDTH = 320;
 export const SCENE_ROW_HEIGHT = 48;
 export const SCENE_HEADER_HEIGHT = 32;
+export const SCENE_MARGIN = 36;
 
 function sceneTextWidth( text, size = 14 ) {
     return Array.from( String( text ) ).reduce(
@@ -647,7 +652,10 @@ function sceneConceptualRelationships(
             ...size,
             relation,
             labelLines,
-            pending: !relation.projected && relation.translation === null
+            pending: !relation.projected && relation.translation === null,
+            identifying: relation.projected
+                ? Boolean( relation.identifying )
+                : isIdentifyingLink( model, relation.id )
             });
         }
     }
@@ -814,6 +822,18 @@ function sceneParticipationEdge(
                 ) );
         }
 
+    // Course notation: the 1/N letter sits by the diamond, opposite the (min,max) pair.
+    labels.push({
+        ...sceneBranchLabel(
+                participationCardinalityLetter( relationNode.relation, participation ),
+                'cardinality',
+                {x: start.x - dx * 0.18, y: start.y - dy * 0.18},
+                {x: -outward.x, y: -outward.y},
+                [...obstacles, ...labels.map( label => label.bounds )]
+                ),
+        plain: true
+        });
+
     return {
         id: `participation:${participation.id}`,
         ref: {kind: 'participation', id: participation.id, ownerId: relationNode.ref.id},
@@ -868,7 +888,8 @@ function sceneGeneralizations(
                     scenePointOnNode( entity, sceneCenter( node ) )
                     ],
                 labels: [],
-                total: index === 0 && generalization.total
+                total: index === 0 && generalization.total,
+                subset: index > 0
                 });
             }
         }
@@ -943,10 +964,10 @@ function sceneCompleteBounds(
         return {x: 0, y: 0, width: 800, height: 500};
         }
 
-    const x = Math.min( ...rectangles.map( item => item.x ) ) - 36;
-    const y = Math.min( ...rectangles.map( item => item.y ) ) - 36;
-    const right = Math.max( ...rectangles.map( item => item.x + item.width ) ) + 36;
-    const bottom = Math.max( ...rectangles.map( item => item.y + item.height ) ) + 36;
+    const x = Math.min( ...rectangles.map( item => item.x ) ) - SCENE_MARGIN;
+    const y = Math.min( ...rectangles.map( item => item.y ) ) - SCENE_MARGIN;
+    const right = Math.max( ...rectangles.map( item => item.x + item.width ) ) + SCENE_MARGIN;
+    const bottom = Math.max( ...rectangles.map( item => item.y + item.height ) ) + SCENE_MARGIN;
 
     return {x, y, width: right - x, height: bottom - y};
     }
