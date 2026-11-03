@@ -154,6 +154,97 @@ test( 'Ambas lecturas y cardinalidad tienen etiquetas distintas, incluidas en bo
         }
     } );
 
+test( 'Las lecturas relacionales del ejemplo Graphviz no colisionan y conservan su conector', () => {
+    let model = emptyDocument( 'course' );
+    const positions = [{x: 50, y: 50}, {x: 50, y: 192}, {x: 456, y: 73}];
+
+    for (const [index, name] of ['Persona', 'Actividad', 'Inscripcion'].entries()) {
+        model = addTable( model, 'entity', positions[index] );
+        model = updateTable( model, model.tables.at( -1 ).id, {name} );
+        }
+
+    for (const [index, inverse] of ['persona', 'actividad'].entries()) {
+        model = addRelationship( model, model.tables[index].id, model.tables[2].id );
+        model = updateRelationship( model, model.relationships.at( -1 ).id, {
+            identifying: true,
+            forward: 'Inscripcion',
+            inverse
+            } );
+        }
+
+    const expectedPoints = [
+        [
+            {x: 370, y: 133.67487684729065},
+            {x: 413, y: 133.67487684729065},
+            {x: 413, y: 148.71428571428572},
+            {x: 456, y: 148.71428571428572}
+            ],
+        [
+            {x: 350, y: 224},
+            {x: 423, y: 224},
+            {x: 423, y: 204.67487684729065},
+            {x: 456, y: 204.67487684729065}
+            ]
+        ];
+    const overlaps = (first, second) => first.x < second.x + second.width
+        && first.x + first.width > second.x
+        && first.y < second.y + second.height
+        && first.y + first.height > second.y;
+
+    for (const cardinality of [false, true]) {
+        model.display.cardinality = cardinality;
+        const scene = diagramScene( model );
+        const captions = scene.edges.map( edge => edge.caption.bounds );
+        const svg = exportSVG( model );
+
+        assert.equal( overlaps( captions[0], captions[1] ), false );
+
+        for (const [index, edge] of scene.edges.entries()) {
+            assert.deepEqual( edge.points, expectedPoints[index] );
+            assert.equal( edge.labels.length, cardinality ? 3 : 2 );
+            assert.equal( edge.labels[0].text, '→ Inscripcion' );
+            assert.equal( edge.labels[1].text, index === 0 ? '← persona' : '← actividad' );
+            sceneAssertContained( scene.bounds, edge.caption.bounds );
+
+            for (const node of scene.nodes) {
+                assert.equal( overlaps( edge.caption.bounds, node ), false );
+                const [start, end] = edge.caption.leader;
+                const leaderArea = {
+                    x: Math.min( start.x, end.x ) - 1,
+                    y: Math.min( start.y, end.y ),
+                    width: Math.abs( start.x - end.x ) + 2,
+                    height: Math.abs( start.y - end.y )
+                    };
+
+                assert.equal( overlaps( leaderArea, node ), false );
+                }
+
+            for (const [labelIndex, label] of edge.labels.entries()) {
+                sceneAssertContained( edge.caption.bounds, label.bounds );
+
+                for (const other of edge.labels.slice( labelIndex + 1 )) {
+                    assert.equal( overlaps( label.bounds, other.bounds ), false );
+                    }
+                }
+
+            const anchor = edge.caption.anchor;
+
+            assert.ok( edge.points.slice( 1 ).some(
+                    (end, segmentIndex) => {
+                        const start = edge.points[segmentIndex];
+
+                        return anchor.x >= Math.min( start.x, end.x )
+                            && anchor.x <= Math.max( start.x, end.x )
+                            && anchor.y >= Math.min( start.y, end.y )
+                            && anchor.y <= Math.max( start.y, end.y );
+                        }
+                    ) );
+            assert.ok( svg.includes( `data-label-for="${edge.ref.id}"` ) );
+            assert.ok( svg.includes( `data-label-leader="${edge.ref.id}"` ) );
+            }
+        }
+    } );
+
 test( 'Chen proyectado pone PADRE (0,N) e HIJO (0,1) en sus propias ramas', () => {
     const model = setDiagramMode( sceneLinkedFixture(), 'chen' );
 
