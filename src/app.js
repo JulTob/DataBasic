@@ -352,12 +352,18 @@ function fitDiagram() {
     const top = Math.min( ...state.model.tables.map( table => table.y ) ) - 45;
     const right = Math.max( ...state.model.tables.map( table => table.x + TABLE_WIDTH ) ) + 70;
     const bottom = Math.max( ...state.model.tables.map( table => table.y + tableHeight( table ) ) ) + 60;
-    const zoom = Math.min( 1.1, bounds.width / (right - left), bounds.height / (bottom - top) );
+    const toolbarInset = Math.min( 76, bounds.height / 3 );
+    const contentHeight = Math.max( 100, bounds.height - toolbarInset );
+    const zoom = Math.min(
+            1.1,
+            bounds.width / (right - left),
+            contentHeight / (bottom - top)
+            );
 
     state.viewport = {
         zoom,
         x: (bounds.width - (right - left) * zoom) / 2 - left * zoom,
-        y: (bounds.height - (bottom - top) * zoom) / 2 - top * zoom
+        y: toolbarInset + (contentHeight - (bottom - top) * zoom) / 2 - top * zoom
         };
     renderDiagram();
     }
