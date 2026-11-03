@@ -1,3 +1,4 @@
+import { getConceptualProjection } from '../domain/model.js';
 import {
     command,
     escapeHTML,
@@ -26,10 +27,12 @@ export function ribbonContents( state ) {
     const disabled = state.selectedId ? '' : 'disabled';
     const entitySelected = state.model.tables.some( table => table.id === state.selectedId );
     const tableDisabled = entitySelected ? '' : 'disabled';
+    const chen = state.model.display.mode === 'chen';
     const shapes = ribbonGroup(
             'Modelo',
             command( 'entity', 'Entidad', 'table-2', 'class="ribbon-large"' )
-                + command( 'view-shape', 'Vista', 'panels-top-left', 'class="ribbon-large"' )
+                + (chen ? command( 'conceptual-attribute', 'Atributo', 'circle', 'class="ribbon-large"' )
+                    : command( 'view-shape', 'Vista SQL', 'panels-top-left', 'class="ribbon-large"' ))
                 + command( 'relationship', 'Relación', 'git-branch', `class="ribbon-large ${state.tool === 'relationship' ? 'pressed' : ''}"` )
             );
     const windows = ribbonGroup(
@@ -129,33 +132,28 @@ export function initialLayout( state ) {
                 ).join( '' )}
         <span class="ribbon-spacer"></span>
         <button data-action="help" class="help-button" title="Ayuda">${icon( 'circle-help' )}</button></nav>
+        <section class="model-controls" aria-label="Representación y perfil">
+        <div class="mode-switch" role="group" aria-label="Representación del documento">
+        <button data-mode="relational" aria-pressed="true">Relacional</button>
+        <button data-mode="chen" aria-pressed="false">Chen</button></div>
+        <label>Perfil<select id="profile-select" data-profile>
+            <option value="course">Curso · 4 tipos</option>
+            <option value="general">General</option></select></label>
+        <button data-action="validate" id="model-status">Un documento · representaciones vinculadas</button>
+        </section>
         <main class="workspace"><aside class="shapes-panel" aria-label="Formas">
         <div class="pane-heading">Formas ${icon( 'panel-left' )}</div>
         <div class="stencil-heading">Construye tu modelo</div>
-        <div class="shape-palette">
-        <button draggable="true" data-shape="entity" data-action="entity" aria-label="Entidad"
-            title="Arrastra al lienzo o pulsa para crear">
-            <span class="shape-preview">${icon( 'table-2' )}</span>
-            <span class="shape-label"><strong>Entidad</strong><small>Tabla y columnas</small></span>
-            ${icon( 'plus' )}</button>
-        <button data-action="relationship" aria-label="Relación" title="Selecciona el padre y después el hijo">
-            <span class="shape-preview">${icon( 'git-branch' )}</span>
-            <span class="shape-label"><strong>Relación</strong><small>Conecta dos entidades</small></span>
-            ${icon( 'plus' )}</button>
-        <button draggable="true" data-shape="view" data-action="view-shape" aria-label="Vista">
-            <span class="shape-preview">${icon( 'panels-top-left' )}</span>
-            <span class="shape-label"><strong>Vista</strong><small>Vista del modelo</small></span>
-            ${icon( 'plus' )}</button>
-        </div>
-        <div class="stencil-tip">Arrastra una forma al lienzo.<br>Doble clic para editar sus columnas.</div>
-        <div class="model-explorer"><div class="pane-heading">Tablas y vistas</div>
+        <div class="shape-palette">${paletteContents( state )}</div>
+        <div id="stencil-tip" class="stencil-tip">Arrastra una forma al lienzo.<br>Doble clic para editar sus columnas.</div>
+        <div class="model-explorer"><div id="explorer-heading" class="pane-heading">Tablas y vistas</div>
         <div id="entity-list"></div></div>
         <div class="shapes-footer">${icon( 'lock-keyhole' )}<span>Tus ejercicios se guardan<br>en este navegador</span></div>
         </aside>
         <section class="drawing-area" aria-label="Área de dibujo">
         <div class="canvas-host">
         <section id="ribbon" class="ribbon" aria-label="Herramientas"></section>
-        <div class="drawing-heading"><span>${icon( 'file-spreadsheet' )} Diagrama relacional</span>
+        <div class="drawing-heading"><span>${icon( 'file-spreadsheet' )}<span id="diagram-mode-label">Diagrama relacional</span></span>
             <span id="save-status">Recuperando ejercicio…</span></div>
         <svg id="canvas" xmlns="http://www.w3.org/2000/svg" aria-label="Lienzo del modelo de base de datos">
             <g id="viewport"></g></svg>
@@ -180,9 +178,42 @@ export function initialLayout( state ) {
     }
 
 export function explorerContents( state ) {
+    if (state.model.display.mode === 'chen') {
+        const projection = getConceptualProjection( state.model );
+
+        return [...projection.entities, ...projection.relationships].map(
+                item => `<button data-select="${item.id}" class="${item.id === state.selectedId ? 'active' : ''}">
+                    ${icon( item.participations ? 'diamond' : 'square' )}
+                    <span>${escapeHTML( item.name )}</span><small>${item.projected ? 'Proyección' : 'Nativo'}</small></button>`
+                ).join( '' ) || '<p class="explorer-empty">Todavía no hay entidades.</p>';
+        }
+
     return state.model.tables.map(
             table => `<button data-select="${table.id}" class="${table.id === state.selectedId ? 'active' : ''}">
                 ${icon( table.kind === 'view' ? 'panels-top-left' : 'table-2' )}
                 <span>${escapeHTML( table.name )}</span><small>${table.columns.length}</small></button>`
             ).join( '' ) || '<p class="explorer-empty">Todavía no hay entidades.</p>';
+    }
+
+
+export function paletteContents( state ) {
+    const chen = state.model.display.mode === 'chen';
+    const forms = chen ? [
+        ['entity', 'Entidad', 'Conceptual nativa', 'square'],
+        ['conceptual-attribute', 'Atributo', 'Clave, compuesto, multivaluado…', 'circle'],
+        ['conceptual-relationship', 'Relación', 'Binaria, N:N o ternaria', 'diamond'],
+        ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
+        ] : [
+        ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
+        ['relationship', 'Relación', 'Selecciona padre e hijo', 'git-branch'],
+        ['view-shape', 'Vista SQL', 'Consulta y columnas', 'panels-top-left']
+        ];
+
+    return forms.map(
+            ([action, label, description, glyph]) => `<button data-action="${action}"
+                ${action === 'entity' ? 'draggable="true" data-shape="entity"' : ''}>
+                <span class="shape-preview">${icon( glyph )}</span>
+                <span class="shape-label"><strong>${label}</strong><small>${description}</small></span>
+                ${icon( 'plus' )}</button>`
+            ).join( '' );
     }
