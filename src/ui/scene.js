@@ -1,4 +1,7 @@
-import { getConceptualProjection } from '../domain/model.js';
+import {
+    conceptualStatus,
+    getConceptualProjection
+    } from '../domain/model.js';
 
 export const SCENE_TABLE_WIDTH = 320;
 export const SCENE_ROW_HEIGHT = 48;
@@ -621,6 +624,10 @@ function sceneConceptualRelationships(
         graph,
         nodes
         ) {
+    const pending = new Set( conceptualStatus( model ).filter(
+            status => status.code === 'pending'
+            ).map( status => status.elementId ) );
+
     for (const relation of graph.relationships) {
         const participants = relation.participations.map(
                 participation => nodes.find( node => node.ref.id === participation.entityId )
@@ -646,8 +653,11 @@ function sceneConceptualRelationships(
             ...position,
             ...size,
             relation,
+            cardinalityContextNames: relation.translation?.cardinalityContextAttributeIds?.map(
+                    id => graph.attributes.find( attribute => attribute.id === id )?.name || id
+                    ),
             labelLines,
-            pending: !relation.projected && relation.translation === null
+            pending: !relation.projected && pending.has( relation.id )
             });
         }
     }
@@ -811,6 +821,25 @@ function sceneParticipationEdge(
                 {x: end.x + dx * 0.5, y: end.y + dy * 0.5},
                 {x: -outward.x, y: -outward.y},
                 [...obstacles, labels[0].bounds]
+                ) );
+        }
+
+    if (relationNode.relation.participations.length === 3 && participation.cardinality) {
+        const names = relationNode.cardinalityContextNames;
+        const needsContext = relationNode.relation.participations.some(
+                part => part.cardinality === 'one'
+                );
+        const context = names
+            ? names.length ? ` + ${names.join( ', ' )}` : ' global'
+            : needsContext ? ' · contexto pendiente' : '';
+        const maximum = participation.cardinality === 'one' ? '1' : 'N';
+
+        labels.push( sceneBranchLabel(
+                `${maximum} · combinación${context}`,
+                'combination-cardinality',
+                {x: end.x + dx * 0.8, y: end.y + dy * 0.8},
+                outward,
+                [...obstacles, ...labels.map( label => label.bounds )]
                 ) );
         }
 
