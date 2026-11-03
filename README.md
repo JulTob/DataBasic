@@ -1,8 +1,8 @@
 # DataBasic
 
 Un modelador educativo de bases de datos que funciona en el navegador.
-Su espacio de trabajo tiene una cinta superior, formas a la izquierda,
-diagrama y propiedades abajo. Microsoft Visio 2010 ha servido como referencia
+Su espacio de trabajo combina menús superiores, herramientas flotantes,
+formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010 ha servido como referencia
 funcional y visual para esta implementación independiente.
 
 La primera versión permite crear entidades y vistas, editar columnas, definir
@@ -16,7 +16,9 @@ conceptual ERE.
 Consulta los [requisitos del curso](docs/course-requirements.md) y el alcance
 en [la especificación](docs/specification.md).
 
-La versión 0.1.1 incorpora NUMBER y sus variantes con precisión y escala.
+La versión 0.2.0 presenta un lienzo punteado, entidades en tarjetas y paneles
+suaves, conservando los comandos y los ejercicios guardados.
+La versión 0.1.1 incorporó NUMBER y sus variantes con precisión y escala.
 El editor general todavía admite otros tipos: no verifica por sí solo la
 restricción de usar únicamente los cuatro tipos permitidos en la práctica.
 
