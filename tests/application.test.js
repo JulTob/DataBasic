@@ -172,28 +172,42 @@ test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guard
     assert.match( app.element( '#save-status' ).textContent, /Guardado/ );
     } );
 
-test( 'Ajustar el dibujo deja visibles las tablas bajo la barra flotante', async () => {
-    const height = 260;
-    const app = await applicationHarness( height );
+test(
+        'Ajustar el dibujo deja visibles las tablas bajo la barra flotante',
+        async () => {
+            const height = 260;
+            const app = await applicationHarness( height );
 
-    await app.click({action: 'fit'});
+            await app.click({action: 'fit'});
 
-    const transform = app.element( '#viewport' ).attributes.transform;
-    const match = transform.match( /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/ );
+            const transform = app.element( '#viewport' ).attributes.transform;
+            const match = transform.match(
+                    /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
+                    );
 
-    assert.ok( match, 'El lienzo debe tener una transformación visible.' );
+            assert.ok(
+                    match,
+                    'El lienzo debe tener una transformación visible.'
+                    );
 
-    const offsetY = Number( match[2] );
-    const zoom = Number( match[3] );
+            const offsetY = Number( match[2] );
+            const zoom = Number( match[3] );
 
-    for (const table of exampleDocument().tables) {
-        const top = offsetY + table.y * zoom;
-        const bottom = top + tableHeight( table ) * zoom;
+            for (const table of exampleDocument().tables) {
+                const top = offsetY + table.y * zoom;
+                const bottom = top + tableHeight( table ) * zoom;
 
-        assert.ok( top >= 76, 'Una tabla no debe quedar detrás de las herramientas.' );
-        assert.ok( bottom <= height, 'Una tabla no debe quedar bajo el borde del lienzo.' );
-        }
-    } );
+                assert.ok(
+                        top >= 76,
+                        'Una tabla no debe quedar detrás de las herramientas.'
+                        );
+                assert.ok(
+                        bottom <= height,
+                        'Una tabla no debe quedar bajo el borde del lienzo.'
+                        );
+                }
+            }
+        );
 
 test( 'La selección del lienzo permite crear una relación y abrir sus propiedades', async () => {
     const app = await applicationHarness();
