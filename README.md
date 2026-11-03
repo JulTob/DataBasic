@@ -5,14 +5,18 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.3.1** permite editar un documento con dos representaciones:
+La versión **0.4.0** permite editar un documento con dos representaciones:
 **Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
 conceptuales. El botón cambia la representación; las transformaciones se
 eligen por separado y conservan sus correspondencias.
 
 Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
 dominios, valores predeterminados, acciones referenciales y relaciones N:N
-y ternarias con roles y atributos. Los estados pendientes pueden guardarse;
+y ternarias con roles y atributos. Materializa multivaluados simples/compuestos
+como tablas auxiliares y jerarquías como tablas de superclase/subclases.
+La cardinalidad ternaria por combinación tiene contexto explícito, separado
+de la identidad de ocurrencia y de los mínimos/máximos de participación.
+Los estados pendientes pueden guardarse;
 no se presentan como transformaciones ya terminadas. Chen es una ampliación
 educativa de DataBasic para el curso.
 
@@ -21,7 +25,9 @@ recolocar las relaciones. El arrastre busca hueco entre formas y rótulos;
 las posiciones se guardan por vista. **Distribuir** vuelve a organizarlas
 y **Deshacer** recupera la disposición anterior.
 
-Empieza por la [guía de práctica](docs/practice-guide.md). La
+Empieza por la [guía del club de observación](docs/practice-guide.md):
+un núcleo de tres entidades y [once archivos editables](examples/README.md),
+con puntos de partida pendientes y resultados para comparar. La
 [matriz funcional](docs/functional-audit.md) distingue operaciones disponibles,
 pruebas y carencias; los [requisitos del curso](docs/course-requirements.md)
 explican el alcance académico.
@@ -145,10 +151,14 @@ rechazada conserva el estado anterior y explica la causa.
 
 - Las FKs referencian la PK completa; no pueden elegir una clave alternativa
   como destino. Las claves alternativas sí pueden crearse y exportarse.
-- Las especializaciones y los atributos multivaluados se editan y guardan,
-  pero su transformación relacional sigue pendiente y bloquea el SQL completo.
+- Los multivaluados requieren elegir su tabla auxiliar; una jerarquía requiere
+  elegir tablas de superclase/subclases y resolver expresamente las PK locales.
+  Disjunta/solapada y total/parcial se conservan como restricciones documentales.
+  Las otras tres estrategias de jerarquías del tema no están implementadas.
 - Las restricciones de participación se conservan por rol; una FK no impone
-  todos los mínimos o máximos conceptuales.
+  todos los mínimos o máximos conceptuales. Las decisiones nuevas incompletas
+  bloquean el SQL completo. Un archivo ternario anterior sin cardinalidad por
+  combinación conserva su SQL; ese dato permanece desconocido documental.
 - No hay ingeniería inversa, ODBC, ejecución SQL, triggers ni tipos objeto.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
   debe revisarse para el motor de clase. Las participaciones mínimas del padre
