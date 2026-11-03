@@ -7,6 +7,7 @@ import {
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { bundleSource } from './bundle.mjs';
 
 const root = fileURLToPath( new URL( '../', import.meta.url ) );
 const output = resolve( root, 'dist' );
@@ -23,31 +24,7 @@ function versionedAssetURL(
     return `./${name}?v=${version}`;
     }
 
-// This fixed module order also produces a local, double-clickable application.
-// No dependency downloads, CDN, transpiler or network are needed for a build.
-const modules = [
-    'domain/model.js',
-    'domain/serialization.js',
-    'io/sql.js',
-    'ui/html.js',
-    'ui/diagram.js',
-    'ui/properties.js',
-    'ui/layout.js',
-    'ui/dialogs.js',
-    'app.js'
-    ];
-const fragments = [];
-
-for (const name of modules) {
-    const source = await readFile( resolve( root, 'src', name ), 'utf8' );
-    const browserCode = source
-        .replace( /^import\s+[\s\S]*?\s+from\s+['"][^'"]+['"];\s*/gm, '' )
-        .replace( /^export\s+/gm, '' );
-
-    fragments.push( `// ${name}\n${browserCode}` );
-    }
-
-const bundle = `(() => {\n'use strict';\n${fragments.join( '\n' )}\n})();\n`;
+const bundle = await bundleSource( root );
 const stylesheet = await readFile(
         resolve( root, 'src/styles.css' ),
         'utf8'
