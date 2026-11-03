@@ -1,4 +1,7 @@
-import { validateDocument } from '../domain/model.js';
+import {
+    conceptualStatus,
+    validateDocument
+    } from '../domain/model.js';
 
 function identifier( name ) {
     return `"${name.replaceAll( '"', '""' )}"`;
@@ -26,12 +29,24 @@ export function exportSQL( model ) {
         throw new Error( errors[0].message );
         }
 
+    const pending = conceptualStatus( model ).find( item => item.code === 'pending' );
+
+    if (pending) {
+        throw new Error( `SQL incompleto: ${pending.message}` );
+        }
+
     const sections = [
         '-- DataBasic · SQL de estudio (sintaxis tipo PostgreSQL / SQL estándar)',
         '-- Revisar el resultado para el motor de base de datos elegido.',
         '-- NUMBER se exporta como NUMERIC; escalas negativas requieren PostgreSQL 15 o posterior.',
         '-- Los mínimos de participación de los hijos no se imponen con una FK.'
         ];
+
+    for (const issue of conceptualStatus( model ).filter(
+            item => item.code === 'documentary'
+            )) {
+        sections.push( `-- ${issue.message.replace( /[\r\n]/g, ' ' )}` );
+        }
 
     for (const table of model.tables.filter( item => item.kind === 'entity' )) {
         if (!table.columns.length) {
@@ -50,6 +65,44 @@ export function exportSQL( model ) {
             lines.push(
                     `    PRIMARY KEY (${primary.map( field => identifier( field.name ) ).join( ', ' )})`
                     );
+            }
+
+        for (const key of table.alternateKeys || []) {
+            const fields = key.columns.map(
+                    id => identifier( table.columns.find( field => field.id === id ).name )
+                    );
+
+            lines.push(
+                    `    CONSTRAINT ${identifier( key.name )} UNIQUE (${fields.join( ', ' )})`
+                    );
+            }
+
+        for (const field of table.columns.filter( item => item.domain )) {
+            const name = identifier( field.name );
+            const domain = field.domain;
+            const checks = [];
+
+            if (domain.minimum !== null) {
+                checks.push( `${name} >= ${domain.minimum}` );
+                }
+            if (domain.maximum !== null) {
+                checks.push( `${name} <= ${domain.maximum}` );
+                }
+            if (domain.values.length) {
+                const values = domain.values.map(
+                        value => typeof value === 'number'
+                            ? String( value )
+                            : `'${value.replaceAll( "'", "''" )}'`
+                        );
+
+                checks.push( `${name} IN (${values.join( ', ' )})` );
+                }
+            if (domain.check.trim()) {
+                checks.push( `(${domain.check.trim()})` );
+                }
+            if (checks.length) {
+                lines.push( `    CHECK (${checks.join( ' AND ' )})` );
+                }
             }
 
         sections.push( `CREATE TABLE ${sqlTableName( table )} (\n${lines.join( ',\n' )}\n);` );
