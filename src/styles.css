@@ -1185,9 +1185,6 @@ a {
     }
 
 @media (max-height: 760px) {
-    #app {
-        --properties-height: 210px;
-        }
     .shape-palette button {
         padding-block: 8px;
         }
