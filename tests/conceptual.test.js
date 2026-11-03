@@ -229,6 +229,187 @@ test( 'Diez alternancias conservan IDs, SQL, semántica y posiciones independien
     assert.notEqual( model.tables[0].x, 500 );
     } );
 
+test( 'Mover el rótulo FK conserva semántica, SQL y posición Chen al guardar', () => {
+    let model = domain.exampleDocument();
+    const relationId = model.relationships[0].id;
+
+    model = domain.moveDiagramElement( model, relationId, {x: 300, y: 400}, 'chen' );
+    const before = serializeDocument( model );
+    const sql = exportSQL( model );
+    let moved = domain.moveDiagramElement( model, relationId, {x: 900, y: 650} );
+
+    for (const property of ['tables', 'relationships', 'conceptual', 'traces']) {
+        assert.deepEqual( moved[property], model[property] );
+        }
+
+    assert.deepEqual( moved.presentation.chen, model.presentation.chen );
+    assert.deepEqual( moved.presentation.relational[relationId], {x: 900, y: 650} );
+    assert.equal( exportSQL( moved ), sql );
+    assert.equal( serializeDocument( model ), before );
+
+    moved = domain.setDiagramMode( moved, 'chen' );
+    moved = domain.setDiagramMode( moved, 'relational' );
+
+    assert.deepEqual( parseDocument( serializeDocument( moved ) ), moved );
+    assert.deepEqual( moved.presentation.chen[relationId], {x: 300, y: 400} );
+    assert.deepEqual( moved.presentation.relational[relationId], {x: 900, y: 650} );
+    } );
+
+test( 'Un formato 2 anterior sin posiciones relacionales se abre y puede mover una FK', () => {
+    const old = domain.exampleDocument();
+
+    delete old.presentation.relational;
+    const restored = parseDocument( JSON.stringify( old ) );
+
+    assert.deepEqual( restored, old );
+    const relationId = restored.relationships[0].id;
+    const moved = domain.moveDiagramElement( restored, relationId, {x: 120, y: 240} );
+
+    assert.equal( moved.version, 2 );
+    assert.deepEqual( moved.presentation.relational[relationId], {x: 120, y: 240} );
+    assert.deepEqual( parseDocument( serializeDocument( moved ) ), moved );
+    } );
+
+test( 'Mover exige coordenadas válidas y referencia existente sin mutar el original', () => {
+    const model = domain.exampleDocument();
+    const before = serializeDocument( model );
+    const ids = [model.tables[0].id, model.relationships[0].id];
+
+    for (const id of ids) {
+        for (const position of [
+            null,
+            {x: -1, y: 0},
+            {x: 0, y: 20001},
+            {x: Infinity, y: 0},
+            {x: 0, y: NaN}
+            ]) {
+            assert.throws(
+                    () => domain.moveDiagramElement( model, id, position ),
+                    /coordenadas entre 0 y 20000/
+                    );
+            assert.equal( serializeDocument( model ), before );
+            }
+        }
+
+    assert.throws(
+            () => domain.moveDiagramElement( model, 'missing', {x: 0, y: 0} ),
+            /no existe/
+            );
+    assert.throws(
+            () => domain.moveDiagramElement( model, ids[0], {x: 0, y: 0}, 'missing' ),
+            /Representación del diagrama no válida/
+            );
+    assert.equal( serializeDocument( model ), before );
+    } );
+
+test( 'JSON rechaza posiciones relacionales inválidas en lugar de descartarlas', () => {
+    const model = domain.exampleDocument();
+    const relationId = model.relationships[0].id;
+
+    for (const positions of [
+        null,
+        [],
+        'invalid',
+        {missing: {x: 10, y: 20}},
+        {[model.tables[0].id]: {x: 10, y: 20}},
+        {[relationId]: {x: -10, y: 20}},
+        {[relationId]: {x: 10, y: 20001}}
+        ]) {
+        const copy = structuredClone( model );
+
+        copy.presentation.relational = positions;
+        const contents = JSON.stringify( copy );
+
+        assert.throws( () => parseDocument( contents ), /relacional/ );
+        assert.equal( JSON.stringify( copy ), contents );
+        }
+    } );
+
+test( 'Borrar FK o tabla retira sus posiciones sin perder las de otros elementos', () => {
+    let model = domain.exampleDocument();
+    const table = model.tables[0];
+    const affected = model.relationships.filter(
+            relation => relation.parentId === table.id || relation.childId === table.id
+            );
+    const affectedIds = new Set( affected.map( relation => relation.id ) );
+    const retained = model.tables.find( item => item.id !== table.id );
+
+    for (const relation of model.relationships) {
+        model = domain.moveDiagramElement( model, relation.id, {x: 400, y: 500} );
+        model = domain.moveDiagramElement( model, relation.id, {x: 700, y: 800}, 'chen' );
+        }
+
+    for (const item of [table, ...table.columns, retained]) {
+        model = domain.moveDiagramElement( model, item.id, {x: 100, y: 200}, 'chen' );
+        }
+
+    const removedFK = domain.removeElement( model, affected[0].id );
+
+    assert.equal( removedFK.presentation.relational[affected[0].id], undefined );
+    assert.equal( removedFK.presentation.chen[affected[0].id], undefined );
+    assert.deepEqual( removedFK.presentation.chen[table.columns[0].id], {x: 100, y: 200} );
+
+    const removedTable = domain.removeElement( model, table.id );
+
+    for (const item of [table, ...table.columns, ...affected]) {
+        assert.equal( removedTable.presentation.chen[item.id], undefined );
+        assert.equal( removedTable.presentation.relational[item.id], undefined );
+        }
+
+    for (const relation of model.relationships.filter( item => !affectedIds.has( item.id ) )) {
+        assert.deepEqual( removedTable.presentation.relational[relation.id], {x: 400, y: 500} );
+        assert.deepEqual( removedTable.presentation.chen[relation.id], {x: 700, y: 800} );
+        }
+
+    assert.deepEqual( removedTable.presentation.chen[retained.id], {x: 100, y: 200} );
+    assert.deepEqual( parseDocument( serializeDocument( removedFK ) ), removedFK );
+    assert.deepEqual( parseDocument( serializeDocument( removedTable ) ), removedTable );
+    } );
+
+test( 'Borrar una asociación materializada limpia posiciones físicas y conserva entidades', () => {
+    let model = materializeAssociation( pendingRelation() );
+    const relation = model.conceptual.relationships[0];
+    const association = model.tables.at( -1 );
+    const retainedEntity = model.conceptual.entities[0];
+
+    for (const item of [relation, ...relation.participations, association, ...association.columns]) {
+        model = domain.moveDiagramElement( model, item.id, {x: 100, y: 200}, 'chen' );
+        }
+
+    model = domain.moveDiagramElement( model, retainedEntity.id, {x: 600, y: 700}, 'chen' );
+
+    for (const foreignKey of model.relationships) {
+        model = domain.moveDiagramElement( model, foreignKey.id, {x: 800, y: 900} );
+        model = domain.moveDiagramElement( model, foreignKey.id, {x: 300, y: 400}, 'chen' );
+        }
+
+    const retainedPositions = Object.fromEntries(
+            model.conceptual.entities.map(
+                    entity => [entity.id, model.presentation.chen[entity.id]]
+                    )
+            );
+    const removed = domain.removeConceptualElement( model, relation.id );
+
+    assert.deepEqual( removed.presentation.relational, {} );
+    assert.deepEqual( removed.presentation.chen, retainedPositions );
+    assert.deepEqual( parseDocument( serializeDocument( removed ) ), removed );
+    } );
+
+test( 'Borrar una columna proyectada retira sólo su posición Chen', () => {
+    let model = domain.addTable( domain.emptyDocument() );
+    const tableId = model.tables[0].id;
+
+    model = domain.addColumn( model, tableId );
+    const fieldId = model.tables[0].columns.at( -1 ).id;
+
+    model = domain.moveDiagramElement( model, tableId, {x: 600, y: 700}, 'chen' );
+    model = domain.moveDiagramElement( model, fieldId, {x: 300, y: 400}, 'chen' );
+    const removed = domain.removeColumn( model, tableId, fieldId );
+
+    assert.deepEqual( removed.presentation.chen, {[tableId]: {x: 600, y: 700}} );
+    assert.deepEqual( parseDocument( serializeDocument( removed ) ), removed );
+    } );
+
 test( 'Ediciones simples comparten origen desde Chen y columna sin romper FKs', () => {
     let model = materializeAssociation( pendingRelation() );
     const attribute = model.conceptual.attributes[0];

@@ -8,6 +8,7 @@ import {
     emptyDocument,
     addConceptualEntity,
     addConceptualRelationship,
+    moveDiagramElement,
     setDiagramMode
     } from '../src/domain/model.js';
 import { tableHeight, diagramScene } from '../src/ui/diagram.js';
@@ -29,6 +30,7 @@ async function applicationHarness(
     const store = storageOptions.store || new Map();
     const reads = [];
     const writes = [];
+    const capturedPointers = new Set();
 
     if (initialDocument !== null) {
         store.set( 'databasic.document.v1', initialDocument );
@@ -73,8 +75,9 @@ async function applicationHarness(
                         addEventListener: (name, callback) => listeners.set( `${selector}:${name}`, callback ),
                         querySelector: query => element( `${selector} ${query}` ),
                         closest: () => null,
-                        setPointerCapture() {},
-                        hasPointerCapture: () => false
+                        setPointerCapture: id => capturedPointers.add( id ),
+                        hasPointerCapture: id => capturedPointers.has( id ),
+                        releasePointerCapture: id => capturedPointers.delete( id )
                         }
                     );
             }
@@ -121,6 +124,7 @@ async function applicationHarness(
             ? {}
             : {location: {search: storageOptions.search}}),
         console,
+        ...(storageOptions.viz ? {Viz: storageOptions.viz} : {}),
         setTimeout: callback => {
             const id = ++timerId;
 
@@ -164,6 +168,32 @@ async function applicationHarness(
         store,
         reads,
         writes,
+        pointer: (
+                name,
+                reference,
+                point
+                ) => {
+            const transform = element( '#viewport' ).attributes.transform.match(
+                    /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
+                    );
+            const bounds = element( '#canvas' ).getBoundingClientRect();
+            const offsetX = bounds.left + Number( transform[1] );
+            const offsetY = bounds.top + Number( transform[2] );
+            const zoom = Number( transform[3] );
+
+            listeners.get( `#canvas:${name}` )({
+                button: 0,
+                pointerId: 1,
+                clientX: offsetX + point.x * zoom,
+                clientY: offsetY + point.y * zoom,
+                preventDefault() {},
+                target: {
+                    closest: selector => selector === '[data-diagram-kind]'
+                        ? {dataset: {diagramKind: reference.kind, diagramId: reference.id}}
+                        : null
+                    }
+                });
+            },
         change: (dataset, value, type = 'select-one') => {
             listeners.get( 'document:change' )({target: {
                 dataset, value, type,
@@ -198,6 +228,247 @@ async function applicationHarness(
             }
         };
     }
+
+test( 'Arrastrar un rótulo FK conserva posición, historial y semántica con pan y zoom', async () => {
+    const initial = exampleDocument();
+    const relation = initial.relationships[0];
+    const edge = diagramScene( initial ).edges[0];
+    const reference = edge.ref;
+    const app = await applicationHarness(
+            528,
+            JSON.stringify( initial ),
+            {left: 215, top: 180, width: 735}
+            );
+
+    await app.click({action: 'properties'});
+    await app.click({action: 'zoom-out'});
+
+    const start = {x: edge.caption.bounds.x + 5, y: edge.caption.bounds.y + 5};
+
+    app.pointer( 'pointerdown', reference, start );
+    app.pointer( 'pointermove', reference, {x: 1105, y: 855} );
+    await app.flushTimers();
+
+    assert.equal( app.element( '#properties-pane' ).hidden, true );
+    assert.equal( app.writes.length, 0, 'La previsualización no debe guardar.' );
+
+    app.pointer( 'pointerup', reference, {x: 1105, y: 855} );
+    await app.flushTimers();
+
+    const moved = JSON.parse( app.saved() );
+
+    assert.deepEqual( moved.presentation.relational[relation.id], {x: 1100, y: 850} );
+    assert.deepEqual( moved.tables, initial.tables );
+    assert.deepEqual( moved.relationships, initial.relationships );
+    assert.deepEqual( moved.presentation.chen, initial.presentation.chen );
+    assert.equal( app.writes.length, 1, 'Soltar el rótulo guarda una sola operación.' );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), moved );
+
+    await app.click({mode: 'chen'});
+    await app.click({mode: 'relational'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), moved );
+
+    const reopened = await applicationHarness( 528, app.saved() );
+    const caption = diagramScene( JSON.parse( reopened.saved() ) ).edges[0].caption;
+
+    assert.equal( caption.bounds.x, 1100 );
+    assert.equal( caption.bounds.y, 850 );
+    assert.match( reopened.element( '#viewport' ).innerHTML, /x="1100" y="850"/ );
+    } );
+
+test( 'Soltar un rombo Chen sobre una entidad conserva una posición libre y deshacible', async () => {
+    let initial = emptyDocument( 'course' );
+
+    for (const [index, name] of ['Persona', 'Actividad'].entries()) {
+        initial = addConceptualEntity(
+                initial,
+                {name},
+                {x: 100 + index * 700, y: 200}
+                );
+        }
+
+    initial = addConceptualRelationship( initial, {
+        name: 'Inscripcion',
+        participations: initial.conceptual.entities.map(
+                entity => ({entityId: entity.id, role: entity.name, min: 0, max: null})
+                )
+        });
+    initial = setDiagramMode( initial, 'chen' );
+    const relation = initial.conceptual.relationships[0];
+
+    initial = moveDiagramElement( initial, relation.id, {x: 400, y: 50} );
+    const node = diagramScene( initial ).nodes.find( item => item.ref.id === relation.id );
+    const app = await applicationHarness( 700, JSON.stringify( initial ) );
+
+    app.pointer( 'pointerdown', node.ref, {x: node.x + 20, y: node.y + 20} );
+    app.pointer( 'pointermove', node.ref, {x: 120, y: 220} );
+    app.pointer( 'pointerup', node.ref, {x: 120, y: 220} );
+    await app.flushTimers();
+
+    const moved = JSON.parse( app.saved() );
+    const scene = diagramScene( moved );
+    const placed = scene.nodes.find( item => item.ref.id === relation.id );
+
+    assert.notDeepEqual( moved.presentation.chen[relation.id], {x: 100, y: 200} );
+
+    for (const other of scene.nodes.filter( item => item.id !== placed.id )) {
+        assert.ok(
+                placed.x + placed.width <= other.x
+                    || other.x + other.width <= placed.x
+                    || placed.y + placed.height + 30 <= other.y
+                    || other.y + other.height <= placed.y,
+                'La relación pendiente no debe tapar una entidad ni otro nodo.'
+                );
+        }
+
+    assert.deepEqual( moved.tables, initial.tables );
+    assert.deepEqual( moved.relationships, initial.relationships );
+    assert.deepEqual( moved.conceptual, initial.conceptual );
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+    } );
+
+test( 'Cancelar el arrastre no guarda y un clic sigue abriendo propiedades', async () => {
+    for (const mode of ['relational', 'chen']) {
+        const initial = setDiagramMode( exampleDocument(), mode );
+        const scene = diagramScene( initial );
+        const item = mode === 'relational'
+            ? scene.edges[0]
+            : scene.nodes.find( node => node.kind === 'chen-relationship' );
+        const bounds = item.caption?.bounds || item;
+        const point = {x: bounds.x + 10, y: bounds.y + 10};
+        const app = await applicationHarness( 528, JSON.stringify( initial ) );
+
+        await app.click({action: 'properties'});
+        app.pointer( 'pointerdown', item.ref, point );
+        app.pointer( 'pointermove', item.ref, {x: 1500, y: 1000} );
+        app.pointer( 'pointercancel', item.ref, point );
+        await app.flushTimers();
+
+        assert.equal( app.writes.length, 0 );
+        assert.deepEqual( JSON.parse( app.saved() ), initial );
+        assert.equal( app.element( '#properties-pane' ).hidden, true );
+
+        app.pointer( 'pointerdown', item.ref, point );
+        app.pointer( 'pointerup', item.ref, point );
+        assert.equal( app.element( '#properties-pane' ).hidden, false );
+        assert.equal( app.writes.length, 0 );
+        }
+    } );
+
+test( 'Escape cancela el arrastre antes de soltar sin guardar ni crear historial', async () => {
+    const initial = exampleDocument();
+    const edge = diagramScene( initial ).edges[0];
+    const point = {x: edge.caption.bounds.x + 10, y: edge.caption.bounds.y + 10};
+    const app = await applicationHarness( 528, JSON.stringify( initial ) );
+
+    app.pointer( 'pointerdown', edge.ref, point );
+    app.pointer( 'pointermove', edge.ref, {x: 1500, y: 1000} );
+    app.listeners.get( 'document:keydown' )({key: 'Escape'});
+    app.pointer( 'pointerup', edge.ref, {x: 1500, y: 1000} );
+    await app.flushTimers();
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+
+    assert.equal( app.writes.length, 0 );
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+    } );
+
+test( 'Volver al origen del arrastre descarta el destino intermedio sin guardar', async () => {
+    for (const mode of ['relational', 'chen']) {
+        const initial = setDiagramMode( exampleDocument(), mode );
+        const scene = diagramScene( initial );
+        const item = mode === 'relational'
+            ? scene.edges[0]
+            : scene.nodes.find( node => node.kind === 'chen-relationship' );
+        const bounds = item.caption?.bounds || item;
+        const point = {x: bounds.x + 10, y: bounds.y + 10};
+        const app = await applicationHarness( 528, JSON.stringify( initial ) );
+
+        await app.click({action: 'properties'});
+        app.pointer( 'pointerdown', item.ref, point );
+        app.pointer( 'pointermove', item.ref, {x: 1500, y: 1000} );
+        app.pointer( 'pointermove', item.ref, point );
+        app.pointer( 'pointerup', item.ref, point );
+        await app.flushTimers();
+
+        assert.equal( app.writes.length, 0 );
+        assert.equal( app.element( '#properties-pane' ).hidden, true );
+        assert.deepEqual( JSON.parse( app.saved() ), initial );
+        }
+    } );
+
+test( 'Borrar durante un arrastre cancela la previsualización y se deshace en un paso', async () => {
+    const initial = exampleDocument();
+    const edge = diagramScene( initial ).edges[0];
+    const point = {x: edge.caption.bounds.x + 10, y: edge.caption.bounds.y + 10};
+    const app = await applicationHarness( 528, JSON.stringify( initial ) );
+
+    app.pointer( 'pointerdown', edge.ref, point );
+    app.pointer( 'pointermove', edge.ref, {x: 1500, y: 1000} );
+    app.listeners.get( 'document:keydown' )({
+        key: 'Delete',
+        preventDefault() {},
+        target: {closest: () => null}
+        });
+    assert.doesNotThrow( () => app.pointer( 'pointerup', edge.ref, point ) );
+    await app.flushTimers();
+
+    const removed = JSON.parse( app.saved() );
+
+    assert.equal( removed.relationships.some( item => item.id === edge.ref.id ), false );
+    assert.deepEqual( removed.presentation.relational, {} );
+    assert.doesNotMatch( app.element( '#toast' ).textContent, /no existe/ );
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+    } );
+
+test( 'Distribuir vuelve a colocar los rótulos manuales y permite deshacerlo', async () => {
+    const fixture = exampleDocument();
+    const initial = moveDiagramElement(
+            fixture,
+            fixture.relationships[0].id,
+            {x: 1100, y: 850}
+            );
+    const scene = diagramScene( initial );
+    let finishLayout;
+    const layoutDone = new Promise( resolve => { finishLayout = resolve; } );
+    const viz = {
+        instance: async () => ({
+            renderJSON: () => {
+                finishLayout();
+
+                return {
+                    bb: '0,0,2000,2000',
+                    objects: scene.nodes.map( node => ({
+                        name: node.id,
+                        pos: `${node.x + node.width / 2 - 50},${2050 - node.y - node.height / 2}`
+                        }) )
+                    };
+                }
+            })
+        };
+    const app = await applicationHarness( 700, JSON.stringify( initial ), {}, {viz} );
+
+    await app.click({action: 'layout'});
+    await layoutDone;
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ).presentation.relational, {} );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+    } );
 
 test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guardar', async () => {
     const app = await applicationHarness();

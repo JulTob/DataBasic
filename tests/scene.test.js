@@ -5,10 +5,12 @@ import {
     addColumn,
     addConceptualAttribute,
     addConceptualEntity,
+    addConceptualGeneralization,
     addConceptualRelationship,
     addRelationship,
     addTable,
     emptyDocument,
+    moveDiagramElement,
     setDiagramMode,
     updateColumn,
     updateConceptualParticipation,
@@ -22,9 +24,14 @@ import {
     diagramScene,
     exportSVG,
     findFreePosition,
+    resolveDiagramPosition,
     tableHeight,
     tableWidth
     } from '../src/ui/diagram.js';
+import {
+    parseDocument,
+    serializeDocument
+    } from '../src/domain/serialization.js';
 
 function sceneLinkedFixture() {
     let model = addTable( emptyDocument( 'general' ), 'entity', {x: 100, y: 140} );
@@ -75,6 +82,47 @@ function sceneAssertContained(
     assert.ok( rectangle.y >= bounds.y );
     assert.ok( rectangle.x + rectangle.width <= bounds.x + bounds.width );
     assert.ok( rectangle.y + rectangle.height <= bounds.y + bounds.height );
+    }
+
+function sceneRectanglesOverlap(
+        first,
+        second
+        ) {
+    return first.x < second.x + second.width
+        && first.x + first.width > second.x
+        && first.y < second.y + second.height
+        && first.y + first.height > second.y;
+    }
+
+function sceneTwoRelationshipsFixture() {
+    let model = addConceptualEntity(
+            emptyDocument( 'course' ),
+            {name: 'Persona'},
+            {x: 100, y: 200}
+            );
+
+    model = addConceptualEntity( model, {name: 'Actividad'}, {x: 800, y: 200} );
+
+    for (const [index, name] of ['Inscripcion', 'Reserva'].entries()) {
+        model = addConceptualRelationship( model, {
+            name,
+            participations: model.conceptual.entities.map(
+                    (entity, participant) => ({
+                        entityId: entity.id,
+                        role: participant === 0 ? 'persona' : 'actividad',
+                        min: 0,
+                        max: null
+                        })
+                    ),
+            translation: null
+            } );
+        model.presentation.chen[model.conceptual.relationships.at( -1 ).id] = {
+            x: 400,
+            y: 50 + index * 130
+            };
+        }
+
+    return setDiagramMode( model, 'chen' );
     }
 
 test( 'Tipos completos y nombres largos ocupan líneas separadas y ancho propio', () => {
@@ -462,6 +510,211 @@ test( 'La escena es determinista y sus bounds contienen nodos, ramas y etiquetas
         for (const label of edge.labels) {
             sceneAssertContained( scene.bounds, label.bounds );
             }
+        }
+    } );
+
+test( 'Las participaciones de dos relaciones Chen evitan rótulos de otras ramas', () => {
+    const model = sceneTwoRelationshipsFixture();
+    const before = JSON.stringify( model );
+    const scene = diagramScene( model );
+    const labels = scene.edges.flatMap( edge => edge.labels );
+
+    assert.equal( labels.length, 8 );
+    assert.equal( JSON.stringify( model ), before );
+
+    for (const [index, label] of labels.entries()) {
+        for (const other of labels.slice( index + 1 )) {
+            assert.equal( sceneRectanglesOverlap( label.bounds, other.bounds ), false );
+            }
+
+        for (const node of scene.nodes) {
+            assert.equal(
+                    sceneRectanglesOverlap( label.bounds, {
+                        ...node,
+                        height: node.height + (node.pending ? 30 : 0)
+                        } ),
+                    false
+                    );
+            }
+
+        sceneAssertContained( scene.bounds, label.bounds );
+        }
+    } );
+
+test( 'Los rótulos Chen evitan una especialización que ocupa su antigua posición', () => {
+    let model = sceneTwoRelationshipsFixture();
+    const previousLabel = diagramScene( model ).edges.find(
+            edge => edge.kind === 'participation'
+            ).labels[0];
+
+    model = addConceptualGeneralization( model, {
+        supertypeId: model.conceptual.entities[0].id,
+        subtypeIds: [model.conceptual.entities[1].id]
+        } );
+    model.presentation.chen[model.conceptual.generalizations[0].id] = {
+        x: previousLabel.bounds.x,
+        y: previousLabel.bounds.y
+        };
+    const scene = diagramScene( model );
+    const generalization = scene.nodes.find( node => node.kind === 'generalization' );
+
+    for (const label of scene.edges.flatMap( edge => edge.labels )) {
+        assert.equal( sceneRectanglesOverlap( label.bounds, generalization ), false );
+        }
+    } );
+
+test( 'Soltar un rombo junto a una entidad u otro rombo reserva el espacio pendiente', () => {
+    const model = sceneTwoRelationshipsFixture();
+    const before = JSON.stringify( model );
+    const relation = model.conceptual.relationships[0];
+    const original = diagramScene( model );
+    const moving = original.nodes.find( node => node.ref.id === relation.id );
+    const other = original.nodes.find(
+            node => node.kind === 'chen-relationship' && node.ref.id !== relation.id
+            );
+
+    for (const preferred of [
+        {x: 100, y: 200},
+        {x: other.x, y: other.y + other.height + 8}
+        ]) {
+        const position = resolveDiagramPosition( model, relation.id, preferred );
+        const next = moveDiagramElement( model, relation.id, position );
+        const scene = diagramScene( next );
+        const placed = scene.nodes.find( node => node.ref.id === relation.id );
+
+        assert.equal( JSON.stringify( model ), before );
+        assert.deepEqual( {x: placed.x, y: placed.y}, position );
+        assert.notDeepEqual( position, preferred );
+        assert.deepEqual( next.tables, model.tables );
+        assert.deepEqual( next.relationships, model.relationships );
+        assert.deepEqual( next.conceptual, model.conceptual );
+
+        for (const node of scene.nodes.filter( item => item.ref.id !== relation.id )) {
+            assert.equal(
+                    sceneRectanglesOverlap(
+                            {...placed, height: moving.height + 30},
+                            {...node, height: node.height + (node.pending ? 30 : 0)}
+                            ),
+                    false
+                    );
+            }
+
+        assert.deepEqual( parseDocument( serializeDocument( next ) ), next );
+        }
+
+    const free = {x: 1700, y: 1400};
+
+    assert.deepEqual( resolveDiagramPosition( model, relation.id, free ), free );
+    assert.throws( () => resolveDiagramPosition( model, relation.id, {x: NaN, y: 20} ), /finitas/ );
+    assert.throws( () => resolveDiagramPosition( model, 'desconocido', free ), /arrastrable/ );
+    } );
+
+test( 'Los bloques FK conservan su posición libre y se separan al soltar sobre otra figura', () => {
+    let model = sceneLinkedFixture();
+
+    model = addTable( model, 'entity', {x: 1200, y: 1200} );
+    model = addRelationship( model, model.tables[0].id, model.tables[2].id );
+    const [first, second] = model.relationships;
+    const initial = {x: 1700, y: 500};
+    const fixed = {x: 1700, y: 950};
+
+    model.presentation.relational = {[first.id]: initial, [second.id]: fixed};
+    const before = JSON.stringify( model );
+    const scene = diagramScene( model );
+    const caption = scene.edges.find( edge => edge.ref.id === first.id ).caption;
+
+    assert.deepEqual( {x: caption.bounds.x, y: caption.bounds.y}, initial );
+    sceneAssertContained( diagramBounds( model ), caption.bounds );
+    assert.deepEqual( parseDocument( serializeDocument( model ) ), model );
+    assert.match( diagramContents( model ), /relationship-caption/ );
+
+    for (const preferred of [{x: 100, y: 140}, fixed]) {
+        const position = resolveDiagramPosition( model, first.id, preferred );
+        const next = structuredClone( model );
+
+        next.presentation.relational[first.id] = position;
+        const result = diagramScene( next );
+        const placed = result.edges.find( edge => edge.ref.id === first.id ).caption;
+        const other = result.edges.find( edge => edge.ref.id === second.id ).caption;
+
+        assert.notDeepEqual( position, preferred );
+        assert.deepEqual( {x: placed.bounds.x, y: placed.bounds.y}, position );
+        assert.deepEqual( {x: other.bounds.x, y: other.bounds.y}, fixed );
+        assert.equal( sceneRectanglesOverlap( placed.bounds, other.bounds ), false );
+
+        for (const node of result.nodes) {
+            assert.equal( sceneRectanglesOverlap( placed.bounds, node ), false );
+            }
+
+        assert.deepEqual( result.edges.map( edge => edge.points ), scene.edges.map( edge => edge.points ) );
+        sceneAssertContained( result.bounds, placed.bounds );
+        }
+
+    assert.equal( JSON.stringify( model ), before );
+    const limited = resolveDiagramPosition( model, first.id, {x: 21000, y: 21000} );
+
+    assert.ok( limited.x >= 0 && limited.x + caption.bounds.width <= 20000 );
+    assert.ok( limited.y >= 0 && limited.y + caption.bounds.height <= 20000 );
+    } );
+
+test( 'El resolvedor también mueve tablas y rombos proyectados con sus identificadores existentes', () => {
+    const model = sceneLinkedFixture();
+    const before = JSON.stringify( model );
+    const id = model.tables[0].id;
+    const target = {x: model.tables[1].x, y: model.tables[1].y};
+    const position = resolveDiagramPosition( model, id, target );
+    const next = moveDiagramElement( model, id, position );
+    const nodes = diagramScene( next ).nodes;
+
+    assert.equal( sceneRectanglesOverlap( nodes[0], nodes[1] ), false );
+    assert.deepEqual( next.relationships, model.relationships );
+
+    const conceptual = setDiagramMode( model, 'chen' );
+    const relationId = model.relationships[0].id;
+    const entity = diagramScene( conceptual ).nodes.find( node => node.ref.id === id );
+    const resolved = resolveDiagramPosition( conceptual, relationId, entity );
+    const moved = moveDiagramElement( conceptual, relationId, resolved );
+    const result = diagramScene( moved );
+    const relation = result.nodes.find( node => node.ref.id === relationId );
+
+    assert.deepEqual( {x: relation.x, y: relation.y}, resolved );
+    assert.equal( sceneRectanglesOverlap( relation, entity ), false );
+    assert.deepEqual( moved.tables, model.tables );
+    assert.deepEqual( moved.relationships, model.relationships );
+    assert.equal( JSON.stringify( model ), before );
+    } );
+
+test( 'Los IDs heredados de Object usan sólo coordenadas propias de los mapas', () => {
+    for (const id of ['toString', 'valueOf']) {
+        const model = sceneLinkedFixture();
+
+        model.relationships[0].id = id;
+        model.presentation.relational = {};
+        const imported = parseDocument( serializeDocument( model ) );
+        const automatic = diagramScene( imported ).edges[0].caption.bounds;
+
+        assert.ok( [automatic.x, automatic.y].every( Number.isFinite ) );
+
+        const relationalPosition = {x: 1800, y: 1000};
+
+        imported.presentation.relational[id] = relationalPosition;
+        const reopened = parseDocument( serializeDocument( imported ) );
+        const manual = diagramScene( reopened ).edges[0].caption.bounds;
+
+        assert.deepEqual( {x: manual.x, y: manual.y}, relationalPosition );
+
+        const conceptual = setDiagramMode( imported, 'chen' );
+        const projected = diagramScene( conceptual ).nodes.find( node => node.ref.id === id );
+
+        assert.ok( [projected.x, projected.y].every( Number.isFinite ) );
+
+        const conceptualPosition = {x: 2500, y: 1700};
+
+        conceptual.presentation.chen[id] = conceptualPosition;
+        const restored = parseDocument( serializeDocument( conceptual ) );
+        const placed = diagramScene( restored ).nodes.find( node => node.ref.id === id );
+
+        assert.deepEqual( {x: placed.x, y: placed.y}, conceptualPosition );
         }
     } );
 
