@@ -13,7 +13,8 @@
  * mappings:{parentColumnId:string,childColumnId:string}[]}} Relationship
  * @typedef {{format:'databasic',version:2,profile:'course'|'general',
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
- * presentation:{chen:Record<string,{x:number,y:number}>},
+ * presentation:{chen:Record<string,{x:number,y:number}>,
+ * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
  * keys:boolean,required:boolean,crowsFeet:boolean,cardinality:boolean,
  * relationshipNames:boolean,grid:boolean}}} Document
@@ -76,7 +77,10 @@ export function emptyDocument( profile = 'course' ) {
             generalizations: []
             },
         traces: [],
-        presentation: {chen: {}},
+        presentation: {
+            chen: {},
+            relational: {}
+            },
         display: {
             mode: 'relational',
             notation: 'idef1x',
@@ -362,6 +366,7 @@ export function removeColumn(
                     }
 
                 table.indexes = table.indexes.filter( index => index.columns.length );
+                removeOrphanDiagramPositions( next );
                 }
             );
     }
@@ -569,6 +574,7 @@ export function removeElement(
                             && relation.parentId !== selectedId
                             && relation.childId !== selectedId
                         );
+                removeOrphanDiagramPositions( next );
                 }
             );
     }
@@ -1183,6 +1189,25 @@ function validateDocumentShape( model ) {
                     );
             }
 
+        if ('relational' in model.presentation) {
+            const positions = model.presentation.relational;
+
+            demand(
+                    positions
+                        && typeof positions === 'object'
+                        && !Array.isArray( positions ),
+                    'Las posiciones relacionales necesitan un mapa de relaciones.'
+                    );
+            const foreignKeyIds = new Set( model.relationships.map( relation => relation.id ) );
+
+            for (const [id, position] of Object.entries( positions )) {
+                demand(
+                        foreignKeyIds.has( id ) && domainPositionValid( position ),
+                        'La posición relacional necesita una relación existente y coordenadas entre 0 y 20000.'
+                        );
+                }
+            }
+
         return [];
         }
     catch (error) {
@@ -1194,6 +1219,47 @@ function domainPositionValid( position ) {
     return position && [position.x, position.y].every(
             value => Number.isFinite( value ) && value >= 0 && value <= 20000
             );
+    }
+
+/** Called only by removals; malformed imports still fail validation unchanged. */
+function removeOrphanDiagramPositions( model ) {
+    if (!model.presentation) {
+        return;
+        }
+
+    const ids = new Set( model.relationships.map( relation => relation.id ) );
+    const foreignKeyIds = new Set( ids );
+
+    for (const table of model.tables) {
+        const tableItems = [
+            table,
+            ...table.columns,
+            ...table.indexes,
+            ...(table.alternateKeys || [])
+            ];
+
+        for (const item of tableItems) {
+            ids.add( item.id );
+            }
+        }
+
+    for (const collection of ['entities', 'attributes', 'relationships', 'generalizations']) {
+        for (const item of model.conceptual?.[collection] || []) {
+            ids.add( item.id );
+
+            for (const participation of item.participations || []) {
+                ids.add( participation.id );
+                }
+            }
+        }
+
+    for (const [mode, existing] of [['chen', ids], ['relational', foreignKeyIds]]) {
+        for (const id of Object.keys( model.presentation[mode] || {} )) {
+            if (!existing.has( id )) {
+                delete model.presentation[mode][id];
+                }
+            }
+        }
     }
 
 function requireConceptualObject(
@@ -1352,6 +1418,7 @@ export function setDiagramMode(
             );
     }
 
+/** Moves presentation only, requiring existing references and finite coordinates. */
 export function moveDiagramElement(
         model,
         id,
@@ -1361,8 +1428,27 @@ export function moveDiagramElement(
     return changeDocument(
             model,
             next => {
+                if (!['chen', 'relational'].includes( mode )) {
+                    throw new Error( 'Representación del diagrama no válida.' );
+                    }
+
+                if (!domainPositionValid( position )) {
+                    throw new Error( 'La posición necesita coordenadas entre 0 y 20000.' );
+                    }
+
                 if (mode === 'chen') {
-                    next.presentation.chen[id] = {x: position.x, y: position.y};
+                    next.presentation.chen = {
+                        ...next.presentation.chen,
+                        [id]: {x: position.x, y: position.y}
+                        };
+                    return;
+                    }
+
+                if (next.relationships.some( relation => relation.id === id )) {
+                    next.presentation.relational = {
+                        ...next.presentation.relational,
+                        [id]: {x: position.x, y: position.y}
+                        };
                     return;
                     }
 
@@ -2251,9 +2337,7 @@ export function removeConceptualElement(
 
                 next.traces = next.traces.filter( item => !removedSources.has( item.sourceId ) );
 
-                for (const removed of removedSources) {
-                    delete next.presentation.chen[removed];
-                    }
+                removeOrphanDiagramPositions( next );
                 }
             );
     }
