@@ -1,7 +1,9 @@
-# Cobertura de DataBasic 0.3.2 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.4.1 frente a Visio 2010 y al curso
 
-Revisión realizada el 3 de noviembre de 2026 como ejercicio de desarrollo
-dirigido por especificación: cada función de la plantilla **Modelo de base de
+Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
+después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
+cardinalidad ternaria por combinación y ejemplos del curso), como ejercicio
+de desarrollo dirigido por especificación: cada función de la plantilla **Modelo de base de
 datos** de Visio 2010 y cada exigencia de los apuntes del curso se trata como
 un requisito con su estado en DataBasic y la evidencia que lo respalda.
 DataBasic es una implementación independiente, con código, textos e identidad
@@ -37,7 +39,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | --- | --- | --- | --- | --- |
 | A-01 · V10 p. 5 | Galería Entity Relationship: formas Entidad, Relación, Vista. | Disponible | R-02, R-11, R-29; «UI-01» | Formas propias en el panel Formas; sin galería Object Relational (tipos objeto). |
 | A-02 · V10 pp. 7–8 | Conector arrastrado y pegado a los extremos de dos tablas. | Alternativa propia | R-11 | Se pulsa Relación y después padre e hijo; no hay arrastre de extremos. |
-| A-03 · MS | Formas Category, Parent to category y Category to child (subtipos relacionales). | Pendiente | C-15; «Multivaluados y generalización se guardan pendientes» | La jerarquía se dibuja en Chen; no hay símbolo de categoría ni transformación relacional. |
+| A-03 · MS | Formas Category, Parent to category y Category to child (subtipos relacionales). | Alternativa propia | C-15; Dominio y Ejemplos de la jerarquía 04 | La jerarquía se dibuja en Chen y se transforma con tablas de superclase y subclases (PK heredada que es también FK). No hay símbolo de categoría en el relacional. |
 | A-04 · V10 p. 8 | Ventana Propiedades de la base de datos anclada bajo el dibujo. | Disponible | R-36; «UI-01» | Se oculta, redimensiona y cierra con su propio control. |
 | A-05 · MS | Definición: nombre físico, conceptual, espacio de nombres, propietario, base de datos de origen, sincronizar nombres. | Disponible | R-02; «UI-02/UI-03» | Propietario y origen sólo se muestran: no hay ingeniería inversa. |
 | A-06 · V10 p. 9 | Columnas: nombre físico, tipo, requerido, PK, notas; agregar, quitar, editar, subir y bajar. | Disponible | R-03 a R-06 | Visio alterna tipo portable/físico; DataBasic usa el perfil de tipos del curso o general. |
@@ -50,10 +52,10 @@ los nombres entre comillas son pruebas de `tests/`.
 | A-13 · MS | Notas de tabla. | Disponible | «UI-04»; recorrido Notas | — |
 | A-14 · MS | Relación → Definición: tablas principal y secundaria y columnas asociadas. | Disponible | R-12 | La FK siempre referencia la PK completa; no hay «Disconnect» ni FK hacia una clave alternativa. |
 | A-15 · MS | Relación → Nombre: frase verbal, frase inversa y nombre físico. | Disponible | R-12 | — |
-| A-16 · MS | Relación → Varios: Cero o más, Uno o más, Cero o uno, Exactamente uno, Rango; identificadora/no identificadora; el hijo tiene padre opcional. | Parcial | R-13, R-14; «Volver a no identificadora saca la FK de la PK hija…» | Sin cardinalidad por rango numérico. Volver a no identificadora saca la FK de la PK hija, como en Visio (corregido en 0.3.2). |
+| A-16 · MS | Relación → Varios: Cero o más, Uno o más, Cero o uno, Exactamente uno, Rango; identificadora/no identificadora; el hijo tiene padre opcional. | Parcial | R-13, R-14; «Volver a no identificadora saca la FK de la PK hija…» | Sin cardinalidad por rango numérico. Volver a no identificadora saca la FK de la PK hija, como en Visio (corregido en 0.4.1). |
 | A-17 · MS | Relación → Acción referencial: No action, Cascade, Set NULL, Set default, Do not enforce. | Parcial | R-15; «SET NULL rechaza una relación obligatoria» | Sin «Do not enforce». SET NULL y SET DEFAULT se validan contra nulos y predeterminados. |
 | A-18 · MS | Vistas: definición, columnas, SQL. | Parcial | R-29; «Las vistas se exportan como consultas…» | Consulta libre y columnas; no hay generador visual de consultas ni comprobación de la sintaxis. |
-| A-19 · MS | Categorías: discriminador y categoría completa. | Pendiente | C-15 | Véase A-03; se conservan disyunción y totalidad en Chen. |
+| A-19 · MS | Categorías: discriminador y categoría completa. | Parcial | C-15; Ejemplos 04 y 04b | Disyunción y totalidad se conservan y se comentan en el SQL como documentales; no hay columna discriminadora ni las otras tres estrategias del tema. |
 | A-20 · V10 pp. 5–6 | Opciones → Documento → General: símbolos Relacional/IDEF1X; nombres conceptuales o físicos. | Disponible | R-16; «Opciones del documento conserva modo y notación como texto» | La notación vive en la pestaña Relaciones; los nombres conceptuales, en General. No hay «ambos nombres». |
 | A-21 · V10 p. 6 | Opciones → Documento → Tabla: tipos de datos, claves, anotaciones, líneas verticales. | Parcial | R-16 | Tipos, PK/FK/AK y marca de requerido. Sin anotaciones ni líneas verticales. |
 | A-22 · V10 p. 6 | Opciones → Documento → Relaciones: patas de cuervo, acciones referenciales, frase verbal, cardinalidad IDEF1X. | Parcial | R-16; «IDEF1X: FIPS184 figuras 1/4/5/6/7…» | Notación IDEF1X, patas de cuervo y flecha relacional; textos directo e inverso; cardinalidad numérica. No se dibujan las acciones referenciales. |
@@ -103,14 +105,14 @@ los nombres entre comillas son pruebas de `tests/`.
 | ID · fuente | Exigencia | Estado en DataBasic | Evidencia | Observación |
 | --- | --- | --- | --- | --- |
 | C-01 · ERE p. 2 | Entidad: rectángulo; entidad débil: rectángulo doble. | Disponible | C-13 | — |
-| C-02 · ERE p. 2 | Relación: rombo; vínculo identificador de entidades débiles: rombo doble. | Disponible (0.3.2) | «El vínculo identificador dibuja rombo doble…» | El rombo doble aparece cuando la débil elige ese vínculo o la estrategia FK es identificadora. |
+| C-02 · ERE p. 2 | Relación: rombo; vínculo identificador de entidades débiles: rombo doble. | Disponible (0.4.1) | «El vínculo identificador dibuja rombo doble…» | El rombo doble aparece cuando la débil elige ese vínculo o la estrategia FK es identificadora. |
 | C-03 · ERE p. 3 | Atributo, clave (subrayado), clave parcial (subrayado discontinuo), multivaluado (elipse doble), compuesto (componentes), derivado (discontinuo). | Disponible | C-03, C-13, C-14 | — |
-| C-04 · ERE p. 4, P1 p. 3 | Letras 1/N de cardinalidad en cada rama, junto al rombo. | Disponible (0.3.2) | «Cada rama Chen lleva la letra 1/N…»; «La letra junto al rombo se elige…» | En una binaria es el máximo de la otra rama; en una ternaria la elige el autor en el diálogo o en Varios. |
+| C-04 · ERE p. 4, P1 p. 3 | Letras 1/N de cardinalidad en cada rama, junto al rombo. | Disponible (0.4.1) | «Cada rama Chen lleva la letra 1/N…»; «La letra junto al rombo se elige…» | En una binaria es el máximo de la otra rama y se dibuja sola. En una ternaria es la cardinalidad por combinación de los otros roles (`one`/`many`) elegida en Varios; la rama sin decidir no muestra letra. |
 | C-05 · ERE p. 4, T2 p. 12 | Restricción estructural (mín,máx) en cada participación. | Disponible | C-05 | — |
 | C-06 · ERE p. 4 | Participación total: doble línea entre entidad y rombo. | Disponible | C-05, C-13 | Se dibuja cuando el mínimo es mayor que cero. |
 | C-07 · T2 p. 8 | Roles en las relaciones, incluidas las recursivas. | Disponible | C-04, C-05; «La recursiva mantiene dos puertos…» | — |
 | C-08 · T2 p. 8, P1 p. 3 | Relaciones binarias, ternarias y con atributos propios. | Disponible | C-07, C-12 | — |
-| C-09 · ERE p. 5, T2 p. 16 | Especialización con círculo d/s, doble línea si total, arcos de subconjunto en las subclases. | Disponible (0.3.2, dibujo) | C-15; «El vínculo identificador dibuja rombo doble y las subclases llevan el arco» | La transformación relacional de la jerarquía sigue pendiente. |
+| C-09 · ERE p. 5, T2 p. 16 | Especialización con círculo d/s, doble línea si total, arcos de subconjunto en las subclases. | Disponible (0.4.1) | C-15; «El vínculo identificador dibuja rombo doble y las subclases llevan el arco»; Ejemplos 04 | La transformación usa tablas de superclase y subclases; disyunción y totalidad quedan documentales. |
 | C-10 · T2 pp. 11–13 | Restricciones de entidades, atributos, claves, estructurales y de integridad. | Disponible | R-07, R-08, R-13, R-15, C-06 | Las restricciones conceptuales no traducibles quedan documentales. |
 | C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | El archivo de Visio no se genera; véase C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
@@ -128,22 +130,22 @@ los nombres entre comillas son pruebas de `tests/`.
    clic sigue seleccionando la columna.
 3. Revisar modelo mostraba cada aviso pendiente o documental dos veces (C-16).
 4. Al seleccionar una especialización, el título de Propiedades mostraba
-   «undefined» (C-15).
+   «undefined» (C-15); la versión 0.4.0 lo corrigió en paralelo con el nombre
+   de la superclase, que es el texto conservado.
 5. Al abrir un documento, las lecturas situadas sobre la primera tabla
    quedaban ocultas bajo la barra de herramientas flotante (R-11).
 
 ## E. Carencias priorizadas
 
-1. Transformación relacional de jerarquías con las estrategias del Tema 3
-   (una tabla por clase, una tabla por subclase o tabla única con
-   discriminador), desbloqueando el SQL completo.
-2. Transformación de atributos multivaluados a tabla auxiliar.
-3. Categorías IDEF1X en el relacional (A-03, A-19) una vez exista la
-   transformación anterior.
-4. FK hacia una clave alternativa (A-14) y cardinalidad por rango (A-16).
-5. Selección múltiple y alineación de formas (B-12, B-16).
-6. Exportación PNG y PDF directa sin pasar por la impresión (B-18).
-7. Notas en relaciones y cláusulas de comprobación de tabla (A-11, A-13).
+1. Las otras tres estrategias de transformación de jerarquías del Tema 3
+   (una tabla por subclase, tabla única con discriminador y variantes),
+   además de la de tablas de superclase y subclases ya disponible.
+2. Columna discriminadora y símbolo de categoría IDEF1X en el relacional
+   (A-03, A-19).
+3. FK hacia una clave alternativa (A-14) y cardinalidad por rango (A-16).
+4. Selección múltiple y alineación de formas (B-12, B-16).
+5. Exportación PNG y PDF directa sin pasar por la impresión (B-18).
+6. Notas en relaciones y cláusulas de comprobación de tabla (A-11, A-13).
 
 Las entradas marcadas sin verificar en esta sesión deben contrastarse con la
 documentación original de Microsoft cuando el entorno permita abrirla; la

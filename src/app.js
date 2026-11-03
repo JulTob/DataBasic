@@ -2,6 +2,7 @@ import {
     addColumn,
     addConceptualEntity,
     conceptualStatus,
+    getConceptualProjection,
     moveDiagramElement,
     removeConceptualElement,
     setDiagramMode,
@@ -233,11 +234,16 @@ function renderPropertyPane() {
     const selected = state.model.tables.find( item => item.id === state.selectedId )
         || state.model.relationships.find( item => item.id === state.selectedId )
         || selectedNative();
+    const supertype = selected?.supertypeId
+        ? getConceptualProjection( state.model ).entities.find(
+                item => item.id === selected.supertypeId
+                )
+        : null;
+    const selectedName = selected?.name
+        || (supertype ? `Especialización de ${supertype.name}` : 'Especialización');
 
     document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
-    document.querySelector( '#properties-name' ).textContent = selected
-        ? `— ${selected.name ?? 'Especialización'}`
-        : '';
+    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selectedName}` : '';
     document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
     document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
     document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
@@ -970,7 +976,9 @@ function fieldChanged( target ) {
         if (target.dataset.participation) {
             const parsed = field === 'max' && String( value ).trim().toUpperCase() === 'N'
                 ? null
-                : ['role', 'cardinality'].includes( field ) ? value : Number( value );
+                : field === 'cardinality'
+                    ? value || null
+                    : field === 'role' ? value : Number( value );
 
             next = updateConceptualParticipation(
                     state.model,

@@ -75,6 +75,25 @@ export function openDialog(
                 input.disabled = group.hidden;
                 }
             }
+
+        const attributeRule = form.querySelector( '[name="attributeTranslation"]' )?.value;
+        const context = form.querySelector( '[name="cardinalityContext"]' )?.value;
+
+        for (const group of dialog.querySelectorAll?.( '[data-attribute-translation]' ) || []) {
+            group.hidden = attributeRule !== group.dataset.attributeTranslation;
+
+            for (const input of group.querySelectorAll( 'input' )) {
+                input.disabled = group.hidden;
+                }
+            }
+
+        for (const group of dialog.querySelectorAll?.( '[data-cardinality-context]' ) || []) {
+            group.hidden = context !== 'attributes';
+
+            for (const input of group.querySelectorAll( 'input' )) {
+                input.disabled = group.hidden;
+                }
+            }
         };
 
     form.onchange = synchronizeFields;
@@ -292,10 +311,19 @@ export function showHelp() {
             <p><strong>Crear una N:N o ternaria.</strong> En Chen, pulsa Relación,
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
-                Incluye un período si distingue ocurrencias repetidas. La relación sigue
+                En ternarias, Varios separa participación absoluta y cardinalidad por combinación.
+                Correspondencias distingue el contexto global/temporal de la identidad:
+                incluye un período en cada decisión cuando corresponda. La relación sigue
                 conservando roles y límites que el SQL no pueda expresar.
-                Junto al rombo se lee la letra 1/N de cada rama; en una binaria es el
-                máximo de la otra rama y en una ternaria la eliges en Varios.</p>
+                Junto al rombo se lee la letra 1/N de cada rama: en una binaria es el
+                máximo de la otra rama; en una ternaria, la cardinalidad por combinación.</p>
+            <p><strong>Multivaluados.</strong> Selecciona el atributo y pulsa
+                Multivaluado → Tabla auxiliar. En uno compuesto, crea primero sus componentes.
+                La auxiliar usa PK propietaria + valores y una FK a la propietaria.</p>
+            <p><strong>Especialización.</strong> Selecciona el círculo y pulsa
+                Tablas de superclase y subclases. Una PK local incompatible se corrige
+                desde Editar atributo y dominio: desmarca Clave y conserva su columna.
+                Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -426,14 +454,18 @@ export function showConceptualAttributeDialog(
                         ['', 'Pendiente · conservar sin decidir'],
                         ['flatten', 'Compuesto · descomponer en componentes'],
                         ['omit', 'Derivado · omitir columna'],
-                        ['stored', 'Derivado · almacenar valor sin calcularlo']
+                        ['stored', 'Derivado · almacenar valor sin calcularlo'],
+                        ['multivalued-table', 'Multivaluado · tabla auxiliar']
                         ],
-                    ['flatten', 'omit', 'stored'].includes( attribute?.translation?.kind )
+                    ['flatten', 'omit', 'stored', 'multivalued-table'].includes( attribute?.translation?.kind )
                         ? attribute.translation.kind
                         : ''
                     )}</select></label>
-            <p class="field-hint">La elección se aplica a atributos compuestos o derivados.
-                Un multivaluado conserva su semántica y sigue pendiente de transformación.</p>
+            <label data-attribute-translation="multivalued-table">Tabla auxiliar<input name="attributeTableName"
+                value="${escapeHTML( attribute?.translation?.tableName || '' )}"></label>
+            <p class="field-hint">Un multivaluado usa la PK propietaria completa más el valor
+                o sus componentes simples como PK, con una FK a su propietaria.
+                Crea primero los componentes y después elige la tabla auxiliar.</p>
             <label>Regla de derivación<input name="derivation"
                 value="${escapeHTML( attribute?.derivation || '' )}"></label>
             <label>Predeterminado · expresión SQL<input name="defaultValue"
@@ -470,7 +502,19 @@ export function showConceptualAttributeDialog(
                     throw new Error( 'Omitir o almacenar requiere atributo derivado.' );
                     }
 
-                if (definition.structure === 'composite' || definition.derived) {
+                if (strategy === 'multivalued-table' && !definition.multivalued) {
+                    throw new Error( 'La tabla auxiliar requiere marcar Multivaluado.' );
+                    }
+
+                if (strategy === 'multivalued-table') {
+                    definition.translation = {
+                        kind: strategy,
+                        tableName: String( values.get( 'attributeTableName' ) || '' ).trim()
+                        };
+                    }
+                else if (definition.structure === 'composite'
+                    || definition.derived
+                    || definition.multivalued) {
                     definition.translation = strategy ? {kind: strategy} : null;
                     }
                 else if (strategy) {
@@ -539,7 +583,7 @@ export function showConceptualRelationshipDialog(
                             max: values.get( `max${index}` ).trim().toUpperCase() === 'N'
                                 ? null
                                 : Number( values.get( `max${index}` ) ),
-                            cardinality: values.get( `cardinality${index}` ) || null
+                            ...(values.get( 'degree' ) === '3' ? {cardinality: null} : {})
                             })
                         );
                 const next = addConceptualRelationship(
@@ -559,18 +603,39 @@ export function showMaterializationDialog(
         state,
         commit
         ) {
+    const attribute = state.model.conceptual.attributes.find(
+            item => item.id === state.selectedId
+            );
+    const generalization = state.model.conceptual.generalizations.find(
+            item => item.id === state.selectedId
+            );
+
+    if (attribute) {
+        showMultivaluedMaterializationDialog( state, commit, attribute );
+        return;
+        }
+
+    if (generalization) {
+        showClassTablesMaterializationDialog( state, commit, generalization );
+        return;
+        }
+
     const relation = state.model.conceptual.relationships.find(
             item => item.id === state.selectedId
             );
 
     if (!relation) {
-        throw new Error( 'Selecciona una relación conceptual nativa.' );
+        throw new Error( 'Selecciona una relación, un atributo multivaluado o una especialización.' );
         }
 
     const attributes = state.model.conceptual.attributes.filter(
             item => item.ownerKind === 'relationship' && item.ownerId === relation.id
             );
     const key = relation.translation?.key;
+    const contextIds = relation.translation?.cardinalityContextAttributeIds;
+    const context = Array.isArray( contextIds )
+        ? contextIds.length ? 'attributes' : 'global'
+        : '';
 
     openDialog(
             'Clave y materialización de la relación',
@@ -612,7 +677,33 @@ export function showMaterializationDialog(
                             key?.attributeIds.includes( attribute.id ) || false,
                             `name="attributeIds" value="${attribute.id}"`
                             )
-                    ).join( '' )}</fieldset></div>
+                    ).join( '' )}</fieldset>
+            ${relation.participations.length === 3 ? `<fieldset>
+                <legend>Contexto de cardinalidad por combinación de los otros roles</legend>
+                <label>Ámbito explícito<select name="cardinalityContext">${options(
+                        [
+                            ['', 'Sin decidir · desconocido documental si es anterior'],
+                            ['global', 'Global · sin contexto adicional'],
+                            ['attributes', 'Por período u otros atributos de contexto']
+                            ],
+                        context
+                        )}</select></label>
+                <div data-cardinality-context>${attributes.filter(
+                        attribute => attribute.structure === 'simple'
+                            && !attribute.multivalued
+                            && !attribute.derived
+                            && attribute.required
+                        ).map(
+                        attribute => check(
+                                escapeHTML( attribute.name ),
+                                'contextAttribute',
+                                contextIds?.includes( attribute.id ) || false,
+                                `name="contextAttributeIds" value="${attribute.id}"`
+                                )
+                        ).join( '' ) || '<p>No hay atributos de contexto simples y requeridos.</p>'}</div>
+                <p class="field-hint">Cada rama «Uno» limita su valor por la combinación de
+                    los otros roles y este contexto. Elegir período en la identidad no elige
+                    el contexto. «Varios» se configura por separado.</p></fieldset>` : ''}</div>
             <p>¿Puede repetirse la misma combinación en otro período?
                 Añade primero ese atributo y selecciónalo si distingue la ocurrencia.</p>
             <p class="field-hint">No se supone que todas las claves participantes basten.
@@ -630,11 +721,102 @@ export function showMaterializationDialog(
                                 : {
                                 kind: 'association',
                                 tableName: values.get( 'tableName' ).trim(),
+                                ...(relation.participations.length === 3
+                                    ? {cardinalityContextAttributeIds: dialogCardinalityContext( values )}
+                                    : {}),
                                 key: {
                                     participationIds: values.getAll( 'participationIds' ),
                                     attributeIds: values.getAll( 'attributeIds' )
                                     }
                                 }}
+                            )
+                    ),
+            'Materializar'
+            );
+    }
+
+function dialogCardinalityContext( values ) {
+    const context = values.get( 'cardinalityContext' );
+
+    if (context === 'global') {
+        return [];
+        }
+
+    if (context === 'attributes') {
+        const attributes = values.getAll( 'contextAttributeIds' );
+
+        if (!attributes.length) {
+            throw new Error( 'Selecciona al menos un atributo de contexto o elige Global.' );
+            }
+
+        return attributes;
+        }
+
+    return null;
+    }
+
+function showMultivaluedMaterializationDialog(
+        state,
+        commit,
+        attribute
+        ) {
+    if (!attribute.multivalued) {
+        throw new Error( 'Marca Multivaluado en Editar atributo antes de elegir la tabla auxiliar.' );
+        }
+
+    openDialog(
+            'Multivaluado → Tabla auxiliar',
+            `<div class="dialog-fields"><p><strong>${escapeHTML( attribute.name )}</strong></p>
+            <label>Tabla auxiliar<input name="tableName" required
+                value="${escapeHTML( attribute.translation?.tableName || attribute.name )}"></label>
+            <p>PK: clave propietaria completa + valor o componentes simples.
+                FK: clave propietaria completa → tabla propietaria.</p>
+            <p class="field-hint">El atributo conceptual y sus componentes se conservan.
+                Se retira la copia escalar; las referencias incompatibles se rechazan
+                antes de modificar el documento.</p></div>`,
+            values => commit(
+                    updateConceptualAttribute(
+                            state.model,
+                            attribute.id,
+                            {
+                                translation: {
+                                    kind: 'multivalued-table',
+                                    tableName: values.get( 'tableName' ).trim()
+                                    }
+                                }
+                            )
+                    ),
+            'Materializar'
+            );
+    }
+
+function showClassTablesMaterializationDialog(
+        state,
+        commit,
+        generalization
+        ) {
+    const entities = getConceptualProjection( state.model ).entities;
+    const parent = entities.find( item => item.id === generalization.supertypeId );
+    const subtypes = generalization.subtypeIds.map(
+            id => entities.find( item => item.id === id ).name
+            );
+
+    openDialog(
+            'Tablas de superclase y subclases',
+            `<div class="dialog-fields"><p>Superclase: <strong>${escapeHTML( parent.name )}</strong>.
+                Subclases: ${subtypes.map( escapeHTML ).join( ', ' )}.</p>
+            <p>La PK completa de la superclase será PK y FK de cada subclase.</p>
+            <p class="field-hint">Si una subclase tiene una PK local incompatible, cancela
+                y selecciona su atributo → Editar atributo y dominio: desmarca Clave.
+                Si su nombre coincide con una columna heredada, renómbralo también.
+                Se conserva la columna con su identidad.</p>
+            <p>Disjunta/solapada y total/parcial se conservan como restricciones documentales;
+                las PK y FK no imponen esas reglas. Las otras estrategias no están implementadas.</p></div>`,
+            () => commit(
+                    updateConceptualGeneralization(
+                            state.model,
+                            generalization.id,
+                            {translation: {kind: 'class-tables'}}
                             )
                     ),
             'Materializar'
@@ -680,7 +862,7 @@ export function showGeneralizationDialog(
                     disjoint: values.has( 'disjoint' ),
                     total: values.has( 'total' ),
                     notes: values.get( 'notes' ),
-                    translation: null
+                    translation: existing?.translation || null
                     };
                 const next = existing
                     ? updateConceptualGeneralization( state.model, existing.id, definition )

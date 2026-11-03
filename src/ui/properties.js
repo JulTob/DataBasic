@@ -246,8 +246,13 @@ export function renderProperties(
         }
 
     const origin = model.traces.find( trace => trace.targetId === table?.id || trace.targetId === relation?.id );
+    const originId = origin?.sourceKind === 'participation'
+        ? model.conceptual.relationships.find(
+                item => item.participations.some( part => part.id === origin.sourceId )
+                )?.id || origin.sourceId
+        : origin?.sourceId;
     const provenance = origin
-        ? `<p class="provenance">Materialización vinculada · <button data-origin="${origin.sourceId}">Editar origen Chen</button></p>`
+        ? `<p class="provenance">Materialización vinculada · <button data-origin="${originId}">Editar origen Chen</button></p>`
         : model.display.mode === 'chen'
             ? '<p class="provenance">Proyección relacional parcial · no se ha inferido intención ERE.</p>'
             : '';
@@ -341,9 +346,12 @@ function nativeProperties(
         const entities = getConceptualProjection( model ).entities;
 
         content = `<h3>Participaciones, roles y límites</h3>
-            <p class="field-hint">Cada par (mín,máx) se lee junto a su entidad:
+            <p class="field-hint">Cada par se lee junto a su entidad:
                 cuántas ocurrencias de esta relación admite una ocurrencia de esa entidad.
-                La letra 1/N junto al rombo es la razón de cardinalidad de esa rama.</p>
+                La letra 1/N junto al rombo es la razón de cardinalidad de esa rama:
+                en una binaria es el máximo de la otra rama; en una ternaria es la
+                cardinalidad por combinación elegida más abajo.</p>
+            <h4>Participación absoluta</h4>
             <div class="participation-list">${relation.participations.map(
                     part => `<fieldset><legend>${escapeHTML( entities.find( entity => entity.id === part.entityId )?.name || part.entityId )}</legend>
                         <label>Rol<input data-participation="${part.id}" data-field="role"
@@ -352,19 +360,26 @@ function nativeProperties(
                             data-field="min" value="${part.min}"></label>
                         <label>Máximo<input data-participation="${part.id}" data-field="max"
                             value="${part.max ?? 'N'}" title="N indica muchos"></label>
-                        <label>Letra junto al rombo<select data-participation="${part.id}"
-                            data-field="cardinality">${options(
-                                [
-                                    ['', `Automática · ${participationCardinalityLetter( relation, part )}`],
-                                    ['1', '1'],
-                                    ['N', 'N']
-                                    ],
-                                part.cardinality || ''
-                                )}</select></label></fieldset>`
+                        ${relation.participations.length === 2
+                            ? `<p class="field-hint">Letra junto al rombo: ${participationCardinalityLetter( relation, part )}</p>`
+                            : ''}</fieldset>`
                     ).join( '' )}</div>
-            <p class="field-hint">${relation.participations.length === 2
-                ? 'En una binaria la letra automática es el máximo de la otra rama.'
-                : 'En una ternaria la letra de cada rama la decide el autor; automática muestra N.'}</p>`;
+            ${relation.participations.length === 3 ? `<h4>Cardinalidad por combinación de los otros roles</h4>
+                <p class="field-hint">Para una combinación fija de los otros dos roles y el
+                    contexto elegido en Correspondencias, ¿cuántos valores admite este rol?</p>
+                <div class="participation-list">${relation.participations.map(
+                        part => `<label>${escapeHTML( part.role || 'Sin rol' )}
+                            <select data-participation="${part.id}" data-field="cardinality">${options(
+                                    [
+                                        ['', 'Desconocida · documental si es anterior'],
+                                        ['one', 'Uno · máximo por combinación'],
+                                        ['many', 'Muchos · sin ese máximo']
+                                        ],
+                                    part.cardinality || ''
+                                    )}</select></label>`
+                        ).join( '' )}</div>
+                <p class="field-hint">Estas decisiones no sustituyen los mínimos/máximos
+                    absolutos ni eligen la identidad de cada ocurrencia.</p>` : ''}`;
         }
     else if (relation && category === 'translation') {
         content = `<p>${relation.translation
@@ -372,7 +387,9 @@ function nativeProperties(
             : 'Pendiente: el dibujo se guarda sin inventar una clave o tabla.'}</p>
             ${command( 'materialize', 'Elegir clave y materializar…', 'table-2' )}
             <p class="field-hint">Una N:N o ternaria usa una tabla asociativa.
-                Una fecha/período puede formar parte de la identidad de cada ocurrencia.</p>`;
+                Una fecha/período puede formar parte de la identidad de cada ocurrencia.
+                En ternarias, el contexto de cardinalidad se elige por separado.</p>
+            ${conceptualMaterializationSummary( model, relation.id )}`;
         }
     else if (entity) {
         content = `<div class="dialog-fields">
@@ -403,12 +420,21 @@ function nativeProperties(
                 ${attribute.primary ? ' · Clave' : ''}${attribute.partialKey ? ' · Clave parcial' : ''}
                 ${attribute.multivalued ? ' · Multivaluado' : ''}${attribute.derived ? ' · Derivado' : ''}
                 ${attribute.structure === 'composite' ? ' · Compuesto' : ''}</p>
-            ${command( 'edit-attribute', 'Editar atributo y dominio…', 'pencil' )}</div>`;
+            ${command( 'edit-attribute', 'Editar atributo y dominio…', 'pencil' )}
+            ${attribute.multivalued
+                ? command( 'materialize', 'Multivaluado → Tabla auxiliar…', 'table-2' )
+                : ''}
+            ${conceptualMaterializationSummary( model, attribute.id )}</div>`;
         }
     else if (generalization) {
         content = `<p>Especialización ${generalization.disjoint ? 'disjunta' : 'solapada'}
             · ${generalization.total ? 'total' : 'parcial'}.</p>
-            ${command( 'edit-generalization', 'Editar especialización…', 'pencil' )}`;
+            ${command( 'edit-generalization', 'Editar especialización…', 'pencil' )}
+            ${command( 'materialize', 'Tablas de superclase y subclases…', 'table-2' )}
+            <p class="field-hint">Cada subclase hereda la PK completa como PK y FK.
+                Una clave local incompatible debe resolverse en Editar atributo y dominio.
+                Disjunta/solapada y total/parcial se conservan como restricciones documentales.</p>
+            ${conceptualMaterializationSummary( model, generalization.id )}`;
         }
     else {
         content = `<div class="dialog-fields">${propertyInput( 'Nombre:', 'name', relation.name )}
@@ -422,5 +448,53 @@ function nativeProperties(
                     class="${id === category ? 'active' : ''}">${label}</button>`
                 ).join( '' )}</nav><div class="property-content">
         <p class="provenance">Conceptual nativo · ${model.traces.filter( trace => trace.sourceId === item.id ).length} correspondencias</p>
-        ${content}${statuses.map( status => `<p class="pending-message">${escapeHTML( status.message )}</p>` ).join( '' )}</div>`;
+        ${content}${statuses.map(
+                status => `<p class="pending-message"><strong>${status.code === 'pending'
+                    ? 'Pendiente'
+                    : status.code === 'documentary' ? 'Documental' : 'Aviso'}:</strong>
+                    ${escapeHTML( status.message )}</p>`
+                ).join( '' )}</div>`;
+    }
+
+function conceptualMaterializationSummary(
+        model,
+        sourceId
+        ) {
+    const traces = model.traces.filter( trace => trace.sourceId === sourceId );
+    const association = model.conceptual.relationships.find( relation => relation.id === sourceId );
+    const participationIds = association?.participations.map( part => part.id ) || [];
+    const participationTraces = model.traces.filter(
+            trace => trace.sourceKind === 'participation'
+                && participationIds.includes( trace.sourceId )
+            );
+    const relations = model.relationships.filter(
+            relation => [...traces, ...participationTraces].some(
+                    trace => trace.targetId === relation.id
+                    )
+            );
+    const tables = model.tables.filter(
+            table => traces.some( trace => trace.targetId === table.id )
+                || relations.some( relation => relation.childId === table.id )
+            );
+
+    if (!tables.length) {
+        return '';
+        }
+
+    return `<div class="materialization-summary">${tables.map(
+            table => `<p><strong>${escapeHTML( table.name )}</strong> · PK:
+                ${table.columns.filter( column => column.primary ).map(
+                        column => escapeHTML( column.name )
+                        ).join( ', ' ) || 'sin clave'}</p>`
+            ).join( '' )}${relations.map(
+            relation => {
+                const parent = model.tables.find( table => table.id === relation.parentId );
+                const child = model.tables.find( table => table.id === relation.childId );
+
+                return `<p>FK: ${escapeHTML( child.name )} (${
+                    relation.mappings.map( pair => escapeHTML(
+                            child.columns.find( column => column.id === pair.childColumnId ).name
+                            ) ).join( ', ' )}) → ${escapeHTML( parent.name )}</p>`;
+                }
+            ).join( '' )}</div>`;
     }

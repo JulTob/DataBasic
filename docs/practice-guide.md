@@ -1,292 +1,332 @@
-# Guía de práctica de DataBasic 0.3
+# Guía de práctica de DataBasic 0.4.0
 
-Trabajamos con ejemplos propios de un pequeño laboratorio. Cada recorrido
-termina con algo que comprobar. Conviene descargar una copia antes de empezar
-otro ejercicio con **Archivo → Guardar**.
+El _club de observación_ presta instrumentos y organiza sesiones. El núcleo
+usa sólo tres entidades: `Persona`, `Instrumento` y `Sesion`. Cada ampliación
+es una copia independiente; no hace falta reunirlas en un dibujo enorme.
+Los supuestos son propios de este ejemplo, sin reproducir la práctica del curso.
 
-**Relacional** y **Chen** son representaciones del mismo documento. El primero
-sirve para practicar tablas y propiedades con rutas reconocibles de Visio
-2010; Chen es una ampliación educativa de DataBasic. Cambiar de representación
-no convierte automáticamente todo el modelo ni recupera intención desconocida.
+Descarga el archivo de cada etapa y ábrelo con __Archivo → Abrir__.
+En GitHub, abre el enlace y usa __Download raw file__ para descargar el JSON.
+Conserva tu trabajo con __Archivo → Guardar__ antes de abrir otra etapa.
+Para practicar aparte, abre [una práctica independiente](https://jultob.github.io/DataBasic/?practica=club-observacion)
+y comprueba el indicador __Práctica independiente__.
 
-## Crear una tabla con tipos, PK, AK y dominio
+| Etapa | Archivo editable | Punto de control |
+| --- | --- | --- |
+| 0 | [Núcleo](../examples/00-nucleo.databasic.json) | 3 entidades, 1 relación; cuatro familias de tipos, PK, AK y dominio. |
+| 1 | [N:N con atributo](../examples/01-nn.databasic.json) | `Habilitacion`, 2 FKs y PK de la pareja. |
+| 2 | [Ternaria pendiente](../examples/02-ternaria-pendiente.databasic.json) · [resultado](../examples/02-ternaria-resuelta.databasic.json) | `Utilizacion`, 3 FKs, instante en PK y contexto explícito. |
+| 3 | [Multivaluados pendientes](../examples/03-multivaluados-pendiente.databasic.json) · [resultado](../examples/03-multivaluados-resuelto.databasic.json) | `Etiquetas` y `Calibraciones`; PK propietaria compuesta completa. |
+| 4 | [Jerarquía pendiente](../examples/04-jerarquia-pendiente.databasic.json) · [resultado](../examples/04-jerarquia-resuelta.databasic.json) | Rechazo de PK local, corrección y PK/FK heredada. |
+| 4b | [Solapada y parcial](../examples/04b-jerarquia-solapada-parcial.databasic.json) | Misma estrategia; restricciones residuales diferentes. |
+| 5 | [Entidad débil](../examples/05-debil.databasic.json) | `Puerto` identificado por instrumento y número local. |
+| 6 | [Compuestos, derivado y recursiva](../examples/06-compuestos-recursiva.databasic.json) | Componentes de entidad y relación; dos roles de Persona. |
 
-**Situación.** Queremos describir equipos: un código interno, un número de
-serie único, una fecha de alta y un coste no negativo.
+Los archivos son documentos de formato 2 con IDs fijos. El ejemplo pendiente
+permite practicar la decisión; el resultado sirve para comparar. Abrir el
+resultado no demuestra haber ejecutado la transformación desde los controles.
+Las [pruebas del ejemplo](../tests/examples.test.js) leen estos archivos reales,
+comprueban sus correspondencias y repiten las decisiones mediante el modelo.
+El [registro de verificación](verification.md) separa esa evidencia del navegador
+y de la publicación.
 
-1. Usa **Archivo → Nuevo**. En la barra superior conserva **Relacional** y
-   **Perfil → Curso · 4 tipos**.
-2. Pulsa **Entidad** en Formas. En **Definición**, escribe `Equipo` como nombre.
-3. Abre **Columnas** o haz doble clic en la tabla. Renombra la columna inicial
-   a `codigoEquipo`; conserva **PK**. PK implica requerido.
-4. Usa **Agregar** para cada columna y **Editar…** para elegir:
+## 0. Reconocer tipos, identidad y una binaria
 
-   | Columna | Familia y parámetros | Decisión |
+_Situación._ Cada sesión tiene una persona coordinadora. Una persona puede
+coordinar ninguna o varias sesiones. Cada instrumento tiene código, serie
+única, fecha de alta y valor no negativo.
+
+1. Abre __Núcleo__ y conserva __Perfil → Curso · 4 tipos__.
+2. En __Chen__, selecciona `Instrumento` → __Atributos__. Revisa los atributos.
+   Cambia a __Relacional__ y abre __Columnas__ para comparar:
+
+   | Atributo | Tipo | Regla |
    | --- | --- | --- |
-   | codigoEquipo | NUMBER, sin parámetros explícitos | PK. |
-   | serie | CHAR, longitud 12 | Identificador alternativo. |
-   | fechaAlta | DATE | Requerido. |
-   | coste | NUMBER, precisión 8, escala 2 | Requerido; mínimo de dominio 0. |
+   | Persona.codigoPersona | NUMBER | PK. |
+   | Persona.nombre | VARCHAR(60) | Requerido. |
+   | Instrumento.codigoInstrumento | NUMBER | PK. |
+   | Instrumento.serie | CHAR(12) | AK y requerido. |
+   | Instrumento.fechaAlta | DATE | Requerido. |
+   | Instrumento.valor | NUMBER(8,2) | Requerido, mínimo 0, predeterminado `0`. |
+   | Sesion.codigoSesion | NUMBER | PK. |
+   | Sesion.fecha | DATE | Requerido. |
 
-5. Para `coste`, fija **Valor predeterminado (expresión SQL)** a `0` solo si
-   esa es la regla del ejemplo. En **Dominio declarativo**, indica mínimo `0`.
-   No escribas comillas alrededor de un predeterminado numérico.
-6. Abre **Índices / Claves alternativas → Clave alternativa…**, nómbrala
-   `AK_Equipo_serie` y elige `serie`. La columna pasa a ser requerida.
-7. Usa **Base de datos → Ver SQL** o **Archivo → SQL** para revisar la
-   declaración; el SQL de estudio no se ejecuta en la aplicación.
+3. En `Instrumento` → __Índices / Claves alternativas__, comprueba
+   `AK_Instrumento_serie`; no es la PK ni sólo un índice único.
+4. En __Columnas__, selecciona `valor` → __Editar…__. Revisa precisión,
+   escala, predeterminado y mínimo de dominio. Cierra sin cambiar la regla.
+5. Selecciona `Coordina` en Chen: `coordinadora` tiene `(0,N)` y `sesion`
+   tiene `(1,1)`. Junto al rombo se lee la letra de cada rama como en los
+   apuntes: `1` en la rama de `coordinadora` y `N` en la de `sesion`, porque
+   en una binaria la letra es el máximo de la otra rama. En
+   __Correspondencias__, el receptor FK es `Sesion`.
+6. Vuelve a Relacional. La columna `coordinadora_codigoPersona` es FK requerida;
+   no forma parte de la PK de Sesion. Abre __Archivo → SQL__.
 
-**Qué comprobar.** El dibujo y las propiedades conservan tipos completos;
-`serie` figura como AK, distinta de PK y de un índice único. El SQL contiene
-la PK, UNIQUE para la AK, NOT NULL, DEFAULT y CHECK del coste. DataBasic no
-demuestra que el conjunto elegido sea una clave mínima del negocio: eso hay
-que justificarlo.
+_Resultado esperado._ Hay tres tablas y una FK Persona→Sesion. El SQL contiene
+PK, `UNIQUE ("serie")`, `DEFAULT 0`, `CHECK ("valor" >= 0)` y `NOT NULL`.
+`NUMBER(8,2)` se exporta como `NUMERIC(8,2)`.
 
-El perfil del curso ofrece VARCHAR, CHAR, NUMBER y DATE. Longitud corresponde
-a caracteres; precisión y escala, a números; DATE no lleva parámetros. El
-selector General permite trabajar con tipos anteriores. Cambiar de perfil no
-convierte silenciosamente tipos incompatibles.
+_Qué comprobar y escribir._ Explica por qué `serie` es candidata según el
+supuesto. La FK requerida exige coordinadora para cada sesión; no exige que
+toda persona coordine sesiones. Una clave mínima de negocio requiere tu
+justificación, además de las marcas del programa.
 
-## Conectar padre e hijo y leer Varios
+### Acciones referenciales de Coordina
 
-**Situación.** Cada equipo puede registrar varias revisiones. Una revisión
-pertenece a un equipo; en una variante provisional puede desconocerse ese equipo.
+_Situación._ Queremos que borrar una persona coordinadora elimine sus sesiones
+según una política explícita, sin cambiar la estructura de la relación.
 
-1. En **Relacional**, crea `Revision`, con su propia PK `codigoRevision`.
-2. Pulsa **Relación** en Formas. Selecciona primero `Equipo` y después `Revision`.
-3. Selecciona el conector. En **Definición**, comprueba los componentes de la
-   PK principal y sus columnas FK secundarias. La PK completa del padre migra.
-4. Abre **Varios**. En **Cardinalidad y dependencia**, elige **Cero o más**:
-   describe cuántas revisiones puede tener un equipo.
-5. En **El hijo tiene un padre**, **Opcional** significa que una revisión puede
-   existir sin equipo. Desmárcalo para exigir equipo a cada revisión.
-6. En **Tipo de relación**, distingue **Identificadora** de **No identificadora**.
-   Identificadora incorpora la FK a la PK hija; no significa por sí sola que
-   el diseño conceptual original fuera una entidad débil. Volver a No
-   identificadora saca la FK de la PK hija y permite de nuevo marcarla Opcional.
-7. Abre **Acción referencial** para elegir qué ocurre al borrar el padre o
-   actualizar su clave. Prueba SET NULL solo con FK anulable; SET DEFAULT
-   necesita predeterminados. Para conservar el caso obligatorio, usa NO ACTION
-   o la política que hayas justificado.
+1. Guarda una copia del núcleo. En __Relacional__, selecciona el conector FK
+   de `Coordina`, desde Persona hacia Sesion, y abre __Acción referencial__.
+2. En __Al eliminar el padre__, elige __CASCADE__. En __Al actualizar su
+   clave__, conserva __NO ACTION__. Revisa __Archivo → SQL__: debe contener
+   `ON DELETE CASCADE` y `ON UPDATE NO ACTION` para esa FK.
+3. En la misma FK, intenta __SET NULL__. Debe rechazarse: la coordinadora
+   es obligatoria y su FK no admite nulos. CASCADE debe seguir elegido.
+4. Usa __Deshacer__ y __Rehacer__; guarda y reabre. Selecciona la FK y pulsa
+   __Editar origen Chen__. Vuelve a materializar la misma decisión de Coordina;
+   la política debe conservarse.
+5. Para recuperar la política inicial, selecciona otra vez la FK física
+   y cambia __Al eliminar el padre__ a __NO ACTION__.
 
-**Qué comprobar.** La identidad propia de `Revision` no se reutiliza como FK
-solo por coincidir su nombre con el del padre. La opción de muchos no contradice
-una clave única sobre toda la FK. Una PK compuesta que contiene la FK como
-parte no limita por ello a un único hijo.
+_Qué comprobar y escribir._ Las acciones se eligen en la FK física concreta,
+también cuando proviene de una tabla auxiliar o de una jerarquía. La estructura
+generada se sigue editando desde su origen Chen. No se borran filas dentro de
+DataBasic: se comprueba la política declarada y su SQL.
 
-Una FK no nula exige padre a cada hijo; no exige hijos a cada padre. Para
-practicar una PK compuesta, marca varias columnas PK en **Columnas** o en
-**Identificador principal** y comprueba que todas migran al conectar.
+### Practicar 1:1 y acciones compatibles en otra copia
 
-## Elegir IDEF1X y pasar a Chen
+_Situación._ Queremos comprobar restricciones sin cambiar el núcleo descargado.
 
-**Situación.** Queremos ver la misma relación en dos representaciones y leer
-sus límites sin intercambiar los extremos.
+1. Guarda una copia. En Chen crea `Responsabiliza` entre Persona e Instrumento
+   con `(0,1)` en ambas ramas. En __Correspondencias → Elegir clave y
+   materializar…__, elige __FK binaria · elegir lado receptor__, Instrumento,
+   sin identificación. Comprueba en SQL la FK anulable y su `UNIQUE`.
+2. Para comparar acciones con una FK opcional, crea en __Relacional__ dos
+   tablas de prueba `Padre` y `Hijo` con sus PK. Pulsa
+   __Relación__, primero Padre y después Hijo.
+3. Selecciona el conector → __Varios__. Conserva padre opcional y relación no
+   identificadora. En __Acción referencial__, prueba __SET NULL__; revisa el SQL.
+4. Cambia a padre obligatorio. SET NULL debe rechazarse con explicación.
+   Conserva una copia previa para comprobar que el rechazo no pierde datos.
+5. Prueba __SET DEFAULT__ sin predeterminado: debe rechazarse. En Columnas de
+   Hijo, asigna a la FK un predeterminado numérico; vuelve a intentarlo.
+6. Compara __NO ACTION__ y __CASCADE__ en borrado/actualización. Descarga SQL;
+   ninguna acción se ejecuta contra registros dentro de DataBasic.
 
-1. Abre **Vista → Opciones de visualización → Relaciones → Notación → IDEF1X**.
-   Las alternativas Patas de cuervo y Flecha relacional son opciones diferentes.
-2. En **Tablas**, activa **Tipos de datos** y **Claves primarias y foráneas**.
-   En Relaciones puedes mostrar cardinalidad numérica y textos.
-3. Lee IDEF1X: caja rectangular para identidad independiente y esquinas
-   redondeadas para dependiente; vínculo identificador continuo y no
-   identificador discontinuo. El punto está en el hijo; sin letra significa
-   0..N, `P` significa 1..N, `Z` significa 0..1 y `1`, exactamente uno.
-   El rombo hueco del lado padre indica la variante no identificadora opcional.
-4. Pulsa **Chen** en la barra superior. Las tablas creadas en Relacional se
-   muestran como **proyección parcial**; una tabla con dos FKs sigue siendo tabla.
-5. En nuestro caso, si Equipo tiene cero o muchas revisiones y Revision admite
-   cero o un equipo, lee **Equipo (0,N)** y **Revision (0,1)** junto a sus ramas.
-   Junto al rombo aparecen las letras de la razón de cardinalidad: **1** en la
-   rama de Equipo y **N** en la de Revision, como en los apuntes del curso.
-6. Vuelve a **Relacional**. Mueve una forma y alterna de nuevo para comparar las
-   disposiciones independientes. Usa **Deshacer** y **Rehacer** para revisar un cambio.
+_Qué comprobar y escribir._ 1:1 necesita unicidad de la FK, además de referencia.
+El predeterminado debe referirse a un padre existente cuando se use en un SGBD;
+DataBasic no comprueba esa fila. No guardes las tablas de prueba sobre el núcleo.
 
-**Qué comprobar.** Alternar no crea tablas, elige claves ni pierde atributos.
-En Chen, cada par indica cuántas ocurrencias de esa relación admite una
-ocurrencia de **esa entidad en ese rol**. No es el marcador del extremo opuesto
-copiado desde la FK. Las guías finas unen los rótulos desplazados con la rama
-de su participación. **General → Nombres conceptuales** solo alterna nombres
-de tablas: es una opción diferente del botón Chen.
+## 1. Una N:N con atributo propio
 
-## Recolocar relaciones
+_Situación._ Una persona puede estar habilitada para varios instrumentos y
+cada instrumento admitir varias personas. Sólo hay una habilitación por pareja.
 
-**Situación.** El rombo o las lecturas de una relación dificultan leer el dibujo.
+1. Abre __N:N con atributo__. En Chen selecciona `Habilitacion`.
+2. En __Varios__, comprueba los roles `persona` e `instrumento`, ambos `(0,N)`.
+3. En __Atributos__, revisa `fechaAlta` de tipo DATE.
+4. En __Correspondencias → Elegir clave y materializar…__, revisa
+   __Tabla asociativa · N:N / ternaria__, nombre `Habilitacion` y las claves
+   de los dos roles como __Identidad de cada ocurrencia__. No marques la fecha.
+5. Materializa de nuevo y compara ambas representaciones.
 
-1. En **Chen**, arrastra el rombo; en **Relacional**, arrastra el bloque que
-   contiene las lecturas directa e inversa.
-2. Suelta cerca del hueco deseado. La aplicación evita las cajas de otras
-   figuras y rótulos. Las guías mantienen la referencia a su conector.
-3. Usa **Deshacer** para recuperar la posición anterior o **Escape** antes
-   de soltar para cancelar el arrastre.
-4. **Distribuir** organiza el dibujo de nuevo, incluidos los rótulos movidos
-   a mano; también puede deshacerse.
+_Resultado esperado._ Una tabla Habilitacion, dos FKs y PK
+`(persona_codigoPersona, instrumento_codigoInstrumento)`, además de fechaAlta.
+Repetir la decisión conserva los objetos existentes.
 
-**Qué comprobar.** Guardar y reabrir conserva las posiciones por vista.
-Las claves y participaciones permanecen iguales. Las líneas de un grafo
-pueden cruzarse aunque las cajas y los rótulos se mantengan separados.
+_Qué comprobar y escribir._ La pareja no se repite aunque cambie la fecha.
+En Chen sigue habiendo una sola relación con dos participaciones y un atributo.
 
-## Relaciones N:N y ternarias
+## 2. Ternaria: separar participación, identidad y cardinalidad
 
-### Una N:N con atributo propio
+_Situación._ Una persona utiliza un instrumento en una sesión en un instante.
+La misma terna puede repetirse en instantes distintos. En una misma sesión
+y un mismo instante, una persona utiliza como máximo un instrumento.
+`instante` usa DATE para respetar el perfil del curso; su precisión física
+necesita una decisión al llevarlo al motor de destino.
 
-**Situación.** Una persona puede inscribirse en varias actividades; una actividad
-admite varias personas. Suponemos una sola inscripción por pareja.
+1. Abre __Ternaria pendiente__. Selecciona `Utiliza` → __Varios__.
+2. Conserva __Participación absoluta__ `(0,N)` en las tres ramas: una persona,
+   instrumento o sesión puede participar muchas veces a lo largo del ejercicio.
+3. En __Cardinalidad por combinación de los otros roles__, elige
+   __Uno · máximo por combinación__ para `instrumento`; elige
+   __Muchos · sin ese máximo__ para `persona` y `sesion`. Esa elección es la
+   letra `1` o `N` de cada rama de la ternaria en la figura de la práctica;
+   mientras no se decide, la rama no muestra letra.
+4. En __Atributos__, comprueba `instante` DATE requerido y `minutos`
+   NUMBER(4,0) requerido con mínimo 1.
+5. En __Correspondencias → Elegir clave y materializar…__, elige tabla
+   asociativa `Utilizacion`. En __Identidad de cada ocurrencia__, marca
+   los tres roles y `instante`.
+6. En __Contexto de cardinalidad por combinación de los otros roles → Ámbito explícito__, elige
+   __Por período u otros atributos de contexto__ y marca `instante`.
+   No basta haberlo marcado en la identidad.
+7. Materializa. Guarda/reabre y compara con __Ternaria resuelta__.
 
-1. En **Chen**, crea las entidades nativas `Persona` y `Actividad`. Revisa sus
-   atributos clave iniciales en **Atributos**.
-2. Pulsa **Relación**. Pon `Inscripcion`, grado **Binaria**, elige ambas entidades
-   y sus roles. Para este ejemplo usa mínimo `0` y máximo `N` en ambas ramas.
-   Deja la **letra junto al rombo** en automática: en una binaria es el máximo
-   de la otra rama, aquí `N` en ambas.
-3. Acepta. La relación puede guardarse **pendiente**; todavía no tiene tabla asociativa.
-4. Selecciona el rombo → **Atributos → Agregar atributo…**. Elige la relación
-   como propietario y crea `fechaAlta` con tipo DATE.
-5. Vuelve al rombo → **Correspondencias → Elegir clave y materializar…**.
-6. Elige **Tabla asociativa · N:N / ternaria**, nombre `Inscripcion`, y marca
-   las claves de ambos roles en **Identidad de cada ocurrencia**. En este ejemplo
-   la fecha no identifica: la regla impide repetir la pareja.
-7. Pulsa **Materializar** y cambia a Relacional.
+_Resultado esperado._ La PK reúne las tres FKs y `instante`. Una AK adicional
+reúne sólo `(persona_codigoPersona, sesion_codigoSesion, instante)`: para esa
+combinación no puede aparecer un segundo instrumento. No se añade unicidad
+absoluta sobre Persona o Instrumento.
 
-**Qué comprobar.** Hay una tabla de inscripción con ambas FKs, PK compuesta y
-`fechaAlta`. Chen conserva un rombo con su atributo y sus roles. Una tabla puente
-heredada no se convierte automáticamente en esta relación nativa.
+_Qué comprobar y escribir._ Mismos Persona/Instrumento/Sesion con otro instante
+son distinguibles. Cambiar sólo el instrumento en el mismo Persona/Sesion/instante
+viola la AK. Son comprobaciones de las claves declaradas, sin insertar filas en
+un motor real. Elegir contexto __Global__ expresaría otra regla, sin instante.
 
-### Una ternaria que puede repetirse por período
+Un archivo anterior sin cardinalidad por combinación conserva su SQL y muestra
+esa cardinalidad como desconocida documental; no se deduce desde mín./máx. ni
+PK. Una decisión nueva incompleta queda pendiente y bloquea el SQL completo.
 
-**Situación.** Un técnico usa un equipo en un proyecto. La misma terna puede
-repetirse en meses diferentes, y registramos horas en cada mes.
+## 3. Multivaluados simples y compuestos
 
-1. En un documento de práctica, crea `Tecnico`, `Equipo` y `Proyecto` en Chen.
-2. Pulsa **Relación**, nombre `UsoMensual`, grado **Ternaria**. Elige los tres
-   participantes y roles `operador`, `recurso` y `contexto`.
-3. Declara mínimos/máximos por rama según el supuesto del ejemplo; para una
-   prueba sin obligatoriedad, usa `(0,N)` en las tres. Elige la **letra junto
-   al rombo** de cada rama (`1` o `N`): en una ternaria no se deduce de los
-   pares, la decides tú y puedes cambiarla después en **Varios**. Anota la
-   regla del mes en **Notas**: esos pares no describen por sí solos toda
-   restricción ternaria.
-4. En **Atributos**, crea `periodo` de tipo DATE y `horas` de tipo NUMBER(6,2).
-   Para el ejemplo, acordamos usar el primer día de cada mes como período.
-5. En **Correspondencias → Elegir clave y materializar…**, elige tabla asociativa
-   `UsoMensual`. Marca las claves de los tres roles **y `periodo`** como identidad.
-6. Materializa y abre Relacional. Revisa la tabla, sus tres FKs y la PK elegida.
+_Situación._ Cada instrumento puede tener varias etiquetas y varias
+calibraciones, descritas por fecha y patrón. En esta copia el código es local
+a una sede: la PK de Instrumento es `(codigoInstrumento, sede)`.
 
-**Qué comprobar.** La misma terna puede aparecer en meses distintos. No se ha
-impuesto una PK de solo tres FKs ni sustituido la ternaria por tres binarias.
-El formato DATE no impone por sí solo «primer día del mes»: esa regla necesita
-justificación y, si se implementa, una restricción adecuada al motor.
+1. Abre __Multivaluados pendientes__. Revisa la PK de Instrumento en Relacional
+   y vuelve a Chen.
+2. Selecciona `etiqueta` → __Definición → Multivaluado → Tabla auxiliar…__.
+   Pon nombre `Etiquetas` y pulsa __Materializar__.
+3. Selecciona `calibracion`: es compuesto y multivaluado; sus componentes
+   `fechaCalibracion` DATE y `patron` CHAR(10) ya están creados.
+4. Pulsa __Multivaluado → Tabla auxiliar…__, nómbrala `Calibraciones`
+   y materializa. Compara con __Multivaluados resuelto__.
+5. Prueba __Deshacer__, __Rehacer__, guardar y reabrir antes de exportar SQL.
 
-Una recursiva se crea como relación binaria eligiendo la misma entidad en ambos
-participantes y roles distintos, por ejemplo `supervisor` y `supervisado`.
-Comprueba que cada rol conserva su propio par y su propia rama.
+_Resultado esperado._ Etiquetas tiene PK `(Instrumento_codigoInstrumento,
+Instrumento_sede, etiqueta)`. Calibraciones tiene PK `(Instrumento_codigoInstrumento,
+Instrumento_sede, fechaCalibracion, patron)`. Cada auxiliar tiene una FK de dos
+componentes a Instrumento. Los valores ya no son columnas escalares de Instrumento.
 
-## Elegir una FK binaria o una entidad débil
+_Qué comprobar y escribir._ Dos instrumentos pueden compartir la misma etiqueta;
+un instrumento puede tener etiquetas distintas. Una calibración se identifica
+por todos los componentes elegidos. La FK no obliga a tener al menos un valor.
+No se conserva una copia escalar independiente que pueda divergir.
 
-**Situación.** Cada puesto de ensayo tiene módulos numerados dentro del puesto;
-el número de módulo puede repetirse en puestos diferentes.
+## 4. Jerarquía: resolver la clave local antes de heredar
 
-1. En Chen crea `Puesto` y `Modulo`. Selecciona `Modulo` → **Definición**:
-   marca **Entidad débil** y elige `Puesto` como **Entidad propietaria**.
-2. Edita el atributo identificador de `Modulo`: nómbralo `numero`, desmarca
-   **Clave** y marca **Clave parcial**. No inventes unicidad global del número.
-3. Crea la relación `Contiene` con `Puesto` `(0,N)` y `Modulo` `(1,1)`.
-4. En el rombo → **Correspondencias → Elegir clave y materializar…**, elige
-   **FK binaria · elegir lado receptor**, receptor `Modulo`, y marca
-   **Identificadora · incorpora la FK a la clave hija**.
-5. En `Modulo` → **Definición → Vínculo identificador**, elige `Contiene`.
-   El rombo de `Contiene` pasa a dibujarse doble, como el vínculo identificador
-   de los apuntes.
-6. Abre la revisión del modelo y vuelve a Relacional para inspeccionar la PK/FK.
+_Situación._ En esta variante, todo instrumento tiene control exclusivamente
+manual o automatizado: especialización disjunta y total. Sólo se implementa
+la estrategia de tablas de superclase y subclases.
 
-**Qué comprobar.** La PK de Modulo reúne identidad del puesto y número parcial;
-la FK apunta a Puesto y participa en la PK hija. El origen conceptual conserva
-propietaria y clave parcial. Para una binaria no identificadora, elige el lado
-receptor compatible y deja desmarcada identificación; no añadas debilidad.
+1. Abre __Jerarquía pendiente__. Selecciona la especialización en Chen.
+2. En __Definición__, pulsa __Tablas de superclase y subclases… → Materializar__.
+   Debe rechazar la PK local incompatible de Manual. Cierra el diálogo:
+   las tablas y los atributos anteriores deben seguir intactos.
+3. Selecciona el atributo `id` de Manual → __Editar atributo y dominio…__.
+   Renómbralo `referenciaLocal`, desmarca __Clave__ y pulsa __Aceptar__ para
+   guardar el atributo y su columna.
+   No borres el atributo ni su columna. Repite en Automatizado.
+4. Selecciona otra vez la especialización → __Tablas de superclase y subclases…__
+   y materializa.
+5. En Relacional, comprueba la PK/FK heredada y las columnas propias. Guarda
+   y reabre; compara con __Jerarquía resuelta__. En Chen, el círculo muestra
+   `d` o `s`, la doble línea hacia la superclase indica totalidad y cada
+   subclase lleva el arco de subconjunto abierto hacia el círculo.
+6. Abre __Solapada y parcial__. Portatil y ConCamara pueden coincidir y no
+   cubrir todos los instrumentos. En __Editar especialización…__, explora
+   también disjunta/parcial y solapada/total en copias.
 
-## Compuestos, derivados y construcciones pendientes
+_Resultado esperado._ Instrumento conserva su tabla. Cada subclase tiene
+`Instrumento_codigoInstrumento` como PK y FK a la superclase. `referenciaLocal`
+sigue siendo columna propia, con la misma identidad, sin ser PK.
 
-**Situación.** Queremos conservar más información conceptual que una lista plana
-de columnas.
+_Qué comprobar y escribir._ PK/FK garantiza que toda subclase tenga superclase;
+no garantiza exclusión entre subclases ni pertenencia de toda superclase a alguna.
+Disjunta/solapada y total/parcial permanecen visibles y comentadas en SQL como
+restricciones documentales. Las otras tres estrategias del tema no se ofrecen.
 
-1. En un atributo nuevo, elige **Estructura → Compuesto**, nombre `ubicacion`,
-   y **Traducción del atributo → Compuesto · descomponer en componentes**.
-2. Añade `edificio` y `sala` al mismo propietario. En cada uno elige
-   **Componente de → ubicacion**. Define sus tipos simples.
-3. Añade un atributo derivado `antiguedad`: marca **Derivado**, escribe la regla
-   y elige **Derivado · omitir columna** o **Derivado · almacenar valor sin calcularlo**.
-4. Para explorar multivaluados, marca **Multivaluado** en otro atributo. Para una
-   jerarquía, pulsa **Especialización**, elige superclase/subclases y si es
-   disjunta y total. Guarda una copia separada de este ejercicio.
-5. Usa **Ayuda → Revisar modelo**, **Base de datos → Comprobar** o el estado
-   de la barra superior. **Ver origen** lleva al objeto que requiere decisión.
+## 5. Entidad débil y clave parcial
 
-**Qué comprobar.** Los componentes simples son columnas; el atributo compuesto
-conserva su agrupación conceptual. La derivación no se calcula: omitir no crea
-columna y almacenar no genera una fórmula automática. Multivaluados y jerarquías
-se conservan **pendientes** y bloquean SQL completo; no hay una conversión
-relacional implementada para ellos. Guardar el trabajo pendiente sigue permitido.
+_Situación._ Los puertos se numeran dentro de cada instrumento; puerto 1 puede
+existir en instrumentos distintos.
 
-## Guardar, recuperar y llevar el trabajo a otro equipo
+1. Abre __Entidad débil__. En `Puerto` → __Definición__, comprueba entidad
+   débil, propietaria Instrumento y vínculo identificador Contiene. En Chen,
+   `Puerto` se dibuja con rectángulo doble y `Contiene` con rombo doble, la
+   grafía del vínculo identificador de los apuntes.
+2. En sus __Atributos__, `numero` es clave parcial requerida.
+3. En `Contiene` → __Varios__, Instrumento tiene `(0,N)` y Puerto `(1,1)`.
+4. En __Correspondencias__, comprueba FK binaria, receptor Puerto e
+   __Identificadora · incorpora la FK a la clave hija__.
+5. En Relacional, compara PK/FK con el SQL y guarda/reabre.
 
-**Situación.** Queremos conservar el ejercicio completo, incluidas sus decisiones
-pendientes y las dos disposiciones.
+_Resultado esperado._ La PK de Puerto contiene `numero` y
+`instrumento_codigoInstrumento`; esta última columna es FK identificadora.
 
-1. Pon nombre con **Archivo → Nombre** y descarga **Archivo → Guardar**.
-2. Abre la copia con **Archivo → Abrir**. Revisa tipos, clave elegida, roles,
-   notas y posiciones en ambos modos.
-3. Usa **Archivo → Imagen SVG** para la representación activa o
-   **Imprimir / PDF** para abrir la impresión del navegador.
-4. Si no quedan decisiones que bloqueen SQL, abre **Archivo → SQL** y descarga
-   el resultado desde esa ventana. Revísalo para el motor elegido.
-5. Antes de borrar datos del navegador, cambiar de equipo o abrir otro origen,
-   conserva el JSON descargado. El guardado automático solo recupera el último
-   ejercicio de la práctica activa en ese navegador y origen.
+_Qué comprobar y escribir._ El número por sí solo no es único globalmente.
+Una FK identificadora heredada no demuestra, por sí sola, que se haya declarado
+la entidad débil y su propietaria en el modelo conceptual.
 
-**Qué comprobar.** El JSON es el respaldo editable: SVG y PDF no conservan el
-documento para reabrirlo. Los archivos de formato 1 se abren como perfil General
-sin convertir tipos ni deducir un ERE original. No se importan/exportan VSD,
-VDX, VSDX ni bases de datos Access.
+## 6. Compuestos de entidad y relación, derivado y recursiva
 
-## Abrir otra práctica sin cambiar el guardado principal
+_Situación._ Una sesión tiene ubicación; una habilitación incluye acreditación;
+la antigüedad se explica desde fechaAlta; las personas orientan a otras personas.
 
-**Situación.** Queremos probar otro ejercicio en una pestaña nueva conservando
-el trabajo actual.
+1. Abre __Compuestos, derivado y recursiva__. En Sesion, `ubicacion` tiene
+   estructura Compuesto y traducción __Compuesto · descomponer en componentes__.
+   `edificio` y `sala` tienen __Componente de → ubicacion__.
+2. Selecciona `Habilitacion` → __Atributos__. `acreditacion` es otro compuesto,
+   propiedad de la relación; `emisor` y `referencia` son sus componentes.
+3. En Relacional, comprueba edificio/sala en Sesion y emisor/referencia en
+   Habilitacion. Los nombres de los compuestos no son columnas escalares.
+4. En Instrumento, `antiguedad` es derivado con regla conservada y política
+   __Derivado · omitir columna__. No aparece en SQL. En una copia, elige
+   __Derivado · almacenar valor sin calcularlo__ y comprueba la columna.
+5. Selecciona `Orienta` → __Varios__: Persona aparece con roles `orientador`
+   y `orientado`, con participaciones distintas. En Relacional, Orientacion
+   tiene dos FKs distintas a Persona y PK conjunta.
 
-1. Deja abierta la pestaña principal y descarga una copia con **Archivo → Guardar**.
-2. En otra pestaña abre
-   [DataBasic con práctica laboratorio](https://jultob.github.io/DataBasic/?practica=laboratorio).
-3. Comprueba el indicador **Práctica independiente · …**. Esta dirección tiene
-   su propio guardado local; no lee ni copia el principal.
-4. Para ensayar sobre el mismo diagrama, usa **Archivo → Abrir** en la práctica
-   independiente y selecciona el JSON descargado.
-5. Usa otro nombre para otro ejercicio. El nombre admite 1–64 caracteres ASCII
-   —letras, números, `_` y `-`— y empieza por letra o número. Volver al mismo
-   nombre recupera su guardado; dos pestañas con ese nombre lo comparten.
+_Qué comprobar y escribir._ Descomponer conserva la agrupación conceptual.
+Almacenar un derivado no calcula su valor. Repetir entidad en una recursiva
+no fusiona sus roles ni sus ramas.
 
-**Qué comprobar.** La dirección sin `practica` sigue recuperando el principal;
-la otra conserva su ejercicio separado sin cambiar el formato del JSON.
-Un nombre inválido no lee ni escribe guardados, aunque permite descargar JSON.
-Esta separación es local, sin sincronización: sigue siendo necesario conservar
-copias con **Archivo → Guardar**.
+## 7. Revisar, organizar, conservar y exportar
 
-## Comprobar la transferencia a Visio 2010
+_Situación._ Queremos recuperar el trabajo completo y comprobar que mover o
+cambiar de vista no cambia sus reglas.
 
-Repite sin mirar la guía una tabla con PK, una FK y una decisión de nulos.
-Después localiza en Visio 2010 **Definition, Columns, Primary ID, Indexes,
-Miscellaneous y Referential Action** —sus rótulos dependen del idioma— y
-explica la dirección de la referencia y qué restricción no impone una FK.
-El tutorial de 18 páginas muestra el recorrido de propiedades. La construcción
-Chen y las correspondencias nativas son la ampliación educativa de DataBasic.
+1. Abre __Ayuda → Revisar modelo__ o __Base de datos → Comprobar__.
+   Distingue decisiones __Pendientes__ y restricciones __Documentales__.
+   __Ver origen__ selecciona el objeto correspondiente.
+2. En Chen, arrastra un rombo y una entidad. Pulsa __Escape__ durante otro
+   arrastre para cancelarlo. Usa __Deshacer__ y __Rehacer__.
+3. Alterna Relacional/Chen. Las posiciones son independientes; no deben aparecer
+   tablas duplicadas ni desaparecer atributos. En Relacional también puedes
+   arrastrar los bloques de lecturas de una FK.
+4. Usa __Distribuir__, __Ajustar__ y zoom; deshaz Distribuir. En
+   __Vista → Opciones de visualización__, compara IDEF1X, patas de cuervo y
+   flecha relacional; activa tipos completos, claves y cardinalidad numérica.
+5. Pon nombre con __Archivo → Nombre__, descarga __Archivo → Guardar__ y
+   reabre ese JSON con __Archivo → Abrir__. Revisa ambos modos y propiedades.
+6. Descarga __Archivo → Imagen SVG__ en cada representación. Abre el SVG:
+   comprueba textos completos, roles y bordes sin recortes.
+7. Abre __Imprimir / PDF__. En la vista previa comprueba márgenes y que todas
+   las formas quepan; guarda PDF si el navegador lo permite.
+8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.
+   Un pendiente debe impedir presentar un SQL completo sin resolverlo.
 
-La [matriz](functional-audit.md) distingue pruebas automatizadas y carencias;
-el [registro de verificación](verification.md) identifica las comprobaciones
-reales de navegador y publicación. Completar esta guía no acredita por sí solo
-equivalencia total con la herramienta ni aceptación de los formatos académicos.
+_Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
+ese documento. El guardado automático es local a navegador/origen/práctica y
+no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.
 
-## Fuentes
+El SQL exportado usa sintaxis tipo PostgreSQL/SQL estándar y `ALTER TABLE ADD
+CONSTRAINT`; no se ha acreditado su ejecución en un SGBD. SQLite no admite esa
+forma de añadir restricciones. No se modifica el DDL para presentar otro script
+como si fuera el export original. DataBasic no abre/genera VSD, VDX, VSDX ni
+Access; tampoco reconstruye un ERE único desde cualquier esquema relacional.
 
-- [Microsoft: nombres y definición, aplicable a Visio 2010](https://support.microsoft.com/en-us/visio/database-properties-for-entity-and-view-shapes-definition).
-- [Microsoft: acciones referenciales y predeterminados, aplicable a 2010](https://support.microsoft.com/en-us/visio/preserve-referential-integrity-in-database-model-diagrams).
-- [DeVry: tutorial de Visio 2010, 18 páginas](https://lms.devry.edu/lms/CourseExport/files/4c59b998-a778-4673-b5b5-1040a4a59543/documents--Creating_ERD_in_MS_Visio_2010.pdf), pp. 5–9 y 14–16.
-- [FIPS PUB 184, NIST, copia oficial GovInfo](https://www.govinfo.gov/app/details/GOVPUB-C13-986bf8b12a4fed44eb78fca0bb55d668), figuras 1 y 4–7.
-- [Requisitos del curso y fuentes](course-requirements.md), especialmente separación de modelos y semántica perdida.
+## Transferencia y evidencia
+
+Repite sin mirar una tabla con PK, una FK y una decisión de nulos. Localiza en
+Visio 2010 Definition, Columns, Primary ID, Indexes, Miscellaneous y Referential
+Action, según el idioma, y explica qué restricción no impone una FK.
+Chen y las correspondencias nativas son ampliaciones propias de DataBasic.
+
+La [matriz funcional](functional-audit.md) vincula fuente, operación y prueba.
+Los [requisitos del curso](course-requirements.md) conservan las referencias
+por página y los límites de formatos. Los materiales privados no se distribuyen.
+La prueba de archivos/modelo no sustituye la inspección visual de navegador;
+consulta [verificación](verification.md) para esa capa y para la publicación.

@@ -1,0 +1,284 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile, readdir } from 'node:fs/promises';
+import * as domain from '../src/domain/model.js';
+import {
+    parseDocument,
+    serializeDocument
+    } from '../src/domain/serialization.js';
+import { exportSQL } from '../src/io/sql.js';
+
+const examplesURL = new URL( '../examples/', import.meta.url );
+const filenames = (await readdir( examplesURL )).filter(
+        name => name.endsWith( '.databasic.json' )
+        );
+
+async function openExample( name ) {
+    return parseDocument(
+            await readFile(
+                    new URL( `${name}.databasic.json`, examplesURL ),
+                    'utf8'
+                    )
+            );
+    }
+
+function tableNamed( model, name ) {
+    const table = model.tables.find( item => item.name === name );
+
+    assert.ok( table, `Falta la tabla ${name}.` );
+
+    return table;
+    }
+
+function columnNames( table, columnIds ) {
+    return columnIds.map(
+            id => table.columns.find( item => item.id === id ).name
+            );
+    }
+
+function primaryNames( table ) {
+    return table.columns.filter( item => item.primary ).map( item => item.name );
+    }
+
+function attributeNamed( model, name, ownerId ) {
+    const attribute = model.conceptual.attributes.find(
+            item => item.name === name && (!ownerId || item.ownerId === ownerId)
+            );
+
+    assert.ok( attribute, `Falta el atributo ${name}.` );
+
+    return attribute;
+    }
+
+for (const filename of filenames) {
+    test( `Ejemplo entregado: ${filename} abre y conserva IDs y decisiones`, async () => {
+        const contents = await readFile( new URL( filename, examplesURL ), 'utf8' );
+        const model = parseDocument( contents );
+        const reopened = parseDocument( serializeDocument( model ) );
+
+        assert.deepEqual( reopened, model );
+        assert.equal( model.version, 2 );
+        assert.equal( model.profile, 'course' );
+        assert.deepEqual(
+                domain.validateDocument( model ).filter( item => item.level === 'error' ),
+                []
+                );
+
+        if (filename.includes( 'pendiente' )) {
+            assert.throws( () => exportSQL( model ), /SQL incompleto/ );
+            return;
+            }
+
+        const sql = exportSQL( model );
+        const relational = domain.setDiagramMode( model, 'relational' );
+        const chen = domain.setDiagramMode( relational, 'chen' );
+
+        assert.match( sql, /CREATE TABLE "Persona"/ );
+        assert.equal( exportSQL( chen ), sql );
+        assert.deepEqual( chen.traces, model.traces );
+        assert.deepEqual( chen.conceptual, model.conceptual );
+        } );
+    }
+
+test( 'Núcleo entregado: cuatro tipos, PK/AK, dominio y FK obligatoria', async () => {
+    assert.equal( filenames.length, 11 );
+
+    const model = await openExample( '00-nucleo' );
+    const instrument = tableNamed( model, 'Instrumento' );
+    const session = tableNamed( model, 'Sesion' );
+    const sql = exportSQL( model );
+
+    assert.equal( model.tables.length, 3 );
+    assert.equal( model.conceptual.relationships.length, 1 );
+    assert.deepEqual( primaryNames( instrument ), ['codigoInstrumento'] );
+    assert.deepEqual(
+            columnNames( instrument, instrument.alternateKeys[0].columns ),
+            ['serie']
+            );
+    assert.deepEqual(
+            new Set( model.tables.flatMap( table => table.columns.map( item => item.type ) ) ),
+            new Set( ['NUMBER', 'VARCHAR(60)', 'CHAR(12)', 'DATE', 'NUMBER(8,2)'] )
+            );
+    assert.ok( session.columns.find( item => item.name === 'coordinadora_codigoPersona' ).required );
+    assert.match( sql, /"valor" NUMERIC\(8,2\) NOT NULL DEFAULT 0/ );
+    assert.match( sql, /CHECK \("valor" >= 0\)/ );
+    assert.match( sql, /CONSTRAINT "AK_Instrumento_serie" UNIQUE \("serie"\)/ );
+    } );
+
+test( 'Ternaria entregada: identidad repetible y unicidad por contexto son distintas', async () => {
+    let pending = await openExample( '02-ternaria-pendiente' );
+    const resolved = await openExample( '02-ternaria-resuelta' );
+    const relation = pending.conceptual.relationships.find( item => item.name === 'Utiliza' );
+    const instant = attributeNamed( pending, 'instante', relation.id );
+
+    for (const part of relation.participations) {
+        pending = domain.updateConceptualParticipation(
+                pending, relation.id, part.id,
+                {cardinality: part.role === 'instrumento' ? 'one' : 'many'}
+                );
+        }
+
+    const withoutContext = domain.updateConceptualRelationship(
+            pending,
+            relation.id,
+            {
+                translation: {
+                    kind: 'association', tableName: 'Utilizacion',
+                    key: {
+                        participationIds: relation.participations.map( item => item.id ),
+                        attributeIds: [instant.id]
+                        }
+                    }
+                }
+            );
+
+    assert.throws( () => exportSQL( withoutContext ), /contexto/ );
+    assert.equal( tableNamed( withoutContext, 'Utilizacion' ).alternateKeys?.length || 0, 0 );
+
+    const decision = resolved.conceptual.relationships.find( item => item.id === relation.id ).translation;
+    const completed = domain.updateConceptualRelationship(
+            withoutContext, relation.id, {translation: decision}
+            );
+    const utilization = tableNamed( completed, 'Utilizacion' );
+
+    assert.deepEqual( primaryNames( utilization ), [
+        'persona_codigoPersona', 'instrumento_codigoInstrumento',
+        'sesion_codigoSesion', 'instante'
+        ] );
+    assert.deepEqual(
+            columnNames( utilization, utilization.alternateKeys[0].columns ),
+            ['persona_codigoPersona', 'sesion_codigoSesion', 'instante']
+            );
+    assert.equal( exportSQL( completed ), exportSQL( resolved ) );
+
+    const repeated = domain.updateConceptualRelationship(
+            completed, relation.id, {translation: decision}
+            );
+
+    assert.deepEqual( repeated, completed );
+    } );
+
+test( 'Multivaluados entregados: PK propietaria completa y sin copia escalar', async () => {
+    let model = await openExample( '03-multivaluados-pendiente' );
+    const resolved = await openExample( '03-multivaluados-resuelto' );
+
+    for (const [name, tableName] of [
+        ['etiqueta', 'Etiquetas'],
+        ['calibracion', 'Calibraciones']
+        ]) {
+        model = domain.updateConceptualAttribute(
+                model,
+                attributeNamed( model, name ).id,
+                {translation: {kind: 'multivalued-table', tableName}}
+                );
+        }
+
+    assert.equal( exportSQL( model ), exportSQL( resolved ) );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Etiquetas' ) ), [
+        'Instrumento_codigoInstrumento', 'Instrumento_sede', 'etiqueta'
+        ] );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Calibraciones' ) ), [
+        'Instrumento_codigoInstrumento', 'Instrumento_sede',
+        'fechaCalibracion', 'patron'
+        ] );
+
+    const owner = tableNamed( model, 'Instrumento' );
+
+    assert.ok( !owner.columns.some(
+            item => ['etiqueta', 'calibracion', 'fechaCalibracion', 'patron'].includes( item.name )
+            ) );
+
+    for (const name of ['Etiquetas', 'Calibraciones']) {
+        const child = tableNamed( model, name );
+        const foreignKey = model.relationships.find( item => item.childId === child.id );
+
+        assert.equal( foreignKey.mappings.length, 2 );
+        assert.deepEqual(
+                columnNames( owner, foreignKey.mappings.map( item => item.parentColumnId ) ),
+                ['codigoInstrumento', 'sede']
+                );
+        }
+    } );
+
+test( 'Jerarquía entregada: rechazo atómico, corrección local e identidad heredada', async () => {
+    let model = await openExample( '04-jerarquia-pendiente' );
+    const before = serializeDocument( model );
+    const generalization = model.conceptual.generalizations[0];
+    const decision = {translation: {kind: 'class-tables'}};
+
+    assert.throws(
+            () => domain.updateConceptualGeneralization( model, generalization.id, decision ),
+            /PK local/
+            );
+    assert.equal( serializeDocument( model ), before );
+
+    for (const ownerId of generalization.subtypeIds) {
+        const local = attributeNamed( model, 'id', ownerId );
+        const trace = model.traces.find(
+                item => item.sourceId === local.id && item.targetKind === 'column'
+                );
+
+        model = domain.updateConceptualAttribute(
+                model, local.id, {name: 'referenciaLocal', primary: false}
+                );
+        assert.ok( model.tables.some(
+                table => table.columns.some(
+                        field => field.id === trace.targetId && field.name === 'referenciaLocal'
+                        )
+                ) );
+        }
+
+    model = domain.updateConceptualGeneralization( model, generalization.id, decision );
+    const resolved = await openExample( '04-jerarquia-resuelta' );
+
+    assert.equal( exportSQL( model ), exportSQL( resolved ) );
+
+    for (const name of ['Manual', 'Automatizado']) {
+        const child = tableNamed( model, name );
+
+        assert.deepEqual( primaryNames( child ), ['Instrumento_codigoInstrumento'] );
+        assert.ok( child.columns.some( item => item.name === 'referenciaLocal' && !item.primary ) );
+        }
+
+    for (const disjoint of [true, false]) {
+        for (const total of [true, false]) {
+            const variant = domain.updateConceptualGeneralization(
+                    model, generalization.id, {disjoint, total}
+                    );
+
+            assert.deepEqual( variant.relationships, model.relationships );
+            assert.deepEqual( variant.traces, model.traces );
+            assert.doesNotThrow( () => exportSQL( variant ) );
+            assert.ok( domain.conceptualStatus( variant ).some(
+                    item => item.elementId === generalization.id && item.code === 'documentary'
+                    ) );
+            }
+        }
+    } );
+
+test( 'Débil entregada: clave parcial local; compuestos de entidad y relación; recursiva', async () => {
+    const weak = await openExample( '05-debil' );
+    const port = tableNamed( weak, 'Puerto' );
+
+    assert.deepEqual( primaryNames( port ), ['numero', 'instrumento_codigoInstrumento'] );
+    assert.equal( domain.isIdentifierDependent( weak, port.id ), true );
+
+    const model = await openExample( '06-compuestos-recursiva' );
+    const accreditation = attributeNamed( model, 'acreditacion' );
+    const qualification = model.conceptual.relationships.find( item => item.name === 'Habilitacion' );
+    const mentors = model.conceptual.relationships.find( item => item.name === 'Orienta' );
+    const sql = exportSQL( model );
+
+    assert.equal( accreditation.ownerKind, 'relationship' );
+    assert.equal( accreditation.ownerId, qualification.id );
+    assert.ok( tableNamed( model, 'Habilitacion' ).columns.some( item => item.name === 'emisor' ) );
+    assert.ok( tableNamed( model, 'Habilitacion' ).columns.some( item => item.name === 'referencia' ) );
+    assert.ok( tableNamed( model, 'Sesion' ).columns.some( item => item.name === 'edificio' ) );
+    assert.ok( tableNamed( model, 'Sesion' ).columns.some( item => item.name === 'sala' ) );
+    assert.doesNotMatch( sql, /"acreditacion"|"ubicacion"|"antiguedad"/ );
+    assert.equal( mentors.participations[0].entityId, mentors.participations[1].entityId );
+    assert.notEqual( mentors.participations[0].id, mentors.participations[1].id );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Orientacion' ) ), [
+        'orientador_codigoPersona', 'orientado_codigoPersona'
+        ] );
+    } );

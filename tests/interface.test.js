@@ -2,9 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
     exampleDocument,
+    emptyDocument,
+    addConceptualEntity,
+    addConceptualAttribute,
+    addConceptualGeneralization,
     addConceptualRelationship,
     setDiagramMode,
     updateTable,
+    updateConceptualAttribute,
+    updateConceptualGeneralization,
     validType
     } from '../src/domain/model.js';
 import { renderProperties, typeFields } from '../src/ui/properties.js';
@@ -43,6 +49,54 @@ test( 'UI-01: la estructura mantiene cinta, formas, lienzo y propiedades inferio
         }
 
     assert.ok( html.indexOf( 'id="canvas"' ) < html.indexOf( 'id="properties-pane"' ) );
+    } );
+
+test( 'Los orígenes multivaluado y jerarquía muestran acción y resumen de PK/FK', () => {
+    const state = interfaceState();
+
+    state.model = addConceptualEntity( emptyDocument(), {name: 'Persona'} );
+    state.model = addConceptualEntity( state.model, {name: 'Socia', withIdentifier: false} );
+    const [parent, subtype] = state.model.conceptual.entities;
+
+    state.model = addConceptualAttribute(
+            state.model,
+            {
+                ownerKind: 'entity',
+                ownerId: parent.id,
+                name: 'telefono',
+                type: 'VARCHAR(24)',
+                multivalued: true
+                }
+            );
+    state.selectedId = state.model.conceptual.attributes.at( -1 ).id;
+    assert.match( renderProperties( state.model, state ), /Multivaluado → Tabla auxiliar/ );
+    state.model = updateConceptualAttribute(
+            state.model,
+            state.selectedId,
+            {translation: {kind: 'multivalued-table', tableName: 'Telefonos'}}
+            );
+    const attribute = renderProperties( state.model, state );
+
+    assert.match( attribute, /Telefonos.*PK:.*telefono/s );
+    assert.match( attribute, /FK:.*Telefonos.*Persona/s );
+    assert.match( attribute, /Documental:/ );
+
+    state.model = addConceptualGeneralization(
+            state.model,
+            {supertypeId: parent.id, subtypeIds: [subtype.id]}
+            );
+    state.selectedId = state.model.conceptual.generalizations[0].id;
+    assert.match( renderProperties( state.model, state ), /Tablas de superclase y subclases/ );
+    state.model = updateConceptualGeneralization(
+            state.model,
+            state.selectedId,
+            {translation: {kind: 'class-tables'}}
+            );
+    const classes = renderProperties( state.model, state );
+
+    assert.match( classes, /Socia.*PK:/s );
+    assert.match( classes, /FK:.*Socia.*Persona/s );
+    assert.match( classes, /restricciones documentales/ );
     } );
 
 test( 'UI-02/UI-03: definición presenta campos y sincronización documentados', () => {
@@ -209,8 +263,10 @@ test( 'Varios ofrece la letra junto al rombo por rama, automática o elegida', (
 
     const html = renderProperties( state.model, state );
 
-    assert.equal( (html.match( /data-field="cardinality"/g ) || []).length, 2 );
-    assert.match( html, /Automática · 1/, 'lector: el máximo de obra es 1' );
-    assert.match( html, /Automática · N/, 'obra: el máximo de lector es N' );
+    // A binary shows the derived letter per branch and no combination selector.
+    assert.equal( (html.match( /Letra junto al rombo: /g ) || []).length, 2 );
+    assert.match( html, /Letra junto al rombo: 1/, 'lector: el máximo de obra es 1' );
+    assert.match( html, /Letra junto al rombo: N/, 'obra: el máximo de lector es N' );
     assert.match( html, /máximo de la otra rama/ );
+    assert.doesNotMatch( html, /data-field="cardinality"/ );
     } );

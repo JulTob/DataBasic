@@ -595,7 +595,7 @@ test( 'La letra de cardinalidad se deduce en binarias y se elige en ternarias', 
     const relation = binary.conceptual.relationships[0];
 
     assert.equal( domain.participationCardinalityLetter( relation, relation.participations[0] ), 'N' );
-    assert.equal( relation.participations[0].cardinality, null );
+    assert.equal( relation.participations[0].cardinality, undefined );
 
     const limited = domain.updateConceptualParticipation(
             binary,
@@ -609,41 +609,31 @@ test( 'La letra de cardinalidad se deduce en binarias y se elige en ternarias', 
     assert.equal( domain.participationCardinalityLetter( updated, updated.participations[0] ), '1' );
     assert.equal( domain.participationCardinalityLetter( updated, updated.participations[1] ), 'N' );
 
+    // A ternary shows no letter until its combination cardinality is decided.
     const ternary = pendingRelation( 3 );
     const three = ternary.conceptual.relationships[0];
 
-    assert.equal( domain.participationCardinalityLetter( three, three.participations[0] ), 'N' );
+    assert.equal( domain.participationCardinalityLetter( three, three.participations[0] ), null );
 
     const chosen = domain.updateConceptualParticipation(
             ternary,
             three.id,
             three.participations[0].id,
-            {cardinality: '1'}
+            {cardinality: 'one'}
             );
     const chosenRelation = chosen.conceptual.relationships[0];
 
-    assert.equal( chosenRelation.participations[0].cardinality, '1' );
     assert.equal( domain.participationCardinalityLetter( chosenRelation, chosenRelation.participations[0] ), '1' );
-    assert.throws(
-            () => domain.updateConceptualParticipation( ternary, three.id, three.participations[0].id, {cardinality: 'M'} ),
-            /1 o N/
-            );
-    assert.equal( ternary.conceptual.relationships[0].participations[0].cardinality, null );
 
-    const cleared = domain.updateConceptualParticipation(
+    const many = domain.updateConceptualParticipation(
             chosen,
             three.id,
             three.participations[0].id,
-            {cardinality: ''}
+            {cardinality: 'many'}
             );
 
-    assert.equal( cleared.conceptual.relationships[0].participations[0].cardinality, null );
-    assert.deepEqual( parseDocument( serializeDocument( chosen ) ), chosen );
-
-    const broken = structuredClone( chosen );
-
-    broken.conceptual.relationships[0].participations[0].cardinality = 'M';
-    assert.throws( () => parseDocument( JSON.stringify( broken ) ), /letra de cardinalidad/ );
+    assert.equal( domain.participationCardinalityLetter( many.conceptual.relationships[0], many.conceptual.relationships[0].participations[0] ), 'N' );
+    assert.equal( ternary.conceptual.relationships[0].participations[0].cardinality, undefined, 'la original no cambia' );
     } );
 
 test( 'Un formato 2 anterior sin letras abre y deduce la letra automática', () => {

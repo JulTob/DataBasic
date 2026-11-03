@@ -1,4 +1,5 @@
 import {
+    conceptualStatus,
     getConceptualProjection,
     isIdentifyingLink,
     participationCardinalityLetter
@@ -626,6 +627,10 @@ function sceneConceptualRelationships(
         graph,
         nodes
         ) {
+    const pending = new Set( conceptualStatus( model ).filter(
+            status => status.code === 'pending'
+            ).map( status => status.elementId ) );
+
     for (const relation of graph.relationships) {
         const participants = relation.participations.map(
                 participation => nodes.find( node => node.ref.id === participation.entityId )
@@ -651,8 +656,11 @@ function sceneConceptualRelationships(
             ...position,
             ...size,
             relation,
+            cardinalityContextNames: relation.translation?.cardinalityContextAttributeIds?.map(
+                    id => graph.attributes.find( attribute => attribute.id === id )?.name || id
+                    ),
             labelLines,
-            pending: !relation.projected && relation.translation === null,
+            pending: !relation.projected && pending.has( relation.id ),
             identifying: relation.projected
                 ? Boolean( relation.identifying )
                 : isIdentifyingLink( model, relation.id )
@@ -822,17 +830,40 @@ function sceneParticipationEdge(
                 ) );
         }
 
-    // Course notation: the 1/N letter sits by the diamond, opposite the (min,max) pair.
-    labels.push({
-        ...sceneBranchLabel(
-                participationCardinalityLetter( relationNode.relation, participation ),
-                'cardinality',
-                {x: start.x - dx * 0.18, y: start.y - dy * 0.18},
-                {x: -outward.x, y: -outward.y},
+    // Course notation for a binary relationship: the 1/N letter sits by the
+    // diamond, opposite the (min,max) pair, and is the maximum of the other branch.
+    // A ternary shows its combination cardinality below instead.
+    if (relationNode.relation.participations.length === 2) {
+        labels.push({
+            ...sceneBranchLabel(
+                    participationCardinalityLetter( relationNode.relation, participation ),
+                    'cardinality',
+                    {x: start.x - dx * 0.18, y: start.y - dy * 0.18},
+                    {x: -outward.x, y: -outward.y},
+                    [...obstacles, ...labels.map( label => label.bounds )]
+                    ),
+            plain: true
+            });
+        }
+
+    if (relationNode.relation.participations.length === 3 && participation.cardinality) {
+        const names = relationNode.cardinalityContextNames;
+        const needsContext = relationNode.relation.participations.some(
+                part => part.cardinality === 'one'
+                );
+        const context = names
+            ? names.length ? ` + ${names.join( ', ' )}` : ' global'
+            : needsContext ? ' · contexto pendiente' : '';
+        const maximum = participation.cardinality === 'one' ? '1' : 'N';
+
+        labels.push( sceneBranchLabel(
+                `${maximum} · combinación${context}`,
+                'combination-cardinality',
+                {x: end.x + dx * 0.8, y: end.y + dy * 0.8},
+                outward,
                 [...obstacles, ...labels.map( label => label.bounds )]
-                ),
-        plain: true
-        });
+                ) );
+        }
 
     return {
         id: `participation:${participation.id}`,

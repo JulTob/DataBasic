@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { bundleSource } from '../scripts/bundle.mjs';
 import { runInNewContext } from 'node:vm';
 import { webcrypto } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import {
     exampleDocument,
     emptyDocument,
@@ -30,6 +31,7 @@ async function applicationHarness(
     const store = storageOptions.store || new Map();
     const reads = [];
     const writes = [];
+    const downloads = [];
     const capturedPointers = new Set();
 
     if (initialDocument !== null) {
@@ -118,7 +120,13 @@ async function applicationHarness(
         performance,
         structuredClone,
         Blob,
-        URL,
+        URL: {
+            createObjectURL: blob => {
+                downloads.push( blob );
+                return `blob:download-${downloads.length}`;
+                },
+            revokeObjectURL() {}
+            },
         URLSearchParams,
         ...(storageOptions.search === undefined
             ? {}
@@ -168,6 +176,7 @@ async function applicationHarness(
         store,
         reads,
         writes,
+        downloads,
         pointer: (
                 name,
                 reference,
@@ -286,6 +295,382 @@ test( 'Arrastrar un rótulo FK conserva posición, historial y semántica con pa
     assert.equal( caption.bounds.x, 1100 );
     assert.equal( caption.bounds.y, 850 );
     assert.match( reopened.element( '#viewport' ).innerHTML, /x="1100" y="850"/ );
+    } );
+
+test( 'Multivaluado GUI materializa, deshace, rehace y reabre el JSON descargado', async () => {
+    const app = await applicationHarness();
+
+    await app.click({action: 'new'});
+    await app.click({mode: 'chen'});
+    await app.click({action: 'entity'});
+    await app.flushTimers();
+    const created = JSON.parse( app.saved() );
+    const owner = created.conceptual.entities[0];
+
+    await app.click({action: 'conceptual-attribute'});
+    app.submit({
+        owner: `entity:${owner.id}`,
+        name: 'telefono',
+        typeFamily: 'VARCHAR',
+        typeLength: '24',
+        structure: 'simple',
+        multivalued: 'on',
+        parentAttributeId: '',
+        derivation: '',
+        defaultValue: '',
+        notes: ''
+        });
+    await app.flushTimers();
+    const pending = JSON.parse( app.saved() );
+    const attribute = pending.conceptual.attributes.at( -1 );
+
+    assert.match( app.element( '#properties-body' ).innerHTML, /Multivaluado → Tabla auxiliar/ );
+    await app.click({action: 'materialize'});
+    assert.match( app.element( '#dialog' ).innerHTML, /PK: clave propietaria completa/ );
+    app.submit({tableName: 'Telefonos'});
+    await app.flushTimers();
+    const materialized = JSON.parse( app.saved() );
+
+    assert.equal( materialized.tables.length, pending.tables.length + 1 );
+    assert.equal( materialized.conceptual.attributes.at( -1 ).id, attribute.id );
+    assert.equal( materialized.conceptual.attributes.at( -1 ).translation.kind, 'multivalued-table' );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Telefonos.*PK:/s );
+    assert.match( app.element( '#properties-body' ).innerHTML, /FK:/ );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), pending );
+
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), materialized );
+
+    await app.click({action: 'save'});
+    const json = await app.downloads.at( -1 ).text();
+
+    assert.deepEqual( JSON.parse( json ), materialized );
+    await app.click({action: 'new'});
+    await app.listeners.get( '#open-file:change' )({target: {
+        files: [{size: json.length, text: async () => json}],
+        value: 'telefonos.databasic.json'
+        }});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), materialized );
+
+    await app.click({mode: 'relational'});
+    assert.match( app.element( '#viewport' ).innerHTML, /Telefonos/ );
+    await app.click({action: 'sql'});
+    assert.match( app.element( '#dialog' ).innerHTML, /FOREIGN KEY/ );
+    } );
+
+test( 'La FK generada acepta CASCADE y conserva política tras rematerializar y reabrir', async () => {
+    const initial = setDiagramMode(
+            JSON.parse( await readFile(
+                    new URL( '../examples/00-nucleo.databasic.json', import.meta.url ),
+                    'utf8'
+                    ) ),
+            'relational'
+            );
+    const relation = initial.relationships.find( item => item.forward === 'Coordina' );
+    const source = initial.conceptual.relationships.find( item => item.name === 'Coordina' );
+    const edge = diagramScene( initial ).edges.find( item => item.ref.id === relation.id );
+    const point = {x: edge.caption.bounds.x + 5, y: edge.caption.bounds.y + 5};
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    app.pointer( 'pointerdown', edge.ref, point );
+    app.pointer( 'pointerup', edge.ref, point );
+    await app.click({category: 'referential'});
+    assert.match( app.element( '#properties-body' ).innerHTML, /Acción referencial/ );
+    assert.match( app.element( '#properties-body' ).innerHTML, /data-field="onDelete"/ );
+    assert.ok( app.element( '#properties-body' ).innerHTML.includes( `data-origin="${source.id}"` ) );
+    app.change( {field: 'onDelete'}, 'CASCADE' );
+    await app.flushTimers();
+    const deletePolicy = JSON.parse( app.saved() );
+
+    assert.equal( deletePolicy.relationships[0].onDelete, 'CASCADE' );
+    assert.equal( deletePolicy.relationships[0].id, relation.id );
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), initial );
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), deletePolicy );
+
+    app.pointer( 'pointerdown', edge.ref, point );
+    app.pointer( 'pointerup', edge.ref, point );
+    await app.click({category: 'referential'});
+    app.change( {field: 'onUpdate'}, 'CASCADE' );
+    await app.flushTimers();
+    const policy = JSON.parse( app.saved() );
+
+    assert.equal( policy.relationships[0].onUpdate, 'CASCADE' );
+    app.change( {field: 'onDelete'}, 'SET NULL' );
+    assert.match( app.element( '#toast' ).textContent, /SET NULL/ );
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), policy );
+    assert.match(
+            app.element( '#properties-body' ).innerHTML,
+            /value="CASCADE"\s+selected/
+            );
+
+    await app.click({category: 'misc'});
+    app.change( {field: 'optional'}, true, 'checkbox' );
+    assert.match( app.element( '#toast' ).textContent, /origen|Chen|conceptual/i );
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), policy );
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), deletePolicy );
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), policy );
+
+    await app.click({action: 'save'});
+    const checkpoint = await app.downloads.at( -1 ).text();
+
+    assert.deepEqual( JSON.parse( checkpoint ), policy );
+    await app.click({origin: source.id});
+    assert.match( app.element( '#properties-body' ).innerHTML, /Conceptual nativo/ );
+    assert.match( app.element( '#properties-body' ).innerHTML, /value="coordinadora"/ );
+    await app.click({action: 'materialize'});
+    app.submit({
+        translationKind: 'foreign-key',
+        childParticipationId: source.translation.childParticipationId
+        });
+    await app.click({mode: 'relational'});
+    await app.flushTimers();
+    const rematerialized = JSON.parse( app.saved() );
+
+    assert.deepEqual( rematerialized.relationships, policy.relationships );
+    assert.deepEqual( rematerialized.traces, policy.traces );
+    await app.click({action: 'save'});
+    const json = await app.downloads.at( -1 ).text();
+    const reopened = await applicationHarness( 500, json );
+
+    await reopened.click({action: 'sql'});
+    assert.match( reopened.element( '#dialog' ).innerHTML, /ON DELETE CASCADE/ );
+    assert.match( reopened.element( '#dialog' ).innerHTML, /ON UPDATE CASCADE/ );
+    } );
+
+test( 'Ternaria GUI separa límites, identidad y contexto global o por período', async () => {
+    const app = await applicationHarness();
+
+    await app.click({action: 'new'});
+    await app.click({mode: 'chen'});
+
+    for (let index = 0; index < 3; index += 1) {
+        await app.click({action: 'entity'});
+        }
+
+    await app.flushTimers();
+    const entities = JSON.parse( app.saved() ).conceptual.entities;
+
+    await app.click({action: 'conceptual-relationship'});
+    app.submit({
+        name: 'Observa',
+        degree: '3',
+        entity0: entities[0].id,
+        entity1: entities[1].id,
+        entity2: entities[2].id,
+        role0: 'persona',
+        role1: 'instrumento',
+        role2: 'sesion',
+        min0: '0', max0: 'N',
+        min1: '0', max1: 'N',
+        min2: '0', max2: 'N'
+        });
+    await app.flushTimers();
+    const relation = JSON.parse( app.saved() ).conceptual.relationships[0];
+
+    assert.match( app.element( '#properties-body' ).innerHTML, /Participación absoluta/ );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Cardinalidad por combinación de los otros roles/ );
+
+    for (const [index, part] of relation.participations.entries()) {
+        app.change(
+                {participation: part.id, field: 'cardinality'},
+                index === 0 ? 'one' : 'many'
+                );
+        }
+
+    await app.click({action: 'conceptual-attribute'});
+    app.submit({
+        owner: `relationship:${relation.id}`,
+        name: 'periodo',
+        typeFamily: 'DATE',
+        structure: 'simple',
+        required: 'on',
+        parentAttributeId: '',
+        derivation: '',
+        defaultValue: '',
+        notes: ''
+        });
+    await app.flushTimers();
+    const period = JSON.parse( app.saved() ).conceptual.attributes.at( -1 );
+    const identity = {
+        translationKind: 'association',
+        tableName: 'Observaciones',
+        participationIds: relation.participations.map( part => part.id ),
+        attributeIds: [period.id]
+        };
+
+    await app.click({select: relation.id});
+    await app.click({action: 'materialize'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Identidad de cada ocurrencia/ );
+    assert.match( app.element( '#dialog' ).innerHTML, /Ámbito explícito/ );
+    app.submit({...identity, cardinalityContext: ''});
+    await app.flushTimers();
+    const incomplete = JSON.parse( app.saved() );
+
+    assert.equal( (incomplete.tables.at( -1 ).alternateKeys || []).length, 0 );
+    await app.click({action: 'sql'});
+    assert.match( app.element( '#toast' ).textContent, /contexto global o temporal/ );
+
+    await app.click({action: 'materialize'});
+    app.submit({...identity, cardinalityContext: 'attributes'}, /Selecciona al menos un atributo/ );
+    assert.equal( app.element( '#dialog' ).open, true );
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), incomplete );
+
+    app.submit({...identity, cardinalityContext: 'global'});
+    await app.flushTimers();
+    const global = JSON.parse( app.saved() );
+    const globalKey = global.tables.at( -1 ).alternateKeys[0];
+
+    assert.equal( globalKey.columns.length, 2 );
+    assert.deepEqual( global.conceptual.relationships[0].translation.cardinalityContextAttributeIds, [] );
+    assert.equal( global.conceptual.relationships[0].participations[0].max, null );
+    assert.match( app.element( '#viewport' ).innerHTML, /1 · combinación global/ );
+
+    await app.click({action: 'materialize'});
+    app.submit({
+        ...identity,
+        cardinalityContext: 'attributes',
+        contextAttributeIds: [period.id]
+        });
+    await app.flushTimers();
+    const temporal = JSON.parse( app.saved() );
+    const temporalKey = temporal.tables.at( -1 ).alternateKeys[0];
+
+    assert.equal( temporalKey.id, globalKey.id );
+    assert.equal( temporalKey.columns.length, 3 );
+    assert.deepEqual(
+            temporal.conceptual.relationships[0].translation.key,
+            {
+                participationIds: identity.participationIds,
+                attributeIds: identity.attributeIds
+                }
+            );
+    assert.match( app.element( '#viewport' ).innerHTML, /1 · combinación \+ periodo/ );
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), global );
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), temporal );
+    await app.click({action: 'save'});
+    const reopened = await applicationHarness( 500, await app.downloads.at( -1 ).text() );
+
+    await reopened.click({action: 'sql'});
+    assert.match( reopened.element( '#dialog' ).innerHTML, /UNIQUE/ );
+    } );
+
+test( 'Jerarquía GUI rechaza PK local, permite corregirla y preserva columna e historial', async () => {
+    const app = await applicationHarness();
+
+    await app.click({action: 'new'});
+    await app.click({mode: 'chen'});
+    await app.click({action: 'entity'});
+    await app.click({action: 'entity'});
+    await app.flushTimers();
+    const entities = JSON.parse( app.saved() ).conceptual.entities;
+
+    await app.click({action: 'generalization'});
+    app.submit({
+        supertypeId: entities[0].id,
+        subtypeIds: [entities[1].id],
+        disjoint: 'on',
+        total: 'on',
+        notes: 'Prueba de herencia'
+        });
+    await app.flushTimers();
+    const pending = JSON.parse( app.saved() );
+    const generalization = pending.conceptual.generalizations[0];
+    const localAttribute = pending.conceptual.attributes.find(
+            attribute => attribute.ownerId === entities[1].id && attribute.primary
+            );
+    const localTrace = pending.traces.find( trace => trace.sourceId === localAttribute.id );
+
+    await app.click({action: 'materialize'});
+    assert.match( app.element( '#dialog' ).innerHTML, /desmarca Clave/ );
+    app.submit({}, /PK local|clave.*local|primaria.*local/i );
+    assert.equal( app.element( '#dialog' ).open, true );
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), pending );
+
+    await app.click({action: 'close-dialog'});
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).conceptual.generalizations.length, 0 );
+    await app.click({action: 'redo'});
+    await app.click({select: localAttribute.id});
+    await app.click({action: 'edit-attribute'});
+    app.submit({
+        name: 'codigo_local',
+        typeFamily: 'NUMBER',
+        structure: 'simple',
+        required: 'on',
+        parentAttributeId: '',
+        derivation: '',
+        defaultValue: '',
+        notes: 'Columna conservada sin afirmar unicidad'
+        });
+    await app.flushTimers();
+    const corrected = JSON.parse( app.saved() );
+    const localColumn = corrected.tables[1].columns.find( column => column.id === localTrace.targetId );
+
+    assert.equal( localColumn.name, 'codigo_local' );
+    assert.equal( localColumn.primary, false );
+    await app.click({select: generalization.id});
+    await app.click({action: 'materialize'});
+    app.submit({});
+    await app.flushTimers();
+    const materialized = JSON.parse( app.saved() );
+
+    assert.equal( materialized.conceptual.generalizations[0].translation.kind, 'class-tables' );
+    assert.equal( materialized.tables[1].columns.find( column => column.id === localColumn.id ).name, 'codigo_local' );
+    assert.equal( materialized.tables[1].columns.filter( column => column.primary ).length, 1 );
+    assert.match( app.element( '#properties-body' ).innerHTML, /FK:/ );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), corrected );
+    await app.click({action: 'redo'});
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), materialized );
+
+    await app.click({select: generalization.id});
+    await app.click({action: 'edit-generalization'});
+    app.submit({
+        supertypeId: entities[0].id,
+        subtypeIds: [entities[1].id],
+        notes: 'Ahora solapada y parcial'
+        });
+    await app.flushTimers();
+    const edited = JSON.parse( app.saved() );
+
+    assert.equal( edited.conceptual.generalizations[0].translation.kind, 'class-tables' );
+    assert.deepEqual( edited.tables, materialized.tables );
+    await app.click({action: 'save'});
+    const json = await app.downloads.at( -1 ).text();
+    const reopened = await applicationHarness( 500, json );
+
+    assert.match( reopened.element( '#viewport' ).innerHTML, /codigo_local/ );
+    await reopened.click({action: 'sql'});
+    assert.match(
+            reopened.element( '#dialog' ).innerHTML,
+            /FOREIGN KEY/,
+            reopened.element( '#toast' ).textContent
+            );
     } );
 
 test( 'Soltar un rombo Chen sobre una entidad conserva una posición libre y deshacible', async () => {
@@ -720,7 +1105,7 @@ test( 'Las acciones de revisión y especialización abren y aplican el diálogo 
 
     assert.equal( created.total, true );
     assert.equal( created.disjoint, true );
-    assert.equal( app.element( '#properties-name' ).textContent, '— Especialización' );
+    assert.equal( app.element( '#properties-name' ).textContent, '— Especialización de Socio' );
 
     await app.click({action: 'edit-generalization'});
     assert.match( app.element( '#dialog' ).innerHTML, /Generalización \/ Especialización/ );
@@ -1236,23 +1621,31 @@ test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', as
     const app = await applicationHarness( 500, JSON.stringify( initial ) );
 
     await app.click({action: 'conceptual-relationship'});
-    assert.match( app.element( '#dialog' ).innerHTML, /name="cardinality2"/ );
     app.submit({
         name: 'UsoMensual', degree: '3',
-        entity0: first, role0: 'operador', min0: '0', max0: 'N', cardinality0: '1',
-        entity1: second, role1: 'recurso', min1: '1', max1: 'N', cardinality1: '',
-        entity2: third, role2: 'contexto', min2: '0', max2: '1', cardinality2: 'N'
+        entity0: first, role0: 'operador', min0: '0', max0: 'N',
+        entity1: second, role1: 'recurso', min1: '1', max1: 'N',
+        entity2: third, role2: 'contexto', min2: '0', max2: '1'
         });
     await app.flushTimers();
 
     const relation = JSON.parse( app.saved() ).conceptual.relationships[0];
+    // A ternary draws its letter inside the combination-cardinality caption.
+    const letters = () => diagramScene( JSON.parse( app.saved() ) ).edges
+        .filter( edge => edge.kind === 'participation' )
+        .map( edge => edge.labels.find(
+                label => ['cardinality', 'combination-cardinality'].includes( label.purpose )
+                )?.text.charAt( 0 ) ?? null );
 
-    assert.deepEqual( relation.participations.map( part => part.cardinality ), ['1', null, 'N'] );
-    assert.match( app.element( '#properties-body' ).innerHTML, /Automática · N/ );
+    // Undecided ternary: no letter yet; Varios decides the combination cardinality.
+    assert.deepEqual( relation.participations.map( part => part.cardinality ), [null, null, null] );
+    assert.deepEqual( letters(), [null, null, null] );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Cardinalidad por combinación/ );
 
-    app.change({participation: relation.participations[1].id, field: 'cardinality'}, '1');
+    app.change({participation: relation.participations[1].id, field: 'cardinality'}, 'one');
     await app.flushTimers();
-    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, '1' );
+    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, 'one' );
+    assert.deepEqual( letters(), [null, '1', null] );
 
     app.change({participation: relation.participations[1].id, field: 'cardinality'}, '');
     await app.flushTimers();
