@@ -34,7 +34,8 @@ import {
     exportSVG,
     diagramScene,
     diagramBounds,
-    findFreePosition
+    findFreePosition,
+    resolveDiagramPosition
     } from './ui/diagram.js';
 import {
     command,
@@ -382,7 +383,8 @@ function commit(
 
 function selectElement(
         id,
-        category = null
+        category = null,
+        revealProperties = true
         ) {
     const previousWasRelation = state.model.relationships.some(
             item => item.id === state.selectedId
@@ -390,7 +392,10 @@ function selectElement(
     const nextIsRelation = state.model.relationships.some( item => item.id === id );
 
     state.selectedId = id;
-    state.propertiesShown = true;
+
+    if (revealProperties) {
+        state.propertiesShown = true;
+        }
 
     if (category) {
         state.category = category;
@@ -661,6 +666,14 @@ async function autoLayout() {
 
     let next = state.model;
 
+    if (scene.mode === 'relational'
+        && Object.keys( next.presentation.relational || {} ).length) {
+        next = changeDocument(
+                next,
+                model => { model.presentation.relational = {}; }
+                );
+        }
+
     for (const placed of result.objects || []) {
         const node = nodes.find( item => item.id === placed.name );
 
@@ -722,6 +735,11 @@ async function act(
         action,
         target
         ) {
+    if (state.drag) {
+        state.drag = null;
+        renderDiagram();
+        }
+
     switch (action) {
         case 'entity':
             createEntity();
@@ -1031,6 +1049,7 @@ function changeRepresentation( mode ) {
         return;
         }
 
+    state.drag = null;
     state.viewports[previous] = {...state.viewport};
     const id = state.category === 'columns' && state.selectedColumnId
         ? state.selectedColumnId
@@ -1063,14 +1082,17 @@ function changeRepresentation( mode ) {
         }
     }
 
-function selectDiagramReference( ref ) {
+function selectDiagramReference(
+        ref,
+        revealProperties = true
+        ) {
     if (ref.kind === 'column') {
         const table = state.model.tables.find(
                 item => item.columns.some( field => field.id === ref.id )
                 );
 
         state.selectedColumnId = ref.id;
-        selectElement( table.id, 'columns' );
+        selectElement( table.id, 'columns', revealProperties );
         return;
         }
 
@@ -1079,11 +1101,11 @@ function selectDiagramReference( ref ) {
                 item => item.participations.some( part => part.id === ref.id )
                 );
 
-        selectElement( relation?.id || ref.ownerId, 'misc' );
+        selectElement( relation?.id || ref.ownerId, 'misc', revealProperties );
         return;
         }
 
-    selectElement( ref.id );
+    selectElement( ref.id, null, revealProperties );
     }
 
 function pointerDown( event ) {
@@ -1116,18 +1138,25 @@ function pointerDown( event ) {
                 && performance.now() - previous.time < 350;
 
             state.lastPick = {id: ref.id, time: performance.now()};
-            selectDiagramReference( ref );
+            selectDiagramReference( ref, false );
 
             if (double && ref.kind === 'table') {
                 state.category = 'columns';
                 renderPropertyPane();
                 }
 
-            const node = diagramScene( state.model ).nodes.find(
+            const scene = diagramScene( state.model );
+            const node = scene.nodes.find(
                     item => item.ref.id === ref.id
                     );
+            const caption = scene.edges.find(
+                    item => item.ref.id === ref.id && item.caption
+                    )?.caption.bounds;
+            const origin = node || caption;
 
-            if (!node) {
+            if (!origin) {
+                state.propertiesShown = true;
+                render();
                 return;
                 }
 
@@ -1135,8 +1164,8 @@ function pointerDown( event ) {
                 id: ref.id,
                 startX: point.x,
                 startY: point.y,
-                originX: node.x,
-                originY: node.y,
+                originX: origin.x,
+                originY: origin.y,
                 preview: null
                 };
             }
@@ -1160,6 +1189,10 @@ function pointerDown( event ) {
         }
     }
 
+function snapDiagramCoordinate( value ) {
+    return Math.max( 10, Math.min( 19000, Math.round( value / 10 ) * 10 ) );
+    }
+
 function pointerMove( event ) {
     const drag = state.drag;
 
@@ -1175,13 +1208,21 @@ function pointerMove( event ) {
         const point = canvasPoint( event.clientX, event.clientY );
 
         if (Math.abs( point.x - drag.startX ) + Math.abs( point.y - drag.startY ) < 4) {
+            if (drag.preview) {
+                drag.preview = null;
+                renderDiagram();
+                }
+
             return;
             }
 
-        drag.preview = {
-            x: Math.max( 10, Math.min( 19000, Math.round( (drag.originX + point.x - drag.startX) / 10 ) * 10 ) ),
-            y: Math.max( 10, Math.min( 19000, Math.round( (drag.originY + point.y - drag.startY) / 10 ) * 10 ) )
+        const preferred = {
+            x: snapDiagramCoordinate( drag.originX + point.x - drag.startX ),
+            y: snapDiagramCoordinate( drag.originY + point.y - drag.startY )
             };
+
+        drag.preview = resolveDiagramPosition( state.model, drag.id, preferred );
+        drag.moved = true;
         }
 
     renderDiagram();
@@ -1199,6 +1240,10 @@ function pointerUp( event ) {
     if (drag?.preview) {
         commit( moveDiagramElement( state.model, drag.id, drag.preview ) );
         }
+    else if (drag?.id && !drag.moved) {
+        state.propertiesShown = true;
+        render();
+        }
     }
 
 function keyboard( event ) {
@@ -1207,6 +1252,7 @@ function keyboard( event ) {
         }
 
     if (event.key === 'Escape') {
+        state.drag = null;
         state.tool = 'pointer';
         state.parentId = null;
         render();
