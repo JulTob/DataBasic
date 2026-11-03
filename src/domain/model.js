@@ -7,6 +7,8 @@
  * namespace:string, kind:'entity'|'view', x:number, y:number,
  * columns:Column[], notes:string, definition:string,
  * indexes:{id:string,name:string,columns:string[],unique:boolean}[]}} Entity
+ * @typedef {{id:string,entityId:string,role:string,min:number,max:number|null,
+ * cardinality?:'one'|'many'|null}} Participation
  * @typedef {{id:string,parentId:string,childId:string,name:string,
  * forward:string,inverse:string,cardinality:string,identifying:boolean,
  * optional:boolean,onDelete:string,onUpdate:string,
@@ -181,6 +183,7 @@ export function changeDocument(
     const next = structuredClone( model );
 
     operation( next );
+    synchronizeMaterializedConcepts( next );
 
     const errors = validateDocument( next )
         .filter( issue => issue.level === 'error' );
@@ -303,6 +306,8 @@ export function updateColumn(
                     applyNativeAttributePatch( next, origin, patch );
                     return;
                     }
+
+                rejectGeneratedStructure( next, 'column', columnId );
 
                 const generatedForeignKey = next.traces?.some(
                         trace => trace.targetKind === 'foreign-key'
@@ -486,6 +491,7 @@ export function addRelationship(
             );
     }
 
+/** Generated FKs expose referential actions; their source owns the structure. */
 export function updateRelationship(
         model,
         relationshipId,
@@ -502,7 +508,14 @@ export function updateRelationship(
                     throw new Error( 'La relación seleccionada ya no existe.' );
                     }
 
-                rejectGeneratedStructure( next, 'foreign-key', relationshipId );
+                const policyOnly = Object.keys( patch ).every(
+                        key => ['onDelete', 'onUpdate'].includes( key )
+                        );
+
+                if (!policyOnly) {
+                    rejectGeneratedStructure( next, 'foreign-key', relationshipId );
+                    }
+
                 applyDomainPatch(
                         relation,
                         patch,
@@ -1081,6 +1094,15 @@ function validateDocumentShape( model ) {
                 if (key !== 'generalizations') {
                     text( item, 'name', 160 );
                     }
+
+                if (item.translation) {
+                    demand(
+                            !Object.hasOwn( item.translation, 'onDelete' )
+                                && !Object.hasOwn( item.translation, 'onUpdate' ),
+                            'Las acciones referenciales se editan en la FK concreta, '
+                                + 'no dentro de translation.'
+                            );
+                    }
                 }
             }
 
@@ -1116,11 +1138,14 @@ function validateDocumentShape( model ) {
             domain( attribute.domain );
             demand(
                     attribute.translation === null
-                        || ['column', 'flatten', 'stored', 'omit'].includes(
+                        || ['column', 'flatten', 'stored', 'omit', 'multivalued-table'].includes(
                                 attribute.translation?.kind
                                 ),
                     'Estrategia de atributo no válida.'
                     );
+            if (attribute.translation?.kind === 'multivalued-table') {
+                text( attribute.translation, 'tableName', 160 );
+                }
             }
 
         for (const relation of model.conceptual.relationships) {
@@ -1130,6 +1155,11 @@ function validateDocumentShape( model ) {
                 identify( part );
                 text( part, 'entityId', 100 );
                 text( part, 'role', 160 );
+                demand(
+                        part.cardinality === undefined || part.cardinality === null
+                            || ['one', 'many'].includes( part.cardinality ),
+                        'Cardinalidad por combinación no válida.'
+                        );
                 demand(
                         Number.isSafeInteger( part.min ) && part.min >= 0
                             && (part.max === null
@@ -1146,6 +1176,15 @@ function validateDocumentShape( model ) {
 
                 if (relation.translation.kind === 'association') {
                     text( relation.translation, 'tableName', 160 );
+                    const context = relation.translation.cardinalityContextAttributeIds;
+
+                    if (context !== undefined && context !== null) {
+                        list( context, 200, 'Contexto de cardinalidad' );
+                        demand(
+                                context.every( id => typeof id === 'string' ),
+                                'El contexto necesita identificadores de atributos.'
+                                );
+                        }
 
                     for (const key of ['participationIds', 'attributeIds']) {
                         list( relation.translation.key?.[key], 200, 'Clave elegida' );
@@ -1166,14 +1205,19 @@ function validateDocumentShape( model ) {
             list( generalization.subtypeIds, 50, 'Subclases' );
             flag( generalization, 'disjoint' );
             flag( generalization, 'total' );
+            demand(
+                    generalization.translation === null
+                        || generalization.translation?.kind === 'class-tables',
+                    'Estrategia de jerarquía no válida.'
+                    );
             }
 
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
             demand(
-                    ['entity', 'attribute', 'relationship', 'participation'].includes( trace.sourceKind )
-                        && ['table', 'column', 'foreign-key'].includes( trace.targetKind ),
+                    ['entity', 'attribute', 'relationship', 'participation', 'generalization'].includes( trace.sourceKind )
+                        && ['table', 'column', 'foreign-key', 'alternate-key'].includes( trace.targetKind ),
                     'Clase de traza no válida.'
                     );
             text( trace, 'sourceId', 100 );
@@ -1327,12 +1371,19 @@ function rejectGeneratedStructure(
         ) {
     const trace = model.traces?.find(
             item => item.targetKind === targetKind && item.targetId === targetId
-                && ['relationship', 'participation', 'attribute'].includes( item.sourceKind )
+                && ['relationship', 'participation', 'attribute', 'generalization'].includes( item.sourceKind )
             );
 
     if (trace) {
+        const relationship = trace.sourceKind === 'participation'
+            ? model.conceptual.relationships.find(
+                    item => item.participations.some( part => part.id === trace.sourceId )
+                    )
+            : null;
+        const originId = relationship?.id || trace.sourceId;
+
         throw new Error(
-                `Estructura generada: edita su origen Chen ${trace.sourceId} en Conceptual.`
+                `Estructura generada: edita su origen Chen ${originId} en Conceptual.`
                 );
         }
     }
@@ -1472,6 +1523,12 @@ export function getConceptualProjection( model ) {
     const tracedColumns = new Set(
             traces.filter( item => item.targetKind === 'column' ).map( item => item.targetId )
             );
+    for (const relation of model.relationships) {
+        if (traces.some( trace => trace.targetKind === 'foreign-key' && trace.targetId === relation.id )) {
+            relation.mappings.forEach( pair => tracedColumns.add( pair.childColumnId ) );
+            }
+        }
+
     const entityForTable = id => traces.find(
             item => item.sourceKind === 'entity' && item.targetId === id
             )?.sourceId || id;
@@ -1681,6 +1738,19 @@ function nativeAttributeTable(
         model,
         attribute
         ) {
+    if (attribute.parentAttributeId) {
+        const parent = requireConceptualObject( model, 'attributes', attribute.parentAttributeId );
+
+        if (parent.multivalued) {
+            const trace = model.traces.find(
+                    item => item.sourceKind === 'attribute'
+                        && item.sourceId === parent.id && item.targetKind === 'table'
+                    );
+
+            return model.tables.find( item => item.id === trace?.targetId ) || null;
+            }
+        }
+
     if (attribute.ownerKind === 'entity') {
         return conceptualEntityTable( model, attribute.ownerId );
         }
@@ -1707,14 +1777,19 @@ function materializeNativeAttribute(
         model,
         attribute
         ) {
+    if (attribute.multivalued) {
+        materializeMultivaluedAttribute( model, attribute );
+        return;
+        }
+
     const table = nativeAttributeTable( model, attribute );
 
     if (table && (attribute.derived && attribute.translation?.kind === 'omit'
-        || attribute.structure === 'composite' && attribute.translation?.kind === 'flatten')) {
+        || attribute.structure === 'composite')) {
         removeStoredAttributeColumn( model, attribute, table );
         }
 
-    if (!table || attribute.structure === 'composite' || attribute.multivalued) {
+    if (!table || attribute.structure === 'composite') {
         return;
         }
 
@@ -1725,11 +1800,21 @@ function materializeNativeAttribute(
     if (attribute.parentAttributeId) {
         const parent = requireConceptualObject( model, 'attributes', attribute.parentAttributeId );
 
-        if (parent.translation?.kind !== 'flatten') {
+        if (parent.translation?.kind !== 'flatten'
+            && parent.translation?.kind !== 'multivalued-table') {
             return;
             }
         }
 
+    materializeAttributeColumn( model, attribute, table );
+    }
+
+function materializeAttributeColumn(
+        model,
+        attribute,
+        table,
+        asValue = false
+        ) {
     const trace = model.traces.find(
             item => item.sourceKind === 'attribute' && item.sourceId === attribute.id
                 && item.targetKind === 'column'
@@ -1737,7 +1822,7 @@ function materializeNativeAttribute(
     let field = table.columns.find( item => item.id === trace?.targetId );
 
     if (!field) {
-        field = column( attribute.name, attribute.type, attribute.primary || attribute.partialKey );
+        field = column( attribute.name, attribute.type );
         table.columns.push( field );
         traceDomainTarget( model, 'attribute', attribute.id, 'column', field.id );
         }
@@ -1746,9 +1831,180 @@ function materializeNativeAttribute(
         field[key] = structuredClone( attribute[key] );
         }
 
-    field.primary = attribute.primary || attribute.partialKey;
+    field.primary = asValue || attribute.primary || attribute.partialKey;
     field.required = attribute.required || field.primary;
     propagateColumnType( model, field.id, field.type );
+
+    return field;
+    }
+
+function generatedTable(
+        model,
+        name,
+        conceptualName
+        ) {
+    return {
+        id: newId(),
+        name,
+        conceptualName,
+        syncNames: false,
+        namespace: '',
+        kind: 'entity',
+        x: 160 + model.tables.length * 30,
+        y: 180 + model.tables.length * 25,
+        columns: [],
+        notes: '',
+        definition: '',
+        indexes: []
+        };
+    }
+
+function generatedForeignKey(
+        model,
+        sourceKind,
+        sourceId,
+        parent,
+        child,
+        name
+        ) {
+    const trace = model.traces.find(
+            item => item.sourceKind === sourceKind && item.sourceId === sourceId
+                && item.targetKind === 'foreign-key'
+                && model.relationships.some(
+                        relation => relation.id === item.targetId && relation.childId === child.id
+                        )
+            );
+    let foreignKey = model.relationships.find( item => item.id === trace?.targetId );
+
+    if (!foreignKey) {
+        foreignKey = {
+            id: newId(),
+            parentId: parent.id,
+            childId: child.id,
+            name,
+            forward: '',
+            inverse: '',
+            cardinality: 'zero-many',
+            identifying: true,
+            optional: false,
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION',
+            mappings: []
+            };
+        model.relationships.push( foreignKey );
+        traceDomainTarget( model, sourceKind, sourceId, 'foreign-key', foreignKey.id );
+        }
+
+    const keys = parent.columns.filter( item => item.primary );
+
+    if (!keys.length) {
+        throw new Error( `${parent.name}: define la PK completa antes de transformar.` );
+        }
+
+    if (foreignKey.mappings.some( pair => !keys.some( key => key.id === pair.parentColumnId ) )) {
+        throw new Error( `${parent.name}: resuelve las referencias a la PK anterior antes de retirar sus componentes.` );
+        }
+
+    foreignKey.parentId = parent.id;
+    foreignKey.name = name;
+    foreignKey.identifying = true;
+    foreignKey.optional = false;
+    foreignKey.cardinality = 'zero-many';
+    foreignKey.mappings = keys.map(
+            key => {
+                const oldPair = foreignKey.mappings.find( item => item.parentColumnId === key.id );
+                let target = child.columns.find( item => item.id === oldPair?.childColumnId );
+
+                if (!target) {
+                    target = column(
+                            uniqueColumnName( child, `${parent.name}_${key.name}` ),
+                            key.type,
+                            true
+                            );
+                    child.columns.push( target );
+                    if (sourceKind === 'generalization') {
+                        traceDomainTarget( model, sourceKind, sourceId, 'column', target.id );
+                        }
+                    }
+
+                target.name = `${parent.name}_${key.name}`;
+                target.type = key.type;
+                target.primary = true;
+                target.required = true;
+
+                return {parentColumnId: key.id, childColumnId: target.id};
+                }
+            );
+
+    return foreignKey;
+    }
+
+function multivaluedComponents(
+        model,
+        attribute
+        ) {
+    return attribute.structure === 'simple'
+        ? [attribute]
+        : model.conceptual.attributes.filter( item => item.parentAttributeId === attribute.id );
+    }
+
+function materializeMultivaluedAttribute(
+        model,
+        attribute
+        ) {
+    const owner = nativeAttributeTable( model, attribute );
+    const tableTrace = model.traces.find(
+            item => item.sourceKind === 'attribute' && item.sourceId === attribute.id
+                && item.targetKind === 'table'
+            );
+
+    if (!tableTrace && owner) {
+        removeStoredAttributeColumn( model, attribute, owner );
+        }
+
+    if (attribute.translation?.kind !== 'multivalued-table') {
+        return;
+        }
+
+    const values = multivaluedComponents( model, attribute );
+
+    if (!owner || attribute.derived || attribute.parentAttributeId
+        || attribute.primary || attribute.partialKey || !values.length
+        || values.some( item => item.structure !== 'simple' || item.derived
+                || item !== attribute && item.multivalued )) {
+        throw new Error(
+                `${attribute.name}: la tabla auxiliar requiere propietaria con PK `
+                    + 'y valores simples almacenados, sin clave propia ni derivación.'
+                );
+        }
+
+    let table = model.tables.find( item => item.id === tableTrace?.targetId );
+
+    if (!table) {
+        for (const value of values.filter( item => item !== attribute )) {
+            removeStoredAttributeColumn( model, value, owner );
+            }
+
+        table = generatedTable( model, attribute.translation.tableName, attribute.name );
+        model.tables.push( table );
+        traceDomainTarget( model, 'attribute', attribute.id, 'table', table.id );
+        }
+
+    table.name = attribute.translation.tableName;
+    table.conceptualName = attribute.name;
+    table.notes = attribute.notes;
+    generatedForeignKey(
+            model,
+            'attribute',
+            attribute.id,
+            owner,
+            table,
+            `FK_${table.name}_${owner.name}`
+            );
+
+    for (const value of values) {
+        materializeAttributeColumn( model, value, table, true );
+        }
     }
 
 function removeStoredAttributeColumn(
@@ -1766,15 +2022,27 @@ function removeStoredAttributeColumn(
         }
 
     const field = table.columns.find( item => item.id === trace.targetId );
-    const referenced = model.relationships.some(
+
+    if (!field) {
+        return;
+        }
+
+    const foreignKey = model.relationships.find(
             relation => relation.mappings.some(
                     pair => pair.parentColumnId === field.id || pair.childColumnId === field.id
                     )
-            ) || table.indexes.some( index => index.columns.includes( field.id ) )
-        || (table.alternateKeys || []).some( key => key.columns.includes( field.id ) );
+            );
+    const key = [...table.indexes, ...(table.alternateKeys || [])].find(
+            item => item.columns.includes( field.id )
+            );
 
-    if (referenced || field.primary) {
-        throw new Error( 'Resuelve las claves y referencias antes de omitir o descomponer este atributo.' );
+    if (foreignKey || key || field.primary) {
+        const reference = foreignKey?.name || key?.name || `PK de ${table.name}`;
+
+        throw new Error(
+                `Resuelve las claves y referencias (${reference}) `
+                    + 'antes de omitir o descomponer este atributo.'
+                );
         }
 
     table.columns = table.columns.filter( item => item.id !== field.id );
@@ -1789,6 +2057,12 @@ function applyNativeAttributePatch(
     if (attribute.ownerKind === 'relationship' && 'primary' in patch
         && patch.primary !== attribute.primary) {
         throw new Error( 'Elige la clave de la relación en su estrategia Chen; no mediante una columna generada.' );
+        }
+
+    if (attribute.translation?.kind === 'multivalued-table'
+        && ('translation' in patch && patch.translation?.kind !== 'multivalued-table'
+            || patch.multivalued === false || patch.structure && patch.structure !== attribute.structure)) {
+        throw new Error( 'Elimina el origen multivaluado antes de cambiar su estrategia materializada.' );
         }
 
     applyDomainPatch(
@@ -1807,7 +2081,15 @@ function applyNativeAttributePatch(
 
     materializeNativeAttribute( model, attribute );
 
-    if (attribute.structure === 'composite') {
+    if (attribute.parentAttributeId) {
+        const parent = requireConceptualObject( model, 'attributes', attribute.parentAttributeId );
+
+        if (parent.multivalued) {
+            materializeMultivaluedAttribute( model, parent );
+            }
+        }
+
+    if (attribute.structure === 'composite' && !attribute.multivalued) {
         for (const component of model.conceptual.attributes.filter(
                 item => item.parentAttributeId === attribute.id
                 )) {
@@ -1823,6 +2105,7 @@ function applyNativeAttributePatch(
         }
     }
 
+/** Applies a coherent source decision; incompatible references reject atomically. */
 export function updateConceptualAttribute(
         model,
         id,
@@ -1855,7 +2138,9 @@ export function addConceptualRelationship(
                                 entityId: part.entityId,
                                 role: part.role || '',
                                 min: part.min ?? 0,
-                                max: part.max ?? null
+                                max: part.max ?? null,
+                                ...(part.cardinality !== undefined
+                                    ? {cardinality: part.cardinality} : {})
                                 })
                             ),
                     translation: structuredClone( definition.translation ?? null )
@@ -1906,7 +2191,7 @@ export function updateConceptualParticipation(
                     throw new Error( 'La participación Chen ya no existe.' );
                     }
 
-                applyDomainPatch( part, patch, ['role', 'min', 'max'] );
+                applyDomainPatch( part, patch, ['role', 'min', 'max', 'cardinality'] );
                 materializeConceptualRelationship( next, relation );
                 }
             );
@@ -2004,6 +2289,10 @@ function materializeConceptualRelationship(
         return;
         }
 
+    if (relation.translation.kind !== 'association') {
+        throw new Error( 'Estrategia de relación no válida.' );
+        }
+
     const decision = relation.translation;
     const parts = decision.key?.participationIds || [];
     const attributes = decision.key?.attributeIds || [];
@@ -2085,6 +2374,7 @@ function materializeConceptualRelationship(
             attribute.required = true;
             }
         }
+    materializeCombinationKeys( model, relation, table );
     }
 
 function materializeBinaryForeignKey(
@@ -2140,7 +2430,7 @@ export function addConceptualGeneralization(
     return changeDocument(
             model,
             next => {
-                next.conceptual.generalizations.push({
+                const generalization = {
                     id: newId(),
                     supertypeId: definition.supertypeId,
                     subtypeIds: structuredClone( definition.subtypeIds || [] ),
@@ -2148,11 +2438,15 @@ export function addConceptualGeneralization(
                     total: definition.total ?? false,
                     notes: definition.notes || '',
                     translation: structuredClone( definition.translation ?? null )
-                    });
+                    };
+
+                next.conceptual.generalizations.push( generalization );
+                materializeClassTables( next, generalization );
                 }
             );
     }
 
+/** Inheritance preserves local fields; an incompatible local PK must be resolved. */
 export function updateConceptualGeneralization(
         model,
         id,
@@ -2160,12 +2454,155 @@ export function updateConceptualGeneralization(
         ) {
     return changeDocument(
             model,
-            next => applyDomainPatch(
-                    requireConceptualObject( next, 'generalizations', id ),
-                    patch,
-                    ['supertypeId', 'subtypeIds', 'disjoint', 'total', 'notes', 'translation']
-                    )
+            next => {
+                const item = requireConceptualObject( next, 'generalizations', id );
+
+                if (item.translation && (
+                    'supertypeId' in patch && patch.supertypeId !== item.supertypeId
+                        || 'subtypeIds' in patch
+                            && JSON.stringify( patch.subtypeIds ) !== JSON.stringify( item.subtypeIds )
+                        || 'translation' in patch && patch.translation?.kind !== 'class-tables'
+                    )) {
+                    throw new Error( 'Elimina primero la jerarquía materializada para cambiar sus clases o estrategia.' );
+                    }
+
+                applyDomainPatch(
+                        item,
+                        patch,
+                        ['supertypeId', 'subtypeIds', 'disjoint', 'total', 'notes', 'translation']
+                        );
+                materializeClassTables( next, item );
+                }
             );
+    }
+
+function materializeClassTables(
+        model,
+        generalization
+        ) {
+    if (!generalization.translation) {
+        return;
+        }
+
+    if (generalization.translation.kind !== 'class-tables') {
+        throw new Error( 'Estrategia de jerarquía no válida.' );
+        }
+
+    const parent = conceptualEntityTable( model, generalization.supertypeId );
+
+    for (const subtypeId of generalization.subtypeIds) {
+        const child = conceptualEntityTable( model, subtypeId );
+        const inherited = new Set( model.traces.filter(
+                trace => trace.sourceKind === 'generalization'
+                    && trace.sourceId === generalization.id && trace.targetKind === 'column'
+                ).map( trace => trace.targetId ) );
+        const incompatible = child.columns.some( field => field.primary && !inherited.has( field.id ) );
+
+        if (incompatible && model.traces.some(
+                trace => trace.sourceKind === 'generalization'
+                    && trace.sourceId !== generalization.id
+                    && child.columns.some( field => field.id === trace.targetId && field.primary )
+                )) {
+            throw new Error(
+                    `${child.name}: herencia múltiple con identidades incompatibles; `
+                        + 'resuelve explícitamente qué identidad hereda antes de materializar.'
+                    );
+            }
+
+        if (incompatible) {
+            throw new Error(
+                    `${child.name}: resuelve explícitamente su PK local `
+                        + `antes de heredar la PK de ${parent.name}; `
+                        + 'desmarca la clave o crea la subclase sin identificador.'
+                    );
+            }
+
+        const foreignKey = generatedForeignKey(
+                model,
+                'generalization',
+                generalization.id,
+                parent,
+                child,
+                `FK_${child.name}_${parent.name}`
+                );
+
+        foreignKey.cardinality = 'zero-one';
+        }
+    }
+
+function combinationKeyColumns(
+        model,
+        relation,
+        selected
+        ) {
+    const columns = [];
+
+    for (const part of relation.participations.filter( item => item.id !== selected.id )) {
+        const trace = model.traces.find(
+                item => item.sourceKind === 'participation' && item.sourceId === part.id
+                    && item.targetKind === 'foreign-key'
+                );
+        const foreignKey = model.relationships.find( item => item.id === trace?.targetId );
+
+        if (foreignKey) {
+            columns.push( ...foreignKey.mappings.map( item => item.childColumnId ) );
+            }
+        }
+
+    for (const id of relation.translation.cardinalityContextAttributeIds || []) {
+        const trace = model.traces.find(
+                item => item.sourceKind === 'attribute' && item.sourceId === id
+                    && item.targetKind === 'column'
+                );
+
+        if (trace) {
+            columns.push( trace.targetId );
+            }
+        }
+
+    return columns;
+    }
+
+function materializeCombinationKeys(
+        model,
+        relation,
+        table
+        ) {
+    if (relation.participations.length !== 3) {
+        return;
+        }
+
+    const context = relation.translation.cardinalityContextAttributeIds;
+
+    for (const part of relation.participations) {
+        const trace = model.traces.find(
+                item => item.sourceKind === 'participation' && item.sourceId === part.id
+                    && item.targetKind === 'alternate-key'
+                );
+        const complete = part.cardinality === 'one' && Array.isArray( context );
+
+        if (!complete) {
+            if (trace) {
+                table.alternateKeys = (table.alternateKeys || []).filter( item => item.id !== trace.targetId );
+                model.traces = model.traces.filter( item => item !== trace );
+                }
+            continue;
+            }
+
+        let key = table.alternateKeys?.find( item => item.id === trace?.targetId );
+
+        if (!key) {
+            key = {id: newId(), name: '', columns: []};
+            table.alternateKeys ||= [];
+            table.alternateKeys.push( key );
+            traceDomainTarget( model, 'participation', part.id, 'alternate-key', key.id );
+            }
+
+        const ordinal = relation.participations.indexOf( part ) + 1;
+
+        key.name = `AK_${table.name}_${part.role || 'rol'}_${ordinal}_combinacion`;
+        key.columns = combinationKeyColumns( model, relation, part );
+        }
     }
 
 export function setAlternateKey(
@@ -2177,6 +2614,11 @@ export function setAlternateKey(
             model,
             next => {
                 const table = requireTable( next, tableId );
+
+                if (definition.id) {
+                    rejectGeneratedStructure( next, 'alternate-key', definition.id );
+                    }
+
                 const keys = table.alternateKeys || [];
                 let key = keys.find( item => item.id === definition.id );
 
@@ -2221,6 +2663,7 @@ export function removeAlternateKey(
             next => {
                 const table = requireTable( next, tableId );
 
+                rejectGeneratedStructure( next, 'alternate-key', keyId );
                 table.alternateKeys = (table.alternateKeys || []).filter(
                         item => item.id !== keyId
                         );
@@ -2263,12 +2706,17 @@ export function removeConceptualElement(
                     }
 
                 if (attribute) {
-                    if (native.attributes.some( item => item.parentAttributeId === id )) {
+                    const components = native.attributes.filter( item => item.parentAttributeId === id );
+
+                    if (components.length && attribute.translation?.kind !== 'multivalued-table') {
                         throw new Error( 'Elimina primero los componentes del atributo.' );
                         }
 
+                    components.forEach( item => removedSources.add( item.id ) );
+
                     if (native.relationships.some(
                             item => item.translation?.key?.attributeIds.includes( id )
+                                || item.translation?.cardinalityContextAttributeIds?.includes( id )
                             )) {
                         throw new Error( 'El atributo pertenece a una clave de asociación. Revisa primero esa clave en Chen.' );
                         }
@@ -2312,6 +2760,16 @@ export function removeConceptualElement(
                                         ))
                         )) {
                     throw new Error( 'El origen Chen tiene referencias externas. Elimina primero esas relaciones.' );
+                    }
+
+                for (const table of next.tables.filter( item => !removedTables.has( item.id ) )) {
+                    const dependent = [...table.indexes, ...(table.alternateKeys || [])].find(
+                            key => key.columns.some( columnId => removedColumns.has( columnId ) )
+                            );
+
+                    if (dependent) {
+                        throw new Error( `La clave o índice ${dependent.name} usa columnas generadas; resuelve esa referencia antes de borrar el origen Chen.` );
+                        }
                     }
 
                 next.tables = next.tables.filter( item => !removedTables.has( item.id ) );
@@ -2401,13 +2859,17 @@ export function conceptualStatus( model ) {
 
     for (const attribute of model.conceptual.attributes) {
         if (attribute.multivalued) {
+            const materialized = attribute.translation?.kind === 'multivalued-table';
+
             report(
-                    'pending',
-                    `${attribute.name}: multivaluado conservado; falta una transformación explícita a tabla auxiliar.`,
+                    materialized ? 'documentary' : 'pending',
+                    `${attribute.name}: ${materialized
+                        ? 'tabla auxiliar materializada; la FK no exige un mínimo de valores por propietaria'
+                        : 'multivaluado pendiente de una transformación explícita a tabla auxiliar'}.`,
                     attribute.id
                     );
             }
-        if (attribute.structure === 'composite') {
+        if (attribute.structure === 'composite' && !attribute.multivalued) {
             const components = model.conceptual.attributes.filter(
                     item => item.parentAttributeId === attribute.id
                     );
@@ -2431,10 +2893,38 @@ export function conceptualStatus( model ) {
             }
         }
 
+    for (const relation of model.conceptual.relationships.filter(
+            item => item.participations.length === 3
+            )) {
+        const legacy = relation.participations.every( part => part.cardinality === undefined );
+        const incomplete = relation.participations.some( part => !['one', 'many'].includes( part.cardinality ) );
+        const needsContext = relation.participations.some( part => part.cardinality === 'one' );
+        const context = relation.translation?.cardinalityContextAttributeIds;
+
+        if (legacy) {
+            report(
+                    'documentary',
+                    `${relation.name}: cardinalidad por combinación desconocida en el archivo anterior; no se deduce desde mínimos/máximos ni desde la PK.`,
+                    relation.id
+                    );
+            }
+        else if (incomplete || needsContext && !Array.isArray( context )) {
+            report(
+                    'pending',
+                    `${relation.name}: elige cardinalidad one/many de cada rol y contexto global o temporal explícito para las ramas one.`,
+                    relation.id
+                    );
+            }
+        }
+
     for (const item of model.conceptual.generalizations) {
+        const materialized = item.translation?.kind === 'class-tables';
+
         report(
-                'pending',
-                `Jerarquía ${item.id}: se conservan superclase, subclases, disyunción y totalidad; su transformación requiere una estrategia aún no implementada.`,
+                materialized ? 'documentary' : 'pending',
+                `Jerarquía ${item.id}: ${materialized
+                    ? `tablas de clases materializadas; ${item.disjoint ? 'disjunta' : 'solapada'}, ${item.total ? 'total' : 'parcial'}. PK/FK no imponen exclusión ni cobertura entre subclases`
+                    : 'superclase, subclases, disyunción y totalidad conservadas; elige class-tables para materializar'}.`,
                 item.id
                 );
         }
@@ -2528,7 +3018,7 @@ function validateConceptualDocument( model ) {
         }
 
     for (const item of native.generalizations) {
-        if (!entities.has( item.supertypeId )
+        if (!item.subtypeIds.length || !entities.has( item.supertypeId )
             || item.subtypeIds.some( id => !entities.has( id ) || id === item.supertypeId )
             || new Set( item.subtypeIds ).size !== item.subtypeIds.length) {
             add( 'La jerarquía requiere superclase y subclases existentes y distintas.', item.id );
@@ -2541,12 +3031,14 @@ function validateConceptualDocument( model ) {
         relationship: relationships,
         participation: new Set( native.relationships.flatMap(
                 item => item.participations.map( part => part.id )
-                ) )
+                ) ),
+        generalization: new Set( native.generalizations.map( item => item.id ) )
         };
     const targets = {
         table: new Set( model.tables.map( item => item.id ) ),
         column: new Set( model.tables.flatMap( item => item.columns.map( field => field.id ) ) ),
-        'foreign-key': new Set( model.relationships.map( item => item.id ) )
+        'foreign-key': new Set( model.relationships.map( item => item.id ) ),
+        'alternate-key': new Set( model.tables.flatMap( item => (item.alternateKeys || []).map( key => key.id ) ) )
         };
     const traceKeys = new Set();
 
@@ -2583,6 +3075,9 @@ function validateConceptualDocument( model ) {
             }
         }
 
+    validateConceptualOwnership( model, add );
+    validateGeneralizationGraph( model, add );
+    validateGeneratedArtifacts( model, add );
     issues.push( ...conceptualStatus( model ) );
 
     return issues;
@@ -2694,4 +3189,403 @@ function validateRelationshipMaterialization(
     if (actual.length !== primaryIds.size || actual.some( id => !primaryIds.has( id ) )) {
         fail( 'la PK de la asociación debe coincidir con la clave elegida en Chen.' );
         }
+    }
+
+function synchronizeMaterializedConcepts( model ) {
+    if (model.version !== 2 || !model.conceptual) {
+        return;
+        }
+
+    const completed = new Set();
+    const active = new Set();
+    const visit = item => {
+        if (completed.has( item.id ) || active.has( item.id )) {
+            return;
+            }
+
+        active.add( item.id );
+
+        for (const parent of model.conceptual.generalizations.filter(
+                candidate => candidate.subtypeIds.includes( item.supertypeId )
+                )) {
+            visit( parent );
+            }
+
+        materializeClassTables( model, item );
+        completed.add( item.id );
+        active.delete( item.id );
+        };
+
+    for (const item of model.conceptual.generalizations) {
+        visit( item );
+        }
+
+    for (const relation of model.conceptual.relationships) {
+        materializeConceptualRelationship( model, relation );
+        }
+
+    for (const attribute of model.conceptual.attributes.filter( item => item.multivalued )) {
+        materializeMultivaluedAttribute( model, attribute );
+        }
+    }
+
+function validateGeneralizationGraph(
+        model,
+        add
+        ) {
+    const edges = new Map();
+
+    for (const item of model.conceptual.generalizations) {
+        const children = edges.get( item.supertypeId ) || [];
+
+        children.push( ...item.subtypeIds );
+        edges.set( item.supertypeId, children );
+        }
+
+    const active = new Set();
+    const complete = new Set();
+    const visit = id => {
+        if (active.has( id )) {
+            return false;
+            }
+        if (complete.has( id )) {
+            return true;
+            }
+
+        active.add( id );
+
+        for (const child of edges.get( id ) || []) {
+            if (!visit( child )) {
+                return false;
+                }
+            }
+
+        active.delete( id );
+        complete.add( id );
+        return true;
+        };
+
+    for (const id of edges.keys()) {
+        if (!visit( id )) {
+            add( 'La jerarquía no puede contener ciclos de herencia.', id );
+            return;
+            }
+        }
+    }
+
+function validateConceptualOwnership(
+        model,
+        add
+        ) {
+    const native = model.conceptual;
+    const permitted = {
+        entity: ['table'],
+        attribute: ['column', 'table', 'foreign-key'],
+        relationship: ['table', 'foreign-key'],
+        participation: ['foreign-key', 'alternate-key'],
+        generalization: ['column', 'foreign-key']
+        };
+    const tableForColumn = id => model.tables.find(
+            table => table.columns.some( field => field.id === id )
+            );
+
+    for (const trace of model.traces) {
+        if (!permitted[trace.sourceKind]?.includes( trace.targetKind )) {
+            add( 'El par de origen y destino de la traza no está permitido.', trace.sourceId );
+            }
+        }
+
+    const tableOwners = new Map();
+
+    for (const trace of model.traces.filter( item => item.targetKind === 'table' )) {
+        if (tableOwners.has( trace.targetId )) {
+            add( 'La tabla generada no puede tener varios orígenes propietarios.', trace.sourceId );
+            }
+        tableOwners.set( trace.targetId, trace.sourceId );
+        }
+
+    const ownedTables = new Set();
+
+    for (const entity of native.entities) {
+        const traces = model.traces.filter(
+                item => item.sourceKind === 'entity' && item.sourceId === entity.id
+                );
+        const table = model.tables.find( item => item.id === traces[0]?.targetId );
+
+        if (traces.length !== 1 || traces[0]?.targetKind !== 'table'
+            || !table || table.kind !== 'entity' || ownedTables.has( table.id )
+            || table.conceptualName !== entity.name || table.notes !== entity.notes) {
+            add( 'La entidad necesita una única tabla propia coherente; la traza no puede apuntar a una tabla ajena.', entity.id );
+            }
+
+        if (table) {
+            ownedTables.add( table.id );
+            }
+        }
+
+    for (const attribute of native.attributes) {
+        const traces = model.traces.filter(
+                item => item.sourceKind === 'attribute' && item.sourceId === attribute.id
+                );
+        const columnTraces = traces.filter( item => item.targetKind === 'column' );
+        const auxiliary = attribute.translation?.kind === 'multivalued-table';
+        const strategy = attribute.translation?.kind;
+        const compatible = strategy === undefined
+            || strategy === 'multivalued-table' && attribute.multivalued
+            || strategy === 'flatten'
+                && attribute.structure === 'composite'
+                && !attribute.multivalued
+            || ['stored', 'omit'].includes( strategy )
+                && attribute.derived
+                && !attribute.multivalued
+            || strategy === 'column'
+                && attribute.structure === 'simple'
+                && !attribute.multivalued
+                && !attribute.derived;
+
+        if (!compatible) {
+            add( 'La estrategia del atributo no corresponde a su estructura y derivación.', attribute.id );
+            }
+
+        if (auxiliary && (traces.filter( item => item.targetKind === 'table' ).length !== 1
+            || traces.filter( item => item.targetKind === 'foreign-key' ).length !== 1
+            || columnTraces.length !== (attribute.structure === 'simple' ? 1 : 0))) {
+            add( 'El multivaluado necesita una auxiliar, una FK y sólo las columnas de sus valores simples.', attribute.id );
+            }
+
+        if (!auxiliary && traces.some( item => item.targetKind !== 'column' )) {
+            add( 'Sólo un multivaluado materializado puede originar una tabla auxiliar y su FK.', attribute.id );
+            }
+
+        if (columnTraces.length > 1) {
+            add( 'Cada valor simple necesita una única columna propia.', attribute.id );
+            }
+
+        let expected;
+
+        try {
+            expected = auxiliary
+                ? model.tables.find( item => traces.some(
+                        trace => trace.targetKind === 'table' && trace.targetId === item.id
+                        ) )
+                : nativeAttributeTable( model, attribute );
+            }
+        catch (error) {
+            add( error.message, attribute.id );
+            continue;
+            }
+
+        for (const trace of columnTraces) {
+            if (tableForColumn( trace.targetId )?.id !== expected?.id) {
+                add( 'La columna del atributo debe pertenecer a su propietaria o auxiliar elegida.', attribute.id );
+                }
+            }
+
+        const parent = native.attributes.find( item => item.id === attribute.parentAttributeId );
+        const stored = attribute.structure === 'simple' && !attribute.multivalued
+            && (!attribute.derived || attribute.translation?.kind === 'stored')
+            && (!parent || ['flatten', 'multivalued-table'].includes( parent.translation?.kind ));
+
+        if (stored && expected && columnTraces.length !== 1) {
+            add( 'El atributo almacenado necesita su columna y traza completas.', attribute.id );
+            }
+        if ((!stored && !auxiliary) && columnTraces.length) {
+            add( 'Un atributo no almacenado no puede conservar una copia escalar residual.', attribute.id );
+            }
+        }
+
+    for (const item of native.generalizations) {
+        if (!item.translation && model.traces.some(
+                trace => trace.sourceKind === 'generalization' && trace.sourceId === item.id
+                )) {
+            add( 'La jerarquía pendiente no puede conservar artefactos materializados.', item.id );
+            }
+        }
+
+    for (const relation of native.relationships) {
+        const context = relation.translation?.cardinalityContextAttributeIds;
+
+        if (Array.isArray( context )) {
+            if (new Set( context ).size !== context.length || context.some(
+                    id => !native.attributes.some(
+                            attribute => attribute.id === id
+                                && attribute.ownerKind === 'relationship'
+                                && attribute.ownerId === relation.id
+                                && attribute.structure === 'simple'
+                                && !attribute.multivalued && !attribute.derived
+                                && attribute.required
+                            )
+                    )) {
+                add( 'El contexto de cardinalidad exige atributos propios simples almacenados, obligatorios y sin duplicados.', relation.id );
+                }
+            }
+
+        for (const part of relation.participations) {
+            const traces = model.traces.filter(
+                    trace => trace.sourceKind === 'participation' && trace.sourceId === part.id
+                    );
+            const expectedForeignKey = relation.translation?.kind === 'association'
+                || relation.translation?.kind === 'foreign-key'
+                    && part.id !== relation.translation.childParticipationId;
+
+            if (!expectedForeignKey && traces.length) {
+                add( 'La participación pendiente o hija no puede originar estos artefactos.', part.id );
+                }
+
+            if (traces.filter( trace => trace.targetKind === 'foreign-key' ).length > 1
+                || traces.filter( trace => trace.targetKind === 'alternate-key' ).length > 1) {
+                add( 'La participación no puede duplicar sus artefactos.', part.id );
+                }
+            }
+        }
+    }
+
+/** Recompute on a copy: missing or divergent artifacts are errors, never repairs. */
+function validateGeneratedArtifacts(
+        model,
+        add
+        ) {
+    const expected = structuredClone( model );
+
+    try {
+        synchronizeMaterializedConcepts( expected );
+        }
+    catch (error) {
+        add( error.message );
+        return;
+        }
+
+    const generatedSources = new Set( [
+        ...model.conceptual.attributes.filter(
+                item => item.translation?.kind === 'multivalued-table'
+                ).map( item => item.id ),
+        ...model.conceptual.generalizations.filter( item => item.translation ).map( item => item.id ),
+        ...model.conceptual.relationships.flatMap( item => item.participations.map( part => part.id ) )
+        ] );
+    const relevant = document => document.traces.filter(
+            trace => generatedSources.has( trace.sourceId )
+            );
+    const signatures = traces => traces.map( trace => artifactSignature( trace ) ).sort();
+
+    if (JSON.stringify( signatures( relevant( model ) ) )
+        !== JSON.stringify( signatures( relevant( expected ) ) )) {
+        add( 'La materialización necesita todas sus trazas, sin duplicados ni destinos ajenos.' );
+        }
+
+    for (const trace of relevant( expected )) {
+        const find = document => {
+            if (trace.targetKind === 'table') {
+                const table = document.tables.find( item => item.id === trace.targetId );
+
+                return table && {
+                    name: table.name,
+                    conceptualName: table.conceptualName,
+                    notes: table.notes,
+                    columns: table.columns
+                    };
+                }
+            if (trace.targetKind === 'column') {
+                return document.tables.flatMap( item => item.columns ).find(
+                        item => item.id === trace.targetId
+                        );
+                }
+            if (trace.targetKind === 'alternate-key') {
+                return document.tables.flatMap( item => item.alternateKeys || [] ).find(
+                        item => item.id === trace.targetId
+                        );
+                }
+
+            return document.relationships.find( item => item.id === trace.targetId );
+            };
+
+        if (artifactSignature( find( model ) ) !== artifactSignature( find( expected ) )) {
+            add( 'El artefacto generado diverge de su decisión conceptual.', trace.sourceId );
+            }
+        }
+
+    for (const attribute of model.conceptual.attributes.filter(
+            item => item.translation?.kind === 'multivalued-table'
+            )) {
+        const traces = model.traces.filter(
+                trace => trace.sourceKind === 'attribute' && trace.sourceId === attribute.id
+                );
+        const tableTrace = traces.find( trace => trace.targetKind === 'table' );
+        const table = model.tables.find( item => item.id === tableTrace?.targetId );
+        const foreignTrace = traces.find( trace => trace.targetKind === 'foreign-key' );
+        const foreignKey = model.relationships.find( item => item.id === foreignTrace?.targetId );
+        const valueIds = new Set( multivaluedComponents( model, attribute ).flatMap(
+                value => model.traces.filter(
+                        trace => trace.sourceKind === 'attribute' && trace.sourceId === value.id
+                            && trace.targetKind === 'column'
+                        ).map( trace => trace.targetId )
+                ) );
+        const expectedIds = new Set( [
+            ...valueIds,
+            ...(foreignKey?.mappings || []).map( pair => pair.childColumnId )
+            ] );
+
+        if (!table || !foreignKey || foreignKey.childId !== table.id
+            || table.columns.length !== expectedIds.size
+            || table.columns.some( field => !expectedIds.has( field.id ) || !field.primary || !field.required )) {
+            add( 'La auxiliar debe contener exactamente la PK propietaria y todos los valores como PK obligatoria.', attribute.id );
+            }
+        }
+
+    for (const item of model.conceptual.generalizations.filter( value => value.translation )) {
+        const traces = model.traces.filter(
+                trace => trace.sourceKind === 'generalization' && trace.sourceId === item.id
+                );
+        const foreignKeys = traces.filter( trace => trace.targetKind === 'foreign-key' ).map(
+                trace => model.relationships.find( relation => relation.id === trace.targetId )
+                );
+        const inheritedIds = foreignKeys.flatMap( foreignKey => (foreignKey?.mappings || []).map(
+                pair => pair.childColumnId
+                ) );
+        const columnTraces = traces.filter( trace => trace.targetKind === 'column' );
+
+        if (foreignKeys.length !== item.subtypeIds.length
+            || columnTraces.length !== inheritedIds.length
+            || columnTraces.some( trace => !inheritedIds.includes( trace.targetId ) )) {
+            add( 'La jerarquía necesita exactamente las FKs y columnas heredadas de sus subclases.', item.id );
+            }
+
+        for (const subtypeId of item.subtypeIds) {
+            let table;
+
+            try {
+                table = conceptualEntityTable( model, subtypeId );
+                }
+            catch (error) {
+                add( error.message, item.id );
+                continue;
+                }
+
+            const inherited = new Set( traces.filter( trace => trace.targetKind === 'column' ).map(
+                    trace => trace.targetId
+                    ) );
+
+            if (table.columns.filter( field => field.primary ).some( field => !inherited.has( field.id ) )) {
+                add( 'La PK de la subclase debe ser exactamente la clave heredada.', item.id );
+                }
+            }
+        }
+    }
+
+function artifactSignature( value ) {
+    const canonical = item => {
+        if (Array.isArray( item )) {
+            return item.map( canonical );
+            }
+        if (item && typeof item === 'object') {
+            return Object.fromEntries(
+                    Object.keys( item ).sort().map(
+                            key => [key, canonical( item[key] )]
+                            )
+                    );
+            }
+
+        return item;
+        };
+
+    return JSON.stringify( canonical( value ) );
     }
