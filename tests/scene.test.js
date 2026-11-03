@@ -11,6 +11,8 @@ import {
     emptyDocument,
     setDiagramMode,
     updateColumn,
+    updateConceptualParticipation,
+    updateConceptualRelationship,
     updateRelationship,
     updateTable
     } from '../src/domain/model.js';
@@ -247,6 +249,7 @@ test( 'Una rama Chen horizontal corta separa el rol largo de su (0,N) y las caja
             assert.equal( branch.targetId, `entity:${second.id}` );
             assert.ok( (cardinality.y - lineY) * (role.y - lineY) < 0 );
             assert.equal( overlaps( cardinality.bounds, role.bounds ), false );
+            assert.ok( cardinality.leader.length === 2 && role.leader.length === 2 );
 
             for (const label of branch.labels) {
                 sceneAssertContained( scene.bounds, label.bounds );
@@ -267,6 +270,81 @@ test( 'Una rama Chen horizontal corta separa el rol largo de su (0,N) y las caja
             assert.ok( !exportSVG( model ).includes( 'NaN' ) );
             }
         }
+    } );
+
+test( 'Rango y rol conservan guía a su rama diagonal u horizontal, con atributo inferior', () => {
+    let model = sceneNativeFixture( 2 );
+    let relation = model.conceptual.relationships[0];
+    const [person, activity] = model.conceptual.entities;
+    const date = model.conceptual.attributes.find( item => item.ownerKind === 'relationship' );
+
+    for (const [index, role] of ['persona', 'actividad'].entries()) {
+        model = updateConceptualParticipation(
+                model,
+                relation.id,
+                relation.participations[index].id,
+                {role, min: 0, max: null}
+                );
+        }
+
+    model = updateConceptualRelationship( model, relation.id, {
+        name: 'Inscripcion',
+        translation: {
+            kind: 'association',
+            tableName: 'Inscripcion',
+            key: {participationIds: relation.participations.map( item => item.id ), attributeIds: []}
+            }
+        } );
+    model.presentation.chen[person.id] = {x: 640, y: 70};
+    model.presentation.chen[activity.id] = {x: 640, y: 200};
+    model.presentation.chen[relation.id] = {x: 330, y: 180};
+    model.presentation.chen[date.id] = {x: 640, y: 330};
+    relation = model.conceptual.relationships[0];
+    const scene = diagramScene( model );
+    const branches = scene.edges.filter( edge => edge.kind === 'participation' );
+    const horizontal = branches.find( edge => edge.participation.role === 'actividad' );
+    const diagonal = branches.find( edge => edge.participation.role === 'persona' );
+    const svg = exportSVG( model );
+    const onSegment = (point, [start, end]) => {
+        const cross = (point.x - start.x) * (end.y - start.y)
+            - (point.y - start.y) * (end.x - start.x);
+
+        return Math.abs( cross ) < 0.000001
+            && point.x >= Math.min( start.x, end.x ) - 0.000001
+            && point.x <= Math.max( start.x, end.x ) + 0.000001
+            && point.y >= Math.min( start.y, end.y ) - 0.000001
+            && point.y <= Math.max( start.y, end.y ) + 0.000001;
+        };
+
+    assert.equal( Math.abs( horizontal.points[0].x - horizontal.points[1].x ), 90 );
+    assert.equal( horizontal.points[0].y, horizontal.points[1].y );
+    assert.notEqual( diagonal.points[0].y, diagonal.points[1].y );
+
+    for (const branch of branches) {
+        const other = branches.find( edge => edge.id !== branch.id );
+
+        assert.equal( branch.labels[0].text, '(0,N)' );
+
+        for (const label of branch.labels) {
+            assert.equal( onSegment( label.anchor, branch.points ), true );
+            assert.equal( onSegment( label.anchor, other.points ), false );
+            assert.deepEqual( label.leader[0], label.anchor );
+            assert.notDeepEqual( label.leader[0], label.leader[1] );
+            sceneAssertContained( label.bounds, {...label.leader[1], width: 0, height: 0} );
+            sceneAssertContained( scene.bounds, label.bounds );
+
+            for (const point of label.leader) {
+                sceneAssertContained( scene.bounds, {...point, width: 0, height: 0} );
+                }
+            }
+
+        assert.ok( svg.includes( `data-label-for="${branch.ref.id}"` ) );
+        assert.ok( svg.includes( `data-label-leader="${branch.ref.id}"` ) );
+        assert.ok( svg.includes( `data-label-anchor="${branch.ref.id}"` ) );
+        }
+
+    assert.ok( svg.lastIndexOf( 'class="participation-caption"' )
+        > svg.indexOf( `data-conceptual-attribute-id="${date.id}"` ) );
     } );
 
 test( 'La escena es determinista y sus bounds contienen nodos, ramas y etiquetas', () => {
