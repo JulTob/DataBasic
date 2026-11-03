@@ -132,7 +132,9 @@ async function applicationHarness(
         idbKeyval: {
             get: async key => {
                 reads.push( key );
-                savedDocument = store.get( key ) ?? null;
+                savedDocument = storageOptions.read
+                    ? await storageOptions.read( key )
+                    : store.get( key ) ?? null;
                 return savedDocument;
                 },
             set: async (key, value) => {
@@ -844,4 +846,50 @@ test( 'Una práctica inválida no cae sobre la clave principal', async () => {
         assert.equal( store.size, 1 );
         assert.equal( store.get( 'databasic.document.v1' ), original );
         }
+    } );
+
+
+test( 'La recuperación inicial diferida conserva un JSON abierto manualmente', async () => {
+    const old = exampleDocument();
+
+    old.name = 'Guardado anterior';
+    let resolveRead;
+    const delayedRead = new Promise( resolve => { resolveRead = resolve; } );
+    const app = await applicationHarness(
+            500,
+            null,
+            {},
+            {read: () => delayedRead}
+            );
+    const imported = addConceptualEntity( emptyDocument(), {name: 'Entidad importada'} );
+
+    imported.name = 'Abierto desde archivo';
+    const contents = JSON.stringify( imported );
+
+    await app.listeners.get( '#open-file:change' )({target: {
+        files: [{size: contents.length, text: async () => contents}],
+        value: 'ejercicio.databasic.json'
+        }});
+
+    assert.equal( app.element( '#document-name' ).textContent, imported.name );
+    assert.match( app.element( '#viewport' ).innerHTML, /Entidad importada/ );
+
+    resolveRead( JSON.stringify( old ) );
+    await delayedRead;
+
+    for (let index = 0; index < 4; index += 1) {
+        await Promise.resolve();
+        }
+
+    assert.match(
+            app.element( '#save-status' ).textContent,
+            /Ejercicio recuperado/,
+            'La lectura diferida debe terminar antes de comprobar el documento activo.'
+            );
+    assert.equal( app.element( '#document-name' ).textContent, imported.name );
+    assert.match( app.element( '#viewport' ).innerHTML, /Entidad importada/ );
+    assert.doesNotMatch( app.element( '#viewport' ).innerHTML, /Socio/ );
+
+    await app.flushTimers();
+    assert.deepEqual( JSON.parse( app.saved() ), imported );
     } );

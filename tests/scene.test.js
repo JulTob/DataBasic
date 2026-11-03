@@ -218,6 +218,57 @@ test( 'La recursiva mantiene dos puertos, participaciones y roles distinguibles'
     assert.equal( branches[1].labels[1].text, 'supervisado' );
     } );
 
+test( 'Una rama Chen horizontal corta separa el rol largo de su (0,N) y las cajas', () => {
+    for (const roleText of ['actividad', 'actividad principal de la inscripción permanente']) {
+        for (const reversed of [false, true]) {
+            const model = sceneNativeFixture( 2 );
+            const [first, second] = model.conceptual.entities;
+            const relation = model.conceptual.relationships[0];
+            const participation = relation.participations[1];
+
+            model.presentation.chen[first.id] = {x: reversed ? 640 : 100, y: 200};
+            model.presentation.chen[second.id] = {x: reversed ? 100 : 640, y: 200};
+            model.presentation.chen[relation.id] = {x: 330, y: 180};
+            participation.role = roleText;
+            participation.min = 0;
+            const scene = diagramScene( model );
+            const branch = scene.edges.find( edge => edge.ref.id === participation.id );
+            const [cardinality, role] = branch.labels;
+            const lineY = branch.points[0].y;
+            const overlaps = (left, right) => left.x < right.x + right.width
+                && left.x + left.width > right.x
+                && left.y < right.y + right.height
+                && left.y + left.height > right.y;
+
+            assert.equal( branch.points.at( -1 ).y, lineY );
+            assert.ok( Math.abs( branch.points[0].x - branch.points.at( -1 ).x ) <= 90 );
+            assert.equal( cardinality.text, '(0,N)' );
+            assert.equal( role.text, roleText );
+            assert.equal( branch.targetId, `entity:${second.id}` );
+            assert.ok( (cardinality.y - lineY) * (role.y - lineY) < 0 );
+            assert.equal( overlaps( cardinality.bounds, role.bounds ), false );
+
+            for (const label of branch.labels) {
+                sceneAssertContained( scene.bounds, label.bounds );
+
+                for (const node of scene.nodes) {
+                    assert.equal(
+                            overlaps( label.bounds, {
+                                ...node,
+                                height: node.height + (node.pending ? 30 : 0)
+                                } ),
+                            false,
+                            `${label.purpose} no debe invadir ${node.kind}`
+                            );
+                    }
+                }
+
+            assert.match( diagramContents( model ), /\.relation-label \{\s+font: 14px/ );
+            assert.ok( !exportSVG( model ).includes( 'NaN' ) );
+            }
+        }
+    } );
+
 test( 'La escena es determinista y sus bounds contienen nodos, ramas y etiquetas', () => {
     const model = sceneNativeFixture();
     const before = JSON.stringify( model );
