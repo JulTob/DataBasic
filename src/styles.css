@@ -1330,6 +1330,15 @@ a {
 .participation-list input {
     width: 100%;
     }
+.participation-list select {
+    min-width: 0;
+    width: 100%;
+    }
+.materialization-summary {
+    border-left: 3px solid #abc4b7;
+    padding-left: 12px;
+    margin-top: 14px;
+    }
 .conceptual-list {
     display: grid;
     gap: 8px;

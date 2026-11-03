@@ -957,7 +957,9 @@ function fieldChanged( target ) {
         if (target.dataset.participation) {
             const parsed = field === 'max' && String( value ).trim().toUpperCase() === 'N'
                 ? null
-                : field === 'role' ? value : Number( value );
+                : field === 'cardinality'
+                    ? value || null
+                    : field === 'role' ? value : Number( value );
 
             next = updateConceptualParticipation(
                     state.model,
