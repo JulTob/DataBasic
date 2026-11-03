@@ -10,11 +10,15 @@ import {
     addConceptualRelationship,
     setDiagramMode
     } from '../src/domain/model.js';
-import { tableHeight } from '../src/ui/diagram.js';
+import { tableHeight, diagramScene } from '../src/ui/diagram.js';
 
 // A DOM double exercises application events without a browser or a server.
 // It does not verify CSS layout, rendering, hit testing or native file dialogs.
-async function applicationHarness( canvasHeight = 500, initialDocument = null ) {
+async function applicationHarness(
+        canvasHeight = 500,
+        initialDocument = null,
+        canvasRectangle = {}
+        ) {
     const source = await bundleSource( new URL( '../', import.meta.url ) );
     const elements = new Map();
     const listeners = new Map();
@@ -55,7 +59,8 @@ async function applicationHarness( canvasHeight = 500, initialDocument = null ) 
                             left: 0,
                             top: 0,
                             width: 1000,
-                            height: canvasHeight
+                            height: canvasHeight,
+                            ...canvasRectangle
                             }),
                         addEventListener: (name, callback) => listeners.set( `${selector}:${name}`, callback ),
                         querySelector: query => element( `${selector} ${query}` ),
@@ -622,4 +627,117 @@ test( 'Una ternaria GUI conserva sus tres roles y el período en la clave elegid
     assert.deepEqual( stored.translation.key.attributeIds, [period.id] );
     assert.equal( saved.relationships.length, initial.relationships.length + 3 );
     assert.equal( saved.tables.at( -1 ).columns.filter( field => field.primary ).length, 4 );
+    } );
+
+
+for (const viewportWidth of [963, 1280]) {
+    test( `Tres altas visibles y conector por IDs a ${viewportWidth}px`, async () => {
+        const left = viewportWidth <= 1100 ? 215 : 247;
+        const rectangle = {left, top: 200, width: viewportWidth - left - 13, height: 528};
+        const app = await applicationHarness( rectangle.height, null, rectangle );
+
+        await app.click({action: 'new'});
+
+        for (let index = 0; index < 3; index += 1) {
+            await app.click({action: 'entity'});
+            }
+
+        await app.flushTimers();
+        const created = JSON.parse( app.saved() );
+        const nodes = diagramScene( created ).nodes;
+        const transform = app.element( '#viewport' ).attributes.transform.match(
+                /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
+                );
+        const view = {x: Number( transform[1] ), y: Number( transform[2] ), zoom: Number( transform[3] )};
+        const visible = nodes.map( node => ({
+            node,
+            left: view.x + node.x * view.zoom,
+            top: view.y + node.y * view.zoom,
+            right: view.x + (node.x + node.width) * view.zoom,
+            bottom: view.y + (node.y + node.height) * view.zoom
+            }) );
+
+        assert.equal( view.zoom, 1, 'Crear conserva tipos a escala legible.' );
+
+        for (const card of visible) {
+            assert.ok( card.left >= 20, 'El título debe estar dentro del borde izquierdo.' );
+            assert.ok( card.right <= rectangle.width - 20, 'La tarjeta debe caber por la derecha.' );
+            assert.ok( card.top >= 100, 'El título debe quedar bajo las herramientas.' );
+            assert.ok( card.bottom <= rectangle.height - 20, 'La tarjeta debe caber por abajo.' );
+            }
+
+        for (let index = 0; index < visible.length; index += 1) {
+            for (const other of visible.slice( index + 1 )) {
+                const card = visible[index];
+
+                assert.ok(
+                        card.right <= other.left || other.right <= card.left
+                            || card.bottom <= other.top || other.bottom <= card.top,
+                        'Las tarjetas visibles deben poder seleccionarse por separado.'
+                        );
+                }
+            }
+
+        await app.click({action: 'relationship'});
+
+        for (const table of created.tables.slice( 0, 2 )) {
+            const card = visible.find( item => item.node.ref.id === table.id );
+            const clientX = rectangle.left + (card.left + card.right) / 2;
+            const clientY = rectangle.top + card.top + 16;
+            const hits = visible.filter(
+                    item => clientX >= rectangle.left + item.left
+                        && clientX <= rectangle.left + item.right
+                        && clientY >= rectangle.top + item.top
+                        && clientY <= rectangle.top + item.bottom
+                    );
+
+            assert.equal( hits.length, 1, 'Cada punto debe seleccionar una única tarjeta.' );
+            assert.equal( hits[0].node.ref.id, table.id );
+            app.listeners.get( '#canvas:pointerdown' )({
+                button: 0, clientX, clientY, pointerId: 1,
+                preventDefault() {},
+                target: {
+                    closest: selector => selector === '[data-diagram-kind]'
+                        ? {dataset: {diagramKind: 'table', diagramId: hits[0].node.ref.id}}
+                        : selector === '[data-table-id]'
+                            ? {dataset: {tableId: hits[0].node.ref.id}}
+                            : null
+                    }
+                });
+            }
+
+        await app.flushTimers();
+        const connected = JSON.parse( app.saved() );
+        const relation = connected.relationships[0];
+
+        assert.equal( relation.parentId, created.tables[0].id );
+        assert.equal( relation.childId, created.tables[1].id );
+        assert.notEqual( relation.parentId, relation.childId );
+
+        await app.click({action: 'fit'});
+        const overview = app.element( '#viewport' ).attributes.transform;
+
+        await app.click({mode: 'chen'});
+        await app.click({mode: 'relational'});
+        await app.flushTimers();
+
+        assert.equal( app.element( '#viewport' ).attributes.transform, overview );
+        assert.deepEqual(
+                JSON.parse( app.saved() ).tables.map( table => ({id: table.id, x: table.x, y: table.y}) ),
+                connected.tables.map( table => ({id: table.id, x: table.x, y: table.y}) )
+                );
+        } );
+    }
+
+test( 'Al recuperar el legado se enfoca la primera tarjeta a escala 100%', async () => {
+    const initial = exampleDocument();
+    const app = await applicationHarness( 528, JSON.stringify( initial ), {width: 735, left: 215} );
+    const transform = app.element( '#viewport' ).attributes.transform.match(
+            /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
+            );
+    const first = diagramScene( initial ).nodes[0];
+
+    assert.equal( Number( transform[3] ), 1 );
+    assert.equal( Number( transform[1] ) + first.x, 20 );
+    assert.equal( Number( transform[2] ) + first.y, 100 );
     } );

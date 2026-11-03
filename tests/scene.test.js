@@ -266,6 +266,62 @@ test( 'Tres altas consecutivas en el punto preferido dejan títulos sin solapes'
         }
     } );
 
+test( 'G3: tres altas caben a 100% en un lienzo de 735px usando dos filas', () => {
+    let model = emptyDocument();
+    const area = {x: 20, y: 20, width: 695, height: 400};
+    const preferred = {x: 280, y: 45};
+
+    for (let index = 0; index < 3; index += 1) {
+        const previous = JSON.stringify( model );
+        const candidate = addTable( model, 'entity', preferred );
+        const table = candidate.tables.at( -1 );
+        const size = {width: tableWidth( table ), height: tableHeight( table )};
+        const position = findFreePosition( model, preferred, size, area );
+
+        assert.equal( JSON.stringify( model ), previous );
+        model = updateTable( candidate, table.id, position );
+        }
+
+    const nodes = diagramScene( model ).nodes;
+
+    for (const node of nodes) {
+        sceneAssertContained( area, node );
+        }
+
+    assert.ok( new Set( nodes.map( node => node.y ) ).size >= 2 );
+    assert.equal( nodes[0].x, preferred.x );
+    assert.equal( nodes[0].y, preferred.y );
+    } );
+
+test( 'La colocación visible usa coordenadas de modelo tras pan y zoom', () => {
+    const area = {x: 900, y: 750, width: 900, height: 600};
+    const size = {width: 320, height: 92};
+    const position = findFreePosition(
+            emptyDocument(),
+            {x: 2000, y: 100},
+            size,
+            area
+            );
+
+    sceneAssertContained( area, {...position, ...size} );
+    assert.equal( position.x, 1480 );
+    assert.equal( position.y, 750 );
+    } );
+
+test( 'Si no cabe otra forma visible, conserva posiciones y permite enfocar la nueva', () => {
+    const area = {x: 130, y: 100, width: 320, height: 92};
+    const model = addTable( emptyDocument(), 'entity', {x: 130, y: 100} );
+    const before = JSON.stringify( model );
+    const position = findFreePosition( model, {x: 130, y: 100}, {width: 320, height: 92}, area );
+
+    assert.equal( JSON.stringify( model ), before );
+    assert.ok( position.x >= area.x + area.width || position.y >= area.y + area.height );
+    assert.throws(
+            () => findFreePosition( model, {x: 130, y: 100}, undefined, {...area, width: NaN} ),
+            /área visible/
+            );
+    } );
+
 test( 'SVG usa los bounds comunes y XML válido para nombres y tipos con escapes', t => {
     let model = sceneNativeFixture();
     const id = model.tables[0].id;
