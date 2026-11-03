@@ -11,6 +11,10 @@ import { bundleSource } from './bundle.mjs';
 
 const root = fileURLToPath( new URL( '../', import.meta.url ) );
 const output = resolve( root, 'dist' );
+const metadata = JSON.parse( await readFile(
+        resolve( root, 'package.json' ),
+        'utf8'
+        ) );
 
 function versionedAssetURL(
         name,
@@ -44,6 +48,10 @@ const html = (await readFile( resolve( root, 'index.html' ), 'utf8' ))
             '<script type="module" src="./src/app.js"></script>',
             `<script src="${scriptURL}"></script>`
             );
+
+if (!html.includes( `<meta name="databasic-version" content="${metadata.version}">` )) {
+    throw new Error( 'La versión de la página debe coincidir con package.json.' );
+    }
 const legalSource = await readFile(
         resolve( root, 'legal.html' ),
         'utf8'
@@ -55,6 +63,11 @@ const legalHtml = legalSource.replaceAll(
 
 await mkdir( output, {recursive: true} );
 await cp( resolve( root, 'public' ), output, {recursive: true} );
+await cp(
+        resolve( root, 'examples' ),
+        resolve( output, 'examples' ),
+        {recursive: true}
+        );
 await writeFile( resolve( output, 'index.html' ), html );
 await writeFile(
         resolve( output, 'legal.html' ),
