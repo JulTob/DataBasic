@@ -1,4 +1,4 @@
-# DataBasic 0.3.1 — especificación funcional
+# DataBasic 0.4.0 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -12,7 +12,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.3.1 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.0 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -74,6 +74,8 @@ de las representaciones Relacional/Chen.
 - SET NULL necesita columnas FK anulables; SET DEFAULT, predeterminados.
   La aplicación valida la estructura declarada, no la existencia de datos
   que hagan válido el predeterminado en un motor real.
+  Las acciones se editan en la FK física concreta, incluidas las generadas;
+  se conservan al rematerializar su origen. Su estructura sigue protegida.
 - Los dominios conservan mínimo, máximo, valores permitidos y condición
   adicional. Se traducen a CHECK cuando corresponden a columnas almacenadas.
   Una expresión libre se conserva como SQL del autor; no se ejecuta ni se
@@ -81,21 +83,35 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.3.1 |
+| Construcción | Alcance 0.4.0 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
-| N:N o ternaria | Tabla asociativa con una FK por participación. Clave elegida entre claves participantes y atributos simples almacenados; admite un período que distinga ocurrencias. |
+| N:N o ternaria | Tabla asociativa con una FK por participación. Clave elegida entre claves participantes y atributos simples almacenados; admite un período que distinga ocurrencias. La cardinalidad ternaria por combinación se decide por rol y tiene contexto global o por atributos, separado de la PK. |
 | Recursiva | Participaciones y roles con identidades distintas aunque compartan entidad. |
 | Débil | Definición permite propietaria y vínculo; el atributo marca clave parcial y la materialización binaria permite identificación. La PK heredada se combina con la parcial. |
-| Compuesto | El editor de atributo permite descomposición explícita y componentes. No se infiere una agrupación por parecido de nombres. |
+| Compuesto | Descomposición explícita y componentes de entidad o relación. No se infiere una agrupación por parecido de nombres. |
 | Derivado | El editor permite omitir o almacenar; regla de derivación documental, sin evaluarla ni generar fórmula SQL. |
-| Multivaluado y especialización | Se editan y guardan, pero no tienen transformación implementada. Mantienen estado pendiente y bloquean SQL completo. |
+| Multivaluado simple/compuesto | Decisión `multivalued-table` con nombre elegido; tabla auxiliar con PK propietaria completa + valor/componentes y FK completa. Se retira la copia escalar; referencias incompatibles se rechazan sin pérdida. |
+| Especialización | Decisión `class-tables`: tabla de superclase y tablas de subclases, cada una con PK completa heredada que también es FK. Una PK local incompatible exige decisión explícita; desmarcar Clave conserva su columna. Disyunción y totalidad permanecen documentales. No se implementan las otras tres estrategias. |
 
 Los pares Chen se leen en la rama de **esa entidad y ese rol**: cuántas
 ocurrencias de la relación admite una ocurrencia de la entidad. No se copian
 sin más los marcadores PK/FK. Los pares de una ternaria no expresan por sí
 solos todas sus restricciones posibles; se conservan también las notas.
+En ternarias, `cardinality:'one'` genera una AK con las FKs completas de los
+otros roles y `cardinalityContextAttributeIds` elegido expresamente: `[]`
+para global o atributos simples almacenados y requeridos para contexto.
+`many` no añade ese máximo. La PK de ocurrencia no elige el contexto.
+
+Los archivos anteriores sin `cardinality` conservan su SQL y desconocimiento
+documental. Una decisión nueva con roles sin decidir o rama `one` sin contexto
+queda pendiente; no se exporta una unicidad ficticia. Las operaciones rechazan
+estrategias desconocidas, trazas ajenas, jerarquías vacías/cíclicas y artefactos
+incoherentes. Repetir una decisión conserva IDs y no duplica tablas ni claves.
+
+Los [ejemplos editables](../examples/README.md) y sus
+[pruebas de archivos reales](../tests/examples.test.js) concretan estos contratos.
 
 ## Dibujo, archivos y SQL
 
