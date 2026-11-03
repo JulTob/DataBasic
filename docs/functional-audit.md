@@ -1,7 +1,7 @@
-# Matriz funcional de DataBasic 0.3.0
+# Matriz funcional de DataBasic 0.3.1
 
 Esta matriz enlaza necesidad, fuente, operación y evidencia. Describe el código
-0.3.0 y el formato de documento 2, con entrada compatible de formato 1.
+0.3.1 y el formato de documento 2, con entrada compatible de formato 1.
 **Disponible** significa que existe una operación y cobertura automatizada
 indicada; no significa que todos los clics y tamaños de pantalla se hayan
 probado en un navegador real. **Documental** conserva hechos que no se imponen
@@ -85,7 +85,7 @@ construido, sin sustituir la revisión visual.
 | ID / fuente | Operación y ruta | Estado y prueba concreta | Carencia o precaución |
 | --- | --- | --- | --- |
 | IO-01 · DB | Archivo → Guardar/Abrir y recuperación del navegador. | Disponible; Modelo/Conceptual, JSON completo, IDs/referencias inválidos rechazados. | Formato 2 no promete lectura por versiones antiguas de la app; respaldo entre equipos mediante JSON. |
-| IO-02 · DB | Deshacer/Rehacer y movimientos por representación. | Disponible; operaciones atómicas y pruebas de aplicación; posiciones independientes probadas en Conceptual. | Prueba de eventos no implica todos los gestos físicos revisados. |
+| IO-02 · DB | Deshacer/Rehacer y movimientos por representación. | Disponible; operaciones atómicas y pruebas de aplicación; posiciones independientes probadas en Conceptual; Aplicación ejecuta arrastre FK/Chen, colisión, cancelación y reapertura. | La revisión de gestos reales y despliegue está en Verificación. |
 | IO-03 · DB | Ajustar, Distribuir, Imagen SVG e Imprimir/PDF. | Disponible; Escena usa límites comunes para textos, ramas y marcadores; SVG/XML probado. | Impresión depende del navegador; revisar diagramas grandes, solapes y márgenes en uso real. |
 | IO-04 · DB / T3 | Archivo → SQL, revisar y descargar. | Disponible; Modelo/Conceptual/Tipos prueban DDL, claves, CHECK, NUMBER→NUMERIC y pendientes. | Sin ejecución. Multivaluados/jerarquías y decisiones no resueltas bloquean SQL completo. |
 | IO-05 · DB | Abrir entrega offline construida. | Bundle comprueba recursos y arranque del artefacto real; instrucciones en README. | Sincronización, cuentas y colaboración no están implementadas. |

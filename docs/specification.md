@@ -1,4 +1,4 @@
-# DataBasic 0.3.0 — especificación funcional
+# DataBasic 0.3.1 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -12,7 +12,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.3.0 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.3.1 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -81,7 +81,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.3.0 |
+| Construcción | Alcance 0.3.1 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -105,6 +105,21 @@ La grafía se contrasta con FIPS 184; no es una etiqueta aplicada a patas de
 cuervo. Estas últimas y la flecha relacional siguen siendo opciones separadas.
 Tipos completos, nombres y marcadores alimentan los mismos límites para
 ajuste, SVG e impresión. La revisión en navegador sigue su registro propio.
+
+El rombo Chen y el bloque de lecturas de una FK se arrastran. La posición
+resuelta evita las cajas de otras formas y rótulos; incluye el aviso de una
+relación pendiente. Las etiquetas Chen consideran también las otras ramas
+y las generalizaciones. Las guías permanecen unidas a su conector. No se
+pretende eliminar todos los cruces entre líneas.
+
+Las posiciones de bloques FK se guardan en el mapa opcional
+`presentation.relational`, separado de `presentation.chen`; los documentos
+formato 2 anteriores sin ese mapa siguen abriendo. Mover no cambia claves,
+participaciones ni SQL. El arrastre sólo se confirma al soltar; Escape o la
+cancelación del puntero lo descartan. Un clic abre las propiedades sin cambiar
+la geometría. Distribuir recoloca los nodos y reinicia las posiciones manuales
+de los bloques relacionales en una operación que puede deshacerse.
+Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 
 Guardar/abrir JSON, exportar SVG y mostrar/descargar SQL son operaciones
 disponibles; Imprimir/PDF utiliza la ventana del navegador. El guardado local

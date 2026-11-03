@@ -7,7 +7,7 @@ Comprobación local, publicación y prueba online: 3 de noviembre de 2026.
 | Comprobación | Estado | Evidencia y alcance |
 | --- | --- | --- |
 | Sintaxis de los módulos, scripts y pruebas | Superada | `npm run check`. |
-| Pruebas automatizadas | 97 superadas en local en 0.3.0 | Dominio, migración v1/v2, SQL, escenas, diálogos, eventos, bundle generado y guardados independientes. |
+| Pruebas automatizadas | 117 superadas en local en 0.3.1 | Dominio, migración v1/v2, SQL, escenas, diálogos, eventos, bundle generado y guardados independientes. |
 | Motor de distribución Graphviz incluido | Superada | El archivo redistribuido calcula posiciones sin descargar recursos. |
 | Generación estática | Superada | `npm run build` produce `dist/` con todos los recursos locales. |
 | Sintaxis del script generado | Superada | `node --check dist/app.bundle.js`. |
@@ -264,3 +264,44 @@ no se utilizó para este recorrido.
 ## Fuentes del comportamiento esperado
 
 [Especificación y referencias de Visio 2010](specification.md).
+
+
+## Relaciones movibles en 0.3.1
+
+- 117 pruebas locales, sintaxis, build y bundle generado correctos.
+- Siete regresiones de persistencia cubren posiciones FK opcionales, formato 2
+  anterior, aislamiento, SQL, rechazo atómico y limpieza tras borrados.
+- La escena evita solapes de roles/cardinalidades de dos relaciones diferentes
+  y considera las generalizaciones antes de colocar textos.
+- Se prueban posiciones libres al soltar rombos sobre entidades u otros rombos,
+  incluyendo el espacio del aviso pendiente; captions FK contra tablas y otros
+  captions; posiciones propias con IDs como `toString` y `valueOf`.
+- La aplicación ejecuta el ciclo de puntero con pan/zoom, una sola confirmación,
+  guardado y reapertura, deshacer/rehacer, cambio de vista, cancelación del
+  puntero y Escape. Volver al origen descarta el destino intermedio, y borrar
+  durante el arrastre cancela la previsualización antes de retirar la FK.
+  Distribuir reinicia los rótulos manuales de forma reversible.
+- El panel de propiedades mantiene su tamaño durante el arrastre; un clic sin
+  movimiento sigue abriéndolo.
+
+Se conserva el formato 2. Las posiciones Chen antiguas no se redistribuyen al
+abrir; pueden recolocarse o usarse Distribuir. Se evitan cajas de formas y textos,
+sin prometer eliminar todos los cruces entre conectores.
+
+
+Comprobación online de 0.3.1 en práctica independiente:
+
+- [Despliegue del código correcto](https://github.com/JulTob/DataBasic/actions/runs/41630469354)
+  para `7ff6c4f`; bundle público `c8e9997dbc31`, igual al construido en local.
+- Fixture propio con dos relaciones Chen, sus roles/cardinalidades y atributos.
+  Un arrastre real de Reserva hacia Persona dejó el rombo en `(80,272)`, libre
+  de la entidad y con espacio para el aviso pendiente. El panel oculto no se abrió.
+- Deshacer recuperó `(400,180)` y rehacer restauró `(80,272)`.
+- En Relacional se arrastró el bloque de la primera FK hacia la tabla hija.
+  La posición resuelta fue `(540,273)`, fuera de la tabla y del otro rótulo.
+- Los JSON descargados conservan tablas, FKs, objetos conceptuales y trazas
+  idénticos; sólo cambian la presentación correspondiente y el modo elegido.
+- Se esperó la confirmación de guardado y se recargó: reaparecieron el bloque
+  en `(540,273)` y el rombo Chen en `(80,272)`. No hubo errores de consola.
+- Se usó sólo la pestaña de práctica para movimientos, aperturas y recargas.
+  La pestaña de trabajo se inspeccionó sin modificarla.

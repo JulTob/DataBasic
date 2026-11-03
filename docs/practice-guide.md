@@ -105,6 +105,23 @@ copiado desde la FK. Las guías finas unen los rótulos desplazados con la rama
 de su participación. **General → Nombres conceptuales** solo alterna nombres
 de tablas: es una opción diferente del botón Chen.
 
+## Recolocar relaciones
+
+**Situación.** El rombo o las lecturas de una relación dificultan leer el dibujo.
+
+1. En **Chen**, arrastra el rombo; en **Relacional**, arrastra el bloque que
+   contiene las lecturas directa e inversa.
+2. Suelta cerca del hueco deseado. La aplicación evita las cajas de otras
+   figuras y rótulos. Las guías mantienen la referencia a su conector.
+3. Usa **Deshacer** para recuperar la posición anterior o **Escape** antes
+   de soltar para cancelar el arrastre.
+4. **Distribuir** organiza el dibujo de nuevo, incluidos los rótulos movidos
+   a mano; también puede deshacerse.
+
+**Qué comprobar.** Guardar y reabrir conserva las posiciones por vista.
+Las claves y participaciones permanecen iguales. Las líneas de un grafo
+pueden cruzarse aunque las cajas y los rótulos se mantengan separados.
+
 ## Relaciones N:N y ternarias
 
 ### Una N:N con atributo propio
