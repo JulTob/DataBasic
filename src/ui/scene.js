@@ -362,16 +362,14 @@ function sceneRelationalEdge(
     const start = points[0];
     const end = points.at( -1 );
     const labels = [];
-    const centerX = (parent.x + parent.width / 2 + child.x + child.width / 2) / 2;
-    const labelY = Math.min( parent.y, child.y ) - 30 - index * 50;
 
     if (model.display.relationshipNames) {
         if (relation.forward) {
-            labels.push( sceneLabel( `→ ${relation.forward}`, centerX, labelY, 'forward' ) );
+            labels.push( sceneLabel( `→ ${relation.forward}`, 0, 0, 'forward' ) );
             }
 
         if (relation.inverse) {
-            labels.push( sceneLabel( `← ${relation.inverse}`, centerX, labelY + 21, 'inverse' ) );
+            labels.push( sceneLabel( `← ${relation.inverse}`, 0, 0, 'inverse' ) );
             }
         }
 
@@ -381,8 +379,8 @@ function sceneRelationalEdge(
 
         labels.push( sceneLabel(
                 `${relation.optional ? '0..1' : '1..1'} : ${minimum}..${maximum}`,
-                centerX,
-                labelY - 22,
+                0,
+                0,
                 'cardinality'
                 ) );
         }
@@ -403,6 +401,86 @@ function sceneRelationalEdge(
             {...sceneMarkerPoint( end, points.at( -2 ), 8 ), kind: 'child'}
             ]
         };
+    }
+
+function sceneConnectorAnchor( points ) {
+    let longest = {length: -1, start: points[0], end: points[0]};
+
+    for (let index = 1; index < points.length; index += 1) {
+        const start = points[index - 1];
+        const end = points[index];
+        const length = Math.hypot( end.x - start.x, end.y - start.y );
+
+        if (length > longest.length) {
+            longest = {length, start, end};
+            }
+        }
+
+    return {
+        x: (longest.start.x + longest.end.x) / 2,
+        y: (longest.start.y + longest.end.y) / 2
+        };
+    }
+
+function sceneCaptionCandidate(
+        anchor,
+        size,
+        obstacles,
+        above
+        ) {
+    const bounds = {
+        x: anchor.x - size.width / 2,
+        y: above ? anchor.y - size.height - 18 : anchor.y + 18,
+        ...size
+        };
+
+    for (let pass = 0; pass < obstacles.length; pass += 1) {
+        const obstacle = obstacles.find( item => sceneOverlaps( bounds, item, 10 ) );
+
+        if (!obstacle) {
+            return bounds;
+            }
+
+        bounds.y = above
+            ? obstacle.y - bounds.height - 10
+            : obstacle.y + obstacle.height + 10;
+        }
+
+    return bounds;
+    }
+
+function scenePlaceRelationalCaptions(
+        nodes,
+        edges
+        ) {
+    const occupied = [...nodes];
+
+    for (const edge of edges) {
+        if (!edge.labels.length) {
+            continue;
+            }
+
+        const anchor = sceneConnectorAnchor( edge.points );
+        const size = {
+            width: Math.max( ...edge.labels.map( label => label.bounds.width ) ) + 12,
+            height: edge.labels.length * 26 + 10
+            };
+        const above = sceneCaptionCandidate( anchor, size, occupied, true );
+        const below = sceneCaptionCandidate( anchor, size, occupied, false );
+        const bounds = anchor.y - above.y - above.height <= below.y - anchor.y
+            ? above : below;
+
+        edge.caption = sceneAttachBranchLabel( {bounds, purpose: 'relationship'}, anchor );
+        edge.labels = edge.labels.map(
+                (label, index) => sceneLabel(
+                        label.text,
+                        bounds.x + bounds.width / 2,
+                        bounds.y + 22 + index * 26,
+                        label.purpose
+                        )
+                );
+        occupied.push( bounds );
+        }
     }
 
 function sceneConceptualRef(
@@ -781,6 +859,13 @@ function sceneCompleteBounds(
             );
 
     for (const edge of edges) {
+        if (edge.caption) {
+            rectangles.push( edge.caption.bounds );
+            rectangles.push( ...edge.caption.leader.map(
+                    point => ({x: point.x - 4, y: point.y - 4, width: 8, height: 8})
+                    ) );
+            }
+
         rectangles.push( ...edge.labels.map( label => label.bounds ) );
         rectangles.push( ...edge.labels.flatMap(
                 label => (label.leader || []).map(
@@ -816,6 +901,7 @@ export function buildDiagramScene( model ) {
         contents.edges = model.relationships.map(
                 (relation, index) => sceneRelationalEdge( model, relation, contents.nodes, index )
                 );
+        scenePlaceRelationalCaptions( contents.nodes, contents.edges );
         }
 
     return {

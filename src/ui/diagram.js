@@ -258,13 +258,13 @@ function diagramEdgeLabels( edge ) {
             ).join( '' );
     }
 
-function diagramParticipationGuides(
+function diagramLabelGuides(
         edge,
         selectedId
         ) {
     return `<g ${diagramReferenceAttributes( edge.ref )}
         class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
-        ${edge.labels.map(
+        ${(edge.caption ? [edge.caption] : edge.labels).map(
                 label => `<path data-label-leader="${escapeHTML( edge.ref.id )}"
                     data-label-purpose="${label.purpose}" class="label-leader"
                     d="${diagramPath( label.leader )}"/>
@@ -305,7 +305,7 @@ function diagramForeignKey(
         <path class="relation-hit" d="${diagramPath( points )}"/>
         <path class="relation-line" d="${diagramPath( points )}"
             ${relation.identifying ? '' : 'stroke-dasharray="7 5"'}/>
-        ${markers}${diagramEdgeLabels( edge )}</g>`;
+        ${markers}${edge.caption ? '' : diagramEdgeLabels( edge )}</g>`;
     }
 
 function diagramCenteredLines(
@@ -498,9 +498,9 @@ export function diagramContents(
                 ? diagramForeignKey( model, edge, selectedId )
                 : diagramChenEdge( edge, selectedId )
             ).join( '' );
-    const participations = scene.edges.filter( edge => edge.kind === 'participation' );
-    const guides = participations.map(
-            edge => diagramParticipationGuides( edge, selectedId )
+    const annotated = scene.edges.filter( edge => edge.caption || edge.kind === 'participation' );
+    const guides = annotated.map(
+            edge => diagramLabelGuides( edge, selectedId )
             ).join( '' );
     const nodes = scene.nodes.map(
             node => {
@@ -521,9 +521,13 @@ export function diagramContents(
                 }
             ).join( '' );
 
-    const captions = participations.map(
+    const captions = annotated.map(
             edge => `<g ${diagramReferenceAttributes( edge.ref )}
+                data-label-for="${escapeHTML( edge.ref.id )}"
                 class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
+                ${edge.caption ? `<rect class="label-background"
+                    x="${edge.caption.bounds.x}" y="${edge.caption.bounds.y}"
+                    width="${edge.caption.bounds.width}" height="${edge.caption.bounds.height}" rx="4"/>` : ''}
                 ${diagramEdgeLabels( edge )}</g>`
             ).join( '' );
 
