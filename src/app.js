@@ -151,12 +151,57 @@ function selectedNative() {
         ].find( item => item.id === state.selectedId );
     }
 
+function visibleDiagramArea() {
+    const bounds = canvas.getBoundingClientRect();
+    const view = state.viewport;
+    const top = Math.min( 100, bounds.height / 3 );
+
+    return {
+        x: (20 - view.x) / view.zoom,
+        y: (top - view.y) / view.zoom,
+        width: Math.max( 1, bounds.width - 40 ) / view.zoom,
+        height: Math.max( 1, bounds.height - top - 20 ) / view.zoom
+        };
+    }
+
+function revealSelected() {
+    const node = diagramScene( state.model ).nodes.find(
+            item => item.ref.id === state.selectedId
+            );
+
+    if (!node) {
+        return;
+        }
+
+    const area = visibleDiagramArea();
+    const view = state.viewport;
+
+    if (node.x < area.x || node.width > area.width) {
+        view.x += (area.x - node.x) * view.zoom;
+        }
+    else if (node.x + node.width > area.x + area.width) {
+        view.x -= (node.x + node.width - area.x - area.width) * view.zoom;
+        }
+
+    if (node.y < area.y || node.height > area.height) {
+        view.y += (area.y - node.y) * view.zoom;
+        }
+    else if (node.y + node.height > area.y + area.height) {
+        view.y -= (node.y + node.height - area.y - area.height) * view.zoom;
+        }
+
+    renderDiagram();
+    }
+
 function focusDiagram() {
-    const bounds = diagramBounds( state.model );
+    const scene = diagramScene( state.model );
+    const node = scene.nodes.find( item => item.ref.id === state.selectedId )
+        || scene.nodes[0];
+    const bounds = canvas.getBoundingClientRect();
 
     state.viewport = {
-        x: 35 - Math.min( 0, bounds.x ),
-        y: 105 - Math.min( 0, bounds.y ),
+        x: node ? 20 - node.x : 0,
+        y: node ? Math.min( 100, bounds.height / 3 ) - node.y : 100,
         zoom: 1
         };
     renderDiagram();
@@ -376,25 +421,33 @@ function createEntity(
         kind = 'entity',
         position = null
         ) {
-    const bounds = canvas.getBoundingClientRect();
-    const location = position || canvasPoint(
-            bounds.left + bounds.width * 0.4,
-            bounds.top + bounds.height * 0.25
-            );
-    const free = findFreePosition( state.model, location );
+    const location = position || {x: 20, y: 20};
     const conceptual = state.model.display.mode === 'chen' && kind === 'entity';
-    const next = conceptual
-        ? addConceptualEntity( state.model, {}, free )
-        : addTable( state.model, kind, free );
+    let next = conceptual
+        ? addConceptualEntity( state.model, {}, location )
+        : addTable( state.model, kind, location );
 
     state.selectedId = conceptual
         ? next.conceptual.entities.at( -1 ).id
         : next.tables.at( -1 ).id;
+
+    const node = diagramScene( next ).nodes.find(
+            item => item.ref.id === state.selectedId
+            );
+    const free = findFreePosition(
+            state.model,
+            location,
+            {width: node.width, height: node.height},
+            position ? undefined : visibleDiagramArea()
+            );
+
+    next = moveDiagramElement( next, state.selectedId, free );
     state.category = 'definition';
     state.tool = 'pointer';
     state.parentId = null;
     state.propertiesShown = true;
     commit( next );
+    revealSelected();
     }
 
 function zoomTo(
@@ -1193,6 +1246,7 @@ document.addEventListener(
                 }
             else if (button.dataset.select) {
                 selectElement( button.dataset.select );
+                revealSelected();
                 }
             else if (button.dataset.category) {
                 state.category = button.dataset.category;
