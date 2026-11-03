@@ -175,6 +175,54 @@ function sceneOverlaps(
         && first.y + first.height + gap > second.y;
     }
 
+function sceneNodeBounds( node ) {
+    return {...node, height: node.height + (node.pending ? 30 : 0)};
+    }
+
+function sceneNearbyFreePosition(
+        preferred,
+        size,
+        occupied
+        ) {
+    const clamp = point => ({
+        x: Math.max( 0, Math.min( 20000 - size.width, point.x ) ),
+        y: Math.max( 0, Math.min( 20000 - size.height, point.y ) )
+        });
+    const origin = clamp( preferred );
+    const distance = point => (point.x - origin.x) ** 2 + (point.y - origin.y) ** 2;
+    const candidates = [origin];
+    const visited = new Set();
+    const gap = 12;
+
+    while (candidates.length) {
+        candidates.sort( (first, second) => distance( first ) - distance( second ) );
+        const point = candidates.shift();
+        const key = `${point.x},${point.y}`;
+
+        if (visited.has( key )) {
+            continue;
+            }
+
+        visited.add( key );
+        const obstruction = occupied.find(
+                bounds => sceneOverlaps( {...point, ...size}, bounds, gap )
+                );
+
+        if (!obstruction) {
+            return point;
+            }
+
+        candidates.push(
+                clamp( {...point, x: obstruction.x - size.width - gap} ),
+                clamp( {...point, x: obstruction.x + obstruction.width + gap} ),
+                clamp( {...point, y: obstruction.y - size.height - gap} ),
+                clamp( {...point, y: obstruction.y + obstruction.height + gap} )
+                );
+        }
+
+    throw new Error( 'No queda espacio libre para mover este elemento.' );
+    }
+
 function sceneFreePosition(
         preferred,
         size,
@@ -450,12 +498,18 @@ function sceneCaptionCandidate(
     }
 
 function scenePlaceRelationalCaptions(
+        model,
         nodes,
         edges
         ) {
     const occupied = [...nodes];
+    const saved = model.presentation?.relational || {};
+    const ordered = edges.toSorted(
+            (first, second) => Number( Object.hasOwn( saved, second.ref.id ) )
+                - Number( Object.hasOwn( saved, first.ref.id ) )
+            );
 
-    for (const edge of edges) {
+    for (const edge of ordered) {
         if (!edge.labels.length) {
             continue;
             }
@@ -467,8 +521,15 @@ function scenePlaceRelationalCaptions(
             };
         const above = sceneCaptionCandidate( anchor, size, occupied, true );
         const below = sceneCaptionCandidate( anchor, size, occupied, false );
-        const bounds = anchor.y - above.y - above.height <= below.y - anchor.y
+        let bounds = anchor.y - above.y - above.height <= below.y - anchor.y
             ? above : below;
+
+        if (Object.hasOwn( saved, edge.ref.id )) {
+            bounds = {
+                ...sceneNearbyFreePosition( saved[edge.ref.id], size, occupied ),
+                ...size
+                };
+            }
 
         edge.caption = sceneAttachBranchLabel( {bounds, purpose: 'relationship'}, anchor );
         edge.labels = edge.labels.map(
@@ -515,7 +576,8 @@ function sceneSavedPosition(
         size,
         occupied
         ) {
-    const saved = model.presentation?.chen?.[id];
+    const positions = model.presentation?.chen || {};
+    const saved = Object.hasOwn( positions, id ) ? positions[id] : null;
 
     return saved
         ? {x: saved.x, y: saved.y}
@@ -717,7 +779,8 @@ function sceneBranchLabel(
 function sceneParticipationEdge(
         relationNode,
         participation,
-        nodes
+        nodes,
+        previousLabels
         ) {
     const entity = nodes.find( node => node.ref.id === participation.entityId );
     const siblings = relationNode.relation.participations.filter(
@@ -732,9 +795,7 @@ function sceneParticipationEdge(
     const normal = dx || dy ? {x: -dy / length, y: dx / length} : {x: 0, y: 1};
     const side = siblings.length > 1 && port === 0 ? -1 : 1;
     const outward = {x: normal.x * side, y: normal.y * side};
-    const obstacles = nodes.map(
-            node => ({...node, height: node.height + (node.pending ? 30 : 0)})
-            );
+    const obstacles = [...nodes.map( sceneNodeBounds ), ...previousLabels];
     const labels = [sceneBranchLabel(
             `(${participation.min},${participation.max === null ? 'N' : participation.max})`,
             'participation',
@@ -820,12 +881,17 @@ function sceneChen( model ) {
 
     sceneConceptualRelationships( model, graph, nodes );
     sceneConceptualAttributes( model, graph, nodes );
+    sceneGeneralizations( model, graph, nodes, edges );
+    const placedLabels = [];
 
     for (const node of nodes) {
         if (node.kind === 'chen-relationship') {
-            edges.push( ...node.relation.participations.map(
-                    participation => sceneParticipationEdge( node, participation, nodes )
-                    ) );
+            for (const participation of node.relation.participations) {
+                const edge = sceneParticipationEdge( node, participation, nodes, placedLabels );
+
+                edges.push( edge );
+                placedLabels.push( ...edge.labels.map( label => label.bounds ) );
+                }
             }
         else if (node.kind === 'attribute') {
             const owner = nodes.find( item => item.ref.id === node.ownerId );
@@ -845,8 +911,6 @@ function sceneChen( model ) {
             }
         }
 
-    sceneGeneralizations( model, graph, nodes, edges );
-
     return {nodes, edges};
     }
 
@@ -854,9 +918,7 @@ function sceneCompleteBounds(
         nodes,
         edges
         ) {
-    const rectangles = nodes.map(
-            node => ({...node, height: node.height + (node.pending ? 30 : 0)})
-            );
+    const rectangles = nodes.map( sceneNodeBounds );
 
     for (const edge of edges) {
         if (edge.caption) {
@@ -901,7 +963,7 @@ export function buildDiagramScene( model ) {
         contents.edges = model.relationships.map(
                 (relation, index) => sceneRelationalEdge( model, relation, contents.nodes, index )
                 );
-        scenePlaceRelationalCaptions( contents.nodes, contents.edges );
+        scenePlaceRelationalCaptions( model, contents.nodes, contents.edges );
         }
 
     return {
@@ -918,4 +980,44 @@ export function sceneFindFreePosition(
         area = null
         ) {
     return sceneFreePosition( preferred, size, buildDiagramScene( model ).nodes, area );
+    }
+
+/** Returns a free drag position; the document and its identities are unchanged. */
+export function sceneResolveDiagramPosition(
+        model,
+        id,
+        preferred
+        ) {
+    if (![preferred?.x, preferred?.y].every( Number.isFinite )) {
+        throw new Error( 'La posición de arrastre necesita coordenadas finitas.' );
+        }
+
+    const scene = buildDiagramScene( model );
+    const node = scene.nodes.find( item => item.ref.id === id );
+    const caption = scene.edges.find( edge => edge.ref.id === id )?.caption;
+    const bounds = node ? sceneNodeBounds( node ) : caption?.bounds;
+
+    if (!bounds) {
+        throw new Error( 'El elemento no tiene una posición arrastrable en esta representación.' );
+        }
+
+    const occupied = scene.nodes.filter( item => item.ref.id !== id ).map( sceneNodeBounds );
+
+    for (const edge of scene.edges) {
+        if (edge.ref.id === id || node && [edge.sourceId, edge.targetId].includes( node.id )) {
+            continue;
+            }
+
+        const rectangles = edge.caption
+            ? [edge.caption.bounds]
+            : edge.labels.map( label => label.bounds );
+
+        occupied.push( ...rectangles );
+        }
+
+    return sceneNearbyFreePosition(
+            preferred,
+            {width: bounds.width, height: bounds.height},
+            occupied
+            );
     }

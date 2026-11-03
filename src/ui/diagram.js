@@ -2,6 +2,7 @@ import { escapeHTML } from './html.js';
 import {
     buildDiagramScene,
     sceneFindFreePosition,
+    sceneResolveDiagramPosition,
     sceneTableHeight,
     sceneTableWidth,
     SCENE_TABLE_WIDTH,
@@ -36,6 +37,14 @@ export function findFreePosition(
         area = null
         ) {
     return sceneFindFreePosition( model, preferred, size, area );
+    }
+
+export function resolveDiagramPosition(
+        model,
+        id,
+        preferred
+        ) {
+    return sceneResolveDiagramPosition( model, id, preferred );
     }
 
 function diagramReferenceAttributes( ref ) {
@@ -451,6 +460,7 @@ export const DIAGRAM_STYLES = `
     .entity { cursor: move; outline: none; }
     .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
     .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
     .relationship.selected, .relationship:focus { color: #147554; }
     .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
     .selected .relation-line { stroke-width: 2.4; }
@@ -524,7 +534,7 @@ export function diagramContents(
     const captions = annotated.map(
             edge => `<g ${diagramReferenceAttributes( edge.ref )}
                 data-label-for="${escapeHTML( edge.ref.id )}"
-                class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
+                class="relationship ${edge.caption ? 'relationship-caption' : ''} ${edge.ref.id === selectedId ? 'selected' : ''}">
                 ${edge.caption ? `<rect class="label-background"
                     x="${edge.caption.bounds.x}" y="${edge.caption.bounds.y}"
                     width="${edge.caption.bounds.width}" height="${edge.caption.bounds.height}" rx="4"/>` : ''}
