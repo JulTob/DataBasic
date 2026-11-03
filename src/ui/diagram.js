@@ -242,10 +242,35 @@ function diagramIDEFMarkers( edge ) {
 
 function diagramEdgeLabels( edge ) {
     return edge.labels.map(
-            label => `<text x="${label.x}" y="${label.y}"
-                data-reading="${label.purpose}" class="relation-label"
-                text-anchor="middle">${escapeHTML( label.text )}</text>`
+            label => {
+                const text = `<text x="${label.x}" y="${label.y}"
+                    data-reading="${label.purpose}" class="relation-label"
+                    text-anchor="middle">${escapeHTML( label.text )}</text>`;
+
+                return label.leader
+                    ? `<g data-label-for="${escapeHTML( edge.ref.id )}"
+                        data-label-purpose="${label.purpose}" class="participation-caption">
+                        <rect class="label-background" x="${label.bounds.x}" y="${label.bounds.y}"
+                            width="${label.bounds.width}" height="${label.bounds.height}" rx="4"/>
+                        ${text}</g>`
+                    : text;
+                }
             ).join( '' );
+    }
+
+function diagramParticipationGuides(
+        edge,
+        selectedId
+        ) {
+    return `<g ${diagramReferenceAttributes( edge.ref )}
+        class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
+        ${edge.labels.map(
+                label => `<path data-label-leader="${escapeHTML( edge.ref.id )}"
+                    data-label-purpose="${label.purpose}" class="label-leader"
+                    d="${diagramPath( label.leader )}"/>
+                    <circle data-label-anchor="${escapeHTML( edge.ref.id )}"
+                        cx="${label.anchor.x}" cy="${label.anchor.y}" r="2.8" class="label-anchor"/>`
+                ).join( '' )}</g>`;
     }
 
 function diagramForeignKey(
@@ -402,7 +427,7 @@ function diagramChenEdge(
         <path class="relation-hit" d="${path}"/>
         <path class="relation-line" d="${path}"
             ${edge.total ? `transform="translate(${-offsetX},${-offsetY})"` : ''}/>
-        ${secondLine}${diagramEdgeLabels( edge )}</g>`;
+        ${secondLine}${edge.kind === 'participation' ? '' : diagramEdgeLabels( edge )}</g>`;
     }
 
 export const DIAGRAM_STYLES = `
@@ -438,6 +463,14 @@ export const DIAGRAM_STYLES = `
         stroke-width: 5px;
         stroke-linejoin: round;
         }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
     .child-dot { fill: currentColor; }
     .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
     .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
@@ -465,6 +498,10 @@ export function diagramContents(
                 ? diagramForeignKey( model, edge, selectedId )
                 : diagramChenEdge( edge, selectedId )
             ).join( '' );
+    const participations = scene.edges.filter( edge => edge.kind === 'participation' );
+    const guides = participations.map(
+            edge => diagramParticipationGuides( edge, selectedId )
+            ).join( '' );
     const nodes = scene.nodes.map(
             node => {
                 switch (node.kind) {
@@ -484,7 +521,13 @@ export function diagramContents(
                 }
             ).join( '' );
 
-    return `<style>${DIAGRAM_STYLES}</style>${edges}${nodes}`;
+    const captions = participations.map(
+            edge => `<g ${diagramReferenceAttributes( edge.ref )}
+                class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
+                ${diagramEdgeLabels( edge )}</g>`
+            ).join( '' );
+
+    return `<style>${DIAGRAM_STYLES}</style>${edges}${guides}${nodes}${captions}`;
     }
 
 export function exportSVG( model ) {

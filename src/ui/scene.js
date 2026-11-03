@@ -567,6 +567,18 @@ function sceneConceptualAttributes(
         }
     }
 
+function sceneAttachBranchLabel(
+        label,
+        anchor
+        ) {
+    const attachment = {
+        x: Math.max( label.bounds.x, Math.min( label.bounds.x + label.bounds.width, anchor.x ) ),
+        y: Math.max( label.bounds.y, Math.min( label.bounds.y + label.bounds.height, anchor.y ) )
+        };
+
+    return {...label, anchor, leader: [anchor, attachment]};
+    }
+
 function sceneBranchLabel(
         text,
         purpose,
@@ -574,10 +586,13 @@ function sceneBranchLabel(
         normal,
         obstacles
         ) {
+    const initial = sceneLabel( text, origin.x, origin.y, purpose );
+    const offset = Math.abs( normal.x ) * initial.bounds.width / 2
+        + Math.abs( normal.y ) * initial.bounds.height / 2 + 18;
     let label = sceneLabel(
             text,
-            origin.x + normal.x * 22,
-            origin.y + normal.y * 22,
+            origin.x + normal.x * offset,
+            origin.y + normal.y * offset,
             purpose
             );
 
@@ -585,7 +600,7 @@ function sceneBranchLabel(
         const obstacle = obstacles.find( item => sceneOverlaps( label.bounds, item, 2 ) );
 
         if (!obstacle) {
-            return label;
+            return sceneAttachBranchLabel( label, origin );
             }
 
         const distances = [];
@@ -618,7 +633,7 @@ function sceneBranchLabel(
                 );
         }
 
-    return label;
+    return sceneAttachBranchLabel( label, origin );
     }
 
 function sceneParticipationEdge(
@@ -767,6 +782,11 @@ function sceneCompleteBounds(
 
     for (const edge of edges) {
         rectangles.push( ...edge.labels.map( label => label.bounds ) );
+        rectangles.push( ...edge.labels.flatMap(
+                label => (label.leader || []).map(
+                        point => ({x: point.x - 4, y: point.y - 4, width: 8, height: 8})
+                        )
+                ) );
         rectangles.push( ...edge.points.map(
                 point => ({x: point.x - 24, y: point.y - 24, width: 48, height: 48})
                 ) );
