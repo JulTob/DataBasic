@@ -32,9 +32,10 @@ export function diagramBounds( model ) {
 export function findFreePosition(
         model,
         preferred,
-        size
+        size,
+        area = null
         ) {
-    return sceneFindFreePosition( model, preferred, size );
+    return sceneFindFreePosition( model, preferred, size, area );
     }
 
 function diagramReferenceAttributes( ref ) {
