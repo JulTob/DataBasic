@@ -62,6 +62,16 @@ import {
     showAlternateKeyDialog
     } from './ui/dialogs.js';
 
+const practiceId = globalThis.location
+    ? new URLSearchParams( globalThis.location.search || '' ).get( 'practica' )
+    : null;
+const independentPractice = practiceId !== null;
+const validPracticeId = practiceId !== null
+    && /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test( practiceId );
+const autosaveKey = independentPractice
+    ? validPracticeId ? `databasic.document.v1.practica.${practiceId}` : null
+    : 'databasic.document.v1';
+
 const state = {
     model: exampleDocument(),
     selectedId: null,
@@ -305,26 +315,37 @@ function render( preserveEditors = false ) {
     refreshIcons();
     }
 
+function showSaveStatus( message ) {
+    document.querySelector( '#save-status' ).textContent = independentPractice
+        ? `Práctica independiente · ${message}`
+        : message;
+    }
+
 function scheduleSave() {
     clearTimeout( state.saveTimer );
 
+    if (!autosaveKey) {
+        showSaveStatus( 'Sin guardado automático · descarga una copia' );
+        return;
+        }
+
     const sequence = ++state.saveSequence;
 
-    document.querySelector( '#save-status' ).textContent = 'Guardando…';
+    showSaveStatus( 'Guardando…' );
     state.saveTimer = setTimeout(
             async () => {
                 try {
                     await globalThis.idbKeyval.set(
-                            'databasic.document.v1',
+                            autosaveKey,
                             serializeDocument( state.model )
                             );
 
                     if (sequence === state.saveSequence) {
-                        document.querySelector( '#save-status' ).textContent = 'Guardado en este navegador';
+                        showSaveStatus( 'Guardado en este navegador' );
                         }
                     }
                 catch {
-                    document.querySelector( '#save-status' ).textContent = 'Sin guardado automático';
+                    showSaveStatus( 'Sin guardado automático' );
                     notify( 'El navegador no permite guardar aquí. Usa Archivo → Guardar para descargar tu ejercicio.' );
                     }
                 },
@@ -1447,18 +1468,24 @@ splitter.addEventListener(
 
 async function restoreDocument() {
     try {
-        const contents = await globalThis.idbKeyval.get( 'databasic.document.v1' );
+        const contents = autosaveKey
+            ? await globalThis.idbKeyval.get( autosaveKey )
+            : null;
 
         if (contents && !state.past.length) {
             state.model = parseDocument( contents );
             }
 
-        document.querySelector( '#save-status' ).textContent = contents
-            ? 'Ejercicio recuperado de este navegador'
-            : 'Ejemplo de práctica · guarda tu primera edición';
+        showSaveStatus(
+                !autosaveKey
+                    ? 'Enlace no válido · guarda una copia descargada'
+                    : contents
+                        ? 'Ejercicio recuperado de este navegador'
+                        : 'Ejemplo de práctica · guarda tu primera edición'
+                );
         }
     catch {
-        document.querySelector( '#save-status' ).textContent = 'Ejemplo de práctica';
+        showSaveStatus( 'Ejemplo de práctica' );
         notify( 'No se pudo recuperar el ejercicio anterior. Puedes abrir una copia con Archivo → Abrir.' );
         }
 
