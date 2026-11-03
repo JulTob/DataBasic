@@ -141,6 +141,7 @@ test( 'El artefacto offline conserva recursos y arranca con el bundle común', a
         'src',
         'scripts',
         'public',
+        'examples',
         'index.html',
         'legal.html',
         'LICENSE',
@@ -164,7 +165,18 @@ test( 'El artefacto offline conserva recursos y arranca con el bundle común', a
     assert.equal( source, await bundleSource( projectRoot ) );
 
     const html = await readFile( resolve( output, 'index.html' ), 'utf8' );
+    const metadata = JSON.parse( await readFile(
+            resolve( temporaryRoot, 'package.json' ),
+            'utf8'
+            ) );
     const pageURL = new URL( 'https://example.test/DataBasic/index.html' );
+
+    assert.ok( html.includes( `<meta name="databasic-version" content="${metadata.version}">` ) );
+    assert.equal( metadata.version, '0.4.0' );
+    assert.deepEqual(
+            await readFile( resolve( output, 'examples/00-nucleo.databasic.json' ) ),
+            await readFile( resolve( projectRoot, 'examples/00-nucleo.databasic.json' ) )
+            );
 
     for (const match of html.matchAll( /(?:src|href)="([^"]+)"/g )) {
         const resourceURL = new URL( match[1], pageURL );

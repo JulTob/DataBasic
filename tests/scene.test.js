@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
 import {
     addColumn,
     addConceptualAttribute,
@@ -13,6 +14,7 @@ import {
     moveDiagramElement,
     setDiagramMode,
     updateColumn,
+    updateConceptualAttribute,
     updateConceptualParticipation,
     updateConceptualRelationship,
     updateRelationship,
@@ -144,6 +146,118 @@ test( 'Tipos completos y nombres largos ocupan líneas separadas y ancho propio'
     assert.equal( node.height, tableHeight( table ) );
     assert.ok( node.rows[0].height >= 48 );
     assert.match( svg, /\.type-label \{ font: 14px/ );
+    } );
+
+test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro del SVG', () => {
+    let model = sceneNativeFixture();
+    const relation = model.conceptual.relationships[0];
+    const period = model.conceptual.attributes.find( attribute => attribute.ownerId === relation.id );
+
+    model = updateConceptualAttribute( model, period.id, {required: true} );
+
+    for (const [index, part] of relation.participations.entries()) {
+        model = updateConceptualParticipation(
+                model,
+                relation.id,
+                part.id,
+                {cardinality: index === 0 ? 'one' : 'many'}
+                );
+        }
+
+    model = updateConceptualRelationship(
+            model,
+            relation.id,
+            {
+                translation: {
+                    kind: 'association',
+                    tableName: 'Colaboraciones',
+                    key: {
+                        participationIds: relation.participations.map( part => part.id ),
+                        attributeIds: [period.id]
+                        },
+                    cardinalityContextAttributeIds: [period.id]
+                    }
+                }
+            );
+    const scene = diagramScene( model );
+    const branches = scene.edges.filter( edge => edge.kind === 'participation' );
+
+    for (const branch of branches) {
+        const cardinality = branch.labels.find( label => label.purpose === 'combination-cardinality' );
+
+        assert.match( cardinality.text, /combinación \+ fecha_inicio/ );
+        assert.equal( branch.labels[0].text, `(${branch.participation.min},N)` );
+        sceneAssertContained( scene.bounds, cardinality.bounds );
+
+        for (const other of scene.edges.flatMap( edge => edge.labels )) {
+            if (other !== cardinality) {
+                assert.equal( sceneRectanglesOverlap( cardinality.bounds, other.bounds ), false );
+                }
+            }
+        }
+
+    const svg = exportSVG( model );
+
+    assert.match( svg, /data-label-purpose="combination-cardinality"/ );
+    assert.match( svg, /1 · combinación \+ fecha_inicio/ );
+    assert.deepEqual( diagramBounds( model ), scene.bounds );
+
+    model = updateConceptualParticipation(
+            model,
+            relation.id,
+            relation.participations[0].id,
+            {cardinality: 'many'}
+            );
+    model = updateConceptualRelationship(
+            model,
+            relation.id,
+            {translation: {
+                ...model.conceptual.relationships[0].translation,
+                cardinalityContextAttributeIds: null
+                }}
+            );
+    assert.doesNotMatch( exportSVG( model ), /contexto pendiente/ );
+    } );
+
+test( 'Auxiliares y tablas de clases conservan símbolos Chen y bounds de ambas vistas', async () => {
+    for (const [file, semanticKind] of [
+        ['03-multivaluados-resuelto.databasic.json', 'attribute'],
+        ['04-jerarquia-resuelta.databasic.json', 'generalization']
+        ]) {
+        const model = parseDocument( await readFile(
+                new URL( `../examples/${file}`, import.meta.url ),
+                'utf8'
+                ) );
+        const original = serializeDocument( model );
+
+        for (const mode of ['chen', 'relational']) {
+            const variant = setDiagramMode( model, mode );
+            const scene = diagramScene( variant );
+            const svg = exportSVG( variant );
+
+            for (const node of scene.nodes) {
+                sceneAssertContained( scene.bounds, node );
+                }
+
+            for (const label of scene.edges.flatMap( edge => edge.labels )) {
+                sceneAssertContained( scene.bounds, label.bounds );
+                }
+
+            assert.ok( !svg.includes( 'NaN' ) );
+            assert.deepEqual( diagramBounds( variant ), scene.bounds );
+
+            if (mode === 'chen') {
+                assert.ok( scene.nodes.some( node => node.kind === semanticKind ) );
+                assert.match( svg, semanticKind === 'attribute' ? /class="chen-inner"/ : /Especialización disjunta/ );
+                }
+            else {
+                assert.equal( scene.nodes.length, model.tables.length );
+                assert.equal( scene.edges.length, model.relationships.length );
+                }
+            }
+
+        assert.equal( serializeDocument( model ), original );
+        }
     } );
 
 test( 'IDEF1X: FIPS184 figuras 1/4/5/6/7, cajas, dependencia y marcadores', () => {
