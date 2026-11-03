@@ -24,7 +24,7 @@ import { exportSQL } from '../src/io/sql.js';
 import { exportSVG } from '../src/ui/diagram.js';
 
 function fixture( composite = false ) {
-    let model = addTable( emptyDocument() );
+    let model = addTable( emptyDocument( 'general' ) );
 
     model = addTable( model );
     model.tables[0].columns = [column( 'id_padre', 'INTEGER', true )];

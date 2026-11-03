@@ -43,15 +43,23 @@ test( 'NUMBER rechaza parámetros fuera de rango y sintaxis no admitida', () => 
     } );
 
 test( 'El formato de archivo conserva NUMBER y sigue abriendo tipos anteriores', () => {
-    const model = addTable( emptyDocument() );
+    const model = addTable( emptyDocument( 'general' ) );
 
     model.tables[0].columns.push( column( 'precio', 'NUMBER(10,2)' ) );
+    model.version = 1;
+    delete model.profile;
+    delete model.conceptual;
+    delete model.traces;
+    delete model.presentation;
+    delete model.display.mode;
+    delete model.display.notation;
 
     const restored = parseDocument( serializeDocument( model ) );
 
     assert.equal( restored.tables[0].columns[0].type, 'INTEGER' );
     assert.equal( restored.tables[0].columns[1].type, 'NUMBER(10,2)' );
-    assert.equal( restored.version, 1 );
+    assert.equal( restored.version, 2 );
+    assert.equal( restored.profile, 'general' );
     } );
 
 test( 'La migración de una clave NUMBER conserva el tipo en la FK hija', () => {

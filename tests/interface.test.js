@@ -2,10 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
     exampleDocument,
+    addConceptualRelationship,
+    setDiagramMode,
     updateTable,
     validType
     } from '../src/domain/model.js';
-import { renderProperties } from '../src/ui/properties.js';
+import { renderProperties, typeFields } from '../src/ui/properties.js';
 import {
     initialLayout,
     ribbonContents
@@ -135,4 +137,55 @@ test( 'Los tipos parametrizados rechazan precisión y tamaños inválidos', () =
     assert.equal( validType( 'DECIMAL(2,10)' ), false );
     assert.equal( validType( 'VARCHAR(0)' ), false );
     assert.equal( validType( 'INTEGER; DROP TABLE x' ), false );
+    } );
+
+
+test( 'Los dos modos y el perfil son controles visibles del mismo documento', () => {
+    const html = initialLayout( interfaceState() );
+
+    assert.match( html, /data-mode="relational"/ );
+    assert.match( html, /data-mode="chen"/ );
+    assert.match( html, /id="profile-select" data-profile/ );
+    assert.match( html, /Vista SQL/ );
+    } );
+
+
+test( 'Los parámetros del tipo conservan precisión y escala completas', () => {
+    const html = typeFields( 'NUMBER(10,2)', 'course' );
+
+    assert.match( html, /name="typePrecision"[^>]*value="10"/ );
+    assert.match( html, /name="typeScale"[^>]*value="2"/ );
+    assert.match( html, /value="VARCHAR"/ );
+    assert.doesNotMatch( html, /value="BOOLEAN"/ );
+    } );
+
+test( 'Una N:N pendiente muestra roles y acceso a materialización sin fingir FK', () => {
+    const state = interfaceState();
+
+    state.model = addConceptualRelationship(
+            setDiagramMode( state.model, 'chen' ),
+            {
+                name: 'Lectura',
+                participations: [
+                    {entityId: state.model.tables[0].id, role: 'lector', min: 0, max: null},
+                    {entityId: state.model.tables[2].id, role: 'obra', min: 0, max: null}
+                    ],
+                translation: null
+                }
+            );
+    state.selectedId = state.model.conceptual.relationships.at( -1 ).id;
+    state.category = 'misc';
+
+    const roles = renderProperties( state.model, state );
+
+    assert.match( roles, /Varios/ );
+    assert.match( roles, /Participaciones, roles y límites/ );
+    assert.match( roles, /value="lector"/ );
+    assert.match( roles, /value="N"/ );
+
+    state.category = 'translation';
+    const translation = renderProperties( state.model, state );
+
+    assert.match( translation, /Pendiente/ );
+    assert.match( translation, /data-action="materialize"/ );
     } );
