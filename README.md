@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.3.0** permite editar un documento con dos representaciones:
+La versión **0.3.1** permite editar un documento con dos representaciones:
 **Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
 conceptuales. El botón cambia la representación; las transformaciones se
 eligen por separado y conservan sus correspondencias.
@@ -15,6 +15,11 @@ dominios, valores predeterminados, acciones referenciales y relaciones N:N
 y ternarias con roles y atributos. Los estados pendientes pueden guardarse;
 no se presentan como transformaciones ya terminadas. Chen es una ampliación
 educativa de DataBasic para el curso.
+
+Arrastra los rombos en Chen o los bloques de lectura en Relacional para
+recolocar las relaciones. El arrastre busca hueco entre formas y rótulos;
+las posiciones se guardan por vista. **Distribuir** vuelve a organizarlas
+y **Deshacer** recupera la disposición anterior.
 
 Empieza por la [guía de práctica](docs/practice-guide.md). La
 [matriz funcional](docs/functional-audit.md) distingue operaciones disponibles,
