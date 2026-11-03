@@ -6,9 +6,22 @@ import {
     } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const root = fileURLToPath( new URL( '../', import.meta.url ) );
 const output = resolve( root, 'dist' );
+
+function versionedAssetURL(
+        name,
+        content
+        ) {
+    const version = createHash( 'sha256' )
+        .update( content )
+        .digest( 'hex' )
+        .slice( 0, 12 );
+
+    return `./${name}?v=${version}`;
+    }
 
 // This fixed module order also produces a local, double-clickable application.
 // No dependency downloads, CDN, transpiler or network are needed for a build.
@@ -35,10 +48,25 @@ for (const name of modules) {
     }
 
 const bundle = `(() => {\n'use strict';\n${fragments.join( '\n' )}\n})();\n`;
+const stylesheet = await readFile(
+        resolve( root, 'src/styles.css' ),
+        'utf8'
+        );
+const styleURL = versionedAssetURL(
+        'styles.css',
+        stylesheet
+        );
+const scriptURL = versionedAssetURL(
+        'app.bundle.js',
+        bundle
+        );
 const html = (await readFile( resolve( root, 'index.html' ), 'utf8' ))
     .replaceAll( './public/', './' )
-    .replace( './src/styles.css', './styles.css' )
-    .replace( '<script type="module" src="./src/app.js"></script>', '<script src="./app.bundle.js"></script>' );
+    .replace( './src/styles.css', styleURL )
+    .replace(
+            '<script type="module" src="./src/app.js"></script>',
+            `<script src="${scriptURL}"></script>`
+            );
 const legalSource = await readFile(
         resolve( root, 'legal.html' ),
         'utf8'
@@ -67,7 +95,10 @@ for (const name of [
     }
 
 await writeFile( resolve( output, 'app.bundle.js' ), bundle );
-await cp( resolve( root, 'src/styles.css' ), resolve( output, 'styles.css' ) );
+await writeFile(
+        resolve( output, 'styles.css' ),
+        stylesheet
+        );
 await writeFile( resolve( output, '.nojekyll' ), '' );
 
 console.log( `DataBasic preparada en ${output}` );
