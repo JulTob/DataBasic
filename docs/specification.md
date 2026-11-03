@@ -1,4 +1,4 @@
-# DataBasic 0.1.2 — especificación de la base funcional
+# DataBasic 0.2.0 — especificación de la base funcional
 
 Estado: alcance de implementación de la base funcional. Los apuntes del profesor
 se han recibido y contrastado en [requisitos del curso](course-requirements.md).
@@ -12,7 +12,7 @@ El alcance de las licencias figura en el [aviso de derechos](../NOTICE.md).
 
 | ID | Requisito comprobable | Referencia |
 | --- | --- | --- |
-| UI-01 | Cinta de comandos superior, formas a la izquierda, lienzo central y propiedades abajo. | Tutorial 2010, pp. 7–9; tutorial IT525, pp. 3–5. |
+| UI-01 | Menús superiores, herramientas flotantes sobre el lienzo, formas a la izquierda y propiedades abajo. | Adaptación visual 0.2.0 del flujo documentado; tutorial 2010, pp. 7–9; IT525, pp. 3–5. |
 | UI-02 | Seleccionar una entidad muestra Definición, Columnas, Identificador principal, Índices y Notas. | Ayuda de definición; tutorial 2010, pp. 8–9. |
 | UI-03 | Definición permite nombres físico/conceptual, sincronización y espacio de nombres. | Ayuda de definición, aplicable explícitamente a 2010. |
 | UI-04 | Columnas presenta nombre, tipo, requerido, PK y notas; permite añadir, editar, borrar y reordenar. | Tutorial 2010, p. 9; ayuda de columnas. |
@@ -56,13 +56,16 @@ El alcance de las licencias figura en el [aviso de derechos](../NOTICE.md).
 ## Diferencias y trabajo pendiente
 
 - DataBasic 0.1 cubre un subconjunto de la interfaz y del modelador de 2010.
-  Conserva ubicación y terminología de los controles documentados. Las pestañas
+  Conserva la terminología y los comandos documentados. Las pestañas
   del producto completo ajenas al modelado no se reproducen.
 - Se usan iconos de Lucide, tipografía disponible en el sistema y adaptación
   al ancho de pantalla. El diseño inicial buscó una apariencia cercana a
   Microsoft Office 2010. Se adopta una identidad visual de DataBasic:
-  superficies planas claras, acentos verdes y tipografía del sistema,
-  conservando la distribución de paneles, los comandos y el flujo de modelado.
+  lienzo punteado, herramientas flotantes, superficies redondeadas claras,
+  acentos verdes y tipografía del sistema. Las categorías de propiedades
+  se presentan como pestañas horizontales y las entidades como tarjetas.
+  Se conservan los comandos y el flujo de modelado. El ajuste a la ventana
+  reserva espacio para evitar que las tablas queden detrás de las herramientas.
   Esta diferenciación y los avisos de licencia no certifican ausencia de
   derechos ajenos. La identidad visual exacta con otro producto no es un
   criterio de aceptación.
