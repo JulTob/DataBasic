@@ -1,5 +1,16 @@
 import {
     addColumn,
+    addConceptualEntity,
+    conceptualStatus,
+    moveDiagramElement,
+    removeConceptualElement,
+    setDiagramMode,
+    setModelProfile,
+    updateConceptualEntity,
+    updateConceptualAttribute,
+    updateConceptualRelationship,
+    updateConceptualParticipation,
+    updateConceptualGeneralization,
     addRelationship,
     addTable,
     changeDocument,
@@ -21,8 +32,9 @@ import { exportSQL } from './io/sql.js';
 import {
     diagramContents,
     exportSVG,
-    TABLE_WIDTH,
-    tableHeight
+    diagramScene,
+    diagramBounds,
+    findFreePosition
     } from './ui/diagram.js';
 import {
     command,
@@ -31,6 +43,7 @@ import {
 import {
     explorerContents,
     initialLayout,
+    paletteContents,
     ribbonContents
     } from './ui/layout.js';
 import { renderProperties } from './ui/properties.js';
@@ -41,7 +54,12 @@ import {
     showDisplayOptions,
     showHelp,
     showIndexDialog,
-    showValidation
+    showValidation,
+    showConceptualAttributeDialog,
+    showConceptualRelationshipDialog,
+    showMaterializationDialog,
+    showGeneralizationDialog,
+    showAlternateKeyDialog
     } from './ui/dialogs.js';
 
 const state = {
@@ -56,7 +74,8 @@ const state = {
     past: [],
     future: [],
     clipboard: null,
-    viewport: {x: 25, y: 25, zoom: 0.85},
+    viewport: {x: 35, y: 105, zoom: 1},
+    viewports: {},
     drag: null,
     saveTimer: null,
     saveSequence: 0,
@@ -92,14 +111,12 @@ function renderDiagram() {
     let model = state.model;
 
     if (state.drag?.preview) {
-        model = {
-            ...model,
-            tables: model.tables.map(
-                    table => table.id === state.drag.tableId
-                        ? {...table, ...state.drag.preview}
-                        : table
-                    )
-            };
+        model = moveDiagramElement(
+                model,
+                state.drag.id,
+                state.drag.preview,
+                model.display.mode
+                );
         }
 
     const viewport = document.querySelector( '#viewport' );
@@ -111,7 +128,7 @@ function renderDiagram() {
     canvas.style.backgroundPosition = `${view.x}px ${view.y}px`;
     canvas.classList.toggle( 'without-grid', !model.display.grid );
     canvas.classList.toggle( 'connecting', state.tool === 'relationship' );
-    document.querySelector( '#canvas-empty' ).hidden = model.tables.length !== 0;
+    document.querySelector( '#canvas-empty' ).hidden = diagramScene( model ).nodes.length !== 0;
 
     const hint = document.querySelector( '#tool-hint' );
 
@@ -123,9 +140,32 @@ function renderDiagram() {
     document.querySelector( '#zoom-label' ).textContent = `${Math.round( view.zoom * 100 )} %`;
     }
 
+function selectedNative() {
+    const semantic = state.model.conceptual;
+
+    return [
+        ...semantic.entities,
+        ...semantic.attributes,
+        ...semantic.relationships,
+        ...semantic.generalizations
+        ].find( item => item.id === state.selectedId );
+    }
+
+function focusDiagram() {
+    const bounds = diagramBounds( state.model );
+
+    state.viewport = {
+        x: 35 - Math.min( 0, bounds.x ),
+        y: 105 - Math.min( 0, bounds.y ),
+        zoom: 1
+        };
+    renderDiagram();
+    }
+
 function renderPropertyPane() {
     const selected = state.model.tables.find( item => item.id === state.selectedId )
-        || state.model.relationships.find( item => item.id === state.selectedId );
+        || state.model.relationships.find( item => item.id === state.selectedId )
+        || selectedNative();
 
     document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
     document.querySelector( '#properties-name' ).textContent = selected ? `— ${selected.name}` : '';
@@ -136,10 +176,35 @@ function renderPropertyPane() {
 
 function render( preserveEditors = false ) {
     document.querySelector( '#document-name' ).textContent = state.model.name;
+    document.querySelector( '#diagram-mode-label' ).textContent =
+        state.model.display.mode === 'chen'
+            ? 'Conceptual · ERE–Chen'
+            : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
+    document.querySelector( '#profile-select' ).value = state.model.profile;
+    document.querySelector( '#explorer-heading' ).textContent =
+        state.model.display.mode === 'chen' ? 'Entidades y relaciones' : 'Tablas y vistas';
+    document.querySelector( '#stencil-tip' ).textContent =
+        state.model.display.mode === 'chen'
+            ? 'Crea objetos conceptuales. Las restricciones pendientes también se guardan.'
+            : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
+
+    for (const button of document.querySelectorAll( '[data-mode]' )) {
+        button.setAttribute(
+                'aria-pressed',
+                String( button.dataset.mode === state.model.display.mode )
+                );
+        }
+
+    const statuses = conceptualStatus( state.model );
+
+    document.querySelector( '#model-status' ).textContent = statuses.length
+        ? `${statuses.length} restricciones pendientes/documentales · Revisar modelo`
+        : 'Un documento · representaciones vinculadas';
     document.title = `${state.model.name} — DataBasic`;
     if (!preserveEditors) {
         document.querySelector( '#ribbon' ).innerHTML = ribbonContents( state );
         document.querySelector( '#entity-list' ).innerHTML = explorerContents( state );
+        document.querySelector( '.shape-palette' ).innerHTML = paletteContents( state );
         }
 
     for (const button of document.querySelectorAll( '[data-tab]' )) {
@@ -240,7 +305,8 @@ function commit(
     state.model = next;
 
     if (!next.tables.some( item => item.id === state.selectedId )
-        && !next.relationships.some( item => item.id === state.selectedId )) {
+        && !next.relationships.some( item => item.id === state.selectedId )
+        && !selectedNative()) {
         state.selectedId = null;
         }
 
@@ -315,9 +381,15 @@ function createEntity(
             bounds.left + bounds.width * 0.4,
             bounds.top + bounds.height * 0.25
             );
-    const next = addTable( state.model, kind, location );
+    const free = findFreePosition( state.model, location );
+    const conceptual = state.model.display.mode === 'chen' && kind === 'entity';
+    const next = conceptual
+        ? addConceptualEntity( state.model, {}, free )
+        : addTable( state.model, kind, free );
 
-    state.selectedId = next.tables.at( -1 ).id;
+    state.selectedId = conceptual
+        ? next.conceptual.entities.at( -1 ).id
+        : next.tables.at( -1 ).id;
     state.category = 'definition';
     state.tool = 'pointer';
     state.parentId = null;
@@ -341,29 +413,27 @@ function zoomTo(
     }
 
 function fitDiagram() {
-    if (!state.model.tables.length) {
-        state.viewport = {x: 35, y: 35, zoom: 0.85};
-        renderDiagram();
+    const scene = diagramScene( state.model );
+
+    if (!scene.nodes.length) {
+        focusDiagram();
         return;
         }
 
-    const bounds = canvas.getBoundingClientRect();
-    const left = Math.min( ...state.model.tables.map( table => table.x ) ) - 45;
-    const top = Math.min( ...state.model.tables.map( table => table.y ) ) - 45;
-    const right = Math.max( ...state.model.tables.map( table => table.x + TABLE_WIDTH ) ) + 70;
-    const bottom = Math.max( ...state.model.tables.map( table => table.y + tableHeight( table ) ) ) + 60;
-    const toolbarInset = Math.min( 76, bounds.height / 3 );
-    const contentHeight = Math.max( 100, bounds.height - toolbarInset );
+    const canvasBounds = canvas.getBoundingClientRect();
+    const bounds = scene.bounds;
+    const toolbarInset = Math.min( 86, canvasBounds.height / 3 );
+    const contentHeight = Math.max( 100, canvasBounds.height - toolbarInset );
     const zoom = Math.min(
             1.1,
-            bounds.width / (right - left),
-            contentHeight / (bottom - top)
+            canvasBounds.width / Math.max( 1, bounds.width ),
+            contentHeight / Math.max( 1, bounds.height )
             );
 
     state.viewport = {
         zoom,
-        x: (bounds.width - (right - left) * zoom) / 2 - left * zoom,
-        y: toolbarInset + (contentHeight - (bottom - top) * zoom) / 2 - top * zoom
+        x: (canvasBounds.width - bounds.width * zoom) / 2 - bounds.x * zoom,
+        y: toolbarInset + (contentHeight - bounds.height * zoom) / 2 - bounds.y * zoom
         };
     renderDiagram();
     }
@@ -394,6 +464,11 @@ function redo() {
 
 function deleteSelected() {
     if (!state.selectedId) {
+        return;
+        }
+
+    if (selectedNative()) {
+        commit( removeConceptualElement( state.model, state.selectedId ) );
         return;
         }
 
@@ -447,8 +522,10 @@ function pasteTable() {
 
                 clone.name = `${clone.name}_copia${number}`;
                 clone.conceptualName = clone.name;
-                clone.x += 45;
-                clone.y += 45;
+                Object.assign(
+                        clone,
+                        findFreePosition( state.model, {x: clone.x + 45, y: clone.y + 45} )
+                        );
 
                 for (const field of clone.columns) {
                     const oldId = field.id;
@@ -463,6 +540,11 @@ function pasteTable() {
                     index.columns = index.columns.map( id => mapping.get( id ) );
                     }
 
+                for (const key of clone.alternateKeys || []) {
+                    key.id = newId();
+                    key.columns = key.columns.map( id => mapping.get( id ) );
+                    }
+
                 model.tables.push( clone );
                 }
             );
@@ -472,22 +554,26 @@ function pasteTable() {
     }
 
 async function autoLayout() {
-    if (!state.model.tables.length) {
+    const scene = diagramScene( state.model );
+
+    if (!scene.nodes.length) {
         return;
         }
 
     notify( 'Organizando el diagrama…' );
-
     state.layoutInstance ||= await globalThis.Viz.instance();
 
     const sourceModel = state.model;
+    const nodes = scene.nodes;
+    const quoted = value => JSON.stringify( value );
     const graph = [
-        'digraph G { graph [rankdir=LR, nodesep=0.8, ranksep=1.6]; node [shape=box, fixedsize=true, label=""];',
-        ...sourceModel.tables.map(
-                table => `"${table.id}" [width=${TABLE_WIDTH / 72}, height=${tableHeight( table ) / 72}];`
+        'digraph G { graph [rankdir=LR, nodesep=0.7, ranksep=1.2];',
+        'node [shape=box, fixedsize=true, label=""];',
+        ...nodes.map(
+                node => `${quoted( node.id )} [width=${node.width / 72}, height=${node.height / 72}];`
                 ),
-        ...sourceModel.relationships.map(
-                relation => `"${relation.parentId}" -> "${relation.childId}";`
+        ...scene.edges.filter( edge => edge.sourceId && edge.targetId ).map(
+                edge => `${quoted( edge.sourceId )} -> ${quoted( edge.targetId )};`
                 ),
         '}'
         ].join( '\n' );
@@ -499,25 +585,28 @@ async function autoLayout() {
         return;
         }
 
-    commit(
-            changeDocument(
-                    state.model,
-                    next => {
-                        for (const node of result.objects || []) {
-                            const table = next.tables.find( item => item.id === node.name );
+    let next = state.model;
 
-                            if (!table || !node.pos) {
-                                continue;
-                                }
+    for (const placed of result.objects || []) {
+        const node = nodes.find( item => item.id === placed.name );
 
-                            const [x, y] = node.pos.split( ',' ).map( Number );
+        if (!node || !placed.pos) {
+            continue;
+            }
 
-                            table.x = Math.max( 30, x - TABLE_WIDTH / 2 + 50 );
-                            table.y = Math.max( 30, height - y - tableHeight( table ) / 2 + 50 );
-                            }
-                        }
-                    )
-            );
+        const [x, y] = placed.pos.split( ',' ).map( Number );
+
+        next = moveDiagramElement(
+                next,
+                node.ref.id,
+                {
+                    x: Math.max( 30, x - node.width / 2 + 50 ),
+                    y: Math.max( 30, height - y - node.height / 2 + 50 )
+                    }
+                );
+        }
+
+    commit( next );
     fitDiagram();
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
@@ -552,7 +641,7 @@ function replaceCurrentDocument( model ) {
     state.parentId = null;
     state.tool = 'pointer';
     commit( model );
-    fitDiagram();
+    focusDiagram();
     }
 
 async function act(
@@ -571,7 +660,30 @@ async function act(
             state.parentId = null;
             render();
             break;
+        case 'conceptual-relationship':
+            showConceptualRelationshipDialog( state, commit );
+            break;
+        case 'conceptual-attribute':
+            showConceptualAttributeDialog( state, commit );
+            break;
+        case 'generalization':
+            showGeneralizationDialog( state, commit );
+            break;
+        case 'materialize':
+            showMaterializationDialog( state, commit );
+            break;
+        case 'edit-attribute':
+            showConceptualAttributeDialog( state, commit, state.selectedId );
+            break;
+        case 'edit-generalization':
+            showGeneralizationDialog( state, commit, state.selectedId );
+            break;
         case 'relationship':
+            if (state.model.display.mode === 'chen') {
+                showConceptualRelationshipDialog( state, commit );
+                break;
+                }
+
             state.tool = state.tool === 'relationship' ? 'pointer' : 'relationship';
             state.parentId = null;
             render();
@@ -662,6 +774,11 @@ async function act(
             commit( changeDocument( state.model, next => { next.display.grid = !next.display.grid; } ) );
             break;
         case 'add-column':
+            if (state.model.display.mode === 'chen' && selectedNative()) {
+                showConceptualAttributeDialog( state, commit );
+                break;
+                }
+
             if (state.model.tables.some( table => table.id === state.selectedId )) {
                 const next = addColumn( state.model, state.selectedId );
 
@@ -690,6 +807,9 @@ async function act(
             state.propertiesShown = true;
             render();
             break;
+        case 'alternate-key':
+            showAlternateKeyDialog( state, commit, target?.dataset.keyId );
+            break;
         case 'new-index':
             showIndexDialog( state, commit );
             break;
@@ -706,6 +826,11 @@ async function act(
     }
 
 function fieldChanged( target ) {
+    if (target.dataset.profile !== undefined) {
+        commit( setModelProfile( state.model, target.value ) );
+        return;
+        }
+
     if (target.closest( 'dialog' )) {
         return;
         }
@@ -730,6 +855,46 @@ function fieldChanged( target ) {
 
     if (target.dataset.boolean) {
         value = target.value === 'true';
+        }
+
+    const native = selectedNative();
+
+    if (native) {
+        let next;
+
+        if (target.dataset.participation) {
+            const parsed = field === 'max' && String( value ).trim().toUpperCase() === 'N'
+                ? null
+                : field === 'role' ? value : Number( value );
+
+            next = updateConceptualParticipation(
+                    state.model,
+                    native.id,
+                    target.dataset.participation,
+                    {[field]: parsed}
+                    );
+            }
+        else if (state.model.conceptual.entities.includes( native )) {
+            next = updateConceptualEntity(
+                    state.model,
+                    native.id,
+                    field === 'weakRelationshipId'
+                        ? {translation: value ? {kind: 'weak', relationshipId: value} : null}
+                        : {[field]: field === 'ownerEntityId' ? value || null : value}
+                    );
+            }
+        else if (state.model.conceptual.attributes.includes( native )) {
+            next = updateConceptualAttribute( state.model, native.id, {[field]: value} );
+            }
+        else if (state.model.conceptual.relationships.includes( native )) {
+            next = updateConceptualRelationship( state.model, native.id, {[field]: value} );
+            }
+        else {
+            next = updateConceptualGeneralization( state.model, native.id, {[field]: value} );
+            }
+
+        commit( next );
+        return;
         }
 
     if (target.dataset.colId) {
@@ -785,11 +950,74 @@ function relationshipPick( tableId ) {
     notify( 'Relación creada. Selecciona Varios para ajustar cardinalidad y opcionalidad.' );
     }
 
+function changeRepresentation( mode ) {
+    const previous = state.model.display.mode;
+
+    if (mode === previous) {
+        return;
+        }
+
+    state.viewports[previous] = {...state.viewport};
+    const id = state.category === 'columns' && state.selectedColumnId
+        ? state.selectedColumnId
+        : state.selectedId;
+    const trace = state.model.traces.find(
+            item => mode === 'chen' ? item.targetId === id : item.sourceId === id
+            );
+
+    if (trace) {
+        const relatedId = mode === 'chen' ? trace.sourceId : trace.targetId;
+        const table = state.model.tables.find(
+                item => item.columns.some( field => field.id === relatedId )
+                );
+
+        state.selectedId = table ? table.id : relatedId;
+        state.selectedColumnId = table ? relatedId : null;
+        state.category = table ? 'columns' : 'definition';
+        }
+
+    state.tool = 'pointer';
+    state.parentId = null;
+    commit( setDiagramMode( state.model, mode ) );
+
+    if (state.viewports[mode]) {
+        state.viewport = {...state.viewports[mode]};
+        renderDiagram();
+        }
+    else {
+        focusDiagram();
+        }
+    }
+
+function selectDiagramReference( ref ) {
+    if (ref.kind === 'column') {
+        const table = state.model.tables.find(
+                item => item.columns.some( field => field.id === ref.id )
+                );
+
+        state.selectedColumnId = ref.id;
+        selectElement( table.id, 'columns' );
+        return;
+        }
+
+    if (ref.kind === 'participation') {
+        const relation = state.model.conceptual.relationships.find(
+                item => item.participations.some( part => part.id === ref.id )
+                );
+
+        selectElement( relation?.id || ref.ownerId, 'misc' );
+        return;
+        }
+
+    selectElement( ref.id );
+    }
+
 function pointerDown( event ) {
     if (![0, 1].includes( event.button )) {
         return;
         }
 
+    const target = event.target.closest( '[data-diagram-kind]' );
     const tableNode = event.target.closest( '[data-table-id]' );
     const relationNode = event.target.closest( '[data-relation-id]' );
     const point = canvasPoint( event.clientX, event.clientY );
@@ -800,25 +1028,41 @@ function pointerDown( event ) {
             return;
             }
 
-        if (relationNode && event.button === 0) {
-            selectElement( relationNode.dataset.relationId );
-            return;
-            }
+        const ref = target ? {
+            kind: target.dataset.diagramKind,
+            id: target.dataset.diagramId,
+            ownerId: target.dataset.ownerId
+            } : tableNode ? {kind: 'table', id: tableNode.dataset.tableId}
+                : relationNode ? {kind: 'relationship', id: relationNode.dataset.relationId}
+                    : null;
 
-        if (tableNode && event.button === 0) {
-            const tableId = tableNode.dataset.tableId;
+        if (ref && event.button === 0) {
             const previous = state.lastPick;
-            const double = previous?.id === tableId && performance.now() - previous.time < 350;
-            const table = state.model.tables.find( item => item.id === tableId );
+            const double = previous?.id === ref.id
+                && performance.now() - previous.time < 350;
 
-            state.lastPick = {id: tableId, time: performance.now()};
-            selectElement( tableId, double ? 'columns' : null );
+            state.lastPick = {id: ref.id, time: performance.now()};
+            selectDiagramReference( ref );
+
+            if (double && ref.kind === 'table') {
+                state.category = 'columns';
+                renderPropertyPane();
+                }
+
+            const node = diagramScene( state.model ).nodes.find(
+                    item => item.ref.id === ref.id
+                    );
+
+            if (!node) {
+                return;
+                }
+
             state.drag = {
-                tableId,
+                id: ref.id,
                 startX: point.x,
                 startY: point.y,
-                originX: table.x,
-                originY: table.y,
+                originX: node.x,
+                originY: node.y,
                 preview: null
                 };
             }
@@ -879,7 +1123,7 @@ function pointerUp( event ) {
         }
 
     if (drag?.preview) {
-        commit( updateTable( state.model, drag.tableId, drag.preview ) );
+        commit( moveDiagramElement( state.model, drag.id, drag.preview ) );
         }
     }
 
@@ -934,7 +1178,16 @@ document.addEventListener(
                 return;
                 }
 
-            if (button.dataset.tab) {
+            if (button.dataset.origin) {
+                closeDialog();
+                commit( setDiagramMode( state.model, 'chen' ) );
+                selectElement( button.dataset.origin );
+                focusDiagram();
+                }
+            else if (button.dataset.mode) {
+                changeRepresentation( button.dataset.mode );
+                }
+            else if (button.dataset.tab) {
                 state.tab = button.dataset.tab;
                 render();
                 }
@@ -1010,7 +1263,7 @@ document.querySelector( '#open-file' ).addEventListener(
                 state.parentId = null;
                 state.tool = 'pointer';
                 commit( model );
-                fitDiagram();
+                focusDiagram();
                 notify( `Ejercicio abierto: ${model.name}` );
                 }
             catch (error) {
@@ -1034,11 +1287,15 @@ canvas.addEventListener(
 canvas.addEventListener(
         'keydown',
         event => {
-            const element = event.target.closest( '[data-table-id], [data-relation-id]' );
+            const element = event.target.closest( '[data-diagram-kind]' );
 
             if (element && ['Enter', ' '].includes( event.key )) {
                 event.preventDefault();
-                selectElement( element.dataset.tableId || element.dataset.relationId );
+                selectDiagramReference({
+                        kind: element.dataset.diagramKind,
+                        id: element.dataset.diagramId,
+                        ownerId: element.dataset.ownerId
+                        });
                 }
             }
         );
@@ -1153,7 +1410,7 @@ async function restoreDocument() {
 
     state.selectedId = state.model.tables[0]?.id || null;
     render();
-    fitDiagram();
+    focusDiagram();
     }
 
 render();
@@ -1162,16 +1419,12 @@ restoreDocument();
 window.addEventListener(
         'beforeprint',
         () => {
-            const width = Math.max(
-                    800,
-                    ...state.model.tables.map( table => table.x + TABLE_WIDTH + 140 )
-                    );
-            const height = Math.max(
-                    500,
-                    ...state.model.tables.map( table => table.y + tableHeight( table ) + 80 )
-                    );
+            const bounds = diagramBounds( state.model );
 
-            canvas.setAttribute( 'viewBox', `0 0 ${width} ${height}` );
+            canvas.setAttribute(
+                    'viewBox',
+                    `${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}`
+                    );
             document.querySelector( '#viewport' ).removeAttribute( 'transform' );
             }
         );

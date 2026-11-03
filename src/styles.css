@@ -88,7 +88,7 @@ svg.lucide {
     --sidebar-width: 222px;
 
     display: grid;
-    grid-template-rows: 56px 40px minmax( 0, 1fr ) 32px;
+    grid-template-rows: 56px 40px 48px minmax( 0, 1fr ) 32px;
     height: 100dvh;
     min-height: 580px;
     min-width: 720px;
@@ -1243,5 +1243,117 @@ a {
         }
     .selection-outline {
         display: none;
+        }
+    }
+
+
+.model-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 6px 18px;
+    border-bottom: 1px solid var( --color-border );
+    background: var( --color-surface );
+    }
+.model-controls > label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    }
+.mode-switch {
+    display: flex;
+    gap: 3px;
+    }
+.mode-switch button {
+    min-width: 92px;
+    padding: 6px 12px;
+    }
+.mode-switch button[aria-pressed="true"] {
+    color: var( --color-accent-strong );
+    border-color: var( --color-accent-border );
+    background: var( --color-accent-soft );
+    font-weight: 650;
+    }
+#model-status {
+    margin-left: auto;
+    max-width: 360px;
+    padding: 3px 8px;
+    border: 0;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var( --color-muted );
+    text-align: right;
+    }
+.provenance,
+.pending-message {
+    padding: 7px 10px;
+    margin: 0 0 12px;
+    border-left: 3px solid var( --color-accent-border );
+    background: var( --color-surface-soft );
+    font-size: 12px;
+    line-height: 1.5;
+    }
+.pending-message {
+    margin-top: 12px;
+    border-color: #d2ad67;
+    background: #fffaf0;
+    }
+.provenance button {
+    padding: 3px 8px;
+    margin-left: 8px;
+    }
+.parameter-fields,
+.choice-fields,
+.participation-list {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax( 170px, 1fr ) );
+    gap: 12px;
+    }
+.parameter-fields {
+    margin-block: 12px;
+    }
+.dialog-fields .parameter-fields input {
+    min-width: 0;
+    width: 100%;
+    }
+.dialog-fields select {
+    width: 100%;
+    }
+.type-editor > label,
+.participation-list label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 8px;
+    }
+.participation-list input {
+    width: 100%;
+    }
+.conceptual-list {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 12px;
+    max-width: 640px;
+    }
+.conceptual-list button {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    text-align: left;
+    }
+.alternate-key-item {
+    display: block;
+    margin-block: 8px;
+    }
+@media (max-width: 1000px) {
+    #model-status {
+        max-width: 220px;
+        font-size: 10px;
+        }
+    }
+@media print {
+    .model-controls {
+        display: none !important;
         }
     }
