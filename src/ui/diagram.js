@@ -431,7 +431,7 @@ export const DIAGRAM_STYLES = `
     .selected .relation-line { stroke-width: 2.4; }
     .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
     .relation-label {
-        font: 13px system-ui, sans-serif;
+        font: 14px system-ui, sans-serif;
         fill: currentColor;
         paint-order: stroke;
         stroke: white;

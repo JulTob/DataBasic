@@ -153,14 +153,14 @@ function sceneLabel(
         y,
         purpose = 'name'
         ) {
-    const width = sceneTextWidth( text, 13 ) + 14;
+    const width = sceneTextWidth( text, 14 ) + 14;
 
     return {
         text,
         x,
         y,
         purpose,
-        bounds: {x: x - width / 2, y: y - 15, width, height: 21}
+        bounds: {x: x - width / 2, y: y - 16, width, height: 22}
         };
     }
 
@@ -567,6 +567,60 @@ function sceneConceptualAttributes(
         }
     }
 
+function sceneBranchLabel(
+        text,
+        purpose,
+        origin,
+        normal,
+        obstacles
+        ) {
+    let label = sceneLabel(
+            text,
+            origin.x + normal.x * 22,
+            origin.y + normal.y * 22,
+            purpose
+            );
+
+    for (let pass = 0; pass < obstacles.length; pass += 1) {
+        const obstacle = obstacles.find( item => sceneOverlaps( label.bounds, item, 2 ) );
+
+        if (!obstacle) {
+            return label;
+            }
+
+        const distances = [];
+
+        for (const axis of ['x', 'y']) {
+            const extent = axis === 'x' ? 'width' : 'height';
+
+            if (normal[axis] > 0) {
+                distances.push(
+                        (obstacle[axis] + obstacle[extent] + 2 - label.bounds[axis])
+                            / normal[axis]
+                        );
+                }
+            else if (normal[axis] < 0) {
+                distances.push(
+                        (label.bounds[axis] + label.bounds[extent] + 2 - obstacle[axis])
+                            / -normal[axis]
+                        );
+                }
+            }
+
+        // Continue outward along the same side; a cleared box stays behind.
+        const distance = Math.min( ...distances ) + 1;
+
+        label = sceneLabel(
+                text,
+                label.x + normal.x * distance,
+                label.y + normal.y * distance,
+                purpose
+                );
+        }
+
+    return label;
+    }
+
 function sceneParticipationEdge(
         relationNode,
         participation,
@@ -582,21 +636,27 @@ function sceneParticipationEdge(
     const dx = start.x - end.x;
     const dy = start.y - end.y;
     const length = Math.hypot( dx, dy ) || 1;
-    const normal = {x: -dy / length, y: dx / length};
-    const offset = siblings.length > 1 && port === 0 ? -20 : 20;
-    const labels = [sceneLabel(
+    const normal = dx || dy ? {x: -dy / length, y: dx / length} : {x: 0, y: 1};
+    const side = siblings.length > 1 && port === 0 ? -1 : 1;
+    const outward = {x: normal.x * side, y: normal.y * side};
+    const obstacles = nodes.map(
+            node => ({...node, height: node.height + (node.pending ? 30 : 0)})
+            );
+    const labels = [sceneBranchLabel(
             `(${participation.min},${participation.max === null ? 'N' : participation.max})`,
-            end.x + dx * 0.2 + normal.x * offset,
-            end.y + dy * 0.2 + normal.y * offset,
-            'participation'
+            'participation',
+            {x: end.x + dx * 0.2, y: end.y + dy * 0.2},
+            outward,
+            obstacles
             )];
 
     if (participation.role) {
-        labels.push( sceneLabel(
+        labels.push( sceneBranchLabel(
                 participation.role,
-                end.x + dx * 0.62 + normal.x * offset,
-                end.y + dy * 0.62 + normal.y * offset,
-                'role'
+                'role',
+                {x: end.x + dx * 0.5, y: end.y + dy * 0.5},
+                {x: -outward.x, y: -outward.y},
+                [...obstacles, labels[0].bounds]
                 ) );
         }
 
