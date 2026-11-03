@@ -17,7 +17,8 @@ import { tableHeight, diagramScene } from '../src/ui/diagram.js';
 async function applicationHarness(
         canvasHeight = 500,
         initialDocument = null,
-        canvasRectangle = {}
+        canvasRectangle = {},
+        storageOptions = {}
         ) {
     const source = await bundleSource( new URL( '../', import.meta.url ) );
     const elements = new Map();
@@ -25,6 +26,13 @@ async function applicationHarness(
     const pendingTimers = new Map();
     let timerId = 0;
     let savedDocument = initialDocument;
+    const store = storageOptions.store || new Map();
+    const reads = [];
+    const writes = [];
+
+    if (initialDocument !== null) {
+        store.set( 'databasic.document.v1', initialDocument );
+        }
 
     function element( selector ) {
         if (!elements.has( selector )) {
@@ -108,6 +116,10 @@ async function applicationHarness(
         structuredClone,
         Blob,
         URL,
+        URLSearchParams,
+        ...(storageOptions.search === undefined
+            ? {}
+            : {location: {search: storageOptions.search}}),
         console,
         setTimeout: callback => {
             const id = ++timerId;
@@ -118,8 +130,16 @@ async function applicationHarness(
         clearTimeout: id => pendingTimers.delete( id ),
         lucide: {createIcons() {}},
         idbKeyval: {
-            get: async () => savedDocument,
-            set: async (key, value) => { savedDocument = value; }
+            get: async key => {
+                reads.push( key );
+                savedDocument = store.get( key ) ?? null;
+                return savedDocument;
+                },
+            set: async (key, value) => {
+                writes.push( key );
+                store.set( key, value );
+                savedDocument = value;
+                }
             }
         };
 
@@ -139,6 +159,9 @@ async function applicationHarness(
         listeners,
         click,
         saved: () => savedDocument,
+        store,
+        reads,
+        writes,
         change: (dataset, value, type = 'select-one') => {
             listeners.get( 'document:change' )({target: {
                 dataset, value, type,
@@ -740,4 +763,85 @@ test( 'Al recuperar el legado se enfoca la primera tarjeta a escala 100%', async
     assert.equal( Number( transform[3] ), 1 );
     assert.equal( Number( transform[1] ) + first.x, 20 );
     assert.equal( Number( transform[2] ) + first.y, 100 );
+    } );
+
+
+test( 'Sin práctica conserva exactamente la clave legacy, incluso con otros parámetros', async () => {
+    const main = emptyDocument();
+
+    main.name = 'Ejercicio principal';
+
+    for (const search of [undefined, '', '?otra=opcion']) {
+        const options = search === undefined ? {} : {search};
+        const app = await applicationHarness( 500, JSON.stringify( main ), {}, options );
+
+        assert.deepEqual( app.reads, ['databasic.document.v1'] );
+        assert.equal( app.element( '#document-name' ).textContent, main.name );
+        assert.doesNotMatch( app.element( '#save-status' ).textContent, /independiente/ );
+
+        await app.click({action: 'entity'});
+        await app.flushTimers();
+
+        assert.deepEqual( app.writes, ['databasic.document.v1'] );
+        assert.equal( app.store.size, 1 );
+        }
+    } );
+
+test( 'Dos prácticas comparten almacén sin leer ni sobrescribir el ejercicio principal', async () => {
+    const main = emptyDocument();
+
+    main.name = 'Trabajo de Julio';
+    const original = JSON.stringify( main );
+    const store = new Map( [['databasic.document.v1', original]] );
+    const firstOptions = {store, search: '?practica=revision-uno'};
+    const secondOptions = {store, search: '?practica=revision-dos'};
+    const first = await applicationHarness( 500, null, {}, firstOptions );
+    const second = await applicationHarness( 500, null, {}, secondOptions );
+
+    assert.deepEqual( first.reads, ['databasic.document.v1.practica.revision-uno'] );
+    assert.deepEqual( second.reads, ['databasic.document.v1.practica.revision-dos'] );
+    assert.notEqual( first.element( '#document-name' ).textContent, main.name );
+    assert.notEqual( second.element( '#document-name' ).textContent, main.name );
+
+    for (const app of [first, second]) {
+        assert.match( app.element( '#save-status' ).textContent, /Práctica independiente/ );
+        assert.doesNotMatch( app.element( '#save-status' ).textContent, /revision-uno|revision-dos/ );
+        await app.click({action: 'new'});
+        await app.click({action: 'entity'});
+        }
+
+    await second.click({action: 'entity'});
+    await first.flushTimers();
+    await second.flushTimers();
+
+    assert.equal( store.get( 'databasic.document.v1' ), original );
+    assert.deepEqual( first.writes, ['databasic.document.v1.practica.revision-uno'] );
+    assert.deepEqual( second.writes, ['databasic.document.v1.practica.revision-dos'] );
+
+    const firstReload = await applicationHarness( 500, null, {}, firstOptions );
+    const secondReload = await applicationHarness( 500, null, {}, secondOptions );
+
+    assert.equal( JSON.parse( firstReload.saved() ).tables.length, 1 );
+    assert.equal( JSON.parse( secondReload.saved() ).tables.length, 2 );
+    assert.match( firstReload.element( '#save-status' ).textContent, /recuperado/ );
+    assert.match( secondReload.element( '#save-status' ).textContent, /recuperado/ );
+    assert.equal( store.get( 'databasic.document.v1' ), original );
+    } );
+
+test( 'Una práctica inválida no cae sobre la clave principal', async () => {
+    const original = JSON.stringify( emptyDocument() );
+    const store = new Map( [['databasic.document.v1', original]] );
+
+    for (const search of ['?practica=', '?practica=../principal', `?practica=${'x'.repeat( 65 )}`]) {
+        const app = await applicationHarness( 500, null, {}, {store, search} );
+
+        await app.click({action: 'entity'});
+        await app.flushTimers();
+
+        assert.deepEqual( app.reads, [] );
+        assert.deepEqual( app.writes, [] );
+        assert.match( app.element( '#save-status' ).textContent, /Práctica independiente/ );
+        assert.equal( store.size, 1 );
+        assert.equal( store.get( 'databasic.document.v1' ), original );
+        }
     } );
