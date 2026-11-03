@@ -3,10 +3,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 import { webcrypto } from 'node:crypto';
+import { exampleDocument } from '../src/domain/model.js';
+import { tableHeight } from '../src/ui/diagram.js';
 
 // A DOM double exercises application events without a browser or a server.
 // It does not verify CSS layout, rendering, hit testing or native file dialogs.
-async function applicationHarness() {
+async function applicationHarness( canvasHeight = 500 ) {
     const modules = [
         'domain/model.js',
         'domain/serialization.js',
@@ -45,20 +47,31 @@ async function applicationHarness() {
                         value: '',
                         hidden: false,
                         open: false,
+                        attributes: {},
                         classList: {
                             add() {},
                             remove() {},
                             toggle() {}
                             },
                         style: {setProperty() {}},
-                        setAttribute() {},
+                        setAttribute(
+                                name,
+                                value
+                                ) {
+                            this.attributes[name] = value;
+                            },
                         removeAttribute() {},
                         append() {},
                         remove() {},
                         click() {},
                         showModal() { this.open = true; },
                         close() { this.open = false; },
-                        getBoundingClientRect: () => ({left: 0, top: 0, width: 1000, height: 500}),
+                        getBoundingClientRect: () => ({
+                            left: 0,
+                            top: 0,
+                            width: 1000,
+                            height: canvasHeight
+                            }),
                         addEventListener: (name, callback) => listeners.set( `${selector}:${name}`, callback ),
                         querySelector: query => element( `${selector} ${query}` ),
                         closest: () => null,
@@ -157,6 +170,29 @@ test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guard
     assert.equal( saved.tables.length, 4 );
     assert.equal( saved.tables.at( -1 ).columns.length, 2 );
     assert.match( app.element( '#save-status' ).textContent, /Guardado/ );
+    } );
+
+test( 'Ajustar el dibujo deja visibles las tablas bajo la barra flotante', async () => {
+    const height = 260;
+    const app = await applicationHarness( height );
+
+    await app.click({action: 'fit'});
+
+    const transform = app.element( '#viewport' ).attributes.transform;
+    const match = transform.match( /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/ );
+
+    assert.ok( match, 'El lienzo debe tener una transformación visible.' );
+
+    const offsetY = Number( match[2] );
+    const zoom = Number( match[3] );
+
+    for (const table of exampleDocument().tables) {
+        const top = offsetY + table.y * zoom;
+        const bottom = top + tableHeight( table ) * zoom;
+
+        assert.ok( top >= 76, 'Una tabla no debe quedar detrás de las herramientas.' );
+        assert.ok( bottom <= height, 'Una tabla no debe quedar bajo el borde del lienzo.' );
+        }
     } );
 
 test( 'La selección del lienzo permite crear una relación y abrir sus propiedades', async () => {
