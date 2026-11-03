@@ -2,6 +2,7 @@ import {
     addColumn,
     addConceptualEntity,
     conceptualStatus,
+    getConceptualProjection,
     moveDiagramElement,
     removeConceptualElement,
     setDiagramMode,
@@ -222,9 +223,16 @@ function renderPropertyPane() {
     const selected = state.model.tables.find( item => item.id === state.selectedId )
         || state.model.relationships.find( item => item.id === state.selectedId )
         || selectedNative();
+    const supertype = selected?.supertypeId
+        ? getConceptualProjection( state.model ).entities.find(
+                item => item.id === selected.supertypeId
+                )
+        : null;
+    const selectedName = selected?.name
+        || (supertype ? `Especialización de ${supertype.name}` : 'Especialización');
 
     document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
-    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selected.name}` : '';
+    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selectedName}` : '';
     document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
     document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
     document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
