@@ -1,6 +1,6 @@
 # DataBasic y Fundamentos de Bases de Datos
 
-Cobertura de **DataBasic 0.4.2**, revisada el 3 de noviembre de 2026 con los PDF del curso aportados en esa sesión.
+Cobertura de **DataBasic 0.4.3**, revisada el 4 de noviembre de 2026 con los PDF del curso aportados en esa sesión.
 La aplicación permite practicar operaciones relacionales y construir ERE
 nativos. La cobertura sigue siendo parcial: guardar una restricción conceptual
 no significa haberla traducido al relacional ni implementado en Access.
@@ -30,7 +30,7 @@ identificar requisitos, sin copiar figuras, ejercicios ni sus soluciones.
 
 ## Cobertura del relacional
 
-| ID | Requisito y fuente | Operación en 0.4.2 | Límite concreto |
+| ID | Requisito y fuente | Operación en 0.4.3 | Límite concreto |
 | --- | --- | --- | --- |
 | FBD-R01 | IDEF1X; práctica p. 3. | Vista → Opciones de visualización → Relaciones → Notación → IDEF1X. Se distinguen cajas, dependencia, líneas y marcadores conforme a FIPS 184. | La prueba de símbolos/SVG no acredita identidad de interfaz ni equivalencia completa con Visio 2010. |
 | FBD-R02 | VARCHAR, CHAR, NUMBER, DATE; práctica p. 3. | Perfil → Curso · 4 tipos; Columnas → Editar… ofrece familia y parámetros. Los nuevos documentos usan este perfil. | General conserva tipos heredados; no hay conversiones silenciosas al cambiar de perfil. |
@@ -47,7 +47,7 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 
 ## Cobertura del conceptual y su transformación
 
-| ID | Requisito y fuente | Operación en 0.4.2 | Situación y carencia |
+| ID | Requisito y fuente | Operación en 0.4.3 | Situación y carencia |
 | --- | --- | --- | --- |
 | FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. El vínculo elegido se dibuja con rombo doble. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
 | FBD-C02 | Clave y clave parcial; Tema 2 pp. 11–12. | Atributo → Editar: Clave o Clave parcial; PK/AK materializadas en el relacional. | El autor justifica qué identifica cada ocurrencia. |
@@ -78,10 +78,20 @@ esas decisiones.
 ## Formatos de entrega académica
 
 La práctica pide documento conceptual, archivo Visio del relacional y base de
-datos Access. DataBasic guarda JSON y exporta SVG/SQL; la memoria HTML reúne
-diagramas, supuestos y semántica perdida y Word la abre para completar el
-documento conceptual; la impresión permite obtener PDF mediante el navegador.
-**No genera VSD/VDX/VSDX ni archivos Access**.
+datos Access. DataBasic guarda JSON y exporta SVG/SQL; __Archivo → Visio
+2010__ escribe el diagrama relacional como dibujo XML `.vdx`, que Visio 2010
+abre y edita (sin las propiedades de base de datos de Visio); la memoria HTML
+reúne diagramas, supuestos y semántica perdida y Word la abre para completar
+el documento conceptual; la impresión permite obtener PDF mediante el
+navegador. __Archivo → Access__ entrega tres archivos que Access convierte en
+la base de datos: el módulo VBA con DAO que la crea entera (tablas, propiedades
+de campo, claves, relaciones con integridad y cascadas, campos de búsqueda), el
+SQL de Access de una instrucción por consulta y el XML con esquema para Datos
+externos, con los tipos de Access derivados del relacional y la lista de lo que
+Access expresa de otra manera. La vista __Tablas__ muestra y ajusta esas
+propiedades con el vocabulario de la vista Diseño de Access. **No genera VSD
+binario, VSDX ni `.accdb`**; los
+archivos de Access no se han ejecutado en Access desde el entorno de revisión.
 Estos resultados no se presentan como sustitutos ya aceptados de los formatos
 académicos.
 

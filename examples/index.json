@@ -1,0 +1,48 @@
+{
+  "examples": [
+    {
+      "file": "00-nucleo.databasic.json",
+      "name": "Club de observación · núcleo"
+    },
+    {
+      "file": "01-nn.databasic.json",
+      "name": "Club de observación · N:N con atributo"
+    },
+    {
+      "file": "02-ternaria-pendiente.databasic.json",
+      "name": "Club de observación · ternaria por decidir"
+    },
+    {
+      "file": "02-ternaria-resuelta.databasic.json",
+      "name": "Club de observación · ternaria temporal"
+    },
+    {
+      "file": "03-multivaluados-pendiente.databasic.json",
+      "name": "Club de observación · multivaluados por decidir"
+    },
+    {
+      "file": "03-multivaluados-resuelto.databasic.json",
+      "name": "Club de observación · tablas de valores múltiples"
+    },
+    {
+      "file": "04-jerarquia-pendiente.databasic.json",
+      "name": "Club de observación · jerarquía con claves locales por resolver"
+    },
+    {
+      "file": "04-jerarquia-resuelta.databasic.json",
+      "name": "Club de observación · tablas de superclase y subclases disjunta total"
+    },
+    {
+      "file": "04b-jerarquia-solapada-parcial.databasic.json",
+      "name": "Club de observación · tablas de superclase y subclases solapada parcial"
+    },
+    {
+      "file": "05-debil.databasic.json",
+      "name": "Club de observación · puertos de un instrumento"
+    },
+    {
+      "file": "06-compuestos-recursiva.databasic.json",
+      "name": "Club de observación · compuestos, derivado y recursiva"
+    }
+  ]
+}

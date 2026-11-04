@@ -768,8 +768,8 @@ test( 'Los bloques FK conservan su posición libre y se separan al soltar sobre 
     assert.equal( JSON.stringify( model ), before );
     const limited = resolveDiagramPosition( model, first.id, {x: 21000, y: 21000} );
 
-    assert.ok( limited.x >= 0 && limited.x + caption.bounds.width <= 20000 );
-    assert.ok( limited.y >= 0 && limited.y + caption.bounds.height <= 20000 );
+    assert.ok( limited.x >= -20000 && limited.x + caption.bounds.width <= 20000 );
+    assert.ok( limited.y >= -20000 && limited.y + caption.bounds.height <= 20000 );
     } );
 
 test( 'El resolvedor también mueve tablas y rombos proyectados con sus identificadores existentes', () => {

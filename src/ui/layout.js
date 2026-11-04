@@ -2,7 +2,8 @@ import { getConceptualProjection } from '../domain/model.js';
 import {
     command,
     escapeHTML,
-    icon
+    icon,
+    options
     } from './html.js';
 
 const RIBBON_TABS = [
@@ -21,6 +22,24 @@ function ribbonGroup(
         ) {
     return `<div class="ribbon-group"><div class="ribbon-tools">${content}</div>
         <div class="ribbon-group-title">${title}</div></div>`;
+    }
+
+/** The three progressive views of one document, named for someone new to databases. */
+export const VIEW_OPTIONS = [
+    ['chen', 'Diagrama · entidad-relación'],
+    ['relational', 'Relacional · tablas y claves'],
+    ['tables', 'Tablas · Access']
+    ];
+
+/** The built-in example plus the files of examples/index.json once they are loaded. */
+function exampleSelect( state ) {
+    const files = (state.examples || []).map( item => [item.file, item.name] );
+
+    return `<label class="ribbon-select">${icon( 'book-open' )}<span>Ejemplos</span>
+        <select data-example aria-label="Abrir un ejemplo">${options(
+                [['', 'Elegir un ejemplo…'], ['__biblioteca__', 'Biblioteca — práctica de relaciones'], ...files],
+                ''
+                )}</select></label>`;
     }
 
 export function ribbonContents( state ) {
@@ -59,6 +78,8 @@ export function ribbonContents( state ) {
                 + ribbonGroup(
                         'Exportar',
                         command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
+                            + command( 'vdx', 'Visio 2010', 'file-box', 'class="ribbon-large"' )
+                            + command( 'access', 'Access', 'database-zap', 'class="ribbon-large"' )
                             + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
                             + command( 'report-html', 'Memoria HTML', 'file-text', 'class="ribbon-large"' )
                             + command( 'report-markdown', 'Memoria Markdown', 'scroll-text', 'class="ribbon-large"' )
@@ -104,7 +125,7 @@ export function ribbonContents( state ) {
             return ribbonGroup(
                     'Aprender',
                     command( 'help', 'Guía de uso', 'circle-help', 'class="ribbon-large"' )
-                        + command( 'example', 'Ejemplo de biblioteca', 'book-open', 'class="ribbon-large"' )
+                        + exampleSelect( state )
                         + command( 'validate', 'Revisar modelo', 'list-checks', 'class="ribbon-large"' )
                     );
         default:
@@ -136,13 +157,12 @@ export function initialLayout( state ) {
                 ).join( '' )}
         <span class="ribbon-spacer"></span>
         <button data-action="help" class="help-button" title="Ayuda">${icon( 'circle-help' )}</button></nav>
-        <section class="model-controls" aria-label="Representación y perfil">
-        <div class="mode-switch" role="group" aria-label="Representación del documento">
-        <button data-mode="relational" aria-pressed="true">Relacional</button>
-        <button data-mode="chen" aria-pressed="false">Chen</button></div>
-        <label>Perfil<select id="profile-select" data-profile>
-            <option value="course">Curso · 4 tipos</option>
-            <option value="general">General</option></select></label>
+        <section class="model-controls" aria-label="Vista y tipos de datos">
+        <label class="view-select-label">Vista<select id="view-select" data-view
+            aria-label="Representación del documento">${options( VIEW_OPTIONS, state.model.display.mode )}</select></label>
+        <label title="Qué tipos de datos admiten las columnas: los cuatro del curso o la lista general">Tipos<select id="profile-select" data-profile>
+            <option value="course">Curso · VARCHAR, CHAR, NUMBER, DATE</option>
+            <option value="general">General · todos los tipos</option></select></label>
         <button data-action="validate" id="model-status">Un documento · representaciones vinculadas</button>
         </section>
         <main class="workspace"><aside class="shapes-panel" aria-label="Formas">
@@ -202,11 +222,16 @@ export function explorerContents( state ) {
 
 export function paletteContents( state ) {
     const chen = state.model.display.mode === 'chen';
+    const access = state.model.display.mode === 'tables';
     const forms = chen ? [
         ['entity', 'Entidad', 'Conceptual nativa', 'square'],
         ['conceptual-attribute', 'Atributo', 'Clave, compuesto, multivaluado…', 'circle'],
         ['conceptual-relationship', 'Relación', 'Binaria, N:N o ternaria', 'diamond'],
         ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
+        ] : access ? [
+        ['entity', 'Tabla', 'Campos con tipos de Access', 'table-2'],
+        ['relationship', 'Relación', 'Integridad referencial y búsqueda', 'git-branch'],
+        ['view-shape', 'Consulta', 'Vista SQL guardada como consulta', 'panels-top-left']
         ] : [
         ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
         ['relationship', 'Relación', 'Referenciada y luego la de la FK', 'git-branch'],

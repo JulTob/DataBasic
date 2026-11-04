@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.4.2 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.4.3 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -91,7 +91,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | B-15 · POG | Deshacer y rehacer de varios niveles. | Disponible | R-20, R-31 | Cien niveles por sesión. |
 | B-16 · POG | Copiar, pegar y duplicar formas. | Disponible | R-26 | Sólo tablas relacionales; sin selección múltiple. |
 | B-17 · POG | Imprimir y vista previa. | Parcial | R-32 | Imprimir/PDF usa la ventana del navegador y los límites de la escena. |
-| B-18 · POG | Guardar como VSD/VDX, PDF, XPS, SVG, PNG. | Parcial | R-18, R-19 | JSON propio y SVG; PDF por impresión. Sin VSD/VDX/VSDX ni PNG. |
+| B-18 · POG | Guardar como VSD/VDX, PDF, XPS, SVG, PNG. | Parcial (0.4.3) | R-18, R-19; Visio | JSON propio, SVG y dibujo XML de Visio 2010 (.vdx) del diagrama relacional; PDF por impresión. Sin VSD binario, VSDX ni PNG. El .vdx es un dibujo editable, no un «Diagrama de modelo de base de datos» con sus propiedades. |
 | B-19 · POG | Validación de diagramas (Premium). | Alternativa propia | R-33, C-16 | «Comprobar» revisa claves, FKs, tipos y decisiones pendientes del modelo. |
 | B-20 · POG | Publicación en SharePoint y Visio Services. | Fuera de alcance | — | Guardado local por navegador y práctica independiente por URL. |
 | B-21 · POG | Formato de texto, relleno y línea por forma. | Fuera de alcance | — | — |
@@ -117,7 +117,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | El archivo de Visio no se genera; véase C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
 | C-13 · P1 p. 4 | Ternaria N:N:N: tabla con las tres FK y sus atributos; la clave se adapta cuando se repite la combinación en distintos períodos. | Disponible | C-12 | Clave elegida explícitamente, incluido el período. |
-| C-14 · P1 p. 4 | Entrega: documento del conceptual, archivo Visio del relacional y base de datos Access. | Parcial | R-18, R-19, R-32, A-06 | La memoria HTML reúne diagramas, supuestos y semántica perdida para el documento conceptual; JSON y SQL no sustituyen el archivo Visio ni Access. |
+| C-14 · P1 p. 4 | Entrega: documento del conceptual, archivo Visio del relacional y base de datos Access. | Parcial (0.4.3) | R-18, R-19, R-32, A-06; Visio; Access | La memoria HTML reúne diagramas, supuestos y semántica perdida para el documento conceptual; Archivo → Visio 2010 da el dibujo .vdx del relacional; Archivo → Access da el módulo VBA, el SQL y el XML que Access convierte en la base de datos. Ni el .vdx lleva las propiedades de Visio ni se genera `.accdb`; la ejecución en Access queda por comprobar. |
 | C-16 · P1 p. 2 §3.1, ERE p. 7 | Supuestos semánticos y semántica perdida razonados junto al grafo ERE. | Disponible (0.4.2) | A-01 a A-07; «La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida» | Tres clases de entrada por objeto o globales; la memoria añade las restricciones documentales detectadas. La argumentación sigue siendo del autor. |
 | C-15 · T2 p. 19 | Patrones incorrectos: entidad con entidad sin rombo, rombo con rombo, atributo sobre la línea. | Disponible | C-04, C-07 | Las relaciones siempre pasan por un rombo y los atributos cuelgan de la entidad o del rombo. |
 

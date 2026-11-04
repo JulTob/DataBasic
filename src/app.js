@@ -23,13 +23,27 @@ import {
     removeElement,
     updateColumn,
     updateRelationship,
-    updateTable
+    updateTable,
+    updatePhysicalColumn,
+    updatePhysicalRelationship,
+    updatePhysicalTable,
+    documentPhysical,
+    ACCESS_NUMBER_SIZES,
+    addDataRow,
+    updateDataCell,
+    removeDataRow
     } from './domain/model.js';
 import {
     parseDocument,
     serializeDocument
     } from './domain/serialization.js';
 import { exportSQL } from './io/sql.js';
+import { exportVDX } from './io/visio.js';
+import {
+    exportAccessSQL,
+    exportAccessVBA,
+    exportAccessXML
+    } from './io/access.js';
 import {
     diagramContents,
     exportSVG,
@@ -67,7 +81,8 @@ import {
     showGeneralizationDialog,
     showAlternateKeyDialog,
     showAssumptionDialog,
-    showAssumptionsOverview
+    showAssumptionsOverview,
+    showAccessDialog
     } from './ui/dialogs.js';
 import {
     buildDesignReport,
@@ -86,6 +101,7 @@ const autosaveKey = independentPractice
     : 'databasic.document.v1';
 
 const state = {
+    examples: [],
     model: exampleDocument(),
     selectedId: null,
     selectedColumnId: null,
@@ -263,21 +279,26 @@ function render( preserveEditors = false ) {
     document.querySelector( '#document-name' ).textContent = state.model.name;
     document.querySelector( '#diagram-mode-label' ).textContent =
         state.model.display.mode === 'chen'
-            ? 'Conceptual · ERE–Chen'
-            : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
+            ? 'Diagrama · entidad-relación (Chen)'
+            : state.model.display.mode === 'tables'
+                ? 'Tablas · Access'
+                : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
     document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
-        state.model.display.mode === 'chen' ? 'Entidades y relaciones' : 'Tablas y vistas';
+        state.model.display.mode === 'chen'
+            ? 'Entidades y relaciones'
+            : state.model.display.mode === 'tables' ? 'Tablas de Access' : 'Tablas y vistas';
     document.querySelector( '#stencil-tip' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Crea objetos conceptuales. Las restricciones pendientes también se guardan.'
-            : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
+            : state.model.display.mode === 'tables'
+                ? 'Las mismas tablas del relacional con los tipos y propiedades de Access. Selecciona un campo para ajustarlos.'
+                : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
 
-    for (const button of document.querySelectorAll( '[data-mode]' )) {
-        button.setAttribute(
-                'aria-pressed',
-                String( button.dataset.mode === state.model.display.mode )
-                );
+    const viewSelect = document.querySelector( '#view-select' );
+
+    if (viewSelect) {
+        viewSelect.value = state.model.display.mode;
         }
 
     const statuses = conceptualStatus( state.model );
@@ -430,7 +451,7 @@ function selectElement(
         state.category = category;
         }
     else if (previousWasRelation !== nextIsRelation) {
-        state.category = 'definition';
+        state.category = defaultCategory();
         }
 
     render();
@@ -497,7 +518,7 @@ function createEntity(
             );
 
     next = moveDiagramElement( next, state.selectedId, free );
-    state.category = 'definition';
+    state.category = defaultCategory();
     state.tool = 'pointer';
     state.parentId = null;
     state.propertiesShown = true;
@@ -887,6 +908,34 @@ async function act(
         case 'svg':
             download( exportSVG( state.model ), filename( 'svg' ), 'image/svg+xml' );
             break;
+        case 'vdx':
+            download( exportVDX( state.model ), filename( 'vdx' ), 'application/xml' );
+            break;
+        case 'access':
+            showAccessDialog( state.model );
+            break;
+        case 'reset-physical':
+            resetPhysical( target.dataset.scope, target.dataset.target );
+            break;
+        case 'clear-color':
+            clearColor();
+            break;
+        case 'add-data-row':
+            commit( addDataRow( state.model, state.selectedId ) );
+            break;
+        case 'remove-data-row':
+            commit( removeDataRow( state.model, state.selectedId, Number( target.dataset.row ) ) );
+            break;
+        case 'download-access-vba':
+            download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
+            notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
+            break;
+        case 'download-access-sql':
+            download( exportAccessSQL( state.model ), filename( 'access.sql' ), 'text/plain' );
+            break;
+        case 'download-access-xml':
+            download( exportAccessXML( state.model ), filename( 'access.xml' ), 'application/xml' );
+            break;
         case 'print':
             window.print();
             break;
@@ -918,7 +967,7 @@ async function act(
                 const next = addColumn( state.model, state.selectedId );
 
                 state.selectedColumnId = next.tables.find( table => table.id === state.selectedId ).columns.at( -1 ).id;
-                state.category = 'columns';
+                state.category = columnsCategory();
                 state.propertiesShown = true;
                 commit( next );
                 }
@@ -985,6 +1034,19 @@ async function act(
     }
 
 function fieldChanged( target ) {
+    if (target.dataset.view !== undefined) {
+        changeRepresentation( target.value );
+        return;
+        }
+
+    if (target.dataset.example !== undefined) {
+        const file = target.value;
+
+        target.value = '';
+        openExample( file ).catch( error => notify( error.message ) );
+        return;
+        }
+
     if (target.dataset.profile !== undefined) {
         commit( setModelProfile( state.model, target.value ) );
         return;
@@ -1004,6 +1066,17 @@ function fieldChanged( target ) {
         return;
         }
 
+    if (target.dataset.cell !== undefined) {
+        commit( updateDataCell(
+                state.model,
+                state.selectedId,
+                Number( target.dataset.row ),
+                target.dataset.colId,
+                target.value
+                ) );
+        return;
+        }
+
     const field = target.dataset.field;
 
     if (!field) {
@@ -1014,6 +1087,10 @@ function fieldChanged( target ) {
 
     if (target.dataset.boolean) {
         value = target.value === 'true';
+        }
+
+    if (field === 'color') {
+        value = String( value ).trim() === '' ? null : Number( value );
         }
 
     const native = selectedNative();
@@ -1058,6 +1135,14 @@ function fieldChanged( target ) {
         return;
         }
 
+    if (target.dataset.physical) {
+        commit(
+                physicalChange( target, field, value ),
+                !['checkbox', 'select-one'].includes( target.type )
+                );
+        return;
+        }
+
     if (target.dataset.colId) {
         state.selectedColumnId = target.dataset.colId;
         commit(
@@ -1084,6 +1169,92 @@ function fieldChanged( target ) {
         }
     }
 
+/** Back to the default look for the selected table or conceptual element. */
+function clearColor() {
+    const native = selectedNative();
+    const patch = {color: null};
+
+    if (!native) {
+        commit( updateTable( state.model, state.selectedId, patch ) );
+        }
+    else if (state.model.conceptual.entities.includes( native )) {
+        commit( updateConceptualEntity( state.model, native.id, patch ) );
+        }
+    else if (state.model.conceptual.attributes.includes( native )) {
+        commit( updateConceptualAttribute( state.model, native.id, patch ) );
+        }
+    else {
+        commit( updateConceptualRelationship( state.model, native.id, patch ) );
+        }
+    }
+
+/** One Access property of the selected column, relationship or table. */
+function physicalChange(
+        target,
+        field,
+        value
+        ) {
+    const scope = target.dataset.physical;
+    const parsed = physicalValue( field, value, target.type );
+
+    if (scope === 'column') {
+        state.selectedColumnId = target.dataset.colId;
+        return updatePhysicalColumn( state.model, target.dataset.colId, {[field]: parsed} );
+        }
+
+    if (scope === 'relationship') {
+        return updatePhysicalRelationship( state.model, state.selectedId, {[field]: parsed} );
+        }
+
+    return updatePhysicalTable( state.model, state.selectedId, {[field]: parsed} );
+    }
+
+/** Form values become the kinds the physical layer stores; an empty choice means «derived». */
+function physicalValue(
+        field,
+        value,
+        type
+        ) {
+    if (type === 'checkbox') {
+        return Boolean( value );
+        }
+
+    if (field === 'fieldSize') {
+        if (ACCESS_NUMBER_SIZES.includes( value )) {
+            return value;
+            }
+
+        return String( value ).trim() === '' ? null : Number( value );
+        }
+
+    if (field === 'decimalPlaces') {
+        return String( value ).trim() === '' ? null : Number( value );
+        }
+
+    if (field === 'displayColumnId') {
+        return value || null;
+        }
+
+    return value;
+    }
+
+/** Drops every override of a column, relationship or table so it derives again. */
+function resetPhysical(
+        scope,
+        target
+        ) {
+    const section = {column: 'columns', relationship: 'relationships', table: 'tables'}[scope];
+    const overrides = documentPhysical( state.model )[section][target] || {};
+    const patch = Object.fromEntries( Object.keys( overrides ).map( key => [key, null] ) );
+    const operation = {
+        column: updatePhysicalColumn,
+        relationship: updatePhysicalRelationship,
+        table: updatePhysicalTable
+        }[scope];
+
+    commit( operation( state.model, target, patch ) );
+    }
+
 function relationshipPick( tableId ) {
     const table = state.model.tables.find( item => item.id === tableId );
 
@@ -1106,9 +1277,44 @@ function relationshipPick( tableId ) {
     state.selectedId = next.relationships.at( -1 ).id;
     state.parentId = null;
     state.tool = 'pointer';
-    state.category = 'definition';
+    state.category = defaultCategory();
     commit( next );
     notify( 'Relación creada. Selecciona Varios para ajustar cardinalidad y opcionalidad.' );
+    }
+
+/** Column editing happens in Columnas, or in Campos de Access in the Tablas view. */
+function columnsCategory() {
+    return state.model.display.mode === 'tables' ? 'fields' : 'columns';
+    }
+
+/** A fresh selection opens on Definición, or on the Access categories in the Tablas view. */
+function defaultCategory() {
+    if (state.model.display.mode !== 'tables') {
+        return 'definition';
+        }
+
+    return state.model.relationships.some( item => item.id === state.selectedId )
+        ? 'access-relationship'
+        : 'fields';
+    }
+
+/** The Tablas view opens on its own categories; leaving it falls back to the relational ones. */
+function categoryForMode(
+        mode,
+        category
+        ) {
+    const accessCategories = ['fields', 'access-table', 'access-relationship'];
+    const relation = state.model.relationships.some( item => item.id === state.selectedId );
+
+    if (mode === 'tables' && !accessCategories.includes( category )) {
+        return relation ? 'access-relationship' : 'fields';
+        }
+
+    if (mode !== 'tables' && accessCategories.includes( category )) {
+        return category === 'access-relationship' ? 'definition' : 'columns';
+        }
+
+    return category;
     }
 
 function changeRepresentation( mode ) {
@@ -1120,7 +1326,7 @@ function changeRepresentation( mode ) {
 
     state.drag = null;
     state.viewports[previous] = {...state.viewport};
-    const id = state.category === 'columns' && state.selectedColumnId
+    const id = ['columns', 'fields'].includes( state.category ) && state.selectedColumnId
         ? state.selectedColumnId
         : state.selectedId;
     const trace = state.model.traces.find(
@@ -1135,11 +1341,12 @@ function changeRepresentation( mode ) {
 
         state.selectedId = table ? table.id : relatedId;
         state.selectedColumnId = table ? relatedId : null;
-        state.category = table ? 'columns' : 'definition';
+        state.category = table ? columnsCategory() : defaultCategory();
         }
 
     state.tool = 'pointer';
     state.parentId = null;
+    state.category = categoryForMode( mode, state.category );
     commit( setDiagramMode( state.model, mode ) );
 
     if (state.viewports[mode]) {
@@ -1161,7 +1368,7 @@ function selectDiagramReference(
                 );
 
         state.selectedColumnId = ref.id;
-        selectElement( table.id, 'columns', revealProperties );
+        selectElement( table.id, columnsCategory(), revealProperties );
         return;
         }
 
@@ -1210,7 +1417,7 @@ function pointerDown( event ) {
             selectDiagramReference( ref, false );
 
             if (double && ref.kind === 'table') {
-                state.category = 'columns';
+                state.category = columnsCategory();
                 renderPropertyPane();
                 }
 
@@ -1606,6 +1813,56 @@ splitter.addEventListener(
             }
         );
 
+/** The built-in example or one of the files listed in examples/index.json. */
+async function openExample( file ) {
+    if (!file) {
+        return;
+        }
+
+    if (file === '__biblioteca__') {
+        replaceCurrentDocument( exampleDocument() );
+        notify( 'Ejemplo de biblioteca abierto.' );
+        return;
+        }
+
+    const entry = state.examples.find( item => item.file === file );
+
+    if (!entry) {
+        throw new Error( 'Ese ejemplo no está en la lista.' );
+        }
+
+    const response = await fetch( `./examples/${encodeURIComponent( entry.file )}` );
+
+    if (!response.ok) {
+        throw new Error( `No se pudo cargar el ejemplo ${entry.name}.` );
+        }
+
+    replaceCurrentDocument( parseDocument( await response.text() ) );
+    notify( `Ejemplo abierto: ${entry.name}.` );
+    }
+
+/** The list is optional: without it, Ayuda → Ejemplos offers only the built-in one. */
+async function loadExampleIndex() {
+    try {
+        const response = await fetch( './examples/index.json' );
+
+        if (!response.ok) {
+            return;
+            }
+
+        const index = await response.json();
+
+        state.examples = (index.examples || []).filter(
+                item => typeof item.file === 'string' && /^[\w.-]+\.databasic\.json$/.test( item.file )
+                    && typeof item.name === 'string'
+                );
+        render();
+        }
+    catch {
+        state.examples = [];
+        }
+    }
+
 async function restoreDocument() {
     try {
         const contents = autosaveKey
@@ -1636,6 +1893,10 @@ async function restoreDocument() {
 
 render();
 restoreDocument();
+
+if (typeof fetch === 'function') {
+    loadExampleIndex();
+    }
 
 window.addEventListener(
         'beforeprint',

@@ -195,12 +195,13 @@ test( 'Los tipos parametrizados rechazan precisión y tamaños inválidos', () =
     } );
 
 
-test( 'Los dos modos y el perfil son controles visibles del mismo documento', () => {
+test( 'Las tres vistas y los tipos son controles visibles del mismo documento', () => {
     const html = initialLayout( interfaceState() );
 
-    assert.match( html, /data-mode="relational"/ );
-    assert.match( html, /data-mode="chen"/ );
+    assert.match( html, /<select id="view-select" data-view[\s\S]*value="chen"[\s\S]*value="relational"\s+selected[\s\S]*value="tables"/ );
+    assert.doesNotMatch( html, /data-mode=/ );
     assert.match( html, /id="profile-select" data-profile/ );
+    assert.match( html, /Curso · VARCHAR, CHAR, NUMBER, DATE/ );
     assert.match( html, /Vista SQL/ );
     } );
 

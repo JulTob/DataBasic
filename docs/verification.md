@@ -491,3 +491,87 @@ Vocabulario de las relaciones, 4 de noviembre de 2026: la interfaz, los
 mensajes, el SQL de estudio y la memoria hablan de tabla referenciada, tabla
 que referencia y clave ajena (FK), como los apuntes del curso, en lugar del
 padre/hijo de Visio. Las columnas de una autorreferencia se nombran `_ref`.
+
+## Exportación a Visio 2010 en 0.4.3
+
+El dibujo `.vdx` no puede abrirse aquí con Visio, así que la comprobación
+se hizo en dos capas. La unitaria (`tests/visio.test.js`) exige XML
+equilibrado, la conversión de píxeles a pulgadas con el eje invertido, el
+pegado de cada conector a un punto de conexión de su grupo (`PAR(PNT(...))`
+y las filas `Connect`), la línea discontinua de las no identificadoras, el
+rombo y el acortamiento de la línea en una referencia opcional, el código
+P/Z/1 como texto horizontal, la autorreferencia con dos puntos en la misma
+tabla, las patas de cuervo, la notación relacional sin marcas, la salida
+relacional desde un documento en Chen, el escape de `& < > "` y las vistas,
+tablas sin columnas y opciones de visualización apagadas.
+
+La visual usó LibreOffice 24.2 (libvisio lee `.vdx`): `soffice --headless
+--convert-to pdf` sobre el ejemplo Biblioteca, una variante con referencia
+opcional, vínculo identificador, autorreferencia, vista y tabla vacía, la
+misma variante en patas de cuervo y la práctica del curso con entidad débil.
+Los cuatro PDF rasterizados coinciden con el SVG del lienzo en posiciones,
+particiones de clave, etiquetas PK/FK, tipos, rótulos con guía y marcas.
+
+Queda pendiente del usuario abrir el archivo en Visio 2010 real y mover una
+tabla para confirmar que los conectores la siguen; libvisio tolera más que
+Visio y no demuestra el pegado.
+
+## Capa física y archivos de Access en 0.4.3
+
+Access no está disponible en el entorno, así que la comprobación es de
+estructura. `tests/access.test.js` cubre la derivación de tipos (USUARIO,
+TELEFONO y los tipos sin equivalente exacto: NUMBER(10,2), NUMBER(12), BIGINT,
+SMALLINT, VARCHAR(300), BOOLEAN, TEXT, UUID), los dominios como reglas de
+validación con texto y el CHECK como regla de tabla, los valores
+predeterminados traducidos, la relación con integridad, cascadas y búsqueda,
+los avisos (SET NULL, compuestas, vistas), las sobrescrituras atómicas con sus
+rechazos, su restauración con `null` y su limpieza al eliminar, la persistencia
+en JSON y la apertura de archivos sin capa física, y los tres archivos: el
+módulo VBA (encabezado, subrutinas por tabla, campos con DAO, PrimaryKey e
+índices, propiedades con `EstablecerPropiedad`, búsqueda y relaciones), el SQL
+de Access (CREATE TABLE, índice único de las 1:1, ALTER TABLE con cascadas y la
+lista para la vista Diseño) y el XML (esquema incrustado equilibrado, nombres
+codificados, índices, tipos y propiedades de campo). `tests/application.test.js`
+ejecuta el diálogo y las tres descargas.
+
+Queda pendiente del usuario ejecutar el módulo en una base de datos en blanco
+de Access, pegar las instrucciones SQL en la Vista SQL e importar el XML por
+Datos externos; el texto de cada archivo explica los pasos y las limitaciones
+(ANSI 92 para las cascadas en SQL; sin relaciones en el XML).
+
+## Vista Tablas en 0.4.3
+
+`tests/tables-view.test.js` comprueba que `tables` es un modo válido que
+comparte posiciones con el relacional, que el lienzo dibuja cabecera, llave,
+tipos de Access y extremos 1/∞ sin marcas IDEF1X, que el panel de propiedades
+antepone Campos, Tabla y Relación en Access con sus estados derivado/ajustado y
+el botón Restablecer, que la cinta ofrece los tres modos y la paleta de Access,
+que la memoria añade el diseño físico y los avisos de Access, y que la
+aplicación cambia de vista, edita tipo y tamaño, restablece una columna y
+marca una cascada. El doble de DOM de las pruebas de aplicación pasa a
+`tests/support/application.js` para compartirlo.
+
+En Chromium (Playwright) se abrió el ejemplo, se pasó a Tablas, se seleccionó
+Socio (categoría Campos de Access activa), se eligió Autonumeración para
+id_socio (el lienzo pasó a mostrarla y aparecieron los botones Restablecer),
+se restableció, se seleccionó una relación (Relación en Access activa) y se
+volvió a Relacional (Definición activa), sin errores de consola. Las capturas
+muestran la cabecera, la llave, los tipos de Access y los extremos 1/∞.
+
+## Colores, lienzo completo, barra de vistas y hoja de datos en 0.4.3
+
+`tests/colors.test.js` cubre el tono válido o nulo, la apertura de archivos
+sin color, la sincronía entidad nativa ↔ tabla y la proyección, las variables
+CSS del lienzo y del SVG, los colores hexadecimales del `.vdx` y el panel.
+`tests/conceptual.test.js` y `tests/scene.test.js` pasan a comprobar los
+límites de -20000 a 20000. `tests/interface.test.js` y
+`tests/tables-view.test.js` cubren el desplegable Vista, el selector Tipos y
+el desplegable Ejemplos. `tests/data.test.js` cubre las filas de ejemplo:
+operaciones, persistencia, limpieza al eliminar, cada regla de celda, claves
+repetidas y referencias rotas, el orden de inserción, los tres archivos de
+Access, la memoria, el panel y la aplicación.
+
+En Chromium se comprobó el deslizador de color en Definición (borde y relleno
+en Relacional y en Diagrama, y «Sin color»), el desplegable Vista con sus tres
+opciones, el selector Tipos, Ayuda → Ejemplos cargando un ejercicio de la
+carpeta y el cambio de nombre a Diagrama, sin errores de consola.
