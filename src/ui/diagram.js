@@ -1,3 +1,7 @@
+import {
+    accessColumnDefinition,
+    accessRelationshipDefinition
+    } from '../domain/access.js';
 import { escapeHTML } from './html.js';
 import {
     buildDiagramScene,
@@ -170,6 +174,126 @@ function diagramTable(
         ${selected ? `<rect class="selection-outline" x="-4" y="${header - 4}"
             rx="${radius}" width="${node.width + 8}" height="${bodyHeight + 8}"/>` : ''}
         </g>`;
+    }
+
+/* ---------- the Tablas view: Access's own window of tables and relationships ---------- */
+
+/** A small key, like the one Access draws beside primary key fields. */
+const ACCESS_KEY_GLYPH = 'M2,5 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 M8,5 L17,5 M14,5 L14,8 M17,5 L17,9';
+
+/** The Access label of a field type: «Texto corto (50)», «Número (Entero largo)». */
+export function accessTypeLabel( definition ) {
+    if (definition.accessType === 'Número') {
+        return `Número (${definition.fieldSize})`;
+        }
+
+    if (definition.accessType === 'Texto corto' && Number.isInteger( definition.fieldSize )) {
+        return `Texto corto (${definition.fieldSize})`;
+        }
+
+    return definition.accessType;
+    }
+
+function diagramAccessRows(
+        model,
+        node,
+        selectedId
+        ) {
+    return node.rows.map(
+            row => {
+                const field = row.field;
+                const ref = {kind: 'column', id: field.id, ownerId: node.ref.id};
+                const definition = accessColumnDefinition( model, node.table, field );
+                const label = accessTypeLabel( definition );
+                const names = [...row.nameLines];
+
+                if (model.display.required && definition.required && !field.primary) {
+                    names[names.length - 1] += ' *';
+                    }
+
+                return `<g ${diagramReferenceAttributes( ref )}
+                    class="column-target ${selectedId === field.id ? 'selected-column' : ''}"
+                    role="button" tabindex="0" aria-label="Campo ${escapeHTML( field.name )}, ${escapeHTML( label )}">
+                    <title>${escapeHTML( field.name )}: ${escapeHTML( label )}${definition.overridden.length ? ' · ajustado' : ' · derivado'}</title>
+                    <rect class="column-hit" x="1" y="${row.y + 1}"
+                        width="${node.width - 2}" height="${row.height - 2}"/>
+                    ${field.primary ? `<path class="access-key" transform="translate(12,${row.y + 10})" d="${ACCESS_KEY_GLYPH}"/>` : ''}
+                    ${diagramTextLines(
+                            names,
+                            40,
+                            row.y + 20,
+                            `field-label ${definition.required ? 'field-required' : ''}`
+                            )}
+                    ${model.display.types ? `<text x="40" y="${row.y + row.height - 9}"
+                        class="type-label">${escapeHTML( label )}</text>` : ''}</g>`;
+                }
+            ).join( '' );
+    }
+
+function diagramAccessTable(
+        model,
+        node,
+        selectedId,
+        parentId
+        ) {
+    const table = node.table;
+    const selected = table.id === selectedId;
+    const header = node.headerHeight;
+    const title = table.kind === 'view'
+        ? [`◇ ${node.titleLines[0]}`, ...node.titleLines.slice( 1 )]
+        : node.titleLines;
+
+    return `<g ${diagramReferenceAttributes( node.ref )} data-notation="access"
+        class="entity access-entity ${selected ? 'selected' : ''} ${parentId === table.id ? 'connect-parent' : ''}"
+        transform="translate(${node.x},${node.y})" tabindex="0" role="button"
+        aria-label="${table.kind === 'view' ? 'Consulta' : 'Tabla'} ${escapeHTML( table.name )}">
+        <title>${escapeHTML( table.name )} · como la ve Access</title>
+        <rect class="table-shadow" x="0" y="4" width="${node.width}" height="${node.height}"/>
+        <rect class="access-header" width="${node.width}" height="${header}"/>
+        ${diagramTextLines( title, 10, 21, 'access-title', 20 )}
+        <rect class="table-body" y="${header}" width="${node.width}" height="${node.height - header}"/>
+        ${diagramAccessRows( model, node, selectedId )}
+        ${node.rows.length ? '' : `<text x="18" y="${header + 30}"
+            class="empty-columns">Sin campos</text>`}
+        ${selected ? `<rect class="selection-outline" x="-4" y="-4"
+            width="${node.width + 8}" height="${node.height + 8}"/>` : ''}
+        </g>`;
+    }
+
+/** «1» or «∞» a little way along the line from the table, as in Access. */
+function diagramAccessEnd(
+        endpoint,
+        neighbor,
+        text
+        ) {
+    const length = Math.hypot( neighbor.x - endpoint.x, neighbor.y - endpoint.y ) || 1;
+    const u = {x: (neighbor.x - endpoint.x) / length, y: (neighbor.y - endpoint.y) / length};
+
+    return `<text data-marker="access-end" x="${endpoint.x + u.x * 14 - u.y * 11}"
+        y="${endpoint.y + u.y * 14 + u.x * 11 + 5}" text-anchor="middle" class="access-end">${text}</text>`;
+    }
+
+function diagramAccessLink(
+        model,
+        edge,
+        selectedId
+        ) {
+    const relation = edge.relation;
+    const definition = accessRelationshipDefinition( model, relation );
+    const points = edge.points;
+    const many = definition.oneToOne ? '1' : '∞';
+
+    return `<g ${diagramReferenceAttributes( edge.ref )} data-notation="access"
+        data-integrity="${definition.enforce}"
+        class="relationship ${relation.id === selectedId ? 'selected' : ''}"
+        role="button" tabindex="0" aria-label="Relación ${escapeHTML( relation.name )}">
+        <title>${escapeHTML( edge.parent.table.name )} (1) → ${escapeHTML( edge.child.table.name )} (${many})${definition.enforce ? ' · integridad referencial' : ' · sin integridad referencial'}</title>
+        <path class="relation-hit" d="${diagramPath( points )}"/>
+        <path class="relation-line" d="${diagramPath( points )}"
+            ${definition.enforce ? '' : 'stroke-dasharray="7 5"'}/>
+        ${diagramAccessEnd( points[0], points[1], '1' )}
+        ${diagramAccessEnd( points.at( -1 ), points.at( -2 ), many )}
+        ${edge.caption ? '' : diagramEdgeLabels( edge )}</g>`;
     }
 
 function diagramPath( points ) {
@@ -506,6 +630,10 @@ export const DIAGRAM_STYLES = `
     .cardinality-letter { font-weight: 650; fill: #243e33; }
     .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
     .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: #dfe9e3; stroke: #78988b; stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
     .child-dot { fill: currentColor; }
     .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
     .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
@@ -528,9 +656,10 @@ export function diagramContents(
         parentId = null
         ) {
     const scene = buildDiagramScene( model );
+    const access = model.display.mode === 'tables';
     const edges = scene.edges.map(
             edge => edge.kind === 'foreign-key'
-                ? diagramForeignKey( model, edge, selectedId )
+                ? (access ? diagramAccessLink( model, edge, selectedId ) : diagramForeignKey( model, edge, selectedId ))
                 : diagramChenEdge( edge, selectedId )
             ).join( '' );
     const annotated = scene.edges.filter( edge => edge.caption || edge.kind === 'participation' );
@@ -541,7 +670,9 @@ export function diagramContents(
             node => {
                 switch (node.kind) {
                     case 'table':
-                        return diagramTable( model, node, selectedId, parentId );
+                        return access
+                            ? diagramAccessTable( model, node, selectedId, parentId )
+                            : diagramTable( model, node, selectedId, parentId );
                     case 'chen-entity':
                         return diagramChenEntity( node, selectedId, parentId );
                     case 'attribute':

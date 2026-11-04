@@ -48,6 +48,14 @@ export function accessColumnDefinition(
     return physicalField( model, table, column, [] );
     }
 
+/** The effective Access definition of one table (fields, keys, indexes, rule). */
+export function accessTableDefinition(
+        model,
+        table
+        ) {
+    return physicalTable( model, table, [] );
+    }
+
 /** The effective Access definition of one relationship. */
 export function accessRelationshipDefinition(
         model,

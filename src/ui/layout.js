@@ -140,8 +140,9 @@ export function initialLayout( state ) {
         <button data-action="help" class="help-button" title="Ayuda">${icon( 'circle-help' )}</button></nav>
         <section class="model-controls" aria-label="Representación y perfil">
         <div class="mode-switch" role="group" aria-label="Representación del documento">
+        <button data-mode="chen" aria-pressed="false">Chen</button>
         <button data-mode="relational" aria-pressed="true">Relacional</button>
-        <button data-mode="chen" aria-pressed="false">Chen</button></div>
+        <button data-mode="tables" aria-pressed="false">Tablas</button></div>
         <label>Perfil<select id="profile-select" data-profile>
             <option value="course">Curso · 4 tipos</option>
             <option value="general">General</option></select></label>
@@ -204,11 +205,16 @@ export function explorerContents( state ) {
 
 export function paletteContents( state ) {
     const chen = state.model.display.mode === 'chen';
+    const access = state.model.display.mode === 'tables';
     const forms = chen ? [
         ['entity', 'Entidad', 'Conceptual nativa', 'square'],
         ['conceptual-attribute', 'Atributo', 'Clave, compuesto, multivaluado…', 'circle'],
         ['conceptual-relationship', 'Relación', 'Binaria, N:N o ternaria', 'diamond'],
         ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
+        ] : access ? [
+        ['entity', 'Tabla', 'Campos con tipos de Access', 'table-2'],
+        ['relationship', 'Relación', 'Integridad referencial y búsqueda', 'git-branch'],
+        ['view-shape', 'Consulta', 'Vista SQL guardada como consulta', 'panels-top-left']
         ] : [
         ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
         ['relationship', 'Relación', 'Referenciada y luego la de la FK', 'git-branch'],

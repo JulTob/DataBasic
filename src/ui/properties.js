@@ -1,4 +1,7 @@
 import {
+    ACCESS_INDEX_OPTIONS,
+    ACCESS_NUMBER_SIZES,
+    ACCESS_TYPES,
     ACTIONS,
     CARDINALITIES,
     DATA_TYPES,
@@ -11,12 +14,201 @@ import {
     assumptionKindLabel
     } from '../domain/model.js';
 import {
+    accessColumnDefinition,
+    accessRelationshipDefinition,
+    accessTableDefinition
+    } from '../domain/access.js';
+import {
     check,
     command,
     escapeHTML,
     icon,
     options
     } from './html.js';
+
+/* ---------- the Tablas view: Access's design view vocabulary ---------- */
+
+/** Whether a property keeps its derived value or the author adjusted it. */
+function physicalState(
+        overridden,
+        key
+        ) {
+    return overridden.includes( key )
+        ? '<small class="physical-state adjusted">ajustado</small>'
+        : '<small class="physical-state">derivado</small>';
+    }
+
+function physicalResetButton(
+        scope,
+        target,
+        overridden
+        ) {
+    return overridden.length
+        ? `<button type="button" class="physical-reset" data-action="reset-physical"
+            data-scope="${scope}" data-target="${target}">Restablecer lo derivado</button>`
+        : '';
+    }
+
+/** Tamaño del campo: a list for Número, a number for Texto corto, nothing otherwise. */
+function accessSizeCell(
+        field,
+        definition
+        ) {
+    const common = `data-physical="column" data-col-id="${field.id}" data-field="fieldSize"`;
+
+    if (definition.accessType === 'Número') {
+        return `<select aria-label="Tamaño del campo" ${common}>${options( ACCESS_NUMBER_SIZES, definition.fieldSize )}</select>`;
+        }
+
+    if (definition.accessType === 'Texto corto') {
+        return `<input type="number" aria-label="Tamaño del campo" ${common} min="1" max="255"
+            value="${Number.isInteger( definition.fieldSize ) ? definition.fieldSize : 255}">`;
+        }
+
+    return '<span class="muted">—</span>';
+    }
+
+function accessFieldsGrid(
+        model,
+        table,
+        selectedColumnId
+        ) {
+    const rows = table.columns.map(
+            field => {
+                const definition = accessColumnDefinition( model, table, field );
+                const active = field.id === selectedColumnId;
+
+                return `<tr data-column-row="${field.id}" class="${active ? 'active-row' : ''}">
+                    <td class="row-pointer">${field.primary ? icon( 'key-round' ) : (active ? '▸' : '')}</td>
+                    <td><span class="field-name">${escapeHTML( field.name )}</span></td>
+                    <td><select aria-label="Tipo de datos" data-physical="column" data-col-id="${field.id}"
+                        data-field="accessType">${options( ACCESS_TYPES, definition.accessType )}</select></td>
+                    <td>${accessSizeCell( field, definition )}</td>
+                    <td><input aria-label="Descripción" data-physical="column" data-col-id="${field.id}"
+                        data-field="description" value="${escapeHTML( definition.description )}" maxlength="500"></td>
+                    <td class="physical-state-cell">${definition.overridden.length
+                        ? physicalResetButton( 'column', field.id, definition.overridden )
+                        : '<small class="physical-state">derivado</small>'}</td>
+                    </tr>`;
+                }
+            ).join( '' );
+
+    return `<div class="property-grid-wrap"><table class="property-grid access-grid"><thead><tr>
+        <th></th><th>Nombre del campo</th><th>Tipo de datos</th><th>Tamaño</th><th>Descripción</th><th></th>
+        </tr></thead><tbody>${rows}</tbody></table>
+        ${rows ? '' : '<div class="no-fields">Añade columnas en la vista relacional; aquí se ven como campos de Access.</div>'}
+        </div>`;
+    }
+
+/** The General tab of Access's field properties, for the selected field. */
+function accessFieldProperties(
+        model,
+        table,
+        field
+        ) {
+    const definition = accessColumnDefinition( model, table, field );
+    const common = `data-physical="column" data-col-id="${field.id}"`;
+    const text = (label, key, extra = '') => `<label class="property-field"><span>${label}</span>
+        <input ${common} data-field="${key}" value="${escapeHTML( definition[key] )}" maxlength="500" ${extra}>
+        ${physicalState( definition.overridden, key )}</label>`;
+    const flag = (label, key, extra = '') => `<div class="physical-flag">${check( label, key, definition[key], `${common} ${extra}` )}
+        ${physicalState( definition.overridden, key )}</div>`;
+    const textual = ['Texto corto', 'Texto largo', 'Hipervínculo'].includes( definition.accessType );
+    const decimals = definition.accessType === 'Número'
+        ? `<label class="property-field"><span>Posiciones decimales:</span>
+            <select ${common} data-field="decimalPlaces">${options(
+                    [['', 'Automático'], ...[0, 1, 2, 3, 4, 5, 6].map( value => [String( value ), String( value )] )],
+                    definition.decimalPlaces === null ? '' : String( definition.decimalPlaces )
+                    )}</select>${physicalState( definition.overridden, 'decimalPlaces' )}</label>`
+        : '';
+
+    return `<fieldset class="access-field-properties"><legend>Propiedades del campo ${escapeHTML( field.name )} · General</legend>
+        <div class="definition-fields">
+        ${text( 'Formato:', 'format' )}
+        ${decimals}
+        ${text( 'Título:', 'caption' )}
+        ${text( 'Valor predeterminado:', 'defaultValue' )}
+        ${text( 'Regla de validación:', 'validationRule' )}
+        ${text( 'Texto de validación:', 'validationText' )}
+        ${flag( 'Requerido', 'required', field.primary || definition.autonumber ? 'disabled' : '' )}
+        ${textual ? flag( 'Permitir longitud cero', 'allowZeroLength' ) : ''}
+        <label class="property-field"><span>Indexado:</span>
+            <select ${common} data-field="indexed" ${field.primary ? 'disabled' : ''}>${options( ACCESS_INDEX_OPTIONS, definition.indexed )}</select>
+            ${physicalState( definition.overridden, 'indexed' )}</label>
+        </div>
+        <p class="field-hint">Los valores derivados vienen de la columna relacional (tipo, NOT NULL, dominio,
+            predeterminado). Cambiar uno aquí no toca el relacional; «Restablecer» vuelve a derivarlo.</p>
+        ${physicalResetButton( 'column', field.id, definition.overridden )}</fieldset>`;
+    }
+
+function accessFieldsPanel(
+        model,
+        table,
+        selectedColumnId
+        ) {
+    const field = table.columns.find( item => item.id === selectedColumnId );
+
+    return `<div class="columns-panel access-fields">${accessFieldsGrid( model, table, selectedColumnId )}
+        ${field ? accessFieldProperties( model, table, field ) : '<p class="field-hint">Selecciona un campo para ver sus propiedades, como en la vista Diseño de Access.</p>'}</div>`;
+    }
+
+function accessTablePanel(
+        model,
+        table
+        ) {
+    const definition = accessTableDefinition( model, table );
+    const text = (label, key) => `<label class="property-field"><span>${label}</span>
+        <input data-physical="table" data-field="${key}" value="${escapeHTML( definition[key] )}" maxlength="500">
+        ${physicalState( definition.overridden, key )}</label>`;
+    const keys = definition.primaryKey.length ? definition.primaryKey.join( ', ' ) : 'sin clave principal';
+    const indexes = definition.indexes.map(
+            index => `${index.name} (${index.columns.join( ', ' )})${index.unique ? ' · sin duplicados' : ''}`
+            );
+
+    return `<div class="definition-fields access-table">
+        ${text( 'Descripción:', 'description' )}
+        ${text( 'Regla de validación de la tabla:', 'validationRule' )}
+        ${text( 'Texto de validación:', 'validationText' )}
+        <p class="field-hint">Clave principal: ${escapeHTML( keys )}. Índices: ${indexes.length ? escapeHTML( indexes.join( '; ' ) ) : 'ninguno'}.
+            Las claves y los índices se definen en Identificador principal e Índices de la vista relacional.</p>
+        ${physicalResetButton( 'table', table.id, definition.overridden )}</div>`;
+    }
+
+function accessRelationshipPanel(
+        model,
+        relation
+        ) {
+    const definition = accessRelationshipDefinition( model, relation );
+    const parent = model.tables.find( table => table.id === relation.parentId );
+    const composite = relation.mappings.length !== 1;
+    const common = 'data-physical="relationship"';
+    const flag = (label, key, extra = '') => `<div class="physical-flag">${check( label, key, definition[key], `${common} ${extra}` )}
+        ${physicalState( definition.overridden, key )}</div>`;
+    const candidates = parent.columns.filter( column => !column.primary ).map( column => [column.id, column.name] );
+    const automatic = definition.derived.lookup && definition.displayColumnId && !definition.overridden.includes( 'displayColumnId' )
+        ? definition.displayColumn
+        : parent.columns.find( column => column.id === definition.displayColumnId && !definition.overridden.includes( 'displayColumnId' ) )?.name;
+
+    return `<div class="access-relationship">
+        <fieldset><legend>Integridad referencial</legend>
+        ${flag( 'Exigir integridad referencial', 'enforce' )}
+        ${flag( 'Actualizar en cascada los campos relacionados', 'cascadeUpdate', definition.enforce ? '' : 'disabled' )}
+        ${flag( 'Eliminar en cascada los registros relacionados', 'cascadeDelete', definition.enforce ? '' : 'disabled' )}
+        <p class="field-hint">Tipo de relación: ${definition.oneToOne ? 'Uno a uno' : 'Uno a varios'}, derivado de la
+            cardinalidad relacional. Las cascadas se derivan de la acción referencial (CASCADE).</p></fieldset>
+        <fieldset><legend>Campo de búsqueda (Asistente para búsquedas)</legend>
+        ${flag( 'Mostrar la clave ajena como lista de valores de la tabla referenciada', 'lookup', composite ? 'disabled' : '' )}
+        <label class="property-field"><span>Columna mostrada:</span>
+            <select ${common} data-field="displayColumnId" ${composite || !definition.lookup ? 'disabled' : ''}>${options(
+                    [['', `Automática · ${automatic || 'ninguna columna de texto'}`], ...candidates],
+                    definition.overridden.includes( 'displayColumnId' ) ? definition.displayColumnId : ''
+                    )}</select>
+            ${physicalState( definition.overridden, 'displayColumnId' )}</label>
+        ${flag( 'Ocultar la columna clave', 'hideKey', composite || !definition.lookup ? 'disabled' : '' )}
+        ${composite ? '<p class="field-hint">Clave ajena compuesta: Access crea la relación directamente, sin campo de búsqueda.</p>' : ''}
+        </fieldset>
+        ${physicalResetButton( 'relationship', relation.id, definition.overridden )}</div>`;
+    }
 
 function propertyInput(
         label,
@@ -230,8 +422,10 @@ export function renderProperties(
             <span>Sus propiedades aparecerán aquí. Haz doble clic en una entidad para editar sus columnas.</span></div>`;
         }
 
+    const access = model.display.mode === 'tables';
     const categories = table
         ? [
+            ...(access ? [['fields', 'Campos de Access'], ['access-table', 'Tabla de Access']] : []),
             ['definition', 'Definición'],
             ...(table.kind === 'view' ? [['query', 'Definición SQL']] : []),
             ['columns', 'Columnas'],
@@ -240,6 +434,7 @@ export function renderProperties(
             ['notes', 'Notas']
             ]
         : [
+            ...(access ? [['access-relationship', 'Relación en Access']] : []),
             ['definition', 'Definición'],
             ['name', 'Nombre'],
             ['misc', 'Varios'],
@@ -248,11 +443,17 @@ export function renderProperties(
             ];
     const category = categories.some( item => item[0] === state.category )
         ? state.category
-        : 'definition';
+        : categories[0][0];
     let content = '';
 
     if (table) {
         switch (category) {
+            case 'fields':
+                content = accessFieldsPanel( model, table, state.selectedColumnId );
+                break;
+            case 'access-table':
+                content = accessTablePanel( model, table );
+                break;
             case 'columns':
                 content = tableColumns( model, table, state.selectedColumnId );
                 break;
@@ -280,6 +481,9 @@ export function renderProperties(
         }
     else {
         switch (category) {
+            case 'access-relationship':
+                content = accessRelationshipPanel( model, relation );
+                break;
             case 'name':
                 content = `<div class="definition-fields">
                     ${propertyInput( 'Nombre físico:', 'name', relation.name )}

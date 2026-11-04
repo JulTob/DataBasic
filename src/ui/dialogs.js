@@ -342,6 +342,12 @@ export function showHelp() {
                 Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
                 el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
                 pegados; no lleva las propiedades de base de datos de Visio.</p>
+            <p><strong>Vista Tablas.</strong> El botón Tablas muestra las mismas tablas del relacional
+                como las verá Access: llave en la clave principal, tipos de Access y extremos 1 e ∞.
+                Las categorías Campos de Access, Tabla de Access y Relación en Access editan tipo y
+                tamaño, requerido, indexado, reglas y textos de validación, predeterminado, título,
+                integridad referencial, cascadas y campo de búsqueda. Todo se deriva del relacional;
+                lo que ajustes se marca como «ajustado» y Restablecer vuelve a derivarlo.</p>
             <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
                 la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
                 claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una

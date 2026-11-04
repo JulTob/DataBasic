@@ -88,7 +88,9 @@ la base de datos: el módulo VBA con DAO que la crea entera (tablas, propiedades
 de campo, claves, relaciones con integridad y cascadas, campos de búsqueda), el
 SQL de Access de una instrucción por consulta y el XML con esquema para Datos
 externos, con los tipos de Access derivados del relacional y la lista de lo que
-Access expresa de otra manera. **No genera VSD binario, VSDX ni `.accdb`**; los
+Access expresa de otra manera. La vista __Tablas__ muestra y ajusta esas
+propiedades con el vocabulario de la vista Diseño de Access. **No genera VSD
+binario, VSDX ni `.accdb`**; los
 archivos de Access no se han ejecutado en Access desde el entorno de revisión.
 Estos resultados no se presentan como sustitutos ya aceptados de los formatos
 académicos.

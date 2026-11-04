@@ -538,3 +538,22 @@ Queda pendiente del usuario ejecutar el módulo en una base de datos en blanco
 de Access, pegar las instrucciones SQL en la Vista SQL e importar el XML por
 Datos externos; el texto de cada archivo explica los pasos y las limitaciones
 (ANSI 92 para las cascadas en SQL; sin relaciones en el XML).
+
+## Vista Tablas en 0.4.3
+
+`tests/tables-view.test.js` comprueba que `tables` es un modo válido que
+comparte posiciones con el relacional, que el lienzo dibuja cabecera, llave,
+tipos de Access y extremos 1/∞ sin marcas IDEF1X, que el panel de propiedades
+antepone Campos, Tabla y Relación en Access con sus estados derivado/ajustado y
+el botón Restablecer, que la cinta ofrece los tres modos y la paleta de Access,
+que la memoria añade el diseño físico y los avisos de Access, y que la
+aplicación cambia de vista, edita tipo y tamaño, restablece una columna y
+marca una cascada. El doble de DOM de las pruebas de aplicación pasa a
+`tests/support/application.js` para compartirlo.
+
+En Chromium (Playwright) se abrió el ejemplo, se pasó a Tablas, se seleccionó
+Socio (categoría Campos de Access activa), se eligió Autonumeración para
+id_socio (el lienzo pasó a mostrarla y aparecieron los botones Restablecer),
+se restableció, se seleccionó una relación (Relación en Access activa) y se
+volvió a Relacional (Definición activa), sin errores de consola. Las capturas
+muestran la cabecera, la llave, los tipos de Access y los extremos 1/∞.

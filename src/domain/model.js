@@ -1412,7 +1412,7 @@ function validateDocumentShape( model ) {
             }
 
         demand( ['course', 'general'].includes( model.profile ), 'Perfil de tipos no válido.' );
-        demand( ['relational', 'chen'].includes( model.display.mode ), 'Modo de diagrama no válido.' );
+        demand( ['relational', 'chen', 'tables'].includes( model.display.mode ), 'Modo de diagrama no válido.' );
         demand(
                 ['idef1x', 'crows-foot', 'relational'].includes( model.display.notation ),
                 'Notación relacional no válida.'
@@ -2133,7 +2133,8 @@ export function moveDiagramElement(
     return changeDocument(
             model,
             next => {
-                if (!['chen', 'relational'].includes( mode )) {
+                // The Tablas view shares the relational positions: same tables, same layout.
+                if (!['chen', 'relational', 'tables'].includes( mode )) {
                     throw new Error( 'Representación del diagrama no válida.' );
                     }
 

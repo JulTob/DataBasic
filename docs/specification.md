@@ -273,6 +273,33 @@ no puede escribirse desde el navegador:
 DataBasic no ejecuta Access: los tres archivos se comprueban por estructura y
 contenido, y su apertura real en Access queda para el usuario.
 
+## Vista Tablas
+
+El documento tiene tres representaciones progresivas: **Chen**, **Relacional**
+y **Tablas** (`display.mode` admite `chen`, `relational` y `tables`). La vista
+Tablas no es un modelo aparte: dibuja las mismas tablas y relaciones del
+relacional, con sus mismas posiciones, como las muestra la ventana Relaciones
+de Access (cabecera con el nombre, llave junto a la clave principal, tipo de
+Access bajo cada campo, extremos 1 e ∞ y línea discontinua si no se exige
+integridad referencial). Mover una tabla en Tablas la mueve en Relacional.
+
+El panel de propiedades antepone en esa vista las categorías **Campos de
+Access** (cuadrícula de nombre, tipo, tamaño y descripción, y debajo las
+propiedades generales del campo seleccionado: formato, posiciones decimales,
+título, valor predeterminado, regla y texto de validación, requerido,
+permitir longitud cero e indexado), **Tabla de Access** (descripción, regla y
+texto de validación de la tabla, con la clave y los índices derivados) y
+**Relación en Access** (exigir integridad referencial, actualizar y eliminar en
+cascada, tipo de relación derivado, campo de búsqueda con la columna mostrada
+y la clave oculta). Cada propiedad indica si está «derivada» o «ajustada», y
+Restablecer elimina las sobrescrituras del elemento. Las categorías
+relacionales siguen disponibles; al volver a Relacional o Chen se recuperan.
+
+La memoria del diseño añade la sección «Diseño físico en Access» (campos con
+tipo, tamaño, requerido, indexado, regla y predeterminado por tabla, y las
+relaciones con integridad, cascadas y búsqueda) y, en «Semántica perdida», la
+lista de lo que Access expresa de otra manera.
+
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan
 consulta y columnas; no incluyen un editor visual de consultas.

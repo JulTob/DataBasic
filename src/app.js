@@ -23,7 +23,12 @@ import {
     removeElement,
     updateColumn,
     updateRelationship,
-    updateTable
+    updateTable,
+    updatePhysicalColumn,
+    updatePhysicalRelationship,
+    updatePhysicalTable,
+    documentPhysical,
+    ACCESS_NUMBER_SIZES
     } from './domain/model.js';
 import {
     parseDocument,
@@ -271,14 +276,20 @@ function render( preserveEditors = false ) {
     document.querySelector( '#diagram-mode-label' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Conceptual · ERE–Chen'
-            : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
+            : state.model.display.mode === 'tables'
+                ? 'Tablas · Access'
+                : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
     document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
-        state.model.display.mode === 'chen' ? 'Entidades y relaciones' : 'Tablas y vistas';
+        state.model.display.mode === 'chen'
+            ? 'Entidades y relaciones'
+            : state.model.display.mode === 'tables' ? 'Tablas de Access' : 'Tablas y vistas';
     document.querySelector( '#stencil-tip' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Crea objetos conceptuales. Las restricciones pendientes también se guardan.'
-            : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
+            : state.model.display.mode === 'tables'
+                ? 'Las mismas tablas del relacional con los tipos y propiedades de Access. Selecciona un campo para ajustarlos.'
+                : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
 
     for (const button of document.querySelectorAll( '[data-mode]' )) {
         button.setAttribute(
@@ -437,7 +448,7 @@ function selectElement(
         state.category = category;
         }
     else if (previousWasRelation !== nextIsRelation) {
-        state.category = 'definition';
+        state.category = defaultCategory();
         }
 
     render();
@@ -504,7 +515,7 @@ function createEntity(
             );
 
     next = moveDiagramElement( next, state.selectedId, free );
-    state.category = 'definition';
+    state.category = defaultCategory();
     state.tool = 'pointer';
     state.parentId = null;
     state.propertiesShown = true;
@@ -900,6 +911,9 @@ async function act(
         case 'access':
             showAccessDialog( state.model );
             break;
+        case 'reset-physical':
+            resetPhysical( target.dataset.scope, target.dataset.target );
+            break;
         case 'download-access-vba':
             download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
             notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
@@ -941,7 +955,7 @@ async function act(
                 const next = addColumn( state.model, state.selectedId );
 
                 state.selectedColumnId = next.tables.find( table => table.id === state.selectedId ).columns.at( -1 ).id;
-                state.category = 'columns';
+                state.category = columnsCategory();
                 state.propertiesShown = true;
                 commit( next );
                 }
@@ -1081,6 +1095,14 @@ function fieldChanged( target ) {
         return;
         }
 
+    if (target.dataset.physical) {
+        commit(
+                physicalChange( target, field, value ),
+                !['checkbox', 'select-one'].includes( target.type )
+                );
+        return;
+        }
+
     if (target.dataset.colId) {
         state.selectedColumnId = target.dataset.colId;
         commit(
@@ -1107,6 +1129,73 @@ function fieldChanged( target ) {
         }
     }
 
+/** One Access property of the selected column, relationship or table. */
+function physicalChange(
+        target,
+        field,
+        value
+        ) {
+    const scope = target.dataset.physical;
+    const parsed = physicalValue( field, value, target.type );
+
+    if (scope === 'column') {
+        state.selectedColumnId = target.dataset.colId;
+        return updatePhysicalColumn( state.model, target.dataset.colId, {[field]: parsed} );
+        }
+
+    if (scope === 'relationship') {
+        return updatePhysicalRelationship( state.model, state.selectedId, {[field]: parsed} );
+        }
+
+    return updatePhysicalTable( state.model, state.selectedId, {[field]: parsed} );
+    }
+
+/** Form values become the kinds the physical layer stores; an empty choice means «derived». */
+function physicalValue(
+        field,
+        value,
+        type
+        ) {
+    if (type === 'checkbox') {
+        return Boolean( value );
+        }
+
+    if (field === 'fieldSize') {
+        if (ACCESS_NUMBER_SIZES.includes( value )) {
+            return value;
+            }
+
+        return String( value ).trim() === '' ? null : Number( value );
+        }
+
+    if (field === 'decimalPlaces') {
+        return String( value ).trim() === '' ? null : Number( value );
+        }
+
+    if (field === 'displayColumnId') {
+        return value || null;
+        }
+
+    return value;
+    }
+
+/** Drops every override of a column, relationship or table so it derives again. */
+function resetPhysical(
+        scope,
+        target
+        ) {
+    const section = {column: 'columns', relationship: 'relationships', table: 'tables'}[scope];
+    const overrides = documentPhysical( state.model )[section][target] || {};
+    const patch = Object.fromEntries( Object.keys( overrides ).map( key => [key, null] ) );
+    const operation = {
+        column: updatePhysicalColumn,
+        relationship: updatePhysicalRelationship,
+        table: updatePhysicalTable
+        }[scope];
+
+    commit( operation( state.model, target, patch ) );
+    }
+
 function relationshipPick( tableId ) {
     const table = state.model.tables.find( item => item.id === tableId );
 
@@ -1129,9 +1218,44 @@ function relationshipPick( tableId ) {
     state.selectedId = next.relationships.at( -1 ).id;
     state.parentId = null;
     state.tool = 'pointer';
-    state.category = 'definition';
+    state.category = defaultCategory();
     commit( next );
     notify( 'Relación creada. Selecciona Varios para ajustar cardinalidad y opcionalidad.' );
+    }
+
+/** Column editing happens in Columnas, or in Campos de Access in the Tablas view. */
+function columnsCategory() {
+    return state.model.display.mode === 'tables' ? 'fields' : 'columns';
+    }
+
+/** A fresh selection opens on Definición, or on the Access categories in the Tablas view. */
+function defaultCategory() {
+    if (state.model.display.mode !== 'tables') {
+        return 'definition';
+        }
+
+    return state.model.relationships.some( item => item.id === state.selectedId )
+        ? 'access-relationship'
+        : 'fields';
+    }
+
+/** The Tablas view opens on its own categories; leaving it falls back to the relational ones. */
+function categoryForMode(
+        mode,
+        category
+        ) {
+    const accessCategories = ['fields', 'access-table', 'access-relationship'];
+    const relation = state.model.relationships.some( item => item.id === state.selectedId );
+
+    if (mode === 'tables' && !accessCategories.includes( category )) {
+        return relation ? 'access-relationship' : 'fields';
+        }
+
+    if (mode !== 'tables' && accessCategories.includes( category )) {
+        return category === 'access-relationship' ? 'definition' : 'columns';
+        }
+
+    return category;
     }
 
 function changeRepresentation( mode ) {
@@ -1143,7 +1267,7 @@ function changeRepresentation( mode ) {
 
     state.drag = null;
     state.viewports[previous] = {...state.viewport};
-    const id = state.category === 'columns' && state.selectedColumnId
+    const id = ['columns', 'fields'].includes( state.category ) && state.selectedColumnId
         ? state.selectedColumnId
         : state.selectedId;
     const trace = state.model.traces.find(
@@ -1158,11 +1282,12 @@ function changeRepresentation( mode ) {
 
         state.selectedId = table ? table.id : relatedId;
         state.selectedColumnId = table ? relatedId : null;
-        state.category = table ? 'columns' : 'definition';
+        state.category = table ? columnsCategory() : defaultCategory();
         }
 
     state.tool = 'pointer';
     state.parentId = null;
+    state.category = categoryForMode( mode, state.category );
     commit( setDiagramMode( state.model, mode ) );
 
     if (state.viewports[mode]) {
@@ -1184,7 +1309,7 @@ function selectDiagramReference(
                 );
 
         state.selectedColumnId = ref.id;
-        selectElement( table.id, 'columns', revealProperties );
+        selectElement( table.id, columnsCategory(), revealProperties );
         return;
         }
 
@@ -1233,7 +1358,7 @@ function pointerDown( event ) {
             selectDiagramReference( ref, false );
 
             if (double && ref.kind === 'table') {
-                state.category = 'columns';
+                state.category = columnsCategory();
                 renderPropertyPane();
                 }
 

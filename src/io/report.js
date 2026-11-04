@@ -6,6 +6,10 @@ import {
     getConceptualProjection,
     participationCardinalityLetter
     } from '../domain/model.js';
+import {
+    accessSchema,
+    accessStatus
+    } from '../domain/access.js';
 import { escapeHTML } from '../ui/html.js';
 
 /**
@@ -299,8 +303,73 @@ function reportLostSemanticsSection( model ) {
         blocks.push( reportList( pending ) );
         }
 
+    const access = accessStatus( model ).map( item => item.message );
+
+    blocks.push( reportParagraph( 'Lo que Access expresa de otra manera:' ) );
+    blocks.push( access.length ? reportList( access ) : reportParagraph( 'Nada: todo tiene equivalente directo en Access.' ) );
+
     return {heading: 'Semántica perdida', blocks};
     }
+
+function reportAccessSize( field ) {
+    if (field.accessType === 'Número') {
+        return field.fieldSize + (field.decimalPlaces === null || field.decimalPlaces === undefined ? '' : ` · ${field.decimalPlaces} decimales`);
+        }
+
+    return Number.isInteger( field.fieldSize ) ? String( field.fieldSize ) : '—';
+    }
+
+/** The tables as Access will hold them: fields with their properties, then the relationships. */
+function reportPhysicalSection( model ) {
+    const schema = accessSchema( model );
+    const blocks = [];
+    const indexLabel = value => ACCESS_INDEX_LABELS[value] || value;
+
+    for (const table of schema.tables) {
+        blocks.push( reportParagraph( `${table.name}${table.description ? ` — ${table.description}` : ''}` ) );
+        blocks.push( reportTable(
+                ['Campo', 'Tipo de datos', 'Tamaño', 'Requerido', 'Indexado', 'Regla de validación', 'Predeterminado'],
+                table.fields.map(
+                        field => [
+                            `${field.name}${field.primary ? ' (PK)' : ''}`,
+                            field.accessType,
+                            reportAccessSize( field ),
+                            field.required ? 'Sí' : 'No',
+                            indexLabel( field.indexed ),
+                            field.validationRule || '—',
+                            field.defaultValue || '—'
+                            ]
+                        )
+                ) );
+
+        if (table.validationRule) {
+            blocks.push( reportParagraph( `Regla de validación de la tabla: ${table.validationRule}` ) );
+            }
+        }
+
+    if (!schema.tables.length) {
+        blocks.push( reportParagraph( 'Todavía no hay tablas.' ) );
+        }
+
+    const relations = schema.relationships.map(
+            relation => `${relation.childTable} → ${relation.parentTable} (${relation.oneToOne ? 'uno a uno' : 'uno a varios'}): `
+                + `${relation.enforce ? 'exigir integridad referencial' : 'sin integridad referencial'}`
+                + `${relation.enforce && relation.cascadeUpdate ? ', actualizar en cascada' : ''}`
+                + `${relation.enforce && relation.cascadeDelete ? ', eliminar en cascada' : ', eliminación restringida'}`
+                + `${relation.lookup ? `; campo de búsqueda que muestra ${relation.displayColumn || relation.pairs[0].parentColumn}` : ''}.`
+            );
+
+    blocks.push( reportParagraph( 'Relaciones en Access:' ) );
+    blocks.push( relations.length ? reportList( relations ) : reportParagraph( 'Ninguna.' ) );
+
+    return {heading: 'Diseño físico en Access', blocks};
+    }
+
+const ACCESS_INDEX_LABELS = {
+    no: 'No',
+    duplicates: 'Sí (Con duplicados)',
+    unique: 'Sí (Sin duplicados)'
+    };
 
 function reportColumnMarks(
         model,
@@ -376,7 +445,8 @@ export function buildDesignReport( model ) {
                     'No se han registrado supuestos.'
                     ),
             reportLostSemanticsSection( model ),
-            reportRelationalSection( model )
+            reportRelationalSection( model ),
+            reportPhysicalSection( model )
             ]
         };
     }

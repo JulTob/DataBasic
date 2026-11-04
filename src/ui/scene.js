@@ -1037,7 +1037,7 @@ export function buildDiagramScene( model ) {
         edges: []
         };
 
-    if (mode === 'relational') {
+    if (mode !== 'chen') {
         contents.edges = model.relationships.map(
                 (relation, index) => sceneRelationalEdge( model, relation, contents.nodes, index )
                 );
