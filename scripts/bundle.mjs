@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 // Imports are removed, so private top-level names must remain unique.
 const modules = [
     'domain/model.js',
+    'domain/data.js',
     'domain/access.js',
     'domain/serialization.js',
     'io/sql.js',

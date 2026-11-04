@@ -11,7 +11,9 @@ progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 Access, con sus tipos y propiedades. El desplegable Vista cambia la
 representación; las transformaciones se eligen por separado y conservan sus
 correspondencias. Ayuda → Ejemplos abre los ejercicios de la carpeta
-`examples/`, y cada tabla o elemento del diagrama puede llevar un color.
+`examples/`, y cada tabla o elemento del diagrama puede llevar un color. En la
+vista Tablas, la Hoja de datos admite filas de ejemplo y señala la celda o la
+fila que incumple una regla de la tabla; las filas viajan a Access.
 
 Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
 dominios, valores predeterminados, acciones referenciales y relaciones N:N

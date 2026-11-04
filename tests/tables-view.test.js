@@ -136,7 +136,7 @@ test( 'the memo gets a physical design section and the Access warnings', () => {
     model = updateRelationship( model, model.relationships[0].id, {optional: true, onDelete: 'SET NULL'} );
 
     const report = buildDesignReport( model );
-    const physical = report.sections.at( -1 );
+    const physical = report.sections.find( section => section.heading === 'Diseño físico en Access' );
     const lost = report.sections.find( section => section.heading === 'Semántica perdida' );
 
     assert.equal( physical.heading, 'Diseño físico en Access' );

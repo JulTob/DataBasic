@@ -150,7 +150,8 @@ test( 'La memoria reúne entidades, relaciones con letras, supuestos y semántic
         'Supuestos semánticos',
         'Semántica perdida',
         'Esquema relacional resultante',
-        'Diseño físico en Access'
+        'Diseño físico en Access',
+        'Datos de ejemplo'
         ] );
 
     const relationTable = report.sections[1].blocks.find( block => block.kind === 'table' );

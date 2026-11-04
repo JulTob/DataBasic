@@ -19,6 +19,7 @@
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
  * assumptions?:Assumption[],
  * physical?:{columns:Object, relationships:Object, tables:Object},
+ * data?:Object<string, Array<Object<string,string>>>,
  * presentation:{chen:Record<string,{x:number,y:number}>,
  * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
@@ -188,6 +189,36 @@ function ensurePhysical( model ) {
     return model.physical;
     }
 
+/*
+ * Sample rows, by table id: each row maps column ids to text. Every value is
+ * kept as the text the author typed; an empty text means NULL. The rows are
+ * checked against the table's constraints (domain/data.js) and exported with
+ * the Access files, but they never change the model.
+ */
+export const DATA_ROW_LIMIT = 500;
+export const DATA_CELL_LIMIT = 500;
+
+/** Older files have no rows; they read as empty datasheets. */
+export function documentData( model ) {
+    return model.data || {};
+    }
+
+function ensureData( model ) {
+    if (!model.data) {
+        model.data = {};
+        }
+
+    return model.data;
+    }
+
+/** The rows of one table, always an array. */
+export function tableRows(
+        model,
+        tableId
+        ) {
+    return documentData( model )[tableId] || [];
+    }
+
 export const ASSUMPTION_TEXT_LIMIT = 2000;
 
 export function assumptionKindLabel( kind ) {
@@ -215,6 +246,7 @@ export function emptyDocument( profile = 'course' ) {
         traces: [],
         assumptions: [],
         physical: emptyPhysical(),
+        data: {},
         presentation: {
             chen: {},
             relational: {}
@@ -510,6 +542,7 @@ export function removeColumn(
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
                 removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }
@@ -764,6 +797,7 @@ export function removeElement(
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
                 removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }
@@ -934,6 +968,7 @@ export function validateDocument( model ) {
         issues.push( ...validateConceptualDocument( model ) );
         issues.push( ...validateAssumptions( model ) );
         issues.push( ...validatePhysical( model ) );
+        issues.push( ...validateData( model ) );
         }
 
     return issues;
@@ -995,6 +1030,28 @@ function validatePhysical( model ) {
         if (typeof overrides.displayColumnId === 'string'
             && !parent?.columns.some( field => field.id === overrides.displayColumnId )) {
             missing( 'El campo que muestra la búsqueda debe pertenecer a la tabla referenciada.', id );
+            }
+        }
+
+    return issues;
+    }
+
+/** Shape checks already passed; rows must belong to a live table and its columns. */
+function validateData( model ) {
+    const issues = [];
+
+    for (const [tableId, rows] of Object.entries( documentData( model ) )) {
+        const table = model.tables.find( item => item.id === tableId );
+
+        if (!table) {
+            issues.push({level: 'error', message: 'Los datos de ejemplo referencian una tabla inexistente.', elementId: tableId});
+            continue;
+            }
+
+        const columnIds = new Set( table.columns.map( column => column.id ) );
+
+        if (rows.some( row => Object.keys( row ).some( id => !columnIds.has( id ) ) )) {
+            issues.push({level: 'error', message: `${table.name}: los datos de ejemplo referencian una columna inexistente.`, elementId: tableId});
             }
         }
 
@@ -1095,6 +1152,106 @@ export function updatePhysicalTable(
             next => {
                 requireTable( next, tableId );
                 applyPhysicalPatch( ensurePhysical( next ).tables, tableId, patch, PHYSICAL_TABLE_KEYS );
+                }
+            );
+    }
+
+/** A new empty row at the end of the table's datasheet. */
+export function addDataRow(
+        model,
+        tableId
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (rows.length >= DATA_ROW_LIMIT) {
+                    throw new Error( `La hoja de datos admite hasta ${DATA_ROW_LIMIT} filas.` );
+                    }
+
+                next.data[tableId] = [...rows, {}];
+                }
+            );
+    }
+
+/** One cell of the datasheet; an empty text means NULL and is not stored. */
+export function updateDataCell(
+        model,
+        tableId,
+        rowIndex,
+        columnId,
+        value
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const table = requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (!Number.isInteger( rowIndex ) || rowIndex < 0 || rowIndex >= rows.length) {
+                    throw new Error( 'Esa fila de ejemplo ya no existe.' );
+                    }
+
+                if (!table.columns.some( column => column.id === columnId )) {
+                    throw new Error( 'Esa columna ya no existe.' );
+                    }
+
+                const text = String( value ?? '' );
+                const row = {...rows[rowIndex]};
+
+                if (text === '') {
+                    delete row[columnId];
+                    }
+                else {
+                    row[columnId] = text;
+                    }
+
+                next.data[tableId] = rows.map( (item, index) => index === rowIndex ? row : item );
+                }
+            );
+    }
+
+export function removeDataRow(
+        model,
+        tableId,
+        rowIndex
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (!Number.isInteger( rowIndex ) || rowIndex < 0 || rowIndex >= rows.length) {
+                    throw new Error( 'Esa fila de ejemplo ya no existe.' );
+                    }
+
+                next.data[tableId] = rows.filter( (item, index) => index !== rowIndex );
+
+                if (!next.data[tableId].length) {
+                    delete next.data[tableId];
+                    }
+                }
+            );
+    }
+
+/** Replaces the whole datasheet of a table (imports and tests). */
+export function setDataRows(
+        model,
+        tableId,
+        rows
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                ensureData( next )[tableId] = structuredClone( rows );
+
+                if (!next.data[tableId].length) {
+                    delete next.data[tableId];
+                    }
                 }
             );
     }
@@ -1571,6 +1728,10 @@ function validateDocumentShape( model ) {
             validatePhysicalShape( model.physical, {demand, text, flag} );
             }
 
+        if ('data' in model) {
+            validateDataShape( model.data, {demand, list} );
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1615,6 +1776,34 @@ function validateDocumentShape( model ) {
         }
     catch (error) {
         return [{level: 'error', message: error.message}];
+        }
+    }
+
+/** Sample rows: a map of table id to rows, each row a map of column id to text. */
+function validateDataShape(
+        data,
+        check
+        ) {
+    const {demand, list} = check;
+    const plainObject = value => value && typeof value === 'object' && !Array.isArray( value );
+
+    demand( plainObject( data ), 'Datos de ejemplo no válidos.' );
+
+    for (const [tableId, rows] of Object.entries( data )) {
+        demand( /^[A-Za-z0-9_-]+$/.test( tableId ), 'Datos de ejemplo: identificador de tabla no válido.' );
+        list( rows, DATA_ROW_LIMIT, 'Filas de ejemplo' );
+
+        for (const row of rows) {
+            demand( plainObject( row ), 'Datos de ejemplo: fila no válida.' );
+
+            for (const [columnId, value] of Object.entries( row )) {
+                demand( /^[A-Za-z0-9_-]+$/.test( columnId ), 'Datos de ejemplo: identificador de columna no válido.' );
+                demand(
+                        typeof value === 'string' && value.length <= DATA_CELL_LIMIT,
+                        `Datos de ejemplo: cada valor es un texto de hasta ${DATA_CELL_LIMIT} caracteres.`
+                        );
+                }
+            }
         }
     }
 
@@ -1794,6 +1983,32 @@ function removeOrphanPhysical( model ) {
 
         if (!Object.keys( overrides ).length) {
             delete model.physical.relationships[id];
+            }
+        }
+    }
+
+/** Rows of a removed table, and cells of a removed column, go with them. */
+function removeOrphanData( model ) {
+    if (!model.data) {
+        return;
+        }
+
+    for (const [tableId, rows] of Object.entries( model.data )) {
+        const table = model.tables.find( item => item.id === tableId );
+
+        if (!table) {
+            delete model.data[tableId];
+            continue;
+            }
+
+        const columnIds = new Set( table.columns.map( column => column.id ) );
+
+        for (const row of rows) {
+            for (const columnId of Object.keys( row )) {
+                if (!columnIds.has( columnId )) {
+                    delete row[columnId];
+                    }
+                }
             }
         }
     }
@@ -3515,6 +3730,7 @@ export function removeConceptualElement(
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
                 removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }

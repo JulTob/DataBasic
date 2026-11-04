@@ -28,7 +28,10 @@ import {
     updatePhysicalRelationship,
     updatePhysicalTable,
     documentPhysical,
-    ACCESS_NUMBER_SIZES
+    ACCESS_NUMBER_SIZES,
+    addDataRow,
+    updateDataCell,
+    removeDataRow
     } from './domain/model.js';
 import {
     parseDocument,
@@ -917,6 +920,12 @@ async function act(
         case 'clear-color':
             clearColor();
             break;
+        case 'add-data-row':
+            commit( addDataRow( state.model, state.selectedId ) );
+            break;
+        case 'remove-data-row':
+            commit( removeDataRow( state.model, state.selectedId, Number( target.dataset.row ) ) );
+            break;
         case 'download-access-vba':
             download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
             notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
@@ -1054,6 +1063,17 @@ function fieldChanged( target ) {
 
         mappings[Number( target.dataset.mapping )].childColumnId = target.value;
         commit( updateRelationship( state.model, relation.id, {mappings} ) );
+        return;
+        }
+
+    if (target.dataset.cell !== undefined) {
+        commit( updateDataCell(
+                state.model,
+                state.selectedId,
+                Number( target.dataset.row ),
+                target.dataset.colId,
+                target.value
+                ) );
         return;
         }
 

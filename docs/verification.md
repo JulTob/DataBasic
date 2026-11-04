@@ -557,3 +557,21 @@ id_socio (el lienzo pasó a mostrarla y aparecieron los botones Restablecer),
 se restableció, se seleccionó una relación (Relación en Access activa) y se
 volvió a Relacional (Definición activa), sin errores de consola. Las capturas
 muestran la cabecera, la llave, los tipos de Access y los extremos 1/∞.
+
+## Colores, lienzo completo, barra de vistas y hoja de datos en 0.4.3
+
+`tests/colors.test.js` cubre el tono válido o nulo, la apertura de archivos
+sin color, la sincronía entidad nativa ↔ tabla y la proyección, las variables
+CSS del lienzo y del SVG, los colores hexadecimales del `.vdx` y el panel.
+`tests/conceptual.test.js` y `tests/scene.test.js` pasan a comprobar los
+límites de -20000 a 20000. `tests/interface.test.js` y
+`tests/tables-view.test.js` cubren el desplegable Vista, el selector Tipos y
+el desplegable Ejemplos. `tests/data.test.js` cubre las filas de ejemplo:
+operaciones, persistencia, limpieza al eliminar, cada regla de celda, claves
+repetidas y referencias rotas, el orden de inserción, los tres archivos de
+Access, la memoria, el panel y la aplicación.
+
+En Chromium se comprobó el deslizador de color en Definición (borde y relleno
+en Relacional y en Diagrama, y «Sin color»), el desplegable Vista con sus tres
+opciones, el selector Tipos, Ayuda → Ejemplos cargando un ejercicio de la
+carpeta y el cambio de nombre a Diagrama, sin errores de consola.

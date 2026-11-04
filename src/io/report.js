@@ -10,6 +10,10 @@ import {
     accessSchema,
     accessStatus
     } from '../domain/access.js';
+import {
+    dataStatus,
+    tableDataRows
+    } from '../domain/data.js';
 import { escapeHTML } from '../ui/html.js';
 
 /**
@@ -365,6 +369,35 @@ function reportPhysicalSection( model ) {
     return {heading: 'Diseño físico en Access', blocks};
     }
 
+/** The datasheets the author filled in, and what the rules say about them. */
+function reportSampleDataSection( model ) {
+    const blocks = [];
+    const issues = dataStatus( model ).map( item => item.message );
+
+    for (const table of model.tables.filter( item => item.kind === 'entity' )) {
+        const rows = tableDataRows( model, table );
+
+        if (!rows.length) {
+            continue;
+            }
+
+        blocks.push( reportParagraph( `${table.name} (${rows.length} filas)` ) );
+        blocks.push( reportTable(
+                table.columns.map( column => column.name ),
+                rows.map( row => table.columns.map( column => row[column.id] ?? '' ) )
+                ) );
+        }
+
+    if (!blocks.length) {
+        blocks.push( reportParagraph( 'Sin filas de ejemplo.' ) );
+        }
+
+    blocks.push( reportParagraph( 'Comprobación de las filas frente a las reglas de las tablas:' ) );
+    blocks.push( issues.length ? reportList( issues ) : reportParagraph( 'Sin incidencias.' ) );
+
+    return {heading: 'Datos de ejemplo', blocks};
+    }
+
 const ACCESS_INDEX_LABELS = {
     no: 'No',
     duplicates: 'Sí (Con duplicados)',
@@ -446,7 +479,8 @@ export function buildDesignReport( model ) {
                     ),
             reportLostSemanticsSection( model ),
             reportRelationalSection( model ),
-            reportPhysicalSection( model )
+            reportPhysicalSection( model ),
+            reportSampleDataSection( model )
             ]
         };
     }

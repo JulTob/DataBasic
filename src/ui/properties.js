@@ -18,6 +18,8 @@ import {
     accessRelationshipDefinition,
     accessTableDefinition
     } from '../domain/access.js';
+import { tableDataStatus } from '../domain/data.js';
+import { tableRows } from '../domain/model.js';
 import {
     check,
     command,
@@ -150,6 +152,59 @@ function accessFieldsPanel(
 
     return `<div class="columns-panel access-fields">${accessFieldsGrid( model, table, selectedColumnId )}
         ${field ? accessFieldProperties( model, table, field ) : '<p class="field-hint">Selecciona un campo para ver sus propiedades, como en la vista Diseño de Access.</p>'}</div>`;
+    }
+
+/** Hoja de datos: sample rows typed like in Access, with the rule each cell breaks. */
+function datasheetPanel(
+        model,
+        table
+        ) {
+    const rows = tableRows( model, table.id );
+    const issues = tableDataStatus( model, table );
+    const cellIssue = (rowIndex, columnId) => issues.find(
+            issue => issue.rowIndex === rowIndex && issue.columnId === columnId
+            );
+    const rowIssues = rowIndex => issues.filter(
+            issue => issue.rowIndex === rowIndex && issue.columnId === null
+            );
+    const header = table.columns.map(
+            column => `<th>${column.primary ? icon( 'key-round' ) : ''}${escapeHTML( column.name )}
+                <small>${escapeHTML( column.type )}${column.required || column.primary ? ' · req.' : ''}</small></th>`
+            ).join( '' );
+    const body = rows.map(
+            (row, index) => {
+                const problems = rowIssues( index );
+                const cells = table.columns.map(
+                        column => {
+                            const problem = cellIssue( index, column.id );
+
+                            return `<td class="${problem ? 'cell-error' : ''}"><input data-cell data-row="${index}"
+                                data-col-id="${column.id}" value="${escapeHTML( row[column.id] ?? '' )}" maxlength="500"
+                                aria-label="${escapeHTML( column.name )}, fila ${index + 1}"
+                                ${problem ? `title="${escapeHTML( problem.message )}"` : ''}></td>`;
+                            }
+                        ).join( '' );
+
+                return `<tr class="${problems.length ? 'row-error' : ''}">
+                    <td class="row-number" ${problems.length ? `title="${escapeHTML( problems.map( item => item.message ).join( '\n' ) )}"` : ''}>${index + 1}</td>
+                    ${cells}
+                    <td class="row-actions"><button type="button" data-action="remove-data-row" data-row="${index}"
+                        title="Quitar la fila ${index + 1}" aria-label="Quitar la fila ${index + 1}">${icon( 'x' )}</button></td></tr>`;
+                }
+            ).join( '' );
+
+    return `<div class="datasheet"><div class="property-grid-wrap">
+        <table class="property-grid datasheet-grid"><thead><tr><th class="row-number">#</th>${header}<th></th></tr></thead>
+        <tbody>${body}</tbody></table>
+        ${rows.length ? '' : '<div class="no-fields">Sin filas. Añade filas de ejemplo para probar las reglas de la tabla.</div>'}
+        </div>
+        <div class="column-actions">${command( 'add-data-row', 'Añadir fila', 'plus' )}</div>
+        ${issues.length
+            ? `<ul class="data-issues">${issues.map( issue => `<li>${escapeHTML( issue.message )}</li>` ).join( '' )}</ul>`
+            : (rows.length ? '<p class="data-ok">Las filas cumplen obligatoriedad, tipos, dominios, claves y referencias.</p>' : '')}
+        <p class="field-hint">Se comprueban: campos obligatorios, el formato del tipo (números, longitud, fechas
+            AAAA-MM-DD), el dominio, la unicidad de la clave primaria, las claves alternativas y los índices únicos,
+            y que cada clave ajena exista en la tabla referenciada. Las filas viajan a Access con los tres archivos.</p></div>`;
     }
 
 function accessTablePanel(
@@ -441,7 +496,11 @@ export function renderProperties(
     const access = model.display.mode === 'tables';
     const categories = table
         ? [
-            ...(access ? [['fields', 'Campos de Access'], ['access-table', 'Tabla de Access']] : []),
+            ...(access ? [
+                ['fields', 'Campos de Access'],
+                ...(table.kind === 'entity' ? [['datasheet', 'Hoja de datos']] : []),
+                ['access-table', 'Tabla de Access']
+                ] : []),
             ['definition', 'Definición'],
             ...(table.kind === 'view' ? [['query', 'Definición SQL']] : []),
             ['columns', 'Columnas'],
@@ -466,6 +525,9 @@ export function renderProperties(
         switch (category) {
             case 'fields':
                 content = accessFieldsPanel( model, table, state.selectedColumnId );
+                break;
+            case 'datasheet':
+                content = datasheetPanel( model, table );
                 break;
             case 'access-table':
                 content = accessTablePanel( model, table );

@@ -2,6 +2,15 @@ import {
     accessSchema,
     requireExportableForAccess
     } from '../domain/access.js';
+import {
+    dataInsertOrder,
+    isBooleanText,
+    tableDataRows
+    } from '../domain/data.js';
+import {
+    parseDataType,
+    validType
+    } from '../domain/model.js';
 
 /*
  * Three ways to carry the physical layer into Microsoft Access, all read from
@@ -54,6 +63,7 @@ export function exportAccessVBA( model ) {
         vbaBlankCheck( schema ),
         ...schema.tables.map( table => vbaTableSub( schema, table, subNames.get( table.tableId ) ) ),
         vbaRelationsSub( schema ),
+        vbaDataSub( model ),
         vbaQueriesSub( schema ),
         vbaPropertyHelper()
         ];
@@ -99,6 +109,7 @@ function vbaMain(
         '    If Not BaseEnBlanco(db) Then Exit Sub',
         ...calls,
         '    CrearRelaciones db',
+        '    CrearDatos db',
         '    CrearConsultas db',
         '    Application.RefreshDatabaseWindow',
         `    MsgBox ${vbaString( `DataBasic: ${schema.tables.length} tablas, ${schema.relationships.length} relaciones y ${schema.views.length} consultas creadas. Revisa Herramientas de base de datos → Relaciones.` )}, vbInformation, "DataBasic"`,
@@ -370,6 +381,23 @@ function vbaRelationLines( relation ) {
     return lines;
     }
 
+/** The sample rows, inserted referenced tables first so integrity holds. */
+function vbaDataSub( model ) {
+    const lines = ['Private Sub CrearDatos(db As DAO.Database)'];
+
+    for (const table of dataInsertOrder( model )) {
+        const statements = jetInsertStatements( table, tableDataRows( model, table ) );
+
+        if (statements.length) {
+            lines.push( `    ' ${vbaComment( table.name )}: ${statements.length} filas de ejemplo` );
+            lines.push( ...statements.map( statement => `    db.Execute ${vbaString( statement )}, dbFailOnError` ) );
+            }
+        }
+
+    lines.push( 'End Sub' );
+    return lines.join( '\n' );
+    }
+
 function vbaQueriesSub( schema ) {
     const lines = ['Private Sub CrearConsultas(db As DAO.Database)'];
 
@@ -456,7 +484,8 @@ export function exportAccessSQL( model ) {
     const statements = [
         ...schema.tables.map( jetCreateTable ),
         ...schema.tables.flatMap( jetCreateIndexes ),
-        ...schema.relationships.flatMap( jetRelationshipStatements )
+        ...schema.relationships.flatMap( jetRelationshipStatements ),
+        ...dataInsertOrder( model ).flatMap( table => jetInsertStatements( table, tableDataRows( model, table ) ) )
         ];
 
     return [
@@ -528,6 +557,45 @@ function jetRelationshipStatements( relation ) {
                 + `    REFERENCES ${jetIdentifier( relation.parentTable )} (${parentColumns})${cascades};`
             );
     return statements;
+    }
+
+/** One INSERT per sample row, with literals in Access's own notation. */
+function jetInsertStatements(
+        table,
+        rows
+        ) {
+    return rows
+        .filter( row => Object.keys( row ).length )
+        .map( row => {
+            const columns = table.columns.filter( column => String( row[column.id] ?? '' ).trim() !== '' );
+
+            return `INSERT INTO ${jetIdentifier( table.name )} (${columns.map( column => jetIdentifier( column.name ) ).join( ', ' )})`
+                + ` VALUES (${columns.map( column => jetLiteral( column, row[column.id] ) ).join( ', ' )});`;
+            } );
+    }
+
+/** Numbers as typed, dates between #, yes/no as True/False, the rest as "text". */
+function jetLiteral(
+        column,
+        value
+        ) {
+    const text = String( value ).trim();
+    const family = validType( column.type ) ? parseDataType( column.type ).family : 'TEXT';
+
+    if (['NUMBER', 'DECIMAL', 'NUMERIC', 'INTEGER', 'INT', 'SMALLINT', 'BIGINT', 'REAL', 'FLOAT', 'DOUBLE'].includes( family )
+        && /^[+-]?\d+(\.\d+)?$/.test( text )) {
+        return text;
+        }
+
+    if (['DATE', 'TIMESTAMP', 'DATETIME', 'TIME'].includes( family ) && /^[\d:T -]+$/.test( text )) {
+        return `#${text.replace( 'T', ' ' )}#`;
+        }
+
+    if (['BOOLEAN', 'BOOL'].includes( family ) && isBooleanText( text )) {
+        return ['true', 'sí', 'si', '1', 'verdadero'].includes( text.toLowerCase() ) ? 'True' : 'False';
+        }
+
+    return `"${text.replaceAll( '"', '""' )}"`;
     }
 
 /** What SQL cannot set in Access: the student does it in the table design view. */
@@ -634,8 +702,46 @@ export function exportAccessXML( model ) {
         + `<xsd:attribute name="generated" type="xsd:dateTime"/></xsd:complexType></xsd:element>`
         + schema.tables.map( odxTable ).join( '' )
         + `</xsd:schema>`
-        + `<dataroot xmlns:od="${ODX_NAMESPACE}"/>`
+        + `<dataroot xmlns:od="${ODX_NAMESPACE}">${odxRows( model, schema )}</dataroot>`
         + `</root>\n`;
+    }
+
+/** The sample rows as elements named like their table and columns. */
+function odxRows(
+        model,
+        schema
+        ) {
+    return schema.tables.map(
+            definition => {
+                const table = model.tables.find( item => item.id === definition.tableId );
+
+                return tableDataRows( model, table ).map(
+                        row => `<${odxName( table.name )}>${table.columns
+                            .filter( column => String( row[column.id] ?? '' ).trim() !== '' )
+                            .map( column => `<${odxName( column.name )}>${odxValue( column, row[column.id] )}</${odxName( column.name )}>` )
+                            .join( '' )}</${odxName( table.name )}>`
+                        ).join( '' );
+                }
+            ).join( '' );
+    }
+
+/** Dates as Access writes them in XML, yes/no as 1/0, the rest as escaped text. */
+function odxValue(
+        column,
+        value
+        ) {
+    const text = String( value ).trim();
+    const family = validType( column.type ) ? parseDataType( column.type ).family : 'TEXT';
+
+    if (family === 'DATE' && /^\d{4}-\d{2}-\d{2}$/.test( text )) {
+        return `${text}T00:00:00`;
+        }
+
+    if (['BOOLEAN', 'BOOL'].includes( family ) && isBooleanText( text )) {
+        return ['true', 'sí', 'si', '1', 'verdadero'].includes( text.toLowerCase() ) ? '1' : '0';
+        }
+
+    return odxAttribute( text );
     }
 
 function odxTable( table ) {

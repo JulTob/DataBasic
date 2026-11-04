@@ -23,6 +23,7 @@ import {
     validateDocument
     } from '../domain/model.js';
 import { accessStatus } from '../domain/access.js';
+import { dataStatus } from '../domain/data.js';
 import { typeFields } from './properties.js';
 import {
     options,
@@ -276,7 +277,7 @@ export function showIndexDialog(
 export function showValidation( model ) {
     // validateDocument already reports the pending and documentary statuses
     // of a format 2 document; appending conceptualStatus again duplicated them.
-    const issues = validateDocument( model );
+    const issues = [...validateDocument( model ), ...dataStatus( model )];
 
     openDialog(
             'Comprobación del modelo',
@@ -350,6 +351,11 @@ export function showHelp() {
                 tamaño, requerido, indexado, reglas y textos de validación, predeterminado, título,
                 integridad referencial, cascadas y campo de búsqueda. Todo se deriva del relacional;
                 lo que ajustes se marca como «ajustado» y Restablecer vuelve a derivarlo.</p>
+            <p><strong>Hoja de datos.</strong> En la vista Tablas, cada tabla tiene una Hoja de datos
+                donde escribir filas de ejemplo como en Access o Excel. DataBasic marca en rojo la
+                celda o la fila que incumple una regla: obligatorio, formato del tipo, dominio,
+                clave repetida o referencia a una fila que no existe. Las filas se guardan con el
+                documento, salen en la memoria y viajan a Access en los tres archivos.</p>
             <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
                 la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
                 claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una

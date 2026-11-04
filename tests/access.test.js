@@ -334,7 +334,7 @@ test( 'the XML file embeds a schema with Access types, keys and field properties
     assert.ok( xml.includes( '<xsd:element name="nombre" minOccurs="1" od:jetType="text" od:sqlSType="nvarchar" od:nonNullable="yes"><xsd:annotation><xsd:appinfo><od:fieldProperty name="Required" type="1" value="1"/><od:fieldProperty name="AllowZeroLength" type="1" value="0"/></xsd:appinfo></xsd:annotation><xsd:simpleType><xsd:restriction base="xsd:string"><xsd:maxLength value="50"/></xsd:restriction></xsd:simpleType></xsd:element>' ) );
     assert.ok( xml.includes( 'od:jetType="datetime"' ) );
     assert.ok( xml.includes( 'od:jetType="integer" od:sqlSType="smallint"' ) );
-    assert.ok( xml.includes( '<dataroot xmlns:od="urn:schemas-microsoft-com:officedata"/></root>' ) );
+    assert.ok( xml.includes( '<dataroot xmlns:od="urn:schemas-microsoft-com:officedata"></dataroot></root>' ) );
     } );
 
 test( 'the Access exports refuse documents with errors or pending conceptual decisions', () => {

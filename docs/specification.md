@@ -324,3 +324,33 @@ abren igual. Una entidad nativa y su tabla comparten el color; una entidad
 proyectada muestra el de su tabla. El SVG lo lleva como variables CSS y el
 dibujo de Visio como colores hexadecimales. El lienzo admite posiciones entre
 -20000 y 20000 en cada eje, de modo que todo el área visible acepta formas.
+
+## Hoja de datos
+
+En la vista Tablas, una tabla tiene la categoría **Hoja de datos**: una
+cuadrícula con una fila por registro de ejemplo y una celda por columna, como
+la hoja de datos de Access. Las filas se guardan en la sección opcional `data`
+del documento (por identificador de tabla, cada fila un mapa de identificador
+de columna a texto; un texto vacío es NULL y no se guarda), con un máximo de
+500 filas por tabla y 500 caracteres por celda. Los archivos sin la sección
+abren con hojas vacías; al eliminar una columna o una tabla desaparecen sus
+celdas o sus filas. Las operaciones son atómicas: añadir fila, cambiar una
+celda, quitar fila y reemplazar la hoja.
+
+Cada celda y cada fila se contrastan con las reglas de la tabla y se
+devuelven como avisos (`dataStatus`), nunca como errores que impidan guardar:
+obligatoriedad (NOT NULL y clave primaria), formato del tipo (número, entero,
+dígitos y decimales de NUMBER(p,s), longitud de VARCHAR/CHAR, fecha
+AAAA-MM-DD, hora, fecha y hora, sí/no), dominio (mínimo, máximo, lista de
+valores), unicidad de la clave primaria, de las claves alternativas y de los
+índices únicos, y existencia de cada clave ajena completa en la tabla
+referenciada. El CHECK libre y la regla de validación de Access no se evalúan.
+La cuadrícula marca la celda o la fila con el aviso, Revisar modelo los lista
+junto a los demás y la memoria los recoge en «Datos de ejemplo».
+
+Las filas viajan a Access con los tres archivos: el módulo VBA las inserta en
+`CrearDatos` con `db.Execute`, el SQL de Access las escribe como INSERT tras
+las relaciones y el XML las incluye en `dataroot`, en los tres casos con las
+tablas referenciadas antes que las que las referencian y con la notación de
+Access (números tal cual, fechas entre `#` o con hora `T00:00:00`, sí/no como
+True/False o 1/0, textos entre comillas dobles).

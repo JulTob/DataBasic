@@ -1479,3 +1479,14 @@ a {
     font-size: 12px;
     }
 .ribbon-select select { max-width: 260px; }
+
+/* Hoja de datos: sample rows with the rule each cell breaks. */
+.datasheet-grid th small { display: block; font-weight: 400; color: #718379; font-size: 11px; }
+.datasheet-grid .row-number { width: 32px; text-align: center; color: #718379; font-size: 12px; }
+.datasheet-grid tr.row-error .row-number { color: #b3261e; font-weight: 700; }
+.datasheet-grid td.cell-error input { border-color: #b3261e; background: #fdf1f0; }
+.datasheet-grid .row-actions button { padding: 2px 6px; border: none; background: none; color: #718379; cursor: pointer; }
+.datasheet-grid .row-actions button:hover { color: #b3261e; }
+.datasheet-grid .row-actions svg { width: 14px; height: 14px; }
+.data-issues { margin: 8px 0 0; padding-left: 20px; color: #8a2a24; font-size: 13px; }
+.data-ok { margin: 8px 0 0; color: #16805e; font-size: 13px; }
