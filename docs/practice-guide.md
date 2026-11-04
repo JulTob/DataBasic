@@ -308,8 +308,19 @@ cambiar de vista no cambia sus reglas.
 8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.
    Un pendiente debe impedir presentar un SQL completo sin resolverlo.
 
+9. Selecciona una entidad o relación y abre __Supuestos__. Registra lo que
+   dice el enunciado, lo que has supuesto y lo que el modelo no impone; usa
+   __Insertar → Supuesto__ para una entrada global. __Base de datos →
+   Supuestos__ muestra todas las entradas y la semántica perdida que detecta
+   DataBasic.
+10. Descarga __Archivo → Memoria HTML__ y ábrela con Word: contiene los dos
+    diagramas, las tablas de atributos y relaciones con letras y pares, las
+    decisiones, los supuestos y la semántica perdida. Completa ahí la
+    justificación que pide la práctica; __Memoria Markdown__ es la misma
+    memoria en texto.
+
 _Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
-ese documento. El guardado automático es local a navegador/origen/práctica y
+ese documento. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y
 no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.
 
 El SQL exportado usa sintaxis tipo PostgreSQL/SQL estándar y `ALTER TABLE ADD

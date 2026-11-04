@@ -62,8 +62,15 @@ import {
     showConceptualRelationshipDialog,
     showMaterializationDialog,
     showGeneralizationDialog,
-    showAlternateKeyDialog
+    showAlternateKeyDialog,
+    showAssumptionDialog,
+    showAssumptionsOverview
     } from './ui/dialogs.js';
+import {
+    buildDesignReport,
+    reportToHTML,
+    reportToMarkdown
+    } from './io/report.js';
 
 const practiceId = globalThis.location
     ? new URLSearchParams( globalThis.location.search || '' ).get( 'practica' )
@@ -717,6 +724,20 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/** Both representations, drawn from the same document, illustrate the report. */
+function designDiagrams() {
+    return [
+        {
+            title: 'Diagrama entidad-relación extendido (Chen)',
+            svg: exportSVG( setDiagramMode( state.model, 'chen' ) )
+            },
+        {
+            title: 'Diagrama relacional',
+            svg: exportSVG( setDiagramMode( state.model, 'relational' ) )
+            }
+        ];
+    }
+
 function showSQL() {
     const sql = exportSQL( state.model );
 
@@ -917,6 +938,30 @@ async function act(
             state.category = 'notes';
             state.propertiesShown = true;
             render();
+            break;
+        case 'assumption':
+            showAssumptionDialog( state, commit );
+            break;
+        case 'edit-assumption':
+            showAssumptionDialog( state, commit, target?.dataset.assumptionId );
+            break;
+        case 'assumptions':
+            showAssumptionsOverview( state.model );
+            break;
+        case 'report-html':
+            download(
+                    reportToHTML( buildDesignReport( state.model ), designDiagrams() ),
+                    filename( 'memoria.html' ),
+                    'text/html'
+                    );
+            notify( 'Memoria del diseño descargada. Word la abre como documento.' );
+            break;
+        case 'report-markdown':
+            download(
+                    reportToMarkdown( buildDesignReport( state.model ) ),
+                    filename( 'memoria.md' ),
+                    'text/markdown'
+                    );
             break;
         case 'alternate-key':
             showAlternateKeyDialog( state, commit, target?.dataset.keyId );

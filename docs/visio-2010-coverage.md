@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.4.1 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.4.2 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -98,7 +98,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | B-22 · POG | Capas y agrupación. | Fuera de alcance | — | — |
 | B-23 · POG | Atajos de teclado. | Disponible | R-31 | Ctrl+S, Ctrl+Z, Ctrl+Mayús+Z/Ctrl+Y, Ctrl+D, Supr y Escape. |
 | B-24 · POG | Ortografía y buscar/reemplazar. | Fuera de alcance | — | — |
-| B-25 · POG | Comentarios de revisión. | Alternativa propia | C-16 | Notas semánticas por objeto. |
+| B-25 · POG | Comentarios de revisión. | Alternativa propia | C-16, A-01 a A-07 | Notas y supuestos por objeto; la memoria del diseño los reúne. |
 
 ## C. Exigencias del curso (apuntes aportados)
 
@@ -117,7 +117,8 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | El archivo de Visio no se genera; véase C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
 | C-13 · P1 p. 4 | Ternaria N:N:N: tabla con las tres FK y sus atributos; la clave se adapta cuando se repite la combinación en distintos períodos. | Disponible | C-12 | Clave elegida explícitamente, incluido el período. |
-| C-14 · P1 p. 4 | Entrega: documento del conceptual, archivo Visio del relacional y base de datos Access. | Parcial | R-18, R-19, R-32 | SVG/PDF documentan el conceptual; JSON y SQL no sustituyen el archivo Visio ni Access. |
+| C-14 · P1 p. 4 | Entrega: documento del conceptual, archivo Visio del relacional y base de datos Access. | Parcial | R-18, R-19, R-32, A-06 | La memoria HTML reúne diagramas, supuestos y semántica perdida para el documento conceptual; JSON y SQL no sustituyen el archivo Visio ni Access. |
+| C-16 · P1 p. 2 §3.1, ERE p. 7 | Supuestos semánticos y semántica perdida razonados junto al grafo ERE. | Disponible (0.4.2) | A-01 a A-07; «La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida» | Tres clases de entrada por objeto o globales; la memoria añade las restricciones documentales detectadas. La argumentación sigue siendo del autor. |
 | C-15 · T2 p. 19 | Patrones incorrectos: entidad con entidad sin rombo, rombo con rombo, atributo sobre la línea. | Disponible | C-04, C-07 | Las relaciones siempre pasan por un rombo y los atributos cuelgan de la entidad o del rombo. |
 
 ## D. Defectos detectados y corregidos en esta revisión

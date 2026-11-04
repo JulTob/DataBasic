@@ -4,6 +4,14 @@ import {
     removeAlternateKey,
     formatDataType,
     getConceptualProjection,
+    conceptualStatus,
+    addAssumption,
+    updateAssumption,
+    removeAssumption,
+    documentAssumptions,
+    elementLabel,
+    ASSUMPTION_KINDS,
+    ASSUMPTION_TEXT_LIMIT,
     addConceptualAttribute,
     updateConceptualAttribute,
     addConceptualRelationship,
@@ -324,6 +332,11 @@ export function showHelp() {
                 Tablas de superclase y subclases. Una PK local incompatible se corrige
                 desde Editar atributo y dominio: desmarca Clave y conserva su columna.
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
+            <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
+                Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
+                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
+                el documento con los diagramas, las tablas de atributos y relaciones, los
+                supuestos y las restricciones que el relacional no impone. Word lo abre.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -919,5 +932,94 @@ export function showAlternateKeyDialog(
                                     }
                                 )
                     )
+            );
+    }
+
+/** Elements an assumption can refer to, with their readable labels. */
+function assumptionTargets( model ) {
+    const projection = getConceptualProjection( model );
+    const ids = [
+        ...projection.entities.map( item => item.id ),
+        ...projection.relationships.map( item => item.id ),
+        ...projection.generalizations.map( item => item.id ),
+        ...projection.attributes.map( item => item.id )
+        ];
+
+    return ids
+        .map( id => [id, elementLabel( model, id )] )
+        .filter( ([, label]) => label );
+    }
+
+export function showAssumptionDialog(
+        state,
+        commit,
+        assumptionId = null
+        ) {
+    const existing = documentAssumptions( state.model ).find( item => item.id === assumptionId );
+    const targets = assumptionTargets( state.model );
+    const preselected = existing
+        ? existing.elementId || ''
+        : targets.some( ([id]) => id === state.selectedId ) ? state.selectedId : '';
+
+    openDialog(
+            existing ? 'Editar supuesto' : 'Nuevo supuesto',
+            `<div class="dialog-fields">
+            <label>Clase<select name="kind">${options( ASSUMPTION_KINDS, existing?.kind || 'supuesto' )}</select></label>
+            <label>Texto<textarea name="text" rows="4" required
+                maxlength="${ASSUMPTION_TEXT_LIMIT}">${escapeHTML( existing?.text || '' )}</textarea></label>
+            <label>Se refiere a<select name="elementId">${options(
+                    [['', 'Todo el diseño'], ...targets],
+                    preselected
+                    )}</select></label>
+            ${existing ? check( 'Eliminar este supuesto', 'remove', false, 'name="remove"' ) : ''}
+            <p class="field-hint">Semántica del enunciado: lo que afirma el texto de la práctica.
+                Supuesto semántico: lo que decides porque el enunciado no lo dice.
+                Semántica perdida: lo que el modelo relacional no impone y conviene explicar.</p></div>`,
+            values => {
+                const definition = {
+                    kind: values.get( 'kind' ),
+                    text: values.get( 'text' ),
+                    elementId: values.get( 'elementId' ) || null
+                    };
+                const next = existing && values.has( 'remove' )
+                    ? removeAssumption( state.model, existing.id )
+                    : existing
+                        ? updateAssumption( state.model, existing.id, definition )
+                        : addAssumption( state.model, definition );
+
+                state.category = 'assumptions';
+                commit( next );
+                }
+            );
+    }
+
+export function showAssumptionsOverview( model ) {
+    const groups = ASSUMPTION_KINDS.map(
+            ([kind, label]) => ({
+                label,
+                items: documentAssumptions( model ).filter( item => item.kind === kind )
+                })
+            );
+    const documentary = conceptualStatus( model ).filter( item => item.code === 'documentary' );
+    const target = item => (item.elementId && elementLabel( model, item.elementId )) || 'Todo el diseño';
+
+    openDialog(
+            'Supuestos del diseño',
+            `<div class="assumptions-overview">${groups.map(
+                    group => `<h3>${escapeHTML( group.label )}</h3>
+                        <div class="conceptual-list">${group.items.map(
+                                item => `<button type="button" data-action="edit-assumption"
+                                    data-assumption-id="${item.id}">
+                                    <strong>${escapeHTML( target( item ) )}</strong>
+                                    <span>${escapeHTML( item.text )}</span></button>`
+                                ).join( '' ) || '<p>Sin entradas.</p>'}</div>`
+                    ).join( '' )}
+                <h3>Semántica perdida que detecta DataBasic</h3>
+                ${documentary.length
+                    ? `<ul>${documentary.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
+                    : '<p>Ninguna restricción documental por ahora.</p>'}
+                ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
+                <p class="field-hint">Archivo → Exportar → Memoria HTML reúne estas entradas con los
+                    diagramas, las tablas de atributos y relaciones y el esquema relacional.</p></div>`
             );
     }

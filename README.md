@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.1** permite editar un documento con dos representaciones:
+La versión **0.4.2** permite editar un documento con dos representaciones:
 **Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
 conceptuales. El botón cambia la representación; las transformaciones se
 eligen por separado y conservan sus correspondencias.
@@ -23,6 +23,13 @@ educativa de DataBasic para el curso.
 La grafía Chen sigue los apuntes del curso: letras 1/N junto al rombo,
 pares (mín,máx) junto a cada entidad, doble línea de participación total,
 rombo doble del vínculo identificador y arcos de subconjunto en las subclases.
+
+Cada objeto tiene una categoría **Supuestos** para anotar la semántica del
+enunciado, los supuestos propios y la semántica perdida; **Base de datos →
+Supuestos** los reúne y **Archivo → Memoria HTML** descarga la memoria del
+diseño con los dos diagramas, las tablas de atributos y relaciones, los
+supuestos y las restricciones que el relacional no impone. Word abre ese
+archivo; también hay versión Markdown.
 
 Arrastra las tablas desde su título o sus filas, los rombos en Chen o los
 bloques de lectura en Relacional para recolocar las formas y relaciones. El arrastre busca hueco entre formas y rótulos;
@@ -142,7 +149,7 @@ aplicación desde un archivo, sin un servidor ni un CDN.
 | --- | --- |
 | `src/domain/` | Modelo, operaciones atómicas, validación y formato de archivo. |
 | `src/ui/` | Diagrama, cinta, paneles y ventanas. |
-| `src/io/` | Generación de SQL. |
+| `src/io/` | Generación de SQL y de la memoria del diseño. |
 | `src/app.js` | Interacciones, historial y guardado. |
 | `tests/` | Reglas del modelo, ventanas y eventos de la aplicación. |
 | `docs/` | Especificación, fuentes y resultados de verificación. |

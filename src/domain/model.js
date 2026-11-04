@@ -13,8 +13,11 @@
  * forward:string,inverse:string,cardinality:string,identifying:boolean,
  * optional:boolean,onDelete:string,onUpdate:string,
  * mappings:{parentColumnId:string,childColumnId:string}[]}} Relationship
+ * @typedef {{id:string,kind:'enunciado'|'supuesto'|'perdida',text:string,
+ * elementId:string|null}} Assumption
  * @typedef {{format:'databasic',version:2,profile:'course'|'general',
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
+ * assumptions?:Assumption[],
  * presentation:{chen:Record<string,{x:number,y:number}>,
  * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
@@ -60,6 +63,22 @@ export function newId() {
 
 export const COURSE_TYPES = ['VARCHAR', 'CHAR', 'NUMBER', 'DATE'];
 
+/**
+ * The course's three kinds of semantics: what the statement says, what the
+ * author assumes beyond it, and what the model cannot express.
+ */
+export const ASSUMPTION_KINDS = [
+    ['enunciado', 'Semántica del enunciado'],
+    ['supuesto', 'Supuesto semántico'],
+    ['perdida', 'Semántica perdida']
+    ];
+
+export const ASSUMPTION_TEXT_LIMIT = 2000;
+
+export function assumptionKindLabel( kind ) {
+    return ASSUMPTION_KINDS.find( ([value]) => value === kind )?.[1] || kind;
+    }
+
 export function emptyDocument( profile = 'course' ) {
     if (!['course', 'general'].includes( profile )) {
         throw new Error( 'Perfil de tipos no válido.' );
@@ -79,6 +98,7 @@ export function emptyDocument( profile = 'course' ) {
             generalizations: []
             },
         traces: [],
+        assumptions: [],
         presentation: {
             chen: {},
             relational: {}
@@ -372,6 +392,7 @@ export function removeColumn(
 
                 table.indexes = table.indexes.filter( index => index.columns.length );
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }
@@ -623,6 +644,7 @@ export function removeElement(
                             && relation.childId !== selectedId
                         );
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }
@@ -795,6 +817,29 @@ export function validateDocument( model ) {
 
     if (model.version === 2) {
         issues.push( ...validateConceptualDocument( model ) );
+        issues.push( ...validateAssumptions( model ) );
+        }
+
+    return issues;
+    }
+
+/** Shape checks already passed; here each assumption must point to a live element. */
+function validateAssumptions( model ) {
+    const ids = documentElementIds( model );
+    const issues = [];
+
+    for (const assumption of documentAssumptions( model )) {
+        if (!assumption.text.trim()) {
+            issues.push({level: 'error', message: 'Un supuesto necesita texto.', elementId: assumption.id});
+            }
+
+        if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
+            issues.push({
+                level: 'error',
+                message: 'Un supuesto referencia un elemento inexistente.',
+                elementId: assumption.id
+                });
+            }
         }
 
     return issues;
@@ -1247,6 +1292,23 @@ function validateDocumentShape( model ) {
                     );
             }
 
+        if ('assumptions' in model) {
+            list( model.assumptions, 500, 'Supuestos' );
+
+            for (const assumption of model.assumptions) {
+                identify( assumption );
+                text( assumption, 'text', ASSUMPTION_TEXT_LIMIT );
+                demand(
+                        ASSUMPTION_KINDS.some( ([kind]) => kind === assumption.kind ),
+                        'Supuesto: la clase debe ser enunciado, supuesto o perdida.'
+                        );
+                demand(
+                        assumption.elementId === null || typeof assumption.elementId === 'string',
+                        'Supuesto: el elemento asociado debe ser un identificador o null.'
+                        );
+                }
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1300,14 +1362,9 @@ function domainPositionValid( position ) {
             );
     }
 
-/** Called only by removals; malformed imports still fail validation unchanged. */
-function removeOrphanDiagramPositions( model ) {
-    if (!model.presentation) {
-        return;
-        }
-
+/** Every identifier a position, a trace or an assumption may point to. */
+export function documentElementIds( model ) {
     const ids = new Set( model.relationships.map( relation => relation.id ) );
-    const foreignKeyIds = new Set( ids );
 
     for (const table of model.tables) {
         const tableItems = [
@@ -1332,6 +1389,18 @@ function removeOrphanDiagramPositions( model ) {
             }
         }
 
+    return ids;
+    }
+
+/** Called only by removals; malformed imports still fail validation unchanged. */
+function removeOrphanDiagramPositions( model ) {
+    if (!model.presentation) {
+        return;
+        }
+
+    const ids = documentElementIds( model );
+    const foreignKeyIds = new Set( model.relationships.map( relation => relation.id ) );
+
     for (const [mode, existing] of [['chen', ids], ['relational', foreignKeyIds]]) {
         for (const id of Object.keys( model.presentation[mode] || {} )) {
             if (!existing.has( id )) {
@@ -1339,6 +1408,188 @@ function removeOrphanDiagramPositions( model ) {
                 }
             }
         }
+    }
+
+/** An assumption whose element was removed keeps its text and becomes global. */
+function detachOrphanAssumptions( model ) {
+    const ids = documentElementIds( model );
+
+    for (const assumption of documentAssumptions( model )) {
+        if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
+            assumption.elementId = null;
+            }
+        }
+    }
+
+/** Older format 2 files have no list; they read as having no assumptions. */
+export function documentAssumptions( model ) {
+    return model.assumptions || [];
+    }
+
+/** A readable name for the element an assumption refers to, or null. */
+export function elementLabel(
+        model,
+        id
+        ) {
+    const native = model.conceptual || {
+        entities: [], attributes: [], relationships: [], generalizations: []
+        };
+    const entity = native.entities.find( item => item.id === id );
+
+    if (entity) {
+        return `Entidad ${entity.name}`;
+        }
+
+    const attribute = native.attributes.find( item => item.id === id );
+
+    if (attribute) {
+        return `Atributo ${attribute.name}`;
+        }
+
+    const relation = native.relationships.find( item => item.id === id );
+
+    if (relation) {
+        return `Relación ${relation.name}`;
+        }
+
+    for (const item of native.relationships) {
+        const participation = item.participations.find( part => part.id === id );
+
+        if (participation) {
+            return `Participación ${item.name} · ${participation.role || participation.entityId}`;
+            }
+        }
+
+    const generalization = native.generalizations.find( item => item.id === id );
+
+    if (generalization) {
+        const supertype = model.tables.find( item => item.id === generalization.supertypeId )
+            || native.entities.find( item => item.id === generalization.supertypeId );
+
+        return `Especialización de ${supertype?.name || generalization.supertypeId}`;
+        }
+
+    const table = model.tables.find( item => item.id === id );
+
+    if (table) {
+        return `${table.kind === 'view' ? 'Vista' : 'Entidad'} ${table.name}`;
+        }
+
+    for (const owner of model.tables) {
+        const field = owner.columns.find( item => item.id === id );
+
+        if (field) {
+            return `Columna ${owner.name}.${field.name}`;
+            }
+        }
+
+    const foreignKey = model.relationships.find( item => item.id === id );
+
+    if (foreignKey) {
+        return `Relación ${foreignKey.name}`;
+        }
+
+    return null;
+    }
+
+function normalizeAssumptionPatch(
+        model,
+        patch
+        ) {
+    const normalized = {};
+
+    if ('kind' in patch) {
+        if (!ASSUMPTION_KINDS.some( ([kind]) => kind === patch.kind )) {
+            throw new Error( 'Elige la clase del supuesto: enunciado, supuesto o perdida.' );
+            }
+
+        normalized.kind = patch.kind;
+        }
+
+    if ('text' in patch) {
+        const value = String( patch.text ?? '' ).trim();
+
+        if (!value) {
+            throw new Error( 'Escribe el texto del supuesto.' );
+            }
+
+        if (value.length > ASSUMPTION_TEXT_LIMIT) {
+            throw new Error( `El supuesto admite hasta ${ASSUMPTION_TEXT_LIMIT} caracteres.` );
+            }
+
+        normalized.text = value;
+        }
+
+    if ('elementId' in patch) {
+        const elementId = patch.elementId || null;
+
+        if (elementId !== null && !documentElementIds( model ).has( elementId )) {
+            throw new Error( 'El elemento asociado al supuesto ya no existe.' );
+            }
+
+        normalized.elementId = elementId;
+        }
+
+    return normalized;
+    }
+
+export function addAssumption(
+        model,
+        definition
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const assumption = {
+                    id: newId(),
+                    kind: 'supuesto',
+                    text: '',
+                    elementId: null,
+                    ...normalizeAssumptionPatch( next, {
+                        kind: definition.kind ?? 'supuesto',
+                        text: definition.text,
+                        elementId: definition.elementId ?? null
+                        } )
+                    };
+
+                next.assumptions = [...documentAssumptions( next ), assumption];
+                }
+            );
+    }
+
+export function updateAssumption(
+        model,
+        id,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const assumption = documentAssumptions( next ).find( item => item.id === id );
+
+                if (!assumption) {
+                    throw new Error( 'El supuesto seleccionado ya no existe.' );
+                    }
+
+                Object.assign( assumption, normalizeAssumptionPatch( next, patch ) );
+                }
+            );
+    }
+
+export function removeAssumption(
+        model,
+        id
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                if (!documentAssumptions( next ).some( item => item.id === id )) {
+                    throw new Error( 'El supuesto seleccionado ya no existe.' );
+                    }
+
+                next.assumptions = documentAssumptions( next ).filter( item => item.id !== id );
+                }
+            );
     }
 
 function requireConceptualObject(
@@ -2875,6 +3126,7 @@ export function removeConceptualElement(
                 next.traces = next.traces.filter( item => !removedSources.has( item.sourceId ) );
 
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }

@@ -5,7 +5,9 @@ import {
     parseDataType,
     getConceptualProjection,
     conceptualStatus,
-    participationCardinalityLetter
+    participationCardinalityLetter,
+    documentAssumptions,
+    assumptionKindLabel
     } from '../domain/model.js';
 import {
     check,
@@ -111,6 +113,24 @@ function tableIndexes( table ) {
         </div>`;
     }
 
+/** The assumptions attached to one element; the design report gathers them all. */
+function assumptionsPanel(
+        model,
+        elementId
+        ) {
+    const items = documentAssumptions( model ).filter( item => item.elementId === elementId );
+
+    return `<div class="assumptions-panel"><div class="conceptual-list">${items.map(
+            item => `<button data-action="edit-assumption" data-assumption-id="${item.id}">
+                <strong>${escapeHTML( assumptionKindLabel( item.kind ) )}</strong>
+                <span>${escapeHTML( item.text )}</span></button>`
+            ).join( '' ) || '<p>Este elemento todavía no tiene supuestos.</p>'}</div>
+        ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
+        <p class="field-hint">Semántica del enunciado: lo que dice el texto de la práctica.
+            Supuesto: lo que añades para poder decidir. Semántica perdida: lo que el
+            modelo no impone. La memoria del diseño reúne todas las entradas.</p></div>`;
+    }
+
 function relationshipDefinition(
         model,
         relation
@@ -189,13 +209,15 @@ export function renderProperties(
             ...(table.kind === 'view' ? [['query', 'Definición SQL']] : []),
             ['columns', 'Columnas'],
             ...(table.kind === 'entity' ? [['primary', 'Identificador principal'], ['indexes', 'Índices / Claves alternativas']] : []),
+            ['assumptions', 'Supuestos'],
             ['notes', 'Notas']
             ]
         : [
             ['definition', 'Definición'],
             ['name', 'Nombre'],
             ['misc', 'Varios'],
-            ['referential', 'Acción referencial']
+            ['referential', 'Acción referencial'],
+            ['assumptions', 'Supuestos']
             ];
     const category = categories.some( item => item[0] === state.category )
         ? state.category
@@ -212,6 +234,9 @@ export function renderProperties(
                 break;
             case 'indexes':
                 content = tableIndexes( table );
+                break;
+            case 'assumptions':
+                content = assumptionsPanel( model, table.id );
                 break;
             case 'notes':
                 content = `<label class="notes-field">Notas de la entidad
@@ -239,6 +264,9 @@ export function renderProperties(
                 break;
             case 'referential':
                 content = relationshipActions( relation );
+                break;
+            case 'assumptions':
+                content = assumptionsPanel( model, relation.id );
                 break;
             default:
                 content = relationshipDefinition( model, relation );
@@ -325,6 +353,7 @@ function nativeProperties(
         ['definition', 'Definición'],
         ...(entity || relation ? [['attributes', 'Atributos']] : []),
         ...(relation ? [['misc', 'Varios'], ['translation', 'Correspondencias']] : []),
+        ['assumptions', 'Supuestos'],
         ['notes', 'Notas']
         ];
     const category = categories.some( entry => entry[0] === state.category )
@@ -338,6 +367,9 @@ function nativeProperties(
     if (category === 'notes') {
         content = `<label class="notes-field">Notas semánticas
             <textarea data-field="notes">${escapeHTML( item.notes )}</textarea></label>`;
+        }
+    else if (category === 'assumptions') {
+        content = assumptionsPanel( model, item.id );
         }
     else if (category === 'attributes') {
         content = conceptualAttributeList( model, item.id );

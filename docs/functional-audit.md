@@ -1,7 +1,7 @@
-# Matriz funcional de DataBasic 0.4.1
+# Matriz funcional de DataBasic 0.4.2
 
 Esta matriz enlaza necesidad, fuente, operación y evidencia. Describe el código
-0.4.1 y el formato de documento 2, con entrada compatible de formato 1.
+0.4.2 y el formato de documento 2, con entrada compatible de formato 1.
 **Disponible** significa que existe una operación y cobertura automatizada
 indicada; no significa que todos los clics y tamaños de pantalla se hayan
 probado en un navegador real. **Documental** conserva hechos que no se imponen
@@ -40,6 +40,7 @@ construido, sin sustituir la revisión visual.
 | [Interfaz](../tests/interface.test.js) | Controles y categorías renderizados; no demuestra maquetación visual. |
 | [Aplicación](../tests/application.test.js) | Eventos y diálogos simulados usando el ensamblado común. |
 | [Bundle](../tests/bundle.test.js) | Recursos de salida y arranque del artefacto offline construido. |
+| [Supuestos](../tests/assumptions.test.js) | Supuestos por objeto, etiquetas, desvinculación al borrar y memoria del diseño en Markdown y HTML. |
 
 ## Recorrido relacional y ventanas
 
@@ -80,7 +81,8 @@ construido, sin sustituir la revisión visual.
 | C-06 · T2 p. 8 | Recursiva: una entidad repetida con dos roles. | Disponible; Conceptual, participaciones distintas; Escena, dos puertos/ramas identificables. | Compartir entidad no autoriza fusionar roles. |
 | C-15 · ERE p. 4 / P1 p. 3 | Letra 1/N junto al rombo en cada rama. | Disponible; Conceptual, «La letra de cardinalidad se deduce…»; Escena, «Cada rama Chen lleva la letra…»; Aplicación, diálogo y Varios. | Binaria: deducida del máximo de la otra rama. Ternaria: la elige el autor; automática muestra N. |
 | C-16 · ERE p. 2 / T2 p. 5 | Rombo doble del vínculo identificador. | Disponible; Conceptual, «El vínculo identificador se reconoce…»; Escena, rombo doble y FK identificadora proyectada. | Se dibuja al elegir el vínculo en la débil o una FK identificadora; no se deduce de nombres. |
-| C-17 · ERE p. 5 / T2 p. 16 | Arcos de subconjunto en las subclases y doble línea de totalidad. | Disponible (dibujo); Escena, «…las subclases llevan el arco». | La transformación relacional de la jerarquía sigue pendiente (C-13). |
+| C-17 · ERE p. 5 / T2 p. 16 | Arcos de subconjunto en las subclases y doble línea de totalidad. | Disponible (dibujo); Escena, «…las subclases llevan el arco». | La transformación relacional usa la estrategia de C-13. |
+| C-18 · P1 p. 2 / ERE pp. 5–10 | Supuestos: enunciado, supuesto y semántica perdida, por objeto o globales. | Disponible; Supuestos prueba altas, ediciones, rechazo, JSON y desvinculación al borrar; Interfaz, categoría; Aplicación, diálogo, visión general y deshacer. | Un supuesto cuyo objeto se borra conserva el texto como global. No se evalúa la verdad del supuesto. |
 | C-07 · T3 §3.6 | Correspondencias → tabla asociativa y elección explícita de clave. | Disponible; Conceptual, N:N con atributo y ternaria con período; Aplicación, período en clave y persistencia. | No se supone que todas las FKs basten; la política de identidad la elige el autor. |
 | C-08 · T3 §3.6 | Correspondencias → FK binaria, lado receptor e identificación. | Disponible; Conceptual/Aplicación, materialización y receptor compatible. | Cambiar después a otra estrategia no tiene inversa automática; se conserva la decisión existente o se resuelve desde el origen. |
 | C-09 · T2 p. 5 / T3 §3.6 | Entidad débil → propietaria/vínculo; atributo clave parcial; FK identificadora. | Disponible; Conceptual, PK heredada más parcial y SQL; Aplicación ejecuta los controles de debilidad y vínculo. | Una FK del legado no prueba por sí sola entidad débil conceptual. |
@@ -99,6 +101,7 @@ construido, sin sustituir la revisión visual.
 | IO-03 · DB | Ajustar, Distribuir, Imagen SVG e Imprimir/PDF. | Disponible; Escena usa límites comunes para textos, ramas y marcadores; SVG/XML probado. | Impresión depende del navegador; revisar diagramas grandes, solapes y márgenes en uso real. |
 | IO-04 · DB / T3 | Archivo → SQL, revisar y descargar. | Disponible; Modelo/Conceptual/Tipos/Dominio/Ejemplos prueban DDL, claves, CHECK, NUMBER→NUMERIC, auxiliares, herencia y contexto. | Sin ejecución en SGBD. Decisiones no resueltas bloquean SQL completo. El ALTER TABLE ADD CONSTRAINT exportado no es compatible con SQLite. |
 | IO-05 · DB | Abrir entrega offline construida. | Bundle comprueba recursos y arranque del artefacto real; instrucciones en README. | Sincronización, cuentas y colaboración no están implementadas. |
+| IO-06 · P1 p. 2 | Archivo → Memoria HTML / Memoria Markdown. | Disponible; Supuestos prueba secciones, letras y pares, avisos, escapes y determinismo; Aplicación prueba la descarga. | La memoria reúne el documento; la justificación y la fidelidad al enunciado siguen siendo del autor. Word abre el HTML; no se genera DOCX. |
 | AC-01 · P1 | Entregables académicos Visio/Access. | Pendiente de compatibilidad; JSON/SVG/SQL no son esos formatos. | No se abren ni generan VSD/VDX/VSDX ni bases de datos Access. |
 
 ## Cobertura del ejemplo por requisito

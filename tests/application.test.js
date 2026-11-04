@@ -1651,3 +1651,51 @@ test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', as
     await app.flushTimers();
     assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, null );
     } );
+
+test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga', async () => {
+    const initial = exampleDocument();
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({select: initial.tables[0].id});
+    await app.click({action: 'assumption'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Nuevo supuesto/ );
+    assert.match( app.element( '#dialog' ).innerHTML, new RegExp( `value="${initial.tables[0].id}"\\s+selected` ) );
+    app.submit({kind: 'enunciado', text: 'Cada socio puede tener varios préstamos.', elementId: initial.tables[0].id});
+    await app.flushTimers();
+
+    let saved = JSON.parse( app.saved() );
+
+    assert.equal( saved.assumptions.length, 1 );
+    assert.equal( saved.assumptions[0].elementId, initial.tables[0].id );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Cada socio puede tener varios préstamos\./ );
+
+    await app.click({action: 'assumption'});
+    app.submit({kind: 'supuesto', text: '   ', elementId: ''}, /Escribe el texto/);
+    await app.click({action: 'close-dialog'});
+
+    await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
+    assert.match( app.element( '#dialog' ).innerHTML, /Editar supuesto/ );
+    app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: ''});
+    await app.flushTimers();
+    saved = JSON.parse( app.saved() );
+    assert.deepEqual( [saved.assumptions[0].kind, saved.assumptions[0].elementId], ['perdida', null] );
+
+    await app.click({action: 'assumptions'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Supuestos del diseño/ );
+    assert.match( app.element( '#dialog' ).innerHTML, /Un socio puede no tener préstamos\./ );
+    await app.click({action: 'close-dialog'});
+
+    await app.click({action: 'report-html'});
+    assert.match( app.element( 'download' ).download, /memoria\.html$/ );
+    await app.click({action: 'report-markdown'});
+    assert.match( app.element( 'download' ).download, /memoria\.md$/ );
+
+    await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
+    app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: '', remove: 'on'});
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).assumptions.length, 0 );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).assumptions.length, 1 );
+    } );

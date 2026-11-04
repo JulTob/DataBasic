@@ -457,3 +457,25 @@ tres estrategias de jerarquía no implementadas y la publicación en GitHub
 Pages de esta versión, que se verifica tras integrar la rama. El recorrido en
 navegador se hizo antes de integrar 0.4.0; las transformaciones nuevas de esa
 versión se cubren con sus propias pruebas de dominio y de ejemplos.
+
+## Supuestos y memoria del diseño en 0.4.2
+
+Revisión local del 4 de noviembre de 2026.
+
+- `npm run check`, 189 pruebas (8 nuevas: supuestos, memoria, interfaz y
+  aplicación), `npm run build` y `node --check dist/app.bundle.js` superados.
+- Recorrido en Chromium (Playwright, 1400 × 900, práctica independiente)
+  sobre un documento del curso con siete pasos (A-01 a A-07), sin errores de
+  consola: alta de un supuesto global desde Insertar → Supuesto; rechazo de un
+  texto vacío dentro del diálogo; categoría Supuestos de una entidad con el
+  objeto preseleccionado; edición y eliminación desde la lista con deshacer;
+  visión general en Base de datos → Supuestos con cinco restricciones
+  documentales detectadas y edición desde ella; descarga de la memoria HTML
+  (dos SVG incrustados, letras de cardinalidad, supuestos y semántica
+  perdida) y Markdown (siete secciones); al borrar un atributo, su supuesto
+  conserva el texto como global.
+- La memoria se deriva del documento en cada descarga; nada se guarda fuera
+  del JSON. Un archivo formato 2 anterior sin `assumptions` abre sin cambios.
+
+No se ha comprobado la apertura del HTML en Word ni la impresión de la memoria;
+la memoria no sustituye la justificación escrita que pide la práctica.

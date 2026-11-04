@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
     exampleDocument,
     emptyDocument,
+    addAssumption,
     addConceptualEntity,
     addConceptualAttribute,
     addConceptualGeneralization,
@@ -269,4 +270,25 @@ test( 'Varios ofrece la letra junto al rombo por rama, automática o elegida', (
     assert.match( html, /Letra junto al rombo: N/, 'obra: el máximo de lector es N' );
     assert.match( html, /máximo de la otra rama/ );
     assert.doesNotMatch( html, /data-field="cardinality"/ );
+    } );
+
+test( 'La categoría Supuestos lista las entradas del elemento y permite añadir', () => {
+    const state = interfaceState();
+
+    state.model = addAssumption( state.model, {
+        kind: 'enunciado',
+        text: 'Cada socio tiene un correo <propio>.',
+        elementId: state.model.tables[0].id
+        } );
+    state.model = addAssumption( state.model, {text: 'Supuesto global.'} );
+    state.category = 'assumptions';
+
+    const html = renderProperties( state.model, state );
+
+    assert.match( html, /data-category="assumptions"[^>]*aria-pressed="true"/ );
+    assert.match( html, /Semántica del enunciado/ );
+    assert.match( html, /Cada socio tiene un correo &lt;propio&gt;\./ );
+    assert.doesNotMatch( html, /Supuesto global\./, 'los globales no cuelgan de la entidad' );
+    assert.match( html, /data-action="edit-assumption" data-assumption-id="[^"]+"/ );
+    assert.match( html, /data-action="assumption"/ );
     } );

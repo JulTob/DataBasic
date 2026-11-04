@@ -1,4 +1,4 @@
-# DataBasic 0.4.1 — especificación funcional
+# DataBasic 0.4.2 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,7 +14,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.1 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.2 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -50,6 +50,9 @@ haya implementado una base de datos física en un SGBD.
 | Relación nativa → Atributos / Varios / Correspondencias | Atributos propios; roles y límites; elección de estrategia y clave. |
 | Chen → Atributo / Especialización | Tipología y dominio de atributos; superclase, subclases, disyunción y totalidad. La transformación puede seguir pendiente. |
 | Vista → Opciones de visualización | General, Tablas y Relaciones; nombres, tipos, claves, requerido, notación y textos. |
+| Cualquier objeto → Supuestos | Entradas de semántica del enunciado, supuesto semántico o semántica perdida vinculadas a ese objeto; Añadir supuesto… abre el diálogo con el objeto preseleccionado. |
+| Base de datos → Supuestos | Visión general por clase, con las restricciones documentales que detecta DataBasic, y acceso a editar cada entrada. |
+| Archivo → Memoria HTML / Markdown | Memoria del diseño generada del documento; el HTML incrusta los dos diagramas. |
 
 El término **Varios** se conserva por continuidad con Visio 2010; su contenido
 explica la decisión concreta. Una **Vista SQL** es un objeto consulta, distinto
@@ -85,7 +88,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.1 |
+| Construcción | Alcance 0.4.2 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -124,6 +127,32 @@ elegida en Varios) y mientras no se decide la rama no muestra letra. La
 identificadora, dibuja el rombo doble. En una especialización, el círculo
 muestra `d` o `s`, la doble línea indica totalidad y cada subclase lleva el
 arco de subconjunto abierto hacia el círculo.
+
+## Supuestos y memoria del diseño
+
+Un **supuesto** es una afirmación de diseño con tres clases, las de la
+introducción al ERE del curso: `enunciado` (lo que dice el texto), `supuesto`
+(lo que el autor decide porque el texto no lo dice) y `perdida` (lo que el
+modelo no impone). Cada entrada tiene identidad, texto de hasta 2000
+caracteres y un `elementId` opcional que apunta a una entidad, atributo,
+relación, participación, especialización, tabla, columna o clave foránea. Se
+guarda en la lista opcional `assumptions` del formato 2; los archivos sin esa
+lista abren sin cambios. Una entrada con clase desconocida, texto vacío o
+elemento inexistente se rechaza; al borrar el elemento, la entrada conserva el
+texto y pasa a ser global. Las notas por objeto siguen siendo un campo
+distinto: describen el objeto, no afirman una decisión.
+
+La **memoria del diseño** se deriva del documento, nunca se almacena. Un
+modelo de informe con secciones de párrafos, listas y tablas reúne entidades y
+atributos (tipo, identidad, tipología y dominio), relaciones (roles, pares,
+letra de cardinalidad, atributos propios y decisión de transformación),
+especializaciones, la semántica reflejada, los supuestos, la semántica
+perdida (entradas del autor más las restricciones documentales y decisiones
+pendientes que detecta la revisión) y el esquema relacional resultante. Dos
+renderizadores dan formato: Markdown y HTML; el HTML incrusta los diagramas
+Chen y relacional en SVG y Word lo abre. La memoria no redacta la
+justificación ni demuestra fidelidad al enunciado: reúne lo que el autor
+escribió y lo que el modelo contiene.
 
 ## Dibujo, archivos y SQL
 
