@@ -39,7 +39,7 @@ haya implementado una base de datos física en un SGBD.
 | --- | --- |
 | Barra superior | Relacional/Chen, Perfil Curso/General y acceso a revisión. |
 | Tabla → Definición | Nombre físico y conceptual, sincronización y espacio de nombres. Propietario/origen se muestran sin edición; no hay ingeniería inversa. |
-| Tabla → Columnas | Nombre, tipo completo, requerido, PK y notas; agregar, quitar, editar y reordenar. |
+| Tabla → Columnas | Nombre, tipo, requerido, PK y notas; agregar, quitar, editar y reordenar. El tipo se elige en una lista de tipos estándar agrupados por categoría (texto, numérico, temporal, lógico, datos en bruto y otros) y filtrada por perfil; el valor actual se conserva aunque no sea estándar y «Otro…» descubre un cuadro para escribirlo. |
 | Columnas → Editar… | Familia, longitud o precisión/escala, predeterminado y dominio declarativo. |
 | Tabla → Identificador principal | Selección de una o varias columnas PK. |
 | Tabla → Índices / Claves alternativas | Índices separados de las claves candidatas alternativas; creación, edición y eliminación. |

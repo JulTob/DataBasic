@@ -43,6 +43,51 @@ export const DATA_TYPES = [
     'TEXT'
     ];
 
+/**
+ * Standard types offered in the Columns grid, grouped as Visio groups its
+ * portable data types (text, numeric, temporal, logical, raw, other). The
+ * course profile only offers the four families the practice allows.
+ */
+export const STANDARD_TYPE_GROUPS = [
+    {
+        label: 'Texto',
+        course: ['VARCHAR(50)', 'VARCHAR(100)', 'VARCHAR(255)', 'CHAR(1)', 'CHAR(10)'],
+        general: ['VARCHAR(50)', 'VARCHAR(100)', 'VARCHAR(255)', 'CHAR(1)', 'CHAR(10)', 'TEXT']
+        },
+    {
+        label: 'Numérico',
+        course: ['NUMBER', 'NUMBER(10)', 'NUMBER(10,2)', 'NUMBER(6,2)'],
+        general: [
+            'NUMBER', 'NUMBER(10)', 'NUMBER(10,2)', 'INTEGER', 'SMALLINT', 'BIGINT',
+            'DECIMAL(10,2)', 'NUMERIC(10,2)', 'REAL', 'FLOAT', 'DOUBLE'
+            ]
+        },
+    {
+        label: 'Temporal',
+        course: ['DATE'],
+        general: ['DATE', 'TIME', 'TIMESTAMP', 'DATETIME']
+        },
+    {
+        label: 'Lógico',
+        course: [],
+        general: ['BOOLEAN']
+        },
+    {
+        label: 'Datos en bruto y otros',
+        course: [],
+        general: ['BLOB', 'UUID']
+        }
+    ];
+
+/** The groups that apply to a profile, without the empty ones. */
+export function standardTypeGroups( profile ) {
+    const key = profile === 'course' ? 'course' : 'general';
+
+    return STANDARD_TYPE_GROUPS
+        .map( group => ({label: group.label, types: group[key]}) )
+        .filter( group => group.types.length );
+    }
+
 export const CARDINALITIES = [
     ['zero-many', 'Cero o más', '0..N'],
     ['one-many', 'Uno o más', '1..N'],

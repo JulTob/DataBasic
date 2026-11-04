@@ -292,3 +292,26 @@ test( 'La categoría Supuestos lista las entradas del elemento y permite añadir
     assert.match( html, /data-action="edit-assumption" data-assumption-id="[^"]+"/ );
     assert.match( html, /data-action="assumption"/ );
     } );
+
+test( 'La celda de tipo es una lista estándar por categoría con Otro… y el valor actual', () => {
+    const state = interfaceState();
+
+    state.model = updateTable( state.model, state.model.tables[0].id, {name: 'Socio'} );
+    state.model.tables[0].columns[1].type = 'VARCHAR(80)';
+    state.category = 'columns';
+
+    const html = renderProperties( state.model, state );
+
+    assert.match( html, /<select aria-label="Tipo de datos"[^>]*data-type-select/ );
+    assert.match( html, /<optgroup label="Texto">/ );
+    assert.match( html, /<optgroup label="Numérico">/ );
+    assert.match( html, /<optgroup label="Temporal">/ );
+    assert.doesNotMatch( html, /<option value="INTEGER"/, 'el perfil del curso no ofrece INTEGER' );
+    assert.match( html, /<optgroup label="Actual"><option value="VARCHAR\(80\)"\s+selected>/ );
+    assert.match( html, /<option value="__otro__" class="type-other">Otro…<\/option>/ );
+    assert.match( html, /<input aria-label="Tipo de datos escrito"[^>]*value="VARCHAR\(80\)"[^>]*hidden/ );
+    assert.doesNotMatch( html, /datalist/ );
+
+    state.model = {...state.model, profile: 'general'};
+    assert.match( renderProperties( state.model, state ), /<option value="INTEGER"/ );
+    } );

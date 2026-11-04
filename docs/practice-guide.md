@@ -45,7 +45,7 @@ coordinar ninguna o varias sesiones. Cada instrumento tiene código, serie
    | Persona.codigoPersona | NUMBER | PK. |
    | Persona.nombre | VARCHAR(60) | Requerido. |
    | Instrumento.codigoInstrumento | NUMBER | PK. |
-   | Instrumento.serie | CHAR(12) | AK y requerido. |
+   | Instrumento.serie | CHAR(12) | AK y requerido; en la rejilla el tipo se elige en la lista por categorías y, si no está, con «Otro…». |
    | Instrumento.fechaAlta | DATE | Requerido. |
    | Instrumento.valor | NUMBER(8,2) | Requerido, mínimo 0, predeterminado `0`. |
    | Sesion.codigoSesion | NUMBER | PK. |

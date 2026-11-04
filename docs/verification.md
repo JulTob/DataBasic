@@ -479,3 +479,10 @@ Revisión local del 4 de noviembre de 2026.
 
 No se ha comprobado la apertura del HTML en Word ni la impresión de la memoria;
 la memoria no sustituye la justificación escrita que pide la práctica.
+
+Tipos estándar en Columnas, 4 de noviembre de 2026: la celda de tipo es una
+lista agrupada por categoría y filtrada por perfil, con el valor actual
+conservado y «Otro…» que descubre el cuadro de texto. Pruebas de dominio
+(validez por perfil), de interfaz (grupos, valor no estándar y opción Otro) y
+de aplicación (elegir un tipo guarda; Otro… no guarda nada hasta escribir),
+además de una comprobación en Chromium de la celda y del cuadro descubierto.

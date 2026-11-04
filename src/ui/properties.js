@@ -2,6 +2,7 @@ import {
     ACTIONS,
     CARDINALITIES,
     DATA_TYPES,
+    standardTypeGroups,
     parseDataType,
     getConceptualProjection,
     conceptualStatus,
@@ -41,6 +42,35 @@ function tableDefinition( table ) {
         </div></div>`;
     }
 
+/** Choosing this entry in the type list reveals the free text input beside it. */
+export const OTHER_TYPE_OPTION = '__otro__';
+
+/**
+ * The type cell is a list of standard types grouped by category, as Visio
+ * offers its portable types; the current value stays visible even when it
+ * is not standard, and «Otro…» lets the author write any accepted type.
+ */
+function columnTypeCell(
+        model,
+        field
+        ) {
+    const groups = standardTypeGroups( model.profile );
+    const standard = groups.some( group => group.types.includes( field.type ) );
+    const option = type => `<option value="${escapeHTML( type )}"
+        ${type === field.type ? 'selected' : ''}>${escapeHTML( type )}</option>`;
+
+    return `<td data-type-cell><select aria-label="Tipo de datos" data-col-id="${field.id}"
+            data-field="type" data-type-select title="Tipos estándar del perfil; Otro… permite escribirlo">
+            ${standard ? '' : `<optgroup label="Actual">${option( field.type )}</optgroup>`}
+            ${groups.map(
+                    group => `<optgroup label="${escapeHTML( group.label )}">${group.types.map( option ).join( '' )}</optgroup>`
+                    ).join( '' )}
+            <option value="${OTHER_TYPE_OPTION}" class="type-other">Otro…</option></select>
+        <input aria-label="Tipo de datos escrito" data-col-id="${field.id}" data-field="type"
+            value="${escapeHTML( field.type )}" maxlength="100" hidden
+            title="Escribe el tipo completo, por ejemplo NUMBER(8,2)"></td>`;
+    }
+
 function tableColumns(
         model,
         table,
@@ -52,9 +82,7 @@ function tableColumns(
                 <td class="row-pointer">${field.id === selectedColumnId ? '▸' : ''}</td>
                 <td><input aria-label="Nombre de columna" data-col-id="${field.id}"
                     data-field="name" value="${escapeHTML( field.name )}" maxlength="160"></td>
-                <td><input aria-label="Tipo de datos" data-col-id="${field.id}"
-                    data-field="type" value="${escapeHTML( field.type )}" list="data-types"
-                    title="Tipo completo; Editar permite elegir familia y parámetros"></td>
+                ${columnTypeCell( model, field )}
                 <td class="checkbox-cell"><input type="checkbox" aria-label="Requerido"
                     data-col-id="${field.id}" data-field="required"
                     ${field.required ? 'checked' : ''} ${field.primary ? 'disabled' : ''}></td>
@@ -78,8 +106,7 @@ function tableColumns(
         <hr>
         ${command( 'column-up', 'Subir', 'arrow-up', selectedColumnId ? '' : 'disabled' )}
         ${command( 'column-down', 'Bajar', 'arrow-down', selectedColumnId ? '' : 'disabled' )}
-        </div></div>
-        <datalist id="data-types">${(model.profile === 'course' ? ['VARCHAR(50)', 'CHAR(10)', 'NUMBER', 'NUMBER(10,2)', 'DATE'] : DATA_TYPES).map( type => `<option value="${type}"></option>` ).join( '' )}</datalist>`;
+        </div></div>`;
     }
 
 function tablePrimary( table ) {

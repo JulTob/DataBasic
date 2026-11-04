@@ -49,7 +49,10 @@ import {
     paletteContents,
     ribbonContents
     } from './ui/layout.js';
-import { renderProperties } from './ui/properties.js';
+import {
+    OTHER_TYPE_OPTION,
+    renderProperties
+    } from './ui/properties.js';
 import {
     closeDialog,
     openDialog,
@@ -1405,9 +1408,30 @@ document.addEventListener(
             }
         );
 
+/** «Otro…» in the type list swaps the list for the text input of the same cell. */
+function revealTypeInput( select ) {
+    const cell = select.closest( '[data-type-cell]' );
+    const input = cell?.querySelector( 'input[data-field="type"]' );
+
+    if (!input) {
+        return;
+        }
+
+    select.hidden = true;
+    input.hidden = false;
+    input.focus?.();
+    input.select?.();
+    }
+
 document.addEventListener(
         'change',
         event => {
+            if (event.target.dataset?.typeSelect !== undefined
+                && event.target.value === OTHER_TYPE_OPTION) {
+                revealTypeInput( event.target );
+                return;
+                }
+
             try {
                 fieldChanged( event.target );
                 }

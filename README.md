@@ -91,7 +91,9 @@ y ábrelo mediante **Archivo → Abrir** en la pestaña independiente.
 1. Abre **Archivo → Nuevo**. Conserva **Relacional** y **Perfil → Curso · 4 tipos**.
 2. Crea una **Entidad** y nómbrala en **Definición**.
 3. Abre **Columnas** o haz doble clic sobre la entidad. Añade nombre, tipo,
-   requerido y PK. **Editar…** abre familia, parámetros, predeterminado y dominio.
+   requerido y PK. El tipo se elige en una lista de tipos estándar por
+   categoría; **Otro…** permite escribirlo. **Editar…** abre familia,
+   parámetros, predeterminado y dominio.
 4. Crea otra entidad. Pulsa **Relación**, primero el padre y después el hijo.
    Se incorpora la PK completa del padre como FK.
 5. Selecciona el conector y abre **Varios** para cardinalidad, dependencia

@@ -1699,3 +1699,30 @@ test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga',
     await app.flushTimers();
     assert.equal( JSON.parse( app.saved() ).assumptions.length, 1 );
     } );
+
+test( 'Elegir un tipo en la lista lo guarda y Otro… no guarda nada hasta escribirlo', async () => {
+    const initial = exampleDocument();
+    const column = initial.tables[0].columns[1];
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({select: initial.tables[0].id});
+    app.change({colId: column.id, field: 'type', typeSelect: ''}, 'CHAR(10)', 'select-one');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'CHAR(10)' );
+
+    const writes = app.writes.length;
+
+    app.change({colId: column.id, field: 'type', typeSelect: ''}, '__otro__', 'select-one');
+    await app.flushTimers();
+    assert.equal( app.writes.length, writes, 'Otro… no es un tipo: no se guarda' );
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'CHAR(10)' );
+
+    app.change({colId: column.id, field: 'type'}, 'NUMBER(8,2)', 'text');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'NUMBER(8,2)' );
+
+    app.change({colId: column.id, field: 'type'}, 'INTEGER', 'text');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'NUMBER(8,2)', 'el perfil del curso rechaza INTEGER' );
+    assert.match( app.element( '#toast' ).textContent, /sólo admite VARCHAR, CHAR, NUMBER y DATE/ );
+    } );
