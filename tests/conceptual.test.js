@@ -278,14 +278,14 @@ test( 'Mover exige coordenadas válidas y referencia existente sin mutar el orig
     for (const id of ids) {
         for (const position of [
             null,
-            {x: -1, y: 0},
+            {x: -20001, y: 0},
             {x: 0, y: 20001},
             {x: Infinity, y: 0},
             {x: 0, y: NaN}
             ]) {
             assert.throws(
                     () => domain.moveDiagramElement( model, id, position ),
-                    /coordenadas entre 0 y 20000/
+                    /coordenadas entre -20000 y 20000/
                     );
             assert.equal( serializeDocument( model ), before );
             }
@@ -312,7 +312,7 @@ test( 'JSON rechaza posiciones relacionales inválidas en lugar de descartarlas'
         'invalid',
         {missing: {x: 10, y: 20}},
         {[model.tables[0].id]: {x: 10, y: 20}},
-        {[relationId]: {x: -10, y: 20}},
+        {[relationId]: {x: -20010, y: 20}},
         {[relationId]: {x: 10, y: 20001}}
         ]) {
         const copy = structuredClone( model );

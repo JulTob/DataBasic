@@ -217,12 +217,43 @@ function visioTableBody(
                 height: node.height - node.headerHeight
                 }
             );
+    const colors = visioHueColors( node.table.color );
     const sections = visioXForm( region.pin, region.width, region.height )
-        + visioLineSection( {color: VISIO_COLORS.border, weight: 1, rounding: visioInches( radius )} )
-        + visioFillSection( VISIO_COLORS.white, true )
+        + visioLineSection( {color: colors.line, weight: 1, rounding: visioInches( radius )} )
+        + visioFillSection( colors.fill, true )
         + visioRectangleGeometry( 0, region.width, region.height );
 
     return visioShape( visioNextId( ids ), 'Shape', sections );
+    }
+
+/** The element's hue as the same border and almost-white fill the canvas shows. */
+function visioHueColors( hue ) {
+    if (hue === null || hue === undefined) {
+        return {line: VISIO_COLORS.border, fill: VISIO_COLORS.white};
+        }
+
+    return {line: visioHexFromHSL( hue, 55, 40 ), fill: visioHexFromHSL( hue, 65, 97 )};
+    }
+
+/** Visio wants #RRGGBB; the canvas speaks hsl(), so convert once here. */
+function visioHexFromHSL(
+        hue,
+        saturation,
+        lightness
+        ) {
+    const s = saturation / 100;
+    const l = lightness / 100;
+    const chroma = (1 - Math.abs( 2 * l - 1 )) * s;
+    const x = chroma * (1 - Math.abs( (hue / 60) % 2 - 1 ));
+    const m = l - chroma / 2;
+    const sector = Math.floor( hue / 60 ) % 6;
+    const [r, g, b] = [
+        [chroma, x, 0], [x, chroma, 0], [0, chroma, x],
+        [0, x, chroma], [x, 0, chroma], [chroma, 0, x]
+        ][sector];
+    const channel = value => Math.round( (value + m) * 255 ).toString( 16 ).padStart( 2, '0' );
+
+    return `#${channel( r )}${channel( g )}${channel( b )}`;
     }
 
 /** The line under the last primary key row, as the canvas draws it. */

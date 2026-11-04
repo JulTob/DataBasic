@@ -383,7 +383,7 @@ export function updateTable(
                         patch,
                         [
                             'name', 'conceptualName', 'syncNames', 'namespace',
-                            'x', 'y', 'notes', 'definition', 'indexes', 'alternateKeys'
+                            'x', 'y', 'notes', 'definition', 'indexes', 'alternateKeys', 'color'
                             ]
                         );
 
@@ -788,11 +788,7 @@ export function validateDocument( model ) {
 
         names.add( tableName );
 
-        if (![table.x, table.y].every(
-                coordinate => Number.isFinite( coordinate )
-                    && coordinate >= 0
-                    && coordinate <= 20000
-                )) {
+        if (!domainPositionValid( {x: table.x, y: table.y} )) {
             add( 'error', `${table.name}: la posición está fuera del lienzo admitido.`, table.id );
             }
 
@@ -1354,6 +1350,7 @@ function validateDocumentShape( model ) {
                 }
 
             flag( table, 'syncNames' );
+            demand( validHue( table.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             demand( ['entity', 'view'].includes( table.kind ), 'Tipo de entidad no válido.' );
             list( table.columns, 200, 'Columnas' );
             list( table.indexes, 100, 'Índices' );
@@ -1390,6 +1387,7 @@ function validateDocumentShape( model ) {
 
             flag( relation, 'identifying' );
             flag( relation, 'optional' );
+            demand( validHue( relation.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             list( relation.mappings, 200, 'Correspondencias' );
 
             for (const pair of relation.mappings) {
@@ -1446,6 +1444,7 @@ function validateDocumentShape( model ) {
 
         for (const entity of model.conceptual.entities) {
             flag( entity, 'weak' );
+            demand( validHue( entity.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             demand(
                     entity.ownerEntityId === null || typeof entity.ownerEntityId === 'string',
                     'Propietario de entidad débil no válido.'
@@ -1473,6 +1472,7 @@ function validateDocumentShape( model ) {
                 flag( attribute, key );
                 }
 
+            demand( validHue( attribute.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             domain( attribute.domain );
             demand(
                     attribute.translation === null
@@ -1588,7 +1588,7 @@ function validateDocumentShape( model ) {
         for (const [id, position] of Object.entries( model.presentation.chen )) {
             demand(
                     ids.has( id ) && domainPositionValid( position ),
-                    'La posición Chen necesita un elemento existente y coordenadas entre 0 y 20000.'
+                    'La posición Chen necesita un elemento existente y coordenadas entre -20000 y 20000.'
                     );
             }
 
@@ -1606,7 +1606,7 @@ function validateDocumentShape( model ) {
             for (const [id, position] of Object.entries( positions )) {
                 demand(
                         foreignKeyIds.has( id ) && domainPositionValid( position ),
-                        'La posición relacional necesita una relación existente y coordenadas entre 0 y 20000.'
+                        'La posición relacional necesita una relación existente y coordenadas entre -20000 y 20000.'
                         );
                 }
             }
@@ -1697,9 +1697,18 @@ function validatePhysicalValue(
         }
     }
 
+/** The canvas extends the same distance to every side of the origin. */
+export const POSITION_LIMIT = 20000;
+
+/** An element colour is a hue of the spectrum (0..360) or null for the default look. */
+export function validHue( value ) {
+    return value === null || value === undefined
+        || Number.isInteger( value ) && value >= 0 && value <= 360;
+    }
+
 function domainPositionValid( position ) {
-    return position && [position.x, position.y].every(
-            value => Number.isFinite( value ) && value >= 0 && value <= 20000
+    return Boolean( position ) && [position.x, position.y].every(
+            value => Number.isFinite( value ) && value >= -POSITION_LIMIT && value <= POSITION_LIMIT
             );
     }
 
@@ -2061,6 +2070,10 @@ function syncNativeTableProperties(
         if ('notes' in patch) {
             entity.notes = table.notes;
             }
+
+        if ('color' in patch) {
+            entity.color = table.color ?? null;
+            }
         }
 
     if (trace?.sourceKind === 'relationship' && 'name' in patch) {
@@ -2139,7 +2152,7 @@ export function moveDiagramElement(
                     }
 
                 if (!domainPositionValid( position )) {
-                    throw new Error( 'La posición necesita coordenadas entre 0 y 20000.' );
+                    throw new Error( 'La posición necesita coordenadas entre -20000 y 20000.' );
                     }
 
                 if (mode === 'chen') {
@@ -2200,7 +2213,8 @@ export function getConceptualProjection( model ) {
                 weak: false,
                 ownerEntityId: null,
                 projected: true,
-                tableId: table.id
+                tableId: table.id,
+                color: table.color ?? null
                 });
             }
         else if (!traces.some(
@@ -2320,13 +2334,17 @@ export function updateConceptualEntity(
                 applyDomainPatch(
                         entity,
                         patch,
-                        ['name', 'notes', 'weak', 'ownerEntityId', 'translation']
+                        ['name', 'notes', 'weak', 'ownerEntityId', 'translation', 'color']
                         );
 
                 const table = conceptualEntityTable( next, id );
 
                 table.conceptualName = entity.name;
                 table.notes = entity.notes;
+
+                if ('color' in patch) {
+                    table.color = entity.color ?? null;
+                    }
 
                 if (table.syncNames) {
                     table.name = entity.name;
@@ -2727,7 +2745,7 @@ function applyNativeAttributePatch(
             [
                 'name', 'type', 'required', 'primary', 'partialKey', 'notes',
                 'defaultValue', 'structure', 'multivalued', 'derived',
-                'parentAttributeId', 'derivation', 'domain', 'translation'
+                'parentAttributeId', 'derivation', 'domain', 'translation', 'color'
                 ]
             );
 
@@ -2825,7 +2843,7 @@ export function updateConceptualRelationship(
                             );
                     }
 
-                applyDomainPatch( relation, patch, ['name', 'notes', 'translation'] );
+                applyDomainPatch( relation, patch, ['name', 'notes', 'translation', 'color'] );
                 materializeConceptualRelationship( next, relation );
                 }
             );

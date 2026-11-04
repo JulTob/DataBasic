@@ -1,6 +1,7 @@
 import {
     conceptualStatus,
     getConceptualProjection,
+    POSITION_LIMIT,
     isIdentifyingLink,
     participationCardinalityLetter
     } from '../domain/model.js';
@@ -217,8 +218,8 @@ function sceneNearbyFreePosition(
         occupied
         ) {
     const clamp = point => ({
-        x: Math.max( 0, Math.min( 20000 - size.width, point.x ) ),
-        y: Math.max( 0, Math.min( 20000 - size.height, point.y ) )
+        x: Math.max( -POSITION_LIMIT, Math.min( POSITION_LIMIT - size.width, point.x ) ),
+        y: Math.max( -POSITION_LIMIT, Math.min( POSITION_LIMIT - size.height, point.y ) )
         });
     const origin = clamp( preferred );
     const distance = point => (point.x - origin.x) ** 2 + (point.y - origin.y) ** 2;

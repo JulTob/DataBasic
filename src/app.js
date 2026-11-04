@@ -914,6 +914,9 @@ async function act(
         case 'reset-physical':
             resetPhysical( target.dataset.scope, target.dataset.target );
             break;
+        case 'clear-color':
+            clearColor();
+            break;
         case 'download-access-vba':
             download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
             notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
@@ -1053,6 +1056,10 @@ function fieldChanged( target ) {
         value = target.value === 'true';
         }
 
+    if (field === 'color') {
+        value = String( value ).trim() === '' ? null : Number( value );
+        }
+
     const native = selectedNative();
 
     if (native) {
@@ -1126,6 +1133,25 @@ function fieldChanged( target ) {
                 updateTable( state.model, state.selectedId, {[field]: value} ),
                 target.type !== 'checkbox'
                 );
+        }
+    }
+
+/** Back to the default look for the selected table or conceptual element. */
+function clearColor() {
+    const native = selectedNative();
+    const patch = {color: null};
+
+    if (!native) {
+        commit( updateTable( state.model, state.selectedId, patch ) );
+        }
+    else if (state.model.conceptual.entities.includes( native )) {
+        commit( updateConceptualEntity( state.model, native.id, patch ) );
+        }
+    else if (state.model.conceptual.attributes.includes( native )) {
+        commit( updateConceptualAttribute( state.model, native.id, patch ) );
+        }
+    else {
+        commit( updateConceptualRelationship( state.model, native.id, patch ) );
         }
     }
 

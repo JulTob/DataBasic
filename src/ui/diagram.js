@@ -54,6 +54,15 @@ export function resolveDiagramPosition(
     return sceneResolveDiagramPosition( model, id, preferred );
     }
 
+/** The element's hue as CSS variables; the stylesheet falls back to the default look. */
+export function diagramColorStyle( hue ) {
+    if (hue === null || hue === undefined) {
+        return '';
+        }
+
+    return `style="--element-color: hsl(${hue} 55% 40%); --element-fill: hsl(${hue} 65% 97%); --element-header: hsl(${hue} 55% 90%)"`;
+    }
+
 function diagramReferenceAttributes( ref ) {
     const attributes = [
         `data-diagram-kind="${ref.kind}"`,
@@ -151,7 +160,7 @@ function diagramTable(
     const header = node.headerHeight;
     const bodyHeight = node.height - header;
 
-    return `<g ${diagramReferenceAttributes( node.ref )}
+    return `<g ${diagramReferenceAttributes( node.ref )} ${diagramColorStyle( table.color )}
         data-dependent="${node.dependent}" data-notation="${notation}"
         class="entity ${selected ? 'selected' : ''} ${parentId === table.id ? 'connect-parent' : ''}"
         transform="translate(${node.x},${node.y})" tabindex="0" role="button"
@@ -243,7 +252,7 @@ function diagramAccessTable(
         ? [`◇ ${node.titleLines[0]}`, ...node.titleLines.slice( 1 )]
         : node.titleLines;
 
-    return `<g ${diagramReferenceAttributes( node.ref )} data-notation="access"
+    return `<g ${diagramReferenceAttributes( node.ref )} data-notation="access" ${diagramColorStyle( table.color )}
         class="entity access-entity ${selected ? 'selected' : ''} ${parentId === table.id ? 'connect-parent' : ''}"
         transform="translate(${node.x},${node.y})" tabindex="0" role="button"
         aria-label="${table.kind === 'view' ? 'Consulta' : 'Tabla'} ${escapeHTML( table.name )}">
@@ -443,7 +452,7 @@ function diagramChenEntity(
     const table = node.tableId && node.ref.kind !== 'table'
         ? `data-table-id="${escapeHTML( node.tableId )}"` : '';
 
-    return `<g ${diagramReferenceAttributes( node.ref )} ${table}
+    return `<g ${diagramReferenceAttributes( node.ref )} ${table} ${diagramColorStyle( node.entity.color )}
         class="chen-node chen-entity ${node.ref.id === selectedId ? 'selected' : ''}
             ${node.ref.id === parentId ? 'connect-parent' : ''}"
         data-projected="${Boolean( node.entity.projected )}"
@@ -465,7 +474,7 @@ function diagramChenAttribute(
     const centerX = node.width / 2;
     const centerY = node.height / 2;
 
-    return `<g ${diagramReferenceAttributes( node.ref )}
+    return `<g ${diagramReferenceAttributes( node.ref )} ${diagramColorStyle( attribute.color )}
         class="chen-node chen-attribute ${node.ref.id === selectedId ? 'selected' : ''}"
         transform="translate(${node.x},${node.y})" role="button" tabindex="0"
         aria-label="Atributo ${escapeHTML( attribute.name )}, ${escapeHTML( attribute.type || '' )}">
@@ -508,7 +517,7 @@ function diagramChenRelationship(
         node,
         selectedId
         ) {
-    return `<g ${diagramReferenceAttributes( node.ref )}
+    return `<g ${diagramReferenceAttributes( node.ref )} ${diagramColorStyle( node.relation.color )}
         class="chen-node chen-relation ${node.ref.id === selectedId ? 'selected' : ''}"
         data-identifying="${Boolean( node.identifying )}"
         transform="translate(${node.x},${node.y})" role="button" tabindex="0"
@@ -588,7 +597,7 @@ function diagramChenEdge(
 
 export const DIAGRAM_STYLES = `
     .table-shadow { fill: #254b3e0c; }
-    .table-body { fill: #fff; stroke: #78988b; stroke-width: 1.5; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
     .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
     .column-hit { fill: transparent; }
     .column-target { cursor: pointer; outline: none; }
@@ -630,7 +639,7 @@ export const DIAGRAM_STYLES = `
     .cardinality-letter { font-weight: 650; fill: #243e33; }
     .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
     .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
-    .access-header { fill: #dfe9e3; stroke: #78988b; stroke-width: 1.5; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
     .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
     .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
@@ -638,8 +647,8 @@ export const DIAGRAM_STYLES = `
     .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
     .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
     .chen-node { cursor: move; outline: none; }
-    .chen-shape { fill: #fbfefc; stroke: #6e9482; stroke-width: 1.6; }
-    .chen-inner { fill: none; stroke: #6e9482; stroke-width: 1.4; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
     .chen-node.selected .chen-shape,
     .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
     .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }

@@ -221,12 +221,28 @@ function propertyInput(
             maxlength="160" ${extra}></label>`;
     }
 
+/** A hue of the spectrum for the element's border, with an almost white fill of the same hue. */
+export function colorField( value ) {
+    const hue = value ?? null;
+    const swatch = hue === null
+        ? ''
+        : `style="--element-color: hsl(${hue} 55% 40%); --element-fill: hsl(${hue} 65% 96%)"`;
+
+    return `<div class="color-field"><span>Color:</span>
+        <input type="range" min="0" max="360" step="1" class="hue-slider" data-field="color"
+            value="${hue ?? 200}" aria-label="Tono del color">
+        <span class="color-swatch ${hue === null ? 'unset' : ''}" ${swatch}
+            title="${hue === null ? 'Sin color' : `Tono ${hue}`}"></span>
+        <button type="button" data-action="clear-color" ${hue === null ? 'disabled' : ''}>Sin color</button></div>`;
+    }
+
 function tableDefinition( table ) {
     return `<div class="definition-fields">
         ${propertyInput( 'Nombre físico:', 'name', table.name )}
         ${propertyInput( 'Nombre conceptual:', 'conceptualName', table.conceptualName )}
         ${propertyInput( 'Espacio de nombres:', 'namespace', table.namespace )}
         ${check( 'Sincronizar nombres al escribir', 'syncNames', table.syncNames )}
+        ${colorField( table.color )}
         <div class="read-only-fields">
             <label>Propietario: <input value="" disabled></label>
             <label>Base de datos de origen: <input value="" disabled></label>
@@ -657,6 +673,7 @@ function nativeProperties(
     else if (entity) {
         content = `<div class="dialog-fields">
             ${propertyInput( 'Nombre:', 'name', entity.name )}
+            ${colorField( entity.color )}
             ${check( 'Entidad débil', 'weak', entity.weak )}
             <label>Entidad propietaria<select data-field="ownerEntityId">
                 ${options( [['', 'Sin propietaria'], ...getConceptualProjection( model ).entities
@@ -679,6 +696,7 @@ function nativeProperties(
     else if (attribute) {
         content = `<div class="dialog-fields">
             ${propertyInput( 'Nombre:', 'name', attribute.name )}
+            ${colorField( attribute.color )}
             <p><strong>${escapeHTML( attribute.type )}</strong>
                 ${attribute.primary ? ' · Clave' : ''}${attribute.partialKey ? ' · Clave parcial' : ''}
                 ${attribute.multivalued ? ' · Multivaluado' : ''}${attribute.derived ? ' · Derivado' : ''}
@@ -701,6 +719,7 @@ function nativeProperties(
         }
     else {
         content = `<div class="dialog-fields">${propertyInput( 'Nombre:', 'name', relation.name )}
+            ${colorField( relation.color )}
             <p>Relación nativa con ${relation.participations.length} participaciones.</p>
             ${command( 'materialize', 'Elegir clave y materializar…', 'table-2' )}</div>`;
         }

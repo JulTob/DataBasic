@@ -1424,3 +1424,47 @@ a {
 .muted { color: #718379; }
 .physical-flag { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
 .physical-flag .check { white-space: nowrap; }
+
+/* Element colour: a hue picked from the linear spectrum. */
+.color-field { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.color-field > span:first-child { min-width: 60px; color: #526e60; font-size: 13px; }
+.hue-slider {
+    flex: 1;
+    min-width: 140px;
+    height: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 6px;
+    background: linear-gradient(to right,
+        hsl(0 70% 55%), hsl(60 70% 55%), hsl(120 70% 45%), hsl(180 70% 45%),
+        hsl(240 70% 55%), hsl(300 70% 55%), hsl(360 70% 55%));
+    }
+.hue-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #243e33;
+    box-shadow: 0 0 0 1px #243e33;
+    }
+.hue-slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; background: #243e33; }
+.color-swatch {
+    width: 26px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--element-color, #c7d8ce);
+    background: var(--element-fill, #fff);
+    }
+.color-swatch.unset { border-style: dashed; }
+.color-field button {
+    padding: 3px 9px;
+    border: 1px solid #c7d8ce;
+    border-radius: 6px;
+    background: white;
+    color: #234b3e;
+    font-size: 12px;
+    cursor: pointer;
+    }
+.color-field button:disabled { opacity: 0.5; cursor: default; }
