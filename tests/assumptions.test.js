@@ -190,7 +190,7 @@ test( 'La memoria del ejemplo y de un documento vacío se generan sin errores', 
     const example = buildDesignReport( domain.exampleDocument() );
 
     assert.ok( reportToMarkdown( example ).includes( 'Socio' ) );
-    assert.match( reportToMarkdown( example ), /Prestamo → Socio: 0\.\.N, padre obligatorio/ );
+    assert.match( reportToMarkdown( example ), /Prestamo → Socio: 0\.\.N, referencia obligatoria/ );
 
     const empty = buildDesignReport( domain.emptyDocument() );
 

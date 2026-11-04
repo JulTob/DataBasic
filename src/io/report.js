@@ -160,7 +160,7 @@ function reportRelationshipDecision(
         const cardinality = CARDINALITIES.find( item => item[0] === foreignKey?.cardinality );
 
         return `Procede de la clave foránea ${foreignKey?.name || ''}: ${cardinality ? cardinality[1] : ''}`
-            + `${foreignKey?.identifying ? ', identificadora' : ''}${foreignKey?.optional ? ', padre opcional' : ''}.`;
+            + `${foreignKey?.identifying ? ', identificadora' : ''}${foreignKey?.optional ? ', referencia opcional' : ''}.`;
         }
 
     const decision = relation.translation;
@@ -173,7 +173,7 @@ function reportRelationshipDecision(
         const child = relation.participations.find( item => item.id === decision.childParticipationId );
 
         return `Transformación: clave foránea en el lado ${child?.role || 'receptor'}`
-            + `${decision.identifying ? ', identificadora (entra en la clave hija)' : ''}.`;
+            + `${decision.identifying ? ', identificadora (entra en la clave de la tabla que referencia)' : ''}.`;
         }
 
     const keyRoles = relation.participations
@@ -340,7 +340,7 @@ function reportRelationalSection( model ) {
                 const cardinality = CARDINALITIES.find( item => item[0] === relation.cardinality );
 
                 return `${child?.name} → ${parent?.name}: ${cardinality ? cardinality[2] : relation.cardinality}`
-                    + `${relation.optional ? ', padre opcional' : ', padre obligatorio'}`
+                    + `${relation.optional ? ', referencia opcional' : ', referencia obligatoria'}`
                     + `${relation.identifying ? ', identificadora' : ''}`
                     + `; al borrar ${relation.onDelete}, al actualizar ${relation.onUpdate}.`;
                 }
@@ -350,7 +350,7 @@ function reportRelationalSection( model ) {
         heading: 'Esquema relacional resultante',
         blocks: [
             tables.length ? reportList( tables ) : reportParagraph( 'Todavía no hay tablas.' ),
-            reportParagraph( 'Claves foráneas:' ),
+            reportParagraph( 'Claves ajenas (FK), de la tabla que referencia a la referenciada:' ),
             foreignKeys.length ? reportList( foreignKeys ) : reportParagraph( 'Ninguna.' )
             ]
         };

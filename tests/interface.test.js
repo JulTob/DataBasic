@@ -152,7 +152,7 @@ test( 'UI-05: Varios separa cardinalidad, tipo y opcionalidad de la relación', 
         'Cero o uno',
         'Exactamente uno',
         'Identificadora',
-        'El hijo tiene un padre',
+        'Obligatoriedad de la referencia',
         'Opcional'
         ]) {
         assert.ok( html.includes( text ) );

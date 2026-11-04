@@ -79,7 +79,7 @@ según una política explícita, sin cambiar la estructura de la relación.
 
 1. Guarda una copia del núcleo. En __Relacional__, selecciona el conector FK
    de `Coordina`, desde Persona hacia Sesion, y abre __Acción referencial__.
-2. En __Al eliminar el padre__, elige __CASCADE__. En __Al actualizar su
+2. En __Al eliminar la fila referenciada__, elige __CASCADE__. En __Al actualizar su
    clave__, conserva __NO ACTION__. Revisa __Archivo → SQL__: debe contener
    `ON DELETE CASCADE` y `ON UPDATE NO ACTION` para esa FK.
 3. En la misma FK, intenta __SET NULL__. Debe rechazarse: la coordinadora
@@ -88,7 +88,7 @@ según una política explícita, sin cambiar la estructura de la relación.
    __Editar origen Chen__. Vuelve a materializar la misma decisión de Coordina;
    la política debe conservarse.
 5. Para recuperar la política inicial, selecciona otra vez la FK física
-   y cambia __Al eliminar el padre__ a __NO ACTION__.
+   y cambia __Al eliminar la fila referenciada__ a __NO ACTION__.
 
 _Qué comprobar y escribir._ Las acciones se eligen en la FK física concreta,
 también cuando proviene de una tabla auxiliar o de una jerarquía. La estructura
@@ -104,19 +104,19 @@ _Situación._ Queremos comprobar restricciones sin cambiar el núcleo descargado
    materializar…__, elige __FK binaria · elegir lado receptor__, Instrumento,
    sin identificación. Comprueba en SQL la FK anulable y su `UNIQUE`.
 2. Para comparar acciones con una FK opcional, crea en __Relacional__ dos
-   tablas de prueba `Padre` y `Hijo` con sus PK. Pulsa
-   __Relación__, primero Padre y después Hijo.
-3. Selecciona el conector → __Varios__. Conserva padre opcional y relación no
+   tablas de prueba `Referenciada` y `Referencia` con sus PK. Pulsa
+   __Relación__, primero Referenciada y después Referencia.
+3. Selecciona el conector → __Varios__. Conserva la referencia opcional y relación no
    identificadora. En __Acción referencial__, prueba __SET NULL__; revisa el SQL.
-4. Cambia a padre obligatorio. SET NULL debe rechazarse con explicación.
+4. Cambia a referencia obligatoria. SET NULL debe rechazarse con explicación.
    Conserva una copia previa para comprobar que el rechazo no pierde datos.
 5. Prueba __SET DEFAULT__ sin predeterminado: debe rechazarse. En Columnas de
-   Hijo, asigna a la FK un predeterminado numérico; vuelve a intentarlo.
+   Referencia, asigna a la FK un predeterminado numérico; vuelve a intentarlo.
 6. Compara __NO ACTION__ y __CASCADE__ en borrado/actualización. Descarga SQL;
    ninguna acción se ejecuta contra registros dentro de DataBasic.
 
 _Qué comprobar y escribir._ 1:1 necesita unicidad de la FK, además de referencia.
-El predeterminado debe referirse a un padre existente cuando se use en un SGBD;
+El predeterminado debe referirse a una fila referenciada existente cuando se use en un SGBD;
 DataBasic no comprueba esa fila. No guardes las tablas de prueba sobre el núcleo.
 
 ## 1. Una N:N con atributo propio

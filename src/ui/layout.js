@@ -209,7 +209,7 @@ export function paletteContents( state ) {
         ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
         ] : [
         ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
-        ['relationship', 'Relación', 'Selecciona padre e hijo', 'git-branch'],
+        ['relationship', 'Relación', 'Referenciada y luego la de la FK', 'git-branch'],
         ['view-shape', 'Vista SQL', 'Consulta y columnas', 'panels-top-left']
         ];
 

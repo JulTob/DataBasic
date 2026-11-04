@@ -70,7 +70,7 @@ test( 'La validación distingue FK única de FK que sólo es parte de PK compues
     model = domain.updateColumn( model, model.tables[1].id, fieldId, {primary: true} );
 
     assert.equal( domain.validateDocument( model ).some(
-            issue => issue.message.includes( 'limita a un hijo' )
+            issue => issue.message.includes( 'limita a una fila que referencia' )
             ), false );
 
     model = domain.setAlternateKey( model, model.tables[1].id, {
@@ -78,7 +78,7 @@ test( 'La validación distingue FK única de FK que sólo es parte de PK compues
         });
 
     assert.ok( domain.validateDocument( model ).some(
-            issue => issue.level === 'warning' && issue.message.includes( 'limita a un hijo' )
+            issue => issue.level === 'warning' && issue.message.includes( 'limita a una fila que referencia' )
             ) );
     } );
 

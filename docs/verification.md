@@ -486,3 +486,8 @@ conservado y «Otro…» que descubre el cuadro de texto. Pruebas de dominio
 (validez por perfil), de interfaz (grupos, valor no estándar y opción Otro) y
 de aplicación (elegir un tipo guarda; Otro… no guarda nada hasta escribir),
 además de una comprobación en Chromium de la celda y del cuadro descubierto.
+
+Vocabulario de las relaciones, 4 de noviembre de 2026: la interfaz, los
+mensajes, el SQL de estudio y la memoria hablan de tabla referenciada, tabla
+que referencia y clave ajena (FK), como los apuntes del curso, en lugar del
+padre/hijo de Visio. Las columnas de una autorreferencia se nombran `_ref`.

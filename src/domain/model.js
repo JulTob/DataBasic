@@ -482,13 +482,14 @@ export function addRelationship(
                     }
 
                 if (!keys.length) {
-                    throw new Error( 'Define primero una clave primaria en la entidad padre.' );
+                    throw new Error( 'Define primero una clave primaria en la tabla referenciada.' );
                     }
 
                 const mappings = keys.map(
                         key => {
+                            // A self-reference needs a second column: the referenced key.
                             const targetName = parentId === childId
-                                ? `${key.name}_padre`
+                                ? `${key.name}_ref`
                                 : key.name;
 
                             let target = child.columns.find(
@@ -609,7 +610,7 @@ export function updateRelationship(
                             );
 
                     if (!field) {
-                        throw new Error( 'La columna hija seleccionada no existe.' );
+                        throw new Error( 'La columna de la clave ajena seleccionada no existe.' );
                         }
 
                     if (relation.identifying) {
@@ -792,7 +793,7 @@ export function validateDocument( model ) {
         const constraintName = `${relation.childId}.${relation.name}`.toLowerCase();
 
         if (!relation.name.trim() || constraintNames.has( constraintName )) {
-            add( 'error', 'Cada relación necesita un nombre físico único en su tabla hija.', relation.id );
+            add( 'error', 'Cada relación necesita un nombre físico único en la tabla que contiene la FK.', relation.id );
             }
 
         constraintNames.add( constraintName );
@@ -819,7 +820,7 @@ export function validateDocument( model ) {
             && hasUniqueColumns( child, childIds )) {
             add(
                     'warning',
-                    `${relation.name}: la PK o unicidad de la FK limita a un hijo por padre, aunque se han declarado muchos.`,
+                    `${relation.name}: la PK o unicidad de la FK limita a una fila que referencia por fila referenciada, aunque se han declarado muchas.`,
                     relation.id
                     );
             }
@@ -828,7 +829,7 @@ export function validateDocument( model ) {
             || new Set( referenced ).size !== referenced.length
             || new Set( childIds ).size !== childIds.length
             || keys.some( key => !referenced.includes( key.id ) )) {
-            add( 'error', `${relation.name}: la relación debe incluir toda la clave primaria del padre.`, relation.id );
+            add( 'error', `${relation.name}: la relación debe incluir toda la clave primaria de la tabla referenciada.`, relation.id );
             }
 
         for (const pair of relation.mappings) {
@@ -841,7 +842,7 @@ export function validateDocument( model ) {
                 }
 
             if (relation.identifying && (!target.primary || relation.optional)) {
-                add( 'error', `${relation.name}: una relación identificadora requiere una FK obligatoria dentro de la PK hija.`, relation.id );
+                add( 'error', `${relation.name}: una relación identificadora requiere una FK obligatoria dentro de la PK de la tabla que referencia.`, relation.id );
                 }
 
             if (target.required === relation.optional) {
@@ -1923,14 +1924,14 @@ export function getConceptualProjection( model ) {
                 {
                     id: `${relation.id}_parent`,
                     entityId: entityForTable( relation.parentId ),
-                    role: 'padre',
+                    role: relation.parentId === relation.childId ? 'referenciada' : '',
                     min: relation.cardinality.startsWith( 'one' ) ? 1 : 0,
                     max: relation.cardinality.endsWith( 'many' ) ? null : 1
                     },
                 {
                     id: `${relation.id}_child`,
                     entityId: entityForTable( relation.childId ),
-                    role: 'hijo',
+                    role: relation.parentId === relation.childId ? 'referencia' : '',
                     min: relation.optional ? 0 : 1,
                     max: 1
                     }
@@ -2761,7 +2762,7 @@ function materializeBinaryForeignKey(
             );
 
     if (relation.participations.length !== 2 || !childPart || childPart.max !== 1) {
-        throw new Error( 'La estrategia FK requiere una binaria y máximo uno en el rol hijo elegido.' );
+        throw new Error( 'La estrategia FK requiere una binaria y máximo uno en la participación receptora elegida.' );
         }
 
     const parentPart = relation.participations.find( item => item.id !== childPart.id );
@@ -2778,7 +2779,7 @@ function materializeBinaryForeignKey(
 
     if (foreignKey.identifying) {
         if (childPart.min !== 1) {
-            throw new Error( 'Un vínculo identificador requiere participación hija (1,1).' );
+            throw new Error( 'Un vínculo identificador requiere participación receptora (1,1).' );
             }
 
         for (const pair of foreignKey.mappings) {
@@ -3371,7 +3372,7 @@ function validateConceptualDocument( model ) {
             if (!parent || parent.structure !== 'composite'
                 || parent.ownerKind !== attribute.ownerKind || parent.ownerId !== attribute.ownerId
                 || visited.has( parent.id )) {
-                add( 'Los componentes necesitan un padre compuesto del mismo propietario, sin ciclos.', attribute.id );
+                add( 'Los componentes necesitan un atributo compuesto del mismo propietario, sin ciclos.', attribute.id );
                 break;
                 }
 
@@ -3816,7 +3817,7 @@ function validateConceptualOwnership(
                     && part.id !== relation.translation.childParticipationId;
 
             if (!expectedForeignKey && traces.length) {
-                add( 'La participación pendiente o hija no puede originar estos artefactos.', part.id );
+                add( 'La participación pendiente o receptora no puede originar estos artefactos.', part.id );
                 }
 
             if (traces.filter( trace => trace.targetKind === 'foreign-key' ).length > 1

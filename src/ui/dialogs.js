@@ -153,7 +153,7 @@ export function showDisplayOptions(
                 ${display.conceptual ? 'checked' : ''}>Nombres conceptuales</label></fieldset>
             <fieldset><legend>Dibujo</legend>${toggle( 'Mostrar cuadrícula', 'grid' )}</fieldset></section>
             <section data-modal-panel="tables" hidden><fieldset><legend>Mostrar</legend>
-            ${toggle( 'Tipos de datos', 'types' )}${toggle( 'Claves primarias y foráneas', 'keys' )}
+            ${toggle( 'Tipos de datos', 'types' )}${toggle( 'Claves primarias y ajenas (PK/FK)', 'keys' )}
             ${toggle( 'Marcar columnas requeridas con *', 'required' )}</fieldset></section>
             <section data-modal-panel="relations" hidden><fieldset><legend>Mostrar</legend>
             <label>Notación<select name="notation">${options(
@@ -310,8 +310,9 @@ export function showHelp() {
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
             <li><strong>Define columnas.</strong> Haz doble clic en una entidad. Introduce nombre,
                 tipo, requerido y PK en el panel inferior.</li>
-            <li><strong>Conecta las tablas.</strong> Pulsa Relación, selecciona el padre y después
-                el hijo. Se incorporará su clave foránea.</li>
+            <li><strong>Conecta las tablas.</strong> Pulsa Relación, selecciona la tabla
+                referenciada (la de la clave primaria) y después la que recibirá la clave
+                ajena (FK, también llamada foránea).</li>
             <li><strong>Ajusta las reglas.</strong> Selecciona la relación y abre Varios para
                 cambiar cardinalidad, tipo y opcionalidad.</li>
             <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
@@ -667,7 +668,7 @@ export function showMaterializationDialog(
                     relation.translation?.childParticipationId || relation.participations[0].id
                     )}</select></label>
                 ${check(
-                        'Identificadora · incorpora la FK a la clave hija',
+                        'Identificadora · incorpora la FK a la clave primaria de la tabla que referencia',
                         'identifying',
                         relation.translation?.identifying || false,
                         'name="identifying"'

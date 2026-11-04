@@ -200,7 +200,7 @@ test( 'La relación autorreferenciada crea otra columna para la FK', () => {
     const model = addRelationship( original, original.tables[0].id, original.tables[0].id );
 
     assert.equal( model.tables[0].columns.length, 2 );
-    assert.equal( model.tables[0].columns[1].name, 'id_padre' );
+    assert.equal( model.tables[0].columns[1].name, 'id_ref' );
     assert.deepEqual( validateDocument( model ), [] );
     } );
 

@@ -94,8 +94,9 @@ y ábrelo mediante **Archivo → Abrir** en la pestaña independiente.
    requerido y PK. El tipo se elige en una lista de tipos estándar por
    categoría; **Otro…** permite escribirlo. **Editar…** abre familia,
    parámetros, predeterminado y dominio.
-4. Crea otra entidad. Pulsa **Relación**, primero el padre y después el hijo.
-   Se incorpora la PK completa del padre como FK.
+4. Crea otra entidad. Pulsa **Relación**, primero la tabla referenciada (la de
+   la clave primaria) y después la que recibirá la clave ajena (FK). Se
+   incorpora la PK completa como FK.
 5. Selecciona el conector y abre **Varios** para cardinalidad, dependencia
    y opcionalidad; usa **Acción referencial** para borrado y actualización.
 6. Cambia a **Chen**. Las tablas anteriores aparecen como proyección parcial,
@@ -175,8 +176,8 @@ rechazada conserva el estado anterior y explica la causa.
   combinación conserva su SQL; ese dato permanece desconocido documental.
 - No hay ingeniería inversa, ODBC, ejecución SQL, triggers ni tipos objeto.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
-  debe revisarse para el motor de clase. Las participaciones mínimas del padre
-  no se garantizan con una FK por sí sola.
+  debe revisarse para el motor de clase. Una FK no obliga a que cada fila
+  referenciada tenga filas que la referencien.
 - No se abren ni generan VSD, VDX, VSDX o bases de datos Access.
   JSON, SVG, SQL y la impresión/PDF sirven para practicar y conservar trabajo;
   no sustituyen por sí solos los formatos de la entrega académica.

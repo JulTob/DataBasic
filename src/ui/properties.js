@@ -166,10 +166,10 @@ function relationshipDefinition(
     const child = model.tables.find( table => table.id === relation.childId );
 
     return `<div class="mapping-panel"><div class="mapping-titles">
-        <strong>Tabla principal: ${escapeHTML( parent.name )}</strong>
-        ${icon( 'arrow-right' )}<strong>Tabla secundaria: ${escapeHTML( child.name )}</strong>
+        <strong>Tabla referenciada: ${escapeHTML( parent.name )}</strong>
+        ${icon( 'arrow-right' )}<strong>Tabla que referencia: ${escapeHTML( child.name )}</strong>
         </div><table class="property-grid mapping-grid"><thead><tr>
-        <th>Columna principal (PK)</th><th>Columna secundaria (FK)</th></tr></thead><tbody>
+        <th>Clave primaria referenciada (PK)</th><th>Clave ajena (FK)</th></tr></thead><tbody>
         ${relation.mappings.map(
                 (pair, index) => `<tr><td>${escapeHTML( parent.columns.find(
                         field => field.id === pair.parentColumnId
@@ -196,16 +196,16 @@ function relationshipMisc( relation ) {
                     ${relation.identifying === identifying ? 'checked' : ''}>
                     ${identifying ? 'Identificadora' : 'No identificadora'}</label>`
                 ).join( '' )}</fieldset>
-        <fieldset><legend>El hijo tiene un padre</legend>
-        ${check( 'Opcional', 'optional', relation.optional, relation.identifying ? 'disabled' : '' )}
+        <fieldset><legend>Obligatoriedad de la referencia</legend>
+        ${check( 'Opcional · la clave ajena admite nulos', 'optional', relation.optional, relation.identifying ? 'disabled' : '' )}
         </fieldset></div>
-        <p class="field-hint">La cardinalidad indica cuántos hijos puede tener un padre.
-            «Opcional» indica si un hijo puede existir sin padre.</p></div>`;
+        <p class="field-hint">La cardinalidad indica cuántas filas con la clave ajena puede tener
+            cada fila referenciada. «Opcional» indica si una fila puede no referenciar a ninguna.</p></div>`;
     }
 
 function relationshipActions( relation ) {
     return `<div class="referential-panel"><fieldset><legend>Acción referencial</legend>
-        <label>Al eliminar el padre:<select data-field="onDelete">${options( ACTIONS, relation.onDelete )}</select></label>
+        <label>Al eliminar la fila referenciada:<select data-field="onDelete">${options( ACTIONS, relation.onDelete )}</select></label>
         <label>Al actualizar su clave:<select data-field="onUpdate">${options( ACTIONS, relation.onUpdate )}</select></label>
         </fieldset><p class="field-hint">Estas reglas se documentan y se incluyen en el SQL exportado.
             SET NULL requiere una FK que admita nulos.</p></div>`;

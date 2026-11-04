@@ -38,7 +38,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | ID · fuente | Función de Visio 2010 | Estado en DataBasic | Evidencia | Carencia o diferencia |
 | --- | --- | --- | --- | --- |
 | A-01 · V10 p. 5 | Galería Entity Relationship: formas Entidad, Relación, Vista. | Disponible | R-02, R-11, R-29; «UI-01» | Formas propias en el panel Formas; sin galería Object Relational (tipos objeto). |
-| A-02 · V10 pp. 7–8 | Conector arrastrado y pegado a los extremos de dos tablas. | Alternativa propia | R-11 | Se pulsa Relación y después padre e hijo; no hay arrastre de extremos. |
+| A-02 · V10 pp. 7–8 | Conector arrastrado y pegado a los extremos de dos tablas. | Alternativa propia | R-11 | Se pulsa Relación y después la tabla referenciada y la que recibe la FK; no hay arrastre de extremos. |
 | A-03 · MS | Formas Category, Parent to category y Category to child (subtipos relacionales). | Alternativa propia | C-15; Dominio y Ejemplos de la jerarquía 04 | La jerarquía se dibuja en Chen y se transforma con tablas de superclase y subclases (PK heredada que es también FK). No hay símbolo de categoría en el relacional. |
 | A-04 · V10 p. 8 | Ventana Propiedades de la base de datos anclada bajo el dibujo. | Disponible | R-36; «UI-01» | Se oculta, redimensiona y cierra con su propio control. |
 | A-05 · MS | Definición: nombre físico, conceptual, espacio de nombres, propietario, base de datos de origen, sincronizar nombres. | Disponible | R-02; «UI-02/UI-03» | Propietario y origen sólo se muestran: no hay ingeniería inversa. |
@@ -52,7 +52,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | A-13 · MS | Notas de tabla. | Disponible | «UI-04»; recorrido Notas | — |
 | A-14 · MS | Relación → Definición: tablas principal y secundaria y columnas asociadas. | Disponible | R-12 | La FK siempre referencia la PK completa; no hay «Disconnect» ni FK hacia una clave alternativa. |
 | A-15 · MS | Relación → Nombre: frase verbal, frase inversa y nombre físico. | Disponible | R-12 | — |
-| A-16 · MS | Relación → Varios: Cero o más, Uno o más, Cero o uno, Exactamente uno, Rango; identificadora/no identificadora; el hijo tiene padre opcional. | Parcial | R-13, R-14; «Volver a no identificadora saca la FK de la PK hija…» | Sin cardinalidad por rango numérico. Volver a no identificadora saca la FK de la PK hija, como en Visio (corregido en 0.4.1). |
+| A-16 · MS | Relación → Varios: Cero o más, Uno o más, Cero o uno, Exactamente uno, Rango; identificadora/no identificadora; Child has parent opcional. | Parcial | R-13, R-14; «Volver a no identificadora saca la FK de la PK hija…» | Sin cardinalidad por rango numérico. Volver a no identificadora saca la FK de la PK hija, como en Visio (corregido en 0.4.1). |
 | A-17 · MS | Relación → Acción referencial: No action, Cascade, Set NULL, Set default, Do not enforce. | Parcial | R-15; «SET NULL rechaza una relación obligatoria» | Sin «Do not enforce». SET NULL y SET DEFAULT se validan contra nulos y predeterminados. |
 | A-18 · MS | Vistas: definición, columnas, SQL. | Parcial | R-29; «Las vistas se exportan como consultas…» | Consulta libre y columnas; no hay generador visual de consultas ni comprobación de la sintaxis. |
 | A-19 · MS | Categorías: discriminador y categoría completa. | Parcial | C-15; Ejemplos 04 y 04b | Disyunción y totalidad se conservan y se comentan en el SQL como documentales; no hay columna discriminadora ni las otras tres estrategias del tema. |
@@ -78,7 +78,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | B-02 · POG | Barra de acceso rápido: guardar, deshacer, rehacer. | Disponible | R-20 | — |
 | B-03 · POG | Ventana Formas con formas rápidas y búsqueda. | Parcial | R-02; «UI-01» | Tres o cuatro formas por representación; sin búsqueda de formas. |
 | B-04 · POG | Arrastrar una forma al lienzo. | Disponible | «La aplicación arranca y permite crear…» | Entidad arrastrable; las demás se crean con un clic. |
-| B-05 · POG | Conexión automática entre formas. | Alternativa propia | R-11 | Relación por selección de padre e hijo. |
+| B-05 · POG | Conexión automática entre formas. | Alternativa propia | R-11 | Relación por selección de la tabla referenciada y la que recibe la FK. |
 | B-06 · POG | Cuadrícula dinámica, ajuste y pegado. | Parcial | R-21, R-22 | Ajuste a 10 unidades y evitación de solapes; sin pegado a puntos de conexión. |
 | B-07 · POG | Reglas y cuadrícula. | Parcial | R-36 | Cuadrícula activable; sin reglas. |
 | B-08 · POG | Varias páginas y páginas de fondo. | Fuera de alcance | — | Un documento tiene dos representaciones, no páginas. |

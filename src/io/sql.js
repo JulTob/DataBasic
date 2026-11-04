@@ -39,7 +39,7 @@ export function exportSQL( model ) {
         '-- DataBasic · SQL de estudio (sintaxis tipo PostgreSQL / SQL estándar)',
         '-- Revisar el resultado para el motor de base de datos elegido.',
         '-- NUMBER se exporta como NUMERIC; escalas negativas requieren PostgreSQL 15 o posterior.',
-        '-- Los mínimos de participación de los hijos no se imponen con una FK.'
+        '-- Una FK no obliga a que cada fila referenciada tenga filas que la referencien.'
         ];
 
     for (const issue of conceptualStatus( model ).filter(

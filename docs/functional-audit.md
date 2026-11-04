@@ -61,12 +61,12 @@ construido, sin sustituir la revisión visual.
 
 | ID / fuente | Operación y ruta | Estado y prueba concreta | Carencia o precaución |
 | --- | --- | --- | --- |
-| R-01 · T3 pp. 6–8 | Relación: seleccionar padre y después hijo; migrar PK completa. | Disponible; Modelo, PK compuesta y autorreferencia; Conceptual, ruta inicial id/id conserva identidad hija. | No hay referencia a AK ni asignación arbitraria de un subconjunto de la PK. |
-| R-02 · T3 pp. 8–9 | FK → Varios: cardinalidad, identificación y padre opcional. | Disponible; Modelo, nulos/identificación; Conceptual distingue FK única de FK que solo forma parte de PK compuesta. | Mínimos de hijos no se imponen con FK; unicidad efectiva puede limitar el máximo dibujado. |
-| R-07 · MS-D / DB | FK → Varios: volver a no identificadora saca la FK de la PK hija. | Disponible; Modelo, «Volver a no identificadora saca la FK…» y «La columna FK compartida…». | Una columna se mantiene en la PK si otra relación identificadora la usa; la PK propia del hijo no se toca. |
+| R-01 · T3 pp. 6–8 | Relación: seleccionar la tabla referenciada y después la que recibe la FK; migrar PK completa. | Disponible; Modelo, PK compuesta y autorreferencia; Conceptual, ruta inicial id/id conserva identidad hija. | No hay referencia a AK ni asignación arbitraria de un subconjunto de la PK. |
+| R-02 · T3 pp. 8–9 | FK → Varios: cardinalidad, identificación y referencia opcional. | Disponible; Modelo, nulos/identificación; Conceptual distingue FK única de FK que solo forma parte de PK compuesta. | Mínimos de hijos no se imponen con FK; unicidad efectiva puede limitar el máximo dibujado. |
+| R-07 · MS-D / DB | FK → Varios: volver a no identificadora saca la FK de la PK de la tabla que referencia. | Disponible; Modelo, «Volver a no identificadora saca la FK…» y «La columna FK compartida…». | Una columna se mantiene en la PK si otra relación identificadora la usa; la PK propia del hijo no se toca. |
 | R-03 · MS-R | FK física → Acción referencial, también cuando es generada. | Disponible; Modelo/Dominio prueban políticas, rechazo atómico SET NULL obligatorio/SET DEFAULT sin valor y conservación tras rematerializar, renombrar y reabrir. | La estructura generada permanece protegida por su origen. Declaración exportada; sin ejecutar contra datos o SGBD. |
 | R-04 · F184 fig. 1 | IDEF1X: caja independiente/dependiente. | Disponible; Escena comprueba esquinas según dependencia real y separación de claves. | Un vínculo no identificador no vuelve independiente una entidad dependiente por otro vínculo. |
-| R-05 · F184 figs. 4–7 | IDEF1X: continua/discontinua, punto hijo, P/Z/1 y rombo opcional. | Disponible; Escena contrasta los cuatro casos y vínculo identificador. | La prueba SVG no sustituye inspección visual del dibujo final. |
+| R-05 · F184 figs. 4–7 | IDEF1X: continua/discontinua, punto en el lado de la FK, P/Z/1 y rombo opcional. | Disponible; Escena contrasta los cuatro casos y vínculo identificador. | La prueba SVG no sustituye inspección visual del dibujo final. |
 | R-06 · DB | Tipos completos, ancho propio y textos separados. | Disponible; Escena comprueba NUMBER con parámetros y nombres largos sin elipsis. | Legibilidad a zoom y tamaño de pantalla requiere revisión real. |
 
 ## Modelo conceptual, transformación y límites

@@ -44,8 +44,8 @@ haya implementado una base de datos física en un SGBD.
 | Tabla → Identificador principal | Selección de una o varias columnas PK. |
 | Tabla → Índices / Claves alternativas | Índices separados de las claves candidatas alternativas; creación, edición y eliminación. |
 | FK → Definición / Nombre | Correspondencia de todos los componentes PK/FK y textos de lectura. |
-| FK → Varios | Cardinalidad y dependencia: hijos por padre, identificación y si el hijo admite ausencia de padre. Volver a no identificadora saca la FK de la PK hija, salvo que otra relación identificadora la necesite. |
-| FK → Acción referencial | Acción al borrar el padre o actualizar su clave. |
+| FK → Varios | Cardinalidad y dependencia: filas que referencian por fila referenciada, identificación y si la clave ajena admite nulos. Volver a no identificadora saca la FK de la PK de la tabla que referencia, salvo que otra relación identificadora la necesite. El vocabulario sigue al curso (tabla referenciada, clave ajena), no el padre/hijo de Visio. |
+| FK → Acción referencial | Acción al borrar la fila referenciada o actualizar su clave. |
 | Chen → Relación | Dos o tres participaciones, entidad, rol, mínimo/máximo y letra 1/N por rama. Puede repetirse una entidad en roles distintos. |
 | Relación nativa → Atributos / Varios / Correspondencias | Atributos propios; roles y límites; elección de estrategia y clave. |
 | Chen → Atributo / Especialización | Tipología y dominio de atributos; superclase, subclases, disyunción y totalidad. La transformación puede seguir pendiente. |
@@ -70,10 +70,10 @@ de las representaciones Relacional/Chen.
 - Cada columna PK es requerida. Una clave alternativa tiene identidad y
   conjunto de columnas propios; sus columnas se hacen requeridas y el SQL
   declara UNIQUE. Un índice único no se presenta automáticamente como AK.
-- Las FKs referencian la PK completa del padre. La creación evita reutilizar
-  la identidad PK hija solo por tener el mismo nombre; advierte cuando una
+- Las FKs referencian la PK completa de la tabla referenciada. La creación evita
+  reutilizar la PK propia de la tabla que referencia solo por tener el mismo nombre; advierte cuando una
   clave única limita efectivamente a uno lo dibujado como muchos.
-- Una FK identificadora integra sus columnas en la PK hija. Una entidad
+- Una FK identificadora integra sus columnas en la PK de la tabla que referencia. Una entidad
   débil ERE necesita además propietaria, clave parcial y vínculo elegido;
   no se deduce solo por encontrar una FK identificadora.
 - SET NULL necesita columnas FK anulables; SET DEFAULT, predeterminados.
@@ -157,7 +157,7 @@ escribió y lo que el modelo contiene.
 ## Dibujo, archivos y SQL
 
 IDEF1X distingue entidades independientes/dependientes, vínculos
-identificadores/no identificadores, opcionalidad y cardinalidad del hijo.
+identificadores/no identificadores, opcionalidad y cardinalidad del lado de la FK.
 La grafía se contrasta con FIPS 184; no es una etiqueta aplicada a patas de
 cuervo. Estas últimas y la flecha relacional siguen siendo opciones separadas.
 Tipos completos, nombres y marcadores alimentan los mismos límites para
@@ -186,7 +186,7 @@ disponibles; Imprimir/PDF utiliza la ventana del navegador. El guardado local
 no sincroniza equipos. El SQL de estudio usa sintaxis tipo PostgreSQL/SQL
 estándar y traduce NUMBER a NUMERIC; no se ejecuta en DataBasic. Restricciones
 documentales aparecen como comentarios; decisiones pendientes bloquean la
-exportación completa. Una FK sola no exige que todo padre tenga hijos.
+exportación completa. Una FK sola no exige que toda fila referenciada tenga filas que la referencien.
 
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan

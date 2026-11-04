@@ -157,8 +157,8 @@ function renderDiagram() {
 
     hint.hidden = state.tool !== 'relationship';
     hint.textContent = state.parentId
-        ? 'Ahora selecciona la entidad hija. Escape para cancelar.'
-        : 'Selecciona la entidad padre (la que aporta la clave primaria).';
+        ? 'Ahora selecciona la tabla que recibe la clave ajena (FK). Escape para cancelar.'
+        : 'Selecciona la tabla referenciada (la que aporta la clave primaria).';
     document.querySelector( '#zoom' ).value = String( Math.round( view.zoom * 100 ) );
     document.querySelector( '#zoom-label' ).textContent = `${Math.round( view.zoom * 100 )} %`;
     }
@@ -1088,12 +1088,12 @@ function relationshipPick( tableId ) {
     const table = state.model.tables.find( item => item.id === tableId );
 
     if (table.kind === 'view') {
-        throw new Error( 'Selecciona una entidad. Las vistas no reciben claves foráneas.' );
+        throw new Error( 'Selecciona una entidad. Las vistas no reciben claves ajenas (FK).' );
         }
 
     if (!state.parentId) {
         if (!table.columns.some( field => field.primary )) {
-            throw new Error( 'La entidad padre necesita una clave primaria.' );
+            throw new Error( 'La tabla referenciada necesita una clave primaria.' );
             }
 
         state.parentId = tableId;
