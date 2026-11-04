@@ -633,7 +633,8 @@ test( 'Las participaciones de dos relaciones Chen evitan rótulos de otras ramas
     const scene = diagramScene( model );
     const labels = scene.edges.flatMap( edge => edge.labels );
 
-    assert.equal( labels.length, 8 );
+    // Four branches, each with (min,max), role and the 1/N letter by the diamond.
+    assert.equal( labels.length, 12 );
     assert.equal( JSON.stringify( model ), before );
 
     for (const [index, label] of labels.entries()) {
@@ -927,4 +928,103 @@ test( 'SVG usa los bounds comunes y XML válido para nombres y tipos con escapes
         }
 
     assert.equal( result.status, 0, result.stderr );
+    } );
+
+test( 'Cada rama Chen lleva la letra 1/N junto al rombo, opuesta al par (mín,máx)', () => {
+    const model = setDiagramMode( sceneLinkedFixture(), 'chen' );
+    const scene = diagramScene( model );
+    const branches = scene.edges.filter( edge => edge.kind === 'participation' );
+    const parent = branches.find( edge => edge.participation.entityId === model.tables[0].id );
+    const child = branches.find( edge => edge.participation.entityId === model.tables[1].id );
+    const letter = edge => edge.labels.find( label => label.purpose === 'cardinality' );
+
+    // PADRE (0,N) e HIJO (0,1): la letra de PADRE es el máximo de HIJO, 1; la de HIJO, N.
+    assert.equal( letter( parent ).text, '1' );
+    assert.equal( letter( child ).text, 'N' );
+    assert.equal( letter( parent ).plain, true );
+
+    for (const edge of branches) {
+        const pair = edge.labels.find( label => label.purpose === 'participation' );
+        const diamond = edge.points[0];
+        const distance = label => Math.hypot( label.x - diamond.x, label.y - diamond.y );
+
+        assert.ok( distance( letter( edge ) ) < distance( pair ), 'la letra queda junto al rombo' );
+
+        for (const node of scene.nodes) {
+            assert.equal( sceneRectanglesOverlap( letter( edge ).bounds, node ), false );
+            }
+
+        sceneAssertContained( scene.bounds, letter( edge ).bounds );
+        }
+
+    const svg = diagramContents( model );
+
+    assert.match( svg, /data-reading="cardinality" class="relation-label cardinality-letter"/ );
+    assert.doesNotMatch( svg, /data-label-purpose="cardinality"/, 'la letra no lleva guía ni caja' );
+    } );
+
+test( 'El vínculo identificador dibuja rombo doble y las subclases llevan el arco', () => {
+    let model = addConceptualEntity( emptyDocument( 'course' ), {name: 'Persona'}, {x: 100, y: 200} );
+    const ownerId = model.conceptual.entities[0].id;
+
+    model = addConceptualEntity( model, {name: 'Pago', weak: true, ownerEntityId: ownerId}, {x: 100, y: 700} );
+
+    const childId = model.conceptual.entities[1].id;
+
+    model = addConceptualRelationship( model, {
+        name: 'Realiza',
+        participations: [
+            {entityId: ownerId, role: 'pagador', min: 0, max: null},
+            {entityId: childId, role: 'abono', min: 1, max: 1}
+            ],
+        translation: null
+        } );
+    model = setDiagramMode( model, 'chen' );
+
+    const relation = model.conceptual.relationships[0];
+    const diamond = scene => scene.nodes.find( node => node.kind === 'chen-relationship' );
+
+    assert.equal( diamond( diagramScene( model ) ).identifying, false );
+    assert.match( diagramContents( model ), /chen-relation[^>]*data-identifying="false"/ );
+
+    model = updateConceptualRelationship( model, relation.id, {
+        translation: {kind: 'foreign-key', childParticipationId: relation.participations[1].id, identifying: true}
+        } );
+    assert.equal( diamond( diagramScene( model ) ).identifying, true );
+
+    const svg = diagramContents( model );
+
+    assert.match( svg, /chen-relation[^>]*data-identifying="true"/ );
+    assert.match( svg, /vínculo identificador/ );
+    assert.equal( (svg.match( /class="chen-inner"/g ) || []).length, 2, 'entidad débil y rombo dobles' );
+
+    model = addConceptualEntity( model, {name: 'Agente'}, {x: 800, y: 700} );
+    model = addConceptualGeneralization( model, {
+        supertypeId: ownerId,
+        subtypeIds: [model.conceptual.entities.at( -1 ).id],
+        disjoint: true,
+        total: true
+        } );
+
+    const links = diagramScene( model ).edges.filter( edge => edge.kind === 'generalization-link' );
+
+    assert.deepEqual( links.map( edge => edge.subset ), [false, true] );
+    assert.deepEqual( links.map( edge => edge.total ), [true, false] );
+    assert.equal( (diagramContents( model ).match( /data-marker="subset"/g ) || []).length, 1 );
+    } );
+
+test( 'Una FK identificadora proyectada también se muestra como vínculo identificador', () => {
+    let model = sceneLinkedFixture();
+
+    model = updateRelationship( model, model.relationships[0].id, {identifying: true} );
+
+    const scene = diagramScene( setDiagramMode( model, 'chen' ) );
+    const diamond = scene.nodes.find( node => node.kind === 'chen-relationship' );
+    const branches = scene.edges.filter( edge => edge.kind === 'participation' );
+
+    assert.equal( diamond.identifying, true );
+    assert.deepEqual(
+            branches.map( edge => edge.labels.find( label => label.purpose === 'cardinality' ).text ).sort(),
+            ['1', 'N']
+            );
     } );

@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.0** permite editar un documento con dos representaciones:
+La versión **0.4.2** permite editar un documento con dos representaciones:
 **Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
 conceptuales. El botón cambia la representación; las transformaciones se
 eligen por separado y conservan sus correspondencias.
@@ -20,8 +20,19 @@ Los estados pendientes pueden guardarse;
 no se presentan como transformaciones ya terminadas. Chen es una ampliación
 educativa de DataBasic para el curso.
 
-Arrastra los rombos en Chen o los bloques de lectura en Relacional para
-recolocar las relaciones. El arrastre busca hueco entre formas y rótulos;
+La grafía Chen sigue los apuntes del curso: letras 1/N junto al rombo,
+pares (mín,máx) junto a cada entidad, doble línea de participación total,
+rombo doble del vínculo identificador y arcos de subconjunto en las subclases.
+
+Cada objeto tiene una categoría **Supuestos** para anotar la semántica del
+enunciado, los supuestos propios y la semántica perdida; **Base de datos →
+Supuestos** los reúne y **Archivo → Memoria HTML** descarga la memoria del
+diseño con los dos diagramas, las tablas de atributos y relaciones, los
+supuestos y las restricciones que el relacional no impone. Word abre ese
+archivo; también hay versión Markdown.
+
+Arrastra las tablas desde su título o sus filas, los rombos en Chen o los
+bloques de lectura en Relacional para recolocar las formas y relaciones. El arrastre busca hueco entre formas y rótulos;
 las posiciones se guardan por vista. **Distribuir** vuelve a organizarlas
 y **Deshacer** recupera la disposición anterior.
 
@@ -30,7 +41,8 @@ un núcleo de tres entidades y [once archivos editables](examples/README.md),
 con puntos de partida pendientes y resultados para comparar. La
 [matriz funcional](docs/functional-audit.md) distingue operaciones disponibles,
 pruebas y carencias; los [requisitos del curso](docs/course-requirements.md)
-explican el alcance académico.
+explican el alcance académico y la [cobertura frente a Visio 2010](docs/visio-2010-coverage.md)
+compara función por función la plantilla de Visio con DataBasic.
 
 ## Abrir la aplicación
 
@@ -79,9 +91,12 @@ y ábrelo mediante **Archivo → Abrir** en la pestaña independiente.
 1. Abre **Archivo → Nuevo**. Conserva **Relacional** y **Perfil → Curso · 4 tipos**.
 2. Crea una **Entidad** y nómbrala en **Definición**.
 3. Abre **Columnas** o haz doble clic sobre la entidad. Añade nombre, tipo,
-   requerido y PK. **Editar…** abre familia, parámetros, predeterminado y dominio.
-4. Crea otra entidad. Pulsa **Relación**, primero el padre y después el hijo.
-   Se incorpora la PK completa del padre como FK.
+   requerido y PK. El tipo se elige en una lista de tipos estándar por
+   categoría; **Otro…** permite escribirlo. **Editar…** abre familia,
+   parámetros, predeterminado y dominio.
+4. Crea otra entidad. Pulsa **Relación**, primero la tabla referenciada (la de
+   la clave primaria) y después la que recibirá la clave ajena (FK). Se
+   incorpora la PK completa como FK.
 5. Selecciona el conector y abre **Varios** para cardinalidad, dependencia
    y opcionalidad; usa **Acción referencial** para borrado y actualización.
 6. Cambia a **Chen**. Las tablas anteriores aparecen como proyección parcial,
@@ -137,7 +152,7 @@ aplicación desde un archivo, sin un servidor ni un CDN.
 | --- | --- |
 | `src/domain/` | Modelo, operaciones atómicas, validación y formato de archivo. |
 | `src/ui/` | Diagrama, cinta, paneles y ventanas. |
-| `src/io/` | Generación de SQL. |
+| `src/io/` | Generación de SQL y de la memoria del diseño. |
 | `src/app.js` | Interacciones, historial y guardado. |
 | `tests/` | Reglas del modelo, ventanas y eventos de la aplicación. |
 | `docs/` | Especificación, fuentes y resultados de verificación. |
@@ -161,8 +176,8 @@ rechazada conserva el estado anterior y explica la causa.
   combinación conserva su SQL; ese dato permanece desconocido documental.
 - No hay ingeniería inversa, ODBC, ejecución SQL, triggers ni tipos objeto.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
-  debe revisarse para el motor de clase. Las participaciones mínimas del padre
-  no se garantizan con una FK por sí sola.
+  debe revisarse para el motor de clase. Una FK no obliga a que cada fila
+  referenciada tenga filas que la referencien.
 - No se abren ni generan VSD, VDX, VSDX o bases de datos Access.
   JSON, SVG, SQL y la impresión/PDF sirven para practicar y conservar trabajo;
   no sustituyen por sí solos los formatos de la entrega académica.

@@ -200,7 +200,7 @@ test( 'La relación autorreferenciada crea otra columna para la FK', () => {
     const model = addRelationship( original, original.tables[0].id, original.tables[0].id );
 
     assert.equal( model.tables[0].columns.length, 2 );
-    assert.equal( model.tables[0].columns[1].name, 'id_padre' );
+    assert.equal( model.tables[0].columns[1].name, 'id_ref' );
     assert.deepEqual( validateDocument( model ), [] );
     } );
 
@@ -358,4 +358,67 @@ test( 'Las vistas se exportan como consultas y no admiten relaciones FK', () => 
             () => addRelationship( model, model.tables[0].id, view.id ),
             /vistas/
             );
+    } );
+
+test( 'Volver a no identificadora saca la FK de la PK hija y permite opcional', () => {
+    let model = linked();
+    const relationId = model.relationships[0].id;
+    const foreignId = model.relationships[0].mappings[0].childColumnId;
+    const foreign = () => model.tables[1].columns.find( field => field.id === foreignId );
+
+    model = updateRelationship( model, relationId, {identifying: true} );
+    assert.equal( foreign().primary, true );
+    assert.equal( model.relationships[0].optional, false );
+
+    model = updateRelationship( model, relationId, {identifying: false} );
+    assert.equal( foreign().primary, false );
+    assert.equal( foreign().required, true, 'La FK sigue obligatoria mientras no sea opcional.' );
+    assert.deepEqual(
+            model.tables[1].columns.filter( field => field.primary ).map( field => field.name ),
+            ['id_hijo']
+            );
+
+    model = updateRelationship( model, relationId, {optional: true} );
+    assert.equal( foreign().required, false );
+    assert.deepEqual( validateDocument( model ), [] );
+    } );
+
+test( 'La columna FK compartida por otra relación identificadora sigue en la PK', () => {
+    let model = fixture();
+
+    model = addTable( model );
+    model.tables[2].columns = [column( 'id_otro', 'INTEGER', true )];
+
+    const [first, child, second] = model.tables;
+
+    model = addRelationship( model, first.id, child.id );
+    model = addRelationship( model, second.id, child.id );
+
+    const shared = model.relationships[0].mappings[0].childColumnId;
+    const sharedColumn = () => model.tables[1].columns.find( field => field.id === shared );
+
+    model = updateRelationship( model, model.relationships[1].id, {
+        mappings: [{parentColumnId: second.columns[0].id, childColumnId: shared}]
+        } );
+
+    // Both FKs share one column, so NOT NULL must change for both in one operation.
+    model = changeDocument(
+            model,
+            next => {
+                next.tables[1].columns.find( field => field.id === shared ).required = true;
+
+                for (const relation of next.relationships) {
+                    relation.optional = false;
+                    }
+                }
+            );
+
+    model = updateRelationship( model, model.relationships[0].id, {identifying: true} );
+    model = updateRelationship( model, model.relationships[1].id, {identifying: true} );
+    model = updateRelationship( model, model.relationships[0].id, {identifying: false} );
+    assert.equal( sharedColumn().primary, true, 'La segunda FK identificadora la mantiene en la PK.' );
+
+    model = updateRelationship( model, model.relationships[1].id, {identifying: false} );
+    assert.equal( sharedColumn().primary, false );
+    assert.deepEqual( validateDocument( model ), [] );
     } );

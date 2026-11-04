@@ -1,6 +1,6 @@
 # DataBasic y Fundamentos de Bases de Datos
 
-Cobertura de **DataBasic 0.4.0**, revisada el 3 de noviembre de 2026.
+Cobertura de **DataBasic 0.4.2**, revisada el 3 de noviembre de 2026 con los PDF del curso aportados en esa sesión.
 La aplicación permite practicar operaciones relacionales y construir ERE
 nativos. La cobertura sigue siendo parcial: guardar una restricción conceptual
 no significa haberla traducido al relacional ni implementado en Access.
@@ -23,19 +23,21 @@ La [guía](practice-guide.md) utiliza ejemplos originales. La
 | FIPS PUB 184 | §§3.1.2–3.1.3 y 3.5.2; figuras 1 y 4–7. | Grafía IDEF1X; no describe botones de Visio. |
 
 Las páginas indicadas son páginas del PDF del curso, no números de diapositiva.
+La [cobertura frente a Visio 2010 y al curso](visio-2010-coverage.md) añade
+la lectura íntegra de la Práctica 1, la introducción al ERE y los temas 1 y 2.
 Los materiales originales no se redistribuyen con la aplicación. Se usan para
 identificar requisitos, sin copiar figuras, ejercicios ni sus soluciones.
 
 ## Cobertura del relacional
 
-| ID | Requisito y fuente | Operación en 0.4.0 | Límite concreto |
+| ID | Requisito y fuente | Operación en 0.4.2 | Límite concreto |
 | --- | --- | --- | --- |
 | FBD-R01 | IDEF1X; práctica p. 3. | Vista → Opciones de visualización → Relaciones → Notación → IDEF1X. Se distinguen cajas, dependencia, líneas y marcadores conforme a FIPS 184. | La prueba de símbolos/SVG no acredita identidad de interfaz ni equivalencia completa con Visio 2010. |
 | FBD-R02 | VARCHAR, CHAR, NUMBER, DATE; práctica p. 3. | Perfil → Curso · 4 tipos; Columnas → Editar… ofrece familia y parámetros. Los nuevos documentos usan este perfil. | General conserva tipos heredados; no hay conversiones silenciosas al cambiar de perfil. |
-| FBD-R03 | PK, AK y FK; práctica p. 3 y Tema 3 pp. 6–8. | Identificador principal; Índices / Claves alternativas; Relación padre→hijo con migración de PK completa. | Una FK no puede elegir AK como destino. La minimalidad semántica de una candidata la decide el autor. |
+| FBD-R03 | PK, AK y FK; práctica p. 3 y Tema 3 pp. 6–8. | Identificador principal; Índices / Claves alternativas; Relación de la tabla referenciada a la que recibe la FK con migración de PK completa. | Una FK no puede elegir AK como destino. La minimalidad semántica de una candidata la decide el autor. |
 | FBD-R04 | Dominio, nulos y predeterminados; práctica p. 3 y Tema 3 p. 5. | Columnas → Editar…: rango, valores y condición; requerido/PK; expresión predeterminada. SQL conserva CHECK, NOT NULL y DEFAULT. | No se evalúan datos ni expresiones. La compatibilidad con el motor elegido necesita revisión. |
 | FBD-R05 | Cardinalidad e integridad referencial; práctica p. 3 y Tema 3 pp. 8–9, 16–19. | FK → Varios: 0..N, 1..N, 0..1, 1..1 y opcionalidad; Acción referencial: NO ACTION, CASCADE, SET NULL, SET DEFAULT. | Una FK no impone mínimos de hijos. No se ejecutan acciones sobre registros reales. |
-| FBD-R06 | Dependencia y correspondencia de claves; práctica p. 3. | Definición muestra componentes PK/FK; identificación incorpora la FK a PK hija. Se evita reutilizar una PK hija homónima como FK por accidente. | Dependencia de identidad relacional y entidad débil ERE son hechos relacionados, no sinónimos deducibles automáticamente. |
+| FBD-R06 | Dependencia y correspondencia de claves; práctica p. 3. | Definición muestra componentes PK/FK; identificación incorpora la FK a la PK de la tabla que referencia. Se evita reutilizar una PK hija homónima como FK por accidente. | Dependencia de identidad relacional y entidad débil ERE son hechos relacionados, no sinónimos deducibles automáticamente. |
 
 El perfil del curso restringe **familias de tipos**, no convierte el vocabulario
 del enunciado en tipos físicos de Access. Para NUMBER se adopta precisión
@@ -45,16 +47,16 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 
 ## Cobertura del conceptual y su transformación
 
-| ID | Requisito y fuente | Operación en 0.4.0 | Situación y carencia |
+| ID | Requisito y fuente | Operación en 0.4.2 | Situación y carencia |
 | --- | --- | --- | --- |
-| FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
+| FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. El vínculo elegido se dibuja con rombo doble. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
 | FBD-C02 | Clave y clave parcial; Tema 2 pp. 11–12. | Atributo → Editar: Clave o Clave parcial; PK/AK materializadas en el relacional. | El autor justifica qué identifica cada ocurrencia. |
 | FBD-C03 | Compuestos; Tema 2 pp. 6–7, introducción p. 3. | Estructura Compuesto y componentes; Traducción → Compuesto · descomponer en componentes. | Descomposición explícita disponible. Un compuesto sin componentes o sin estrategia queda pendiente. |
 | FBD-C04 | Multivaluados y derivados; Tema 2 pp. 6–7 y Tema 3 pp. 29–30. | Multivaluado → Tabla auxiliar, simple o compuesto, con PK propietaria completa y valores; derivados permiten omitir columna o almacenar sin calcular. | La FK auxiliar no exige valores mínimos por propietaria. La derivación es documental: no se calcula ni genera fórmula SQL. |
 | FBD-C05 | Relaciones con atributos, binarias, N:N, recursivas y ternarias; Tema 2 pp. 7–8 y práctica pp. 2–3. | Chen → Relación; dos o tres participaciones con rol; Atributos; Correspondencias → tabla asociativa o FK binaria. | N:N y ternarias se materializan con clave explícita. Una ternaria no se sustituye por tres binarias. |
-| FBD-C06 | Participación, mín./máx. y roles; Tema 2 pp. 8, 12 e introducción pp. 4, 10; práctica p. 3. | Varios separa participación absoluta y cardinalidad ternaria por combinación. Correspondencias separa identidad y contexto global/temporal. Una recursiva conserva participaciones distintas. | Algunos límites permanecen documentales. La rama one genera AK sobre los otros roles y contexto elegido; no equivale a máximo absoluto 1. |
-| FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16 y Tema 3 pp. 31–34. | Chen → Especialización → Tablas de superclase y subclases. PK heredada completa también FK; PK local incompatible exige resolución explícita. | Una sola estrategia implementada. Disyunción/totalidad son restricciones documentales; las otras tres estrategias del tema no se ofrecen. |
-| FBD-D01 | Supuestos y semántica perdida; introducción pp. 5–10, práctica p. 2 y Tema 3 p. 9. | Notas por objeto; revisión de pendientes/documentales y Ver origen. | No hay memoria justificativa global generada. La argumentación sigue correspondiendo al autor. |
+| FBD-C06 | Participación, mín./máx., letras 1/N y roles; Tema 2 pp. 8, 12 e introducción pp. 4, 10; práctica p. 3. | Varios separa participación absoluta y cardinalidad ternaria por combinación; junto al rombo se dibuja la letra 1/N de cada rama. Correspondencias separa identidad y contexto global/temporal. Una recursiva conserva participaciones distintas. | En binarias la letra es el máximo de la otra rama; en ternarias es la cardinalidad por combinación elegida. Algunos límites permanecen documentales. La rama one genera AK sobre los otros roles y contexto elegido; no equivale a máximo absoluto 1. |
+| FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16 y Tema 3 pp. 31–34. | Chen → Especialización → Tablas de superclase y subclases. Círculo d/s, doble línea si total y arco de subconjunto en cada subclase. PK heredada completa también FK; PK local incompatible exige resolución explícita. | Una sola estrategia implementada. Disyunción/totalidad son restricciones documentales; las otras tres estrategias del tema no se ofrecen. |
+| FBD-D01 | Supuestos y semántica perdida; introducción pp. 5–10, práctica p. 2 y Tema 3 p. 9. | Supuestos por objeto o globales en tres clases (enunciado, supuesto, perdida); Base de datos → Supuestos; Archivo → Memoria HTML/Markdown con diagramas, atributos, relaciones, decisiones, supuestos y restricciones documentales. | La memoria reúne lo que el autor escribió y lo que DataBasic detecta; no redacta la justificación por él ni demuestra fidelidad al enunciado. |
 | FBD-T01 | Transformar sin perder hechos; Tema 3 §3.6 y práctica p. 4. | Correspondencias conservadas; materialización explícita de binarias, asociaciones, débiles, compuestos, multivaluados y tablas de clases; derivados con política. | Las decisiones incompletas quedan pendientes. No hay conversor ERE universal ni reconstrucción de un ERE único desde cualquier relacional. |
 
 La transformación de una ternaria requiere decidir la identidad de sus
@@ -76,8 +78,10 @@ esas decisiones.
 ## Formatos de entrega académica
 
 La práctica pide documento conceptual, archivo Visio del relacional y base de
-datos Access. DataBasic guarda JSON y exporta SVG/SQL; la impresión permite
-obtener PDF mediante el navegador. **No genera VSD/VDX/VSDX ni archivos Access**.
+datos Access. DataBasic guarda JSON y exporta SVG/SQL; la memoria HTML reúne
+diagramas, supuestos y semántica perdida y Word la abre para completar el
+documento conceptual; la impresión permite obtener PDF mediante el navegador.
+**No genera VSD/VDX/VSDX ni archivos Access**.
 Estos resultados no se presentan como sustitutos ya aceptados de los formatos
 académicos.
 

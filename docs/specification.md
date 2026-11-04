@@ -1,4 +1,4 @@
-# DataBasic 0.4.0 — especificación funcional
+# DataBasic 0.4.2 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -7,12 +7,14 @@ atribuye esa función a Visio 2010 ni se promete equivalencia completa.
 
 La [guía](practice-guide.md) describe operaciones; la
 [matriz funcional](functional-audit.md) enlaza fuentes, controles y pruebas.
+La [cobertura frente a Visio 2010 y al curso](visio-2010-coverage.md)
+recorre función por función qué existe, qué es parcial y qué falta.
 Los resultados de ejecución y publicación están en
 [verificación](verification.md).
 
 ## Documento y representaciones
 
-La aplicación 0.4.0 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.2 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -37,17 +39,20 @@ haya implementado una base de datos física en un SGBD.
 | --- | --- |
 | Barra superior | Relacional/Chen, Perfil Curso/General y acceso a revisión. |
 | Tabla → Definición | Nombre físico y conceptual, sincronización y espacio de nombres. Propietario/origen se muestran sin edición; no hay ingeniería inversa. |
-| Tabla → Columnas | Nombre, tipo completo, requerido, PK y notas; agregar, quitar, editar y reordenar. |
+| Tabla → Columnas | Nombre, tipo, requerido, PK y notas; agregar, quitar, editar y reordenar. El tipo se elige en una lista de tipos estándar agrupados por categoría (texto, numérico, temporal, lógico, datos en bruto y otros) y filtrada por perfil; el valor actual se conserva aunque no sea estándar y «Otro…» descubre un cuadro para escribirlo. |
 | Columnas → Editar… | Familia, longitud o precisión/escala, predeterminado y dominio declarativo. |
 | Tabla → Identificador principal | Selección de una o varias columnas PK. |
 | Tabla → Índices / Claves alternativas | Índices separados de las claves candidatas alternativas; creación, edición y eliminación. |
 | FK → Definición / Nombre | Correspondencia de todos los componentes PK/FK y textos de lectura. |
-| FK → Varios | Cardinalidad y dependencia: hijos por padre, identificación y si el hijo admite ausencia de padre. |
-| FK → Acción referencial | Acción al borrar el padre o actualizar su clave. |
-| Chen → Relación | Dos o tres participaciones, entidad, rol y mínimo/máximo por rama. Puede repetirse una entidad en roles distintos. |
+| FK → Varios | Cardinalidad y dependencia: filas que referencian por fila referenciada, identificación y si la clave ajena admite nulos. Volver a no identificadora saca la FK de la PK de la tabla que referencia, salvo que otra relación identificadora la necesite. El vocabulario sigue al curso (tabla referenciada, clave ajena), no el padre/hijo de Visio. |
+| FK → Acción referencial | Acción al borrar la fila referenciada o actualizar su clave. |
+| Chen → Relación | Dos o tres participaciones, entidad, rol, mínimo/máximo y letra 1/N por rama. Puede repetirse una entidad en roles distintos. |
 | Relación nativa → Atributos / Varios / Correspondencias | Atributos propios; roles y límites; elección de estrategia y clave. |
 | Chen → Atributo / Especialización | Tipología y dominio de atributos; superclase, subclases, disyunción y totalidad. La transformación puede seguir pendiente. |
 | Vista → Opciones de visualización | General, Tablas y Relaciones; nombres, tipos, claves, requerido, notación y textos. |
+| Cualquier objeto → Supuestos | Entradas de semántica del enunciado, supuesto semántico o semántica perdida vinculadas a ese objeto; Añadir supuesto… abre el diálogo con el objeto preseleccionado. |
+| Base de datos → Supuestos | Visión general por clase, con las restricciones documentales que detecta DataBasic, y acceso a editar cada entrada. |
+| Archivo → Memoria HTML / Markdown | Memoria del diseño generada del documento; el HTML incrusta los dos diagramas. |
 
 El término **Varios** se conserva por continuidad con Visio 2010; su contenido
 explica la decisión concreta. Una **Vista SQL** es un objeto consulta, distinto
@@ -65,10 +70,10 @@ de las representaciones Relacional/Chen.
 - Cada columna PK es requerida. Una clave alternativa tiene identidad y
   conjunto de columnas propios; sus columnas se hacen requeridas y el SQL
   declara UNIQUE. Un índice único no se presenta automáticamente como AK.
-- Las FKs referencian la PK completa del padre. La creación evita reutilizar
-  la identidad PK hija solo por tener el mismo nombre; advierte cuando una
+- Las FKs referencian la PK completa de la tabla referenciada. La creación evita
+  reutilizar la PK propia de la tabla que referencia solo por tener el mismo nombre; advierte cuando una
   clave única limita efectivamente a uno lo dibujado como muchos.
-- Una FK identificadora integra sus columnas en la PK hija. Una entidad
+- Una FK identificadora integra sus columnas en la PK de la tabla que referencia. Una entidad
   débil ERE necesita además propietaria, clave parcial y vínculo elegido;
   no se deduce solo por encontrar una FK identificadora.
 - SET NULL necesita columnas FK anulables; SET DEFAULT, predeterminados.
@@ -83,7 +88,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.0 |
+| Construcción | Alcance 0.4.2 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -113,16 +118,54 @@ incoherentes. Repetir una decisión conserva IDs y no duplica tablas ni claves.
 Los [ejemplos editables](../examples/README.md) y sus
 [pruebas de archivos reales](../tests/examples.test.js) concretan estos contratos.
 
+La grafía Chen sigue la introducción al ERE del curso: la **letra 1/N** junto
+al rombo es la razón de cardinalidad de esa rama. En una binaria se deduce
+como el máximo de la otra participación y no se edita; en una ternaria es la
+cardinalidad por combinación de los otros roles (`cardinality` `one`/`many`
+elegida en Varios) y mientras no se decide la rama no muestra letra. La
+**participación total** (mínimo mayor que cero) se dibuja con doble línea. El **vínculo identificador** de una entidad débil, o una estrategia FK
+identificadora, dibuja el rombo doble. En una especialización, el círculo
+muestra `d` o `s`, la doble línea indica totalidad y cada subclase lleva el
+arco de subconjunto abierto hacia el círculo.
+
+## Supuestos y memoria del diseño
+
+Un **supuesto** es una afirmación de diseño con tres clases, las de la
+introducción al ERE del curso: `enunciado` (lo que dice el texto), `supuesto`
+(lo que el autor decide porque el texto no lo dice) y `perdida` (lo que el
+modelo no impone). Cada entrada tiene identidad, texto de hasta 2000
+caracteres y un `elementId` opcional que apunta a una entidad, atributo,
+relación, participación, especialización, tabla, columna o clave foránea. Se
+guarda en la lista opcional `assumptions` del formato 2; los archivos sin esa
+lista abren sin cambios. Una entrada con clase desconocida, texto vacío o
+elemento inexistente se rechaza; al borrar el elemento, la entrada conserva el
+texto y pasa a ser global. Las notas por objeto siguen siendo un campo
+distinto: describen el objeto, no afirman una decisión.
+
+La **memoria del diseño** se deriva del documento, nunca se almacena. Un
+modelo de informe con secciones de párrafos, listas y tablas reúne entidades y
+atributos (tipo, identidad, tipología y dominio), relaciones (roles, pares,
+letra de cardinalidad, atributos propios y decisión de transformación),
+especializaciones, la semántica reflejada, los supuestos, la semántica
+perdida (entradas del autor más las restricciones documentales y decisiones
+pendientes que detecta la revisión) y el esquema relacional resultante. Dos
+renderizadores dan formato: Markdown y HTML; el HTML incrusta los diagramas
+Chen y relacional en SVG y Word lo abre. La memoria no redacta la
+justificación ni demuestra fidelidad al enunciado: reúne lo que el autor
+escribió y lo que el modelo contiene.
+
 ## Dibujo, archivos y SQL
 
 IDEF1X distingue entidades independientes/dependientes, vínculos
-identificadores/no identificadores, opcionalidad y cardinalidad del hijo.
+identificadores/no identificadores, opcionalidad y cardinalidad del lado de la FK.
 La grafía se contrasta con FIPS 184; no es una etiqueta aplicada a patas de
 cuervo. Estas últimas y la flecha relacional siguen siendo opciones separadas.
 Tipos completos, nombres y marcadores alimentan los mismos límites para
 ajuste, SVG e impresión. La revisión en navegador sigue su registro propio.
 
-El rombo Chen y el bloque de lecturas de una FK se arrastran. La posición
+El rombo Chen y el bloque de lecturas de una FK se arrastran. Una tabla se
+arrastra desde su título o desde cualquiera de sus filas; un clic sin
+movimiento sobre una fila selecciona esa columna. La posición
 resuelta evita las cajas de otras formas y rótulos; incluye el aviso de una
 relación pendiente. Las etiquetas Chen consideran también las otras ramas
 y las generalizaciones. Las guías permanecen unidas a su conector. No se
@@ -133,7 +176,8 @@ Las posiciones de bloques FK se guardan en el mapa opcional
 formato 2 anteriores sin ese mapa siguen abriendo. Mover no cambia claves,
 participaciones ni SQL. El arrastre sólo se confirma al soltar; Escape o la
 cancelación del puntero lo descartan. Un clic abre las propiedades sin cambiar
-la geometría. Distribuir recoloca los nodos y reinicia las posiciones manuales
+la geometría. Al abrir un documento, la vista deja visibles los rótulos
+situados justo encima de la primera forma, bajo la barra flotante. Distribuir recoloca los nodos y reinicia las posiciones manuales
 de los bloques relacionales en una operación que puede deshacerse.
 Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 
@@ -142,7 +186,7 @@ disponibles; Imprimir/PDF utiliza la ventana del navegador. El guardado local
 no sincroniza equipos. El SQL de estudio usa sintaxis tipo PostgreSQL/SQL
 estándar y traduce NUMBER a NUMERIC; no se ejecuta en DataBasic. Restricciones
 documentales aparecen como comentarios; decisiones pendientes bloquean la
-exportación completa. Una FK sola no exige que todo padre tenga hijos.
+exportación completa. Una FK sola no exige que toda fila referenciada tenga filas que la referencien.
 
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan

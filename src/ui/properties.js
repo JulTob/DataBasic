@@ -2,9 +2,13 @@ import {
     ACTIONS,
     CARDINALITIES,
     DATA_TYPES,
+    standardTypeGroups,
     parseDataType,
     getConceptualProjection,
-    conceptualStatus
+    conceptualStatus,
+    participationCardinalityLetter,
+    documentAssumptions,
+    assumptionKindLabel
     } from '../domain/model.js';
 import {
     check,
@@ -38,6 +42,35 @@ function tableDefinition( table ) {
         </div></div>`;
     }
 
+/** Choosing this entry in the type list reveals the free text input beside it. */
+export const OTHER_TYPE_OPTION = '__otro__';
+
+/**
+ * The type cell is a list of standard types grouped by category, as Visio
+ * offers its portable types; the current value stays visible even when it
+ * is not standard, and «Otro…» lets the author write any accepted type.
+ */
+function columnTypeCell(
+        model,
+        field
+        ) {
+    const groups = standardTypeGroups( model.profile );
+    const standard = groups.some( group => group.types.includes( field.type ) );
+    const option = type => `<option value="${escapeHTML( type )}"
+        ${type === field.type ? 'selected' : ''}>${escapeHTML( type )}</option>`;
+
+    return `<td data-type-cell><select aria-label="Tipo de datos" data-col-id="${field.id}"
+            data-field="type" data-type-select title="Tipos estándar del perfil; Otro… permite escribirlo">
+            ${standard ? '' : `<optgroup label="Actual">${option( field.type )}</optgroup>`}
+            ${groups.map(
+                    group => `<optgroup label="${escapeHTML( group.label )}">${group.types.map( option ).join( '' )}</optgroup>`
+                    ).join( '' )}
+            <option value="${OTHER_TYPE_OPTION}" class="type-other">Otro…</option></select>
+        <input aria-label="Tipo de datos escrito" data-col-id="${field.id}" data-field="type"
+            value="${escapeHTML( field.type )}" maxlength="100" hidden
+            title="Escribe el tipo completo, por ejemplo NUMBER(8,2)"></td>`;
+    }
+
 function tableColumns(
         model,
         table,
@@ -49,9 +82,7 @@ function tableColumns(
                 <td class="row-pointer">${field.id === selectedColumnId ? '▸' : ''}</td>
                 <td><input aria-label="Nombre de columna" data-col-id="${field.id}"
                     data-field="name" value="${escapeHTML( field.name )}" maxlength="160"></td>
-                <td><input aria-label="Tipo de datos" data-col-id="${field.id}"
-                    data-field="type" value="${escapeHTML( field.type )}" list="data-types"
-                    title="Tipo completo; Editar permite elegir familia y parámetros"></td>
+                ${columnTypeCell( model, field )}
                 <td class="checkbox-cell"><input type="checkbox" aria-label="Requerido"
                     data-col-id="${field.id}" data-field="required"
                     ${field.required ? 'checked' : ''} ${field.primary ? 'disabled' : ''}></td>
@@ -75,8 +106,7 @@ function tableColumns(
         <hr>
         ${command( 'column-up', 'Subir', 'arrow-up', selectedColumnId ? '' : 'disabled' )}
         ${command( 'column-down', 'Bajar', 'arrow-down', selectedColumnId ? '' : 'disabled' )}
-        </div></div>
-        <datalist id="data-types">${(model.profile === 'course' ? ['VARCHAR(50)', 'CHAR(10)', 'NUMBER', 'NUMBER(10,2)', 'DATE'] : DATA_TYPES).map( type => `<option value="${type}"></option>` ).join( '' )}</datalist>`;
+        </div></div>`;
     }
 
 function tablePrimary( table ) {
@@ -110,6 +140,24 @@ function tableIndexes( table ) {
         </div>`;
     }
 
+/** The assumptions attached to one element; the design report gathers them all. */
+function assumptionsPanel(
+        model,
+        elementId
+        ) {
+    const items = documentAssumptions( model ).filter( item => item.elementId === elementId );
+
+    return `<div class="assumptions-panel"><div class="conceptual-list">${items.map(
+            item => `<button data-action="edit-assumption" data-assumption-id="${item.id}">
+                <strong>${escapeHTML( assumptionKindLabel( item.kind ) )}</strong>
+                <span>${escapeHTML( item.text )}</span></button>`
+            ).join( '' ) || '<p>Este elemento todavía no tiene supuestos.</p>'}</div>
+        ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
+        <p class="field-hint">Semántica del enunciado: lo que dice el texto de la práctica.
+            Supuesto: lo que añades para poder decidir. Semántica perdida: lo que el
+            modelo no impone. La memoria del diseño reúne todas las entradas.</p></div>`;
+    }
+
 function relationshipDefinition(
         model,
         relation
@@ -118,10 +166,10 @@ function relationshipDefinition(
     const child = model.tables.find( table => table.id === relation.childId );
 
     return `<div class="mapping-panel"><div class="mapping-titles">
-        <strong>Tabla principal: ${escapeHTML( parent.name )}</strong>
-        ${icon( 'arrow-right' )}<strong>Tabla secundaria: ${escapeHTML( child.name )}</strong>
+        <strong>Tabla referenciada: ${escapeHTML( parent.name )}</strong>
+        ${icon( 'arrow-right' )}<strong>Tabla que referencia: ${escapeHTML( child.name )}</strong>
         </div><table class="property-grid mapping-grid"><thead><tr>
-        <th>Columna principal (PK)</th><th>Columna secundaria (FK)</th></tr></thead><tbody>
+        <th>Clave primaria referenciada (PK)</th><th>Clave ajena (FK)</th></tr></thead><tbody>
         ${relation.mappings.map(
                 (pair, index) => `<tr><td>${escapeHTML( parent.columns.find(
                         field => field.id === pair.parentColumnId
@@ -148,16 +196,16 @@ function relationshipMisc( relation ) {
                     ${relation.identifying === identifying ? 'checked' : ''}>
                     ${identifying ? 'Identificadora' : 'No identificadora'}</label>`
                 ).join( '' )}</fieldset>
-        <fieldset><legend>El hijo tiene un padre</legend>
-        ${check( 'Opcional', 'optional', relation.optional, relation.identifying ? 'disabled' : '' )}
+        <fieldset><legend>Obligatoriedad de la referencia</legend>
+        ${check( 'Opcional · la clave ajena admite nulos', 'optional', relation.optional, relation.identifying ? 'disabled' : '' )}
         </fieldset></div>
-        <p class="field-hint">La cardinalidad indica cuántos hijos puede tener un padre.
-            «Opcional» indica si un hijo puede existir sin padre.</p></div>`;
+        <p class="field-hint">La cardinalidad indica cuántas filas con la clave ajena puede tener
+            cada fila referenciada. «Opcional» indica si una fila puede no referenciar a ninguna.</p></div>`;
     }
 
 function relationshipActions( relation ) {
     return `<div class="referential-panel"><fieldset><legend>Acción referencial</legend>
-        <label>Al eliminar el padre:<select data-field="onDelete">${options( ACTIONS, relation.onDelete )}</select></label>
+        <label>Al eliminar la fila referenciada:<select data-field="onDelete">${options( ACTIONS, relation.onDelete )}</select></label>
         <label>Al actualizar su clave:<select data-field="onUpdate">${options( ACTIONS, relation.onUpdate )}</select></label>
         </fieldset><p class="field-hint">Estas reglas se documentan y se incluyen en el SQL exportado.
             SET NULL requiere una FK que admita nulos.</p></div>`;
@@ -188,13 +236,15 @@ export function renderProperties(
             ...(table.kind === 'view' ? [['query', 'Definición SQL']] : []),
             ['columns', 'Columnas'],
             ...(table.kind === 'entity' ? [['primary', 'Identificador principal'], ['indexes', 'Índices / Claves alternativas']] : []),
+            ['assumptions', 'Supuestos'],
             ['notes', 'Notas']
             ]
         : [
             ['definition', 'Definición'],
             ['name', 'Nombre'],
             ['misc', 'Varios'],
-            ['referential', 'Acción referencial']
+            ['referential', 'Acción referencial'],
+            ['assumptions', 'Supuestos']
             ];
     const category = categories.some( item => item[0] === state.category )
         ? state.category
@@ -211,6 +261,9 @@ export function renderProperties(
                 break;
             case 'indexes':
                 content = tableIndexes( table );
+                break;
+            case 'assumptions':
+                content = assumptionsPanel( model, table.id );
                 break;
             case 'notes':
                 content = `<label class="notes-field">Notas de la entidad
@@ -238,6 +291,9 @@ export function renderProperties(
                 break;
             case 'referential':
                 content = relationshipActions( relation );
+                break;
+            case 'assumptions':
+                content = assumptionsPanel( model, relation.id );
                 break;
             default:
                 content = relationshipDefinition( model, relation );
@@ -324,6 +380,7 @@ function nativeProperties(
         ['definition', 'Definición'],
         ...(entity || relation ? [['attributes', 'Atributos']] : []),
         ...(relation ? [['misc', 'Varios'], ['translation', 'Correspondencias']] : []),
+        ['assumptions', 'Supuestos'],
         ['notes', 'Notas']
         ];
     const category = categories.some( entry => entry[0] === state.category )
@@ -338,6 +395,9 @@ function nativeProperties(
         content = `<label class="notes-field">Notas semánticas
             <textarea data-field="notes">${escapeHTML( item.notes )}</textarea></label>`;
         }
+    else if (category === 'assumptions') {
+        content = assumptionsPanel( model, item.id );
+        }
     else if (category === 'attributes') {
         content = conceptualAttributeList( model, item.id );
         }
@@ -346,7 +406,10 @@ function nativeProperties(
 
         content = `<h3>Participaciones, roles y límites</h3>
             <p class="field-hint">Cada par se lee junto a su entidad:
-                cuántas ocurrencias de esta relación admite una ocurrencia de esa entidad.</p>
+                cuántas ocurrencias de esta relación admite una ocurrencia de esa entidad.
+                La letra 1/N junto al rombo es la razón de cardinalidad de esa rama:
+                en una binaria es el máximo de la otra rama; en una ternaria es la
+                cardinalidad por combinación elegida más abajo.</p>
             <h4>Participación absoluta</h4>
             <div class="participation-list">${relation.participations.map(
                     part => `<fieldset><legend>${escapeHTML( entities.find( entity => entity.id === part.entityId )?.name || part.entityId )}</legend>
@@ -355,7 +418,10 @@ function nativeProperties(
                         <label>Mínimo<input type="number" min="0" data-participation="${part.id}"
                             data-field="min" value="${part.min}"></label>
                         <label>Máximo<input data-participation="${part.id}" data-field="max"
-                            value="${part.max ?? 'N'}" title="N indica muchos"></label></fieldset>`
+                            value="${part.max ?? 'N'}" title="N indica muchos"></label>
+                        ${relation.participations.length === 2
+                            ? `<p class="field-hint">Letra junto al rombo: ${participationCardinalityLetter( relation, part )}</p>`
+                            : ''}</fieldset>`
                     ).join( '' )}</div>
             ${relation.participations.length === 3 ? `<h4>Cardinalidad por combinación de los otros roles</h4>
                 <p class="field-hint">Para una combinación fija de los otros dos roles y el

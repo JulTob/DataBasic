@@ -9,6 +9,7 @@ const modules = [
     'domain/serialization.js',
     'io/sql.js',
     'ui/html.js',
+    'io/report.js',
     'ui/scene.js',
     'ui/diagram.js',
     'ui/properties.js',

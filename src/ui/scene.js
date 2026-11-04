@@ -1,11 +1,14 @@
 import {
     conceptualStatus,
-    getConceptualProjection
+    getConceptualProjection,
+    isIdentifyingLink,
+    participationCardinalityLetter
     } from '../domain/model.js';
 
 export const SCENE_TABLE_WIDTH = 320;
 export const SCENE_ROW_HEIGHT = 48;
 export const SCENE_HEADER_HEIGHT = 32;
+export const SCENE_MARGIN = 36;
 
 function sceneTextWidth( text, size = 14 ) {
     return Array.from( String( text ) ).reduce(
@@ -657,7 +660,10 @@ function sceneConceptualRelationships(
                     id => graph.attributes.find( attribute => attribute.id === id )?.name || id
                     ),
             labelLines,
-            pending: !relation.projected && pending.has( relation.id )
+            pending: !relation.projected && pending.has( relation.id ),
+            identifying: relation.projected
+                ? Boolean( relation.identifying )
+                : isIdentifyingLink( model, relation.id )
             });
         }
     }
@@ -824,6 +830,22 @@ function sceneParticipationEdge(
                 ) );
         }
 
+    // Course notation for a binary relationship: the 1/N letter sits by the
+    // diamond, opposite the (min,max) pair, and is the maximum of the other branch.
+    // A ternary shows its combination cardinality below instead.
+    if (relationNode.relation.participations.length === 2) {
+        labels.push({
+            ...sceneBranchLabel(
+                    participationCardinalityLetter( relationNode.relation, participation ),
+                    'cardinality',
+                    {x: start.x - dx * 0.18, y: start.y - dy * 0.18},
+                    {x: -outward.x, y: -outward.y},
+                    [...obstacles, ...labels.map( label => label.bounds )]
+                    ),
+            plain: true
+            });
+        }
+
     if (relationNode.relation.participations.length === 3 && participation.cardinality) {
         const names = relationNode.cardinalityContextNames;
         const needsContext = relationNode.relation.participations.some(
@@ -897,7 +919,8 @@ function sceneGeneralizations(
                     scenePointOnNode( entity, sceneCenter( node ) )
                     ],
                 labels: [],
-                total: index === 0 && generalization.total
+                total: index === 0 && generalization.total,
+                subset: index > 0
                 });
             }
         }
@@ -972,10 +995,10 @@ function sceneCompleteBounds(
         return {x: 0, y: 0, width: 800, height: 500};
         }
 
-    const x = Math.min( ...rectangles.map( item => item.x ) ) - 36;
-    const y = Math.min( ...rectangles.map( item => item.y ) ) - 36;
-    const right = Math.max( ...rectangles.map( item => item.x + item.width ) ) + 36;
-    const bottom = Math.max( ...rectangles.map( item => item.y + item.height ) ) + 36;
+    const x = Math.min( ...rectangles.map( item => item.x ) ) - SCENE_MARGIN;
+    const y = Math.min( ...rectangles.map( item => item.y ) ) - SCENE_MARGIN;
+    const right = Math.max( ...rectangles.map( item => item.x + item.width ) ) + SCENE_MARGIN;
+    const bottom = Math.max( ...rectangles.map( item => item.y + item.height ) ) + SCENE_MARGIN;
 
     return {x, y, width: right - x, height: bottom - y};
     }

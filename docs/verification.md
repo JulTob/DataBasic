@@ -392,3 +392,102 @@ Comprobación online de 0.3.1 en práctica independiente:
   en `(540,273)` y el rombo Chen en `(80,272)`. No hubo errores de consola.
 - Se usó sólo la pestaña de práctica para movimientos, aperturas y recargas.
   La pestaña de trabajo se inspeccionó sin modificarla.
+
+## Revisión funcional y correcciones de 0.4.1
+
+Revisión local del 3 de noviembre de 2026 con los apuntes del curso aportados
+(Práctica 1, introducción al ERE, Práctica 0, Tema 1 y Tema 2) y la
+[cobertura frente a Visio 2010](visio-2010-coverage.md) como especificación.
+La revisión se realizó sobre 0.3.1 y se integró después con 0.4.0; la
+cardinalidad ternaria por combinación de 0.4.0 es la letra 1/N de esas ramas.
+
+- `npm run check`, 181 pruebas tras la integración (12 de esta revisión),
+  `npm run build` y `node --check dist/app.bundle.js` superados en local
+  con Node.js 22.
+- Recorrido automatizado en Chromium (Playwright, 1400 × 900, práctica
+  independiente) sobre la aplicación servida con `npm start`:
+  40 pasos relacionales (R-01 a R-40) y 25 pasos Chen (C-01 a C-25), sin
+  errores ni avisos en la consola del navegador. Cada paso leyó el documento
+  guardado automáticamente en IndexedDB para contrastar el estado real.
+- Relacional: nuevo documento; entidad desde Formas y desde la cinta;
+  columnas con Agregar, Quitar, Subir, Editar… (CHAR(12), DATE requerido,
+  NUMBER(8,2) con predeterminado y mínimo de dominio); rechazo de escala sin
+  precisión; PK compuesta y deshacer; clave alternativa e índice único;
+  relación padre→hijo con migración de PK; Definición, Nombre, Varios y
+  Acción referencial (CASCADE aceptado, SET NULL rechazado con aviso);
+  Opciones de visualización con IDEF1X, patas de cuervo, flecha relacional,
+  tipos, claves y nombres conceptuales; SQL con PK, UNIQUE, CHECK, FK,
+  NUMERIC(8,2) y CREATE UNIQUE INDEX; descarga JSON y SVG; deshacer/rehacer;
+  arrastre de tabla y de bloque de lecturas; zoom por botones, deslizador,
+  rueda y Ctrl + rueda; Distribuir y deshacer; copiar, pegar, duplicar;
+  eliminar con confirmación; vista SQL con consulta y rechazo de FK;
+  nombre del documento; atajos de teclado; eventos de impresión;
+  Comprobar y Ayuda; perfil General/Curso con rechazo de INTEGER;
+  panel de propiedades y divisor; recarga con recuperación; Abrir JSON
+  válido e inválido; ejemplo de biblioteca.
+- Chen: proyección del ejemplo; entidad nativa con atributo clave; atributo
+  VARCHAR(80) requerido; relación binaria pendiente con roles y Varios;
+  rechazo de máximo inferior al mínimo; atributo de relación; materialización
+  de tabla asociativa y comprobación en Relacional; renombrado de columna
+  reflejado en Chen; rechazo de editar la PK de una columna generada;
+  ternaria con período en la clave; entidad débil con clave parcial, FK
+  identificadora y vínculo elegido; compuesto con componentes, derivado
+  omitido y multivaluado; especialización; revisión del modelo y Ver origen;
+  SQL bloqueado por pendientes; arrastre del rombo y deshacer; renombrado
+  sincronizado; eliminación rechazada de entidad con relaciones y
+  eliminación de atributo y de relación materializada; guardar, nuevo y
+  abrir conservando ambas representaciones; Distribuir, Ajustar y SVG.
+- Defectos encontrados y corregidos, con pruebas de regresión:
+  la relación que vuelve a no identificadora dejaba la FK en la PK hija y
+  bloqueaba Opcional; arrastrar una tabla por sus filas no la movía;
+  Revisar modelo duplicaba los avisos; Propiedades mostraba «undefined» para
+  una especialización; los rótulos sobre la primera tabla quedaban bajo la
+  barra flotante al abrir.
+- Grafía del curso incorporada y verificada en escena y navegador: letras
+  1/N junto al rombo (deducidas en binarias; en ternarias, la cardinalidad
+  por combinación elegida), rombo doble del vínculo identificador y arcos de
+  subconjunto en las subclases. Un documento formato 2 anterior abre y
+  deduce las letras de sus binarias.
+- La documentación de Microsoft sobre Visio 2010 no pudo abrirse desde el
+  entorno de revisión; la matriz de cobertura señala qué filas se apoyan en
+  extractos y conocimiento general y deben contrastarse después.
+
+Quedan fuera de esta revisión la impresión física, otros navegadores, las
+tres estrategias de jerarquía no implementadas y la publicación en GitHub
+Pages de esta versión, que se verifica tras integrar la rama. El recorrido en
+navegador se hizo antes de integrar 0.4.0; las transformaciones nuevas de esa
+versión se cubren con sus propias pruebas de dominio y de ejemplos.
+
+## Supuestos y memoria del diseño en 0.4.2
+
+Revisión local del 4 de noviembre de 2026.
+
+- `npm run check`, 189 pruebas (8 nuevas: supuestos, memoria, interfaz y
+  aplicación), `npm run build` y `node --check dist/app.bundle.js` superados.
+- Recorrido en Chromium (Playwright, 1400 × 900, práctica independiente)
+  sobre un documento del curso con siete pasos (A-01 a A-07), sin errores de
+  consola: alta de un supuesto global desde Insertar → Supuesto; rechazo de un
+  texto vacío dentro del diálogo; categoría Supuestos de una entidad con el
+  objeto preseleccionado; edición y eliminación desde la lista con deshacer;
+  visión general en Base de datos → Supuestos con cinco restricciones
+  documentales detectadas y edición desde ella; descarga de la memoria HTML
+  (dos SVG incrustados, letras de cardinalidad, supuestos y semántica
+  perdida) y Markdown (siete secciones); al borrar un atributo, su supuesto
+  conserva el texto como global.
+- La memoria se deriva del documento en cada descarga; nada se guarda fuera
+  del JSON. Un archivo formato 2 anterior sin `assumptions` abre sin cambios.
+
+No se ha comprobado la apertura del HTML en Word ni la impresión de la memoria;
+la memoria no sustituye la justificación escrita que pide la práctica.
+
+Tipos estándar en Columnas, 4 de noviembre de 2026: la celda de tipo es una
+lista agrupada por categoría y filtrada por perfil, con el valor actual
+conservado y «Otro…» que descubre el cuadro de texto. Pruebas de dominio
+(validez por perfil), de interfaz (grupos, valor no estándar y opción Otro) y
+de aplicación (elegir un tipo guarda; Otro… no guarda nada hasta escribir),
+además de una comprobación en Chromium de la celda y del cuadro descubierto.
+
+Vocabulario de las relaciones, 4 de noviembre de 2026: la interfaz, los
+mensajes, el SQL de estudio y la memoria hablan de tabla referenciada, tabla
+que referencia y clave ajena (FK), como los apuntes del curso, en lugar del
+padre/hijo de Visio. Las columnas de una autorreferencia se nombran `_ref`.

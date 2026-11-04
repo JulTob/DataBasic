@@ -13,8 +13,11 @@
  * forward:string,inverse:string,cardinality:string,identifying:boolean,
  * optional:boolean,onDelete:string,onUpdate:string,
  * mappings:{parentColumnId:string,childColumnId:string}[]}} Relationship
+ * @typedef {{id:string,kind:'enunciado'|'supuesto'|'perdida',text:string,
+ * elementId:string|null}} Assumption
  * @typedef {{format:'databasic',version:2,profile:'course'|'general',
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
+ * assumptions?:Assumption[],
  * presentation:{chen:Record<string,{x:number,y:number}>,
  * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
@@ -40,6 +43,51 @@ export const DATA_TYPES = [
     'TEXT'
     ];
 
+/**
+ * Standard types offered in the Columns grid, grouped as Visio groups its
+ * portable data types (text, numeric, temporal, logical, raw, other). The
+ * course profile only offers the four families the practice allows.
+ */
+export const STANDARD_TYPE_GROUPS = [
+    {
+        label: 'Texto',
+        course: ['VARCHAR(50)', 'VARCHAR(100)', 'VARCHAR(255)', 'CHAR(1)', 'CHAR(10)'],
+        general: ['VARCHAR(50)', 'VARCHAR(100)', 'VARCHAR(255)', 'CHAR(1)', 'CHAR(10)', 'TEXT']
+        },
+    {
+        label: 'Numérico',
+        course: ['NUMBER', 'NUMBER(10)', 'NUMBER(10,2)', 'NUMBER(6,2)'],
+        general: [
+            'NUMBER', 'NUMBER(10)', 'NUMBER(10,2)', 'INTEGER', 'SMALLINT', 'BIGINT',
+            'DECIMAL(10,2)', 'NUMERIC(10,2)', 'REAL', 'FLOAT', 'DOUBLE'
+            ]
+        },
+    {
+        label: 'Temporal',
+        course: ['DATE'],
+        general: ['DATE', 'TIME', 'TIMESTAMP', 'DATETIME']
+        },
+    {
+        label: 'Lógico',
+        course: [],
+        general: ['BOOLEAN']
+        },
+    {
+        label: 'Datos en bruto y otros',
+        course: [],
+        general: ['BLOB', 'UUID']
+        }
+    ];
+
+/** The groups that apply to a profile, without the empty ones. */
+export function standardTypeGroups( profile ) {
+    const key = profile === 'course' ? 'course' : 'general';
+
+    return STANDARD_TYPE_GROUPS
+        .map( group => ({label: group.label, types: group[key]}) )
+        .filter( group => group.types.length );
+    }
+
 export const CARDINALITIES = [
     ['zero-many', 'Cero o más', '0..N'],
     ['one-many', 'Uno o más', '1..N'],
@@ -60,6 +108,22 @@ export function newId() {
 
 export const COURSE_TYPES = ['VARCHAR', 'CHAR', 'NUMBER', 'DATE'];
 
+/**
+ * The course's three kinds of semantics: what the statement says, what the
+ * author assumes beyond it, and what the model cannot express.
+ */
+export const ASSUMPTION_KINDS = [
+    ['enunciado', 'Semántica del enunciado'],
+    ['supuesto', 'Supuesto semántico'],
+    ['perdida', 'Semántica perdida']
+    ];
+
+export const ASSUMPTION_TEXT_LIMIT = 2000;
+
+export function assumptionKindLabel( kind ) {
+    return ASSUMPTION_KINDS.find( ([value]) => value === kind )?.[1] || kind;
+    }
+
 export function emptyDocument( profile = 'course' ) {
     if (!['course', 'general'].includes( profile )) {
         throw new Error( 'Perfil de tipos no válido.' );
@@ -79,6 +143,7 @@ export function emptyDocument( profile = 'course' ) {
             generalizations: []
             },
         traces: [],
+        assumptions: [],
         presentation: {
             chen: {},
             relational: {}
@@ -372,6 +437,7 @@ export function removeColumn(
 
                 table.indexes = table.indexes.filter( index => index.columns.length );
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }
@@ -416,13 +482,14 @@ export function addRelationship(
                     }
 
                 if (!keys.length) {
-                    throw new Error( 'Define primero una clave primaria en la entidad padre.' );
+                    throw new Error( 'Define primero una clave primaria en la tabla referenciada.' );
                     }
 
                 const mappings = keys.map(
                         key => {
+                            // A self-reference needs a second column: the referenced key.
                             const targetName = parentId === childId
-                                ? `${key.name}_padre`
+                                ? `${key.name}_ref`
                                 : key.name;
 
                             let target = child.columns.find(
@@ -516,6 +583,8 @@ export function updateRelationship(
                     rejectGeneratedStructure( next, 'foreign-key', relationshipId );
                     }
 
+                const wasIdentifying = relation.identifying;
+
                 applyDomainPatch(
                         relation,
                         patch,
@@ -531,13 +600,17 @@ export function updateRelationship(
                     relation.optional = false;
                     }
 
+                if (wasIdentifying && !relation.identifying) {
+                    releaseIdentifyingColumns( next, relation );
+                    }
+
                 for (const pair of relation.mappings) {
                     const field = child.columns.find(
                             item => item.id === pair.childColumnId
                             );
 
                     if (!field) {
-                        throw new Error( 'La columna hija seleccionada no existe.' );
+                        throw new Error( 'La columna de la clave ajena seleccionada no existe.' );
                         }
 
                     if (relation.identifying) {
@@ -548,6 +621,35 @@ export function updateRelationship(
                     }
                 }
             );
+    }
+
+/**
+ * A relationship that stops being identifying takes its FK columns out of the
+ * child PK, as Visio 2010 does. A column stays in the PK only while another
+ * identifying relationship of the same child still needs it.
+ */
+function releaseIdentifyingColumns(
+        model,
+        relation
+        ) {
+    const child = requireTable( model, relation.childId );
+    const keptByOthers = new Set(
+            model.relationships
+                .filter(
+                        other => other.id !== relation.id
+                            && other.childId === relation.childId
+                            && other.identifying
+                        )
+                .flatMap( other => other.mappings.map( pair => pair.childColumnId ) )
+            );
+
+    for (const pair of relation.mappings) {
+        const field = child.columns.find( item => item.id === pair.childColumnId );
+
+        if (field && !keptByOthers.has( field.id )) {
+            field.primary = false;
+            }
+        }
     }
 
 /** Removal retains migrated columns: they may hold data or serve another FK. */
@@ -588,6 +690,7 @@ export function removeElement(
                             && relation.childId !== selectedId
                         );
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }
@@ -690,7 +793,7 @@ export function validateDocument( model ) {
         const constraintName = `${relation.childId}.${relation.name}`.toLowerCase();
 
         if (!relation.name.trim() || constraintNames.has( constraintName )) {
-            add( 'error', 'Cada relación necesita un nombre físico único en su tabla hija.', relation.id );
+            add( 'error', 'Cada relación necesita un nombre físico único en la tabla que contiene la FK.', relation.id );
             }
 
         constraintNames.add( constraintName );
@@ -717,7 +820,7 @@ export function validateDocument( model ) {
             && hasUniqueColumns( child, childIds )) {
             add(
                     'warning',
-                    `${relation.name}: la PK o unicidad de la FK limita a un hijo por padre, aunque se han declarado muchos.`,
+                    `${relation.name}: la PK o unicidad de la FK limita a una fila que referencia por fila referenciada, aunque se han declarado muchas.`,
                     relation.id
                     );
             }
@@ -726,7 +829,7 @@ export function validateDocument( model ) {
             || new Set( referenced ).size !== referenced.length
             || new Set( childIds ).size !== childIds.length
             || keys.some( key => !referenced.includes( key.id ) )) {
-            add( 'error', `${relation.name}: la relación debe incluir toda la clave primaria del padre.`, relation.id );
+            add( 'error', `${relation.name}: la relación debe incluir toda la clave primaria de la tabla referenciada.`, relation.id );
             }
 
         for (const pair of relation.mappings) {
@@ -739,7 +842,7 @@ export function validateDocument( model ) {
                 }
 
             if (relation.identifying && (!target.primary || relation.optional)) {
-                add( 'error', `${relation.name}: una relación identificadora requiere una FK obligatoria dentro de la PK hija.`, relation.id );
+                add( 'error', `${relation.name}: una relación identificadora requiere una FK obligatoria dentro de la PK de la tabla que referencia.`, relation.id );
                 }
 
             if (target.required === relation.optional) {
@@ -760,6 +863,29 @@ export function validateDocument( model ) {
 
     if (model.version === 2) {
         issues.push( ...validateConceptualDocument( model ) );
+        issues.push( ...validateAssumptions( model ) );
+        }
+
+    return issues;
+    }
+
+/** Shape checks already passed; here each assumption must point to a live element. */
+function validateAssumptions( model ) {
+    const ids = documentElementIds( model );
+    const issues = [];
+
+    for (const assumption of documentAssumptions( model )) {
+        if (!assumption.text.trim()) {
+            issues.push({level: 'error', message: 'Un supuesto necesita texto.', elementId: assumption.id});
+            }
+
+        if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
+            issues.push({
+                level: 'error',
+                message: 'Un supuesto referencia un elemento inexistente.',
+                elementId: assumption.id
+                });
+            }
         }
 
     return issues;
@@ -1212,6 +1338,23 @@ function validateDocumentShape( model ) {
                     );
             }
 
+        if ('assumptions' in model) {
+            list( model.assumptions, 500, 'Supuestos' );
+
+            for (const assumption of model.assumptions) {
+                identify( assumption );
+                text( assumption, 'text', ASSUMPTION_TEXT_LIMIT );
+                demand(
+                        ASSUMPTION_KINDS.some( ([kind]) => kind === assumption.kind ),
+                        'Supuesto: la clase debe ser enunciado, supuesto o perdida.'
+                        );
+                demand(
+                        assumption.elementId === null || typeof assumption.elementId === 'string',
+                        'Supuesto: el elemento asociado debe ser un identificador o null.'
+                        );
+                }
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1265,14 +1408,9 @@ function domainPositionValid( position ) {
             );
     }
 
-/** Called only by removals; malformed imports still fail validation unchanged. */
-function removeOrphanDiagramPositions( model ) {
-    if (!model.presentation) {
-        return;
-        }
-
+/** Every identifier a position, a trace or an assumption may point to. */
+export function documentElementIds( model ) {
     const ids = new Set( model.relationships.map( relation => relation.id ) );
-    const foreignKeyIds = new Set( ids );
 
     for (const table of model.tables) {
         const tableItems = [
@@ -1297,6 +1435,18 @@ function removeOrphanDiagramPositions( model ) {
             }
         }
 
+    return ids;
+    }
+
+/** Called only by removals; malformed imports still fail validation unchanged. */
+function removeOrphanDiagramPositions( model ) {
+    if (!model.presentation) {
+        return;
+        }
+
+    const ids = documentElementIds( model );
+    const foreignKeyIds = new Set( model.relationships.map( relation => relation.id ) );
+
     for (const [mode, existing] of [['chen', ids], ['relational', foreignKeyIds]]) {
         for (const id of Object.keys( model.presentation[mode] || {} )) {
             if (!existing.has( id )) {
@@ -1304,6 +1454,188 @@ function removeOrphanDiagramPositions( model ) {
                 }
             }
         }
+    }
+
+/** An assumption whose element was removed keeps its text and becomes global. */
+function detachOrphanAssumptions( model ) {
+    const ids = documentElementIds( model );
+
+    for (const assumption of documentAssumptions( model )) {
+        if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
+            assumption.elementId = null;
+            }
+        }
+    }
+
+/** Older format 2 files have no list; they read as having no assumptions. */
+export function documentAssumptions( model ) {
+    return model.assumptions || [];
+    }
+
+/** A readable name for the element an assumption refers to, or null. */
+export function elementLabel(
+        model,
+        id
+        ) {
+    const native = model.conceptual || {
+        entities: [], attributes: [], relationships: [], generalizations: []
+        };
+    const entity = native.entities.find( item => item.id === id );
+
+    if (entity) {
+        return `Entidad ${entity.name}`;
+        }
+
+    const attribute = native.attributes.find( item => item.id === id );
+
+    if (attribute) {
+        return `Atributo ${attribute.name}`;
+        }
+
+    const relation = native.relationships.find( item => item.id === id );
+
+    if (relation) {
+        return `Relación ${relation.name}`;
+        }
+
+    for (const item of native.relationships) {
+        const participation = item.participations.find( part => part.id === id );
+
+        if (participation) {
+            return `Participación ${item.name} · ${participation.role || participation.entityId}`;
+            }
+        }
+
+    const generalization = native.generalizations.find( item => item.id === id );
+
+    if (generalization) {
+        const supertype = model.tables.find( item => item.id === generalization.supertypeId )
+            || native.entities.find( item => item.id === generalization.supertypeId );
+
+        return `Especialización de ${supertype?.name || generalization.supertypeId}`;
+        }
+
+    const table = model.tables.find( item => item.id === id );
+
+    if (table) {
+        return `${table.kind === 'view' ? 'Vista' : 'Entidad'} ${table.name}`;
+        }
+
+    for (const owner of model.tables) {
+        const field = owner.columns.find( item => item.id === id );
+
+        if (field) {
+            return `Columna ${owner.name}.${field.name}`;
+            }
+        }
+
+    const foreignKey = model.relationships.find( item => item.id === id );
+
+    if (foreignKey) {
+        return `Relación ${foreignKey.name}`;
+        }
+
+    return null;
+    }
+
+function normalizeAssumptionPatch(
+        model,
+        patch
+        ) {
+    const normalized = {};
+
+    if ('kind' in patch) {
+        if (!ASSUMPTION_KINDS.some( ([kind]) => kind === patch.kind )) {
+            throw new Error( 'Elige la clase del supuesto: enunciado, supuesto o perdida.' );
+            }
+
+        normalized.kind = patch.kind;
+        }
+
+    if ('text' in patch) {
+        const value = String( patch.text ?? '' ).trim();
+
+        if (!value) {
+            throw new Error( 'Escribe el texto del supuesto.' );
+            }
+
+        if (value.length > ASSUMPTION_TEXT_LIMIT) {
+            throw new Error( `El supuesto admite hasta ${ASSUMPTION_TEXT_LIMIT} caracteres.` );
+            }
+
+        normalized.text = value;
+        }
+
+    if ('elementId' in patch) {
+        const elementId = patch.elementId || null;
+
+        if (elementId !== null && !documentElementIds( model ).has( elementId )) {
+            throw new Error( 'El elemento asociado al supuesto ya no existe.' );
+            }
+
+        normalized.elementId = elementId;
+        }
+
+    return normalized;
+    }
+
+export function addAssumption(
+        model,
+        definition
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const assumption = {
+                    id: newId(),
+                    kind: 'supuesto',
+                    text: '',
+                    elementId: null,
+                    ...normalizeAssumptionPatch( next, {
+                        kind: definition.kind ?? 'supuesto',
+                        text: definition.text,
+                        elementId: definition.elementId ?? null
+                        } )
+                    };
+
+                next.assumptions = [...documentAssumptions( next ), assumption];
+                }
+            );
+    }
+
+export function updateAssumption(
+        model,
+        id,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const assumption = documentAssumptions( next ).find( item => item.id === id );
+
+                if (!assumption) {
+                    throw new Error( 'El supuesto seleccionado ya no existe.' );
+                    }
+
+                Object.assign( assumption, normalizeAssumptionPatch( next, patch ) );
+                }
+            );
+    }
+
+export function removeAssumption(
+        model,
+        id
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                if (!documentAssumptions( next ).some( item => item.id === id )) {
+                    throw new Error( 'El supuesto seleccionado ya no existe.' );
+                    }
+
+                next.assumptions = documentAssumptions( next ).filter( item => item.id !== id );
+                }
+            );
     }
 
 function requireConceptualObject(
@@ -1586,19 +1918,20 @@ export function getConceptualProjection( model ) {
             notes: 'Proyección parcial desde una FK; no reconstruye el ERE original.',
             projected: true,
             foreignKeyId: relation.id,
+            identifying: relation.identifying,
             translation: null,
             participations: [
                 {
                     id: `${relation.id}_parent`,
                     entityId: entityForTable( relation.parentId ),
-                    role: 'padre',
+                    role: relation.parentId === relation.childId ? 'referenciada' : '',
                     min: relation.cardinality.startsWith( 'one' ) ? 1 : 0,
                     max: relation.cardinality.endsWith( 'many' ) ? null : 1
                     },
                 {
                     id: `${relation.id}_child`,
                     entityId: entityForTable( relation.childId ),
-                    role: 'hijo',
+                    role: relation.parentId === relation.childId ? 'referencia' : '',
                     min: relation.optional ? 0 : 1,
                     max: 1
                     }
@@ -2197,6 +2530,49 @@ export function updateConceptualParticipation(
             );
     }
 
+/**
+ * Course notation: the letter next to the diamond on a branch is the
+ * cardinality ratio of that branch. In a binary relationship it is the
+ * maximum of the other participation. In a ternary it is the cardinality
+ * per combination of the other roles chosen by the author ('one' or 'many');
+ * while undecided there is no letter to draw.
+ */
+export function participationCardinalityLetter(
+        relation,
+        participation
+        ) {
+    const others = relation.participations.filter( item => item.id !== participation.id );
+
+    if (others.length === 1) {
+        return others[0].max === 1 ? '1' : 'N';
+        }
+
+    if (participation.cardinality === 'one') {
+        return '1';
+        }
+
+    return participation.cardinality === 'many' ? 'N' : null;
+    }
+
+/** A weak entity's chosen link, or an identifying FK strategy, is an identifying link. */
+export function isIdentifyingLink(
+        model,
+        relationshipId
+        ) {
+    const relation = model.conceptual?.relationships.find( item => item.id === relationshipId );
+
+    if (relation?.translation?.kind === 'foreign-key'
+        && relation.translation.identifying === true) {
+        return true;
+        }
+
+    return (model.conceptual?.entities || []).some(
+            entity => entity.weak
+                && entity.translation?.kind === 'weak'
+                && entity.translation.relationshipId === relationshipId
+            );
+    }
+
 function participationCardinality( part ) {
     if (part.max === 1) {
         return part.min === 0 ? 'zero-one' : 'one-one';
@@ -2386,7 +2762,7 @@ function materializeBinaryForeignKey(
             );
 
     if (relation.participations.length !== 2 || !childPart || childPart.max !== 1) {
-        throw new Error( 'La estrategia FK requiere una binaria y máximo uno en el rol hijo elegido.' );
+        throw new Error( 'La estrategia FK requiere una binaria y máximo uno en la participación receptora elegida.' );
         }
 
     const parentPart = relation.participations.find( item => item.id !== childPart.id );
@@ -2403,7 +2779,7 @@ function materializeBinaryForeignKey(
 
     if (foreignKey.identifying) {
         if (childPart.min !== 1) {
-            throw new Error( 'Un vínculo identificador requiere participación hija (1,1).' );
+            throw new Error( 'Un vínculo identificador requiere participación receptora (1,1).' );
             }
 
         for (const pair of foreignKey.mappings) {
@@ -2796,6 +3172,7 @@ export function removeConceptualElement(
                 next.traces = next.traces.filter( item => !removedSources.has( item.sourceId ) );
 
                 removeOrphanDiagramPositions( next );
+                detachOrphanAssumptions( next );
                 }
             );
     }
@@ -2995,7 +3372,7 @@ function validateConceptualDocument( model ) {
             if (!parent || parent.structure !== 'composite'
                 || parent.ownerKind !== attribute.ownerKind || parent.ownerId !== attribute.ownerId
                 || visited.has( parent.id )) {
-                add( 'Los componentes necesitan un padre compuesto del mismo propietario, sin ciclos.', attribute.id );
+                add( 'Los componentes necesitan un atributo compuesto del mismo propietario, sin ciclos.', attribute.id );
                 break;
                 }
 
@@ -3440,7 +3817,7 @@ function validateConceptualOwnership(
                     && part.id !== relation.translation.childParticipationId;
 
             if (!expectedForeignKey && traces.length) {
-                add( 'La participación pendiente o hija no puede originar estos artefactos.', part.id );
+                add( 'La participación pendiente o receptora no puede originar estos artefactos.', part.id );
                 }
 
             if (traces.filter( trace => trace.targetKind === 'foreign-key' ).length > 1

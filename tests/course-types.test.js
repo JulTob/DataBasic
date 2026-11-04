@@ -5,6 +5,8 @@ import {
     addTable,
     column,
     emptyDocument,
+    standardTypeGroups,
+    validCourseType,
     validType
     } from '../src/domain/model.js';
 import {
@@ -95,4 +97,23 @@ test( 'El SQL traduce NUMBER a NUMERIC sin modificar el modelo guardado', () => 
     assert.match( sql, /"importe" NUMERIC[,\n]/ );
     assert.match( sql, /"redondeado" NUMERIC\(10,-2\)/ );
     assert.equal( serializeDocument( model ), original );
+    } );
+
+test( 'Los tipos estándar del desplegable son válidos y respetan el perfil del curso', () => {
+    const course = standardTypeGroups( 'course' );
+    const general = standardTypeGroups( 'general' );
+
+    assert.deepEqual( course.map( group => group.label ), ['Texto', 'Numérico', 'Temporal'] );
+    assert.ok( general.length > course.length, 'el perfil general ofrece más grupos' );
+
+    for (const type of course.flatMap( group => group.types )) {
+        assert.ok( validCourseType( type ), `${type} debe ser un tipo del curso` );
+        }
+
+    for (const type of general.flatMap( group => group.types )) {
+        assert.ok( validType( type ), `${type} debe ser un tipo admitido` );
+        }
+
+    assert.ok( general.flatMap( group => group.types ).includes( 'INTEGER' ) );
+    assert.ok( !course.flatMap( group => group.types ).includes( 'INTEGER' ) );
     } );

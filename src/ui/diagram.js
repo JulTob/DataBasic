@@ -7,12 +7,14 @@ import {
     sceneTableWidth,
     SCENE_TABLE_WIDTH,
     SCENE_ROW_HEIGHT,
-    SCENE_HEADER_HEIGHT
+    SCENE_HEADER_HEIGHT,
+    SCENE_MARGIN
     } from './scene.js';
 
 export const TABLE_WIDTH = SCENE_TABLE_WIDTH;
 export const ROW_HEIGHT = SCENE_ROW_HEIGHT;
 export const HEADER_HEIGHT = SCENE_HEADER_HEIGHT;
+export const SCENE_BOUNDS_MARGIN = SCENE_MARGIN;
 
 export function tableWidth( table ) {
     return sceneTableWidth( table );
@@ -253,10 +255,10 @@ function diagramEdgeLabels( edge ) {
     return edge.labels.map(
             label => {
                 const text = `<text x="${label.x}" y="${label.y}"
-                    data-reading="${label.purpose}" class="relation-label"
+                    data-reading="${label.purpose}" class="relation-label ${label.plain ? 'cardinality-letter' : ''}"
                     text-anchor="middle">${escapeHTML( label.text )}</text>`;
 
-                return label.leader
+                return label.leader && !label.plain
                     ? `<g data-label-for="${escapeHTML( edge.ref.id )}"
                         data-label-purpose="${label.purpose}" class="participation-caption">
                         <rect class="label-background" x="${label.bounds.x}" y="${label.bounds.y}"
@@ -273,7 +275,7 @@ function diagramLabelGuides(
         ) {
     return `<g ${diagramReferenceAttributes( edge.ref )}
         class="relationship ${edge.ref.id === selectedId ? 'selected' : ''}">
-        ${(edge.caption ? [edge.caption] : edge.labels).map(
+        ${(edge.caption ? [edge.caption] : edge.labels.filter( label => !label.plain )).map(
                 label => `<path data-label-leader="${escapeHTML( edge.ref.id )}"
                     data-label-purpose="${label.purpose}" class="label-leader"
                     d="${diagramPath( label.leader )}"/>
@@ -384,17 +386,38 @@ function diagramChenAttribute(
             class="type-label centered-label">${escapeHTML( attribute.type )}</text>` : ''}</g>`;
     }
 
+/** A diamond parallel to the outer one, kept at a constant distance from its sides. */
+function diagramInnerDiamond(
+        width,
+        height,
+        distance
+        ) {
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const diagonal = Math.hypot( halfWidth, halfHeight );
+    const innerHalfWidth = halfWidth - distance * diagonal / halfHeight;
+    const innerHalfHeight = halfHeight - distance * diagonal / halfWidth;
+
+    return `M${halfWidth},${halfHeight - innerHalfHeight}
+        L${halfWidth + innerHalfWidth},${halfHeight}
+        L${halfWidth},${halfHeight + innerHalfHeight}
+        L${halfWidth - innerHalfWidth},${halfHeight} Z`;
+    }
+
 function diagramChenRelationship(
         node,
         selectedId
         ) {
     return `<g ${diagramReferenceAttributes( node.ref )}
         class="chen-node chen-relation ${node.ref.id === selectedId ? 'selected' : ''}"
+        data-identifying="${Boolean( node.identifying )}"
         transform="translate(${node.x},${node.y})" role="button" tabindex="0"
-        aria-label="Interrelación ${escapeHTML( node.relation.name )}">
-        <title>${escapeHTML( node.relation.name )}${node.pending ? ' · transformación pendiente' : ''}</title>
+        aria-label="Interrelación ${escapeHTML( node.relation.name )}${node.identifying ? ', vínculo identificador' : ''}">
+        <title>${escapeHTML( node.relation.name )}${node.identifying ? ' · vínculo identificador' : ''}${node.pending ? ' · transformación pendiente' : ''}</title>
         <path class="chen-shape" d="M${node.width / 2},0 L${node.width},${node.height / 2}
             L${node.width / 2},${node.height} L0,${node.height / 2} Z"/>
+        ${node.identifying ? `<path class="chen-inner"
+            d="${diagramInnerDiamond( node.width, node.height, 6 )}"/>` : ''}
         ${diagramCenteredLines( node, node.labelLines, 'chen-name' )}
         ${node.pending ? `<text x="${node.width / 2}" y="${node.height + 21}"
             class="pending-label centered-label">Pendiente de transformar</text>` : ''}</g>`;
@@ -413,6 +436,29 @@ function diagramGeneralization(
         <title>${generalization.disjoint ? 'Disjunta' : 'Solapada'} · ${generalization.total ? 'total' : 'parcial'}</title>
         <circle class="chen-shape" cx="21" cy="21" r="21"/>
         <text x="21" y="26" class="chen-name centered-label">${generalization.disjoint ? 'd' : 's'}</text></g>`;
+    }
+
+/**
+ * Course notation for specialization: each subclass line carries the subset
+ * symbol, an arc whose opening faces the d/s circle.
+ */
+function diagramSubsetMarker( edge ) {
+    const start = edge.points[0];
+    const end = edge.points.at( -1 );
+    const length = Math.hypot( end.x - start.x, end.y - start.y ) || 1;
+    const unit = {x: (end.x - start.x) / length, y: (end.y - start.y) / length};
+    const normal = {x: -unit.y, y: unit.x};
+    const radius = 11;
+    const center = {
+        x: start.x + unit.x * length * 0.55,
+        y: start.y + unit.y * length * 0.55
+        };
+    const from = {x: center.x + normal.x * radius, y: center.y + normal.y * radius};
+    const to = {x: center.x - normal.x * radius, y: center.y - normal.y * radius};
+
+    // Sweep 0 bulges the arc towards the subclass, so the opening faces the circle.
+    return `<path data-marker="subset" class="subset-marker"
+        d="M${from.x},${from.y} A${radius},${radius} 0 0 0 ${to.x},${to.y}"/>`;
     }
 
 function diagramChenEdge(
@@ -436,7 +482,8 @@ function diagramChenEdge(
         <path class="relation-hit" d="${path}"/>
         <path class="relation-line" d="${path}"
             ${edge.total ? `transform="translate(${-offsetX},${-offsetY})"` : ''}/>
-        ${secondLine}${edge.kind === 'participation' ? '' : diagramEdgeLabels( edge )}</g>`;
+        ${secondLine}${edge.subset ? diagramSubsetMarker( edge ) : ''}
+        ${edge.kind === 'participation' ? '' : diagramEdgeLabels( edge )}</g>`;
     }
 
 export const DIAGRAM_STYLES = `
@@ -480,6 +527,8 @@ export const DIAGRAM_STYLES = `
         stroke-dasharray: 3 3;
         }
     .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
     .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
     .child-dot { fill: currentColor; }
     .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }

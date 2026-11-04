@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
     exampleDocument,
     emptyDocument,
+    addAssumption,
     addConceptualEntity,
     addConceptualAttribute,
     addConceptualGeneralization,
@@ -151,7 +152,7 @@ test( 'UI-05: Varios separa cardinalidad, tipo y opcionalidad de la relación', 
         'Cero o uno',
         'Exactamente uno',
         'Identificadora',
-        'El hijo tiene un padre',
+        'Obligatoriedad de la referencia',
         'Opcional'
         ]) {
         assert.ok( html.includes( text ) );
@@ -242,4 +243,75 @@ test( 'Una N:N pendiente muestra roles y acceso a materialización sin fingir FK
 
     assert.match( translation, /Pendiente/ );
     assert.match( translation, /data-action="materialize"/ );
+    } );
+
+test( 'Varios ofrece la letra junto al rombo por rama, automática o elegida', () => {
+    const state = interfaceState();
+
+    state.model = addConceptualRelationship(
+            setDiagramMode( state.model, 'chen' ),
+            {
+                name: 'Lectura',
+                participations: [
+                    {entityId: state.model.tables[0].id, role: 'lector', min: 0, max: null},
+                    {entityId: state.model.tables[2].id, role: 'obra', min: 1, max: 1}
+                    ],
+                translation: null
+                }
+            );
+    state.selectedId = state.model.conceptual.relationships.at( -1 ).id;
+    state.category = 'misc';
+
+    const html = renderProperties( state.model, state );
+
+    // A binary shows the derived letter per branch and no combination selector.
+    assert.equal( (html.match( /Letra junto al rombo: /g ) || []).length, 2 );
+    assert.match( html, /Letra junto al rombo: 1/, 'lector: el máximo de obra es 1' );
+    assert.match( html, /Letra junto al rombo: N/, 'obra: el máximo de lector es N' );
+    assert.match( html, /máximo de la otra rama/ );
+    assert.doesNotMatch( html, /data-field="cardinality"/ );
+    } );
+
+test( 'La categoría Supuestos lista las entradas del elemento y permite añadir', () => {
+    const state = interfaceState();
+
+    state.model = addAssumption( state.model, {
+        kind: 'enunciado',
+        text: 'Cada socio tiene un correo <propio>.',
+        elementId: state.model.tables[0].id
+        } );
+    state.model = addAssumption( state.model, {text: 'Supuesto global.'} );
+    state.category = 'assumptions';
+
+    const html = renderProperties( state.model, state );
+
+    assert.match( html, /data-category="assumptions"[^>]*aria-pressed="true"/ );
+    assert.match( html, /Semántica del enunciado/ );
+    assert.match( html, /Cada socio tiene un correo &lt;propio&gt;\./ );
+    assert.doesNotMatch( html, /Supuesto global\./, 'los globales no cuelgan de la entidad' );
+    assert.match( html, /data-action="edit-assumption" data-assumption-id="[^"]+"/ );
+    assert.match( html, /data-action="assumption"/ );
+    } );
+
+test( 'La celda de tipo es una lista estándar por categoría con Otro… y el valor actual', () => {
+    const state = interfaceState();
+
+    state.model = updateTable( state.model, state.model.tables[0].id, {name: 'Socio'} );
+    state.model.tables[0].columns[1].type = 'VARCHAR(80)';
+    state.category = 'columns';
+
+    const html = renderProperties( state.model, state );
+
+    assert.match( html, /<select aria-label="Tipo de datos"[^>]*data-type-select/ );
+    assert.match( html, /<optgroup label="Texto">/ );
+    assert.match( html, /<optgroup label="Numérico">/ );
+    assert.match( html, /<optgroup label="Temporal">/ );
+    assert.doesNotMatch( html, /<option value="INTEGER"/, 'el perfil del curso no ofrece INTEGER' );
+    assert.match( html, /<optgroup label="Actual"><option value="VARCHAR\(80\)"\s+selected>/ );
+    assert.match( html, /<option value="__otro__" class="type-other">Otro…<\/option>/ );
+    assert.match( html, /<input aria-label="Tipo de datos escrito"[^>]*value="VARCHAR\(80\)"[^>]*hidden/ );
+    assert.doesNotMatch( html, /datalist/ );
+
+    state.model = {...state.model, profile: 'general'};
+    assert.match( renderProperties( state.model, state ), /<option value="INTEGER"/ );
     } );

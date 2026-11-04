@@ -45,7 +45,7 @@ coordinar ninguna o varias sesiones. Cada instrumento tiene código, serie
    | Persona.codigoPersona | NUMBER | PK. |
    | Persona.nombre | VARCHAR(60) | Requerido. |
    | Instrumento.codigoInstrumento | NUMBER | PK. |
-   | Instrumento.serie | CHAR(12) | AK y requerido. |
+   | Instrumento.serie | CHAR(12) | AK y requerido; en la rejilla el tipo se elige en la lista por categorías y, si no está, con «Otro…». |
    | Instrumento.fechaAlta | DATE | Requerido. |
    | Instrumento.valor | NUMBER(8,2) | Requerido, mínimo 0, predeterminado `0`. |
    | Sesion.codigoSesion | NUMBER | PK. |
@@ -56,7 +56,10 @@ coordinar ninguna o varias sesiones. Cada instrumento tiene código, serie
 4. En __Columnas__, selecciona `valor` → __Editar…__. Revisa precisión,
    escala, predeterminado y mínimo de dominio. Cierra sin cambiar la regla.
 5. Selecciona `Coordina` en Chen: `coordinadora` tiene `(0,N)` y `sesion`
-   tiene `(1,1)`. En __Correspondencias__, el receptor FK es `Sesion`.
+   tiene `(1,1)`. Junto al rombo se lee la letra de cada rama como en los
+   apuntes: `1` en la rama de `coordinadora` y `N` en la de `sesion`, porque
+   en una binaria la letra es el máximo de la otra rama. En
+   __Correspondencias__, el receptor FK es `Sesion`.
 6. Vuelve a Relacional. La columna `coordinadora_codigoPersona` es FK requerida;
    no forma parte de la PK de Sesion. Abre __Archivo → SQL__.
 
@@ -76,7 +79,7 @@ según una política explícita, sin cambiar la estructura de la relación.
 
 1. Guarda una copia del núcleo. En __Relacional__, selecciona el conector FK
    de `Coordina`, desde Persona hacia Sesion, y abre __Acción referencial__.
-2. En __Al eliminar el padre__, elige __CASCADE__. En __Al actualizar su
+2. En __Al eliminar la fila referenciada__, elige __CASCADE__. En __Al actualizar su
    clave__, conserva __NO ACTION__. Revisa __Archivo → SQL__: debe contener
    `ON DELETE CASCADE` y `ON UPDATE NO ACTION` para esa FK.
 3. En la misma FK, intenta __SET NULL__. Debe rechazarse: la coordinadora
@@ -85,7 +88,7 @@ según una política explícita, sin cambiar la estructura de la relación.
    __Editar origen Chen__. Vuelve a materializar la misma decisión de Coordina;
    la política debe conservarse.
 5. Para recuperar la política inicial, selecciona otra vez la FK física
-   y cambia __Al eliminar el padre__ a __NO ACTION__.
+   y cambia __Al eliminar la fila referenciada__ a __NO ACTION__.
 
 _Qué comprobar y escribir._ Las acciones se eligen en la FK física concreta,
 también cuando proviene de una tabla auxiliar o de una jerarquía. La estructura
@@ -101,19 +104,19 @@ _Situación._ Queremos comprobar restricciones sin cambiar el núcleo descargado
    materializar…__, elige __FK binaria · elegir lado receptor__, Instrumento,
    sin identificación. Comprueba en SQL la FK anulable y su `UNIQUE`.
 2. Para comparar acciones con una FK opcional, crea en __Relacional__ dos
-   tablas de prueba `Padre` y `Hijo` con sus PK. Pulsa
-   __Relación__, primero Padre y después Hijo.
-3. Selecciona el conector → __Varios__. Conserva padre opcional y relación no
+   tablas de prueba `Referenciada` y `Referencia` con sus PK. Pulsa
+   __Relación__, primero Referenciada y después Referencia.
+3. Selecciona el conector → __Varios__. Conserva la referencia opcional y relación no
    identificadora. En __Acción referencial__, prueba __SET NULL__; revisa el SQL.
-4. Cambia a padre obligatorio. SET NULL debe rechazarse con explicación.
+4. Cambia a referencia obligatoria. SET NULL debe rechazarse con explicación.
    Conserva una copia previa para comprobar que el rechazo no pierde datos.
 5. Prueba __SET DEFAULT__ sin predeterminado: debe rechazarse. En Columnas de
-   Hijo, asigna a la FK un predeterminado numérico; vuelve a intentarlo.
+   Referencia, asigna a la FK un predeterminado numérico; vuelve a intentarlo.
 6. Compara __NO ACTION__ y __CASCADE__ en borrado/actualización. Descarga SQL;
    ninguna acción se ejecuta contra registros dentro de DataBasic.
 
 _Qué comprobar y escribir._ 1:1 necesita unicidad de la FK, además de referencia.
-El predeterminado debe referirse a un padre existente cuando se use en un SGBD;
+El predeterminado debe referirse a una fila referenciada existente cuando se use en un SGBD;
 DataBasic no comprueba esa fila. No guardes las tablas de prueba sobre el núcleo.
 
 ## 1. Una N:N con atributo propio
@@ -149,7 +152,9 @@ necesita una decisión al llevarlo al motor de destino.
    instrumento o sesión puede participar muchas veces a lo largo del ejercicio.
 3. En __Cardinalidad por combinación de los otros roles__, elige
    __Uno · máximo por combinación__ para `instrumento`; elige
-   __Muchos · sin ese máximo__ para `persona` y `sesion`.
+   __Muchos · sin ese máximo__ para `persona` y `sesion`. Esa elección es la
+   letra `1` o `N` de cada rama de la ternaria en la figura de la práctica;
+   mientras no se decide, la rama no muestra letra.
 4. En __Atributos__, comprueba `instante` DATE requerido y `minutos`
    NUMBER(4,0) requerido con mínimo 1.
 5. En __Correspondencias → Elegir clave y materializar…__, elige tabla
@@ -217,7 +222,9 @@ la estrategia de tablas de superclase y subclases.
 4. Selecciona otra vez la especialización → __Tablas de superclase y subclases…__
    y materializa.
 5. En Relacional, comprueba la PK/FK heredada y las columnas propias. Guarda
-   y reabre; compara con __Jerarquía resuelta__.
+   y reabre; compara con __Jerarquía resuelta__. En Chen, el círculo muestra
+   `d` o `s`, la doble línea hacia la superclase indica totalidad y cada
+   subclase lleva el arco de subconjunto abierto hacia el círculo.
 6. Abre __Solapada y parcial__. Portatil y ConCamara pueden coincidir y no
    cubrir todos los instrumentos. En __Editar especialización…__, explora
    también disjunta/parcial y solapada/total en copias.
@@ -237,7 +244,9 @@ _Situación._ Los puertos se numeran dentro de cada instrumento; puerto 1 puede
 existir en instrumentos distintos.
 
 1. Abre __Entidad débil__. En `Puerto` → __Definición__, comprueba entidad
-   débil, propietaria Instrumento y vínculo identificador Contiene.
+   débil, propietaria Instrumento y vínculo identificador Contiene. En Chen,
+   `Puerto` se dibuja con rectángulo doble y `Contiene` con rombo doble, la
+   grafía del vínculo identificador de los apuntes.
 2. En sus __Atributos__, `numero` es clave parcial requerida.
 3. En `Contiene` → __Varios__, Instrumento tiene `(0,N)` y Puerto `(1,1)`.
 4. En __Correspondencias__, comprueba FK binaria, receptor Puerto e
@@ -299,8 +308,19 @@ cambiar de vista no cambia sus reglas.
 8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.
    Un pendiente debe impedir presentar un SQL completo sin resolverlo.
 
+9. Selecciona una entidad o relación y abre __Supuestos__. Registra lo que
+   dice el enunciado, lo que has supuesto y lo que el modelo no impone; usa
+   __Insertar → Supuesto__ para una entrada global. __Base de datos →
+   Supuestos__ muestra todas las entradas y la semántica perdida que detecta
+   DataBasic.
+10. Descarga __Archivo → Memoria HTML__ y ábrela con Word: contiene los dos
+    diagramas, las tablas de atributos y relaciones con letras y pares, las
+    decisiones, los supuestos y la semántica perdida. Completa ahí la
+    justificación que pide la práctica; __Memoria Markdown__ es la misma
+    memoria en texto.
+
 _Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
-ese documento. El guardado automático es local a navegador/origen/práctica y
+ese documento. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y
 no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.
 
 El SQL exportado usa sintaxis tipo PostgreSQL/SQL estándar y `ALTER TABLE ADD

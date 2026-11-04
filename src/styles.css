@@ -719,6 +719,25 @@ svg.lucide {
 .property-grid td:nth-child(2) input {
     min-width: 120px;
     }
+.property-grid td select {
+    border: 0;
+    border-radius: 0;
+    width: 100%;
+    min-width: 150px;
+    height: 27px;
+    padding: 0 0.4rem;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    }
+.property-grid td select:focus {
+    outline: 2px solid var( --color-accent, #16805e );
+    outline-offset: -2px;
+    }
+.property-grid option.type-other {
+    color: #7a8f85;
+    font-style: italic;
+    }
 .property-grid .checkbox-cell {
     text-align: center;
     width: 40px;

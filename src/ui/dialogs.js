@@ -5,6 +5,13 @@ import {
     formatDataType,
     getConceptualProjection,
     conceptualStatus,
+    addAssumption,
+    updateAssumption,
+    removeAssumption,
+    documentAssumptions,
+    elementLabel,
+    ASSUMPTION_KINDS,
+    ASSUMPTION_TEXT_LIMIT,
     addConceptualAttribute,
     updateConceptualAttribute,
     addConceptualRelationship,
@@ -146,7 +153,7 @@ export function showDisplayOptions(
                 ${display.conceptual ? 'checked' : ''}>Nombres conceptuales</label></fieldset>
             <fieldset><legend>Dibujo</legend>${toggle( 'Mostrar cuadrícula', 'grid' )}</fieldset></section>
             <section data-modal-panel="tables" hidden><fieldset><legend>Mostrar</legend>
-            ${toggle( 'Tipos de datos', 'types' )}${toggle( 'Claves primarias y foráneas', 'keys' )}
+            ${toggle( 'Tipos de datos', 'types' )}${toggle( 'Claves primarias y ajenas (PK/FK)', 'keys' )}
             ${toggle( 'Marcar columnas requeridas con *', 'required' )}</fieldset></section>
             <section data-modal-panel="relations" hidden><fieldset><legend>Mostrar</legend>
             <label>Notación<select name="notation">${options(
@@ -266,7 +273,9 @@ export function showIndexDialog(
     }
 
 export function showValidation( model ) {
-    const issues = [...validateDocument( model ), ...conceptualStatus( model )];
+    // validateDocument already reports the pending and documentary statuses
+    // of a format 2 document; appending conceptualStatus again duplicated them.
+    const issues = validateDocument( model );
 
     openDialog(
             'Comprobación del modelo',
@@ -301,8 +310,9 @@ export function showHelp() {
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
             <li><strong>Define columnas.</strong> Haz doble clic en una entidad. Introduce nombre,
                 tipo, requerido y PK en el panel inferior.</li>
-            <li><strong>Conecta las tablas.</strong> Pulsa Relación, selecciona el padre y después
-                el hijo. Se incorporará su clave foránea.</li>
+            <li><strong>Conecta las tablas.</strong> Pulsa Relación, selecciona la tabla
+                referenciada (la de la clave primaria) y después la que recibirá la clave
+                ajena (FK, también llamada foránea).</li>
             <li><strong>Ajusta las reglas.</strong> Selecciona la relación y abre Varios para
                 cambiar cardinalidad, tipo y opcionalidad.</li>
             <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
@@ -313,7 +323,9 @@ export function showHelp() {
                 En ternarias, Varios separa participación absoluta y cardinalidad por combinación.
                 Correspondencias distingue el contexto global/temporal de la identidad:
                 incluye un período en cada decisión cuando corresponda. La relación sigue
-                conservando roles y límites que el SQL no pueda expresar.</p>
+                conservando roles y límites que el SQL no pueda expresar.
+                Junto al rombo se lee la letra 1/N de cada rama: en una binaria es el
+                máximo de la otra rama; en una ternaria, la cardinalidad por combinación.</p>
             <p><strong>Multivaluados.</strong> Selecciona el atributo y pulsa
                 Multivaluado → Tabla auxiliar. En uno compuesto, crea primero sus componentes.
                 La auxiliar usa PK propietaria + valores y una FK a la propietaria.</p>
@@ -321,6 +333,11 @@ export function showHelp() {
                 Tablas de superclase y subclases. Una PK local incompatible se corrige
                 desde Editar atributo y dominio: desmarca Clave y conserva su columna.
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
+            <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
+                Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
+                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
+                el documento con los diagramas, las tablas de atributos y relaciones, los
+                supuestos y las restricciones que el relacional no impone. Word lo abre.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -560,10 +577,16 @@ export function showConceptualRelationshipDialog(
                         <label>Rol<input name="role${index}" value="${escapeHTML( `rol${index + 1}` )}"></label>
                         <div class="parameter-fields">
                         <label>Mínimo<input type="number" min="0" name="min${index}" value="0"></label>
-                        <label>Máximo<input name="max${index}" value="N"></label></div></fieldset>`
+                        <label>Máximo<input name="max${index}" value="N"></label>
+                        <label>Letra junto al rombo<select name="cardinality${index}">${options(
+                                [['', 'Automática'], ['1', '1'], ['N', 'N']],
+                                ''
+                                )}</select></label></div></fieldset>`
                     ).join( '' )}
             <p class="field-hint">Una entidad puede participar varias veces con roles distintos.
-                La relación se crea pendiente: añade sus atributos y elige después su clave.</p></div>`,
+                La relación se crea pendiente: añade sus atributos y elige después su clave.
+                En una binaria la letra automática es el máximo de la otra rama;
+                en una ternaria la letra de cada rama la decides tú.</p></div>`,
             values => {
                 const participations = Array.from(
                         {length: Number( values.get( 'degree' ) )},
@@ -645,7 +668,7 @@ export function showMaterializationDialog(
                     relation.translation?.childParticipationId || relation.participations[0].id
                     )}</select></label>
                 ${check(
-                        'Identificadora · incorpora la FK a la clave hija',
+                        'Identificadora · incorpora la FK a la clave primaria de la tabla que referencia',
                         'identifying',
                         relation.translation?.identifying || false,
                         'name="identifying"'
@@ -910,5 +933,94 @@ export function showAlternateKeyDialog(
                                     }
                                 )
                     )
+            );
+    }
+
+/** Elements an assumption can refer to, with their readable labels. */
+function assumptionTargets( model ) {
+    const projection = getConceptualProjection( model );
+    const ids = [
+        ...projection.entities.map( item => item.id ),
+        ...projection.relationships.map( item => item.id ),
+        ...projection.generalizations.map( item => item.id ),
+        ...projection.attributes.map( item => item.id )
+        ];
+
+    return ids
+        .map( id => [id, elementLabel( model, id )] )
+        .filter( ([, label]) => label );
+    }
+
+export function showAssumptionDialog(
+        state,
+        commit,
+        assumptionId = null
+        ) {
+    const existing = documentAssumptions( state.model ).find( item => item.id === assumptionId );
+    const targets = assumptionTargets( state.model );
+    const preselected = existing
+        ? existing.elementId || ''
+        : targets.some( ([id]) => id === state.selectedId ) ? state.selectedId : '';
+
+    openDialog(
+            existing ? 'Editar supuesto' : 'Nuevo supuesto',
+            `<div class="dialog-fields">
+            <label>Clase<select name="kind">${options( ASSUMPTION_KINDS, existing?.kind || 'supuesto' )}</select></label>
+            <label>Texto<textarea name="text" rows="4" required
+                maxlength="${ASSUMPTION_TEXT_LIMIT}">${escapeHTML( existing?.text || '' )}</textarea></label>
+            <label>Se refiere a<select name="elementId">${options(
+                    [['', 'Todo el diseño'], ...targets],
+                    preselected
+                    )}</select></label>
+            ${existing ? check( 'Eliminar este supuesto', 'remove', false, 'name="remove"' ) : ''}
+            <p class="field-hint">Semántica del enunciado: lo que afirma el texto de la práctica.
+                Supuesto semántico: lo que decides porque el enunciado no lo dice.
+                Semántica perdida: lo que el modelo relacional no impone y conviene explicar.</p></div>`,
+            values => {
+                const definition = {
+                    kind: values.get( 'kind' ),
+                    text: values.get( 'text' ),
+                    elementId: values.get( 'elementId' ) || null
+                    };
+                const next = existing && values.has( 'remove' )
+                    ? removeAssumption( state.model, existing.id )
+                    : existing
+                        ? updateAssumption( state.model, existing.id, definition )
+                        : addAssumption( state.model, definition );
+
+                state.category = 'assumptions';
+                commit( next );
+                }
+            );
+    }
+
+export function showAssumptionsOverview( model ) {
+    const groups = ASSUMPTION_KINDS.map(
+            ([kind, label]) => ({
+                label,
+                items: documentAssumptions( model ).filter( item => item.kind === kind )
+                })
+            );
+    const documentary = conceptualStatus( model ).filter( item => item.code === 'documentary' );
+    const target = item => (item.elementId && elementLabel( model, item.elementId )) || 'Todo el diseño';
+
+    openDialog(
+            'Supuestos del diseño',
+            `<div class="assumptions-overview">${groups.map(
+                    group => `<h3>${escapeHTML( group.label )}</h3>
+                        <div class="conceptual-list">${group.items.map(
+                                item => `<button type="button" data-action="edit-assumption"
+                                    data-assumption-id="${item.id}">
+                                    <strong>${escapeHTML( target( item ) )}</strong>
+                                    <span>${escapeHTML( item.text )}</span></button>`
+                                ).join( '' ) || '<p>Sin entradas.</p>'}</div>`
+                    ).join( '' )}
+                <h3>Semántica perdida que detecta DataBasic</h3>
+                ${documentary.length
+                    ? `<ul>${documentary.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
+                    : '<p>Ninguna restricción documental por ahora.</p>'}
+                ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
+                <p class="field-hint">Archivo → Exportar → Memoria HTML reúne estas entradas con los
+                    diagramas, las tablas de atributos y relaciones y el esquema relacional.</p></div>`
             );
     }

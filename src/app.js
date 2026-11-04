@@ -36,7 +36,8 @@ import {
     diagramScene,
     diagramBounds,
     findFreePosition,
-    resolveDiagramPosition
+    resolveDiagramPosition,
+    SCENE_BOUNDS_MARGIN
     } from './ui/diagram.js';
 import {
     command,
@@ -48,7 +49,10 @@ import {
     paletteContents,
     ribbonContents
     } from './ui/layout.js';
-import { renderProperties } from './ui/properties.js';
+import {
+    OTHER_TYPE_OPTION,
+    renderProperties
+    } from './ui/properties.js';
 import {
     closeDialog,
     openDialog,
@@ -61,8 +65,15 @@ import {
     showConceptualRelationshipDialog,
     showMaterializationDialog,
     showGeneralizationDialog,
-    showAlternateKeyDialog
+    showAlternateKeyDialog,
+    showAssumptionDialog,
+    showAssumptionsOverview
     } from './ui/dialogs.js';
+import {
+    buildDesignReport,
+    reportToHTML,
+    reportToMarkdown
+    } from './io/report.js';
 
 const practiceId = globalThis.location
     ? new URLSearchParams( globalThis.location.search || '' ).get( 'practica' )
@@ -146,8 +157,8 @@ function renderDiagram() {
 
     hint.hidden = state.tool !== 'relationship';
     hint.textContent = state.parentId
-        ? 'Ahora selecciona la entidad hija. Escape para cancelar.'
-        : 'Selecciona la entidad padre (la que aporta la clave primaria).';
+        ? 'Ahora selecciona la tabla que recibe la clave ajena (FK). Escape para cancelar.'
+        : 'Selecciona la tabla referenciada (la que aporta la clave primaria).';
     document.querySelector( '#zoom' ).value = String( Math.round( view.zoom * 100 ) );
     document.querySelector( '#zoom-label' ).textContent = `${Math.round( view.zoom * 100 )} %`;
     }
@@ -205,6 +216,16 @@ function revealSelected() {
     renderDiagram();
     }
 
+/** Labels placed just above the focused shape stay visible below the floating ribbon. */
+function focusedTop(
+        scene,
+        node
+        ) {
+    const contentTop = scene.bounds.y + SCENE_BOUNDS_MARGIN;
+
+    return Math.max( contentTop, node.y - 90 );
+    }
+
 function focusDiagram() {
     const scene = diagramScene( state.model );
     const node = scene.nodes.find( item => item.ref.id === state.selectedId )
@@ -213,7 +234,7 @@ function focusDiagram() {
 
     state.viewport = {
         x: node ? 20 - node.x : 0,
-        y: node ? Math.min( 100, bounds.height / 3 ) - node.y : 100,
+        y: node ? Math.min( 100, bounds.height / 3 ) - focusedTop( scene, node ) : 100,
         zoom: 1
         };
     renderDiagram();
@@ -706,6 +727,20 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/** Both representations, drawn from the same document, illustrate the report. */
+function designDiagrams() {
+    return [
+        {
+            title: 'Diagrama entidad-relación extendido (Chen)',
+            svg: exportSVG( setDiagramMode( state.model, 'chen' ) )
+            },
+        {
+            title: 'Diagrama relacional',
+            svg: exportSVG( setDiagramMode( state.model, 'relational' ) )
+            }
+        ];
+    }
+
 function showSQL() {
     const sql = exportSQL( state.model );
 
@@ -907,6 +942,30 @@ async function act(
             state.propertiesShown = true;
             render();
             break;
+        case 'assumption':
+            showAssumptionDialog( state, commit );
+            break;
+        case 'edit-assumption':
+            showAssumptionDialog( state, commit, target?.dataset.assumptionId );
+            break;
+        case 'assumptions':
+            showAssumptionsOverview( state.model );
+            break;
+        case 'report-html':
+            download(
+                    reportToHTML( buildDesignReport( state.model ), designDiagrams() ),
+                    filename( 'memoria.html' ),
+                    'text/html'
+                    );
+            notify( 'Memoria del diseño descargada. Word la abre como documento.' );
+            break;
+        case 'report-markdown':
+            download(
+                    reportToMarkdown( buildDesignReport( state.model ) ),
+                    filename( 'memoria.md' ),
+                    'text/markdown'
+                    );
+            break;
         case 'alternate-key':
             showAlternateKeyDialog( state, commit, target?.dataset.keyId );
             break;
@@ -1029,12 +1088,12 @@ function relationshipPick( tableId ) {
     const table = state.model.tables.find( item => item.id === tableId );
 
     if (table.kind === 'view') {
-        throw new Error( 'Selecciona una entidad. Las vistas no reciben claves foráneas.' );
+        throw new Error( 'Selecciona una entidad. Las vistas no reciben claves ajenas (FK).' );
         }
 
     if (!state.parentId) {
         if (!table.columns.some( field => field.primary )) {
-            throw new Error( 'La entidad padre necesita una clave primaria.' );
+            throw new Error( 'La tabla referenciada necesita una clave primaria.' );
             }
 
         state.parentId = tableId;
@@ -1162,7 +1221,11 @@ function pointerDown( event ) {
             const caption = scene.edges.find(
                     item => item.ref.id === ref.id && item.caption
                     )?.caption.bounds;
-            const origin = node || caption;
+            // A column row has no shape of its own: dragging it moves its table.
+            const owner = !node && !caption && ref.kind === 'column'
+                ? scene.nodes.find( item => item.ref.id === ref.ownerId )
+                : null;
+            const origin = node || caption || owner;
 
             if (!origin) {
                 state.propertiesShown = true;
@@ -1171,7 +1234,7 @@ function pointerDown( event ) {
                 }
 
             state.drag = {
-                id: ref.id,
+                id: owner ? owner.ref.id : ref.id,
                 startX: point.x,
                 startY: point.y,
                 originX: origin.x,
@@ -1345,9 +1408,30 @@ document.addEventListener(
             }
         );
 
+/** «Otro…» in the type list swaps the list for the text input of the same cell. */
+function revealTypeInput( select ) {
+    const cell = select.closest( '[data-type-cell]' );
+    const input = cell?.querySelector( 'input[data-field="type"]' );
+
+    if (!input) {
+        return;
+        }
+
+    select.hidden = true;
+    input.hidden = false;
+    input.focus?.();
+    input.select?.();
+    }
+
 document.addEventListener(
         'change',
         event => {
+            if (event.target.dataset?.typeSelect !== undefined
+                && event.target.value === OTHER_TYPE_OPTION) {
+                revealTypeInput( event.target );
+                return;
+                }
+
             try {
                 fieldChanged( event.target );
                 }

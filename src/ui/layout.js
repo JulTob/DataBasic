@@ -60,6 +60,8 @@ export function ribbonContents( state ) {
                         'Exportar',
                         command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
                             + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
+                            + command( 'report-html', 'Memoria HTML', 'file-text', 'class="ribbon-large"' )
+                            + command( 'report-markdown', 'Memoria Markdown', 'scroll-text', 'class="ribbon-large"' )
                             + command( 'print', 'Imprimir / PDF', 'printer', 'class="ribbon-large"' )
                         )
                 + ribbonGroup( 'Practicar', command( 'example', 'Abrir ejemplo', 'book-open', 'class="ribbon-large"' ) );
@@ -79,6 +81,7 @@ export function ribbonContents( state ) {
                     'Contenido',
                     command( 'add-column', 'Columna', 'list-plus', `class="ribbon-large" ${tableDisabled}` )
                         + command( 'notes', 'Notas', 'notebook-pen', `class="ribbon-large" ${tableDisabled}` )
+                        + command( 'assumption', 'Supuesto', 'message-square-text', 'class="ribbon-large"' )
                     );
         case 'design':
             return ribbonGroup(
@@ -108,6 +111,7 @@ export function ribbonContents( state ) {
             return windows + shapes + ribbonGroup(
                     'Modelo de base de datos',
                     command( 'validate', 'Comprobar', 'list-checks', 'class="ribbon-large"' )
+                        + command( 'assumptions', 'Supuestos', 'clipboard-list', 'class="ribbon-large"' )
                         + command( 'sql', 'Ver SQL', 'file-code-2', 'class="ribbon-large"' )
                         + command( 'layout', 'Distribuir', 'network', 'class="ribbon-large"' )
                     );
@@ -205,7 +209,7 @@ export function paletteContents( state ) {
         ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
         ] : [
         ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
-        ['relationship', 'Relación', 'Selecciona padre e hijo', 'git-branch'],
+        ['relationship', 'Relación', 'Referenciada y luego la de la FK', 'git-branch'],
         ['view-shape', 'Vista SQL', 'Consulta y columnas', 'panels-top-left']
         ];
 

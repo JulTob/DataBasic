@@ -198,7 +198,11 @@ async function applicationHarness(
                 preventDefault() {},
                 target: {
                     closest: selector => selector === '[data-diagram-kind]'
-                        ? {dataset: {diagramKind: reference.kind, diagramId: reference.id}}
+                        ? {dataset: {
+                            diagramKind: reference.kind,
+                            diagramId: reference.id,
+                            ...(reference.ownerId ? {ownerId: reference.ownerId} : {})
+                            }}
                         : null
                     }
                 });
@@ -1101,6 +1105,7 @@ test( 'Las acciones de revisión y especialización abren y aplican el diálogo 
 
     assert.equal( created.total, true );
     assert.equal( created.disjoint, true );
+    assert.equal( app.element( '#properties-name' ).textContent, '— Especialización de Socio' );
 
     await app.click({action: 'edit-generalization'});
     assert.match( app.element( '#dialog' ).innerHTML, /Generalización \/ Especialización/ );
@@ -1416,11 +1421,18 @@ test( 'Al recuperar el legado se enfoca la primera tarjeta a escala 100%', async
     const transform = app.element( '#viewport' ).attributes.transform.match(
             /translate\(([^,]+),([^\)]+)\) scale\(([^\)]+)\)/
             );
-    const first = diagramScene( initial ).nodes[0];
+    const scene = diagramScene( initial );
+    const first = scene.nodes[0];
+    // The FK readings above Socio must stay visible below the floating ribbon:
+    // the view starts at the content above the card, never more than 90 units up.
+    const contentTop = scene.bounds.y + 36;
+    const visibleTop = Math.max( contentTop, first.y - 90 );
 
+    assert.ok( contentTop < first.y, 'el ejemplo tiene rótulos sobre la primera tarjeta' );
     assert.equal( Number( transform[3] ), 1 );
     assert.equal( Number( transform[1] ) + first.x, 20 );
-    assert.equal( Number( transform[2] ) + first.y, 100 );
+    assert.equal( Number( transform[2] ) + visibleTop, 100 );
+    assert.ok( Number( transform[2] ) + first.y <= 190 );
     } );
 
 
@@ -1548,4 +1560,169 @@ test( 'La recuperación inicial diferida conserva un JSON abierto manualmente', 
 
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), imported );
+    } );
+
+test( 'Arrastrar una fila de columna mueve su tabla sin tocar sus columnas', async () => {
+    const initial = exampleDocument();
+    const table = initial.tables[0];
+    const reference = {kind: 'column', id: table.columns[1].id, ownerId: table.id};
+    const app = await applicationHarness( 528, JSON.stringify( initial ) );
+    const start = {x: table.x + 100, y: table.y + 80};
+    const target = {x: start.x + 300, y: start.y + 200};
+
+    app.pointer( 'pointerdown', reference, start );
+    app.pointer( 'pointermove', reference, target );
+    app.pointer( 'pointerup', reference, target );
+    await app.flushTimers();
+
+    const moved = JSON.parse( app.saved() );
+
+    assert.notDeepEqual( [moved.tables[0].x, moved.tables[0].y], [table.x, table.y] );
+    assert.deepEqual( moved.tables[0].columns, table.columns );
+    assert.deepEqual( moved.relationships, initial.relationships );
+    assert.equal( app.writes.length, 1 );
+    } );
+
+test( 'Comprobar el modelo muestra cada aviso pendiente una sola vez', async () => {
+    let initial = emptyDocument( 'course' );
+
+    for (const name of ['Persona', 'Actividad']) {
+        initial = addConceptualEntity( initial, {name} );
+        }
+
+    initial = addConceptualRelationship( initial, {
+        name: 'Inscripcion',
+        participations: initial.conceptual.entities.map(
+                entity => ({entityId: entity.id, role: entity.name, min: 0, max: null})
+                ),
+        translation: null
+        } );
+    initial = setDiagramMode( initial, 'chen' );
+
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({action: 'validate'});
+
+    const html = app.element( '#dialog' ).innerHTML;
+
+    assert.equal( (html.match( /pendiente de estrategia/g ) || []).length, 1 );
+    } );
+
+test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', async () => {
+    let initial = emptyDocument( 'course' );
+
+    for (const name of ['Tecnico', 'Equipo', 'Proyecto']) {
+        initial = addConceptualEntity( initial, {name} );
+        }
+
+    initial = setDiagramMode( initial, 'chen' );
+
+    const [first, second, third] = initial.conceptual.entities.map( entity => entity.id );
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({action: 'conceptual-relationship'});
+    app.submit({
+        name: 'UsoMensual', degree: '3',
+        entity0: first, role0: 'operador', min0: '0', max0: 'N',
+        entity1: second, role1: 'recurso', min1: '1', max1: 'N',
+        entity2: third, role2: 'contexto', min2: '0', max2: '1'
+        });
+    await app.flushTimers();
+
+    const relation = JSON.parse( app.saved() ).conceptual.relationships[0];
+    // A ternary draws its letter inside the combination-cardinality caption.
+    const letters = () => diagramScene( JSON.parse( app.saved() ) ).edges
+        .filter( edge => edge.kind === 'participation' )
+        .map( edge => edge.labels.find(
+                label => ['cardinality', 'combination-cardinality'].includes( label.purpose )
+                )?.text.charAt( 0 ) ?? null );
+
+    // Undecided ternary: no letter yet; Varios decides the combination cardinality.
+    assert.deepEqual( relation.participations.map( part => part.cardinality ), [null, null, null] );
+    assert.deepEqual( letters(), [null, null, null] );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Cardinalidad por combinación/ );
+
+    app.change({participation: relation.participations[1].id, field: 'cardinality'}, 'one');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, 'one' );
+    assert.deepEqual( letters(), [null, '1', null] );
+
+    app.change({participation: relation.participations[1].id, field: 'cardinality'}, '');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, null );
+    } );
+
+test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga', async () => {
+    const initial = exampleDocument();
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({select: initial.tables[0].id});
+    await app.click({action: 'assumption'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Nuevo supuesto/ );
+    assert.match( app.element( '#dialog' ).innerHTML, new RegExp( `value="${initial.tables[0].id}"\\s+selected` ) );
+    app.submit({kind: 'enunciado', text: 'Cada socio puede tener varios préstamos.', elementId: initial.tables[0].id});
+    await app.flushTimers();
+
+    let saved = JSON.parse( app.saved() );
+
+    assert.equal( saved.assumptions.length, 1 );
+    assert.equal( saved.assumptions[0].elementId, initial.tables[0].id );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Cada socio puede tener varios préstamos\./ );
+
+    await app.click({action: 'assumption'});
+    app.submit({kind: 'supuesto', text: '   ', elementId: ''}, /Escribe el texto/);
+    await app.click({action: 'close-dialog'});
+
+    await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
+    assert.match( app.element( '#dialog' ).innerHTML, /Editar supuesto/ );
+    app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: ''});
+    await app.flushTimers();
+    saved = JSON.parse( app.saved() );
+    assert.deepEqual( [saved.assumptions[0].kind, saved.assumptions[0].elementId], ['perdida', null] );
+
+    await app.click({action: 'assumptions'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Supuestos del diseño/ );
+    assert.match( app.element( '#dialog' ).innerHTML, /Un socio puede no tener préstamos\./ );
+    await app.click({action: 'close-dialog'});
+
+    await app.click({action: 'report-html'});
+    assert.match( app.element( 'download' ).download, /memoria\.html$/ );
+    await app.click({action: 'report-markdown'});
+    assert.match( app.element( 'download' ).download, /memoria\.md$/ );
+
+    await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
+    app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: '', remove: 'on'});
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).assumptions.length, 0 );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).assumptions.length, 1 );
+    } );
+
+test( 'Elegir un tipo en la lista lo guarda y Otro… no guarda nada hasta escribirlo', async () => {
+    const initial = exampleDocument();
+    const column = initial.tables[0].columns[1];
+    const app = await applicationHarness( 500, JSON.stringify( initial ) );
+
+    await app.click({select: initial.tables[0].id});
+    app.change({colId: column.id, field: 'type', typeSelect: ''}, 'CHAR(10)', 'select-one');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'CHAR(10)' );
+
+    const writes = app.writes.length;
+
+    app.change({colId: column.id, field: 'type', typeSelect: ''}, '__otro__', 'select-one');
+    await app.flushTimers();
+    assert.equal( app.writes.length, writes, 'Otro… no es un tipo: no se guarda' );
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'CHAR(10)' );
+
+    app.change({colId: column.id, field: 'type'}, 'NUMBER(8,2)', 'text');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'NUMBER(8,2)' );
+
+    app.change({colId: column.id, field: 'type'}, 'INTEGER', 'text');
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).tables[0].columns[1].type, 'NUMBER(8,2)', 'el perfil del curso rechaza INTEGER' );
+    assert.match( app.element( '#toast' ).textContent, /sólo admite VARCHAR, CHAR, NUMBER y DATE/ );
     } );
