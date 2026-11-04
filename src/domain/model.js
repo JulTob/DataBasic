@@ -18,6 +18,7 @@
  * @typedef {{format:'databasic',version:2,profile:'course'|'general',
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
  * assumptions?:Assumption[],
+ * physical?:{columns:Object, relationships:Object, tables:Object},
  * presentation:{chen:Record<string,{x:number,y:number}>,
  * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
@@ -118,6 +119,75 @@ export const ASSUMPTION_KINDS = [
     ['perdida', 'Semántica perdida']
     ];
 
+/*
+ * The physical layer for Microsoft Access. The document stores only what
+ * the author overrides; everything else is derived from the relational
+ * column, relationship or table (see domain/access.js). The vocabulary is
+ * the one Access shows in its table design view.
+ */
+export const ACCESS_TYPES = [
+    'Texto corto', 'Texto largo', 'Número', 'Fecha/Hora', 'Moneda',
+    'Autonumeración', 'Sí/No', 'Objeto OLE', 'Hipervínculo'
+    ];
+
+export const ACCESS_NUMBER_SIZES = ['Byte', 'Entero', 'Entero largo', 'Simple', 'Doble', 'Decimal'];
+
+export const ACCESS_INDEX_OPTIONS = [
+    ['no', 'No'],
+    ['duplicates', 'Sí (Con duplicados)'],
+    ['unique', 'Sí (Sin duplicados)']
+    ];
+
+export const PHYSICAL_TEXT_LIMIT = 500;
+
+/** Each override key and the kind of value the shape check expects. */
+const PHYSICAL_COLUMN_KEYS = {
+    accessType: 'accessType',
+    fieldSize: 'fieldSize',
+    decimalPlaces: 'decimalPlaces',
+    required: 'flag',
+    allowZeroLength: 'flag',
+    indexed: 'indexed',
+    validationRule: 'text',
+    validationText: 'text',
+    defaultValue: 'text',
+    caption: 'text',
+    description: 'text',
+    format: 'text'
+    };
+
+const PHYSICAL_RELATIONSHIP_KEYS = {
+    enforce: 'flag',
+    cascadeUpdate: 'flag',
+    cascadeDelete: 'flag',
+    lookup: 'flag',
+    displayColumnId: 'id',
+    hideKey: 'flag'
+    };
+
+const PHYSICAL_TABLE_KEYS = {
+    description: 'text',
+    validationRule: 'text',
+    validationText: 'text'
+    };
+
+export function emptyPhysical() {
+    return {columns: {}, relationships: {}, tables: {}};
+    }
+
+/** Older format 2 files have no physical layer; they read as fully derived. */
+export function documentPhysical( model ) {
+    return model.physical || emptyPhysical();
+    }
+
+function ensurePhysical( model ) {
+    if (!model.physical) {
+        model.physical = emptyPhysical();
+        }
+
+    return model.physical;
+    }
+
 export const ASSUMPTION_TEXT_LIMIT = 2000;
 
 export function assumptionKindLabel( kind ) {
@@ -144,6 +214,7 @@ export function emptyDocument( profile = 'course' ) {
             },
         traces: [],
         assumptions: [],
+        physical: emptyPhysical(),
         presentation: {
             chen: {},
             relational: {}
@@ -438,6 +509,7 @@ export function removeColumn(
                 table.indexes = table.indexes.filter( index => index.columns.length );
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
                 }
             );
     }
@@ -691,6 +763,7 @@ export function removeElement(
                         );
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
                 }
             );
     }
@@ -864,6 +937,7 @@ export function validateDocument( model ) {
     if (model.version === 2) {
         issues.push( ...validateConceptualDocument( model ) );
         issues.push( ...validateAssumptions( model ) );
+        issues.push( ...validatePhysical( model ) );
         }
 
     return issues;
@@ -889,6 +963,144 @@ function validateAssumptions( model ) {
         }
 
     return issues;
+    }
+
+/** Shape checks already passed; each override must point to a live element. */
+function validatePhysical( model ) {
+    const physical = documentPhysical( model );
+    const issues = [];
+    const tables = new Map( model.tables.map( table => [table.id, table] ) );
+    const relationships = new Map( model.relationships.map( relation => [relation.id, relation] ) );
+    const columnIds = new Set( model.tables.flatMap( table => table.columns.map( field => field.id ) ) );
+    const missing = (message, id) => issues.push({level: 'error', message, elementId: id});
+
+    for (const id of Object.keys( physical.columns )) {
+        if (!columnIds.has( id )) {
+            missing( 'La capa física referencia una columna inexistente.', id );
+            }
+        }
+
+    for (const id of Object.keys( physical.tables )) {
+        if (!tables.has( id )) {
+            missing( 'La capa física referencia una tabla inexistente.', id );
+            }
+        }
+
+    for (const [id, overrides] of Object.entries( physical.relationships )) {
+        const relation = relationships.get( id );
+
+        if (!relation) {
+            missing( 'La capa física referencia una relación inexistente.', id );
+            continue;
+            }
+
+        const parent = tables.get( relation.parentId );
+
+        if (typeof overrides.displayColumnId === 'string'
+            && !parent?.columns.some( field => field.id === overrides.displayColumnId )) {
+            missing( 'El campo que muestra la búsqueda debe pertenecer a la tabla referenciada.', id );
+            }
+        }
+
+    return issues;
+    }
+
+/** Writes override keys; null restores the derived value; no keys left removes the entry. */
+function applyPhysicalPatch(
+        entries,
+        id,
+        patch,
+        keys
+        ) {
+    const current = {...(entries[id] || {})};
+
+    for (const [key, value] of Object.entries( patch )) {
+        if (!Object.hasOwn( keys, key )) {
+            throw new Error( `Capa física: la propiedad ${key} no existe.` );
+            }
+
+        if (value === null || value === undefined) {
+            delete current[key];
+            }
+        else {
+            current[key] = value;
+            }
+        }
+
+    if (Object.keys( current ).length) {
+        entries[id] = current;
+        }
+    else {
+        delete entries[id];
+        }
+    }
+
+function requireColumnAnywhere(
+        model,
+        columnId
+        ) {
+    for (const table of model.tables) {
+        const field = table.columns.find( item => item.id === columnId );
+
+        if (field) {
+            return field;
+            }
+        }
+
+    throw new Error( 'Columna no encontrada.' );
+    }
+
+/** Access properties of a column that differ from the derived ones. */
+export function updatePhysicalColumn(
+        model,
+        columnId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireColumnAnywhere( next, columnId );
+                applyPhysicalPatch( ensurePhysical( next ).columns, columnId, patch, PHYSICAL_COLUMN_KEYS );
+                }
+            );
+    }
+
+/** Integrity, cascades and lookup of a relationship in Access. */
+export function updatePhysicalRelationship(
+        model,
+        relationshipId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                if (!next.relationships.some( relation => relation.id === relationshipId )) {
+                    throw new Error( 'Relación no encontrada.' );
+                    }
+
+                applyPhysicalPatch(
+                        ensurePhysical( next ).relationships,
+                        relationshipId,
+                        patch,
+                        PHYSICAL_RELATIONSHIP_KEYS
+                        );
+                }
+            );
+    }
+
+/** Description and table-level validation rule of a table in Access. */
+export function updatePhysicalTable(
+        model,
+        tableId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                applyPhysicalPatch( ensurePhysical( next ).tables, tableId, patch, PHYSICAL_TABLE_KEYS );
+                }
+            );
     }
 
 export function exampleDocument() {
@@ -1355,6 +1567,10 @@ function validateDocumentShape( model ) {
                 }
             }
 
+        if ('physical' in model) {
+            validatePhysicalShape( model.physical, {demand, text, flag} );
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1399,6 +1615,85 @@ function validateDocumentShape( model ) {
         }
     catch (error) {
         return [{level: 'error', message: error.message}];
+        }
+    }
+
+/** The physical layer: three maps of overrides, each with known keys and value kinds. */
+function validatePhysicalShape(
+        physical,
+        check
+        ) {
+    const {demand} = check;
+    const sections = [
+        ['columns', PHYSICAL_COLUMN_KEYS],
+        ['relationships', PHYSICAL_RELATIONSHIP_KEYS],
+        ['tables', PHYSICAL_TABLE_KEYS]
+        ];
+    const plainObject = value => value && typeof value === 'object' && !Array.isArray( value );
+
+    demand( plainObject( physical ), 'Capa física no válida.' );
+
+    for (const [section, keys] of sections) {
+        const entries = physical[section];
+
+        demand( plainObject( entries ), `Capa física: falta ${section}.` );
+        demand( Object.keys( entries ).length <= 5000, 'Capa física: demasiadas entradas.' );
+
+        for (const [id, overrides] of Object.entries( entries )) {
+            demand( /^[A-Za-z0-9_-]+$/.test( id ), 'Capa física: identificador no válido.' );
+            demand( plainObject( overrides ), 'Capa física: entrada no válida.' );
+
+            for (const key of Object.keys( overrides )) {
+                demand( Object.hasOwn( keys, key ), `Capa física: la propiedad ${key} no existe.` );
+                validatePhysicalValue( overrides, key, keys[key], check );
+                }
+            }
+        }
+    }
+
+function validatePhysicalValue(
+        overrides,
+        key,
+        kind,
+        check
+        ) {
+    const {demand, text, flag} = check;
+    const value = overrides[key];
+
+    switch (kind) {
+        case 'flag':
+            flag( overrides, key );
+            break;
+        case 'text':
+            text( overrides, key, PHYSICAL_TEXT_LIMIT );
+            break;
+        case 'id':
+            text( overrides, key, 100 );
+            break;
+        case 'accessType':
+            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos de Access no válido.' );
+            break;
+        case 'fieldSize':
+            demand(
+                    ACCESS_NUMBER_SIZES.includes( value )
+                        || Number.isInteger( value ) && value >= 1 && value <= 255,
+                    'Capa física: tamaño de campo no válido.'
+                    );
+            break;
+        case 'decimalPlaces':
+            demand(
+                    Number.isInteger( value ) && value >= 0 && value <= 15,
+                    'Capa física: posiciones decimales no válidas.'
+                    );
+            break;
+        case 'indexed':
+            demand(
+                    ACCESS_INDEX_OPTIONS.some( ([option]) => option === value ),
+                    'Capa física: opción de indexado no válida.'
+                    );
+            break;
+        default:
+            throw new Error( 'Capa física: clase de propiedad desconocida.' );
         }
     }
 
@@ -1463,6 +1758,33 @@ function detachOrphanAssumptions( model ) {
     for (const assumption of documentAssumptions( model )) {
         if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
             assumption.elementId = null;
+            }
+        }
+    }
+
+/** Overrides of a removed column, relationship or table go with it. */
+function removeOrphanPhysical( model ) {
+    if (!model.physical) {
+        return;
+        }
+
+    const ids = documentElementIds( model );
+
+    for (const section of ['columns', 'relationships', 'tables']) {
+        for (const id of Object.keys( model.physical[section] || {} )) {
+            if (!ids.has( id )) {
+                delete model.physical[section][id];
+                }
+            }
+        }
+
+    for (const [id, overrides] of Object.entries( model.physical.relationships || {} )) {
+        if (typeof overrides.displayColumnId === 'string' && !ids.has( overrides.displayColumnId )) {
+            delete overrides.displayColumnId;
+            }
+
+        if (!Object.keys( overrides ).length) {
+            delete model.physical.relationships[id];
             }
         }
     }
@@ -3173,6 +3495,7 @@ export function removeConceptualElement(
 
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
                 }
             );
     }

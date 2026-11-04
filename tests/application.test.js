@@ -1695,6 +1695,18 @@ test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga',
     assert.match( await app.downloads.at( -1 ).text(), /^<\?xml version="1\.0" encoding="utf-8"\?>\n<VisioDocument / );
     assert.match( await app.downloads.at( -1 ).text(), /Type="Group"/ );
 
+    await app.click({action: 'access'});
+    assert.match( app.element( '#dialog' ).innerHTML, /Módulo VBA con DAO/ );
+    await app.click({action: 'download-access-vba'});
+    assert.match( app.element( 'download' ).download, /\.access\.bas$/ );
+    assert.match( await app.downloads.at( -1 ).text(), /^Attribute VB_Name = "DataBasic_Esquema"/ );
+    await app.click({action: 'download-access-sql'});
+    assert.match( app.element( 'download' ).download, /\.access\.sql$/ );
+    assert.match( await app.downloads.at( -1 ).text(), /CREATE TABLE \[Socio\]/ );
+    await app.click({action: 'download-access-xml'});
+    assert.match( await app.downloads.at( -1 ).text(), /urn:schemas-microsoft-com:officedata/ );
+    await app.click({action: 'close-dialog'});
+
     await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
     app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: '', remove: 'on'});
     await app.flushTimers();

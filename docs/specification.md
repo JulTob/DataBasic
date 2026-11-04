@@ -212,6 +212,67 @@ los extremos de los conectores siguen a los puntos de conexión. No es un
 datos, y no se generan VSD binario ni VSDX; Visio 2013 y posteriores abren
 el `.vdx` pero ya no lo guardan.
 
+## Capa física y archivos para Access
+
+La capa física describe el modelo relacional con el vocabulario de la vista
+Diseño de tabla de Access: tipo de datos (Texto corto, Texto largo, Número con
+su tamaño Byte/Entero/Entero largo/Simple/Doble/Decimal, Fecha/Hora, Moneda,
+Autonumeración, Sí/No, Objeto OLE, Hipervínculo), tamaño, posiciones
+decimales, requerido, permitir longitud cero, indexado, regla y texto de
+validación, valor predeterminado, título, descripción y formato; y, por
+relación, exigir integridad referencial, actualizar y eliminar en cascada y el
+campo de búsqueda (tabla referenciada, columna mostrada, clave oculta).
+
+**Todo se deriva** del relacional: VARCHAR(n)/CHAR(n) son Texto corto de
+tamaño n (Texto largo por encima de 255), NUMBER sin parámetros es Entero
+largo, NUMBER(p) es Entero hasta 4 dígitos y Entero largo hasta 9, los
+decimales y BIGINT son Doble, DATE es Fecha/Hora y BOOLEAN es Sí/No; NOT NULL
+es Requerido; el dominio (mínimo, máximo, lista) es la regla de validación del
+campo con un texto de validación redactado, y el CHECK libre pasa a la regla de
+validación de la tabla; el valor predeterminado SQL se traduce a expresión de
+Access (`'x'` → `"x"`, `CURRENT_DATE` → `Date()`); una FK es una relación con
+integridad referencial, cascadas según las acciones referenciales y, si tiene
+una sola columna, un campo de búsqueda que muestra la primera columna de texto
+de la tabla referenciada con la clave oculta.
+
+El documento guarda sólo las **sobrescrituras** en la sección opcional
+`physical` (mapas `columns`, `relationships` y `tables` por identificador);
+los archivos anteriores abren como totalmente derivados. Las operaciones
+`updatePhysicalColumn`, `updatePhysicalRelationship` y `updatePhysicalTable`
+son atómicas, rechazan claves o valores desconocidos y restauran el valor
+derivado al recibir `null`; al eliminar el elemento, sus sobrescrituras
+desaparecen. La validación exige que cada entrada apunte a un elemento vivo y
+que la columna mostrada por una búsqueda pertenezca a la tabla referenciada.
+
+Lo que Access no expresa se declara como aviso (`accessStatus`): SET NULL y
+SET DEFAULT se exportan como acción restringida, BIGINT y los decimales como
+Doble, los textos de más de 255 caracteres como Texto largo, las claves ajenas
+compuestas sin campo de búsqueda y las vistas como consultas guardadas por
+revisar.
+
+**Archivo → Access** ofrece tres archivos sobre la misma capa física, porque
+Access no abre ningún formato de archivo que lleve las relaciones y su `.accdb`
+no puede escribirse desde el navegador:
+
+- **Módulo VBA con DAO** (`.bas`): en una base de datos en blanco, Alt+F11 →
+  Archivo → Importar archivo y ejecutar `CrearEsquema`. Crea las tablas con
+  sus campos y propiedades, la clave principal, los índices únicos, las
+  relaciones con integridad y cascadas, los campos de búsqueda y las consultas
+  de las vistas. Se niega a ejecutarse si alguna tabla ya existe.
+- **SQL de Access** (`.sql`): una instrucción por consulta en la Vista SQL
+  (CREATE TABLE con NOT NULL, PRIMARY KEY y UNIQUE; CREATE INDEX; ALTER TABLE
+  ADD CONSTRAINT FOREIGN KEY con las cascadas, que requieren la sintaxis
+  ANSI 92). Lo que SQL no fija en Access (reglas, predeterminados, búsquedas,
+  consultas) se lista al final para hacerlo en la vista Diseño.
+- **XML con esquema** (`.xml`): para Datos externos → Archivo XML, con el
+  esquema incrustado que Access entiende (`od:jetType`, `od:index`,
+  `od:fieldProperty`). Crea las tablas con tipos, claves, índices y
+  propiedades; Access no importa relaciones, que se dibujan después en la
+  ventana Relaciones como enseña el curso.
+
+DataBasic no ejecuta Access: los tres archivos se comprueban por estructura y
+contenido, y su apertura real en Access queda para el usuario.
+
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan
 consulta y columnas; no incluyen un editor visual de consultas.

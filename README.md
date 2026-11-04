@@ -185,6 +185,13 @@ rechazada conserva el estado anterior y explica la causa.
   generan VSD binario, VSDX o bases de datos Access. JSON, SVG, SQL y la
   impresión/PDF sirven para practicar y conservar trabajo; no sustituyen por
   sí solos los formatos de la entrega académica.
+- __Archivo → Access__ entrega tres archivos que Access convierte en la base
+  de datos, derivados del relacional con el vocabulario de la vista Diseño de
+  Access: un módulo VBA con DAO que la crea entera (tablas, propiedades,
+  claves, relaciones con integridad y cascadas, campos de búsqueda), un SQL de
+  Access de una instrucción por consulta y un XML con esquema para Datos
+  externos. No se genera `.accdb`; los archivos no se han ejecutado en Access
+  desde el entorno de desarrollo.
 - La [especificación](docs/specification.md) concreta los contratos y límites;
   la verificación automatizada no acredita equivalencia total con Visio 2010.
 

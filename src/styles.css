@@ -1385,3 +1385,16 @@ a {
         display: none !important;
         }
     }
+
+/* Archivo → Access: three files Access turns into the database. */
+.access-routes h3 { margin: 14px 0 6px; font-size: 15px; }
+.access-route {
+    margin: 0 0 10px;
+    padding: 10px 14px;
+    border: 1px solid #c7d8ce;
+    border-radius: 10px;
+    background: #f6faf8;
+    }
+.access-route h3 { margin: 0 0 4px; }
+.access-route p { margin: 0 0 8px; }
+.access-routes ul { margin: 0; padding-left: 20px; }

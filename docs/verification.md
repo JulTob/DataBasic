@@ -515,3 +515,26 @@ particiones de clave, etiquetas PK/FK, tipos, rótulos con guía y marcas.
 Queda pendiente del usuario abrir el archivo en Visio 2010 real y mover una
 tabla para confirmar que los conectores la siguen; libvisio tolera más que
 Visio y no demuestra el pegado.
+
+## Capa física y archivos de Access en 0.4.3
+
+Access no está disponible en el entorno, así que la comprobación es de
+estructura. `tests/access.test.js` cubre la derivación de tipos (USUARIO,
+TELEFONO y los tipos sin equivalente exacto: NUMBER(10,2), NUMBER(12), BIGINT,
+SMALLINT, VARCHAR(300), BOOLEAN, TEXT, UUID), los dominios como reglas de
+validación con texto y el CHECK como regla de tabla, los valores
+predeterminados traducidos, la relación con integridad, cascadas y búsqueda,
+los avisos (SET NULL, compuestas, vistas), las sobrescrituras atómicas con sus
+rechazos, su restauración con `null` y su limpieza al eliminar, la persistencia
+en JSON y la apertura de archivos sin capa física, y los tres archivos: el
+módulo VBA (encabezado, subrutinas por tabla, campos con DAO, PrimaryKey e
+índices, propiedades con `EstablecerPropiedad`, búsqueda y relaciones), el SQL
+de Access (CREATE TABLE, índice único de las 1:1, ALTER TABLE con cascadas y la
+lista para la vista Diseño) y el XML (esquema incrustado equilibrado, nombres
+codificados, índices, tipos y propiedades de campo). `tests/application.test.js`
+ejecuta el diálogo y las tres descargas.
+
+Queda pendiente del usuario ejecutar el módulo en una base de datos en blanco
+de Access, pegar las instrucciones SQL en la Vista SQL e importar el XML por
+Datos externos; el texto de cada archivo explica los pasos y las limitaciones
+(ANSI 92 para las cascadas en SQL; sin relaciones en el XML).

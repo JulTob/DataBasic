@@ -32,6 +32,11 @@ import {
 import { exportSQL } from './io/sql.js';
 import { exportVDX } from './io/visio.js';
 import {
+    exportAccessSQL,
+    exportAccessVBA,
+    exportAccessXML
+    } from './io/access.js';
+import {
     diagramContents,
     exportSVG,
     diagramScene,
@@ -68,7 +73,8 @@ import {
     showGeneralizationDialog,
     showAlternateKeyDialog,
     showAssumptionDialog,
-    showAssumptionsOverview
+    showAssumptionsOverview,
+    showAccessDialog
     } from './ui/dialogs.js';
 import {
     buildDesignReport,
@@ -890,6 +896,19 @@ async function act(
             break;
         case 'vdx':
             download( exportVDX( state.model ), filename( 'vdx' ), 'application/xml' );
+            break;
+        case 'access':
+            showAccessDialog( state.model );
+            break;
+        case 'download-access-vba':
+            download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
+            notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
+            break;
+        case 'download-access-sql':
+            download( exportAccessSQL( state.model ), filename( 'access.sql' ), 'text/plain' );
+            break;
+        case 'download-access-xml':
+            download( exportAccessXML( state.model ), filename( 'access.xml' ), 'application/xml' );
             break;
         case 'print':
             window.print();

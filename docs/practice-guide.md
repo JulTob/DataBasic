@@ -305,7 +305,11 @@ cambiar de vista no cambia sus reglas.
    comprueba textos completos, roles y bordes sin recortes. Descarga
    __Archivo → Visio 2010__ y abre el `.vdx` en Visio 2010: mueve una tabla y
    comprueba que el conector la sigue; el dibujo no trae la ventana
-   Propiedades de base de datos de Visio.
+   Propiedades de base de datos de Visio. Descarga __Archivo → Access →
+   Módulo VBA__, crea una base de datos en blanco en Access, importa el módulo
+   con Alt+F11 → Archivo → Importar archivo y ejecuta `CrearEsquema`; abre
+   Herramientas de base de datos → Relaciones y compara con el relacional.
+   El diálogo lista lo que Access expresa de otra manera.
 7. Abre __Imprimir / PDF__. En la vista previa comprueba márgenes y que todas
    las formas quepan; guarda PDF si el navegador lo permite.
 8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.

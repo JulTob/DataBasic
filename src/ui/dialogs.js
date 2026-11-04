@@ -22,6 +22,7 @@ import {
     updateColumn,
     validateDocument
     } from '../domain/model.js';
+import { accessStatus } from '../domain/access.js';
 import { typeFields } from './properties.js';
 import {
     options,
@@ -341,6 +342,12 @@ export function showHelp() {
                 Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
                 el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
                 pegados; no lleva las propiedades de base de datos de Visio.</p>
+            <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
+                la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
+                claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una
+                instrucción por consulta y un XML con esquema para Datos externos. Los tipos de
+                Access se derivan de los relacionales; el diálogo lista lo que Access expresa de
+                otra manera, como SET NULL.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -994,6 +1001,52 @@ export function showAssumptionDialog(
                 state.category = 'assumptions';
                 commit( next );
                 }
+            );
+    }
+
+/** The three files Access turns into the database, and what Access expresses differently. */
+export function showAccessDialog( model ) {
+    const issues = accessStatus( model );
+    const routes = [
+        {
+            action: 'download-access-vba',
+            label: 'Módulo VBA con DAO (.bas)',
+            text: 'Crea la base de datos entera: tablas, tipos y tamaños, requerido, reglas y textos de '
+                + 'validación, valores predeterminados, títulos, clave principal, índices únicos, relaciones '
+                + 'con integridad referencial y cascadas, campos de búsqueda y consultas. En una base en '
+                + 'blanco: Alt+F11 → Archivo → Importar archivo → sitúa el cursor en CrearEsquema y pulsa F5.'
+            },
+        {
+            action: 'download-access-sql',
+            label: 'SQL de Access',
+            text: 'Una instrucción por consulta en la Vista SQL: tablas, claves, índices y relaciones. '
+                + 'Las reglas de validación, los valores predeterminados y las búsquedas se fijan en la '
+                + 'vista Diseño; el archivo los lista al final.'
+            },
+        {
+            action: 'download-access-xml',
+            label: 'XML con esquema',
+            text: 'Datos externos → Archivo XML crea las tablas con tipos, claves, índices y propiedades '
+                + 'de campo. Access no importa relaciones: se dibujan después en Herramientas de base de '
+                + 'datos → Relaciones, como enseña el curso.'
+            }
+        ];
+
+    openDialog(
+            'Base de datos Access',
+            `<div class="access-routes">
+                <p>Access no abre ningún archivo que lleve las relaciones, así que DataBasic genera
+                    archivos que Access convierte en la base de datos. Tipos, tamaños y propiedades se
+                    derivan de la vista relacional; la vista Tablas permitirá ajustarlos.</p>
+                ${routes.map(
+                        route => `<section class="access-route"><h3>${escapeHTML( route.label )}</h3>
+                            <p>${escapeHTML( route.text )}</p>
+                            ${command( route.action, 'Descargar', 'download' )}</section>`
+                        ).join( '' )}
+                <h3>Lo que Access expresa de otra manera</h3>
+                ${issues.length
+                    ? `<ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
+                    : '<p>Nada que señalar: todo el modelo tiene equivalente directo en Access.</p>'}</div>`
             );
     }
 
