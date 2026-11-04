@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.2** permite editar un documento con dos representaciones:
+La versión **0.4.3** permite editar un documento con dos representaciones:
 **Relacional**, con IDEF1X, y **Chen**, con entidades, atributos y relaciones
 conceptuales. El botón cambia la representación; las transformaciones se
 eligen por separado y conservan sus correspondencias.
@@ -178,9 +178,13 @@ rechazada conserva el estado anterior y explica la causa.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
   debe revisarse para el motor de clase. Una FK no obliga a que cada fila
   referenciada tenga filas que la referencien.
-- No se abren ni generan VSD, VDX, VSDX o bases de datos Access.
-  JSON, SVG, SQL y la impresión/PDF sirven para practicar y conservar trabajo;
-  no sustituyen por sí solos los formatos de la entrega académica.
+- __Archivo → Visio 2010__ escribe el diagrama relacional como dibujo XML de
+  Visio 2010 (`.vdx`): grupos por tabla, conectores pegados y marcas IDEF1X o
+  patas de cuervo. Es un dibujo editable, no un «Diagrama de modelo de base de
+  datos» con las propiedades de Visio. No se abren archivos de Visio ni se
+  generan VSD binario, VSDX o bases de datos Access. JSON, SVG, SQL y la
+  impresión/PDF sirven para practicar y conservar trabajo; no sustituyen por
+  sí solos los formatos de la entrega académica.
 - La [especificación](docs/specification.md) concreta los contratos y límites;
   la verificación automatizada no acredita equivalencia total con Visio 2010.
 

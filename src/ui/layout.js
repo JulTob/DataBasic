@@ -59,6 +59,7 @@ export function ribbonContents( state ) {
                 + ribbonGroup(
                         'Exportar',
                         command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
+                            + command( 'vdx', 'Visio 2010', 'file-box', 'class="ribbon-large"' )
                             + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
                             + command( 'report-html', 'Memoria HTML', 'file-text', 'class="ribbon-large"' )
                             + command( 'report-markdown', 'Memoria Markdown', 'scroll-text', 'class="ribbon-large"' )

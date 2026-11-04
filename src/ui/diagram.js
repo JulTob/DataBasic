@@ -1,6 +1,7 @@
 import { escapeHTML } from './html.js';
 import {
     buildDiagramScene,
+    sceneColumnKeys,
     sceneFindFreePosition,
     sceneResolveDiagramPosition,
     sceneTableHeight,
@@ -89,31 +90,6 @@ function diagramTextLines(
             ).join( '' );
     }
 
-function diagramColumnKeys(
-        model,
-        table,
-        field
-        ) {
-    const labels = field.primary ? ['PK'] : [];
-
-    model.relationships.filter( relation => relation.childId === table.id ).forEach(
-            (relation, index) => {
-                if (relation.mappings.some( pair => pair.childColumnId === field.id )) {
-                    labels.push( `FK${index + 1}` );
-                    }
-                }
-            );
-    (table.alternateKeys || []).forEach(
-            (key, index) => {
-                if (key.columns.includes( field.id )) {
-                    labels.push( `AK${index + 1}` );
-                    }
-                }
-            );
-
-    return labels;
-    }
-
 function diagramTableRows(
         model,
         node,
@@ -124,7 +100,7 @@ function diagramTableRows(
                 const field = row.field;
                 const ref = {kind: 'column', id: field.id, ownerId: node.ref.id};
                 const keys = model.display.keys
-                    ? diagramColumnKeys( model, node.table, field ) : [];
+                    ? sceneColumnKeys( model, node.table, field ) : [];
                 const keyLines = keys.length > 3
                     ? [...keys.slice( 0, 2 ), `+${keys.length - 2}`] : keys;
                 const divider = field.primary && !node.rows[index + 1]?.field.primary

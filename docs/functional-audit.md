@@ -1,7 +1,7 @@
-# Matriz funcional de DataBasic 0.4.2
+# Matriz funcional de DataBasic 0.4.3
 
 Esta matriz enlaza necesidad, fuente, operación y evidencia. Describe el código
-0.4.2 y el formato de documento 2, con entrada compatible de formato 1.
+0.4.3 y el formato de documento 2, con entrada compatible de formato 1.
 **Disponible** significa que existe una operación y cobertura automatizada
 indicada; no significa que todos los clics y tamaños de pantalla se hayan
 probado en un navegador real. **Documental** conserva hechos que no se imponen
@@ -101,8 +101,9 @@ construido, sin sustituir la revisión visual.
 | IO-03 · DB | Ajustar, Distribuir, Imagen SVG e Imprimir/PDF. | Disponible; Escena usa límites comunes para textos, ramas y marcadores; SVG/XML probado. | Impresión depende del navegador; revisar diagramas grandes, solapes y márgenes en uso real. |
 | IO-04 · DB / T3 | Archivo → SQL, revisar y descargar. | Disponible; Modelo/Conceptual/Tipos/Dominio/Ejemplos prueban DDL, claves, CHECK, NUMBER→NUMERIC, auxiliares, herencia y contexto. | Sin ejecución en SGBD. Decisiones no resueltas bloquean SQL completo. El ALTER TABLE ADD CONSTRAINT exportado no es compatible con SQLite. |
 | IO-05 · DB | Abrir entrega offline construida. | Bundle comprueba recursos y arranque del artefacto real; instrucciones en README. | Sincronización, cuentas y colaboración no están implementadas. |
+| IO-07 · P1 p. 3 | Archivo → Visio 2010 (.vdx) del diagrama relacional. | Disponible (0.4.3); Visio prueba el XML equilibrado, la conversión de píxeles a pulgadas con el eje invertido, el pegado de los conectores a los grupos, las líneas discontinuas, el rombo opcional, el código P/Z/1, la autorreferencia, las patas de gallo, el escape de caracteres y la salida relacional desde Chen; LibreOffice abre el archivo en Verificación. | Dibujo editable, no modelo de base de datos de Visio; comprobación en Visio 2010 real pendiente del usuario. |
 | IO-06 · P1 p. 2 | Archivo → Memoria HTML / Memoria Markdown. | Disponible; Supuestos prueba secciones, letras y pares, avisos, escapes y determinismo; Aplicación prueba la descarga. | La memoria reúne el documento; la justificación y la fidelidad al enunciado siguen siendo del autor. Word abre el HTML; no se genera DOCX. |
-| AC-01 · P1 | Entregables académicos Visio/Access. | Pendiente de compatibilidad; JSON/SVG/SQL no son esos formatos. | No se abren ni generan VSD/VDX/VSDX ni bases de datos Access. |
+| AC-01 · P1 | Entregables académicos Visio/Access. | Parcial; Archivo → Visio 2010 escribe el diagrama relacional como dibujo XML .vdx que Visio 2010 abre y edita (IO-07). | No se abren archivos de Visio ni se generan VSD binario o VSDX; sin bases de datos Access. El .vdx no lleva las propiedades de base de datos de Visio. |
 
 ## Cobertura del ejemplo por requisito
 
@@ -128,7 +129,7 @@ simulados. La evidencia de navegador y publicación sigue en [verificación](ver
 | Recursiva · T2 p. 8; T3 p. 35 | Mismo 06 · etapa 6, paso 5 | Orientacion con roles y FKs distintos a Persona. | Ejemplos/Conceptual/Escena. Compartir entidad no fusiona participaciones. |
 | Supuestos/semántica residual · ERE pp. 6–10; P1 p. 2 | Notas 00–06 · etapa 7, paso 1 | Pendiente/documental y Ver origen. | Correspondencias/estados en archivos; Aplicación. La justificación corresponde al autor. |
 | Modos, historial, disposición · DB; T2 pp. 2–4 | Cualquier archivo · etapa 7, pasos 2–4 | IDs/SQL estables y posiciones por vista; Escape/undo/redo. | Ejemplos alterna modos; Aplicación/Escena prueban eventos/geometría. Requiere inspección visual real. |
-| JSON/SVG/SQL/impresión · DB; P1 p. 4 | Cualquier resuelto · etapa 7, pasos 5–8 | JSON editable; SVG completo; DDL; vista previa de impresión. | Ejemplos JSON/SQL; Escena/bundle; navegador en Verificación. No VSD/Access ni ejecución SQL. |
+| JSON/SVG/VDX/SQL/impresión · DB; P1 p. 4 | Cualquier resuelto · etapa 7, pasos 5–8 | JSON editable; SVG completo; dibujo de Visio 2010; DDL; vista previa de impresión. | Ejemplos JSON/SQL; Escena/bundle; Visio contrasta el .vdx; navegador en Verificación. No Access ni ejecución SQL. |
 
 ## Uso de esta matriz
 

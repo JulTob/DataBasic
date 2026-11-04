@@ -1,4 +1,4 @@
-# DataBasic 0.4.2 — especificación funcional
+# DataBasic 0.4.3 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,7 +14,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.2 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.3 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -88,7 +88,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.2 |
+| Construcción | Alcance 0.4.3 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -181,12 +181,36 @@ situados justo encima de la primera forma, bajo la barra flotante. Distribuir re
 de los bloques relacionales en una operación que puede deshacerse.
 Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 
-Guardar/abrir JSON, exportar SVG y mostrar/descargar SQL son operaciones
-disponibles; Imprimir/PDF utiliza la ventana del navegador. El guardado local
+Guardar/abrir JSON, exportar SVG, exportar el dibujo de Visio 2010 y
+mostrar/descargar SQL son operaciones disponibles; Imprimir/PDF utiliza la
+ventana del navegador. El guardado local
 no sincroniza equipos. El SQL de estudio usa sintaxis tipo PostgreSQL/SQL
 estándar y traduce NUMBER a NUMERIC; no se ejecuta en DataBasic. Restricciones
 documentales aparecen como comentarios; decisiones pendientes bloquean la
 exportación completa. Una FK sola no exige que toda fila referenciada tenga filas que la referencien.
+
+## Dibujo de Visio 2010
+
+__Archivo → Visio 2010__ descarga `<nombre>.vdx`, el formato XML nativo de
+Visio 2010 (DatadiagramML), con el diagrama relacional aunque esté abierta la
+vista Chen. La escena es la misma que dibuja el lienzo: cada tabla es un
+grupo con un texto por bloque (título, etiquetas PK/FK/AK, nombre y tipo de
+cada columna, línea bajo la clave primaria y cuerpo con esquinas redondeadas
+en las entidades dependientes); cada clave ajena es un conector 1-D pegado a
+puntos de conexión de los dos grupos, discontinuo si no es identificadora,
+y sus marcas (punto del lado de la FK, rombo de la referencia opcional, código
+P/Z/1, patas de cuervo) viajan en una segunda forma pegada a los mismos
+puntos con línea continua. Los rótulos de lecturas y cardinalidad se
+exportan con su fondo y su guía. Las opciones de visualización (tipos,
+claves, obligatoriedad, notación) se respetan.
+
+Los píxeles de la escena se convierten a pulgadas (96 por pulgada) con el eje
+vertical invertido y la página toma el tamaño de los límites del diagrama.
+El resultado es un dibujo editable: Visio mueve cada tabla como una unidad y
+los extremos de los conectores siguen a los puntos de conexión. No es un
+«Diagrama de modelo de base de datos» de Visio con sus propiedades de base de
+datos, y no se generan VSD binario ni VSDX; Visio 2013 y posteriores abren
+el `.vdx` pero ya no lo guardan.
 
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan

@@ -337,7 +337,10 @@ export function showHelp() {
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
                 perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
                 el documento con los diagramas, las tablas de atributos y relaciones, los
-                supuestos y las restricciones que el relacional no impone. Word lo abre.</p>
+                supuestos y las restricciones que el relacional no impone. Word lo abre.
+                Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
+                el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
+                pegados; no lleva las propiedades de base de datos de Visio.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>

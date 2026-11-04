@@ -30,6 +30,7 @@ import {
     serializeDocument
     } from './domain/serialization.js';
 import { exportSQL } from './io/sql.js';
+import { exportVDX } from './io/visio.js';
 import {
     diagramContents,
     exportSVG,
@@ -886,6 +887,9 @@ async function act(
             break;
         case 'svg':
             download( exportSVG( state.model ), filename( 'svg' ), 'image/svg+xml' );
+            break;
+        case 'vdx':
+            download( exportVDX( state.model ), filename( 'vdx' ), 'application/xml' );
             break;
         case 'print':
             window.print();

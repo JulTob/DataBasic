@@ -1690,6 +1690,11 @@ test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga',
     await app.click({action: 'report-markdown'});
     assert.match( app.element( 'download' ).download, /memoria\.md$/ );
 
+    await app.click({action: 'vdx'});
+    assert.match( app.element( 'download' ).download, /\.vdx$/ );
+    assert.match( await app.downloads.at( -1 ).text(), /^<\?xml version="1\.0" encoding="utf-8"\?>\n<VisioDocument / );
+    assert.match( await app.downloads.at( -1 ).text(), /Type="Group"/ );
+
     await app.click({action: 'edit-assumption', assumptionId: saved.assumptions[0].id});
     app.submit({kind: 'perdida', text: 'Un socio puede no tener préstamos.', elementId: '', remove: 'on'});
     await app.flushTimers();

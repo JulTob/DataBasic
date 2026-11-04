@@ -302,7 +302,10 @@ cambiar de vista no cambia sus reglas.
 5. Pon nombre con __Archivo → Nombre__, descarga __Archivo → Guardar__ y
    reabre ese JSON con __Archivo → Abrir__. Revisa ambos modos y propiedades.
 6. Descarga __Archivo → Imagen SVG__ en cada representación. Abre el SVG:
-   comprueba textos completos, roles y bordes sin recortes.
+   comprueba textos completos, roles y bordes sin recortes. Descarga
+   __Archivo → Visio 2010__ y abre el `.vdx` en Visio 2010: mueve una tabla y
+   comprueba que el conector la sigue; el dibujo no trae la ventana
+   Propiedades de base de datos de Visio.
 7. Abre __Imprimir / PDF__. En la vista previa comprueba márgenes y que todas
    las formas quepan; guarda PDF si el navegador lo permite.
 8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.

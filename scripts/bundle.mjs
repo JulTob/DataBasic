@@ -12,6 +12,7 @@ const modules = [
     'io/report.js',
     'ui/scene.js',
     'ui/diagram.js',
+    'io/visio.js',
     'ui/properties.js',
     'ui/layout.js',
     'ui/dialogs.js',

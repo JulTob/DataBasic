@@ -77,6 +77,32 @@ function sceneTableRows( table ) {
             );
     }
 
+/** Key labels of a column: PK, one FK per referencing relationship, one AK per alternate key. */
+export function sceneColumnKeys(
+        model,
+        table,
+        field
+        ) {
+    const labels = field.primary ? ['PK'] : [];
+
+    model.relationships.filter( relation => relation.childId === table.id ).forEach(
+            (relation, index) => {
+                if (relation.mappings.some( pair => pair.childColumnId === field.id )) {
+                    labels.push( `FK${index + 1}` );
+                    }
+                }
+            );
+    (table.alternateKeys || []).forEach(
+            (key, index) => {
+                if (key.columns.includes( field.id )) {
+                    labels.push( `AK${index + 1}` );
+                    }
+                }
+            );
+
+    return labels;
+    }
+
 export function sceneTableHeight( table ) {
     return sceneTableHeaderHeight( table ) + 12 + Math.max(
             SCENE_ROW_HEIGHT,

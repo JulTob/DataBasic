@@ -491,3 +491,27 @@ Vocabulario de las relaciones, 4 de noviembre de 2026: la interfaz, los
 mensajes, el SQL de estudio y la memoria hablan de tabla referenciada, tabla
 que referencia y clave ajena (FK), como los apuntes del curso, en lugar del
 padre/hijo de Visio. Las columnas de una autorreferencia se nombran `_ref`.
+
+## Exportación a Visio 2010 en 0.4.3
+
+El dibujo `.vdx` no puede abrirse aquí con Visio, así que la comprobación
+se hizo en dos capas. La unitaria (`tests/visio.test.js`) exige XML
+equilibrado, la conversión de píxeles a pulgadas con el eje invertido, el
+pegado de cada conector a un punto de conexión de su grupo (`PAR(PNT(...))`
+y las filas `Connect`), la línea discontinua de las no identificadoras, el
+rombo y el acortamiento de la línea en una referencia opcional, el código
+P/Z/1 como texto horizontal, la autorreferencia con dos puntos en la misma
+tabla, las patas de cuervo, la notación relacional sin marcas, la salida
+relacional desde un documento en Chen, el escape de `& < > "` y las vistas,
+tablas sin columnas y opciones de visualización apagadas.
+
+La visual usó LibreOffice 24.2 (libvisio lee `.vdx`): `soffice --headless
+--convert-to pdf` sobre el ejemplo Biblioteca, una variante con referencia
+opcional, vínculo identificador, autorreferencia, vista y tabla vacía, la
+misma variante en patas de cuervo y la práctica del curso con entidad débil.
+Los cuatro PDF rasterizados coinciden con el SVG del lienzo en posiciones,
+particiones de clave, etiquetas PK/FK, tipos, rótulos con guía y marcas.
+
+Queda pendiente del usuario abrir el archivo en Visio 2010 real y mover una
+tabla para confirmar que los conectores la siguen; libvisio tolera más que
+Visio y no demuestra el pegado.
