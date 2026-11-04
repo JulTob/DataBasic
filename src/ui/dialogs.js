@@ -303,10 +303,12 @@ export function showHelp() {
             <p>No está afiliado a Microsoft ni cuenta con su patrocinio.
                 No se afirma contar con autorización de Microsoft.
                 Visio es una marca de Microsoft.</p>
-            <p><strong>Dos representaciones, un documento.</strong> Relacional conserva
-                el recorrido de propiedades de Visio 2010; Chen es una ampliación educativa
-                de DataBasic. Cambiar representación no transforma ni reconstruye el significado.</p>
-            <p>Los archivos anteriores aparecen en Chen como proyección parcial.
+            <p><strong>Tres vistas, un documento.</strong> El desplegable Vista cambia entre
+                Diagrama (entidad-relación, con la notación de Chen), Relacional (tablas y
+                claves, como en Visio 2010) y Tablas (como las verá Access). Cambiar de vista no
+                transforma ni reconstruye el significado. El desplegable Tipos decide qué tipos
+                de datos admiten las columnas: los cuatro del curso o la lista general.</p>
+            <p>Los archivos anteriores aparecen en Diagrama como proyección parcial.
                 No se deduce automáticamente una relación N:N de una tabla con dos FKs.</p>
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
             <li><strong>Define columnas.</strong> Haz doble clic en una entidad. Introduce nombre,
@@ -318,7 +320,7 @@ export function showHelp() {
                 cambiar cardinalidad, tipo y opcionalidad.</li>
             <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
                 DataBasic. El último ejercicio se recupera también desde este navegador.</li></ol>
-            <p><strong>Crear una N:N o ternaria.</strong> En Chen, pulsa Relación,
+            <p><strong>Crear una N:N o ternaria.</strong> En Diagrama, pulsa Relación,
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
                 En ternarias, Varios separa participación absoluta y cardinalidad por combinación.

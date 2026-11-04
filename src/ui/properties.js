@@ -527,7 +527,7 @@ export function renderProperties(
                 )?.id || origin.sourceId
         : origin?.sourceId;
     const provenance = origin
-        ? `<p class="provenance">Materialización vinculada · <button data-origin="${originId}">Editar origen Chen</button></p>`
+        ? `<p class="provenance">Materialización vinculada · <button data-origin="${originId}">Editar origen en Diagrama</button></p>`
         : model.display.mode === 'chen'
             ? '<p class="provenance">Proyección relacional parcial · no se ha inferido intención ERE.</p>'
             : '';

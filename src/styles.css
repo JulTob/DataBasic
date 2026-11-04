@@ -1468,3 +1468,14 @@ a {
     cursor: pointer;
     }
 .color-field button:disabled { opacity: 0.5; cursor: default; }
+
+/* One view selector instead of three buttons; the examples selector in Ayuda. */
+.view-select-label select { min-width: 230px; font-weight: 650; color: var( --color-accent-strong ); }
+.ribbon-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    font-size: 12px;
+    }
+.ribbon-select select { max-width: 260px; }

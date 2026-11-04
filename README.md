@@ -6,10 +6,12 @@ formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
 La versión **0.4.3** permite editar un documento con tres representaciones
-progresivas: **Chen**, con entidades, atributos y relaciones conceptuales;
+progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 **Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
-Access, con sus tipos y propiedades. Los botones cambian la representación;
-las transformaciones se eligen por separado y conservan sus correspondencias.
+Access, con sus tipos y propiedades. El desplegable Vista cambia la
+representación; las transformaciones se eligen por separado y conservan sus
+correspondencias. Ayuda → Ejemplos abre los ejercicios de la carpeta
+`examples/`, y cada tabla o elemento del diagrama puede llevar un color.
 
 Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
 dominios, valores predeterminados, acciones referenciales y relaciones N:N

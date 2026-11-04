@@ -98,6 +98,7 @@ const autosaveKey = independentPractice
     : 'databasic.document.v1';
 
 const state = {
+    examples: [],
     model: exampleDocument(),
     selectedId: null,
     selectedColumnId: null,
@@ -275,7 +276,7 @@ function render( preserveEditors = false ) {
     document.querySelector( '#document-name' ).textContent = state.model.name;
     document.querySelector( '#diagram-mode-label' ).textContent =
         state.model.display.mode === 'chen'
-            ? 'Conceptual · ERE–Chen'
+            ? 'Diagrama · entidad-relación (Chen)'
             : state.model.display.mode === 'tables'
                 ? 'Tablas · Access'
                 : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
@@ -291,11 +292,10 @@ function render( preserveEditors = false ) {
                 ? 'Las mismas tablas del relacional con los tipos y propiedades de Access. Selecciona un campo para ajustarlos.'
                 : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
 
-    for (const button of document.querySelectorAll( '[data-mode]' )) {
-        button.setAttribute(
-                'aria-pressed',
-                String( button.dataset.mode === state.model.display.mode )
-                );
+    const viewSelect = document.querySelector( '#view-select' );
+
+    if (viewSelect) {
+        viewSelect.value = state.model.display.mode;
         }
 
     const statuses = conceptualStatus( state.model );
@@ -1025,6 +1025,19 @@ async function act(
     }
 
 function fieldChanged( target ) {
+    if (target.dataset.view !== undefined) {
+        changeRepresentation( target.value );
+        return;
+        }
+
+    if (target.dataset.example !== undefined) {
+        const file = target.value;
+
+        target.value = '';
+        openExample( file ).catch( error => notify( error.message ) );
+        return;
+        }
+
     if (target.dataset.profile !== undefined) {
         commit( setModelProfile( state.model, target.value ) );
         return;
@@ -1780,6 +1793,56 @@ splitter.addEventListener(
             }
         );
 
+/** The built-in example or one of the files listed in examples/index.json. */
+async function openExample( file ) {
+    if (!file) {
+        return;
+        }
+
+    if (file === '__biblioteca__') {
+        replaceCurrentDocument( exampleDocument() );
+        notify( 'Ejemplo de biblioteca abierto.' );
+        return;
+        }
+
+    const entry = state.examples.find( item => item.file === file );
+
+    if (!entry) {
+        throw new Error( 'Ese ejemplo no está en la lista.' );
+        }
+
+    const response = await fetch( `./examples/${encodeURIComponent( entry.file )}` );
+
+    if (!response.ok) {
+        throw new Error( `No se pudo cargar el ejemplo ${entry.name}.` );
+        }
+
+    replaceCurrentDocument( parseDocument( await response.text() ) );
+    notify( `Ejemplo abierto: ${entry.name}.` );
+    }
+
+/** The list is optional: without it, Ayuda → Ejemplos offers only the built-in one. */
+async function loadExampleIndex() {
+    try {
+        const response = await fetch( './examples/index.json' );
+
+        if (!response.ok) {
+            return;
+            }
+
+        const index = await response.json();
+
+        state.examples = (index.examples || []).filter(
+                item => typeof item.file === 'string' && /^[\w.-]+\.databasic\.json$/.test( item.file )
+                    && typeof item.name === 'string'
+                );
+        render();
+        }
+    catch {
+        state.examples = [];
+        }
+    }
+
 async function restoreDocument() {
     try {
         const contents = autosaveKey
@@ -1810,6 +1873,10 @@ async function restoreDocument() {
 
 render();
 restoreDocument();
+
+if (typeof fetch === 'function') {
+    loadExampleIndex();
+    }
 
 window.addEventListener(
         'beforeprint',

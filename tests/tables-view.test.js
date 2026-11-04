@@ -125,7 +125,7 @@ test( 'the layout offers the three views and an Access palette', () => {
     const model = exampleDocument();
     const html = initialLayout( tablesState( model ) );
 
-    assert.match( html, /data-mode="chen"[\s\S]*data-mode="relational"[\s\S]*data-mode="tables"/ );
+    assert.match( html, /id="view-select"[\s\S]*Diagrama · entidad-relación[\s\S]*Relacional · tablas y claves[\s\S]*Tablas · Access/ );
     assert.match( paletteContents( {model: setDiagramMode( model, 'tables' )} ), /Campos con tipos de Access/ );
     assert.match( paletteContents( {model} ), /Tabla y columnas/ );
     } );
@@ -185,4 +185,13 @@ test( 'the application switches to the Tablas view, edits Access properties and 
     await app.click({mode: 'relational'});
     assert.doesNotMatch( app.element( '#properties-body' ).innerHTML, /Campos de Access/ );
     assert.match( app.element( '#diagram-mode-label' ).textContent, /Relacional/ );
+
+    app.change( {view: ''}, 'chen' );
+    await app.flushTimers();
+    assert.equal( app.element( '#diagram-mode-label' ).textContent, 'Diagrama · entidad-relación (Chen)' );
+    assert.equal( JSON.parse( app.saved() ).display.mode, 'chen' );
+
+    app.change( {example: ''}, '__biblioteca__' );
+    await app.flushTimers();
+    assert.equal( JSON.parse( app.saved() ).name, 'Biblioteca — práctica de relaciones' );
     } );

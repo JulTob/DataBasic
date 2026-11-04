@@ -37,7 +37,7 @@ haya implementado una base de datos física en un SGBD.
 
 | Selección o ruta | Contenido |
 | --- | --- |
-| Barra superior | Relacional/Chen, Perfil Curso/General y acceso a revisión. |
+| Barra superior | Desplegable Vista (Diagrama, Relacional, Tablas), desplegable Tipos (Curso o General) y acceso a revisión. Ayuda → Ejemplos lista `examples/index.json` más el ejemplo integrado. |
 | Tabla → Definición | Nombre físico y conceptual, sincronización y espacio de nombres. Propietario/origen se muestran sin edición; no hay ingeniería inversa. |
 | Tabla → Columnas | Nombre, tipo, requerido, PK y notas; agregar, quitar, editar y reordenar. El tipo se elige en una lista de tipos estándar agrupados por categoría (texto, numérico, temporal, lógico, datos en bruto y otros) y filtrada por perfil; el valor actual se conserva aunque no sea estándar y «Otro…» descubre un cuadro para escribirlo. |
 | Columnas → Editar… | Familia, longitud o precisión/escala, predeterminado y dominio declarativo. |
@@ -312,3 +312,15 @@ consulta y columnas; no incluyen un editor visual de consultas.
 - [FIPS PUB 184, NIST, 21-12-1993, copia oficial GovInfo](https://www.govinfo.gov/app/details/GOVPUB-C13-986bf8b12a4fed44eb78fca0bb55d668): §§3.1.2, 3.1.3 y 3.5.2, figuras 1 y 4–7. Define símbolos, no controles de Visio.
 - [Materiales y requisitos del curso](course-requirements.md): páginas y restricciones académicas.
 - [Licencias y derechos](intellectual-property.md): alcance de la revisión existente; esta especificación funcional no amplía esa revisión.
+
+## Color de los elementos
+
+Una tabla, una entidad, un atributo o una relación del diagrama pueden llevar
+un color: un tono del espectro (0 a 360) elegido con un deslizador en
+Definición, o ningún color. El borde toma el tono y el interior un tinte casi
+blanco del mismo tono; la cabecera de la vista Tablas, un tinte algo más
+intenso. El color viaja en `color` (entero o `null`) y los archivos sin él
+abren igual. Una entidad nativa y su tabla comparten el color; una entidad
+proyectada muestra el de su tabla. El SVG lo lleva como variables CSS y el
+dibujo de Visio como colores hexadecimales. El lienzo admite posiciones entre
+-20000 y 20000 en cada eje, de modo que todo el área visible acepta formas.
