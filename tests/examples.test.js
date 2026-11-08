@@ -73,7 +73,7 @@ for (const filename of filenames) {
         const relational = domain.setDiagramMode( model, 'relational' );
         const chen = domain.setDiagramMode( relational, 'chen' );
 
-        assert.match( sql, /CREATE TABLE "Persona"/ );
+        assert.match( sql, /CREATE TABLE "/ );
         assert.equal( exportSQL( chen ), sql );
         assert.deepEqual( chen.traces, model.traces );
         assert.deepEqual( chen.conceptual, model.conceptual );
@@ -81,7 +81,7 @@ for (const filename of filenames) {
     }
 
 test( 'Núcleo entregado: cuatro tipos, PK/AK, dominio y FK obligatoria', async () => {
-    assert.equal( filenames.length, 11 );
+    assert.equal( filenames.length, 13 );
 
     const model = await openExample( '00-nucleo' );
     const instrument = tableNamed( model, 'Instrumento' );
@@ -281,4 +281,50 @@ test( 'Débil entregada: clave parcial local; compuestos de entidad y relación;
     assert.deepEqual( primaryNames( tableNamed( model, 'Orientacion' ) ), [
         'orientador_codigoPersona', 'orientado_codigoPersona'
         ] );
+    } );
+
+test( 'Ejercicio del curso: cadena hotelera con débiles, AK, N:N y especialización', async () => {
+    const model = await openExample( 'curso-hoteles' );
+    const hotel = tableNamed( model, 'Hotel' );
+    const room = tableNamed( model, 'Habitacion' );
+    const invoice = tableNamed( model, 'Factura' );
+    const booking = tableNamed( model, 'Reserva' );
+    const receptionist = tableNamed( model, 'Recepcionista' );
+    const association = tableNamed( model, 'Reserva_Habitacion' );
+    const sql = exportSQL( model );
+
+    assert.equal( model.tables.length, 9 );
+    assert.deepEqual( columnNames( hotel, hotel.alternateKeys[0].columns ), ['nombre'] );
+    assert.deepEqual( primaryNames( room ), ['numero', 'hotel_codigo_hotel'] );
+    assert.deepEqual( primaryNames( invoice ), ['numero', 'reserva_codigo_reserva'] );
+    assert.equal( domain.isIdentifierDependent( model, room.id ), true );
+    assert.equal( domain.isIdentifierDependent( model, invoice.id ), true );
+    assert.deepEqual( primaryNames( association ), ['reserva_codigo_reserva', 'habitacion_numero', 'habitacion_hotel_codigo_hotel'] );
+    assert.deepEqual( primaryNames( receptionist ), ['Empleado_dni'] );
+    assert.ok( booking.columns.some( column => column.name === 'recepcionista_Empleado_dni' ) );
+    assert.match( sql, /CHECK \("categoria" >= 1 AND "categoria" <= 5\)/ );
+    assert.match( sql, /CHECK \(\(fecha_fin >= fecha_inicio\)\)/ );
+    assert.equal( model.conceptual.generalizations.length, 1 );
+    assert.deepEqual( [model.conceptual.generalizations[0].disjoint, model.conceptual.generalizations[0].total], [true, true] );
+    assert.equal( domain.documentAssumptions( model ).length, 8 );
+    assert.equal( model.display.mode, 'chen' );
+    } );
+
+test( 'Ejercicio del curso: videoclub con clave compuesta, copia débil, multivaluado y alquiler fechado', async () => {
+    const model = await openExample( 'curso-videoclub' );
+    const film = tableNamed( model, 'Pelicula' );
+    const copy = tableNamed( model, 'Copia' );
+    const actors = tableNamed( model, 'Actores' );
+    const rental = tableNamed( model, 'Alquiler' );
+    const sql = exportSQL( model );
+
+    assert.equal( model.tables.length, 5 );
+    assert.deepEqual( primaryNames( film ), ['titulo', 'anio_estreno'] );
+    assert.deepEqual( primaryNames( copy ), ['numero_copia', 'pelicula_titulo', 'pelicula_anio_estreno'] );
+    assert.deepEqual( primaryNames( actors ), ['Pelicula_titulo', 'Pelicula_anio_estreno', 'actor_principal'] );
+    assert.deepEqual( primaryNames( rental ), ['cliente_dni', 'copia_numero_copia', 'copia_pelicula_titulo', 'copia_pelicula_anio_estreno', 'fecha'] );
+    assert.match( sql, /CHECK \("formato" IN \('DVD', 'BR'\)\)/ );
+    assert.equal( attributeNamed( model, 'actor_principal' ).multivalued, true );
+    assert.equal( attributeNamed( model, 'fecha' ).ownerKind, 'relationship' );
+    assert.equal( domain.documentAssumptions( model ).length, 5 );
     } );

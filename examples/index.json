@@ -1,6 +1,14 @@
 {
   "examples": [
     {
+      "file": "curso-hoteles.databasic.json",
+      "name": "Cadena hotelera · ejercicio 3 (guion ERE)"
+    },
+    {
+      "file": "curso-videoclub.databasic.json",
+      "name": "Videoclub · ejercicio 3 (Tema 2)"
+    },
+    {
       "file": "00-nucleo.databasic.json",
       "name": "Club de observación · núcleo"
     },

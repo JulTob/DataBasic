@@ -1,3 +1,16 @@
+# Ejercicios de la asignatura
+
+Resueltos a partir de los enunciados de los apuntes (guion de introducción al
+ERE y Tema 2), con la notación del curso. Cada archivo lleva sus supuestos en
+la categoría Supuestos: lo que dice el enunciado, lo que se ha supuesto y lo
+que el modelo no impone. Son borradores para comparar con la solución del
+profesor; ajusta claves, cardinalidades o nombres si difieren.
+
+| Archivo | Enunciado | Qué muestra |
+| --- | --- | --- |
+| [curso-hoteles](curso-hoteles.databasic.json) | Cadena hotelera (guion ERE, ejercicio 3) | Entidades débiles Habitacion y Factura, clave alternativa del nombre, N:N Reserva–Habitacion, especialización total y disjunta de Empleado, dominios 1..5 y CHECK de fechas. |
+| [curso-videoclub](curso-videoclub.databasic.json) | Videoclub (Tema 2, ejercicio 3) | Clave compuesta (título, año), copia como entidad débil, actores como multivaluado, alquiler N:N con la fecha en la clave. |
+
 # Club de observación
 
 Ejemplos originales para DataBasic 0.4.0, formato de archivo 2.
