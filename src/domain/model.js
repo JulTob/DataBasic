@@ -18,6 +18,8 @@
  * @typedef {{format:'databasic',version:2,profile:'course'|'general',
  * name:string,tables:Entity[],conceptual:Object,traces:Object[],
  * assumptions?:Assumption[],
+ * physical?:{columns:Object, relationships:Object, tables:Object},
+ * data?:Object<string, Array<Object<string,string>>>,
  * presentation:{chen:Record<string,{x:number,y:number}>,
  * relational?:Record<string,{x:number,y:number}>},
  * relationships:Relationship[],display:{conceptual:boolean,types:boolean,
@@ -118,6 +120,105 @@ export const ASSUMPTION_KINDS = [
     ['perdida', 'Semántica perdida']
     ];
 
+/*
+ * The physical layer for Microsoft Access. The document stores only what
+ * the author overrides; everything else is derived from the relational
+ * column, relationship or table (see domain/access.js). The vocabulary is
+ * the one Access shows in its table design view.
+ */
+export const ACCESS_TYPES = [
+    'Texto corto', 'Texto largo', 'Número', 'Fecha/Hora', 'Moneda',
+    'Autonumeración', 'Sí/No', 'Objeto OLE', 'Hipervínculo'
+    ];
+
+export const ACCESS_NUMBER_SIZES = ['Byte', 'Entero', 'Entero largo', 'Simple', 'Doble', 'Decimal'];
+
+export const ACCESS_INDEX_OPTIONS = [
+    ['no', 'No'],
+    ['duplicates', 'Sí (Con duplicados)'],
+    ['unique', 'Sí (Sin duplicados)']
+    ];
+
+export const PHYSICAL_TEXT_LIMIT = 500;
+
+/** Each override key and the kind of value the shape check expects. */
+const PHYSICAL_COLUMN_KEYS = {
+    accessType: 'accessType',
+    fieldSize: 'fieldSize',
+    decimalPlaces: 'decimalPlaces',
+    required: 'flag',
+    allowZeroLength: 'flag',
+    indexed: 'indexed',
+    validationRule: 'text',
+    validationText: 'text',
+    defaultValue: 'text',
+    caption: 'text',
+    description: 'text',
+    format: 'text'
+    };
+
+const PHYSICAL_RELATIONSHIP_KEYS = {
+    enforce: 'flag',
+    cascadeUpdate: 'flag',
+    cascadeDelete: 'flag',
+    lookup: 'flag',
+    displayColumnId: 'id',
+    hideKey: 'flag'
+    };
+
+const PHYSICAL_TABLE_KEYS = {
+    description: 'text',
+    validationRule: 'text',
+    validationText: 'text'
+    };
+
+export function emptyPhysical() {
+    return {columns: {}, relationships: {}, tables: {}};
+    }
+
+/** Older format 2 files have no physical layer; they read as fully derived. */
+export function documentPhysical( model ) {
+    return model.physical || emptyPhysical();
+    }
+
+function ensurePhysical( model ) {
+    if (!model.physical) {
+        model.physical = emptyPhysical();
+        }
+
+    return model.physical;
+    }
+
+/*
+ * Sample rows, by table id: each row maps column ids to text. Every value is
+ * kept as the text the author typed; an empty text means NULL. The rows are
+ * checked against the table's constraints (domain/data.js) and exported with
+ * the Access files, but they never change the model.
+ */
+export const DATA_ROW_LIMIT = 500;
+export const DATA_CELL_LIMIT = 500;
+
+/** Older files have no rows; they read as empty datasheets. */
+export function documentData( model ) {
+    return model.data || {};
+    }
+
+function ensureData( model ) {
+    if (!model.data) {
+        model.data = {};
+        }
+
+    return model.data;
+    }
+
+/** The rows of one table, always an array. */
+export function tableRows(
+        model,
+        tableId
+        ) {
+    return documentData( model )[tableId] || [];
+    }
+
 export const ASSUMPTION_TEXT_LIMIT = 2000;
 
 export function assumptionKindLabel( kind ) {
@@ -144,6 +245,8 @@ export function emptyDocument( profile = 'course' ) {
             },
         traces: [],
         assumptions: [],
+        physical: emptyPhysical(),
+        data: {},
         presentation: {
             chen: {},
             relational: {}
@@ -312,7 +415,7 @@ export function updateTable(
                         patch,
                         [
                             'name', 'conceptualName', 'syncNames', 'namespace',
-                            'x', 'y', 'notes', 'definition', 'indexes', 'alternateKeys'
+                            'x', 'y', 'notes', 'definition', 'indexes', 'alternateKeys', 'color'
                             ]
                         );
 
@@ -438,6 +541,8 @@ export function removeColumn(
                 table.indexes = table.indexes.filter( index => index.columns.length );
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }
@@ -691,6 +796,8 @@ export function removeElement(
                         );
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }
@@ -715,11 +822,7 @@ export function validateDocument( model ) {
 
         names.add( tableName );
 
-        if (![table.x, table.y].every(
-                coordinate => Number.isFinite( coordinate )
-                    && coordinate >= 0
-                    && coordinate <= 20000
-                )) {
+        if (!domainPositionValid( {x: table.x, y: table.y} )) {
             add( 'error', `${table.name}: la posición está fuera del lienzo admitido.`, table.id );
             }
 
@@ -864,6 +967,8 @@ export function validateDocument( model ) {
     if (model.version === 2) {
         issues.push( ...validateConceptualDocument( model ) );
         issues.push( ...validateAssumptions( model ) );
+        issues.push( ...validatePhysical( model ) );
+        issues.push( ...validateData( model ) );
         }
 
     return issues;
@@ -889,6 +994,266 @@ function validateAssumptions( model ) {
         }
 
     return issues;
+    }
+
+/** Shape checks already passed; each override must point to a live element. */
+function validatePhysical( model ) {
+    const physical = documentPhysical( model );
+    const issues = [];
+    const tables = new Map( model.tables.map( table => [table.id, table] ) );
+    const relationships = new Map( model.relationships.map( relation => [relation.id, relation] ) );
+    const columnIds = new Set( model.tables.flatMap( table => table.columns.map( field => field.id ) ) );
+    const missing = (message, id) => issues.push({level: 'error', message, elementId: id});
+
+    for (const id of Object.keys( physical.columns )) {
+        if (!columnIds.has( id )) {
+            missing( 'La capa física referencia una columna inexistente.', id );
+            }
+        }
+
+    for (const id of Object.keys( physical.tables )) {
+        if (!tables.has( id )) {
+            missing( 'La capa física referencia una tabla inexistente.', id );
+            }
+        }
+
+    for (const [id, overrides] of Object.entries( physical.relationships )) {
+        const relation = relationships.get( id );
+
+        if (!relation) {
+            missing( 'La capa física referencia una relación inexistente.', id );
+            continue;
+            }
+
+        const parent = tables.get( relation.parentId );
+
+        if (typeof overrides.displayColumnId === 'string'
+            && !parent?.columns.some( field => field.id === overrides.displayColumnId )) {
+            missing( 'El campo que muestra la búsqueda debe pertenecer a la tabla referenciada.', id );
+            }
+        }
+
+    return issues;
+    }
+
+/** Shape checks already passed; rows must belong to a live table and its columns. */
+function validateData( model ) {
+    const issues = [];
+
+    for (const [tableId, rows] of Object.entries( documentData( model ) )) {
+        const table = model.tables.find( item => item.id === tableId );
+
+        if (!table) {
+            issues.push({level: 'error', message: 'Los datos de ejemplo referencian una tabla inexistente.', elementId: tableId});
+            continue;
+            }
+
+        const columnIds = new Set( table.columns.map( column => column.id ) );
+
+        if (rows.some( row => Object.keys( row ).some( id => !columnIds.has( id ) ) )) {
+            issues.push({level: 'error', message: `${table.name}: los datos de ejemplo referencian una columna inexistente.`, elementId: tableId});
+            }
+        }
+
+    return issues;
+    }
+
+/** Writes override keys; null restores the derived value; no keys left removes the entry. */
+function applyPhysicalPatch(
+        entries,
+        id,
+        patch,
+        keys
+        ) {
+    const current = {...(entries[id] || {})};
+
+    for (const [key, value] of Object.entries( patch )) {
+        if (!Object.hasOwn( keys, key )) {
+            throw new Error( `Capa física: la propiedad ${key} no existe.` );
+            }
+
+        if (value === null || value === undefined) {
+            delete current[key];
+            }
+        else {
+            current[key] = value;
+            }
+        }
+
+    if (Object.keys( current ).length) {
+        entries[id] = current;
+        }
+    else {
+        delete entries[id];
+        }
+    }
+
+function requireColumnAnywhere(
+        model,
+        columnId
+        ) {
+    for (const table of model.tables) {
+        const field = table.columns.find( item => item.id === columnId );
+
+        if (field) {
+            return field;
+            }
+        }
+
+    throw new Error( 'Columna no encontrada.' );
+    }
+
+/** Access properties of a column that differ from the derived ones. */
+export function updatePhysicalColumn(
+        model,
+        columnId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireColumnAnywhere( next, columnId );
+                applyPhysicalPatch( ensurePhysical( next ).columns, columnId, patch, PHYSICAL_COLUMN_KEYS );
+                }
+            );
+    }
+
+/** Integrity, cascades and lookup of a relationship in Access. */
+export function updatePhysicalRelationship(
+        model,
+        relationshipId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                if (!next.relationships.some( relation => relation.id === relationshipId )) {
+                    throw new Error( 'Relación no encontrada.' );
+                    }
+
+                applyPhysicalPatch(
+                        ensurePhysical( next ).relationships,
+                        relationshipId,
+                        patch,
+                        PHYSICAL_RELATIONSHIP_KEYS
+                        );
+                }
+            );
+    }
+
+/** Description and table-level validation rule of a table in Access. */
+export function updatePhysicalTable(
+        model,
+        tableId,
+        patch
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                applyPhysicalPatch( ensurePhysical( next ).tables, tableId, patch, PHYSICAL_TABLE_KEYS );
+                }
+            );
+    }
+
+/** A new empty row at the end of the table's datasheet. */
+export function addDataRow(
+        model,
+        tableId
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (rows.length >= DATA_ROW_LIMIT) {
+                    throw new Error( `La hoja de datos admite hasta ${DATA_ROW_LIMIT} filas.` );
+                    }
+
+                next.data[tableId] = [...rows, {}];
+                }
+            );
+    }
+
+/** One cell of the datasheet; an empty text means NULL and is not stored. */
+export function updateDataCell(
+        model,
+        tableId,
+        rowIndex,
+        columnId,
+        value
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                const table = requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (!Number.isInteger( rowIndex ) || rowIndex < 0 || rowIndex >= rows.length) {
+                    throw new Error( 'Esa fila de ejemplo ya no existe.' );
+                    }
+
+                if (!table.columns.some( column => column.id === columnId )) {
+                    throw new Error( 'Esa columna ya no existe.' );
+                    }
+
+                const text = String( value ?? '' );
+                const row = {...rows[rowIndex]};
+
+                if (text === '') {
+                    delete row[columnId];
+                    }
+                else {
+                    row[columnId] = text;
+                    }
+
+                next.data[tableId] = rows.map( (item, index) => index === rowIndex ? row : item );
+                }
+            );
+    }
+
+export function removeDataRow(
+        model,
+        tableId,
+        rowIndex
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                const rows = ensureData( next )[tableId] || [];
+
+                if (!Number.isInteger( rowIndex ) || rowIndex < 0 || rowIndex >= rows.length) {
+                    throw new Error( 'Esa fila de ejemplo ya no existe.' );
+                    }
+
+                next.data[tableId] = rows.filter( (item, index) => index !== rowIndex );
+
+                if (!next.data[tableId].length) {
+                    delete next.data[tableId];
+                    }
+                }
+            );
+    }
+
+/** Replaces the whole datasheet of a table (imports and tests). */
+export function setDataRows(
+        model,
+        tableId,
+        rows
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                requireTable( next, tableId );
+                ensureData( next )[tableId] = structuredClone( rows );
+
+                if (!next.data[tableId].length) {
+                    delete next.data[tableId];
+                    }
+                }
+            );
     }
 
 export function exampleDocument() {
@@ -1142,6 +1507,7 @@ function validateDocumentShape( model ) {
                 }
 
             flag( table, 'syncNames' );
+            demand( validHue( table.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             demand( ['entity', 'view'].includes( table.kind ), 'Tipo de entidad no válido.' );
             list( table.columns, 200, 'Columnas' );
             list( table.indexes, 100, 'Índices' );
@@ -1178,6 +1544,7 @@ function validateDocumentShape( model ) {
 
             flag( relation, 'identifying' );
             flag( relation, 'optional' );
+            demand( validHue( relation.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             list( relation.mappings, 200, 'Correspondencias' );
 
             for (const pair of relation.mappings) {
@@ -1200,7 +1567,7 @@ function validateDocumentShape( model ) {
             }
 
         demand( ['course', 'general'].includes( model.profile ), 'Perfil de tipos no válido.' );
-        demand( ['relational', 'chen'].includes( model.display.mode ), 'Modo de diagrama no válido.' );
+        demand( ['relational', 'chen', 'tables'].includes( model.display.mode ), 'Modo de diagrama no válido.' );
         demand(
                 ['idef1x', 'crows-foot', 'relational'].includes( model.display.notation ),
                 'Notación relacional no válida.'
@@ -1234,6 +1601,7 @@ function validateDocumentShape( model ) {
 
         for (const entity of model.conceptual.entities) {
             flag( entity, 'weak' );
+            demand( validHue( entity.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             demand(
                     entity.ownerEntityId === null || typeof entity.ownerEntityId === 'string',
                     'Propietario de entidad débil no válido.'
@@ -1261,6 +1629,7 @@ function validateDocumentShape( model ) {
                 flag( attribute, key );
                 }
 
+            demand( validHue( attribute.color ), 'Color no válido: se necesita un tono entre 0 y 360 o null.' );
             domain( attribute.domain );
             demand(
                     attribute.translation === null
@@ -1355,6 +1724,14 @@ function validateDocumentShape( model ) {
                 }
             }
 
+        if ('physical' in model) {
+            validatePhysicalShape( model.physical, {demand, text, flag} );
+            }
+
+        if ('data' in model) {
+            validateDataShape( model.data, {demand, list} );
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1372,7 +1749,7 @@ function validateDocumentShape( model ) {
         for (const [id, position] of Object.entries( model.presentation.chen )) {
             demand(
                     ids.has( id ) && domainPositionValid( position ),
-                    'La posición Chen necesita un elemento existente y coordenadas entre 0 y 20000.'
+                    'La posición Chen necesita un elemento existente y coordenadas entre -20000 y 20000.'
                     );
             }
 
@@ -1390,7 +1767,7 @@ function validateDocumentShape( model ) {
             for (const [id, position] of Object.entries( positions )) {
                 demand(
                         foreignKeyIds.has( id ) && domainPositionValid( position ),
-                        'La posición relacional necesita una relación existente y coordenadas entre 0 y 20000.'
+                        'La posición relacional necesita una relación existente y coordenadas entre -20000 y 20000.'
                         );
                 }
             }
@@ -1402,9 +1779,125 @@ function validateDocumentShape( model ) {
         }
     }
 
+/** Sample rows: a map of table id to rows, each row a map of column id to text. */
+function validateDataShape(
+        data,
+        check
+        ) {
+    const {demand, list} = check;
+    const plainObject = value => value && typeof value === 'object' && !Array.isArray( value );
+
+    demand( plainObject( data ), 'Datos de ejemplo no válidos.' );
+
+    for (const [tableId, rows] of Object.entries( data )) {
+        demand( /^[A-Za-z0-9_-]+$/.test( tableId ), 'Datos de ejemplo: identificador de tabla no válido.' );
+        list( rows, DATA_ROW_LIMIT, 'Filas de ejemplo' );
+
+        for (const row of rows) {
+            demand( plainObject( row ), 'Datos de ejemplo: fila no válida.' );
+
+            for (const [columnId, value] of Object.entries( row )) {
+                demand( /^[A-Za-z0-9_-]+$/.test( columnId ), 'Datos de ejemplo: identificador de columna no válido.' );
+                demand(
+                        typeof value === 'string' && value.length <= DATA_CELL_LIMIT,
+                        `Datos de ejemplo: cada valor es un texto de hasta ${DATA_CELL_LIMIT} caracteres.`
+                        );
+                }
+            }
+        }
+    }
+
+/** The physical layer: three maps of overrides, each with known keys and value kinds. */
+function validatePhysicalShape(
+        physical,
+        check
+        ) {
+    const {demand} = check;
+    const sections = [
+        ['columns', PHYSICAL_COLUMN_KEYS],
+        ['relationships', PHYSICAL_RELATIONSHIP_KEYS],
+        ['tables', PHYSICAL_TABLE_KEYS]
+        ];
+    const plainObject = value => value && typeof value === 'object' && !Array.isArray( value );
+
+    demand( plainObject( physical ), 'Capa física no válida.' );
+
+    for (const [section, keys] of sections) {
+        const entries = physical[section];
+
+        demand( plainObject( entries ), `Capa física: falta ${section}.` );
+        demand( Object.keys( entries ).length <= 5000, 'Capa física: demasiadas entradas.' );
+
+        for (const [id, overrides] of Object.entries( entries )) {
+            demand( /^[A-Za-z0-9_-]+$/.test( id ), 'Capa física: identificador no válido.' );
+            demand( plainObject( overrides ), 'Capa física: entrada no válida.' );
+
+            for (const key of Object.keys( overrides )) {
+                demand( Object.hasOwn( keys, key ), `Capa física: la propiedad ${key} no existe.` );
+                validatePhysicalValue( overrides, key, keys[key], check );
+                }
+            }
+        }
+    }
+
+function validatePhysicalValue(
+        overrides,
+        key,
+        kind,
+        check
+        ) {
+    const {demand, text, flag} = check;
+    const value = overrides[key];
+
+    switch (kind) {
+        case 'flag':
+            flag( overrides, key );
+            break;
+        case 'text':
+            text( overrides, key, PHYSICAL_TEXT_LIMIT );
+            break;
+        case 'id':
+            text( overrides, key, 100 );
+            break;
+        case 'accessType':
+            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos de Access no válido.' );
+            break;
+        case 'fieldSize':
+            demand(
+                    ACCESS_NUMBER_SIZES.includes( value )
+                        || Number.isInteger( value ) && value >= 1 && value <= 255,
+                    'Capa física: tamaño de campo no válido.'
+                    );
+            break;
+        case 'decimalPlaces':
+            demand(
+                    Number.isInteger( value ) && value >= 0 && value <= 15,
+                    'Capa física: posiciones decimales no válidas.'
+                    );
+            break;
+        case 'indexed':
+            demand(
+                    ACCESS_INDEX_OPTIONS.some( ([option]) => option === value ),
+                    'Capa física: opción de indexado no válida.'
+                    );
+            break;
+        default:
+            throw new Error( 'Capa física: clase de propiedad desconocida.' );
+        }
+    }
+
+/** The canvas extends the same distance to every side of the origin. */
+export const POSITION_LIMIT = 20000;
+
+/** An element colour is a hue of the spectrum (0..360) or null for the default look. */
+export function validHue( value ) {
+    return value === null || value === undefined
+        || Number.isInteger( value ) && value >= 0 && value <= 360;
+    }
+
 function domainPositionValid( position ) {
-    return position && [position.x, position.y].every(
-            value => Number.isFinite( value ) && value >= 0 && value <= 20000
+    return Boolean( position ) && [position.x, position.y].every(
+            value => Number.isFinite( value ) && value >= -POSITION_LIMIT && value <= POSITION_LIMIT
             );
     }
 
@@ -1463,6 +1956,59 @@ function detachOrphanAssumptions( model ) {
     for (const assumption of documentAssumptions( model )) {
         if (assumption.elementId !== null && !ids.has( assumption.elementId )) {
             assumption.elementId = null;
+            }
+        }
+    }
+
+/** Overrides of a removed column, relationship or table go with it. */
+function removeOrphanPhysical( model ) {
+    if (!model.physical) {
+        return;
+        }
+
+    const ids = documentElementIds( model );
+
+    for (const section of ['columns', 'relationships', 'tables']) {
+        for (const id of Object.keys( model.physical[section] || {} )) {
+            if (!ids.has( id )) {
+                delete model.physical[section][id];
+                }
+            }
+        }
+
+    for (const [id, overrides] of Object.entries( model.physical.relationships || {} )) {
+        if (typeof overrides.displayColumnId === 'string' && !ids.has( overrides.displayColumnId )) {
+            delete overrides.displayColumnId;
+            }
+
+        if (!Object.keys( overrides ).length) {
+            delete model.physical.relationships[id];
+            }
+        }
+    }
+
+/** Rows of a removed table, and cells of a removed column, go with them. */
+function removeOrphanData( model ) {
+    if (!model.data) {
+        return;
+        }
+
+    for (const [tableId, rows] of Object.entries( model.data )) {
+        const table = model.tables.find( item => item.id === tableId );
+
+        if (!table) {
+            delete model.data[tableId];
+            continue;
+            }
+
+        const columnIds = new Set( table.columns.map( column => column.id ) );
+
+        for (const row of rows) {
+            for (const columnId of Object.keys( row )) {
+                if (!columnIds.has( columnId )) {
+                    delete row[columnId];
+                    }
+                }
             }
         }
     }
@@ -1739,6 +2285,10 @@ function syncNativeTableProperties(
         if ('notes' in patch) {
             entity.notes = table.notes;
             }
+
+        if ('color' in patch) {
+            entity.color = table.color ?? null;
+            }
         }
 
     if (trace?.sourceKind === 'relationship' && 'name' in patch) {
@@ -1811,12 +2361,13 @@ export function moveDiagramElement(
     return changeDocument(
             model,
             next => {
-                if (!['chen', 'relational'].includes( mode )) {
+                // The Tablas view shares the relational positions: same tables, same layout.
+                if (!['chen', 'relational', 'tables'].includes( mode )) {
                     throw new Error( 'Representación del diagrama no válida.' );
                     }
 
                 if (!domainPositionValid( position )) {
-                    throw new Error( 'La posición necesita coordenadas entre 0 y 20000.' );
+                    throw new Error( 'La posición necesita coordenadas entre -20000 y 20000.' );
                     }
 
                 if (mode === 'chen') {
@@ -1877,7 +2428,8 @@ export function getConceptualProjection( model ) {
                 weak: false,
                 ownerEntityId: null,
                 projected: true,
-                tableId: table.id
+                tableId: table.id,
+                color: table.color ?? null
                 });
             }
         else if (!traces.some(
@@ -1997,13 +2549,17 @@ export function updateConceptualEntity(
                 applyDomainPatch(
                         entity,
                         patch,
-                        ['name', 'notes', 'weak', 'ownerEntityId', 'translation']
+                        ['name', 'notes', 'weak', 'ownerEntityId', 'translation', 'color']
                         );
 
                 const table = conceptualEntityTable( next, id );
 
                 table.conceptualName = entity.name;
                 table.notes = entity.notes;
+
+                if ('color' in patch) {
+                    table.color = entity.color ?? null;
+                    }
 
                 if (table.syncNames) {
                     table.name = entity.name;
@@ -2404,7 +2960,7 @@ function applyNativeAttributePatch(
             [
                 'name', 'type', 'required', 'primary', 'partialKey', 'notes',
                 'defaultValue', 'structure', 'multivalued', 'derived',
-                'parentAttributeId', 'derivation', 'domain', 'translation'
+                'parentAttributeId', 'derivation', 'domain', 'translation', 'color'
                 ]
             );
 
@@ -2502,7 +3058,7 @@ export function updateConceptualRelationship(
                             );
                     }
 
-                applyDomainPatch( relation, patch, ['name', 'notes', 'translation'] );
+                applyDomainPatch( relation, patch, ['name', 'notes', 'translation', 'color'] );
                 materializeConceptualRelationship( next, relation );
                 }
             );
@@ -3173,6 +3729,8 @@ export function removeConceptualElement(
 
                 removeOrphanDiagramPositions( next );
                 detachOrphanAssumptions( next );
+                removeOrphanPhysical( next );
+                removeOrphanData( next );
                 }
             );
     }

@@ -1385,3 +1385,108 @@ a {
         display: none !important;
         }
     }
+
+/* Archivo → Access: three files Access turns into the database. */
+.access-routes h3 { margin: 14px 0 6px; font-size: 15px; }
+.access-route {
+    margin: 0 0 10px;
+    padding: 10px 14px;
+    border: 1px solid #c7d8ce;
+    border-radius: 10px;
+    background: #f6faf8;
+    }
+.access-route h3 { margin: 0 0 4px; }
+.access-route p { margin: 0 0 8px; }
+.access-routes ul { margin: 0; padding-left: 20px; }
+
+/* Tablas view: Access's design vocabulary in the properties pane. */
+.physical-state { margin-left: 6px; font-size: 11px; color: #718379; white-space: nowrap; }
+.physical-state.adjusted { color: #8a5c14; font-weight: 600; }
+.physical-state-cell { white-space: nowrap; }
+.physical-reset {
+    margin-top: 8px;
+    padding: 4px 10px;
+    border: 1px solid #c7d8ce;
+    border-radius: 6px;
+    background: white;
+    color: #234b3e;
+    font-size: 12px;
+    cursor: pointer;
+    }
+.physical-reset:hover { background: #f0f6f2; }
+.access-grid .field-name { font-weight: 600; color: #243e33; }
+.access-grid td select, .access-grid td input[type="number"] { width: 100%; }
+.access-grid .row-pointer svg { width: 14px; height: 14px; color: #b58a2a; }
+.access-field-properties { margin-top: 12px; border: 1px solid #c7d8ce; border-radius: 10px; padding: 10px 14px; }
+.access-field-properties legend { font-weight: 600; color: #234b3e; }
+.access-relationship fieldset { margin-bottom: 10px; }
+.access-table .field-hint, .access-relationship .field-hint { margin: 6px 0 0; }
+.muted { color: #718379; }
+.physical-flag { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.physical-flag .check { white-space: nowrap; }
+
+/* Element colour: a hue picked from the linear spectrum. */
+.color-field { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.color-field > span:first-child { min-width: 60px; color: #526e60; font-size: 13px; }
+.hue-slider {
+    flex: 1;
+    min-width: 140px;
+    height: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 6px;
+    background: linear-gradient(to right,
+        hsl(0 70% 55%), hsl(60 70% 55%), hsl(120 70% 45%), hsl(180 70% 45%),
+        hsl(240 70% 55%), hsl(300 70% 55%), hsl(360 70% 55%));
+    }
+.hue-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #243e33;
+    box-shadow: 0 0 0 1px #243e33;
+    }
+.hue-slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; background: #243e33; }
+.color-swatch {
+    width: 26px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--element-color, #c7d8ce);
+    background: var(--element-fill, #fff);
+    }
+.color-swatch.unset { border-style: dashed; }
+.color-field button {
+    padding: 3px 9px;
+    border: 1px solid #c7d8ce;
+    border-radius: 6px;
+    background: white;
+    color: #234b3e;
+    font-size: 12px;
+    cursor: pointer;
+    }
+.color-field button:disabled { opacity: 0.5; cursor: default; }
+
+/* One view selector instead of three buttons; the examples selector in Ayuda. */
+.view-select-label select { min-width: 230px; font-weight: 650; color: var( --color-accent-strong ); }
+.ribbon-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    font-size: 12px;
+    }
+.ribbon-select select { max-width: 260px; }
+
+/* Hoja de datos: sample rows with the rule each cell breaks. */
+.datasheet-grid th small { display: block; font-weight: 400; color: #718379; font-size: 11px; }
+.datasheet-grid .row-number { width: 32px; text-align: center; color: #718379; font-size: 12px; }
+.datasheet-grid tr.row-error .row-number { color: #b3261e; font-weight: 700; }
+.datasheet-grid td.cell-error input { border-color: #b3261e; background: #fdf1f0; }
+.datasheet-grid .row-actions button { padding: 2px 6px; border: none; background: none; color: #718379; cursor: pointer; }
+.datasheet-grid .row-actions button:hover { color: #b3261e; }
+.datasheet-grid .row-actions svg { width: 14px; height: 14px; }
+.data-issues { margin: 8px 0 0; padding-left: 20px; color: #8a2a24; font-size: 13px; }
+.data-ok { margin: 8px 0 0; color: #16805e; font-size: 13px; }

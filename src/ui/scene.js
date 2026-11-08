@@ -1,6 +1,7 @@
 import {
     conceptualStatus,
     getConceptualProjection,
+    POSITION_LIMIT,
     isIdentifyingLink,
     participationCardinalityLetter
     } from '../domain/model.js';
@@ -75,6 +76,32 @@ function sceneTableRows( table ) {
                 return row;
                 }
             );
+    }
+
+/** Key labels of a column: PK, one FK per referencing relationship, one AK per alternate key. */
+export function sceneColumnKeys(
+        model,
+        table,
+        field
+        ) {
+    const labels = field.primary ? ['PK'] : [];
+
+    model.relationships.filter( relation => relation.childId === table.id ).forEach(
+            (relation, index) => {
+                if (relation.mappings.some( pair => pair.childColumnId === field.id )) {
+                    labels.push( `FK${index + 1}` );
+                    }
+                }
+            );
+    (table.alternateKeys || []).forEach(
+            (key, index) => {
+                if (key.columns.includes( field.id )) {
+                    labels.push( `AK${index + 1}` );
+                    }
+                }
+            );
+
+    return labels;
     }
 
 export function sceneTableHeight( table ) {
@@ -191,8 +218,8 @@ function sceneNearbyFreePosition(
         occupied
         ) {
     const clamp = point => ({
-        x: Math.max( 0, Math.min( 20000 - size.width, point.x ) ),
-        y: Math.max( 0, Math.min( 20000 - size.height, point.y ) )
+        x: Math.max( -POSITION_LIMIT, Math.min( POSITION_LIMIT - size.width, point.x ) ),
+        y: Math.max( -POSITION_LIMIT, Math.min( POSITION_LIMIT - size.height, point.y ) )
         });
     const origin = clamp( preferred );
     const distance = point => (point.x - origin.x) ** 2 + (point.y - origin.y) ** 2;
@@ -1011,7 +1038,7 @@ export function buildDiagramScene( model ) {
         edges: []
         };
 
-    if (mode === 'relational') {
+    if (mode !== 'chen') {
         contents.edges = model.relationships.map(
                 (relation, index) => sceneRelationalEdge( model, relation, contents.nodes, index )
                 );

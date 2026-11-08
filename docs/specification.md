@@ -1,4 +1,4 @@
-# DataBasic 0.4.2 — especificación funcional
+# DataBasic 0.4.3 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,7 +14,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.2 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.3 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -37,7 +37,7 @@ haya implementado una base de datos física en un SGBD.
 
 | Selección o ruta | Contenido |
 | --- | --- |
-| Barra superior | Relacional/Chen, Perfil Curso/General y acceso a revisión. |
+| Barra superior | Desplegable Vista (Diagrama, Relacional, Tablas), desplegable Tipos (Curso o General) y acceso a revisión. Ayuda → Ejemplos lista `examples/index.json` más el ejemplo integrado. |
 | Tabla → Definición | Nombre físico y conceptual, sincronización y espacio de nombres. Propietario/origen se muestran sin edición; no hay ingeniería inversa. |
 | Tabla → Columnas | Nombre, tipo, requerido, PK y notas; agregar, quitar, editar y reordenar. El tipo se elige en una lista de tipos estándar agrupados por categoría (texto, numérico, temporal, lógico, datos en bruto y otros) y filtrada por perfil; el valor actual se conserva aunque no sea estándar y «Otro…» descubre un cuadro para escribirlo. |
 | Columnas → Editar… | Familia, longitud o precisión/escala, predeterminado y dominio declarativo. |
@@ -88,7 +88,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.2 |
+| Construcción | Alcance 0.4.3 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
@@ -181,12 +181,124 @@ situados justo encima de la primera forma, bajo la barra flotante. Distribuir re
 de los bloques relacionales en una operación que puede deshacerse.
 Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 
-Guardar/abrir JSON, exportar SVG y mostrar/descargar SQL son operaciones
-disponibles; Imprimir/PDF utiliza la ventana del navegador. El guardado local
+Guardar/abrir JSON, exportar SVG, exportar el dibujo de Visio 2010 y
+mostrar/descargar SQL son operaciones disponibles; Imprimir/PDF utiliza la
+ventana del navegador. El guardado local
 no sincroniza equipos. El SQL de estudio usa sintaxis tipo PostgreSQL/SQL
 estándar y traduce NUMBER a NUMERIC; no se ejecuta en DataBasic. Restricciones
 documentales aparecen como comentarios; decisiones pendientes bloquean la
 exportación completa. Una FK sola no exige que toda fila referenciada tenga filas que la referencien.
+
+## Dibujo de Visio 2010
+
+__Archivo → Visio 2010__ descarga `<nombre>.vdx`, el formato XML nativo de
+Visio 2010 (DatadiagramML), con el diagrama relacional aunque esté abierta la
+vista Chen. La escena es la misma que dibuja el lienzo: cada tabla es un
+grupo con un texto por bloque (título, etiquetas PK/FK/AK, nombre y tipo de
+cada columna, línea bajo la clave primaria y cuerpo con esquinas redondeadas
+en las entidades dependientes); cada clave ajena es un conector 1-D pegado a
+puntos de conexión de los dos grupos, discontinuo si no es identificadora,
+y sus marcas (punto del lado de la FK, rombo de la referencia opcional, código
+P/Z/1, patas de cuervo) viajan en una segunda forma pegada a los mismos
+puntos con línea continua. Los rótulos de lecturas y cardinalidad se
+exportan con su fondo y su guía. Las opciones de visualización (tipos,
+claves, obligatoriedad, notación) se respetan.
+
+Los píxeles de la escena se convierten a pulgadas (96 por pulgada) con el eje
+vertical invertido y la página toma el tamaño de los límites del diagrama.
+El resultado es un dibujo editable: Visio mueve cada tabla como una unidad y
+los extremos de los conectores siguen a los puntos de conexión. No es un
+«Diagrama de modelo de base de datos» de Visio con sus propiedades de base de
+datos, y no se generan VSD binario ni VSDX; Visio 2013 y posteriores abren
+el `.vdx` pero ya no lo guardan.
+
+## Capa física y archivos para Access
+
+La capa física describe el modelo relacional con el vocabulario de la vista
+Diseño de tabla de Access: tipo de datos (Texto corto, Texto largo, Número con
+su tamaño Byte/Entero/Entero largo/Simple/Doble/Decimal, Fecha/Hora, Moneda,
+Autonumeración, Sí/No, Objeto OLE, Hipervínculo), tamaño, posiciones
+decimales, requerido, permitir longitud cero, indexado, regla y texto de
+validación, valor predeterminado, título, descripción y formato; y, por
+relación, exigir integridad referencial, actualizar y eliminar en cascada y el
+campo de búsqueda (tabla referenciada, columna mostrada, clave oculta).
+
+**Todo se deriva** del relacional: VARCHAR(n)/CHAR(n) son Texto corto de
+tamaño n (Texto largo por encima de 255), NUMBER sin parámetros es Entero
+largo, NUMBER(p) es Entero hasta 4 dígitos y Entero largo hasta 9, los
+decimales y BIGINT son Doble, DATE es Fecha/Hora y BOOLEAN es Sí/No; NOT NULL
+es Requerido; el dominio (mínimo, máximo, lista) es la regla de validación del
+campo con un texto de validación redactado, y el CHECK libre pasa a la regla de
+validación de la tabla; el valor predeterminado SQL se traduce a expresión de
+Access (`'x'` → `"x"`, `CURRENT_DATE` → `Date()`); una FK es una relación con
+integridad referencial, cascadas según las acciones referenciales y, si tiene
+una sola columna, un campo de búsqueda que muestra la primera columna de texto
+de la tabla referenciada con la clave oculta.
+
+El documento guarda sólo las **sobrescrituras** en la sección opcional
+`physical` (mapas `columns`, `relationships` y `tables` por identificador);
+los archivos anteriores abren como totalmente derivados. Las operaciones
+`updatePhysicalColumn`, `updatePhysicalRelationship` y `updatePhysicalTable`
+son atómicas, rechazan claves o valores desconocidos y restauran el valor
+derivado al recibir `null`; al eliminar el elemento, sus sobrescrituras
+desaparecen. La validación exige que cada entrada apunte a un elemento vivo y
+que la columna mostrada por una búsqueda pertenezca a la tabla referenciada.
+
+Lo que Access no expresa se declara como aviso (`accessStatus`): SET NULL y
+SET DEFAULT se exportan como acción restringida, BIGINT y los decimales como
+Doble, los textos de más de 255 caracteres como Texto largo, las claves ajenas
+compuestas sin campo de búsqueda y las vistas como consultas guardadas por
+revisar.
+
+**Archivo → Access** ofrece tres archivos sobre la misma capa física, porque
+Access no abre ningún formato de archivo que lleve las relaciones y su `.accdb`
+no puede escribirse desde el navegador:
+
+- **Módulo VBA con DAO** (`.bas`): en una base de datos en blanco, Alt+F11 →
+  Archivo → Importar archivo y ejecutar `CrearEsquema`. Crea las tablas con
+  sus campos y propiedades, la clave principal, los índices únicos, las
+  relaciones con integridad y cascadas, los campos de búsqueda y las consultas
+  de las vistas. Se niega a ejecutarse si alguna tabla ya existe.
+- **SQL de Access** (`.sql`): una instrucción por consulta en la Vista SQL
+  (CREATE TABLE con NOT NULL, PRIMARY KEY y UNIQUE; CREATE INDEX; ALTER TABLE
+  ADD CONSTRAINT FOREIGN KEY con las cascadas, que requieren la sintaxis
+  ANSI 92). Lo que SQL no fija en Access (reglas, predeterminados, búsquedas,
+  consultas) se lista al final para hacerlo en la vista Diseño.
+- **XML con esquema** (`.xml`): para Datos externos → Archivo XML, con el
+  esquema incrustado que Access entiende (`od:jetType`, `od:index`,
+  `od:fieldProperty`). Crea las tablas con tipos, claves, índices y
+  propiedades; Access no importa relaciones, que se dibujan después en la
+  ventana Relaciones como enseña el curso.
+
+DataBasic no ejecuta Access: los tres archivos se comprueban por estructura y
+contenido, y su apertura real en Access queda para el usuario.
+
+## Vista Tablas
+
+El documento tiene tres representaciones progresivas: **Chen**, **Relacional**
+y **Tablas** (`display.mode` admite `chen`, `relational` y `tables`). La vista
+Tablas no es un modelo aparte: dibuja las mismas tablas y relaciones del
+relacional, con sus mismas posiciones, como las muestra la ventana Relaciones
+de Access (cabecera con el nombre, llave junto a la clave principal, tipo de
+Access bajo cada campo, extremos 1 e ∞ y línea discontinua si no se exige
+integridad referencial). Mover una tabla en Tablas la mueve en Relacional.
+
+El panel de propiedades antepone en esa vista las categorías **Campos de
+Access** (cuadrícula de nombre, tipo, tamaño y descripción, y debajo las
+propiedades generales del campo seleccionado: formato, posiciones decimales,
+título, valor predeterminado, regla y texto de validación, requerido,
+permitir longitud cero e indexado), **Tabla de Access** (descripción, regla y
+texto de validación de la tabla, con la clave y los índices derivados) y
+**Relación en Access** (exigir integridad referencial, actualizar y eliminar en
+cascada, tipo de relación derivado, campo de búsqueda con la columna mostrada
+y la clave oculta). Cada propiedad indica si está «derivada» o «ajustada», y
+Restablecer elimina las sobrescrituras del elemento. Las categorías
+relacionales siguen disponibles; al volver a Relacional o Chen se recuperan.
+
+La memoria del diseño añade la sección «Diseño físico en Access» (campos con
+tipo, tamaño, requerido, indexado, regla y predeterminado por tabla, y las
+relaciones con integridad, cascadas y búsqueda) y, en «Semántica perdida», la
+lista de lo que Access expresa de otra manera.
 
 No se admiten VSD/VDX/VSDX, bases de datos Access, ODBC, ingeniería inversa,
 triggers, ejecución de consultas o colaboración. Las vistas SQL conservan
@@ -200,3 +312,45 @@ consulta y columnas; no incluyen un editor visual de consultas.
 - [FIPS PUB 184, NIST, 21-12-1993, copia oficial GovInfo](https://www.govinfo.gov/app/details/GOVPUB-C13-986bf8b12a4fed44eb78fca0bb55d668): §§3.1.2, 3.1.3 y 3.5.2, figuras 1 y 4–7. Define símbolos, no controles de Visio.
 - [Materiales y requisitos del curso](course-requirements.md): páginas y restricciones académicas.
 - [Licencias y derechos](intellectual-property.md): alcance de la revisión existente; esta especificación funcional no amplía esa revisión.
+
+## Color de los elementos
+
+Una tabla, una entidad, un atributo o una relación del diagrama pueden llevar
+un color: un tono del espectro (0 a 360) elegido con un deslizador en
+Definición, o ningún color. El borde toma el tono y el interior un tinte casi
+blanco del mismo tono; la cabecera de la vista Tablas, un tinte algo más
+intenso. El color viaja en `color` (entero o `null`) y los archivos sin él
+abren igual. Una entidad nativa y su tabla comparten el color; una entidad
+proyectada muestra el de su tabla. El SVG lo lleva como variables CSS y el
+dibujo de Visio como colores hexadecimales. El lienzo admite posiciones entre
+-20000 y 20000 en cada eje, de modo que todo el área visible acepta formas.
+
+## Hoja de datos
+
+En la vista Tablas, una tabla tiene la categoría **Hoja de datos**: una
+cuadrícula con una fila por registro de ejemplo y una celda por columna, como
+la hoja de datos de Access. Las filas se guardan en la sección opcional `data`
+del documento (por identificador de tabla, cada fila un mapa de identificador
+de columna a texto; un texto vacío es NULL y no se guarda), con un máximo de
+500 filas por tabla y 500 caracteres por celda. Los archivos sin la sección
+abren con hojas vacías; al eliminar una columna o una tabla desaparecen sus
+celdas o sus filas. Las operaciones son atómicas: añadir fila, cambiar una
+celda, quitar fila y reemplazar la hoja.
+
+Cada celda y cada fila se contrastan con las reglas de la tabla y se
+devuelven como avisos (`dataStatus`), nunca como errores que impidan guardar:
+obligatoriedad (NOT NULL y clave primaria), formato del tipo (número, entero,
+dígitos y decimales de NUMBER(p,s), longitud de VARCHAR/CHAR, fecha
+AAAA-MM-DD, hora, fecha y hora, sí/no), dominio (mínimo, máximo, lista de
+valores), unicidad de la clave primaria, de las claves alternativas y de los
+índices únicos, y existencia de cada clave ajena completa en la tabla
+referenciada. El CHECK libre y la regla de validación de Access no se evalúan.
+La cuadrícula marca la celda o la fila con el aviso, Revisar modelo los lista
+junto a los demás y la memoria los recoge en «Datos de ejemplo».
+
+Las filas viajan a Access con los tres archivos: el módulo VBA las inserta en
+`CrearDatos` con `db.Execute`, el SQL de Access las escribe como INSERT tras
+las relaciones y el XML las incluye en `dataroot`, en los tres casos con las
+tablas referenciadas antes que las que las referencian y con la notación de
+Access (números tal cual, fechas entre `#` o con hora `T00:00:00`, sí/no como
+True/False o 1/0, textos entre comillas dobles).

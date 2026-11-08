@@ -22,6 +22,8 @@ import {
     updateColumn,
     validateDocument
     } from '../domain/model.js';
+import { accessStatus } from '../domain/access.js';
+import { dataStatus } from '../domain/data.js';
 import { typeFields } from './properties.js';
 import {
     options,
@@ -275,7 +277,7 @@ export function showIndexDialog(
 export function showValidation( model ) {
     // validateDocument already reports the pending and documentary statuses
     // of a format 2 document; appending conceptualStatus again duplicated them.
-    const issues = validateDocument( model );
+    const issues = [...validateDocument( model ), ...dataStatus( model )];
 
     openDialog(
             'Comprobación del modelo',
@@ -302,10 +304,12 @@ export function showHelp() {
             <p>No está afiliado a Microsoft ni cuenta con su patrocinio.
                 No se afirma contar con autorización de Microsoft.
                 Visio es una marca de Microsoft.</p>
-            <p><strong>Dos representaciones, un documento.</strong> Relacional conserva
-                el recorrido de propiedades de Visio 2010; Chen es una ampliación educativa
-                de DataBasic. Cambiar representación no transforma ni reconstruye el significado.</p>
-            <p>Los archivos anteriores aparecen en Chen como proyección parcial.
+            <p><strong>Tres vistas, un documento.</strong> El desplegable Vista cambia entre
+                Diagrama (entidad-relación, con la notación de Chen), Relacional (tablas y
+                claves, como en Visio 2010) y Tablas (como las verá Access). Cambiar de vista no
+                transforma ni reconstruye el significado. El desplegable Tipos decide qué tipos
+                de datos admiten las columnas: los cuatro del curso o la lista general.</p>
+            <p>Los archivos anteriores aparecen en Diagrama como proyección parcial.
                 No se deduce automáticamente una relación N:N de una tabla con dos FKs.</p>
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
             <li><strong>Define columnas.</strong> Haz doble clic en una entidad. Introduce nombre,
@@ -317,7 +321,7 @@ export function showHelp() {
                 cambiar cardinalidad, tipo y opcionalidad.</li>
             <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
                 DataBasic. El último ejercicio se recupera también desde este navegador.</li></ol>
-            <p><strong>Crear una N:N o ternaria.</strong> En Chen, pulsa Relación,
+            <p><strong>Crear una N:N o ternaria.</strong> En Diagrama, pulsa Relación,
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
                 En ternarias, Varios separa participación absoluta y cardinalidad por combinación.
@@ -337,7 +341,27 @@ export function showHelp() {
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
                 perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
                 el documento con los diagramas, las tablas de atributos y relaciones, los
-                supuestos y las restricciones que el relacional no impone. Word lo abre.</p>
+                supuestos y las restricciones que el relacional no impone. Word lo abre.
+                Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
+                el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
+                pegados; no lleva las propiedades de base de datos de Visio.</p>
+            <p><strong>Vista Tablas.</strong> El botón Tablas muestra las mismas tablas del relacional
+                como las verá Access: llave en la clave principal, tipos de Access y extremos 1 e ∞.
+                Las categorías Campos de Access, Tabla de Access y Relación en Access editan tipo y
+                tamaño, requerido, indexado, reglas y textos de validación, predeterminado, título,
+                integridad referencial, cascadas y campo de búsqueda. Todo se deriva del relacional;
+                lo que ajustes se marca como «ajustado» y Restablecer vuelve a derivarlo.</p>
+            <p><strong>Hoja de datos.</strong> En la vista Tablas, cada tabla tiene una Hoja de datos
+                donde escribir filas de ejemplo como en Access o Excel. DataBasic marca en rojo la
+                celda o la fila que incumple una regla: obligatorio, formato del tipo, dominio,
+                clave repetida o referencia a una fila que no existe. Las filas se guardan con el
+                documento, salen en la memoria y viajan a Access en los tres archivos.</p>
+            <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
+                la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
+                claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una
+                instrucción por consulta y un XML con esquema para Datos externos. Los tipos de
+                Access se derivan de los relacionales; el diálogo lista lo que Access expresa de
+                otra manera, como SET NULL.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -991,6 +1015,52 @@ export function showAssumptionDialog(
                 state.category = 'assumptions';
                 commit( next );
                 }
+            );
+    }
+
+/** The three files Access turns into the database, and what Access expresses differently. */
+export function showAccessDialog( model ) {
+    const issues = accessStatus( model );
+    const routes = [
+        {
+            action: 'download-access-vba',
+            label: 'Módulo VBA con DAO (.bas)',
+            text: 'Crea la base de datos entera: tablas, tipos y tamaños, requerido, reglas y textos de '
+                + 'validación, valores predeterminados, títulos, clave principal, índices únicos, relaciones '
+                + 'con integridad referencial y cascadas, campos de búsqueda y consultas. En una base en '
+                + 'blanco: Alt+F11 → Archivo → Importar archivo → sitúa el cursor en CrearEsquema y pulsa F5.'
+            },
+        {
+            action: 'download-access-sql',
+            label: 'SQL de Access',
+            text: 'Una instrucción por consulta en la Vista SQL: tablas, claves, índices y relaciones. '
+                + 'Las reglas de validación, los valores predeterminados y las búsquedas se fijan en la '
+                + 'vista Diseño; el archivo los lista al final.'
+            },
+        {
+            action: 'download-access-xml',
+            label: 'XML con esquema',
+            text: 'Datos externos → Archivo XML crea las tablas con tipos, claves, índices y propiedades '
+                + 'de campo. Access no importa relaciones: se dibujan después en Herramientas de base de '
+                + 'datos → Relaciones, como enseña el curso.'
+            }
+        ];
+
+    openDialog(
+            'Base de datos Access',
+            `<div class="access-routes">
+                <p>Access no abre ningún archivo que lleve las relaciones, así que DataBasic genera
+                    archivos que Access convierte en la base de datos. Tipos, tamaños y propiedades se
+                    derivan de la vista relacional; la vista Tablas permitirá ajustarlos.</p>
+                ${routes.map(
+                        route => `<section class="access-route"><h3>${escapeHTML( route.label )}</h3>
+                            <p>${escapeHTML( route.text )}</p>
+                            ${command( route.action, 'Descargar', 'download' )}</section>`
+                        ).join( '' )}
+                <h3>Lo que Access expresa de otra manera</h3>
+                ${issues.length
+                    ? `<ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
+                    : '<p>Nada que señalar: todo el modelo tiene equivalente directo en Access.</p>'}</div>`
             );
     }
 
