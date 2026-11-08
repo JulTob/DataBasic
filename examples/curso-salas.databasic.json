@@ -1,0 +1,607 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Salas de un hospital · ejercicio 5 (Tema 2)",
+  "tables": [
+    {
+      "id": "6f84e6a7-f825-4e02-8e8a-788c302537c1",
+      "name": "Personal",
+      "conceptualName": "Personal",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "6018bfaf-cf45-428b-9e55-e6751e72b468",
+          "name": "num_empleado",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e3e70d30-6640-4df7-802c-9037a589eda0",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "bd21978e-6644-48e9-bf75-920830615f3a",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "a9312af4-1e69-426b-849f-28174721dd30",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "56f5a98d-4b3c-4385-81f5-03ad2b1e3d85",
+          "name": "sala_nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
+      "name": "Sala",
+      "conceptualName": "Sala",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "7e7caf98-65ca-4e76-96bb-4e2fef8d20e4",
+          "name": "num_camas",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "6e654648-3934-4eec-91be-2e2ff1a2c41a",
+      "name": "Paciente",
+      "conceptualName": "Paciente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "90584386-c747-4bbf-ac12-d19585875d02",
+          "name": "num_registro",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d072aad9-18bf-43ef-ade8-a41259d823f1",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "81a21aa6-42ab-4f8b-82e1-535fb186ccbe",
+          "name": "sala_nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "fa5d769e-2849-45dd-9613-f70a92c3ac97",
+      "parentId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
+      "childId": "6f84e6a7-f825-4e02-8e8a-788c302537c1",
+      "name": "FK_Trabaja_en_sala",
+      "forward": "Trabaja_en",
+      "inverse": "sala",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
+          "childColumnId": "56f5a98d-4b3c-4385-81f5-03ad2b1e3d85"
+        }
+      ]
+    },
+    {
+      "id": "633198d1-a18b-48c4-bb5a-41404f53d830",
+      "parentId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
+      "childId": "6e654648-3934-4eec-91be-2e2ff1a2c41a",
+      "name": "FK_Internado_en_sala",
+      "forward": "Internado_en",
+      "inverse": "sala",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
+          "childColumnId": "81a21aa6-42ab-4f8b-82e1-535fb186ccbe"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "name": "Personal",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "name": "Sala",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "name": "Paciente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "a9e9ddca-2c1d-4bef-a0b2-78bc4c341b8e",
+        "ownerKind": "entity",
+        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "name": "num_empleado",
+        "type": "NUMBER(6)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0f046d85-2d7a-4fa8-a518-566e374d92ce",
+        "ownerKind": "entity",
+        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "4f675581-b055-45af-b7d5-f4b4f17f91a0",
+        "ownerKind": "entity",
+        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "856a0977-f30f-485a-8e65-470dd0a432ca",
+        "ownerKind": "entity",
+        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "77c26b98-d0f9-4663-a967-38564d336ecd",
+        "ownerKind": "entity",
+        "ownerId": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "9bb32bbd-a6fe-4fe9-8a5d-48f5c36e5771",
+        "ownerKind": "entity",
+        "ownerId": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "name": "num_camas",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "64f55d1e-3e8c-40db-823c-df5715515e8a",
+        "ownerKind": "entity",
+        "ownerId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "name": "num_registro",
+        "type": "NUMBER(8)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "83af04f6-3525-4042-8349-b0d3c6ab86c7",
+        "ownerKind": "entity",
+        "ownerId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "7dc58957-7648-4ea0-8009-8ee23c3fd7ad",
+        "name": "Trabaja_en",
+        "notes": "",
+        "participations": [
+          {
+            "id": "622bbcc3-72c2-413d-acfb-0d67f01a3aae",
+            "entityId": "3ac22787-1896-4069-a5fb-899a8277030d",
+            "role": "sala",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "c5f3c2dd-9cd3-4395-84bc-b04394dbb8f2",
+            "entityId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+            "role": "empleado",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "c5f3c2dd-9cd3-4395-84bc-b04394dbb8f2",
+          "identifying": false
+        }
+      },
+      {
+        "id": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9",
+        "name": "Internado_en",
+        "notes": "",
+        "participations": [
+          {
+            "id": "e310d4a6-2639-4b64-ad51-f6c8d25f3834",
+            "entityId": "3ac22787-1896-4069-a5fb-899a8277030d",
+            "role": "sala",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "678385d2-3359-4e85-be53-5793fbe265e9",
+            "entityId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+            "role": "paciente",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "678385d2-3359-4e85-be53-5793fbe265e9",
+          "identifying": false
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+      "targetKind": "table",
+      "targetId": "6f84e6a7-f825-4e02-8e8a-788c302537c1"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a9e9ddca-2c1d-4bef-a0b2-78bc4c341b8e",
+      "targetKind": "column",
+      "targetId": "6018bfaf-cf45-428b-9e55-e6751e72b468"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0f046d85-2d7a-4fa8-a518-566e374d92ce",
+      "targetKind": "column",
+      "targetId": "e3e70d30-6640-4df7-802c-9037a589eda0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4f675581-b055-45af-b7d5-f4b4f17f91a0",
+      "targetKind": "column",
+      "targetId": "bd21978e-6644-48e9-bf75-920830615f3a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "856a0977-f30f-485a-8e65-470dd0a432ca",
+      "targetKind": "column",
+      "targetId": "a9312af4-1e69-426b-849f-28174721dd30"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "3ac22787-1896-4069-a5fb-899a8277030d",
+      "targetKind": "table",
+      "targetId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "77c26b98-d0f9-4663-a967-38564d336ecd",
+      "targetKind": "column",
+      "targetId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "9bb32bbd-a6fe-4fe9-8a5d-48f5c36e5771",
+      "targetKind": "column",
+      "targetId": "7e7caf98-65ca-4e76-96bb-4e2fef8d20e4"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+      "targetKind": "table",
+      "targetId": "6e654648-3934-4eec-91be-2e2ff1a2c41a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "64f55d1e-3e8c-40db-823c-df5715515e8a",
+      "targetKind": "column",
+      "targetId": "90584386-c747-4bbf-ac12-d19585875d02"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "83af04f6-3525-4042-8349-b0d3c6ab86c7",
+      "targetKind": "column",
+      "targetId": "d072aad9-18bf-43ef-ade8-a41259d823f1"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "622bbcc3-72c2-413d-acfb-0d67f01a3aae",
+      "targetKind": "foreign-key",
+      "targetId": "fa5d769e-2849-45dd-9613-f70a92c3ac97"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "7dc58957-7648-4ea0-8009-8ee23c3fd7ad",
+      "targetKind": "foreign-key",
+      "targetId": "fa5d769e-2849-45dd-9613-f70a92c3ac97"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "e310d4a6-2639-4b64-ad51-f6c8d25f3834",
+      "targetKind": "foreign-key",
+      "targetId": "633198d1-a18b-48c4-bb5a-41404f53d830"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9",
+      "targetKind": "foreign-key",
+      "targetId": "633198d1-a18b-48c4-bb5a-41404f53d830"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "214ff32f-9ef6-4463-ba64-2c0aafdbc8a0",
+      "kind": "enunciado",
+      "text": "Un empleado trabaja en una única sala y un paciente está en una única sala; en una sala hay varios de cada.",
+      "elementId": "3ac22787-1896-4069-a5fb-899a8277030d"
+    },
+    {
+      "id": "357c7709-e8b1-4f55-88a0-29a693a2a3aa",
+      "kind": "supuesto",
+      "text": "Una sala puede no tener todavía personal ni pacientes: participación (0,N).",
+      "elementId": "3ac22787-1896-4069-a5fb-899a8277030d"
+    },
+    {
+      "id": "017a353e-ef19-4585-b00b-66f47c4b4a42",
+      "kind": "perdida",
+      "text": "Que los pacientes internados no superen las camas de la sala no se puede expresar con claves.",
+      "elementId": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "584e3d55-cbda-4066-bfe5-f8a56a0d613d": {
+        "x": 120,
+        "y": 140
+      },
+      "3ac22787-1896-4069-a5fb-899a8277030d": {
+        "x": 1080,
+        "y": 140
+      },
+      "3ba24e36-98b1-4b58-ade3-bafab79df421": {
+        "x": 2040,
+        "y": 140
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

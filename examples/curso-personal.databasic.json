@@ -1,0 +1,812 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Funcionarios y contratados · ejercicio 2 (Tema 2)",
+  "tables": [
+    {
+      "id": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f",
+      "name": "Empleado",
+      "conceptualName": "Empleado",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "90298859-865d-48de-88ff-3f84fef1a054",
+          "name": "nrp",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "b438e402-4d3f-40ea-92b1-e18e80af73d7",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e8524fb9-fcf0-4793-99ce-65d8fb6c3b87",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "54d025af-46cc-4c50-874d-74214b3b8c2a",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "f518835b-78a3-4de7-8cb0-67ae4ae460ad",
+      "name": "Funcionario",
+      "conceptualName": "Funcionario",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "0903af13-9c6f-4062-aee8-e9e25add047f",
+          "name": "nivel",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e5cbe2e6-bb17-45ff-91f4-da5192b33d24",
+          "name": "fecha_ingreso",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "900f4b21-e3ff-4abd-8ebf-beb9c7d266e6",
+          "name": "Empleado_nrp",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "8572dfd8-3a01-4a78-8804-9958c58be9a3",
+      "name": "Laboral",
+      "conceptualName": "Laboral",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "cd7b9a31-b4be-4b8f-8d8f-618d4918d9f6",
+          "name": "grupo",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9ee74996-02f6-4ad3-9a3f-54309020e5dd",
+          "name": "especialidad",
+          "type": "VARCHAR(40)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "030cc33c-f00b-4ff1-bbae-057cdf6b40e4",
+          "name": "Empleado_nrp",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "c5070437-c505-4de3-9326-0e15fc7fca65",
+      "name": "Docente",
+      "conceptualName": "Docente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "2ea7c45b-af75-42c5-ae3c-10f6b4c8a53f",
+          "name": "creditos",
+          "type": "NUMBER(4,1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "c17aae10-941e-41c5-8684-b9769a33ec83",
+          "name": "Empleado_nrp",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "f8310eda-bfb2-4390-9f6e-b11c89d44a00",
+      "name": "Servicios",
+      "conceptualName": "Servicios",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 700,
+      "columns": [
+        {
+          "id": "9995bc4e-38de-46bd-a66e-dd8a2bfa14a8",
+          "name": "servicio",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "ac9f8755-3ab7-47e0-a5e4-f48933753d8b",
+          "name": "Empleado_nrp",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "0ed43832-3c42-45a6-ba25-24d96c30f40f",
+      "parentId": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f",
+      "childId": "f518835b-78a3-4de7-8cb0-67ae4ae460ad",
+      "name": "FK_Funcionario_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "90298859-865d-48de-88ff-3f84fef1a054",
+          "childColumnId": "900f4b21-e3ff-4abd-8ebf-beb9c7d266e6"
+        }
+      ]
+    },
+    {
+      "id": "1ef6410f-a7fd-4b18-ae5e-ee4b22d3a6cc",
+      "parentId": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f",
+      "childId": "8572dfd8-3a01-4a78-8804-9958c58be9a3",
+      "name": "FK_Laboral_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "90298859-865d-48de-88ff-3f84fef1a054",
+          "childColumnId": "030cc33c-f00b-4ff1-bbae-057cdf6b40e4"
+        }
+      ]
+    },
+    {
+      "id": "02da0004-05ef-4110-b0be-ba4a81a79413",
+      "parentId": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f",
+      "childId": "c5070437-c505-4de3-9326-0e15fc7fca65",
+      "name": "FK_Docente_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "90298859-865d-48de-88ff-3f84fef1a054",
+          "childColumnId": "c17aae10-941e-41c5-8684-b9769a33ec83"
+        }
+      ]
+    },
+    {
+      "id": "1f54a52b-7323-41f5-a0b0-8f08d1281112",
+      "parentId": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f",
+      "childId": "f8310eda-bfb2-4390-9f6e-b11c89d44a00",
+      "name": "FK_Servicios_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "90298859-865d-48de-88ff-3f84fef1a054",
+          "childColumnId": "ac9f8755-3ab7-47e0-a5e4-f48933753d8b"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "941e941c-350d-4686-9987-e56366e6985c",
+        "name": "Empleado",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "dfed142d-0d44-4626-86de-7c3d39047cba",
+        "name": "Funcionario",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "b31232c4-5330-4bbd-84ef-aec148cba276",
+        "name": "Laboral",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "658a0ba2-3883-4b3d-8482-6b3ed54a24a3",
+        "name": "Docente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "7af36902-eebb-4719-be3d-60096ddfa6fe",
+        "name": "Servicios",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "fc559321-887a-4c7c-a231-3d63530f63be",
+        "ownerKind": "entity",
+        "ownerId": "941e941c-350d-4686-9987-e56366e6985c",
+        "name": "nrp",
+        "type": "NUMBER(8)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "faa6861d-2555-4780-9ff9-97e732957b67",
+        "ownerKind": "entity",
+        "ownerId": "941e941c-350d-4686-9987-e56366e6985c",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d68f2a7c-ccfe-4b9c-9546-ebd208908547",
+        "ownerKind": "entity",
+        "ownerId": "941e941c-350d-4686-9987-e56366e6985c",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "f5ce945b-b88e-4ac6-bb21-b3fb616de8dd",
+        "ownerKind": "entity",
+        "ownerId": "941e941c-350d-4686-9987-e56366e6985c",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "9814088f-c1bb-4e7a-95c0-27ff11573f88",
+        "ownerKind": "entity",
+        "ownerId": "dfed142d-0d44-4626-86de-7c3d39047cba",
+        "name": "nivel",
+        "type": "VARCHAR(10)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "55b6144a-6b07-4375-9a74-c946e53a03de",
+        "ownerKind": "entity",
+        "ownerId": "dfed142d-0d44-4626-86de-7c3d39047cba",
+        "name": "fecha_ingreso",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c01c009d-8619-4ac9-87df-888f7bbc0f78",
+        "ownerKind": "entity",
+        "ownerId": "b31232c4-5330-4bbd-84ef-aec148cba276",
+        "name": "grupo",
+        "type": "VARCHAR(10)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "4e0b8b54-1ea3-4a32-beec-65959882fec6",
+        "ownerKind": "entity",
+        "ownerId": "b31232c4-5330-4bbd-84ef-aec148cba276",
+        "name": "especialidad",
+        "type": "VARCHAR(40)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "485d001b-cb90-4966-87b3-45eaf80296dd",
+        "ownerKind": "entity",
+        "ownerId": "658a0ba2-3883-4b3d-8482-6b3ed54a24a3",
+        "name": "creditos",
+        "type": "NUMBER(4,1)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "74576f11-a1ac-4d5b-88cc-059ea7691f9d",
+        "ownerKind": "entity",
+        "ownerId": "7af36902-eebb-4719-be3d-60096ddfa6fe",
+        "name": "servicio",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [],
+    "generalizations": [
+      {
+        "id": "986176d8-44cd-4f07-b642-379a891b8b2f",
+        "supertypeId": "941e941c-350d-4686-9987-e56366e6985c",
+        "subtypeIds": [
+          "dfed142d-0d44-4626-86de-7c3d39047cba",
+          "b31232c4-5330-4bbd-84ef-aec148cba276"
+        ],
+        "disjoint": true,
+        "total": true,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      },
+      {
+        "id": "2af31a76-acb3-4232-8966-95e32f61b345",
+        "supertypeId": "941e941c-350d-4686-9987-e56366e6985c",
+        "subtypeIds": [
+          "658a0ba2-3883-4b3d-8482-6b3ed54a24a3",
+          "7af36902-eebb-4719-be3d-60096ddfa6fe"
+        ],
+        "disjoint": true,
+        "total": true,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      }
+    ]
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "941e941c-350d-4686-9987-e56366e6985c",
+      "targetKind": "table",
+      "targetId": "0cd0d8c8-d64a-4aa9-9077-ee13a887385f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "fc559321-887a-4c7c-a231-3d63530f63be",
+      "targetKind": "column",
+      "targetId": "90298859-865d-48de-88ff-3f84fef1a054"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "faa6861d-2555-4780-9ff9-97e732957b67",
+      "targetKind": "column",
+      "targetId": "b438e402-4d3f-40ea-92b1-e18e80af73d7"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d68f2a7c-ccfe-4b9c-9546-ebd208908547",
+      "targetKind": "column",
+      "targetId": "e8524fb9-fcf0-4793-99ce-65d8fb6c3b87"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "f5ce945b-b88e-4ac6-bb21-b3fb616de8dd",
+      "targetKind": "column",
+      "targetId": "54d025af-46cc-4c50-874d-74214b3b8c2a"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "dfed142d-0d44-4626-86de-7c3d39047cba",
+      "targetKind": "table",
+      "targetId": "f518835b-78a3-4de7-8cb0-67ae4ae460ad"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "9814088f-c1bb-4e7a-95c0-27ff11573f88",
+      "targetKind": "column",
+      "targetId": "0903af13-9c6f-4062-aee8-e9e25add047f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "55b6144a-6b07-4375-9a74-c946e53a03de",
+      "targetKind": "column",
+      "targetId": "e5cbe2e6-bb17-45ff-91f4-da5192b33d24"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "b31232c4-5330-4bbd-84ef-aec148cba276",
+      "targetKind": "table",
+      "targetId": "8572dfd8-3a01-4a78-8804-9958c58be9a3"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c01c009d-8619-4ac9-87df-888f7bbc0f78",
+      "targetKind": "column",
+      "targetId": "cd7b9a31-b4be-4b8f-8d8f-618d4918d9f6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4e0b8b54-1ea3-4a32-beec-65959882fec6",
+      "targetKind": "column",
+      "targetId": "9ee74996-02f6-4ad3-9a3f-54309020e5dd"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "986176d8-44cd-4f07-b642-379a891b8b2f",
+      "targetKind": "foreign-key",
+      "targetId": "0ed43832-3c42-45a6-ba25-24d96c30f40f"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "986176d8-44cd-4f07-b642-379a891b8b2f",
+      "targetKind": "column",
+      "targetId": "900f4b21-e3ff-4abd-8ebf-beb9c7d266e6"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "986176d8-44cd-4f07-b642-379a891b8b2f",
+      "targetKind": "foreign-key",
+      "targetId": "1ef6410f-a7fd-4b18-ae5e-ee4b22d3a6cc"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "986176d8-44cd-4f07-b642-379a891b8b2f",
+      "targetKind": "column",
+      "targetId": "030cc33c-f00b-4ff1-bbae-057cdf6b40e4"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "658a0ba2-3883-4b3d-8482-6b3ed54a24a3",
+      "targetKind": "table",
+      "targetId": "c5070437-c505-4de3-9326-0e15fc7fca65"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "485d001b-cb90-4966-87b3-45eaf80296dd",
+      "targetKind": "column",
+      "targetId": "2ea7c45b-af75-42c5-ae3c-10f6b4c8a53f"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "7af36902-eebb-4719-be3d-60096ddfa6fe",
+      "targetKind": "table",
+      "targetId": "f8310eda-bfb2-4390-9f6e-b11c89d44a00"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "74576f11-a1ac-4d5b-88cc-059ea7691f9d",
+      "targetKind": "column",
+      "targetId": "9995bc4e-38de-46bd-a66e-dd8a2bfa14a8"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "2af31a76-acb3-4232-8966-95e32f61b345",
+      "targetKind": "foreign-key",
+      "targetId": "02da0004-05ef-4110-b0be-ba4a81a79413"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "2af31a76-acb3-4232-8966-95e32f61b345",
+      "targetKind": "column",
+      "targetId": "c17aae10-941e-41c5-8684-b9769a33ec83"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "2af31a76-acb3-4232-8966-95e32f61b345",
+      "targetKind": "foreign-key",
+      "targetId": "1f54a52b-7323-41f5-a0b0-8f08d1281112"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "2af31a76-acb3-4232-8966-95e32f61b345",
+      "targetKind": "column",
+      "targetId": "ac9f8755-3ab7-47e0-a5e4-f48933753d8b"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "0669dbe8-c506-480d-bf91-56c5317a67d1",
+      "kind": "enunciado",
+      "text": "Hay dos clasificaciones independientes del mismo empleado: por su vínculo (funcionario o laboral) y por su función (docencia o servicios).",
+      "elementId": "941e941c-350d-4686-9987-e56366e6985c"
+    },
+    {
+      "id": "c19d4b2e-5f69-4a96-997f-ad9c784c0f36",
+      "kind": "supuesto",
+      "text": "Cada clasificación es total y disjunta: todo empleado tiene exactamente un vínculo y exactamente una función.",
+      "elementId": "941e941c-350d-4686-9987-e56366e6985c"
+    },
+    {
+      "id": "58e7ef37-9456-423e-a6b3-fecfdee3d96b",
+      "kind": "perdida",
+      "text": "Que cada empleado aparezca en una y solo una subtabla de cada clasificación no lo imponen las claves ajenas; queda documentado.",
+      "elementId": "941e941c-350d-4686-9987-e56366e6985c"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "941e941c-350d-4686-9987-e56366e6985c": {
+        "x": 1080,
+        "y": 140
+      },
+      "dfed142d-0d44-4626-86de-7c3d39047cba": {
+        "x": 120,
+        "y": 980
+      },
+      "b31232c4-5330-4bbd-84ef-aec148cba276": {
+        "x": 1080,
+        "y": 980
+      },
+      "658a0ba2-3883-4b3d-8482-6b3ed54a24a3": {
+        "x": 2040,
+        "y": 980
+      },
+      "7af36902-eebb-4719-be3d-60096ddfa6fe": {
+        "x": 3000,
+        "y": 980
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

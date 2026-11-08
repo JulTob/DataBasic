@@ -1,6 +1,70 @@
 {
   "examples": [
     {
+      "file": "curso-lonja.databasic.json",
+      "name": "Lonja de Santa Pola · práctica 1 (2025-2026)"
+    },
+    {
+      "file": "curso-agencia.databasic.json",
+      "name": "Agencia de viajes · ejercicio 1 (guion ERE)"
+    },
+    {
+      "file": "curso-empresa.databasic.json",
+      "name": "Empresa · ejercicio 2 (guion ERE)"
+    },
+    {
+      "file": "curso-hoteles.databasic.json",
+      "name": "Cadena hotelera · ejercicio 3 (guion ERE)"
+    },
+    {
+      "file": "curso-restaurante.databasic.json",
+      "name": "Restaurante · ejercicio 4 (guion ERE)"
+    },
+    {
+      "file": "curso-inmobiliaria.databasic.json",
+      "name": "Inmobiliaria · ejercicio 5 (guion ERE)"
+    },
+    {
+      "file": "curso-farmacos.databasic.json",
+      "name": "Hospital: consumo de fármacos · ejercicio 6 (guion ERE)"
+    },
+    {
+      "file": "curso-idiomas.databasic.json",
+      "name": "Escuela de idiomas · ejercicio 1 (Tema 2)"
+    },
+    {
+      "file": "curso-personal.databasic.json",
+      "name": "Funcionarios y contratados · ejercicio 2 (Tema 2)"
+    },
+    {
+      "file": "curso-videoclub.databasic.json",
+      "name": "Videoclub · ejercicio 3 (Tema 2)"
+    },
+    {
+      "file": "curso-muebles.databasic.json",
+      "name": "Taller de muebles · ejercicio 4 (Tema 2)"
+    },
+    {
+      "file": "curso-salas.databasic.json",
+      "name": "Salas de un hospital · ejercicio 5 (Tema 2)"
+    },
+    {
+      "file": "curso-transporte.databasic.json",
+      "name": "Empresa de transporte · ejercicio 6 (Tema 2)"
+    },
+    {
+      "file": "curso-concesionario.databasic.json",
+      "name": "Concesionario · ejercicio 7 (Tema 2)"
+    },
+    {
+      "file": "curso-universidad.databasic.json",
+      "name": "Gestión universitaria · ejercicio 8 (Tema 2)"
+    },
+    {
+      "file": "curso-biblioteca.databasic.json",
+      "name": "Biblioteca · mini-ejercicio 2 (Tema 2)"
+    },
+    {
       "file": "00-nucleo.databasic.json",
       "name": "Club de observación · núcleo"
     },

@@ -1,0 +1,1274 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Agencia de viajes · ejercicio 1 (guion ERE)",
+  "tables": [
+    {
+      "id": "4fd8cccc-399a-4a2f-b3da-ef40f852cd32",
+      "name": "Cliente",
+      "conceptualName": "Cliente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "8d8444b0-0bda-4a44-97a8-d61ffbf503f6",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "551f5c22-b678-4696-afe6-e14b618e2636",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "3da407c1-0ff8-4877-a9f8-3093bec24d63",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "ff6589e7-90b2-4896-b651-71dfdb0931d2",
+      "name": "Telefonos_cliente",
+      "conceptualName": "telefono",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "d84a7a06-869e-46aa-a947-8680d1da84c5",
+          "name": "Cliente_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "6f30cf29-925f-4fd0-ac4c-31545a174380",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "0b739ae9-0a82-42a9-808c-7e59e77314b5",
+      "name": "Reserva",
+      "conceptualName": "Reserva",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "c4af4221-e62b-4398-bcde-e06c82639164",
+          "name": "codigo_reserva",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4b21fa41-b581-40de-bb71-e6bbf5b817bc",
+          "name": "fecha_reserva",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "31124325-e42b-4b39-924a-865c99963cfe",
+          "name": "num_plazas",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "c9d9dbef-c2fd-47e7-b1aa-ddfae4083e9d",
+          "name": "cliente_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "17a87722-35a4-4fd5-af00-1563c903d285",
+          "name": "viaje_codigo",
+          "type": "NUMBER",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "4f9a5abe-9bff-47e9-a2b8-ef9d9dc5d2f1",
+          "name": "agente_Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "150947e3-c78f-4b1b-aab2-8beddaaea210",
+      "name": "Viaje",
+      "conceptualName": "Viaje",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "e1c34307-c747-4439-8b31-a513c4f0d857",
+          "name": "codigo",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "606a657b-efd6-44f0-835e-b0afe3729f92",
+          "name": "destino",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "22ad1d56-bcc2-482f-af81-c2425d14c705",
+          "name": "fecha_salida",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4dc87f4a-4064-4212-bc5e-d8ec407fe970",
+          "name": "precio",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "6e98ac13-cacc-436f-b74d-146d0f6941e8",
+      "name": "Empleado",
+      "conceptualName": "Empleado",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "859dcff6-cb5b-48d7-a230-3cf4fc5a4341",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4194fa39-623b-4ab7-b575-d5693557b035",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "120af3fb-701e-4d57-b41a-b5bb3bb21ae6",
+          "name": "fecha_contratacion",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "c02c5e07-c95a-424b-826d-3e568d57fe9d",
+      "name": "Agente",
+      "conceptualName": "Agente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "f02fbb4f-b61c-47d4-bfb2-91cabb353a7a",
+          "name": "codigo_empleado",
+          "type": "NUMBER(5)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f6d4c6d8-3ab7-439d-885d-3ea471f471c4",
+          "name": "area_especializacion",
+          "type": "VARCHAR(40)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "8bb4257f-0391-4be3-9499-856b6961927e",
+          "name": "Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "94ed668c-eac7-4366-ba9a-afeae2bfa2ae",
+          "name": "AK_Agente_codigo",
+          "columns": [
+            "f02fbb4f-b61c-47d4-bfb2-91cabb353a7a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6b89f539-aad8-4449-a155-63afb3d72820",
+      "name": "Administrativo",
+      "conceptualName": "Administrativo",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "1eafac2e-476e-44e4-90e8-5b94dc6fde13",
+          "name": "Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "b7aa1a49-6b14-428a-af2f-511d1ab7ea92",
+      "parentId": "4fd8cccc-399a-4a2f-b3da-ef40f852cd32",
+      "childId": "ff6589e7-90b2-4896-b651-71dfdb0931d2",
+      "name": "FK_Telefonos_cliente_Cliente",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "8d8444b0-0bda-4a44-97a8-d61ffbf503f6",
+          "childColumnId": "d84a7a06-869e-46aa-a947-8680d1da84c5"
+        }
+      ]
+    },
+    {
+      "id": "69e1b492-2d6f-466a-a625-468b38532692",
+      "parentId": "6e98ac13-cacc-436f-b74d-146d0f6941e8",
+      "childId": "c02c5e07-c95a-424b-826d-3e568d57fe9d",
+      "name": "FK_Agente_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "859dcff6-cb5b-48d7-a230-3cf4fc5a4341",
+          "childColumnId": "8bb4257f-0391-4be3-9499-856b6961927e"
+        }
+      ]
+    },
+    {
+      "id": "4a739b5b-7477-4d35-a2f3-86dc4b715f40",
+      "parentId": "6e98ac13-cacc-436f-b74d-146d0f6941e8",
+      "childId": "6b89f539-aad8-4449-a155-63afb3d72820",
+      "name": "FK_Administrativo_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "859dcff6-cb5b-48d7-a230-3cf4fc5a4341",
+          "childColumnId": "1eafac2e-476e-44e4-90e8-5b94dc6fde13"
+        }
+      ]
+    },
+    {
+      "id": "56b297a4-c252-4877-8c66-f8390602c720",
+      "parentId": "4fd8cccc-399a-4a2f-b3da-ef40f852cd32",
+      "childId": "0b739ae9-0a82-42a9-808c-7e59e77314b5",
+      "name": "FK_Realiza_cliente",
+      "forward": "Realiza",
+      "inverse": "cliente",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "8d8444b0-0bda-4a44-97a8-d61ffbf503f6",
+          "childColumnId": "c9d9dbef-c2fd-47e7-b1aa-ddfae4083e9d"
+        }
+      ]
+    },
+    {
+      "id": "dce368d4-7aa7-4218-8815-6070758b9bae",
+      "parentId": "150947e3-c78f-4b1b-aab2-8beddaaea210",
+      "childId": "0b739ae9-0a82-42a9-808c-7e59e77314b5",
+      "name": "FK_Reserva_de_viaje",
+      "forward": "Reserva_de",
+      "inverse": "viaje",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "e1c34307-c747-4439-8b31-a513c4f0d857",
+          "childColumnId": "17a87722-35a4-4fd5-af00-1563c903d285"
+        }
+      ]
+    },
+    {
+      "id": "8bbe34b8-d428-4bb3-a982-1f77e35ebc82",
+      "parentId": "c02c5e07-c95a-424b-826d-3e568d57fe9d",
+      "childId": "0b739ae9-0a82-42a9-808c-7e59e77314b5",
+      "name": "FK_Gestiona_agente",
+      "forward": "Gestiona",
+      "inverse": "agente",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "8bb4257f-0391-4be3-9499-856b6961927e",
+          "childColumnId": "4f9a5abe-9bff-47e9-a2b8-ef9d9dc5d2f1"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+        "name": "Cliente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+        "name": "Reserva",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+        "name": "Viaje",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "ea9c68cf-102a-41f3-9010-31d755f82730",
+        "name": "Empleado",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "0e7d5d80-f352-4cb6-9815-625a61414b84",
+        "name": "Agente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "abd0ca1c-73fe-4356-9219-884d6a5ea10d",
+        "name": "Administrativo",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "62ae6858-4dad-44e5-92e4-221b010f6566",
+        "ownerKind": "entity",
+        "ownerId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "7deeb82f-8e1e-44be-aec5-3a31780d61e7",
+        "ownerKind": "entity",
+        "ownerId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0dc0fbc0-7b81-4236-bba0-b1ba1d01788f",
+        "ownerKind": "entity",
+        "ownerId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "76c254cd-a7db-4935-8e5b-74e984ed1785",
+        "ownerKind": "entity",
+        "ownerId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Telefonos_cliente"
+        }
+      },
+      {
+        "id": "53a434da-0e25-4702-bac2-70a13566a589",
+        "ownerKind": "entity",
+        "ownerId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+        "name": "codigo_reserva",
+        "type": "NUMBER",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "bc154d49-eb8b-42df-bd2f-7f0cdd78909f",
+        "ownerKind": "entity",
+        "ownerId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+        "name": "fecha_reserva",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a1501210-8ce4-48a9-8a54-153e2dced444",
+        "ownerKind": "entity",
+        "ownerId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+        "name": "num_plazas",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "de3b994e-5b47-46ba-84c5-933889f1c393",
+        "ownerKind": "entity",
+        "ownerId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+        "name": "codigo",
+        "type": "NUMBER",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d5c72405-9971-4815-8064-192dfe43cf17",
+        "ownerKind": "entity",
+        "ownerId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+        "name": "destino",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "43c22365-ed62-449b-9794-ad45da125107",
+        "ownerKind": "entity",
+        "ownerId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+        "name": "fecha_salida",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "45dfd612-a915-4063-ba6d-eae6b81d23c3",
+        "ownerKind": "entity",
+        "ownerId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+        "name": "precio",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8c1e3366-0b9b-4eb1-82c1-b06e0365af33",
+        "ownerKind": "entity",
+        "ownerId": "ea9c68cf-102a-41f3-9010-31d755f82730",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ec4f8b36-7de2-4c3b-a22b-3f26b53bf457",
+        "ownerKind": "entity",
+        "ownerId": "ea9c68cf-102a-41f3-9010-31d755f82730",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "42b675bf-5b4d-4fb8-a241-89f70dacf155",
+        "ownerKind": "entity",
+        "ownerId": "ea9c68cf-102a-41f3-9010-31d755f82730",
+        "name": "fecha_contratacion",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "83b6d310-983c-45ff-8518-5f8089b05a8a",
+        "ownerKind": "entity",
+        "ownerId": "0e7d5d80-f352-4cb6-9815-625a61414b84",
+        "name": "codigo_empleado",
+        "type": "NUMBER(5)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d71cd553-7d6b-4569-8597-ad306722783a",
+        "ownerKind": "entity",
+        "ownerId": "0e7d5d80-f352-4cb6-9815-625a61414b84",
+        "name": "area_especializacion",
+        "type": "VARCHAR(40)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "8107cc43-10a6-4bf5-8fcd-1f01b7bc8353",
+        "name": "Realiza",
+        "notes": "",
+        "participations": [
+          {
+            "id": "6606a611-00a5-4cc0-be0b-3651848dc129",
+            "entityId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+            "role": "cliente",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "7d9f0f8d-99b4-44d5-8895-fbe1f5413a60",
+            "entityId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+            "role": "reserva",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "7d9f0f8d-99b4-44d5-8895-fbe1f5413a60",
+          "identifying": false
+        }
+      },
+      {
+        "id": "014c9246-bb0a-40a7-a17b-66d63b10f667",
+        "name": "Reserva_de",
+        "notes": "",
+        "participations": [
+          {
+            "id": "c2a626c5-9f4a-4ac5-a979-60062a184d08",
+            "entityId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+            "role": "viaje",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "1553d246-d644-4bf9-b923-1d16ac79ba53",
+            "entityId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+            "role": "reserva",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "1553d246-d644-4bf9-b923-1d16ac79ba53",
+          "identifying": false
+        }
+      },
+      {
+        "id": "37d5ec42-44f1-41a4-82bb-59f632b5e28d",
+        "name": "Gestiona",
+        "notes": "",
+        "participations": [
+          {
+            "id": "f003c834-4b40-4547-a16a-905b295c0cbf",
+            "entityId": "0e7d5d80-f352-4cb6-9815-625a61414b84",
+            "role": "agente",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "4a99e73a-8e2f-4f7c-94fc-41a227f4b115",
+            "entityId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+            "role": "reserva",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "4a99e73a-8e2f-4f7c-94fc-41a227f4b115",
+          "identifying": false
+        }
+      }
+    ],
+    "generalizations": [
+      {
+        "id": "bc762727-605e-45b3-9ba4-35db0c4ff454",
+        "supertypeId": "ea9c68cf-102a-41f3-9010-31d755f82730",
+        "subtypeIds": [
+          "0e7d5d80-f352-4cb6-9815-625a61414b84",
+          "abd0ca1c-73fe-4356-9219-884d6a5ea10d"
+        ],
+        "disjoint": true,
+        "total": true,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      }
+    ]
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba",
+      "targetKind": "table",
+      "targetId": "4fd8cccc-399a-4a2f-b3da-ef40f852cd32"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "62ae6858-4dad-44e5-92e4-221b010f6566",
+      "targetKind": "column",
+      "targetId": "8d8444b0-0bda-4a44-97a8-d61ffbf503f6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "7deeb82f-8e1e-44be-aec5-3a31780d61e7",
+      "targetKind": "column",
+      "targetId": "551f5c22-b678-4696-afe6-e14b618e2636"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0dc0fbc0-7b81-4236-bba0-b1ba1d01788f",
+      "targetKind": "column",
+      "targetId": "3da407c1-0ff8-4877-a9f8-3093bec24d63"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "76c254cd-a7db-4935-8e5b-74e984ed1785",
+      "targetKind": "table",
+      "targetId": "ff6589e7-90b2-4896-b651-71dfdb0931d2"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "76c254cd-a7db-4935-8e5b-74e984ed1785",
+      "targetKind": "foreign-key",
+      "targetId": "b7aa1a49-6b14-428a-af2f-511d1ab7ea92"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "76c254cd-a7db-4935-8e5b-74e984ed1785",
+      "targetKind": "column",
+      "targetId": "6f30cf29-925f-4fd0-ac4c-31545a174380"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "7a91310f-e857-4daf-8da9-488c8192cb1c",
+      "targetKind": "table",
+      "targetId": "0b739ae9-0a82-42a9-808c-7e59e77314b5"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "53a434da-0e25-4702-bac2-70a13566a589",
+      "targetKind": "column",
+      "targetId": "c4af4221-e62b-4398-bcde-e06c82639164"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "bc154d49-eb8b-42df-bd2f-7f0cdd78909f",
+      "targetKind": "column",
+      "targetId": "4b21fa41-b581-40de-bb71-e6bbf5b817bc"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a1501210-8ce4-48a9-8a54-153e2dced444",
+      "targetKind": "column",
+      "targetId": "31124325-e42b-4b39-924a-865c99963cfe"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8",
+      "targetKind": "table",
+      "targetId": "150947e3-c78f-4b1b-aab2-8beddaaea210"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "de3b994e-5b47-46ba-84c5-933889f1c393",
+      "targetKind": "column",
+      "targetId": "e1c34307-c747-4439-8b31-a513c4f0d857"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d5c72405-9971-4815-8064-192dfe43cf17",
+      "targetKind": "column",
+      "targetId": "606a657b-efd6-44f0-835e-b0afe3729f92"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "43c22365-ed62-449b-9794-ad45da125107",
+      "targetKind": "column",
+      "targetId": "22ad1d56-bcc2-482f-af81-c2425d14c705"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "45dfd612-a915-4063-ba6d-eae6b81d23c3",
+      "targetKind": "column",
+      "targetId": "4dc87f4a-4064-4212-bc5e-d8ec407fe970"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "ea9c68cf-102a-41f3-9010-31d755f82730",
+      "targetKind": "table",
+      "targetId": "6e98ac13-cacc-436f-b74d-146d0f6941e8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8c1e3366-0b9b-4eb1-82c1-b06e0365af33",
+      "targetKind": "column",
+      "targetId": "859dcff6-cb5b-48d7-a230-3cf4fc5a4341"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "ec4f8b36-7de2-4c3b-a22b-3f26b53bf457",
+      "targetKind": "column",
+      "targetId": "4194fa39-623b-4ab7-b575-d5693557b035"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "42b675bf-5b4d-4fb8-a241-89f70dacf155",
+      "targetKind": "column",
+      "targetId": "120af3fb-701e-4d57-b41a-b5bb3bb21ae6"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "0e7d5d80-f352-4cb6-9815-625a61414b84",
+      "targetKind": "table",
+      "targetId": "c02c5e07-c95a-424b-826d-3e568d57fe9d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "83b6d310-983c-45ff-8518-5f8089b05a8a",
+      "targetKind": "column",
+      "targetId": "f02fbb4f-b61c-47d4-bfb2-91cabb353a7a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d71cd553-7d6b-4569-8597-ad306722783a",
+      "targetKind": "column",
+      "targetId": "f6d4c6d8-3ab7-439d-885d-3ea471f471c4"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "abd0ca1c-73fe-4356-9219-884d6a5ea10d",
+      "targetKind": "table",
+      "targetId": "6b89f539-aad8-4449-a155-63afb3d72820"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bc762727-605e-45b3-9ba4-35db0c4ff454",
+      "targetKind": "foreign-key",
+      "targetId": "69e1b492-2d6f-466a-a625-468b38532692"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bc762727-605e-45b3-9ba4-35db0c4ff454",
+      "targetKind": "column",
+      "targetId": "8bb4257f-0391-4be3-9499-856b6961927e"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bc762727-605e-45b3-9ba4-35db0c4ff454",
+      "targetKind": "foreign-key",
+      "targetId": "4a739b5b-7477-4d35-a2f3-86dc4b715f40"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bc762727-605e-45b3-9ba4-35db0c4ff454",
+      "targetKind": "column",
+      "targetId": "1eafac2e-476e-44e4-90e8-5b94dc6fde13"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "6606a611-00a5-4cc0-be0b-3651848dc129",
+      "targetKind": "foreign-key",
+      "targetId": "56b297a4-c252-4877-8c66-f8390602c720"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "8107cc43-10a6-4bf5-8fcd-1f01b7bc8353",
+      "targetKind": "foreign-key",
+      "targetId": "56b297a4-c252-4877-8c66-f8390602c720"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "c2a626c5-9f4a-4ac5-a979-60062a184d08",
+      "targetKind": "foreign-key",
+      "targetId": "dce368d4-7aa7-4218-8815-6070758b9bae"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "014c9246-bb0a-40a7-a17b-66d63b10f667",
+      "targetKind": "foreign-key",
+      "targetId": "dce368d4-7aa7-4218-8815-6070758b9bae"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "f003c834-4b40-4547-a16a-905b295c0cbf",
+      "targetKind": "foreign-key",
+      "targetId": "8bbe34b8-d428-4bb3-a982-1f77e35ebc82"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "37d5ec42-44f1-41a4-82bb-59f632b5e28d",
+      "targetKind": "foreign-key",
+      "targetId": "8bbe34b8-d428-4bb3-a982-1f77e35ebc82"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "79d18b5c-d43d-42c6-b5ba-b150df625a5c",
+      "kind": "enunciado",
+      "text": "Los viajes se identifican por un código único.",
+      "elementId": "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8"
+    },
+    {
+      "id": "59fbf4d9-b26b-4307-86f3-c6cd8957e9be",
+      "kind": "enunciado",
+      "text": "Un agente gestiona muchas reservas y cada reserva la gestiona un único agente.",
+      "elementId": "37d5ec42-44f1-41a4-82bb-59f632b5e28d"
+    },
+    {
+      "id": "b565e4bc-afbf-4f69-8500-b2d7c78ca77a",
+      "kind": "supuesto",
+      "text": "La reserva es una entidad con código propio: tiene atributos y participa en Gestiona, cosa que una relación Cliente–Viaje no podría hacer sin agregación.",
+      "elementId": "7a91310f-e857-4daf-8da9-488c8192cb1c"
+    },
+    {
+      "id": "0a392c28-3042-437f-84bf-7af25f2b6a94",
+      "kind": "supuesto",
+      "text": "Los teléfonos del cliente son un atributo multivaluado.",
+      "elementId": "b9a3c1a3-29df-4fb0-bf6b-527aef207fba"
+    },
+    {
+      "id": "c6ff3ea8-99ec-4907-83b0-32e25e5fd48c",
+      "kind": "supuesto",
+      "text": "Todo empleado es agente o administrativo, nunca ambos: especialización total y disjunta.",
+      "elementId": "ea9c68cf-102a-41f3-9010-31d755f82730"
+    },
+    {
+      "id": "44ac8d76-fcca-44e3-bd3c-b249399857f0",
+      "kind": "supuesto",
+      "text": "El código de empleado del agente es único: clave alternativa.",
+      "elementId": "0e7d5d80-f352-4cb6-9815-625a61414b84"
+    },
+    {
+      "id": "0bc76234-a8f0-47f2-a4ae-f1beec007987",
+      "kind": "perdida",
+      "text": "Que las plazas reservadas de un viaje no superen su capacidad no se puede expresar (el enunciado no da la capacidad).",
+      "elementId": "7a91310f-e857-4daf-8da9-488c8192cb1c"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "b9a3c1a3-29df-4fb0-bf6b-527aef207fba": {
+        "x": 120,
+        "y": 140
+      },
+      "7a91310f-e857-4daf-8da9-488c8192cb1c": {
+        "x": 1080,
+        "y": 140
+      },
+      "d42cdc9c-ba92-48f7-be4e-54f7afb0cfd8": {
+        "x": 2040,
+        "y": 140
+      },
+      "ea9c68cf-102a-41f3-9010-31d755f82730": {
+        "x": 2040,
+        "y": 980
+      },
+      "0e7d5d80-f352-4cb6-9815-625a61414b84": {
+        "x": 1080,
+        "y": 1820
+      },
+      "abd0ca1c-73fe-4356-9219-884d6a5ea10d": {
+        "x": 3000,
+        "y": 1820
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

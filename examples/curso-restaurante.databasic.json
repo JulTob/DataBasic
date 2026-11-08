@@ -1,0 +1,2052 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Restaurante · ejercicio 4 (guion ERE)",
+  "tables": [
+    {
+      "id": "194a4959-6171-492a-8864-a09e02aedfbb",
+      "name": "Empleado",
+      "conceptualName": "Empleado",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "125e4d92-160e-47d1-8143-b2245c5393c2",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "c808bd43-0395-45d3-bff9-600cf6b282e0",
+          "name": "num_ss",
+          "type": "CHAR(12)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e6d7af7c-6a6e-4363-b1e0-33bcf3c0818d",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "425249df-5096-47b1-8872-ed1b3f0f3033",
+          "name": "apellidos",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "52fd6e36-e370-4a07-a39a-8c912f3f00da",
+          "name": "AK_Empleado_num_ss",
+          "columns": [
+            "c808bd43-0395-45d3-bff9-600cf6b282e0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0370349f-b6a9-488f-bd85-eb9edc2127ce",
+      "name": "Telefonos_empleado",
+      "conceptualName": "telefono",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "c5c8a1e4-a924-4e7b-b752-d8df45b2a643",
+          "name": "Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "d135292e-da96-4db5-9de6-e1223b904f6b",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "c49a982c-7797-4519-863b-a3ce8e2e2576",
+      "name": "Cocinero",
+      "conceptualName": "Cocinero",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "d5ddbbf4-18d7-456b-b33c-37454fa1a350",
+          "name": "fecha_alta",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "5a91fdfc-6a60-4a6f-a872-7ebf1da95c54",
+          "name": "Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "43a513df-e1d2-4268-b261-5dcb58c1ada0",
+      "name": "Pinche",
+      "conceptualName": "Pinche",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "54bc6151-0547-4c44-ac4a-fd97fd5d274e",
+          "name": "fecha_nacimiento",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "83398d68-77c6-475e-a176-c1d0f6735e7f",
+          "name": "Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "15994952-cf5a-48a5-8850-b830e85659a5",
+          "name": "cocinero_Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "a0956be5-b999-4173-ad19-a5f75b67de57",
+          "name": "AK_Pinche_cocinero",
+          "columns": [
+            "15994952-cf5a-48a5-8850-b830e85659a5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f5266109-2966-434f-b6da-8c1be374d082",
+      "name": "Plato",
+      "conceptualName": "Plato",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "7541c47d-c75a-46e5-bcd3-35652a345f14",
+          "name": "nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f83b0cb8-95d3-4603-abf8-d8fa4ca06cb4",
+          "name": "precio",
+          "type": "NUMBER(6,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "c4fb6fa2-1a2b-4f20-b89d-eaed1bec3ee8",
+          "name": "tipo",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "entrante",
+              "primero",
+              "segundo",
+              "postre"
+            ],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "e6180669-231c-4fef-ac79-58ec4cf25001",
+      "name": "Ingrediente",
+      "conceptualName": "Ingrediente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "fb64ff2d-aff1-4973-950d-0edddb90ceb6",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "14f898aa-46af-4995-b40e-908bc8372059",
+          "name": "precio_kg",
+          "type": "NUMBER(6,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "d7c38ccf-4a3c-401f-bff5-39a62a8c514f",
+          "name": "estante_letra",
+          "type": "CHAR(1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "eb93cef6-3eb6-487b-b5be-df4e9ef69848",
+          "name": "estante_almacen_numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b18ecf95-1fe1-4070-8973-68e17f9ee9b0",
+          "name": "cantidad",
+          "type": "NUMBER(7,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "a933dfca-9ff9-4f37-b64c-bb7e9516226a",
+      "name": "Almacen",
+      "conceptualName": "Almacen",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 140,
+      "columns": [
+        {
+          "id": "75a5ddeb-a342-49e9-bafe-12f8568a677d",
+          "name": "numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "58e211f4-2ee3-4506-840f-b8d5dbf6b892",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e7719957-f50f-4024-8a96-03c25bde9d56",
+          "name": "descripcion",
+          "type": "VARCHAR(200)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "396358e4-337c-4bba-9d6b-5832b86d160f",
+      "name": "Estante",
+      "conceptualName": "Estante",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 700,
+      "columns": [
+        {
+          "id": "508e92e9-fa41-44ca-aeb8-b3b03834ef84",
+          "name": "letra",
+          "type": "CHAR(1)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P",
+              "Q",
+              "R",
+              "S",
+              "T",
+              "U",
+              "V",
+              "W",
+              "X",
+              "Y",
+              "Z"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "0df8f464-d97b-43f6-ad2c-0993180b745e",
+          "name": "tamano_cm",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "9e3c8460-a0e3-4b0a-9082-e63d446e2535",
+          "name": "almacen_numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "1d0b58bc-f439-4e02-a246-1d7e07b75eba",
+      "name": "Consumo",
+      "conceptualName": "Consumo",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "24c8ef38-b289-4556-8a11-44741c34096a",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "8c748644-f018-4ade-9a25-12dcbdf29a5b",
+          "name": "turno",
+          "type": "VARCHAR(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "comida",
+              "cena"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "63617c70-9295-46b9-9e1c-5f876be3d5ad",
+          "name": "raciones",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "fe828496-79c6-4f39-a59f-f4c638edc8e8",
+          "name": "plato_nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "559b74ad-1591-4a55-ad44-22e27f81e1d9",
+      "name": "Compone",
+      "conceptualName": "Compone",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "92981414-d31f-4fe0-bf05-74c78774b39f",
+          "name": "plato_nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "52c6569e-a6d3-47f0-a8c9-05f3b56f5787",
+          "name": "ingrediente_nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "4f5685c4-30fd-492d-a42c-f30ace1fe312",
+          "name": "cantidad",
+          "type": "NUMBER(6,3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "7d2dd719-b81c-455e-a12c-f17a1c574417",
+      "name": "Prepara",
+      "conceptualName": "Prepara",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 1820,
+      "columns": [
+        {
+          "id": "0e900296-89ae-463f-a3e6-c966d437a66a",
+          "name": "cocinero_Empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "0484d3d4-cb35-4747-9c7a-d76beb6d44fb",
+          "name": "plato_nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "15365473-de30-4e16-819c-5b200562a833",
+      "parentId": "194a4959-6171-492a-8864-a09e02aedfbb",
+      "childId": "0370349f-b6a9-488f-bd85-eb9edc2127ce",
+      "name": "FK_Telefonos_empleado_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "125e4d92-160e-47d1-8143-b2245c5393c2",
+          "childColumnId": "c5c8a1e4-a924-4e7b-b752-d8df45b2a643"
+        }
+      ]
+    },
+    {
+      "id": "fde77b9e-38c9-4a2f-83ec-6741d1564f7e",
+      "parentId": "194a4959-6171-492a-8864-a09e02aedfbb",
+      "childId": "c49a982c-7797-4519-863b-a3ce8e2e2576",
+      "name": "FK_Cocinero_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "125e4d92-160e-47d1-8143-b2245c5393c2",
+          "childColumnId": "5a91fdfc-6a60-4a6f-a872-7ebf1da95c54"
+        }
+      ]
+    },
+    {
+      "id": "3c0a1b1a-ab38-4adb-9be4-043f7e81f2d9",
+      "parentId": "194a4959-6171-492a-8864-a09e02aedfbb",
+      "childId": "43a513df-e1d2-4268-b261-5dcb58c1ada0",
+      "name": "FK_Pinche_Empleado",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "125e4d92-160e-47d1-8143-b2245c5393c2",
+          "childColumnId": "83398d68-77c6-475e-a176-c1d0f6735e7f"
+        }
+      ]
+    },
+    {
+      "id": "1df542cc-5909-412e-9ca6-77839543cc99",
+      "parentId": "a933dfca-9ff9-4f37-b64c-bb7e9516226a",
+      "childId": "396358e4-337c-4bba-9d6b-5832b86d160f",
+      "name": "FK_Contiene_almacen",
+      "forward": "Contiene",
+      "inverse": "almacen",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "75a5ddeb-a342-49e9-bafe-12f8568a677d",
+          "childColumnId": "9e3c8460-a0e3-4b0a-9082-e63d446e2535"
+        }
+      ]
+    },
+    {
+      "id": "826e2944-5946-45fa-9a9d-fb8ff44cdb2f",
+      "parentId": "396358e4-337c-4bba-9d6b-5832b86d160f",
+      "childId": "e6180669-231c-4fef-ac79-58ec4cf25001",
+      "name": "FK_Ubicado_estante",
+      "forward": "Ubicado",
+      "inverse": "estante",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "508e92e9-fa41-44ca-aeb8-b3b03834ef84",
+          "childColumnId": "d7c38ccf-4a3c-401f-bff5-39a62a8c514f"
+        },
+        {
+          "parentColumnId": "9e3c8460-a0e3-4b0a-9082-e63d446e2535",
+          "childColumnId": "eb93cef6-3eb6-487b-b5be-df4e9ef69848"
+        }
+      ]
+    },
+    {
+      "id": "9fb3e227-a227-48de-a6a7-b8233d64981f",
+      "parentId": "f5266109-2966-434f-b6da-8c1be374d082",
+      "childId": "559b74ad-1591-4a55-ad44-22e27f81e1d9",
+      "name": "FK_Compone_plato",
+      "forward": "Compone",
+      "inverse": "plato",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "7541c47d-c75a-46e5-bcd3-35652a345f14",
+          "childColumnId": "92981414-d31f-4fe0-bf05-74c78774b39f"
+        }
+      ]
+    },
+    {
+      "id": "2602d03b-35d5-456a-a40b-2568263acaef",
+      "parentId": "e6180669-231c-4fef-ac79-58ec4cf25001",
+      "childId": "559b74ad-1591-4a55-ad44-22e27f81e1d9",
+      "name": "FK_Compone_ingrediente",
+      "forward": "Compone",
+      "inverse": "ingrediente",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "fb64ff2d-aff1-4973-950d-0edddb90ceb6",
+          "childColumnId": "52c6569e-a6d3-47f0-a8c9-05f3b56f5787"
+        }
+      ]
+    },
+    {
+      "id": "8085d420-427f-43be-9692-dbd423749997",
+      "parentId": "c49a982c-7797-4519-863b-a3ce8e2e2576",
+      "childId": "7d2dd719-b81c-455e-a12c-f17a1c574417",
+      "name": "FK_Prepara_cocinero",
+      "forward": "Prepara",
+      "inverse": "cocinero",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5a91fdfc-6a60-4a6f-a872-7ebf1da95c54",
+          "childColumnId": "0e900296-89ae-463f-a3e6-c966d437a66a"
+        }
+      ]
+    },
+    {
+      "id": "71c4ff8f-e9c6-40ba-8815-202f36e09716",
+      "parentId": "f5266109-2966-434f-b6da-8c1be374d082",
+      "childId": "7d2dd719-b81c-455e-a12c-f17a1c574417",
+      "name": "FK_Prepara_plato",
+      "forward": "Prepara",
+      "inverse": "plato",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "7541c47d-c75a-46e5-bcd3-35652a345f14",
+          "childColumnId": "0484d3d4-cb35-4747-9c7a-d76beb6d44fb"
+        }
+      ]
+    },
+    {
+      "id": "85e33c8a-a2ce-4ed8-be28-098abd438435",
+      "parentId": "c49a982c-7797-4519-863b-a3ce8e2e2576",
+      "childId": "43a513df-e1d2-4268-b261-5dcb58c1ada0",
+      "name": "FK_Asignado_cocinero",
+      "forward": "Asignado",
+      "inverse": "cocinero",
+      "cardinality": "zero-one",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5a91fdfc-6a60-4a6f-a872-7ebf1da95c54",
+          "childColumnId": "15994952-cf5a-48a5-8850-b830e85659a5"
+        }
+      ]
+    },
+    {
+      "id": "94f6f129-6289-4ad8-8e44-8551d474252e",
+      "parentId": "f5266109-2966-434f-b6da-8c1be374d082",
+      "childId": "1d0b58bc-f439-4e02-a246-1d7e07b75eba",
+      "name": "FK_Registra_plato",
+      "forward": "Registra",
+      "inverse": "plato",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "7541c47d-c75a-46e5-bcd3-35652a345f14",
+          "childColumnId": "fe828496-79c6-4f39-a59f-f4c638edc8e8"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "Empleado",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+        "name": "Cocinero",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "55c6d681-1339-4c0e-810d-be9eda62d50a",
+        "name": "Pinche",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "15777472-e6c8-4912-b724-97f611c0c838",
+        "name": "Plato",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+        "name": "Ingrediente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+        "name": "Almacen",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+        "name": "Estante",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "d154345e-028d-4e67-9067-3497d4bb0aed"
+        }
+      },
+      {
+        "id": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+        "name": "Consumo",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "15777472-e6c8-4912-b724-97f611c0c838",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "224206fd-5c6b-48c9-b405-24a06cf20e61"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "bc513321-d1dd-470f-8174-f7fdaaac3a5f",
+        "ownerKind": "entity",
+        "ownerId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d5729092-e3f4-4514-a2bf-40e6fbcd6244",
+        "ownerKind": "entity",
+        "ownerId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "num_ss",
+        "type": "CHAR(12)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "e2ce5ba4-79e9-4dfb-9a97-9d6c50620fa8",
+        "ownerKind": "entity",
+        "ownerId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "41b38ff4-3b3a-4c17-9975-d8326337b09f",
+        "ownerKind": "entity",
+        "ownerId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "apellidos",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "54d1c13b-3bae-4ecf-b4fd-0f785184430a",
+        "ownerKind": "entity",
+        "ownerId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Telefonos_empleado"
+        }
+      },
+      {
+        "id": "0ddd7663-15f6-41cb-875b-fe7e3e0ce643",
+        "ownerKind": "entity",
+        "ownerId": "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+        "name": "fecha_alta",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "cf221f18-81b9-4f60-b77d-5aa3fbd07995",
+        "ownerKind": "entity",
+        "ownerId": "55c6d681-1339-4c0e-810d-be9eda62d50a",
+        "name": "fecha_nacimiento",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c5c0ecc8-f465-4ba9-aaec-5d09403a10c7",
+        "ownerKind": "entity",
+        "ownerId": "15777472-e6c8-4912-b724-97f611c0c838",
+        "name": "nombre",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "752f4ba7-a03b-436d-b8e7-37ce6e2a125f",
+        "ownerKind": "entity",
+        "ownerId": "15777472-e6c8-4912-b724-97f611c0c838",
+        "name": "precio",
+        "type": "NUMBER(6,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "e8c3f4c6-1ee5-4121-82eb-cabc0f253ef5",
+        "ownerKind": "entity",
+        "ownerId": "15777472-e6c8-4912-b724-97f611c0c838",
+        "name": "tipo",
+        "type": "VARCHAR(10)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "entrante",
+            "primero",
+            "segundo",
+            "postre"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "71d3da59-0587-4023-8347-e875c008df33",
+        "ownerKind": "entity",
+        "ownerId": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "17fb5583-ed9b-4167-a4e1-442d2c620a1d",
+        "ownerKind": "entity",
+        "ownerId": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+        "name": "precio_kg",
+        "type": "NUMBER(6,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "74447e64-297b-4731-92bd-06136daeab68",
+        "ownerKind": "entity",
+        "ownerId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+        "name": "numero",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "3b522f6e-a5f6-4512-bb04-d03408a2d4e7",
+        "ownerKind": "entity",
+        "ownerId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "dfd2ed7d-db29-4ee9-99ef-c1975d956692",
+        "ownerKind": "entity",
+        "ownerId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+        "name": "descripcion",
+        "type": "VARCHAR(200)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "fdf49cb8-1c2b-4a8a-84de-a8c99592f0d9",
+        "ownerKind": "entity",
+        "ownerId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+        "name": "letra",
+        "type": "CHAR(1)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "U",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "b57e911f-2035-40a4-ae90-3448532c1652",
+        "ownerKind": "entity",
+        "ownerId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+        "name": "tamano_cm",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "cc0bc439-052d-4619-9470-331120b86908",
+        "ownerKind": "entity",
+        "ownerId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "2e568063-08f2-407e-91d5-343201aaa340",
+        "ownerKind": "entity",
+        "ownerId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+        "name": "turno",
+        "type": "VARCHAR(6)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "comida",
+            "cena"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "6ebb3b25-bb99-45f3-9b6d-de7821bb4c1e",
+        "ownerKind": "entity",
+        "ownerId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+        "name": "raciones",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "eef00e8b-895f-4d64-86d7-638803653624",
+        "ownerKind": "relationship",
+        "ownerId": "d0902c54-9a08-4302-a086-84cdd89041cd",
+        "name": "cantidad",
+        "type": "NUMBER(7,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "7a1b0cf5-00be-4ad4-af85-f99b41169976",
+        "ownerKind": "relationship",
+        "ownerId": "77bdafc4-7738-4869-8b52-d08698ce9f9e",
+        "name": "cantidad",
+        "type": "NUMBER(6,3)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "d154345e-028d-4e67-9067-3497d4bb0aed",
+        "name": "Contiene",
+        "notes": "",
+        "participations": [
+          {
+            "id": "f3c285a6-dd25-4413-b872-e89281b671e0",
+            "entityId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+            "role": "almacen",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "25060e37-2543-49c4-bb32-0939dfa734a2",
+            "entityId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+            "role": "estante",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "25060e37-2543-49c4-bb32-0939dfa734a2",
+          "identifying": true
+        }
+      },
+      {
+        "id": "d0902c54-9a08-4302-a086-84cdd89041cd",
+        "name": "Ubicado",
+        "notes": "",
+        "participations": [
+          {
+            "id": "25663a28-c8a2-4090-88fe-9e0148ee21eb",
+            "entityId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+            "role": "estante",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "05144c93-425d-4d1e-8d0a-1ccaa489c112",
+            "entityId": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+            "role": "ingrediente",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "05144c93-425d-4d1e-8d0a-1ccaa489c112",
+          "identifying": false
+        }
+      },
+      {
+        "id": "77bdafc4-7738-4869-8b52-d08698ce9f9e",
+        "name": "Compone",
+        "notes": "",
+        "participations": [
+          {
+            "id": "8639532c-6eec-43dd-b1e0-e3c5d8a8add9",
+            "entityId": "15777472-e6c8-4912-b724-97f611c0c838",
+            "role": "plato",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "973b0d39-c518-4c18-b840-dcf8f5443e5b",
+            "entityId": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+            "role": "ingrediente",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Compone",
+          "key": {
+            "participationIds": [
+              "8639532c-6eec-43dd-b1e0-e3c5d8a8add9",
+              "973b0d39-c518-4c18-b840-dcf8f5443e5b"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "9bced270-4339-4c81-aec5-e3b317a3abdd",
+        "name": "Prepara",
+        "notes": "",
+        "participations": [
+          {
+            "id": "260b1fcd-c957-4b01-9409-a759c6531c8d",
+            "entityId": "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+            "role": "cocinero",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "a269b4c8-4615-4609-8dd0-c3f0c31e46ba",
+            "entityId": "15777472-e6c8-4912-b724-97f611c0c838",
+            "role": "plato",
+            "min": 1,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Prepara",
+          "key": {
+            "participationIds": [
+              "260b1fcd-c957-4b01-9409-a759c6531c8d",
+              "a269b4c8-4615-4609-8dd0-c3f0c31e46ba"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "a2ed8519-a029-430b-b712-539bc4136b6e",
+        "name": "Asignado",
+        "notes": "",
+        "participations": [
+          {
+            "id": "93abe3ef-fa71-4d9f-a2a3-fb110d8ace3d",
+            "entityId": "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+            "role": "cocinero",
+            "min": 0,
+            "max": 1
+          },
+          {
+            "id": "b4204e5d-2dab-4a29-adab-5f85600bdfaa",
+            "entityId": "55c6d681-1339-4c0e-810d-be9eda62d50a",
+            "role": "pinche",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "b4204e5d-2dab-4a29-adab-5f85600bdfaa",
+          "identifying": false
+        }
+      },
+      {
+        "id": "224206fd-5c6b-48c9-b405-24a06cf20e61",
+        "name": "Registra",
+        "notes": "",
+        "participations": [
+          {
+            "id": "fb0ad8fb-f7a0-40d0-9513-704d2e0c8b2e",
+            "entityId": "15777472-e6c8-4912-b724-97f611c0c838",
+            "role": "plato",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "3e22e206-1d9e-4e99-a423-af72f8c63803",
+            "entityId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+            "role": "consumo",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "3e22e206-1d9e-4e99-a423-af72f8c63803",
+          "identifying": true
+        }
+      }
+    ],
+    "generalizations": [
+      {
+        "id": "7ea100f6-29d0-465e-b201-6d7d2c1a625f",
+        "supertypeId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+        "subtypeIds": [
+          "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+          "55c6d681-1339-4c0e-810d-be9eda62d50a"
+        ],
+        "disjoint": true,
+        "total": false,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      }
+    ]
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "39ca90ae-7137-4542-a9eb-393dad5fed2b",
+      "targetKind": "table",
+      "targetId": "194a4959-6171-492a-8864-a09e02aedfbb"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "bc513321-d1dd-470f-8174-f7fdaaac3a5f",
+      "targetKind": "column",
+      "targetId": "125e4d92-160e-47d1-8143-b2245c5393c2"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d5729092-e3f4-4514-a2bf-40e6fbcd6244",
+      "targetKind": "column",
+      "targetId": "c808bd43-0395-45d3-bff9-600cf6b282e0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "e2ce5ba4-79e9-4dfb-9a97-9d6c50620fa8",
+      "targetKind": "column",
+      "targetId": "e6d7af7c-6a6e-4363-b1e0-33bcf3c0818d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "41b38ff4-3b3a-4c17-9975-d8326337b09f",
+      "targetKind": "column",
+      "targetId": "425249df-5096-47b1-8872-ed1b3f0f3033"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "54d1c13b-3bae-4ecf-b4fd-0f785184430a",
+      "targetKind": "table",
+      "targetId": "0370349f-b6a9-488f-bd85-eb9edc2127ce"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "54d1c13b-3bae-4ecf-b4fd-0f785184430a",
+      "targetKind": "foreign-key",
+      "targetId": "15365473-de30-4e16-819c-5b200562a833"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "54d1c13b-3bae-4ecf-b4fd-0f785184430a",
+      "targetKind": "column",
+      "targetId": "d135292e-da96-4db5-9de6-e1223b904f6b"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "25921cd5-4ffd-491c-9d45-dfdf482ade15",
+      "targetKind": "table",
+      "targetId": "c49a982c-7797-4519-863b-a3ce8e2e2576"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0ddd7663-15f6-41cb-875b-fe7e3e0ce643",
+      "targetKind": "column",
+      "targetId": "d5ddbbf4-18d7-456b-b33c-37454fa1a350"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "55c6d681-1339-4c0e-810d-be9eda62d50a",
+      "targetKind": "table",
+      "targetId": "43a513df-e1d2-4268-b261-5dcb58c1ada0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "cf221f18-81b9-4f60-b77d-5aa3fbd07995",
+      "targetKind": "column",
+      "targetId": "54bc6151-0547-4c44-ac4a-fd97fd5d274e"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "7ea100f6-29d0-465e-b201-6d7d2c1a625f",
+      "targetKind": "foreign-key",
+      "targetId": "fde77b9e-38c9-4a2f-83ec-6741d1564f7e"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "7ea100f6-29d0-465e-b201-6d7d2c1a625f",
+      "targetKind": "column",
+      "targetId": "5a91fdfc-6a60-4a6f-a872-7ebf1da95c54"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "7ea100f6-29d0-465e-b201-6d7d2c1a625f",
+      "targetKind": "foreign-key",
+      "targetId": "3c0a1b1a-ab38-4adb-9be4-043f7e81f2d9"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "7ea100f6-29d0-465e-b201-6d7d2c1a625f",
+      "targetKind": "column",
+      "targetId": "83398d68-77c6-475e-a176-c1d0f6735e7f"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "15777472-e6c8-4912-b724-97f611c0c838",
+      "targetKind": "table",
+      "targetId": "f5266109-2966-434f-b6da-8c1be374d082"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c5c0ecc8-f465-4ba9-aaec-5d09403a10c7",
+      "targetKind": "column",
+      "targetId": "7541c47d-c75a-46e5-bcd3-35652a345f14"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "752f4ba7-a03b-436d-b8e7-37ce6e2a125f",
+      "targetKind": "column",
+      "targetId": "f83b0cb8-95d3-4603-abf8-d8fa4ca06cb4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "e8c3f4c6-1ee5-4121-82eb-cabc0f253ef5",
+      "targetKind": "column",
+      "targetId": "c4fb6fa2-1a2b-4f20-b89d-eaed1bec3ee8"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab",
+      "targetKind": "table",
+      "targetId": "e6180669-231c-4fef-ac79-58ec4cf25001"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "71d3da59-0587-4023-8347-e875c008df33",
+      "targetKind": "column",
+      "targetId": "fb64ff2d-aff1-4973-950d-0edddb90ceb6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "17fb5583-ed9b-4167-a4e1-442d2c620a1d",
+      "targetKind": "column",
+      "targetId": "14f898aa-46af-4995-b40e-908bc8372059"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "5f5aed5e-d383-4465-909c-5d89ca07677c",
+      "targetKind": "table",
+      "targetId": "a933dfca-9ff9-4f37-b64c-bb7e9516226a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "74447e64-297b-4731-92bd-06136daeab68",
+      "targetKind": "column",
+      "targetId": "75a5ddeb-a342-49e9-bafe-12f8568a677d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "3b522f6e-a5f6-4512-bb04-d03408a2d4e7",
+      "targetKind": "column",
+      "targetId": "58e211f4-2ee3-4506-840f-b8d5dbf6b892"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "dfd2ed7d-db29-4ee9-99ef-c1975d956692",
+      "targetKind": "column",
+      "targetId": "e7719957-f50f-4024-8a96-03c25bde9d56"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b",
+      "targetKind": "table",
+      "targetId": "396358e4-337c-4bba-9d6b-5832b86d160f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "fdf49cb8-1c2b-4a8a-84de-a8c99592f0d9",
+      "targetKind": "column",
+      "targetId": "508e92e9-fa41-44ca-aeb8-b3b03834ef84"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "b57e911f-2035-40a4-ae90-3448532c1652",
+      "targetKind": "column",
+      "targetId": "0df8f464-d97b-43f6-ad2c-0993180b745e"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c",
+      "targetKind": "table",
+      "targetId": "1d0b58bc-f439-4e02-a246-1d7e07b75eba"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "cc0bc439-052d-4619-9470-331120b86908",
+      "targetKind": "column",
+      "targetId": "24c8ef38-b289-4556-8a11-44741c34096a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2e568063-08f2-407e-91d5-343201aaa340",
+      "targetKind": "column",
+      "targetId": "8c748644-f018-4ade-9a25-12dcbdf29a5b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "6ebb3b25-bb99-45f3-9b6d-de7821bb4c1e",
+      "targetKind": "column",
+      "targetId": "63617c70-9295-46b9-9e1c-5f876be3d5ad"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "f3c285a6-dd25-4413-b872-e89281b671e0",
+      "targetKind": "foreign-key",
+      "targetId": "1df542cc-5909-412e-9ca6-77839543cc99"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "d154345e-028d-4e67-9067-3497d4bb0aed",
+      "targetKind": "foreign-key",
+      "targetId": "1df542cc-5909-412e-9ca6-77839543cc99"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "25663a28-c8a2-4090-88fe-9e0148ee21eb",
+      "targetKind": "foreign-key",
+      "targetId": "826e2944-5946-45fa-9a9d-fb8ff44cdb2f"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "d0902c54-9a08-4302-a086-84cdd89041cd",
+      "targetKind": "foreign-key",
+      "targetId": "826e2944-5946-45fa-9a9d-fb8ff44cdb2f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "eef00e8b-895f-4d64-86d7-638803653624",
+      "targetKind": "column",
+      "targetId": "b18ecf95-1fe1-4070-8973-68e17f9ee9b0"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "77bdafc4-7738-4869-8b52-d08698ce9f9e",
+      "targetKind": "table",
+      "targetId": "559b74ad-1591-4a55-ad44-22e27f81e1d9"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "8639532c-6eec-43dd-b1e0-e3c5d8a8add9",
+      "targetKind": "foreign-key",
+      "targetId": "9fb3e227-a227-48de-a6a7-b8233d64981f"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "973b0d39-c518-4c18-b840-dcf8f5443e5b",
+      "targetKind": "foreign-key",
+      "targetId": "2602d03b-35d5-456a-a40b-2568263acaef"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "7a1b0cf5-00be-4ad4-af85-f99b41169976",
+      "targetKind": "column",
+      "targetId": "4f5685c4-30fd-492d-a42c-f30ace1fe312"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "9bced270-4339-4c81-aec5-e3b317a3abdd",
+      "targetKind": "table",
+      "targetId": "7d2dd719-b81c-455e-a12c-f17a1c574417"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "260b1fcd-c957-4b01-9409-a759c6531c8d",
+      "targetKind": "foreign-key",
+      "targetId": "8085d420-427f-43be-9692-dbd423749997"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "a269b4c8-4615-4609-8dd0-c3f0c31e46ba",
+      "targetKind": "foreign-key",
+      "targetId": "71c4ff8f-e9c6-40ba-8815-202f36e09716"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "93abe3ef-fa71-4d9f-a2a3-fb110d8ace3d",
+      "targetKind": "foreign-key",
+      "targetId": "85e33c8a-a2ce-4ed8-be28-098abd438435"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "a2ed8519-a029-430b-b712-539bc4136b6e",
+      "targetKind": "foreign-key",
+      "targetId": "85e33c8a-a2ce-4ed8-be28-098abd438435"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "fb0ad8fb-f7a0-40d0-9513-704d2e0c8b2e",
+      "targetKind": "foreign-key",
+      "targetId": "94f6f129-6289-4ad8-8e44-8551d474252e"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "224206fd-5c6b-48c9-b405-24a06cf20e61",
+      "targetKind": "foreign-key",
+      "targetId": "94f6f129-6289-4ad8-8e44-8551d474252e"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "0dc84a4b-c93c-405e-861f-ea63efd822dc",
+      "kind": "enunciado",
+      "text": "El número de la Seguridad Social es único: clave alternativa. Los teléfonos son un atributo multivaluado.",
+      "elementId": "39ca90ae-7137-4542-a9eb-393dad5fed2b"
+    },
+    {
+      "id": "7d483944-d35c-4939-8444-75269e8e8bbd",
+      "kind": "enunciado",
+      "text": "Los estantes se nombran con letras de la A a la Z dentro de cada almacén: entidad débil de Almacen.",
+      "elementId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b"
+    },
+    {
+      "id": "85b08066-5086-4f15-92a9-5f10d626c3b2",
+      "kind": "enunciado",
+      "text": "Un ingrediente está en un solo estante y un estante guarda varios; la cantidad guardada es un atributo de la relación.",
+      "elementId": "d0902c54-9a08-4302-a086-84cdd89041cd"
+    },
+    {
+      "id": "a67ebd24-2c59-46da-80d8-c0d964e9c459",
+      "kind": "enunciado",
+      "text": "Un cocinero tiene como máximo un pinche y todo pinche tiene su cocinero: 1:1 con la clave ajena en Pinche, única.",
+      "elementId": "a2ed8519-a029-430b-b712-539bc4136b6e"
+    },
+    {
+      "id": "7da765cd-6238-4723-82db-d5a2490663a6",
+      "kind": "supuesto",
+      "text": "Los empleados comunes no tienen atributos propios: son los que no están en ninguna subclase. Especialización parcial y disjunta.",
+      "elementId": "39ca90ae-7137-4542-a9eb-393dad5fed2b"
+    },
+    {
+      "id": "12a91b49-1679-4484-aab0-41b1b6500897",
+      "kind": "supuesto",
+      "text": "El tipo de plato es un dominio y no una especialización, porque los tipos no tienen atributos propios.",
+      "elementId": "15777472-e6c8-4912-b724-97f611c0c838"
+    },
+    {
+      "id": "228ef729-a523-4cc8-a151-d8af571af7b1",
+      "kind": "supuesto",
+      "text": "Prepara es N:N: varios cocineros especializados pueden preparar un plato y un cocinero prepara varios.",
+      "elementId": "9bced270-4339-4c81-aec5-e3b317a3abdd"
+    },
+    {
+      "id": "a4863117-a3ee-46a7-b3bf-c3ef990561e5",
+      "kind": "supuesto",
+      "text": "El consumo diario es una entidad débil del plato identificada por fecha y turno (comida o cena), con el número de raciones.",
+      "elementId": "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c"
+    },
+    {
+      "id": "5b531c71-0eb5-413f-91cf-6e5cefcc165f",
+      "kind": "perdida",
+      "text": "Que un plato solo lo preparen cocineros especializados en él, y que todo plato tenga al menos uno, no se impone con claves.",
+      "elementId": "9bced270-4339-4c81-aec5-e3b317a3abdd"
+    },
+    {
+      "id": "2829f154-be84-4291-b5b5-9c71053bd0e1",
+      "kind": "supuesto",
+      "text": "La letra del estante se limita a la lista A–Z como dominio.",
+      "elementId": "cf23279a-460a-46aa-afb9-7cbf823c9a5b"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "39ca90ae-7137-4542-a9eb-393dad5fed2b": {
+        "x": 120,
+        "y": 140
+      },
+      "25921cd5-4ffd-491c-9d45-dfdf482ade15": {
+        "x": 120,
+        "y": 980
+      },
+      "55c6d681-1339-4c0e-810d-be9eda62d50a": {
+        "x": 120,
+        "y": 1820
+      },
+      "15777472-e6c8-4912-b724-97f611c0c838": {
+        "x": 1080,
+        "y": 980
+      },
+      "d03ca74f-e81d-44c6-8d3c-3d84fea5bbab": {
+        "x": 2040,
+        "y": 980
+      },
+      "5f5aed5e-d383-4465-909c-5d89ca07677c": {
+        "x": 3000,
+        "y": 140
+      },
+      "cf23279a-460a-46aa-afb9-7cbf823c9a5b": {
+        "x": 3000,
+        "y": 980
+      },
+      "b4e69dc9-6d14-4a4c-af4c-4ffcf75bbd8c": {
+        "x": 1080,
+        "y": 1820
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}
