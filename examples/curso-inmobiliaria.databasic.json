@@ -5,7 +5,7 @@
   "name": "Inmobiliaria · ejercicio 5 (guion ERE)",
   "tables": [
     {
-      "id": "8c774da4-df2b-4393-96e1-58aaef9618ca",
+      "id": "7441aa56-bbf3-4f62-8296-6bcfdd975dbc",
       "name": "Persona",
       "conceptualName": "Persona",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "c89571e3-088d-4c08-aafe-4ad3ef818984",
+          "id": "04dbaad3-514c-44ac-be4a-ba56c597b9a4",
           "name": "codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "259f6365-d837-4a53-8454-c8c31b79c795",
+          "id": "d753d576-eb93-40a8-a7a6-0a60c768c016",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "4c949cd3-cc06-4180-93a6-3e3548a0ced7",
+          "id": "97defe1b-bfe4-4925-b9cb-c53be9200957",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -45,7 +45,7 @@
           "domain": null
         },
         {
-          "id": "dac4007d-b17b-42cd-b718-792363dc8484",
+          "id": "7eb2aaac-f13c-48e8-81bc-1bc385ba70bd",
           "name": "apellidos",
           "type": "VARCHAR(80)",
           "required": true,
@@ -55,7 +55,7 @@
           "domain": null
         },
         {
-          "id": "130b36eb-9512-4ba8-85c9-9d65c829324a",
+          "id": "3bdf58ff-0d06-4ccc-8758-745a8aec0ded",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -70,16 +70,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "86ca23a9-9ee5-4450-b4de-52cddfb885e2",
+          "id": "90a2abb3-c0fb-4d52-a150-e64460b42b3f",
           "name": "AK_Persona_dni",
           "columns": [
-            "259f6365-d837-4a53-8454-c8c31b79c795"
+            "d753d576-eb93-40a8-a7a6-0a60c768c016"
           ]
         }
       ]
     },
     {
-      "id": "0830402d-3060-48c7-935c-2138a7b45705",
+      "id": "e3d3d8ee-f556-470a-b2ba-ff2f77d8a68a",
       "name": "Telefonos_persona",
       "conceptualName": "telefono",
       "syncNames": false,
@@ -89,7 +89,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "ded2b985-7f97-4bc9-b7ff-dcc601cd1fab",
+          "id": "fe6117dd-5267-4817-97b2-df54d859b27a",
           "name": "Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -98,7 +98,7 @@
           "defaultValue": ""
         },
         {
-          "id": "32fd647b-f98c-4493-be85-cf1c3aec6602",
+          "id": "48c36659-8c2a-4ed1-8659-9bc8cd8ea979",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": true,
@@ -114,7 +114,7 @@
       "alternateKeys": []
     },
     {
-      "id": "f430bdfd-be01-40db-97cc-ea3654fa726d",
+      "id": "4a2321be-e96f-487c-8ab1-f36835f6c9ad",
       "name": "Cliente",
       "conceptualName": "Cliente",
       "syncNames": true,
@@ -124,7 +124,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "e8409756-6b8e-44a5-af8a-e77a4db1c645",
+          "id": "e6a63137-87b6-44c2-89f2-d0d4c883c1fd",
           "name": "Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -139,7 +139,7 @@
       "alternateKeys": []
     },
     {
-      "id": "368cab39-e775-470b-b8be-c76c5988ded7",
+      "id": "d2af2646-f7ab-41b1-b4be-935e62a70cb0",
       "name": "Trabajador",
       "conceptualName": "Trabajador",
       "syncNames": true,
@@ -149,7 +149,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "2ade474e-1768-43d9-aa8a-87b83cd24224",
+          "id": "142d91b8-b893-4783-8201-b59b0aee0c15",
           "name": "fecha_ingreso",
           "type": "DATE",
           "required": true,
@@ -159,7 +159,7 @@
           "domain": null
         },
         {
-          "id": "5ba12f2f-6626-4758-97ac-b6b03128e814",
+          "id": "6b79c71e-629c-4edf-ba9f-2e4df8451f00",
           "name": "Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -174,7 +174,7 @@
       "alternateKeys": []
     },
     {
-      "id": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
+      "id": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
       "name": "Inmueble",
       "conceptualName": "Inmueble",
       "syncNames": true,
@@ -184,7 +184,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
+          "id": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
           "name": "codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -194,7 +194,7 @@
           "domain": null
         },
         {
-          "id": "f66b42b5-0444-40b5-863b-c73e6fe206e1",
+          "id": "da16c764-1f0e-4f1d-9714-f17e828d9cf3",
           "name": "superficie_m2",
           "type": "NUMBER(7,2)",
           "required": true,
@@ -209,7 +209,7 @@
           }
         },
         {
-          "id": "d67c8e5e-2d8c-4039-83e6-e6e9a8aee8bf",
+          "id": "ecac7192-49c9-4121-be95-8c69c386eaf9",
           "name": "descripcion",
           "type": "VARCHAR(200)",
           "required": false,
@@ -219,7 +219,7 @@
           "domain": null
         },
         {
-          "id": "914439ee-fe47-477c-b3d7-56e6db1ca9d6",
+          "id": "9fbf3536-6f98-44e1-be19-eca3db111cf5",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": true,
@@ -235,7 +235,7 @@
       "alternateKeys": []
     },
     {
-      "id": "12028bf2-afd6-45b9-9cf2-dcc209c64a85",
+      "id": "bc2e3986-2263-47a8-bc13-e94c80ca19db",
       "name": "Piso",
       "conceptualName": "Piso",
       "syncNames": true,
@@ -245,7 +245,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "8147bb0f-f276-48d7-80f1-a3d4d19f6711",
+          "id": "49093125-dd2e-484f-8f5c-a85eefbb8741",
           "name": "codigo_piso",
           "type": "VARCHAR(10)",
           "required": true,
@@ -255,7 +255,7 @@
           "domain": null
         },
         {
-          "id": "c3e0069a-6c2f-4edd-a9cc-86d065785f5d",
+          "id": "b1bb4288-ce7a-434a-8cb2-35ca7c021444",
           "name": "Inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -269,16 +269,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "c7837619-788f-4d21-8fdd-fd51c61fece9",
+          "id": "1bca1d76-4c7b-4a21-95ee-02de09091389",
           "name": "AK_Piso_codigo",
           "columns": [
-            "8147bb0f-f276-48d7-80f1-a3d4d19f6711"
+            "49093125-dd2e-484f-8f5c-a85eefbb8741"
           ]
         }
       ]
     },
     {
-      "id": "29407ada-6505-4185-a0b9-f85daa1b64c1",
+      "id": "7bc89c72-7f7d-4221-986e-6d5c1827e98d",
       "name": "Local",
       "conceptualName": "Local",
       "syncNames": true,
@@ -288,7 +288,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "31de6f14-cccd-4ee9-abc4-39c1b1648be0",
+          "id": "49a13523-f85c-4875-a0f0-07266eb5d148",
           "name": "uso",
           "type": "VARCHAR(40)",
           "required": false,
@@ -298,7 +298,7 @@
           "domain": null
         },
         {
-          "id": "1a41e7ab-35e3-4f95-bfe5-a4ce74e3e6d6",
+          "id": "5ddee86c-4381-4a66-8049-60f684cd9bee",
           "name": "servicio",
           "type": "CHAR(1)",
           "required": true,
@@ -316,7 +316,7 @@
           }
         },
         {
-          "id": "a03e67a6-9dc9-42a4-a55c-df58d2ff694b",
+          "id": "b29bbcbb-7942-4774-821a-b8139bba1ed0",
           "name": "Inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -331,7 +331,7 @@
       "alternateKeys": []
     },
     {
-      "id": "afcf301d-f9d9-428e-9ba8-cb00f868ca30",
+      "id": "6a78cc5e-0b99-44fc-ac3b-79d99817ed03",
       "name": "Garaje",
       "conceptualName": "Garaje",
       "syncNames": true,
@@ -341,7 +341,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "a5f8ab7c-2b4d-4c59-b580-d28851fd72fb",
+          "id": "3e0520a2-84f0-4883-a159-b1cd9cd0ee84",
           "name": "numero",
           "type": "NUMBER(4)",
           "required": true,
@@ -351,7 +351,7 @@
           "domain": null
         },
         {
-          "id": "3bc46cfd-d353-4170-9f57-7cb3f88b3424",
+          "id": "a8ca70b2-8984-4d94-aa86-c20c8934dcf8",
           "name": "planta",
           "type": "NUMBER(2)",
           "required": false,
@@ -361,7 +361,7 @@
           "domain": null
         },
         {
-          "id": "13e3a195-afb4-4b6b-b453-02ae71849c19",
+          "id": "3706aee4-a6d8-4ab8-8b03-80d881d06125",
           "name": "Inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -370,7 +370,7 @@
           "defaultValue": ""
         },
         {
-          "id": "ec2b0c68-2a39-4748-b6eb-5d08f969bcd3",
+          "id": "cf2417a5-a998-4aee-8409-e43e4fcbb48d",
           "name": "piso_Inmueble_codigo",
           "type": "NUMBER(6)",
           "required": false,
@@ -385,7 +385,7 @@
       "alternateKeys": []
     },
     {
-      "id": "6a6f76e4-08ba-417f-8a9b-634a440c1fae",
+      "id": "9c41401a-9e16-46d0-916b-2ca4ebecd4e3",
       "name": "Compra",
       "conceptualName": "Compra",
       "syncNames": true,
@@ -395,7 +395,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "651444ca-0cc4-49a9-94ac-657f2272d83d",
+          "id": "db18f368-79a3-40c8-9c72-8f9dc425f11f",
           "name": "codigo",
           "type": "NUMBER(8)",
           "required": true,
@@ -405,7 +405,7 @@
           "domain": null
         },
         {
-          "id": "8754584d-d680-42d8-a915-367112c5efa2",
+          "id": "ce897e21-f10a-40b9-8731-33ac52e96e97",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -415,7 +415,7 @@
           "domain": null
         },
         {
-          "id": "5eff92c5-2b15-4929-9cc1-2a195ca496ed",
+          "id": "1f46b9bb-f1ab-46d7-8c59-b125fb0e8be2",
           "name": "valor",
           "type": "NUMBER(12,2)",
           "required": true,
@@ -430,7 +430,7 @@
           }
         },
         {
-          "id": "65da0909-0e39-4e92-a223-1c93d2596309",
+          "id": "980cbf2a-5853-490a-bd04-60908106b210",
           "name": "inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -444,7 +444,7 @@
       "indexes": []
     },
     {
-      "id": "8ab19388-fae2-4068-b3e5-3ed04edcac5f",
+      "id": "95a22951-bf07-43c5-8f7c-6e41628815b2",
       "name": "Alquiler",
       "conceptualName": "Alquiler",
       "syncNames": true,
@@ -454,7 +454,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "b3983441-50d9-486a-b62a-b95207983c20",
+          "id": "35b5cfe0-4137-44bf-9133-c956b5661ec5",
           "name": "numero",
           "type": "NUMBER(5)",
           "required": true,
@@ -464,7 +464,7 @@
           "domain": null
         },
         {
-          "id": "4b1f658b-21cb-4b58-bdf6-2bac1e2681f1",
+          "id": "0fd72e87-0a06-4b70-adb6-018072818bb7",
           "name": "inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -473,7 +473,7 @@
           "defaultValue": ""
         },
         {
-          "id": "9841ba9e-c206-49df-87ed-20fb3914edb6",
+          "id": "79859fc3-1a64-4720-8a39-8cbc02110f7f",
           "name": "inquilino_Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -482,7 +482,7 @@
           "defaultValue": ""
         },
         {
-          "id": "df3b6165-7294-4b20-bb53-4ffa6767e940",
+          "id": "e4e24681-ebe3-44f2-b2f3-4d2fcd96a146",
           "name": "agente_Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -496,7 +496,7 @@
       "indexes": []
     },
     {
-      "id": "ae459220-97d3-4ab0-86b3-2b1acc1259e4",
+      "id": "460cbad0-c6a1-4cca-84c6-e3d111b21348",
       "name": "Pago",
       "conceptualName": "Pago",
       "syncNames": true,
@@ -506,7 +506,7 @@
       "y": 1820,
       "columns": [
         {
-          "id": "a8d7427e-d7e8-4f3f-8c32-178304f2ace6",
+          "id": "acdb4420-b8f6-442a-8eca-76cc206af4f0",
           "name": "anio",
           "type": "NUMBER(4)",
           "required": true,
@@ -516,7 +516,7 @@
           "domain": null
         },
         {
-          "id": "c9064263-bf92-41dd-a291-f05ab112f195",
+          "id": "9d872806-acc1-47c1-9303-414db1401bd2",
           "name": "mes",
           "type": "NUMBER(2)",
           "required": true,
@@ -531,7 +531,7 @@
           }
         },
         {
-          "id": "466223f8-c96a-4df0-ae8a-ecf58b58e872",
+          "id": "b02226c8-06ed-4942-96ec-9bd63cde0c59",
           "name": "valor",
           "type": "NUMBER(8,2)",
           "required": true,
@@ -546,7 +546,7 @@
           }
         },
         {
-          "id": "3bae331f-a034-43bf-9762-5fae85d0350b",
+          "id": "a3efba35-8705-484a-adde-661448cde5a6",
           "name": "alquiler_numero",
           "type": "NUMBER(5)",
           "required": true,
@@ -555,7 +555,7 @@
           "defaultValue": ""
         },
         {
-          "id": "73a10d5f-3e43-4d51-9960-e5f609c9d341",
+          "id": "cf15044a-7f61-4388-ba46-696ea128c169",
           "name": "alquiler_inmueble_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -569,7 +569,7 @@
       "indexes": []
     },
     {
-      "id": "d0e7a60a-e80d-464a-80a3-cc99387694aa",
+      "id": "957c9a98-d57a-4702-ba92-eb6301559515",
       "name": "Titulares",
       "conceptualName": "Titular",
       "syncNames": false,
@@ -579,7 +579,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "ef3cb708-de30-4176-9e9d-709c588e68f6",
+          "id": "bab277c2-fcbe-48fc-8f64-70167b8832a9",
           "name": "compra_codigo",
           "type": "NUMBER(8)",
           "required": true,
@@ -588,7 +588,7 @@
           "defaultValue": ""
         },
         {
-          "id": "7aaac331-f232-4fd0-b117-ecee7c22ad13",
+          "id": "f7e3f602-1259-4352-9a2c-bb9551072aa7",
           "name": "titular_Persona_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -604,9 +604,9 @@
   ],
   "relationships": [
     {
-      "id": "ed9a6038-45f5-40ec-b11a-0132ba431c2c",
-      "parentId": "8c774da4-df2b-4393-96e1-58aaef9618ca",
-      "childId": "0830402d-3060-48c7-935c-2138a7b45705",
+      "id": "e58eb76a-0931-450e-b3b7-410be8cbaff5",
+      "parentId": "7441aa56-bbf3-4f62-8296-6bcfdd975dbc",
+      "childId": "e3d3d8ee-f556-470a-b2ba-ff2f77d8a68a",
       "name": "FK_Telefonos_persona_Persona",
       "forward": "",
       "inverse": "",
@@ -617,15 +617,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c89571e3-088d-4c08-aafe-4ad3ef818984",
-          "childColumnId": "ded2b985-7f97-4bc9-b7ff-dcc601cd1fab"
+          "parentColumnId": "04dbaad3-514c-44ac-be4a-ba56c597b9a4",
+          "childColumnId": "fe6117dd-5267-4817-97b2-df54d859b27a"
         }
       ]
     },
     {
-      "id": "1b0227c5-2525-40a1-8db6-f7b1db13920b",
-      "parentId": "8c774da4-df2b-4393-96e1-58aaef9618ca",
-      "childId": "f430bdfd-be01-40db-97cc-ea3654fa726d",
+      "id": "9ce2173e-30aa-4b0d-9805-4a4bda11a5fd",
+      "parentId": "7441aa56-bbf3-4f62-8296-6bcfdd975dbc",
+      "childId": "4a2321be-e96f-487c-8ab1-f36835f6c9ad",
       "name": "FK_Cliente_Persona",
       "forward": "",
       "inverse": "",
@@ -636,15 +636,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c89571e3-088d-4c08-aafe-4ad3ef818984",
-          "childColumnId": "e8409756-6b8e-44a5-af8a-e77a4db1c645"
+          "parentColumnId": "04dbaad3-514c-44ac-be4a-ba56c597b9a4",
+          "childColumnId": "e6a63137-87b6-44c2-89f2-d0d4c883c1fd"
         }
       ]
     },
     {
-      "id": "b331c6ce-8c5e-4354-a19e-1db078b37956",
-      "parentId": "8c774da4-df2b-4393-96e1-58aaef9618ca",
-      "childId": "368cab39-e775-470b-b8be-c76c5988ded7",
+      "id": "fe93a6ff-4180-4786-991e-a2e75d7e12e7",
+      "parentId": "7441aa56-bbf3-4f62-8296-6bcfdd975dbc",
+      "childId": "d2af2646-f7ab-41b1-b4be-935e62a70cb0",
       "name": "FK_Trabajador_Persona",
       "forward": "",
       "inverse": "",
@@ -655,15 +655,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c89571e3-088d-4c08-aafe-4ad3ef818984",
-          "childColumnId": "5ba12f2f-6626-4758-97ac-b6b03128e814"
+          "parentColumnId": "04dbaad3-514c-44ac-be4a-ba56c597b9a4",
+          "childColumnId": "6b79c71e-629c-4edf-ba9f-2e4df8451f00"
         }
       ]
     },
     {
-      "id": "c01ffb40-17f2-49d7-bf7d-1f57b6377ed6",
-      "parentId": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
-      "childId": "12028bf2-afd6-45b9-9cf2-dcc209c64a85",
+      "id": "2d2d8888-e5a2-4196-9faf-b6f4cd37afe7",
+      "parentId": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
+      "childId": "bc2e3986-2263-47a8-bc13-e94c80ca19db",
       "name": "FK_Piso_Inmueble",
       "forward": "",
       "inverse": "",
@@ -674,15 +674,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
-          "childColumnId": "c3e0069a-6c2f-4edd-a9cc-86d065785f5d"
+          "parentColumnId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
+          "childColumnId": "b1bb4288-ce7a-434a-8cb2-35ca7c021444"
         }
       ]
     },
     {
-      "id": "06b3038a-2178-40fa-a1d8-c527bcf16a62",
-      "parentId": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
-      "childId": "29407ada-6505-4185-a0b9-f85daa1b64c1",
+      "id": "ccb6a3f4-1293-46aa-921d-906fdc82ca6e",
+      "parentId": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
+      "childId": "7bc89c72-7f7d-4221-986e-6d5c1827e98d",
       "name": "FK_Local_Inmueble",
       "forward": "",
       "inverse": "",
@@ -693,15 +693,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
-          "childColumnId": "a03e67a6-9dc9-42a4-a55c-df58d2ff694b"
+          "parentColumnId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
+          "childColumnId": "b29bbcbb-7942-4774-821a-b8139bba1ed0"
         }
       ]
     },
     {
-      "id": "e9c287fd-fd6b-4da8-aeff-e6706eb049a7",
-      "parentId": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
-      "childId": "afcf301d-f9d9-428e-9ba8-cb00f868ca30",
+      "id": "6c076027-f9fc-4e09-9c26-ac1f228065d8",
+      "parentId": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
+      "childId": "6a78cc5e-0b99-44fc-ac3b-79d99817ed03",
       "name": "FK_Garaje_Inmueble",
       "forward": "",
       "inverse": "",
@@ -712,15 +712,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
-          "childColumnId": "13e3a195-afb4-4b6b-b453-02ae71849c19"
+          "parentColumnId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
+          "childColumnId": "3706aee4-a6d8-4ab8-8b03-80d881d06125"
         }
       ]
     },
     {
-      "id": "e58ccca0-14d1-4b86-9d66-0cd15173a2b5",
-      "parentId": "12028bf2-afd6-45b9-9cf2-dcc209c64a85",
-      "childId": "afcf301d-f9d9-428e-9ba8-cb00f868ca30",
+      "id": "e394cfec-a646-49e2-b570-043c96eea5b8",
+      "parentId": "bc2e3986-2263-47a8-bc13-e94c80ca19db",
+      "childId": "6a78cc5e-0b99-44fc-ac3b-79d99817ed03",
       "name": "FK_Asociado_piso",
       "forward": "Asociado",
       "inverse": "piso",
@@ -731,15 +731,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c3e0069a-6c2f-4edd-a9cc-86d065785f5d",
-          "childColumnId": "ec2b0c68-2a39-4748-b6eb-5d08f969bcd3"
+          "parentColumnId": "b1bb4288-ce7a-434a-8cb2-35ca7c021444",
+          "childColumnId": "cf2417a5-a998-4aee-8409-e43e4fcbb48d"
         }
       ]
     },
     {
-      "id": "fb4bd847-4fc7-4972-9aa4-4c3d3871f1ae",
-      "parentId": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
-      "childId": "6a6f76e4-08ba-417f-8a9b-634a440c1fae",
+      "id": "c4663caa-ddc6-436a-b068-b76eb032d151",
+      "parentId": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
+      "childId": "9c41401a-9e16-46d0-916b-2ca4ebecd4e3",
       "name": "FK_Se_compra_inmueble",
       "forward": "Se_compra",
       "inverse": "inmueble",
@@ -750,15 +750,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
-          "childColumnId": "65da0909-0e39-4e92-a223-1c93d2596309"
+          "parentColumnId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
+          "childColumnId": "980cbf2a-5853-490a-bd04-60908106b210"
         }
       ]
     },
     {
-      "id": "5be4e6c8-c99e-4b9e-8fdf-a84f5bdf1943",
-      "parentId": "6a6f76e4-08ba-417f-8a9b-634a440c1fae",
-      "childId": "d0e7a60a-e80d-464a-80a3-cc99387694aa",
+      "id": "ac8f7ecb-a5bb-49d6-b28d-d57311ef131b",
+      "parentId": "9c41401a-9e16-46d0-916b-2ca4ebecd4e3",
+      "childId": "957c9a98-d57a-4702-ba92-eb6301559515",
       "name": "FK_Titular_compra",
       "forward": "Titular",
       "inverse": "compra",
@@ -769,15 +769,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "651444ca-0cc4-49a9-94ac-657f2272d83d",
-          "childColumnId": "ef3cb708-de30-4176-9e9d-709c588e68f6"
+          "parentColumnId": "db18f368-79a3-40c8-9c72-8f9dc425f11f",
+          "childColumnId": "bab277c2-fcbe-48fc-8f64-70167b8832a9"
         }
       ]
     },
     {
-      "id": "13aa8c32-d2e7-4106-8aa9-2a671a1a3f11",
-      "parentId": "f430bdfd-be01-40db-97cc-ea3654fa726d",
-      "childId": "d0e7a60a-e80d-464a-80a3-cc99387694aa",
+      "id": "5c073251-6c4a-4806-8bf8-b1517cb07891",
+      "parentId": "4a2321be-e96f-487c-8ab1-f36835f6c9ad",
+      "childId": "957c9a98-d57a-4702-ba92-eb6301559515",
       "name": "FK_Titular_titular",
       "forward": "Titular",
       "inverse": "titular",
@@ -788,15 +788,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e8409756-6b8e-44a5-af8a-e77a4db1c645",
-          "childColumnId": "7aaac331-f232-4fd0-b117-ecee7c22ad13"
+          "parentColumnId": "e6a63137-87b6-44c2-89f2-d0d4c883c1fd",
+          "childColumnId": "f7e3f602-1259-4352-9a2c-bb9551072aa7"
         }
       ]
     },
     {
-      "id": "4ddde5c8-543e-4ec8-9405-507fff933b42",
-      "parentId": "33f41042-2e86-4eac-be08-7d1fc1f011f7",
-      "childId": "8ab19388-fae2-4068-b3e5-3ed04edcac5f",
+      "id": "b4364cbd-8f52-4eeb-b869-9422c3bd26a7",
+      "parentId": "15f3e8a5-5b52-42df-8d7c-48a21361c149",
+      "childId": "95a22951-bf07-43c5-8f7c-6e41628815b2",
       "name": "FK_Se_alquila_inmueble",
       "forward": "Se_alquila",
       "inverse": "inmueble",
@@ -807,15 +807,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc",
-          "childColumnId": "4b1f658b-21cb-4b58-bdf6-2bac1e2681f1"
+          "parentColumnId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a",
+          "childColumnId": "0fd72e87-0a06-4b70-adb6-018072818bb7"
         }
       ]
     },
     {
-      "id": "02ac2708-982e-4b72-ba43-ff95d2ea3c74",
-      "parentId": "f430bdfd-be01-40db-97cc-ea3654fa726d",
-      "childId": "8ab19388-fae2-4068-b3e5-3ed04edcac5f",
+      "id": "13e76a82-8173-426c-8296-d953714ec781",
+      "parentId": "4a2321be-e96f-487c-8ab1-f36835f6c9ad",
+      "childId": "95a22951-bf07-43c5-8f7c-6e41628815b2",
       "name": "FK_Inquilino_inquilino",
       "forward": "Inquilino",
       "inverse": "inquilino",
@@ -826,15 +826,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e8409756-6b8e-44a5-af8a-e77a4db1c645",
-          "childColumnId": "9841ba9e-c206-49df-87ed-20fb3914edb6"
+          "parentColumnId": "e6a63137-87b6-44c2-89f2-d0d4c883c1fd",
+          "childColumnId": "79859fc3-1a64-4720-8a39-8cbc02110f7f"
         }
       ]
     },
     {
-      "id": "96a759a7-c206-43d8-9af6-82004bd7578d",
-      "parentId": "368cab39-e775-470b-b8be-c76c5988ded7",
-      "childId": "8ab19388-fae2-4068-b3e5-3ed04edcac5f",
+      "id": "6a49e2d7-b48f-4a61-a274-7030b3b624b7",
+      "parentId": "d2af2646-f7ab-41b1-b4be-935e62a70cb0",
+      "childId": "95a22951-bf07-43c5-8f7c-6e41628815b2",
       "name": "FK_Gestiona_agente",
       "forward": "Gestiona",
       "inverse": "agente",
@@ -845,15 +845,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5ba12f2f-6626-4758-97ac-b6b03128e814",
-          "childColumnId": "df3b6165-7294-4b20-bb53-4ffa6767e940"
+          "parentColumnId": "6b79c71e-629c-4edf-ba9f-2e4df8451f00",
+          "childColumnId": "e4e24681-ebe3-44f2-b2f3-4d2fcd96a146"
         }
       ]
     },
     {
-      "id": "239236af-9f51-4b81-8eab-71b595dd38a0",
-      "parentId": "8ab19388-fae2-4068-b3e5-3ed04edcac5f",
-      "childId": "ae459220-97d3-4ab0-86b3-2b1acc1259e4",
+      "id": "4b61d9d0-d8e9-484e-97ba-aab93480089e",
+      "parentId": "95a22951-bf07-43c5-8f7c-6e41628815b2",
+      "childId": "460cbad0-c6a1-4cca-84c6-e3d111b21348",
       "name": "FK_Paga_alquiler",
       "forward": "Paga",
       "inverse": "alquiler",
@@ -864,12 +864,12 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "b3983441-50d9-486a-b62a-b95207983c20",
-          "childColumnId": "3bae331f-a034-43bf-9762-5fae85d0350b"
+          "parentColumnId": "35b5cfe0-4137-44bf-9133-c956b5661ec5",
+          "childColumnId": "a3efba35-8705-484a-adde-661448cde5a6"
         },
         {
-          "parentColumnId": "4b1f658b-21cb-4b58-bdf6-2bac1e2681f1",
-          "childColumnId": "73a10d5f-3e43-4d51-9960-e5f609c9d341"
+          "parentColumnId": "0fd72e87-0a06-4b70-adb6-018072818bb7",
+          "childColumnId": "cf15044a-7f61-4388-ba46-696ea128c169"
         }
       ]
     }
@@ -877,7 +877,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "id": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "Persona",
         "notes": "",
         "weak": false,
@@ -887,7 +887,7 @@
         }
       },
       {
-        "id": "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27",
+        "id": "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0",
         "name": "Cliente",
         "notes": "",
         "weak": false,
@@ -897,7 +897,7 @@
         }
       },
       {
-        "id": "a3501efc-5558-4aa3-bb3d-f5de8821b7aa",
+        "id": "01d9378f-9265-4b49-8678-b83f3e3bef8a",
         "name": "Trabajador",
         "notes": "",
         "weak": false,
@@ -907,7 +907,7 @@
         }
       },
       {
-        "id": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "id": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "name": "Inmueble",
         "notes": "",
         "weak": false,
@@ -917,7 +917,7 @@
         }
       },
       {
-        "id": "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2",
+        "id": "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a",
         "name": "Piso",
         "notes": "",
         "weak": false,
@@ -927,7 +927,7 @@
         }
       },
       {
-        "id": "33a65a48-b66a-4c26-a124-bff644da0910",
+        "id": "319cac45-a678-47ec-9055-4b9955d2c719",
         "name": "Local",
         "notes": "",
         "weak": false,
@@ -937,7 +937,7 @@
         }
       },
       {
-        "id": "25c75aee-889b-4653-8917-1ae5c0e216df",
+        "id": "4a899c78-b01e-4a25-8531-6efd11b16001",
         "name": "Garaje",
         "notes": "",
         "weak": false,
@@ -947,7 +947,7 @@
         }
       },
       {
-        "id": "2aabd016-1927-4f34-95b5-976df242ba4d",
+        "id": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
         "name": "Compra",
         "notes": "",
         "weak": false,
@@ -957,33 +957,33 @@
         }
       },
       {
-        "id": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+        "id": "794e5ebb-ab1a-4603-9032-a72c545f7444",
         "name": "Alquiler",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "ownerEntityId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "translation": {
           "kind": "weak",
-          "relationshipId": "e0e06b9b-7d9f-4ec1-b1c4-da56cd0efa58"
+          "relationshipId": "c3333e32-1da1-4e38-b963-d4d3cbc51536"
         }
       },
       {
-        "id": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+        "id": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
         "name": "Pago",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+        "ownerEntityId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
         "translation": {
           "kind": "weak",
-          "relationshipId": "90186705-8fe9-49c4-8b48-7a521e027eda"
+          "relationshipId": "26b9f003-9375-4db5-b9c2-e95d4fcf25d0"
         }
       }
     ],
     "attributes": [
       {
-        "id": "8f3e80f5-387d-4280-be9b-09a1f6ca2c19",
+        "id": "7ebdc0bb-387a-422e-80bc-ae6ebb56cfe3",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "codigo",
         "type": "NUMBER(6)",
         "required": true,
@@ -1002,9 +1002,9 @@
         }
       },
       {
-        "id": "c3566865-d173-4f6f-9096-76b467b5b1fb",
+        "id": "670ad5c3-b3f9-4cb4-b2d4-3c7554deed13",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -1023,9 +1023,9 @@
         }
       },
       {
-        "id": "17b5abe9-51c1-487e-aadc-f4378c7ca706",
+        "id": "86b293cf-ab1f-437b-b609-64725539a6d7",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -1044,9 +1044,9 @@
         }
       },
       {
-        "id": "0c4a38ec-6ab6-479f-8cd4-2685a164fd6b",
+        "id": "bfffa561-8b80-4d71-b19e-974a86023b84",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "apellidos",
         "type": "VARCHAR(80)",
         "required": true,
@@ -1065,9 +1065,9 @@
         }
       },
       {
-        "id": "114d97d8-3e7e-4442-94fe-a91242b2a3f8",
+        "id": "356280eb-b7b3-499b-890a-7594959857d6",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -1086,9 +1086,9 @@
         }
       },
       {
-        "id": "398553f1-a659-4025-bbd4-dc47eb611c01",
+        "id": "7e7061a6-c625-478e-9d10-0bc6e2f3380c",
         "ownerKind": "entity",
-        "ownerId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "ownerId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -1108,9 +1108,9 @@
         }
       },
       {
-        "id": "969f186b-a364-4aca-90b5-42fa915c5e7d",
+        "id": "fb91eb6a-a090-4a31-b2a7-c6d4730e368f",
         "ownerKind": "entity",
-        "ownerId": "a3501efc-5558-4aa3-bb3d-f5de8821b7aa",
+        "ownerId": "01d9378f-9265-4b49-8678-b83f3e3bef8a",
         "name": "fecha_ingreso",
         "type": "DATE",
         "required": true,
@@ -1129,9 +1129,9 @@
         }
       },
       {
-        "id": "dd57c8d9-4ffb-416d-8d60-4eb22c1c41c9",
+        "id": "48c2422a-7757-4394-a78c-03c42671f30e",
         "ownerKind": "entity",
-        "ownerId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "ownerId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "name": "codigo",
         "type": "NUMBER(6)",
         "required": true,
@@ -1150,9 +1150,9 @@
         }
       },
       {
-        "id": "826e66f2-c46b-49e6-a97a-3102636b4cc2",
+        "id": "df58d248-4578-4a3a-bce8-4c753d986ada",
         "ownerKind": "entity",
-        "ownerId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "ownerId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "name": "superficie_m2",
         "type": "NUMBER(7,2)",
         "required": true,
@@ -1176,9 +1176,9 @@
         }
       },
       {
-        "id": "60980210-a624-4182-aabe-7164fe307cb3",
+        "id": "491c416e-ff26-4a43-9c0b-ede4ccfd0dd9",
         "ownerKind": "entity",
-        "ownerId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "ownerId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "name": "descripcion",
         "type": "VARCHAR(200)",
         "required": false,
@@ -1197,9 +1197,9 @@
         }
       },
       {
-        "id": "222663cd-0ffc-4fe7-974a-dcf85b514b18",
+        "id": "130589ed-5feb-4167-b7cb-f33dc638d4a5",
         "ownerKind": "entity",
-        "ownerId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "ownerId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": true,
@@ -1218,9 +1218,9 @@
         }
       },
       {
-        "id": "24258475-54f3-46a3-bce1-df6202b74403",
+        "id": "ca32ff46-b576-47f6-90c0-3072efd899c6",
         "ownerKind": "entity",
-        "ownerId": "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2",
+        "ownerId": "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a",
         "name": "codigo_piso",
         "type": "VARCHAR(10)",
         "required": true,
@@ -1239,9 +1239,9 @@
         }
       },
       {
-        "id": "775f2312-9abd-45f1-9bc1-b94a0cf48b5a",
+        "id": "687e7184-acf8-465b-9cae-94a28a6495f9",
         "ownerKind": "entity",
-        "ownerId": "33a65a48-b66a-4c26-a124-bff644da0910",
+        "ownerId": "319cac45-a678-47ec-9055-4b9955d2c719",
         "name": "uso",
         "type": "VARCHAR(40)",
         "required": false,
@@ -1260,9 +1260,9 @@
         }
       },
       {
-        "id": "372c563b-7a85-4c43-93c6-005a41838499",
+        "id": "96dec117-90b5-45ea-a672-8706955800e4",
         "ownerKind": "entity",
-        "ownerId": "33a65a48-b66a-4c26-a124-bff644da0910",
+        "ownerId": "319cac45-a678-47ec-9055-4b9955d2c719",
         "name": "servicio",
         "type": "CHAR(1)",
         "required": true,
@@ -1289,9 +1289,9 @@
         }
       },
       {
-        "id": "9eac0af8-ce12-4ce5-9a9e-b6456177c755",
+        "id": "7bd22cf7-3b4f-4c40-8765-21cfadbbe58f",
         "ownerKind": "entity",
-        "ownerId": "25c75aee-889b-4653-8917-1ae5c0e216df",
+        "ownerId": "4a899c78-b01e-4a25-8531-6efd11b16001",
         "name": "numero",
         "type": "NUMBER(4)",
         "required": true,
@@ -1310,9 +1310,9 @@
         }
       },
       {
-        "id": "db48638a-7a9c-4719-a054-cc647dc4b034",
+        "id": "cb748828-5dd2-48e3-a776-c249861287cd",
         "ownerKind": "entity",
-        "ownerId": "25c75aee-889b-4653-8917-1ae5c0e216df",
+        "ownerId": "4a899c78-b01e-4a25-8531-6efd11b16001",
         "name": "planta",
         "type": "NUMBER(2)",
         "required": false,
@@ -1331,9 +1331,9 @@
         }
       },
       {
-        "id": "28f7f470-0de9-47d4-ae5a-2a696012407e",
+        "id": "1a2075e3-4a51-438b-a2b8-b0ab2cf4e312",
         "ownerKind": "entity",
-        "ownerId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+        "ownerId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
         "name": "codigo",
         "type": "NUMBER(8)",
         "required": true,
@@ -1352,9 +1352,9 @@
         }
       },
       {
-        "id": "a2828de2-78f0-45e5-b1a8-b729286514db",
+        "id": "e9557cd8-05c6-4793-b3a7-5ad652255d1a",
         "ownerKind": "entity",
-        "ownerId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+        "ownerId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -1373,9 +1373,9 @@
         }
       },
       {
-        "id": "d67af27f-909c-4f36-92b9-9151ece6a515",
+        "id": "1db37fed-5aba-45fb-aca1-d807faf908d1",
         "ownerKind": "entity",
-        "ownerId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+        "ownerId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
         "name": "valor",
         "type": "NUMBER(12,2)",
         "required": true,
@@ -1399,9 +1399,9 @@
         }
       },
       {
-        "id": "508a790c-3023-4a78-b072-7f60decef1a9",
+        "id": "a2f1e74f-d8ec-4c9d-9b9c-69194945d6e5",
         "ownerKind": "entity",
-        "ownerId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+        "ownerId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
         "name": "numero",
         "type": "NUMBER(5)",
         "required": true,
@@ -1420,9 +1420,9 @@
         }
       },
       {
-        "id": "e78db013-5d23-4661-a54b-7d12062fa32e",
+        "id": "66c95624-d79d-4ec8-8a1a-9972c13ba473",
         "ownerKind": "entity",
-        "ownerId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+        "ownerId": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
         "name": "anio",
         "type": "NUMBER(4)",
         "required": true,
@@ -1441,9 +1441,9 @@
         }
       },
       {
-        "id": "951176b6-3584-4985-ade1-a5394eee7d10",
+        "id": "f318ae1c-57b2-48d6-a977-e52be96832c9",
         "ownerKind": "entity",
-        "ownerId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+        "ownerId": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
         "name": "mes",
         "type": "NUMBER(2)",
         "required": true,
@@ -1467,9 +1467,9 @@
         }
       },
       {
-        "id": "fc175553-0b1d-45e2-8d48-b0040e06798a",
+        "id": "04142899-1fc0-4486-9dcb-8223a5cb11fe",
         "ownerKind": "entity",
-        "ownerId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+        "ownerId": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
         "name": "valor",
         "type": "NUMBER(8,2)",
         "required": true,
@@ -1495,20 +1495,20 @@
     ],
     "relationships": [
       {
-        "id": "3dc87713-6f30-44f1-8b0c-e975da804b09",
+        "id": "2925cc2d-ce6b-49c0-ab85-61216e59afa6",
         "name": "Asociado",
         "notes": "",
         "participations": [
           {
-            "id": "ed220b68-496b-4ae2-87d1-73eb92178c6f",
-            "entityId": "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2",
+            "id": "d8fe5551-521a-4352-89cb-8ba9e8b1eb87",
+            "entityId": "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a",
             "role": "piso",
             "min": 0,
             "max": null
           },
           {
-            "id": "8deb9f70-6ad8-4bea-8651-afe9dd5b8862",
-            "entityId": "25c75aee-889b-4653-8917-1ae5c0e216df",
+            "id": "57337825-04ab-4839-b585-807809c2e7dd",
+            "entityId": "4a899c78-b01e-4a25-8531-6efd11b16001",
             "role": "garaje",
             "min": 0,
             "max": 1
@@ -1516,25 +1516,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "8deb9f70-6ad8-4bea-8651-afe9dd5b8862",
+          "childParticipationId": "57337825-04ab-4839-b585-807809c2e7dd",
           "identifying": false
         }
       },
       {
-        "id": "2b0b5982-741d-4756-97c3-8454aa1479fa",
+        "id": "e23f2179-72fa-496f-8473-6c2edf9a90ee",
         "name": "Se_compra",
         "notes": "",
         "participations": [
           {
-            "id": "52a70ceb-e84f-4b54-a06b-8d69eb78a195",
-            "entityId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+            "id": "afb33fc9-1cf8-4778-9f11-2574a0af8827",
+            "entityId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
             "role": "inmueble",
             "min": 0,
             "max": null
           },
           {
-            "id": "c2b50a87-9e6e-4e74-b4c3-ac3f9127b4bc",
-            "entityId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+            "id": "7b2b081f-7c3f-48ec-a3f5-401394ba6633",
+            "entityId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
             "role": "compra",
             "min": 1,
             "max": 1
@@ -1542,25 +1542,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "c2b50a87-9e6e-4e74-b4c3-ac3f9127b4bc",
+          "childParticipationId": "7b2b081f-7c3f-48ec-a3f5-401394ba6633",
           "identifying": false
         }
       },
       {
-        "id": "98986828-ee78-467e-8cc9-07df261d1bed",
+        "id": "5704f8ae-e38d-4597-b465-99385e7f94de",
         "name": "Titular",
         "notes": "",
         "participations": [
           {
-            "id": "9298ee1a-f1f7-47e7-b56b-3322494a3b38",
-            "entityId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+            "id": "aa6fc10b-d9cf-44bb-8b6f-db8ebea051d4",
+            "entityId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
             "role": "compra",
             "min": 1,
             "max": null
           },
           {
-            "id": "e422abe4-a14c-4bb2-8f3f-098707c62a4c",
-            "entityId": "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27",
+            "id": "9fbcc548-64a2-4fa4-8dd7-88b143506147",
+            "entityId": "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0",
             "role": "titular",
             "min": 0,
             "max": null
@@ -1571,28 +1571,28 @@
           "tableName": "Titulares",
           "key": {
             "participationIds": [
-              "9298ee1a-f1f7-47e7-b56b-3322494a3b38",
-              "e422abe4-a14c-4bb2-8f3f-098707c62a4c"
+              "aa6fc10b-d9cf-44bb-8b6f-db8ebea051d4",
+              "9fbcc548-64a2-4fa4-8dd7-88b143506147"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "e0e06b9b-7d9f-4ec1-b1c4-da56cd0efa58",
+        "id": "c3333e32-1da1-4e38-b963-d4d3cbc51536",
         "name": "Se_alquila",
         "notes": "",
         "participations": [
           {
-            "id": "409e3472-05a2-4fa2-a7b1-4e01f99eae7a",
-            "entityId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+            "id": "3db289f3-d8ed-4dcb-acda-da38e691c953",
+            "entityId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
             "role": "inmueble",
             "min": 0,
             "max": null
           },
           {
-            "id": "9e6426df-bb6e-4bce-a3af-a6c94c497f05",
-            "entityId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+            "id": "e6e6c670-12aa-4137-9fec-84156439e629",
+            "entityId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
             "role": "alquiler",
             "min": 1,
             "max": 1
@@ -1600,25 +1600,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "9e6426df-bb6e-4bce-a3af-a6c94c497f05",
+          "childParticipationId": "e6e6c670-12aa-4137-9fec-84156439e629",
           "identifying": true
         }
       },
       {
-        "id": "ea452e1f-c9fe-4a24-adf7-54e2fc17bde4",
+        "id": "3fef9f6f-4ffd-4250-accd-a49dcf220fa4",
         "name": "Inquilino",
         "notes": "",
         "participations": [
           {
-            "id": "f4a4a8af-d9e8-429f-b0c1-f687d7ab5e4b",
-            "entityId": "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27",
+            "id": "975cd8bc-d97e-419d-8523-2ae9d82c9a60",
+            "entityId": "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0",
             "role": "inquilino",
             "min": 0,
             "max": null
           },
           {
-            "id": "d5374469-f0a5-4058-a020-c82e9271d614",
-            "entityId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+            "id": "255c5a1c-2325-43f3-938a-887fe51d2436",
+            "entityId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
             "role": "alquiler",
             "min": 1,
             "max": 1
@@ -1626,25 +1626,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "d5374469-f0a5-4058-a020-c82e9271d614",
+          "childParticipationId": "255c5a1c-2325-43f3-938a-887fe51d2436",
           "identifying": false
         }
       },
       {
-        "id": "24618a95-8530-4d22-850c-914b1597547d",
+        "id": "5665beaa-f956-41eb-94bf-39628fbd15ad",
         "name": "Gestiona",
         "notes": "",
         "participations": [
           {
-            "id": "77c005c7-2ae5-49b1-9f32-1df8e1b871b8",
-            "entityId": "a3501efc-5558-4aa3-bb3d-f5de8821b7aa",
+            "id": "70e6468d-29a9-4693-af6a-c81a73b22238",
+            "entityId": "01d9378f-9265-4b49-8678-b83f3e3bef8a",
             "role": "agente",
             "min": 0,
             "max": null
           },
           {
-            "id": "5c711bc3-e007-42a3-931a-3f8678af2d1b",
-            "entityId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+            "id": "9443353a-9fd7-4667-98d8-4014c6737b4d",
+            "entityId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
             "role": "alquiler",
             "min": 1,
             "max": 1
@@ -1652,25 +1652,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "5c711bc3-e007-42a3-931a-3f8678af2d1b",
+          "childParticipationId": "9443353a-9fd7-4667-98d8-4014c6737b4d",
           "identifying": false
         }
       },
       {
-        "id": "90186705-8fe9-49c4-8b48-7a521e027eda",
+        "id": "26b9f003-9375-4db5-b9c2-e95d4fcf25d0",
         "name": "Paga",
         "notes": "",
         "participations": [
           {
-            "id": "c965358e-21f3-4d95-98f5-35725e1dd0c8",
-            "entityId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+            "id": "4098f7d3-b166-428c-8f21-879b5733d4dd",
+            "entityId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
             "role": "alquiler",
             "min": 0,
             "max": null
           },
           {
-            "id": "677dfe0f-68db-4a7d-b790-8ceae0b5e9ac",
-            "entityId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+            "id": "8fa90f8e-0808-454c-8610-5c2d935bcebf",
+            "entityId": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
             "role": "pago",
             "min": 1,
             "max": 1
@@ -1678,18 +1678,18 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "677dfe0f-68db-4a7d-b790-8ceae0b5e9ac",
+          "childParticipationId": "8fa90f8e-0808-454c-8610-5c2d935bcebf",
           "identifying": true
         }
       }
     ],
     "generalizations": [
       {
-        "id": "ce9bacb9-bc2a-4eff-b1d4-fb09302e1b54",
-        "supertypeId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+        "id": "b0a16f6d-bdda-4835-8b61-1be8ef4063a1",
+        "supertypeId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
         "subtypeIds": [
-          "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27",
-          "a3501efc-5558-4aa3-bb3d-f5de8821b7aa"
+          "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0",
+          "01d9378f-9265-4b49-8678-b83f3e3bef8a"
         ],
         "disjoint": false,
         "total": true,
@@ -1699,12 +1699,12 @@
         }
       },
       {
-        "id": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
-        "supertypeId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+        "id": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
+        "supertypeId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
         "subtypeIds": [
-          "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2",
-          "33a65a48-b66a-4c26-a124-bff644da0910",
-          "25c75aee-889b-4653-8917-1ae5c0e216df"
+          "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a",
+          "319cac45-a678-47ec-9055-4b9955d2c719",
+          "4a899c78-b01e-4a25-8531-6efd11b16001"
         ],
         "disjoint": true,
         "total": false,
@@ -1718,425 +1718,431 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "cf92e083-31db-4747-b503-7eb11ee4efd8",
+      "sourceId": "73535d0c-fb23-4cbf-afd7-4813d08183b9",
       "targetKind": "table",
-      "targetId": "8c774da4-df2b-4393-96e1-58aaef9618ca"
+      "targetId": "7441aa56-bbf3-4f62-8296-6bcfdd975dbc"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8f3e80f5-387d-4280-be9b-09a1f6ca2c19",
+      "sourceId": "7ebdc0bb-387a-422e-80bc-ae6ebb56cfe3",
       "targetKind": "column",
-      "targetId": "c89571e3-088d-4c08-aafe-4ad3ef818984"
+      "targetId": "04dbaad3-514c-44ac-be4a-ba56c597b9a4"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c3566865-d173-4f6f-9096-76b467b5b1fb",
+      "sourceId": "670ad5c3-b3f9-4cb4-b2d4-3c7554deed13",
       "targetKind": "column",
-      "targetId": "259f6365-d837-4a53-8454-c8c31b79c795"
+      "targetId": "d753d576-eb93-40a8-a7a6-0a60c768c016"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "17b5abe9-51c1-487e-aadc-f4378c7ca706",
+      "sourceId": "86b293cf-ab1f-437b-b609-64725539a6d7",
       "targetKind": "column",
-      "targetId": "4c949cd3-cc06-4180-93a6-3e3548a0ced7"
+      "targetId": "97defe1b-bfe4-4925-b9cb-c53be9200957"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "0c4a38ec-6ab6-479f-8cd4-2685a164fd6b",
+      "sourceId": "bfffa561-8b80-4d71-b19e-974a86023b84",
       "targetKind": "column",
-      "targetId": "dac4007d-b17b-42cd-b718-792363dc8484"
+      "targetId": "7eb2aaac-f13c-48e8-81bc-1bc385ba70bd"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "114d97d8-3e7e-4442-94fe-a91242b2a3f8",
+      "sourceId": "356280eb-b7b3-499b-890a-7594959857d6",
       "targetKind": "column",
-      "targetId": "130b36eb-9512-4ba8-85c9-9d65c829324a"
+      "targetId": "3bdf58ff-0d06-4ccc-8758-745a8aec0ded"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "398553f1-a659-4025-bbd4-dc47eb611c01",
+      "sourceId": "7e7061a6-c625-478e-9d10-0bc6e2f3380c",
       "targetKind": "table",
-      "targetId": "0830402d-3060-48c7-935c-2138a7b45705"
+      "targetId": "e3d3d8ee-f556-470a-b2ba-ff2f77d8a68a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "398553f1-a659-4025-bbd4-dc47eb611c01",
+      "sourceId": "7e7061a6-c625-478e-9d10-0bc6e2f3380c",
       "targetKind": "foreign-key",
-      "targetId": "ed9a6038-45f5-40ec-b11a-0132ba431c2c"
+      "targetId": "e58eb76a-0931-450e-b3b7-410be8cbaff5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "398553f1-a659-4025-bbd4-dc47eb611c01",
+      "sourceId": "7e7061a6-c625-478e-9d10-0bc6e2f3380c",
       "targetKind": "column",
-      "targetId": "32fd647b-f98c-4493-be85-cf1c3aec6602"
+      "targetId": "48c36659-8c2a-4ed1-8659-9bc8cd8ea979"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27",
+      "sourceId": "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0",
       "targetKind": "table",
-      "targetId": "f430bdfd-be01-40db-97cc-ea3654fa726d"
+      "targetId": "4a2321be-e96f-487c-8ab1-f36835f6c9ad"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "a3501efc-5558-4aa3-bb3d-f5de8821b7aa",
+      "sourceId": "01d9378f-9265-4b49-8678-b83f3e3bef8a",
       "targetKind": "table",
-      "targetId": "368cab39-e775-470b-b8be-c76c5988ded7"
+      "targetId": "d2af2646-f7ab-41b1-b4be-935e62a70cb0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "969f186b-a364-4aca-90b5-42fa915c5e7d",
+      "sourceId": "fb91eb6a-a090-4a31-b2a7-c6d4730e368f",
       "targetKind": "column",
-      "targetId": "2ade474e-1768-43d9-aa8a-87b83cd24224"
+      "targetId": "142d91b8-b893-4783-8201-b59b0aee0c15"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "ce9bacb9-bc2a-4eff-b1d4-fb09302e1b54",
+      "sourceId": "b0a16f6d-bdda-4835-8b61-1be8ef4063a1",
       "targetKind": "foreign-key",
-      "targetId": "1b0227c5-2525-40a1-8db6-f7b1db13920b"
+      "targetId": "9ce2173e-30aa-4b0d-9805-4a4bda11a5fd"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "ce9bacb9-bc2a-4eff-b1d4-fb09302e1b54",
+      "sourceId": "b0a16f6d-bdda-4835-8b61-1be8ef4063a1",
       "targetKind": "column",
-      "targetId": "e8409756-6b8e-44a5-af8a-e77a4db1c645"
+      "targetId": "e6a63137-87b6-44c2-89f2-d0d4c883c1fd"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "ce9bacb9-bc2a-4eff-b1d4-fb09302e1b54",
+      "sourceId": "b0a16f6d-bdda-4835-8b61-1be8ef4063a1",
       "targetKind": "foreign-key",
-      "targetId": "b331c6ce-8c5e-4354-a19e-1db078b37956"
+      "targetId": "fe93a6ff-4180-4786-991e-a2e75d7e12e7"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "ce9bacb9-bc2a-4eff-b1d4-fb09302e1b54",
+      "sourceId": "b0a16f6d-bdda-4835-8b61-1be8ef4063a1",
       "targetKind": "column",
-      "targetId": "5ba12f2f-6626-4758-97ac-b6b03128e814"
+      "targetId": "6b79c71e-629c-4edf-ba9f-2e4df8451f00"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75",
+      "sourceId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9",
       "targetKind": "table",
-      "targetId": "33f41042-2e86-4eac-be08-7d1fc1f011f7"
+      "targetId": "15f3e8a5-5b52-42df-8d7c-48a21361c149"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "dd57c8d9-4ffb-416d-8d60-4eb22c1c41c9",
+      "sourceId": "48c2422a-7757-4394-a78c-03c42671f30e",
       "targetKind": "column",
-      "targetId": "0ff762d1-0a23-4af5-a39c-68a2a47da6bc"
+      "targetId": "2bef2320-b553-4a5b-80c1-fcdfe86b521a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "826e66f2-c46b-49e6-a97a-3102636b4cc2",
+      "sourceId": "df58d248-4578-4a3a-bce8-4c753d986ada",
       "targetKind": "column",
-      "targetId": "f66b42b5-0444-40b5-863b-c73e6fe206e1"
+      "targetId": "da16c764-1f0e-4f1d-9714-f17e828d9cf3"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "60980210-a624-4182-aabe-7164fe307cb3",
+      "sourceId": "491c416e-ff26-4a43-9c0b-ede4ccfd0dd9",
       "targetKind": "column",
-      "targetId": "d67c8e5e-2d8c-4039-83e6-e6e9a8aee8bf"
+      "targetId": "ecac7192-49c9-4121-be95-8c69c386eaf9"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "222663cd-0ffc-4fe7-974a-dcf85b514b18",
+      "sourceId": "130589ed-5feb-4167-b7cb-f33dc638d4a5",
       "targetKind": "column",
-      "targetId": "914439ee-fe47-477c-b3d7-56e6db1ca9d6"
+      "targetId": "9fbf3536-6f98-44e1-be19-eca3db111cf5"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2",
+      "sourceId": "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a",
       "targetKind": "table",
-      "targetId": "12028bf2-afd6-45b9-9cf2-dcc209c64a85"
+      "targetId": "bc2e3986-2263-47a8-bc13-e94c80ca19db"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "24258475-54f3-46a3-bce1-df6202b74403",
+      "sourceId": "ca32ff46-b576-47f6-90c0-3072efd899c6",
       "targetKind": "column",
-      "targetId": "8147bb0f-f276-48d7-80f1-a3d4d19f6711"
+      "targetId": "49093125-dd2e-484f-8f5c-a85eefbb8741"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "33a65a48-b66a-4c26-a124-bff644da0910",
+      "sourceId": "319cac45-a678-47ec-9055-4b9955d2c719",
       "targetKind": "table",
-      "targetId": "29407ada-6505-4185-a0b9-f85daa1b64c1"
+      "targetId": "7bc89c72-7f7d-4221-986e-6d5c1827e98d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "775f2312-9abd-45f1-9bc1-b94a0cf48b5a",
+      "sourceId": "687e7184-acf8-465b-9cae-94a28a6495f9",
       "targetKind": "column",
-      "targetId": "31de6f14-cccd-4ee9-abc4-39c1b1648be0"
+      "targetId": "49a13523-f85c-4875-a0f0-07266eb5d148"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "372c563b-7a85-4c43-93c6-005a41838499",
+      "sourceId": "96dec117-90b5-45ea-a672-8706955800e4",
       "targetKind": "column",
-      "targetId": "1a41e7ab-35e3-4f95-bfe5-a4ce74e3e6d6"
+      "targetId": "5ddee86c-4381-4a66-8049-60f684cd9bee"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "25c75aee-889b-4653-8917-1ae5c0e216df",
+      "sourceId": "4a899c78-b01e-4a25-8531-6efd11b16001",
       "targetKind": "table",
-      "targetId": "afcf301d-f9d9-428e-9ba8-cb00f868ca30"
+      "targetId": "6a78cc5e-0b99-44fc-ac3b-79d99817ed03"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9eac0af8-ce12-4ce5-9a9e-b6456177c755",
+      "sourceId": "7bd22cf7-3b4f-4c40-8765-21cfadbbe58f",
       "targetKind": "column",
-      "targetId": "a5f8ab7c-2b4d-4c59-b580-d28851fd72fb"
+      "targetId": "3e0520a2-84f0-4883-a159-b1cd9cd0ee84"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "db48638a-7a9c-4719-a054-cc647dc4b034",
+      "sourceId": "cb748828-5dd2-48e3-a776-c249861287cd",
       "targetKind": "column",
-      "targetId": "3bc46cfd-d353-4170-9f57-7cb3f88b3424"
+      "targetId": "a8ca70b2-8984-4d94-aa86-c20c8934dcf8"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "foreign-key",
-      "targetId": "c01ffb40-17f2-49d7-bf7d-1f57b6377ed6"
+      "targetId": "2d2d8888-e5a2-4196-9faf-b6f4cd37afe7"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "column",
-      "targetId": "c3e0069a-6c2f-4edd-a9cc-86d065785f5d"
+      "targetId": "b1bb4288-ce7a-434a-8cb2-35ca7c021444"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "foreign-key",
-      "targetId": "06b3038a-2178-40fa-a1d8-c527bcf16a62"
+      "targetId": "ccb6a3f4-1293-46aa-921d-906fdc82ca6e"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "column",
-      "targetId": "a03e67a6-9dc9-42a4-a55c-df58d2ff694b"
+      "targetId": "b29bbcbb-7942-4774-821a-b8139bba1ed0"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "foreign-key",
-      "targetId": "e9c287fd-fd6b-4da8-aeff-e6706eb049a7"
+      "targetId": "6c076027-f9fc-4e09-9c26-ac1f228065d8"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "895156f5-fd7d-4d16-af92-3d61c36e31a2",
+      "sourceId": "987e4ff6-136c-4b81-8388-fd0fbc765c4a",
       "targetKind": "column",
-      "targetId": "13e3a195-afb4-4b6b-b453-02ae71849c19"
+      "targetId": "3706aee4-a6d8-4ab8-8b03-80d881d06125"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "2aabd016-1927-4f34-95b5-976df242ba4d",
+      "sourceId": "0817a62d-4fb4-49ec-b66f-b678f67bc72d",
       "targetKind": "table",
-      "targetId": "6a6f76e4-08ba-417f-8a9b-634a440c1fae"
+      "targetId": "9c41401a-9e16-46d0-916b-2ca4ebecd4e3"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "28f7f470-0de9-47d4-ae5a-2a696012407e",
+      "sourceId": "1a2075e3-4a51-438b-a2b8-b0ab2cf4e312",
       "targetKind": "column",
-      "targetId": "651444ca-0cc4-49a9-94ac-657f2272d83d"
+      "targetId": "db18f368-79a3-40c8-9c72-8f9dc425f11f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a2828de2-78f0-45e5-b1a8-b729286514db",
+      "sourceId": "e9557cd8-05c6-4793-b3a7-5ad652255d1a",
       "targetKind": "column",
-      "targetId": "8754584d-d680-42d8-a915-367112c5efa2"
+      "targetId": "ce897e21-f10a-40b9-8731-33ac52e96e97"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d67af27f-909c-4f36-92b9-9151ece6a515",
+      "sourceId": "1db37fed-5aba-45fb-aca1-d807faf908d1",
       "targetKind": "column",
-      "targetId": "5eff92c5-2b15-4929-9cc1-2a195ca496ed"
+      "targetId": "1f46b9bb-f1ab-46d7-8c59-b125fb0e8be2"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da",
+      "sourceId": "794e5ebb-ab1a-4603-9032-a72c545f7444",
       "targetKind": "table",
-      "targetId": "8ab19388-fae2-4068-b3e5-3ed04edcac5f"
+      "targetId": "95a22951-bf07-43c5-8f7c-6e41628815b2"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "508a790c-3023-4a78-b072-7f60decef1a9",
+      "sourceId": "a2f1e74f-d8ec-4c9d-9b9c-69194945d6e5",
       "targetKind": "column",
-      "targetId": "b3983441-50d9-486a-b62a-b95207983c20"
+      "targetId": "35b5cfe0-4137-44bf-9133-c956b5661ec5"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a",
+      "sourceId": "f7e848bc-34a3-4ecc-9004-ada0097218eb",
       "targetKind": "table",
-      "targetId": "ae459220-97d3-4ab0-86b3-2b1acc1259e4"
+      "targetId": "460cbad0-c6a1-4cca-84c6-e3d111b21348"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "e78db013-5d23-4661-a54b-7d12062fa32e",
+      "sourceId": "66c95624-d79d-4ec8-8a1a-9972c13ba473",
       "targetKind": "column",
-      "targetId": "a8d7427e-d7e8-4f3f-8c32-178304f2ace6"
+      "targetId": "acdb4420-b8f6-442a-8eca-76cc206af4f0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "951176b6-3584-4985-ade1-a5394eee7d10",
+      "sourceId": "f318ae1c-57b2-48d6-a977-e52be96832c9",
       "targetKind": "column",
-      "targetId": "c9064263-bf92-41dd-a291-f05ab112f195"
+      "targetId": "9d872806-acc1-47c1-9303-414db1401bd2"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fc175553-0b1d-45e2-8d48-b0040e06798a",
+      "sourceId": "04142899-1fc0-4486-9dcb-8223a5cb11fe",
       "targetKind": "column",
-      "targetId": "466223f8-c96a-4df0-ae8a-ecf58b58e872"
+      "targetId": "b02226c8-06ed-4942-96ec-9bd63cde0c59"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "ed220b68-496b-4ae2-87d1-73eb92178c6f",
+      "sourceId": "d8fe5551-521a-4352-89cb-8ba9e8b1eb87",
       "targetKind": "foreign-key",
-      "targetId": "e58ccca0-14d1-4b86-9d66-0cd15173a2b5"
+      "targetId": "e394cfec-a646-49e2-b570-043c96eea5b8"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "3dc87713-6f30-44f1-8b0c-e975da804b09",
+      "sourceId": "2925cc2d-ce6b-49c0-ab85-61216e59afa6",
       "targetKind": "foreign-key",
-      "targetId": "e58ccca0-14d1-4b86-9d66-0cd15173a2b5"
+      "targetId": "e394cfec-a646-49e2-b570-043c96eea5b8"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "52a70ceb-e84f-4b54-a06b-8d69eb78a195",
+      "sourceId": "afb33fc9-1cf8-4778-9f11-2574a0af8827",
       "targetKind": "foreign-key",
-      "targetId": "fb4bd847-4fc7-4972-9aa4-4c3d3871f1ae"
+      "targetId": "c4663caa-ddc6-436a-b068-b76eb032d151"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "2b0b5982-741d-4756-97c3-8454aa1479fa",
+      "sourceId": "e23f2179-72fa-496f-8473-6c2edf9a90ee",
       "targetKind": "foreign-key",
-      "targetId": "fb4bd847-4fc7-4972-9aa4-4c3d3871f1ae"
+      "targetId": "c4663caa-ddc6-436a-b068-b76eb032d151"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "98986828-ee78-467e-8cc9-07df261d1bed",
+      "sourceId": "5704f8ae-e38d-4597-b465-99385e7f94de",
       "targetKind": "table",
-      "targetId": "d0e7a60a-e80d-464a-80a3-cc99387694aa"
+      "targetId": "957c9a98-d57a-4702-ba92-eb6301559515"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "9298ee1a-f1f7-47e7-b56b-3322494a3b38",
+      "sourceId": "aa6fc10b-d9cf-44bb-8b6f-db8ebea051d4",
       "targetKind": "foreign-key",
-      "targetId": "5be4e6c8-c99e-4b9e-8fdf-a84f5bdf1943"
+      "targetId": "ac8f7ecb-a5bb-49d6-b28d-d57311ef131b"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e422abe4-a14c-4bb2-8f3f-098707c62a4c",
+      "sourceId": "9fbcc548-64a2-4fa4-8dd7-88b143506147",
       "targetKind": "foreign-key",
-      "targetId": "13aa8c32-d2e7-4106-8aa9-2a671a1a3f11"
+      "targetId": "5c073251-6c4a-4806-8bf8-b1517cb07891"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "409e3472-05a2-4fa2-a7b1-4e01f99eae7a",
+      "sourceId": "3db289f3-d8ed-4dcb-acda-da38e691c953",
       "targetKind": "foreign-key",
-      "targetId": "4ddde5c8-543e-4ec8-9405-507fff933b42"
+      "targetId": "b4364cbd-8f52-4eeb-b869-9422c3bd26a7"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "e0e06b9b-7d9f-4ec1-b1c4-da56cd0efa58",
+      "sourceId": "c3333e32-1da1-4e38-b963-d4d3cbc51536",
       "targetKind": "foreign-key",
-      "targetId": "4ddde5c8-543e-4ec8-9405-507fff933b42"
+      "targetId": "b4364cbd-8f52-4eeb-b869-9422c3bd26a7"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "f4a4a8af-d9e8-429f-b0c1-f687d7ab5e4b",
+      "sourceId": "975cd8bc-d97e-419d-8523-2ae9d82c9a60",
       "targetKind": "foreign-key",
-      "targetId": "02ac2708-982e-4b72-ba43-ff95d2ea3c74"
+      "targetId": "13e76a82-8173-426c-8296-d953714ec781"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "ea452e1f-c9fe-4a24-adf7-54e2fc17bde4",
+      "sourceId": "3fef9f6f-4ffd-4250-accd-a49dcf220fa4",
       "targetKind": "foreign-key",
-      "targetId": "02ac2708-982e-4b72-ba43-ff95d2ea3c74"
+      "targetId": "13e76a82-8173-426c-8296-d953714ec781"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "77c005c7-2ae5-49b1-9f32-1df8e1b871b8",
+      "sourceId": "70e6468d-29a9-4693-af6a-c81a73b22238",
       "targetKind": "foreign-key",
-      "targetId": "96a759a7-c206-43d8-9af6-82004bd7578d"
+      "targetId": "6a49e2d7-b48f-4a61-a274-7030b3b624b7"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "24618a95-8530-4d22-850c-914b1597547d",
+      "sourceId": "5665beaa-f956-41eb-94bf-39628fbd15ad",
       "targetKind": "foreign-key",
-      "targetId": "96a759a7-c206-43d8-9af6-82004bd7578d"
+      "targetId": "6a49e2d7-b48f-4a61-a274-7030b3b624b7"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "c965358e-21f3-4d95-98f5-35725e1dd0c8",
+      "sourceId": "4098f7d3-b166-428c-8f21-879b5733d4dd",
       "targetKind": "foreign-key",
-      "targetId": "239236af-9f51-4b81-8eab-71b595dd38a0"
+      "targetId": "4b61d9d0-d8e9-484e-97ba-aab93480089e"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "90186705-8fe9-49c4-8b48-7a521e027eda",
+      "sourceId": "26b9f003-9375-4db5-b9c2-e95d4fcf25d0",
       "targetKind": "foreign-key",
-      "targetId": "239236af-9f51-4b81-8eab-71b595dd38a0"
+      "targetId": "4b61d9d0-d8e9-484e-97ba-aab93480089e"
     }
   ],
   "assumptions": [
     {
-      "id": "db25e3e4-239b-445c-82de-ac25d803da32",
+      "id": "a3438a70-168e-4355-8686-1d3acb1314d6",
       "kind": "enunciado",
       "text": "Clientes y trabajadores comparten datos y un código personal, y un trabajador puede ser también cliente: especialización solapada de Persona.",
-      "elementId": "cf92e083-31db-4747-b503-7eb11ee4efd8"
+      "elementId": "73535d0c-fb23-4cbf-afd7-4813d08183b9"
     },
     {
-      "id": "44ae7632-d6d3-4493-a88a-83909a837b95",
+      "id": "4cc74d4d-d492-451b-8f79-28d2cb6d5e9c",
       "kind": "enunciado",
       "text": "Puede haber inmuebles que no sean ni pisos, ni locales, ni garajes: especialización parcial y disjunta de Inmueble.",
-      "elementId": "6fc818ae-943c-4f2a-97b7-1f2451a93c75"
+      "elementId": "31182f08-ce3f-4416-b2ce-39ad2cde90b9"
     },
     {
-      "id": "46f32f88-5225-41c2-9a1d-81064321d0a6",
+      "id": "6b6a6637-a97f-456a-b4be-da986301c0f4",
       "kind": "enunciado",
       "text": "El número de alquiler se repite entre inmuebles pero no en el mismo: Alquiler es entidad débil de Inmueble.",
-      "elementId": "a2a9fbaf-34f3-4778-8903-d05faa8e52da"
+      "elementId": "794e5ebb-ab1a-4603-9032-a72c545f7444"
     },
     {
-      "id": "82078ccb-3010-48b1-bac8-6fd426abc8f1",
+      "id": "40cedaf5-22e9-4050-b03d-d6264b0678b8",
       "kind": "enunciado",
       "text": "Cada pago de un alquiler se identifica por su año y mes: Pago es entidad débil de Alquiler.",
-      "elementId": "6cb5726b-1df9-4cfe-9ba4-62c770a1378a"
+      "elementId": "f7e848bc-34a3-4ecc-9004-ada0097218eb"
     },
     {
-      "id": "7b1bb863-67ff-4df2-9b1c-ca8bf9fc11b6",
+      "id": "e975cef7-0827-44bf-87d1-ae1625d79e29",
       "kind": "enunciado",
       "text": "Una compra puede tener varios titulares: N:N entre Compra y Cliente.",
-      "elementId": "98986828-ee78-467e-8cc9-07df261d1bed"
+      "elementId": "5704f8ae-e38d-4597-b465-99385e7f94de"
     },
     {
-      "id": "9afc40b8-d220-4b20-962f-f7022003ba0b",
+      "id": "36178e96-73ca-4d1c-8c38-2a7432e14440",
       "kind": "supuesto",
       "text": "Todo registro de Persona es cliente, trabajador o ambos: especialización total.",
-      "elementId": "cf92e083-31db-4747-b503-7eb11ee4efd8"
+      "elementId": "73535d0c-fb23-4cbf-afd7-4813d08183b9"
     },
     {
-      "id": "2f2fd79a-91f1-4f34-9279-c71fa8a9b8db",
+      "id": "1608f45c-9410-42a3-891e-47e8a5fc7a28",
       "kind": "supuesto",
       "text": "El DNI es único: clave alternativa. El código de piso, también.",
-      "elementId": "cf92e083-31db-4747-b503-7eb11ee4efd8"
+      "elementId": "73535d0c-fb23-4cbf-afd7-4813d08183b9"
     },
     {
-      "id": "69a05168-8317-4de8-abb2-23c5d154c023",
+      "id": "6dc60220-b89a-42bd-9337-91ce4cd7e0ff",
       "kind": "supuesto",
       "text": "El agente que gestiona el alquiler es un trabajador; su nombre se obtiene de Persona.",
-      "elementId": "24618a95-8530-4d22-850c-914b1597547d"
+      "elementId": "5665beaa-f956-41eb-94bf-39628fbd15ad"
     },
     {
-      "id": "db908244-d1fd-4e92-806c-63c039ee6f34",
+      "id": "ecf69efe-ead7-4abe-a89f-fb7fb3e56f15",
+      "kind": "supuesto",
+      "text": "Un garaje se asocia como mucho a un piso, y un piso puede tener varios garajes asociados: «el garaje» se lee como cada garaje asociado al piso. Si cada piso tuviera un solo garaje, Piso pasaría a (0,1) y la clave ajena del garaje sería única.",
+      "elementId": "2925cc2d-ce6b-49c0-ab85-61216e59afa6"
+    },
+    {
+      "id": "77cd9f53-1302-47f2-8c2b-39bcd613a4ab",
       "kind": "perdida",
       "text": "Que al alquilar un piso se incluya su garaje es un comportamiento de la aplicación, no una restricción del modelo.",
-      "elementId": "3dc87713-6f30-44f1-8b0c-e975da804b09"
+      "elementId": "2925cc2d-ce6b-49c0-ab85-61216e59afa6"
     },
     {
-      "id": "6df94714-8033-4a90-93fc-21f3022a3728",
+      "id": "a2923686-7e80-4dd8-84ce-6215d2062791",
       "kind": "perdida",
       "text": "Que el número de garaje no se repita dentro de un mismo edificio no se puede expresar: no hay entidad Edificio.",
-      "elementId": "25c75aee-889b-4653-8917-1ae5c0e216df"
+      "elementId": "4a899c78-b01e-4a25-8531-6efd11b16001"
     }
   ],
   "physical": {
@@ -2147,43 +2153,43 @@
   "data": {},
   "presentation": {
     "chen": {
-      "cf92e083-31db-4747-b503-7eb11ee4efd8": {
+      "73535d0c-fb23-4cbf-afd7-4813d08183b9": {
         "x": 120,
         "y": 140
       },
-      "dcc2cca9-75e7-4b1a-81bf-5df8fb2dbf27": {
+      "78d73dd7-d4a2-494d-a9cd-4a541c8b14c0": {
         "x": 120,
         "y": 980
       },
-      "a3501efc-5558-4aa3-bb3d-f5de8821b7aa": {
+      "01d9378f-9265-4b49-8678-b83f3e3bef8a": {
         "x": 120,
         "y": 1820
       },
-      "6fc818ae-943c-4f2a-97b7-1f2451a93c75": {
+      "31182f08-ce3f-4416-b2ce-39ad2cde90b9": {
         "x": 2040,
         "y": 140
       },
-      "cbe2135d-5b9b-46e7-a506-3ec9a3dfeec2": {
+      "8fbc3f60-e151-4c4c-8c27-19cf8c4f755a": {
         "x": 3000,
         "y": 140
       },
-      "33a65a48-b66a-4c26-a124-bff644da0910": {
+      "319cac45-a678-47ec-9055-4b9955d2c719": {
         "x": 3000,
         "y": 980
       },
-      "25c75aee-889b-4653-8917-1ae5c0e216df": {
+      "4a899c78-b01e-4a25-8531-6efd11b16001": {
         "x": 3960,
         "y": 140
       },
-      "2aabd016-1927-4f34-95b5-976df242ba4d": {
+      "0817a62d-4fb4-49ec-b66f-b678f67bc72d": {
         "x": 1080,
         "y": 980
       },
-      "a2a9fbaf-34f3-4778-8903-d05faa8e52da": {
+      "794e5ebb-ab1a-4603-9032-a72c545f7444": {
         "x": 2040,
         "y": 1820
       },
-      "6cb5726b-1df9-4cfe-9ba4-62c770a1378a": {
+      "f7e848bc-34a3-4ecc-9004-ada0097218eb": {
         "x": 2040,
         "y": 2660
       }

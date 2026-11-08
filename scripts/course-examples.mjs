@@ -144,6 +144,16 @@ function assume( state, kind, text, elementName = null ) {
         } );
     }
 
+/** A unique index on an optional column: no repeated values, but several rows may leave it empty. */
+function uniqueIndex( state, entityName, indexName, columnNames ) {
+    const table = tableOf( state, entityName );
+    const columns = columnNames.map( name => table.columns.find( column => column.name === name ).id );
+
+    state.model = domain.updateTable( state.model, table.id, {
+        indexes: [...table.indexes, {id: domain.newId(), name: indexName, columns, unique: true}]
+        } );
+    }
+
 function alternateKey( state, entityName, keyName, attributeNames ) {
     const table = tableOf( state, entityName );
     const columns = attributeNames.map( name => table.columns.find( column => column.name === name ).id );
@@ -315,7 +325,8 @@ function videoclub() {
     relation( s, 'Alquila', [['Cliente', 'cliente', 0, null], ['Copia', 'copia', 0, null]] );
     const fecha = attribute( s, 'Alquila', 'fecha', 'DATE', {ownerKind: 'relationship', required: true} );
 
-    association( s, 'Alquila', 'Alquiler', [fecha] );
+    // A copy goes out once a day at most: (copia, fecha) identifies the rental; the client is a plain FK.
+    association( s, 'Alquila', 'Alquiler', [fecha], ['copia'] );
 
     placeTable( s, 'Actores', {x: 160, y: 560} );
     placeTable( s, 'Alquiler', {x: 1340, y: 420} );
@@ -323,7 +334,8 @@ function videoclub() {
     assume( s, 'enunciado', 'Puede haber películas con igual título pero distinto año: la clave es (título, año de estreno).', 'Pelicula' );
     assume( s, 'enunciado', 'Las copias se numeran dentro de cada película: entidad débil con clave parcial.', 'Copia' );
     assume( s, 'supuesto', 'Los actores principales se guardan como atributo multivaluado, traducido a la tabla Actores.', 'Pelicula' );
-    assume( s, 'supuesto', 'Una misma copia se alquila como mucho una vez al día: la fecha forma parte de la clave del alquiler.', 'Alquila' );
+    assume( s, 'supuesto', 'Una misma copia se alquila como mucho una vez al día: la clave del alquiler es (copia, fecha) y el cliente es una clave ajena obligatoria fuera de la clave.', 'Alquila' );
+    assume( s, 'enunciado', 'Un cliente puede realizar varios alquileres en un día: el cliente no forma parte de la clave, así que puede repetirse con la misma fecha.', 'Alquila' );
     assume( s, 'perdida', 'La devolución del alquiler no figura en el enunciado y no se modela.', 'Alquila' );
 
     finish( s, 'curso-videoclub.databasic.json' );
@@ -332,21 +344,21 @@ function videoclub() {
 /* ---------- Práctica 1 del curso 2025-2026: lonja de Santa Pola ---------- */
 
 /*
- * Follows the author's own solution (repository BasesDeDatos, Practica/P1):
- * the ternary Faena with the fishing period in its key, Creditor as the only
- * subclass of Comprador (cash buyers are the ones not in it), the award as a
- * table keyed by the lot, and invoices with their payments on both sides.
+ * Starts from the author's solution (repository BasesDeDatos, Practica/P1) and
+ * corrects it against the statement and the course notes: Comprador has two
+ * subclasses (total and disjoint), Factura generalizes the boat and buyer
+ * invoices, the totals are derived attributes, the fishing period is a
+ * composite attribute of the ternary Faena, and one Pago settles any invoice.
  */
 function lonja() {
     const s = start( 'Lonja de Santa Pola · práctica 1 (2025-2026)' );
 
-    entity( s, 'Lote', at( 1, 1 ) );
-    key( s, 'Lote', 'cod_lote', 'CHAR(5)' );
-    attribute( s, 'Lote', 'num_cajas', 'NUMBER(4)', {required: true, domain: DOMAIN( {minimum: 1} )} );
-    attribute( s, 'Lote', 'kilos_total', 'NUMBER(8,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Lote', 'fecha_llegada', 'DATE', {required: true} );
-    attribute( s, 'Lote', 'precio_kg_salida', 'NUMBER(8,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Lote', 'precio_total_salida', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
+    entity( s, 'Caladero', at( 0, 0 ) );
+    key( s, 'Caladero', 'nombre', 'VARCHAR(40)' );
+    attribute( s, 'Caladero', 'extension', 'NUMBER(8,2)', {domain: DOMAIN( {minimum: 0} )} );
+    const ubicacion = attribute( s, 'Caladero', 'ubicacion', 'VARCHAR(50)', {structure: 'composite', translation: {kind: 'flatten'}} );
+    attribute( s, 'Caladero', 'latitud', 'NUMBER(9,6)', {parentAttributeId: ubicacion, required: true, domain: DOMAIN( {minimum: -90, maximum: 90} )} );
+    attribute( s, 'Caladero', 'longitud', 'NUMBER(9,6)', {parentAttributeId: ubicacion, required: true, domain: DOMAIN( {minimum: -180, maximum: 180} )} );
 
     entity( s, 'Especie', at( 1, 0 ) );
     key( s, 'Especie', 'cod_especie', 'VARCHAR(5)' );
@@ -361,49 +373,50 @@ function lonja() {
     attribute( s, 'Barco', 'armador', 'VARCHAR(60)' );
     attribute( s, 'Barco', 'cif', 'CHAR(9)', {required: true} );
 
-    entity( s, 'Caladero', at( 0, 0 ) );
-    key( s, 'Caladero', 'nombre', 'VARCHAR(40)' );
-    attribute( s, 'Caladero', 'extension', 'NUMBER(8,2)', {domain: DOMAIN( {minimum: 0} )} );
-    const ubicacion = attribute( s, 'Caladero', 'ubicacion', 'VARCHAR(50)', {structure: 'composite', translation: {kind: 'flatten'}} );
-    attribute( s, 'Caladero', 'latitud', 'NUMBER(9,6)', {parentAttributeId: ubicacion, required: true, domain: DOMAIN( {minimum: -90, maximum: 90} )} );
-    attribute( s, 'Caladero', 'longitud', 'NUMBER(9,6)', {parentAttributeId: ubicacion, required: true, domain: DOMAIN( {minimum: -180, maximum: 180} )} );
+    entity( s, 'Lote', at( 1, 1 ) );
+    key( s, 'Lote', 'cod_lote', 'CHAR(5)' );
+    attribute( s, 'Lote', 'num_cajas', 'NUMBER(4)', {required: true, domain: DOMAIN( {minimum: 1} )} );
+    attribute( s, 'Lote', 'kilos_total', 'NUMBER(8,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
+    attribute( s, 'Lote', 'fecha_llegada', 'DATE', {required: true} );
+    attribute( s, 'Lote', 'precio_kg_salida', 'NUMBER(8,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
+    attribute( s, 'Lote', 'precio_total_salida', 'NUMBER(10,2)', {
+        required: true, derived: true, derivation: 'kilos_total × precio_kg_salida', translation: {kind: 'stored'}, domain: DOMAIN( {minimum: 0} )
+        } );
 
     entity( s, 'Comprador', at( 2, 1 ) );
     key( s, 'Comprador', 'cod_comprador', 'CHAR(5)' );
     attribute( s, 'Comprador', 'nombre', 'VARCHAR(40)', {required: true} );
     attribute( s, 'Comprador', 'direccion', 'VARCHAR(60)' );
-    attribute( s, 'Comprador', 'dni_cif', 'VARCHAR(15)', {required: true} );
+    attribute( s, 'Comprador', 'dni_cif', 'CHAR(9)', {required: true} );
     attribute( s, 'Comprador', 'cuota_anual', 'NUMBER(8,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
     alternateKey( s, 'Comprador', 'AK_Comprador_dni_cif', ['dni_cif'] );
 
-    entity( s, 'Creditor', at( 3, 1 ) );
-    withoutKey( s, 'Creditor' );
-    attribute( s, 'Creditor', 'iban', 'CHAR(24)', {required: true} );
-    attribute( s, 'Creditor', 'importe_acumulado', 'NUMBER(10,2)', {required: true, defaultValue: '0', domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Creditor', 'fecha_vencimiento', 'DATE', {required: true} );
-    generalization( s, 'Comprador', ['Creditor'], {disjoint: true, total: false} );
+    entity( s, 'Credito', at( 3, 0 ) );
+    withoutKey( s, 'Credito' );
+    attribute( s, 'Credito', 'num_cuenta', 'CHAR(24)', {required: true} );
+    attribute( s, 'Credito', 'importe_acumulado', 'NUMBER(10,2)', {required: true, defaultValue: '0', domain: DOMAIN( {minimum: 0} )} );
+    attribute( s, 'Credito', 'fecha_vencimiento', 'DATE', {required: true} );
+    entity( s, 'Contado', at( 3, 1 ) );
+    withoutKey( s, 'Contado' );
+    generalization( s, 'Comprador', ['Credito', 'Contado'], {disjoint: true, total: true} );
 
-    entity( s, 'Factura_cliente', at( 2, 2 ) );
-    key( s, 'Factura_cliente', 'num_factura', 'CHAR(10)' );
-    attribute( s, 'Factura_cliente', 'fecha_emision', 'DATE', {required: true} );
-    attribute( s, 'Factura_cliente', 'importe_total', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Factura_cliente', 'pendiente', 'NUMBER(1)', {required: true, defaultValue: '0', domain: DOMAIN( {values: [0, 1]} )} );
+    entity( s, 'Factura', at( 1, 3 ) );
+    key( s, 'Factura', 'num_factura', 'CHAR(10)' );
+    attribute( s, 'Factura', 'fecha_emision', 'DATE', {required: true} );
+    attribute( s, 'Factura', 'importe_total', 'NUMBER(10,2)', {
+        required: true, derived: true, derivation: 'Suma de los importes de los lotes que incluye', translation: {kind: 'stored'}, domain: DOMAIN( {minimum: 0} )
+        } );
+    entity( s, 'Factura_barco', at( 0, 2 ) );
+    withoutKey( s, 'Factura_barco' );
+    entity( s, 'Factura_comprador', at( 2, 2 ) );
+    withoutKey( s, 'Factura_comprador' );
+    attribute( s, 'Factura_comprador', 'estado', 'VARCHAR(9)', {defaultValue: "'pendiente'", domain: DOMAIN( {values: ['pendiente', 'pagada']} )} );
+    generalization( s, 'Factura', ['Factura_barco', 'Factura_comprador'], {disjoint: true, total: true} );
 
-    entity( s, 'Venta', at( 3, 2 ) );
-    key( s, 'Venta', 'cod_pago', 'CHAR(5)' );
-    attribute( s, 'Venta', 'fecha', 'DATE', {required: true} );
-    attribute( s, 'Venta', 'importe', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-
-    entity( s, 'Factura_proveedor', at( 0, 2 ) );
-    key( s, 'Factura_proveedor', 'num_factura', 'CHAR(10)' );
-    attribute( s, 'Factura_proveedor', 'fecha_emision', 'DATE', {required: true} );
-    attribute( s, 'Factura_proveedor', 'importe_total', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Factura_proveedor', 'pagada', 'NUMBER(1)', {required: true, defaultValue: '1', domain: DOMAIN( {values: [0, 1]} )} );
-
-    entity( s, 'Pago_barco', at( 0, 3 ) );
-    key( s, 'Pago_barco', 'cod_pago', 'CHAR(5)' );
-    attribute( s, 'Pago_barco', 'fecha', 'DATE', {required: true} );
-    attribute( s, 'Pago_barco', 'importe', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
+    entity( s, 'Pago', at( 1, 4 ) );
+    key( s, 'Pago', 'cod_pago', 'CHAR(5)' );
+    attribute( s, 'Pago', 'fecha', 'DATE', {required: true} );
+    attribute( s, 'Pago', 'importe', 'NUMBER(10,2)', {required: true, domain: DOMAIN( {minimum: 0} )} );
 
     relation( s, 'De_especie', [['Especie', 'especie', 0, null], ['Lote', 'lote', 1, 1]] );
     foreignKey( s, 'De_especie', 'Lote' );
@@ -415,49 +428,59 @@ function lonja() {
         ['Caladero', 'caladero', 0, null, 'many'],
         ['Especie', 'especie', 0, null, 'many']
         ] );
-    const inicio = attribute( s, 'Faena', 'fecha_inicio', 'DATE', {ownerKind: 'relationship', required: true} );
-    attribute( s, 'Faena', 'fecha_fin', 'DATE', {ownerKind: 'relationship', domain: DOMAIN( {check: 'fecha_fin >= fecha_inicio'} )} );
+    const periodo = attribute( s, 'Faena', 'periodo', 'VARCHAR(30)', {ownerKind: 'relationship', structure: 'composite', translation: {kind: 'flatten'}} );
+    const inicio = attribute( s, 'Faena', 'fecha_inicio', 'DATE', {ownerKind: 'relationship', parentAttributeId: periodo, required: true} );
+    attribute( s, 'Faena', 'fecha_fin', 'DATE', {ownerKind: 'relationship', parentAttributeId: periodo, domain: DOMAIN( {check: 'fecha_fin >= fecha_inicio'} )} );
     attribute( s, 'Faena', 'kg_especie', 'NUMBER(8,2)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 0} )} );
     association( s, 'Faena', 'Faena', [inicio] );
 
     relation( s, 'Adjudicacion', [['Lote', 'lote', 1, 1], ['Comprador', 'comprador', 0, null]] );
-    attribute( s, 'Adjudicacion', 'precio_kg', 'NUMBER(8,2)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 0} )} );
-    attribute( s, 'Adjudicacion', 'precio_total', 'NUMBER(10,2)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 0} )} );
+    attribute( s, 'Adjudicacion', 'precio_kg_compra', 'NUMBER(8,2)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 0} )} );
+    attribute( s, 'Adjudicacion', 'precio_total_adjudicacion', 'NUMBER(10,2)', {
+        ownerKind: 'relationship', required: true, derived: true, derivation: 'kilos_total del lote × precio_kg_compra', translation: {kind: 'stored'}, domain: DOMAIN( {minimum: 0} )
+        } );
     association( s, 'Adjudicacion', 'Adjudicacion', [], ['lote'] );
 
-    relation( s, 'Emitida_a', [['Comprador', 'comprador', 0, null], ['Factura_cliente', 'factura', 1, 1]] );
-    foreignKey( s, 'Emitida_a', 'Factura_cliente' );
-    relation( s, 'Incluye', [['Factura_cliente', 'factura', 1, null], ['Lote', 'lote', 0, 1]] );
+    relation( s, 'Emitida_a', [['Comprador', 'comprador', 0, null], ['Factura_comprador', 'factura', 1, 1]] );
+    foreignKey( s, 'Emitida_a', 'Factura_comprador' );
+    relation( s, 'Incluye', [['Factura_comprador', 'factura', 1, null], ['Lote', 'lote', 1, 1]] );
     association( s, 'Incluye', 'Incluye' );
     tableAlternateKey( s, 'Incluye', 'AK_Incluye_lote', ['lote_cod_lote'] );
-    relation( s, 'Cobra', [['Factura_cliente', 'factura', 0, null], ['Venta', 'pago', 1, 1]] );
-    foreignKey( s, 'Cobra', 'Venta' );
 
-    relation( s, 'Emitida_por', [['Barco', 'barco', 0, null], ['Factura_proveedor', 'factura', 1, 1]] );
-    foreignKey( s, 'Emitida_por', 'Factura_proveedor' );
-    relation( s, 'Provision', [['Factura_proveedor', 'factura', 1, null], ['Lote', 'lote', 0, 1]] );
+    relation( s, 'Emitida_por', [['Barco', 'barco', 0, null], ['Factura_barco', 'factura', 1, 1]] );
+    foreignKey( s, 'Emitida_por', 'Factura_barco' );
+    relation( s, 'Provision', [['Factura_barco', 'factura', 1, null], ['Lote', 'lote', 1, 1]] );
     association( s, 'Provision', 'Provision' );
     tableAlternateKey( s, 'Provision', 'AK_Provision_lote', ['lote_cod_lote'] );
-    relation( s, 'Paga', [['Factura_proveedor', 'factura', 0, null], ['Pago_barco', 'pago', 1, 1]] );
-    foreignKey( s, 'Paga', 'Pago_barco' );
+
+    relation( s, 'Salda', [['Factura', 'factura', 0, null], ['Pago', 'pago', 1, 1]] );
+    foreignKey( s, 'Salda', 'Pago' );
 
     placeTable( s, 'Faena', at( 0, -1 ) );
     placeTable( s, 'Adjudicacion', at( 2, 0 ) );
-    placeTable( s, 'Incluye', at( 1, 2 ) );
-    placeTable( s, 'Provision', at( 1, 3 ) );
+    placeTable( s, 'Provision', at( 0, 3 ) );
+    placeTable( s, 'Incluye', at( 2, 3 ) );
 
-    assume( s, 'enunciado', 'Cada lote tiene un código único y es de una sola especie, capturada por un barco.', 'Lote' );
-    assume( s, 'enunciado', 'La relación ternaria es Faena: qué barcos capturan qué especies en qué caladeros, con los kilos y el periodo de faena.', 'Faena' );
-    assume( s, 'enunciado', 'Un comprador no puede ser de crédito y de contado a la vez.', 'Comprador' );
-    assume( s, 'supuesto', 'Especialización por predicado: solo Creditor tiene tabla; un comprador que no aparece en ella paga al contado.', 'Creditor' );
+    assume( s, 'enunciado', 'Cada lote tiene un código único, es de una sola especie y lo capturó un barco.', 'Lote' );
+    assume( s, 'enunciado', 'La relación ternaria es Faena: qué barcos capturan qué especies en qué caladeros, con los kilos y el periodo (fecha de inicio y de fin).', 'Faena' );
+    assume( s, 'enunciado', 'Un comprador es de crédito o de contado, nunca ambos: especialización disjunta. Como todo comprador es de uno de los dos tipos, es total.', 'Comprador' );
+    assume( s, 'enunciado', 'Las facturas de los barcos guardan "además de los datos mencionados de la factura" su barco y sus lotes: generalización Factura con lo común (número, fecha, importe) y dos subclases.', 'Factura' );
+    assume( s, 'enunciado', 'Solo las facturas a compradores sin crédito necesitan el estado (pendiente o pagada).', 'Factura_comprador' );
+    assume( s, 'enunciado', 'De la adjudicación se guardan el precio de compra por kilo y el precio total de adjudicación.', 'Adjudicacion' );
+    assume( s, 'supuesto', 'El número de factura es el registro que asigna la lonja, único para todas las facturas que guarda, también las recibidas de los barcos.', 'Factura' );
+    assume( s, 'supuesto', 'Los precios totales y el importe de la factura son derivados (se calculan de kilos, precios y lotes), pero se guardan porque el enunciado pide conocerlos y guardarlos.', 'Lote' );
     assume( s, 'supuesto', 'La fecha de inicio forma parte de la clave de Faena: el mismo barco puede faenar la misma especie en el mismo caladero en periodos distintos.', 'Faena' );
-    assume( s, 'supuesto', 'No se guardan las pujas, solo la adjudicación ganadora; guardar todas las pujas encarecería el sistema sin uso posterior. Debería confirmarlo el cliente.', 'Adjudicacion' );
-    assume( s, 'supuesto', 'El CIF del barco se guarda en Barco y la factura del proveedor lo obtiene por su matrícula, sin repetirlo.', 'Barco' );
-    assume( s, 'supuesto', 'El IBAN se guarda como CHAR(24) porque contiene letras de país.', 'Creditor' );
-    assume( s, 'supuesto', 'El estado de la factura se guarda en todas como indicador (1 pendiente, 0 pagada); solo es relevante para los compradores al contado.', 'Factura_cliente' );
-    assume( s, 'supuesto', 'Una factura puede no tener todavía cobros ni pagos: participación (0,N) en Cobra y Paga.', 'Cobra' );
-    assume( s, 'perdida', 'La adjudicación vive en su propia tabla: un lote sin adjudicar no aparece en ella, así que la participación total del lote no se impone.', 'Adjudicacion' );
-    assume( s, 'perdida', 'Que el precio total sea kilos por precio por kilo, y que el importe de la factura sume sus lotes, no se comprueba con claves.', 'Lote' );
+    assume( s, 'supuesto', 'No se guardan las pujas, solo la adjudicación ganadora; guardar todas encarecería el sistema sin uso posterior. Debería confirmarlo el cliente.', 'Adjudicacion' );
+    assume( s, 'supuesto', 'El CIF del barco se guarda en Barco y la factura del barco lo obtiene por su relación, sin repetirlo.', 'Barco' );
+    assume( s, 'supuesto', 'El número de cuenta bancaria es un IBAN y se guarda como CHAR(24) porque lleva letras de país.', 'Credito' );
+    assume( s, 'supuesto', 'Contado no tiene atributos propios: su tabla solo guarda la clave. Alternativa válida: omitirla y entender que paga al contado quien no está en Credito; ahorra una tabla pero la cobertura total deja de verse.', 'Contado' );
+    assume( s, 'supuesto', 'Cada pago salda una factura, sea del barco (pago de la lonja) o del comprador (cobro); el tipo de factura dice quién paga. Un comprador con crédito registra al final de mes un pago por cada factura.', 'Salda' );
+    assume( s, 'supuesto', 'Incluye y Provision son tablas propias para que un lote pueda existir antes de facturarse; la clave alternativa sobre el lote impide que esté en dos facturas.', 'Incluye' );
+    assume( s, 'perdida', 'Las pujas no se registran: solo queda la ganadora.', 'Adjudicacion' );
+    assume( s, 'perdida', 'Adjudicación, Incluye y Provision están en tablas aparte: un lote sin adjudicar o sin facturar no aparece en ellas, así que su participación total (1,1) no se impone.', 'Adjudicacion' );
+    assume( s, 'perdida', 'Que los valores derivados guardados coincidan con su cálculo no lo impone ninguna clave.', 'Lote' );
+    assume( s, 'perdida', 'Que el estado solo se use en facturas de compradores al contado, y que los lotes de una factura sean los adjudicados a su comprador o capturados por su barco, no se impone con claves.', 'Factura_comprador' );
+    assume( s, 'perdida', 'Que cada comprador esté exactamente en Credito o en Contado (disjunta y total) no lo imponen las claves primarias y ajenas.', 'Comprador' );
     assume( s, 'perdida', 'Que la especie de un lote sea una de las que su barco faena no lo impone ninguna clave ajena.', 'De_especie' );
 
     finish( s, 'curso-lonja.databasic.json' );
@@ -578,6 +601,7 @@ function empresa() {
     assume( s, 'enunciado', 'Un departamento puede estar en varios lugares: atributo multivaluado; un proyecto, en uno solo.', 'Departamento' );
     assume( s, 'enunciado', 'Participaciones del apartado b: Dirige total para el departamento, Trabaja_para total en ambos lados, Controla total para el proyecto, Supervision parcial en ambos, Trabaja_en total en ambos y Familiares_de total para el familiar.', 'Trabaja_en' );
     assume( s, 'enunciado', 'Apartado c: la fecha en que el jefe empieza a dirigir es un atributo de Dirige y viaja a la tabla Departamento.', 'Dirige' );
+    assume( s, 'enunciado', 'Dirige es 1:1: la clave ajena del gerente en Departamento es además clave alternativa, así que un empleado dirige como mucho un departamento.', 'Dirige' );
     assume( s, 'supuesto', 'El número total de empleados del departamento es un atributo derivado: se calcula contando Trabaja_para y no se almacena.', 'Departamento' );
     assume( s, 'supuesto', 'El familiar se identifica por su nombre dentro de cada empleado: entidad débil con clave parcial.', 'Familiar' );
     assume( s, 'perdida', 'La participación total del departamento en Trabaja_para y de ambos lados en Trabaja_en no se impone con claves ajenas.', 'Trabaja_en' );
@@ -643,7 +667,6 @@ function restaurante() {
     association( s, 'Prepara', 'Prepara' );
     relation( s, 'Asignado', [['Cocinero', 'cocinero', 0, 1], ['Pinche', 'pinche', 1, 1]] );
     foreignKey( s, 'Asignado', 'Pinche' );
-    tableAlternateKey( s, 'Pinche', 'AK_Pinche_cocinero', ['cocinero_Empleado_dni'] );
     relation( s, 'Registra', [['Plato', 'plato', 0, null], ['Consumo', 'consumo', 1, 1]] );
     foreignKey( s, 'Registra', 'Consumo', true );
     weak( s, 'Consumo', 'Registra' );
@@ -658,9 +681,10 @@ function restaurante() {
     assume( s, 'enunciado', 'Un cocinero tiene como máximo un pinche y todo pinche tiene su cocinero: 1:1 con la clave ajena en Pinche, única.', 'Asignado' );
     assume( s, 'supuesto', 'Los empleados comunes no tienen atributos propios: son los que no están en ninguna subclase. Especialización parcial y disjunta.', 'Empleado' );
     assume( s, 'supuesto', 'El tipo de plato es un dominio y no una especialización, porque los tipos no tienen atributos propios.', 'Plato' );
-    assume( s, 'supuesto', 'Prepara es N:N: varios cocineros especializados pueden preparar un plato y un cocinero prepara varios.', 'Prepara' );
+    assume( s, 'supuesto', 'Prepara es N:N porque el enunciado pide «qué cocineros preparan cada plato»: varios cocineros pueden compartir especialidad y un cocinero prepara varios platos.', 'Prepara' );
+    assume( s, 'enunciado', 'Prepara registra la especialidad: «solamente pueden preparar ellos» se cumple porque solo los cocineros relacionados con un plato en Prepara lo preparan.', 'Prepara' );
     assume( s, 'supuesto', 'El consumo diario es una entidad débil del plato identificada por fecha y turno (comida o cena), con el número de raciones.', 'Consumo' );
-    assume( s, 'perdida', 'Que un plato solo lo preparen cocineros especializados en él, y que todo plato tenga al menos uno, no se impone con claves.', 'Prepara' );
+    assume( s, 'perdida', 'Que todo plato tenga al menos un cocinero que lo prepare no se impone con claves: nada obliga a que el plato aparezca en Prepara.', 'Prepara' );
     assume( s, 'supuesto', 'La letra del estante se limita a la lista A–Z como dominio.', 'Estante' );
 
     finish( s, 'curso-restaurante.databasic.json' );
@@ -748,6 +772,7 @@ function inmobiliaria() {
     assume( s, 'supuesto', 'Todo registro de Persona es cliente, trabajador o ambos: especialización total.', 'Persona' );
     assume( s, 'supuesto', 'El DNI es único: clave alternativa. El código de piso, también.', 'Persona' );
     assume( s, 'supuesto', 'El agente que gestiona el alquiler es un trabajador; su nombre se obtiene de Persona.', 'Gestiona' );
+    assume( s, 'supuesto', 'Un garaje se asocia como mucho a un piso, y un piso puede tener varios garajes asociados: «el garaje» se lee como cada garaje asociado al piso. Si cada piso tuviera un solo garaje, Piso pasaría a (0,1) y la clave ajena del garaje sería única.', 'Asociado' );
     assume( s, 'perdida', 'Que al alquilar un piso se incluya su garaje es un comportamiento de la aplicación, no una restricción del modelo.', 'Asociado' );
     assume( s, 'perdida', 'Que el número de garaje no se repita dentro de un mismo edificio no se puede expresar: no hay entidad Edificio.', 'Garaje' );
 
@@ -769,13 +794,15 @@ function farmacos() {
 
     entity( s, 'Ingreso', at( 1, 0 ), {weak: true, ownerEntityId: s.ids.Paciente} );
     partialKey( s, 'Ingreso', 'num_secuencia', 'NUMBER(3)' );
-    attribute( s, 'Ingreso', 'diagnostico', 'VARCHAR(200)', {required: true} );
+    attribute( s, 'Ingreso', 'diagnostico', 'VARCHAR(8)', {required: true} );
     attribute( s, 'Ingreso', 'fecha_ingreso', 'DATE', {required: true} );
     attribute( s, 'Ingreso', 'fecha_alta', 'DATE', {domain: DOMAIN( {check: 'fecha_alta >= fecha_ingreso'} )} );
 
     entity( s, 'Servicio', at( 1, 1 ) );
     key( s, 'Servicio', 'codigo', 'NUMBER(3)' );
     attribute( s, 'Servicio', 'nombre', 'VARCHAR(40)', {required: true} );
+    attribute( s, 'Servicio', 'gasto_pacientes', 'NUMBER(12,2)', {derived: true, derivation: 'Suma de num_dosis × precio_dosis de los consumos de los ingresos del servicio', translation: {kind: 'omit'}} );
+    attribute( s, 'Servicio', 'gasto_total', 'NUMBER(12,2)', {derived: true, derivation: 'gasto_pacientes más la suma de num_dosis × precio_dosis de los consumos propios del servicio', translation: {kind: 'omit'}} );
     alternateKey( s, 'Servicio', 'AK_Servicio_nombre', ['nombre'] );
 
     entity( s, 'Farmaco', at( 2, 0 ) );
@@ -805,15 +832,17 @@ function farmacos() {
 
     placeTable( s, 'Consumo_paciente', at( 2, 1 ) );
     placeTable( s, 'Consumo_servicio', at( 2, 2 ) );
+    uniqueIndex( s, 'Paciente', 'UX_Paciente_num_ss', ['num_ss'] );
 
     assume( s, 'enunciado', 'El paciente se identifica por su número de historia clínica; cada ingreso, por un número de secuencia dentro de ella.', 'Ingreso' );
     assume( s, 'enunciado', 'Hay consumos por paciente (de un ingreso) y consumos generales de cada servicio con su fecha.', 'Gasta' );
     assume( s, 'enunciado', 'El precio total por envase se obtiene de las dosis por envase y el precio por dosis: atributo derivado que no se almacena.', 'Farmaco' );
     assume( s, 'supuesto', 'El servicio se identifica por un código; su nombre es único.', 'Servicio' );
     assume( s, 'supuesto', 'El consumo de un paciente también lleva fecha, que forma parte de la clave: el mismo fármaco puede darse en días distintos del ingreso.', 'Consume' );
-    assume( s, 'supuesto', 'El número de la Seguridad Social es opcional ("si lo tuviera"), así que no puede ser clave alternativa.', 'Paciente' );
-    assume( s, 'perdida', 'Los informes de gasto por paciente, servicio o diagnóstico son consultas sobre estas tablas, no datos almacenados.', 'Farmaco' );
-    assume( s, 'perdida', 'Que el número de la Seguridad Social sea único cuando existe no se impone.', 'Paciente' );
+    assume( s, 'supuesto', 'El número de la Seguridad Social es opcional («si lo tuviera»): no es clave alternativa, que exigiría valor, sino un índice sin duplicados que admite pacientes sin número.', 'Paciente' );
+    assume( s, 'enunciado', 'Apartado f: el gasto de los pacientes de cada servicio y el total del servicio se calculan a partir de los consumos: atributos derivados de Servicio que no se almacenan.', 'Servicio' );
+    assume( s, 'supuesto', 'El diagnóstico se registra codificado (por ejemplo, con la clasificación CIE-10) para poder agrupar los informes por diagnóstico.', 'Ingreso' );
+    assume( s, 'perdida', 'Los informes de gasto por paciente, servicio o diagnóstico y los atributos derivados de Servicio son consultas sobre estas tablas: no se guardan ni se comprueban.', 'Servicio' );
 
     finish( s, 'curso-farmacos.databasic.json' );
     }
@@ -867,7 +896,7 @@ function personal() {
     const s = start( 'Funcionarios y contratados · ejercicio 2 (Tema 2)' );
 
     entity( s, 'Empleado', at( 1, 0 ) );
-    key( s, 'Empleado', 'nrp', 'NUMBER(8)' );
+    key( s, 'Empleado', 'nrp', 'VARCHAR(16)' );
     attribute( s, 'Empleado', 'nombre', 'VARCHAR(80)', {required: true} );
     attribute( s, 'Empleado', 'direccion', 'VARCHAR(120)' );
     attribute( s, 'Empleado', 'telefono', 'VARCHAR(15)' );
@@ -892,6 +921,7 @@ function personal() {
 
     assume( s, 'enunciado', 'Hay dos clasificaciones independientes del mismo empleado: por su vínculo (funcionario o laboral) y por su función (docencia o servicios).', 'Empleado' );
     assume( s, 'supuesto', 'Cada clasificación es total y disjunta: todo empleado tiene exactamente un vínculo y exactamente una función.', 'Empleado' );
+    assume( s, 'supuesto', 'El NRP es un código de registro con letras y cifras, no una cantidad: se guarda como texto (VARCHAR).', 'Empleado' );
     assume( s, 'perdida', 'Que cada empleado aparezca en una y solo una subtabla de cada clasificación no lo imponen las claves ajenas; queda documentado.', 'Empleado' );
 
     finish( s, 'curso-personal.databasic.json' );
@@ -910,6 +940,11 @@ function muebles() {
     key( s, 'Pieza', 'codigo', 'NUMBER(6)' );
     attribute( s, 'Pieza', 'descripcion', 'VARCHAR(120)' );
 
+    // Only single-piece furniture is kept on shelves: a subset of Mueble that must be on one shelf or more.
+    entity( s, 'Mueble_una_pieza', at( 1, 1 ) );
+    withoutKey( s, 'Mueble_una_pieza' );
+    generalization( s, 'Mueble', ['Mueble_una_pieza'], {disjoint: true, total: false} );
+
     entity( s, 'Estanteria', at( 2, 1 ) );
     key( s, 'Estanteria', 'pasillo', 'NUMBER(3)' );
     attribute( s, 'Estanteria', 'altura', 'NUMBER(2)', {primary: true} );
@@ -917,17 +952,20 @@ function muebles() {
     relation( s, 'Compone', [['Mueble', 'mueble', 1, null], ['Pieza', 'pieza', 0, null]] );
     attribute( s, 'Compone', 'unidades', 'NUMBER(3)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 1} )} );
     association( s, 'Compone', 'Compone' );
-    relation( s, 'Almacena', [['Mueble', 'mueble', 0, null], ['Estanteria', 'estanteria', 0, null]] );
-    attribute( s, 'Almacena', 'unidades', 'NUMBER(4)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 0} )} );
+    relation( s, 'Almacena', [['Mueble_una_pieza', 'mueble', 1, null], ['Estanteria', 'estanteria', 0, null]] );
+    attribute( s, 'Almacena', 'unidades', 'NUMBER(4)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {minimum: 1} )} );
     association( s, 'Almacena', 'Almacena' );
 
     placeTable( s, 'Compone', at( 0, 0 ) );
     placeTable( s, 'Almacena', at( 2, 0 ) );
 
-    assume( s, 'enunciado', 'Una pieza forma parte de varios muebles y un mueble tiene una o más piezas, con las unidades de cada una.', 'Compone' );
+    assume( s, 'enunciado', 'Una pieza forma parte de varios muebles y un mueble está formado por una o más piezas, con las unidades de cada una.', 'Compone' );
     assume( s, 'enunciado', 'La estantería se identifica por pasillo y altura: clave compuesta.', 'Estanteria' );
-    assume( s, 'perdida', 'Solo los muebles de una sola pieza se guardan en estanterías: depende de contar las piezas y no se puede imponer con claves.', 'Almacena' );
-    assume( s, 'perdida', 'Que todo mueble tenga al menos una pieza (participación total en Compone) no se impone.', 'Compone' );
+    assume( s, 'enunciado', 'Los muebles de una sola pieza se encuentran en una o más estanterías: subclase Mueble_una_pieza (especialización parcial de Mueble) con participación (1,N) en Almacena.', 'Mueble_una_pieza' );
+    assume( s, 'supuesto', 'Una pieza puede estar en el catálogo sin formar parte todavía de ningún mueble: participación (0,N) en Compone.', 'Pieza' );
+    assume( s, 'supuesto', 'Una estantería puede estar vacía: participación (0,N) en Almacena.', 'Estanteria' );
+    assume( s, 'supuesto', 'Las unidades valen al menos 1: si un mueble no tiene unidades en una estantería, no hay fila en Almacena.', 'Almacena' );
+    assume( s, 'perdida', 'Que Mueble_una_pieza contenga exactamente los muebles con una sola pieza depende de contar sus filas en Compone: no se impone con claves.', 'Mueble_una_pieza' );
 
     finish( s, 'curso-muebles.databasic.json' );
     }
@@ -1008,15 +1046,19 @@ function transporte() {
     foreignKey( s, 'Pertenece', 'Empleado' );
     relation( s, 'Asignado', [['Conductor', 'conductor', 0, null], ['Vehiculo', 'vehiculo', 0, null]] );
     const turno = attribute( s, 'Asignado', 'turno', 'VARCHAR(6)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {values: ['mañana', 'tarde', 'noche']} )} );
-    association( s, 'Asignado', 'Asignacion', [turno] );
+    // A vehicle has one driver per shift: (vehiculo, turno) is the key and the driver a plain FK.
+    association( s, 'Asignado', 'Asignacion', [turno], ['vehiculo'] );
 
     placeTable( s, 'Asignacion', at( 1, 2 ) );
+    tableAlternateKey( s, 'Asignacion', 'AK_Asignacion_conductor_turno', ['conductor_Empleado_dni', 'turno'] );
 
     assume( s, 'enunciado', 'Todos los vehículos son camión, furgoneta o coche de empresa, cada uno con su dato propio: especialización total y disjunta.', 'Vehiculo' );
     assume( s, 'enunciado', 'Todo empleado pertenece obligatoriamente a un departamento, cuyo nombre no se repite.', 'Pertenece' );
     assume( s, 'supuesto', 'Los empleados "pueden ser" conductores o administrativos: especialización parcial y disjunta.', 'Empleado' );
-    assume( s, 'supuesto', 'La asignación de vehículos es para conductores, en turnos: el turno forma parte de la clave y un mismo conductor puede llevar el mismo vehículo en turnos distintos.', 'Asignado' );
-    assume( s, 'perdida', 'Que dos conductores no lleven el mismo vehículo en el mismo turno y día no se impone; habría que añadir la fecha.', 'Asignado' );
+    assume( s, 'enunciado', 'Un vehículo lo usan conductores distintos en turnos distintos: en cada turno tiene un solo conductor, así que la clave de la asignación es (vehículo, turno) y el conductor es una clave ajena obligatoria fuera de la clave.', 'Asignado' );
+    assume( s, 'supuesto', 'Un conductor lleva un solo vehículo en cada turno: clave alternativa (conductor, turno).', 'Asignado' );
+    assume( s, 'supuesto', 'Los turnos (mañana, tarde, noche) son un horario fijo que se repite cada día; si la asignación cambiara de un día a otro, la fecha entraría en la clave.', 'Asignado' );
+    assume( s, 'perdida', 'Que todo vehículo sea exactamente de un tipo (especialización total y disjunta) no lo imponen las claves: un vehículo podría quedar sin subtabla o en dos.', 'Vehiculo' );
 
     finish( s, 'curso-transporte.databasic.json' );
     }
@@ -1045,7 +1087,7 @@ function concesionario() {
     entity( s, 'Usado', at( 2, 1 ) );
     withoutKey( s, 'Usado' );
     attribute( s, 'Usado', 'kilometros', 'NUMBER(7)', {required: true, domain: DOMAIN( {minimum: 0} )} );
-    generalization( s, 'Coche', ['Nuevo', 'Usado'], {disjoint: true, total: true} );
+    generalization( s, 'Coche', ['Nuevo', 'Usado'], {disjoint: true, total: false} );
 
     entity( s, 'Mecanico', at( 3, 0 ) );
     key( s, 'Mecanico', 'dni', 'CHAR(9)' );
@@ -1063,12 +1105,14 @@ function concesionario() {
 
     placeTable( s, 'Reparacion', at( 2, 0 ) );
 
-    assume( s, 'enunciado', 'Los coches son nuevos o usados, con sus datos propios: especialización total y disjunta.', 'Coche' );
+    assume( s, 'enunciado', 'Los coches que el concesionario vende son nuevos o usados, con sus datos propios: especialización disjunta.', 'Coche' );
+    assume( s, 'supuesto', 'La especialización es parcial: los coches de clientes que llegan al taller sin haberse vendido aquí se registran solo como Coche.', 'Coche' );
     assume( s, 'enunciado', 'Un mecánico repara varios coches y un coche lo reparan varios mecánicos; se guarda la fecha y las horas.', 'Repara' );
     assume( s, 'supuesto', 'La fecha forma parte de la clave de la reparación: el mismo mecánico puede reparar el mismo coche en días distintos.', 'Repara' );
-    assume( s, 'supuesto', 'Un coche aún no vendido no tiene comprador: la clave ajena al cliente admite nulos. Los coches que llegan al taller se registran como Coche.', 'Compra' );
+    assume( s, 'supuesto', 'Un coche aún no vendido, o que solo pasa por el taller, no tiene comprador: la clave ajena al cliente admite nulos.', 'Compra' );
     assume( s, 'supuesto', 'El cliente solo se registra cuando compra: participación (1,N) en Compra.', 'Cliente' );
-    assume( s, 'perdida', 'Las unidades en stock de un coche nuevo describen un modelo más que un coche con matrícula; el enunciado mezcla ambos conceptos.', 'Nuevo' );
+    assume( s, 'supuesto', 'Las unidades de un coche nuevo se leen como las existencias de ese mismo modelo en el concesionario, como pide el apartado d; un diseño más fino separaría una entidad Modelo.', 'Nuevo' );
+    assume( s, 'perdida', 'Que un coche no esté a la vez en Nuevo y en Usado (especialización disjunta) no lo imponen las claves.', 'Coche' );
 
     finish( s, 'curso-concesionario.databasic.json' );
     }
@@ -1083,7 +1127,7 @@ function universidad() {
     attribute( s, 'Departamento', 'nombre', 'VARCHAR(60)', {required: true} );
 
     entity( s, 'Profesor', at( 1, 0 ) );
-    key( s, 'Profesor', 'nrp', 'NUMBER(8)' );
+    key( s, 'Profesor', 'nrp', 'VARCHAR(16)' );
     attribute( s, 'Profesor', 'nombre', 'VARCHAR(80)', {required: true} );
     attribute( s, 'Profesor', 'area', 'VARCHAR(60)' );
     attribute( s, 'Profesor', 'categoria', 'VARCHAR(30)' );
@@ -1119,23 +1163,30 @@ function universidad() {
     weak( s, 'Grupo', 'Tiene' );
     relation( s, 'Imparte', [['Profesor', 'profesor', 0, null], ['Grupo', 'grupo', 1, null]] );
     association( s, 'Imparte', 'Imparte' );
-    relation( s, 'Clase', [['Grupo', 'grupo', 0, null], ['Aula', 'aula', 0, null]] );
+    relation( s, 'Clase', [['Grupo', 'grupo', 1, null], ['Aula', 'aula', 0, null]] );
     const dia = attribute( s, 'Clase', 'dia', 'VARCHAR(9)', {ownerKind: 'relationship', required: true, domain: DOMAIN( {values: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']} )} );
     const hora = attribute( s, 'Clase', 'hora', 'CHAR(5)', {ownerKind: 'relationship', required: true} );
-    association( s, 'Clase', 'Horario', [dia, hora] );
+    // A group is in one room at a time: (grupo, dia, hora) is the key; the room is a plain FK.
+    association( s, 'Clase', 'Horario', [dia, hora], ['grupo'] );
     relation( s, 'Matricula', [['Alumno', 'alumno', 1, null], ['Grupo', 'grupo', 0, null]] );
     association( s, 'Matricula', 'Matricula' );
 
     placeTable( s, 'Imparte', at( 1, 1 ) );
     placeTable( s, 'Horario', at( 3, 1 ) );
     placeTable( s, 'Matricula', at( 2, 2 ) );
+    tableAlternateKey( s, 'Horario', 'AK_Horario_aula_dia_hora', ['aula_codigo', 'dia', 'hora'] );
 
     assume( s, 'enunciado', 'Un profesor pertenece a un solo departamento y todo departamento tiene un director, que es un profesor.', 'Dirige' );
     assume( s, 'enunciado', 'Un grupo lo imparte al menos un profesor y un profesor imparte varios grupos.', 'Imparte' );
     assume( s, 'supuesto', 'El grupo se identifica por su código dentro de la asignatura: entidad débil de Asignatura.', 'Grupo' );
     assume( s, 'supuesto', 'Teoría y prácticas no tienen atributos propios: el tipo de grupo es un dominio, no una especialización.', 'Grupo' );
     assume( s, 'supuesto', 'Las clases se dan en un día de la semana y una hora; ambos forman parte de la clave del horario.', 'Clase' );
-    assume( s, 'perdida', 'Que el alumno se matricule en un solo grupo por asignatura, que el grupo no supere su máximo ni la capacidad del aula, y que el director pertenezca a su departamento no se imponen con claves.', 'Matricula' );
+    assume( s, 'supuesto', 'Un grupo está en una sola aula a la vez y un aula acoge un solo grupo a la vez: la clave de Horario es (grupo, día, hora), el aula es una clave ajena obligatoria fuera de la clave y (aula, día, hora) es clave alternativa.', 'Clase' );
+    assume( s, 'enunciado', 'A los grupos se les imparten clases en días, horas y aulas determinadas: todo grupo participa en Clase (1,N).', 'Clase' );
+    assume( s, 'enunciado', 'Los alumnos se matriculan de varias asignaturas (al menos una), siempre en un grupo: Matricula N:N entre Alumno (1,N) y Grupo.', 'Matricula' );
+    assume( s, 'perdida', 'Que el alumno esté en un solo grupo por asignatura no se impone: con la clave (alumno, grupo) una restricción UNIQUE (alumno, asignatura) dejaría la clave primaria sin ser mínima. El diseño que sí lo impone es Matricula(alumno, asignatura, grupo) con clave (alumno, asignatura); si hubiera grupos de teoría y de prácticas, la regla sería uno por asignatura y tipo.', 'Matricula' );
+    assume( s, 'supuesto', 'El número de registro personal es un código con letras y cifras: se guarda como texto (VARCHAR).', 'Profesor' );
+    assume( s, 'perdida', 'Que el grupo no supere su máximo de alumnos ni la capacidad del aula, y que el director pertenezca a su departamento, no se imponen con claves.', 'Matricula' );
     assume( s, 'perdida', 'Departamento y Profesor se referencian mutuamente con claves ajenas obligatorias: al cargar datos hay que insertar uno con la referencia pendiente.', 'Dirige' );
 
     finish( s, 'curso-universidad.databasic.json' );

@@ -5,7 +5,7 @@
   "name": "Taller de muebles · ejercicio 4 (Tema 2)",
   "tables": [
     {
-      "id": "2f22524c-4562-4f14-982d-2adddb6a6ed2",
+      "id": "d1fdf195-ba7d-4491-853a-3c5327278d32",
       "name": "Mueble",
       "conceptualName": "Mueble",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "4d15f51a-d727-4b81-9f1d-b9fda160a353",
+          "id": "11d8362a-c59e-4f95-ba21-634fa8fc7486",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "7fd67fe0-2aa7-4141-8b3a-3ee7ed421fba",
+          "id": "fcbb69e4-69f8-4543-9be8-4850dc65ddb0",
           "name": "precio",
           "type": "NUMBER(8,2)",
           "required": true,
@@ -42,10 +42,11 @@
       ],
       "notes": "",
       "definition": "",
-      "indexes": []
+      "indexes": [],
+      "alternateKeys": []
     },
     {
-      "id": "9064a374-7b88-4e68-9d7f-98647155dc16",
+      "id": "978c9eb6-46a7-4634-9b1e-6c13170f89af",
       "name": "Pieza",
       "conceptualName": "Pieza",
       "syncNames": true,
@@ -55,7 +56,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "2517aa17-b610-4009-8585-a1998974ebe9",
+          "id": "471ef064-3a6e-40e5-9532-b9a28f7b31ba",
           "name": "codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -65,7 +66,7 @@
           "domain": null
         },
         {
-          "id": "3ecb9aed-2ec4-4c17-8cc5-4869a9e08065",
+          "id": "04f931aa-71a4-45ab-96e1-6e8ddc295845",
           "name": "descripcion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -77,10 +78,36 @@
       ],
       "notes": "",
       "definition": "",
-      "indexes": []
+      "indexes": [],
+      "alternateKeys": []
     },
     {
-      "id": "1ce02d93-e532-4d33-b995-ceed9d779bbb",
+      "id": "c9fac37b-daf0-412a-ae65-7e1415592f4a",
+      "name": "Mueble_una_pieza",
+      "conceptualName": "Mueble_una_pieza",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "683b0b9e-c0d2-422e-a2fa-13325868fe02",
+          "name": "Mueble_nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "1458ae9d-7062-4ad2-b518-bbf9fa095ef7",
       "name": "Estanteria",
       "conceptualName": "Estanteria",
       "syncNames": true,
@@ -90,7 +117,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "36f5444a-9a28-4963-90b9-16a5032bb845",
+          "id": "4d60b000-fe45-463b-83af-9e76c0b81446",
           "name": "pasillo",
           "type": "NUMBER(3)",
           "required": true,
@@ -100,7 +127,7 @@
           "domain": null
         },
         {
-          "id": "04dc65be-ab2a-4ec3-a2f6-ba1912b10cd2",
+          "id": "b773774a-95a2-4ebf-84b4-fbb03d4d9e94",
           "name": "altura",
           "type": "NUMBER(2)",
           "required": true,
@@ -115,7 +142,7 @@
       "indexes": []
     },
     {
-      "id": "01b1b90a-8c1e-432c-aad2-32440dafd77a",
+      "id": "eaec7201-5a7c-45b7-bfcd-903e5a73fa45",
       "name": "Compone",
       "conceptualName": "Compone",
       "syncNames": false,
@@ -125,7 +152,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "19d74609-23a2-431f-8836-01a40070626a",
+          "id": "eaee1eb5-252e-4fb9-a0a0-4479f3899489",
           "name": "mueble_nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -134,7 +161,7 @@
           "defaultValue": ""
         },
         {
-          "id": "6b862185-96f6-4c2b-aceb-374ce586d625",
+          "id": "1df199aa-1e4d-48d1-8ce7-e96d0b749c8d",
           "name": "pieza_codigo",
           "type": "NUMBER(6)",
           "required": true,
@@ -143,7 +170,7 @@
           "defaultValue": ""
         },
         {
-          "id": "3eda7328-2ce5-49e0-aab6-f45118ffaf8d",
+          "id": "12733298-e2ad-463f-beaa-29f54201bb12",
           "name": "unidades",
           "type": "NUMBER(3)",
           "required": true,
@@ -163,7 +190,7 @@
       "indexes": []
     },
     {
-      "id": "4050e5a9-8214-422e-ac4b-70db01a252b5",
+      "id": "5708c198-31b8-4ea0-9aaf-ec81ddac5775",
       "name": "Almacena",
       "conceptualName": "Almacena",
       "syncNames": false,
@@ -173,8 +200,8 @@
       "y": 140,
       "columns": [
         {
-          "id": "ff98a142-b07c-4124-8d0c-fb5ac706c019",
-          "name": "mueble_nombre",
+          "id": "fb9edb5a-03af-4672-b3a5-f496e9b9e9eb",
+          "name": "mueble_Mueble_nombre",
           "type": "VARCHAR(60)",
           "required": true,
           "primary": true,
@@ -182,7 +209,7 @@
           "defaultValue": ""
         },
         {
-          "id": "318253ea-2268-4453-9bd6-9569840b7358",
+          "id": "cf9fa76d-ed89-4594-b94e-89fc26e571c1",
           "name": "estanteria_pasillo",
           "type": "NUMBER(3)",
           "required": true,
@@ -191,7 +218,7 @@
           "defaultValue": ""
         },
         {
-          "id": "1a44cc7e-0bc1-4b87-8c2c-ce4127a2e41c",
+          "id": "20e073ca-fa75-4588-a1a7-54b29a6cbe22",
           "name": "estanteria_altura",
           "type": "NUMBER(2)",
           "required": true,
@@ -200,7 +227,7 @@
           "defaultValue": ""
         },
         {
-          "id": "cf35f49b-fdaf-4027-bcd2-d98976fe17e5",
+          "id": "44820ce8-af45-4615-b294-3002dc3face3",
           "name": "unidades",
           "type": "NUMBER(4)",
           "required": true,
@@ -208,7 +235,7 @@
           "notes": "",
           "defaultValue": "",
           "domain": {
-            "minimum": 0,
+            "minimum": 1,
             "maximum": null,
             "values": [],
             "check": ""
@@ -222,9 +249,28 @@
   ],
   "relationships": [
     {
-      "id": "f5ec2a2a-1736-471d-8174-0666ecc7faa0",
-      "parentId": "2f22524c-4562-4f14-982d-2adddb6a6ed2",
-      "childId": "01b1b90a-8c1e-432c-aad2-32440dafd77a",
+      "id": "da9cf71e-8bc7-43be-b485-744cbe7940c1",
+      "parentId": "d1fdf195-ba7d-4491-853a-3c5327278d32",
+      "childId": "c9fac37b-daf0-412a-ae65-7e1415592f4a",
+      "name": "FK_Mueble_una_pieza_Mueble",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "11d8362a-c59e-4f95-ba21-634fa8fc7486",
+          "childColumnId": "683b0b9e-c0d2-422e-a2fa-13325868fe02"
+        }
+      ]
+    },
+    {
+      "id": "94e54db5-3f22-4ce9-b1ae-f0aa579e01ed",
+      "parentId": "d1fdf195-ba7d-4491-853a-3c5327278d32",
+      "childId": "eaec7201-5a7c-45b7-bfcd-903e5a73fa45",
       "name": "FK_Compone_mueble",
       "forward": "Compone",
       "inverse": "mueble",
@@ -235,15 +281,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "4d15f51a-d727-4b81-9f1d-b9fda160a353",
-          "childColumnId": "19d74609-23a2-431f-8836-01a40070626a"
+          "parentColumnId": "11d8362a-c59e-4f95-ba21-634fa8fc7486",
+          "childColumnId": "eaee1eb5-252e-4fb9-a0a0-4479f3899489"
         }
       ]
     },
     {
-      "id": "7e2dbff9-9a1d-4628-91ea-cdf0ec57b0a9",
-      "parentId": "9064a374-7b88-4e68-9d7f-98647155dc16",
-      "childId": "01b1b90a-8c1e-432c-aad2-32440dafd77a",
+      "id": "61ffd98d-252a-41c1-b93c-3ba873e73e33",
+      "parentId": "978c9eb6-46a7-4634-9b1e-6c13170f89af",
+      "childId": "eaec7201-5a7c-45b7-bfcd-903e5a73fa45",
       "name": "FK_Compone_pieza",
       "forward": "Compone",
       "inverse": "pieza",
@@ -254,34 +300,34 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "2517aa17-b610-4009-8585-a1998974ebe9",
-          "childColumnId": "6b862185-96f6-4c2b-aceb-374ce586d625"
+          "parentColumnId": "471ef064-3a6e-40e5-9532-b9a28f7b31ba",
+          "childColumnId": "1df199aa-1e4d-48d1-8ce7-e96d0b749c8d"
         }
       ]
     },
     {
-      "id": "8e02b1ce-ac75-4588-a806-9cbc3ce9060c",
-      "parentId": "2f22524c-4562-4f14-982d-2adddb6a6ed2",
-      "childId": "4050e5a9-8214-422e-ac4b-70db01a252b5",
+      "id": "7d4b40f7-944a-4049-9edf-711169d0b286",
+      "parentId": "c9fac37b-daf0-412a-ae65-7e1415592f4a",
+      "childId": "5708c198-31b8-4ea0-9aaf-ec81ddac5775",
       "name": "FK_Almacena_mueble",
       "forward": "Almacena",
       "inverse": "mueble",
-      "cardinality": "zero-many",
+      "cardinality": "one-many",
       "identifying": true,
       "optional": false,
       "onDelete": "NO ACTION",
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "4d15f51a-d727-4b81-9f1d-b9fda160a353",
-          "childColumnId": "ff98a142-b07c-4124-8d0c-fb5ac706c019"
+          "parentColumnId": "683b0b9e-c0d2-422e-a2fa-13325868fe02",
+          "childColumnId": "fb9edb5a-03af-4672-b3a5-f496e9b9e9eb"
         }
       ]
     },
     {
-      "id": "c915a015-03b4-4367-b151-4d4b6d9ae27b",
-      "parentId": "1ce02d93-e532-4d33-b995-ceed9d779bbb",
-      "childId": "4050e5a9-8214-422e-ac4b-70db01a252b5",
+      "id": "af2c0a1b-a356-4470-af98-02c0b6c83766",
+      "parentId": "1458ae9d-7062-4ad2-b518-bbf9fa095ef7",
+      "childId": "5708c198-31b8-4ea0-9aaf-ec81ddac5775",
       "name": "FK_Almacena_estanteria",
       "forward": "Almacena",
       "inverse": "estanteria",
@@ -292,12 +338,12 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "36f5444a-9a28-4963-90b9-16a5032bb845",
-          "childColumnId": "318253ea-2268-4453-9bd6-9569840b7358"
+          "parentColumnId": "4d60b000-fe45-463b-83af-9e76c0b81446",
+          "childColumnId": "cf9fa76d-ed89-4594-b94e-89fc26e571c1"
         },
         {
-          "parentColumnId": "04dc65be-ab2a-4ec3-a2f6-ba1912b10cd2",
-          "childColumnId": "1a44cc7e-0bc1-4b87-8c2c-ce4127a2e41c"
+          "parentColumnId": "b773774a-95a2-4ebf-84b4-fbb03d4d9e94",
+          "childColumnId": "20e073ca-fa75-4588-a1a7-54b29a6cbe22"
         }
       ]
     }
@@ -305,7 +351,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+        "id": "9694c881-759b-4a7b-97fb-1992f9bef519",
         "name": "Mueble",
         "notes": "",
         "weak": false,
@@ -315,7 +361,7 @@
         }
       },
       {
-        "id": "52331fa2-700a-4848-ae38-6e3229974cbc",
+        "id": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7",
         "name": "Pieza",
         "notes": "",
         "weak": false,
@@ -325,7 +371,17 @@
         }
       },
       {
-        "id": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5",
+        "id": "3634966f-91de-404c-8e14-21b1514ddeec",
+        "name": "Mueble_una_pieza",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "d32f9672-a237-4ed8-a1d6-f36638335dc8",
         "name": "Estanteria",
         "notes": "",
         "weak": false,
@@ -337,9 +393,9 @@
     ],
     "attributes": [
       {
-        "id": "59a730f5-56e4-4a01-9e74-037e6457f705",
+        "id": "c350c9c3-d138-48b4-8425-70c01cee3964",
         "ownerKind": "entity",
-        "ownerId": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+        "ownerId": "9694c881-759b-4a7b-97fb-1992f9bef519",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -358,9 +414,9 @@
         }
       },
       {
-        "id": "e9bcb0ef-c345-4783-9ee4-e7e1712b1ec9",
+        "id": "a1132dbb-cd07-4536-aa5d-83cedb29eefb",
         "ownerKind": "entity",
-        "ownerId": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+        "ownerId": "9694c881-759b-4a7b-97fb-1992f9bef519",
         "name": "precio",
         "type": "NUMBER(8,2)",
         "required": true,
@@ -384,9 +440,9 @@
         }
       },
       {
-        "id": "47f8df55-06c4-4692-8b67-a63b6bad164f",
+        "id": "d30b447d-1182-4f3c-8c25-870243713f01",
         "ownerKind": "entity",
-        "ownerId": "52331fa2-700a-4848-ae38-6e3229974cbc",
+        "ownerId": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7",
         "name": "codigo",
         "type": "NUMBER(6)",
         "required": true,
@@ -405,9 +461,9 @@
         }
       },
       {
-        "id": "ab322c29-96ea-4da4-a2d9-3a3c1fe260a2",
+        "id": "1c0b6f9e-6d83-438e-b536-d4a2b7ea26dd",
         "ownerKind": "entity",
-        "ownerId": "52331fa2-700a-4848-ae38-6e3229974cbc",
+        "ownerId": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7",
         "name": "descripcion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -426,9 +482,9 @@
         }
       },
       {
-        "id": "bd6c7950-3ad4-44e0-b27a-dcdfa71ef30f",
+        "id": "7746e9c9-99d0-49d8-943a-c508d107bab5",
         "ownerKind": "entity",
-        "ownerId": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5",
+        "ownerId": "d32f9672-a237-4ed8-a1d6-f36638335dc8",
         "name": "pasillo",
         "type": "NUMBER(3)",
         "required": true,
@@ -447,9 +503,9 @@
         }
       },
       {
-        "id": "490c631d-5892-46b6-b905-9062c1f65f84",
+        "id": "998c3ee8-7d43-4aac-8ecf-4c4e0d86288e",
         "ownerKind": "entity",
-        "ownerId": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5",
+        "ownerId": "d32f9672-a237-4ed8-a1d6-f36638335dc8",
         "name": "altura",
         "type": "NUMBER(2)",
         "required": true,
@@ -468,9 +524,9 @@
         }
       },
       {
-        "id": "f2625a5a-2e90-46e3-9b1a-0443f284ce8e",
+        "id": "2c08e2a7-4237-44f7-8180-2bdf9677481c",
         "ownerKind": "relationship",
-        "ownerId": "a39b2eb1-453a-435e-9e03-b2fc80dc13a9",
+        "ownerId": "f55b1d97-b0cd-431f-8749-5cbf6baa5a7f",
         "name": "unidades",
         "type": "NUMBER(3)",
         "required": true,
@@ -494,9 +550,9 @@
         }
       },
       {
-        "id": "e16e2981-7461-4a48-965e-a1cdc8bf6f91",
+        "id": "57257c68-c46a-40c4-9a3f-fbbe8f7b0d0c",
         "ownerKind": "relationship",
-        "ownerId": "aa22a229-e95e-457a-b4f2-02307bd0cde1",
+        "ownerId": "8bd51e46-89c6-4d46-a83c-8a331827b08e",
         "name": "unidades",
         "type": "NUMBER(4)",
         "required": true,
@@ -510,7 +566,7 @@
         "parentAttributeId": null,
         "derivation": "",
         "domain": {
-          "minimum": 0,
+          "minimum": 1,
           "maximum": null,
           "values": [],
           "check": ""
@@ -522,20 +578,20 @@
     ],
     "relationships": [
       {
-        "id": "a39b2eb1-453a-435e-9e03-b2fc80dc13a9",
+        "id": "f55b1d97-b0cd-431f-8749-5cbf6baa5a7f",
         "name": "Compone",
         "notes": "",
         "participations": [
           {
-            "id": "beed759a-d682-4db0-9f23-60b5be39aec9",
-            "entityId": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+            "id": "94a8d19a-2476-4fed-9f7d-5881b81080e6",
+            "entityId": "9694c881-759b-4a7b-97fb-1992f9bef519",
             "role": "mueble",
             "min": 1,
             "max": null
           },
           {
-            "id": "6c52aab9-9cb6-41d2-b115-d76dcb4b9787",
-            "entityId": "52331fa2-700a-4848-ae38-6e3229974cbc",
+            "id": "79657be3-8e38-4d4f-a2d2-0ca57bd97f73",
+            "entityId": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7",
             "role": "pieza",
             "min": 0,
             "max": null
@@ -546,28 +602,28 @@
           "tableName": "Compone",
           "key": {
             "participationIds": [
-              "beed759a-d682-4db0-9f23-60b5be39aec9",
-              "6c52aab9-9cb6-41d2-b115-d76dcb4b9787"
+              "94a8d19a-2476-4fed-9f7d-5881b81080e6",
+              "79657be3-8e38-4d4f-a2d2-0ca57bd97f73"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "aa22a229-e95e-457a-b4f2-02307bd0cde1",
+        "id": "8bd51e46-89c6-4d46-a83c-8a331827b08e",
         "name": "Almacena",
         "notes": "",
         "participations": [
           {
-            "id": "9cb82495-8da1-42df-bc94-aaee911564af",
-            "entityId": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+            "id": "4aa90bdc-d32a-44f4-a5a3-d9e71ca5dc3f",
+            "entityId": "3634966f-91de-404c-8e14-21b1514ddeec",
             "role": "mueble",
-            "min": 0,
+            "min": 1,
             "max": null
           },
           {
-            "id": "13a2ff60-ffa7-4e7b-9538-b6948289db7f",
-            "entityId": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5",
+            "id": "17893494-ce4c-4f46-a952-b171f1a332c4",
+            "entityId": "d32f9672-a237-4ed8-a1d6-f36638335dc8",
             "role": "estanteria",
             "min": 0,
             "max": null
@@ -578,144 +634,194 @@
           "tableName": "Almacena",
           "key": {
             "participationIds": [
-              "9cb82495-8da1-42df-bc94-aaee911564af",
-              "13a2ff60-ffa7-4e7b-9538-b6948289db7f"
+              "4aa90bdc-d32a-44f4-a5a3-d9e71ca5dc3f",
+              "17893494-ce4c-4f46-a952-b171f1a332c4"
             ],
             "attributeIds": []
           }
         }
       }
     ],
-    "generalizations": []
+    "generalizations": [
+      {
+        "id": "ed6aa833-3e69-44e8-a206-ed28f5fd9279",
+        "supertypeId": "9694c881-759b-4a7b-97fb-1992f9bef519",
+        "subtypeIds": [
+          "3634966f-91de-404c-8e14-21b1514ddeec"
+        ],
+        "disjoint": true,
+        "total": false,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      }
+    ]
   },
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "f7cd8628-8e65-4fee-ab60-c45c42a09666",
+      "sourceId": "9694c881-759b-4a7b-97fb-1992f9bef519",
       "targetKind": "table",
-      "targetId": "2f22524c-4562-4f14-982d-2adddb6a6ed2"
+      "targetId": "d1fdf195-ba7d-4491-853a-3c5327278d32"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "59a730f5-56e4-4a01-9e74-037e6457f705",
+      "sourceId": "c350c9c3-d138-48b4-8425-70c01cee3964",
       "targetKind": "column",
-      "targetId": "4d15f51a-d727-4b81-9f1d-b9fda160a353"
+      "targetId": "11d8362a-c59e-4f95-ba21-634fa8fc7486"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "e9bcb0ef-c345-4783-9ee4-e7e1712b1ec9",
+      "sourceId": "a1132dbb-cd07-4536-aa5d-83cedb29eefb",
       "targetKind": "column",
-      "targetId": "7fd67fe0-2aa7-4141-8b3a-3ee7ed421fba"
+      "targetId": "fcbb69e4-69f8-4543-9be8-4850dc65ddb0"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "52331fa2-700a-4848-ae38-6e3229974cbc",
+      "sourceId": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7",
       "targetKind": "table",
-      "targetId": "9064a374-7b88-4e68-9d7f-98647155dc16"
+      "targetId": "978c9eb6-46a7-4634-9b1e-6c13170f89af"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "47f8df55-06c4-4692-8b67-a63b6bad164f",
+      "sourceId": "d30b447d-1182-4f3c-8c25-870243713f01",
       "targetKind": "column",
-      "targetId": "2517aa17-b610-4009-8585-a1998974ebe9"
+      "targetId": "471ef064-3a6e-40e5-9532-b9a28f7b31ba"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ab322c29-96ea-4da4-a2d9-3a3c1fe260a2",
+      "sourceId": "1c0b6f9e-6d83-438e-b536-d4a2b7ea26dd",
       "targetKind": "column",
-      "targetId": "3ecb9aed-2ec4-4c17-8cc5-4869a9e08065"
+      "targetId": "04f931aa-71a4-45ab-96e1-6e8ddc295845"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5",
+      "sourceId": "3634966f-91de-404c-8e14-21b1514ddeec",
       "targetKind": "table",
-      "targetId": "1ce02d93-e532-4d33-b995-ceed9d779bbb"
+      "targetId": "c9fac37b-daf0-412a-ae65-7e1415592f4a"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "ed6aa833-3e69-44e8-a206-ed28f5fd9279",
+      "targetKind": "foreign-key",
+      "targetId": "da9cf71e-8bc7-43be-b485-744cbe7940c1"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "ed6aa833-3e69-44e8-a206-ed28f5fd9279",
+      "targetKind": "column",
+      "targetId": "683b0b9e-c0d2-422e-a2fa-13325868fe02"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "d32f9672-a237-4ed8-a1d6-f36638335dc8",
+      "targetKind": "table",
+      "targetId": "1458ae9d-7062-4ad2-b518-bbf9fa095ef7"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "bd6c7950-3ad4-44e0-b27a-dcdfa71ef30f",
+      "sourceId": "7746e9c9-99d0-49d8-943a-c508d107bab5",
       "targetKind": "column",
-      "targetId": "36f5444a-9a28-4963-90b9-16a5032bb845"
+      "targetId": "4d60b000-fe45-463b-83af-9e76c0b81446"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "490c631d-5892-46b6-b905-9062c1f65f84",
+      "sourceId": "998c3ee8-7d43-4aac-8ecf-4c4e0d86288e",
       "targetKind": "column",
-      "targetId": "04dc65be-ab2a-4ec3-a2f6-ba1912b10cd2"
+      "targetId": "b773774a-95a2-4ebf-84b4-fbb03d4d9e94"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "a39b2eb1-453a-435e-9e03-b2fc80dc13a9",
+      "sourceId": "f55b1d97-b0cd-431f-8749-5cbf6baa5a7f",
       "targetKind": "table",
-      "targetId": "01b1b90a-8c1e-432c-aad2-32440dafd77a"
+      "targetId": "eaec7201-5a7c-45b7-bfcd-903e5a73fa45"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "beed759a-d682-4db0-9f23-60b5be39aec9",
+      "sourceId": "94a8d19a-2476-4fed-9f7d-5881b81080e6",
       "targetKind": "foreign-key",
-      "targetId": "f5ec2a2a-1736-471d-8174-0666ecc7faa0"
+      "targetId": "94e54db5-3f22-4ce9-b1ae-f0aa579e01ed"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "6c52aab9-9cb6-41d2-b115-d76dcb4b9787",
+      "sourceId": "79657be3-8e38-4d4f-a2d2-0ca57bd97f73",
       "targetKind": "foreign-key",
-      "targetId": "7e2dbff9-9a1d-4628-91ea-cdf0ec57b0a9"
+      "targetId": "61ffd98d-252a-41c1-b93c-3ba873e73e33"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "f2625a5a-2e90-46e3-9b1a-0443f284ce8e",
+      "sourceId": "2c08e2a7-4237-44f7-8180-2bdf9677481c",
       "targetKind": "column",
-      "targetId": "3eda7328-2ce5-49e0-aab6-f45118ffaf8d"
+      "targetId": "12733298-e2ad-463f-beaa-29f54201bb12"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "aa22a229-e95e-457a-b4f2-02307bd0cde1",
+      "sourceId": "8bd51e46-89c6-4d46-a83c-8a331827b08e",
       "targetKind": "table",
-      "targetId": "4050e5a9-8214-422e-ac4b-70db01a252b5"
+      "targetId": "5708c198-31b8-4ea0-9aaf-ec81ddac5775"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "9cb82495-8da1-42df-bc94-aaee911564af",
+      "sourceId": "4aa90bdc-d32a-44f4-a5a3-d9e71ca5dc3f",
       "targetKind": "foreign-key",
-      "targetId": "8e02b1ce-ac75-4588-a806-9cbc3ce9060c"
+      "targetId": "7d4b40f7-944a-4049-9edf-711169d0b286"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "13a2ff60-ffa7-4e7b-9538-b6948289db7f",
+      "sourceId": "17893494-ce4c-4f46-a952-b171f1a332c4",
       "targetKind": "foreign-key",
-      "targetId": "c915a015-03b4-4367-b151-4d4b6d9ae27b"
+      "targetId": "af2c0a1b-a356-4470-af98-02c0b6c83766"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "e16e2981-7461-4a48-965e-a1cdc8bf6f91",
+      "sourceId": "57257c68-c46a-40c4-9a3f-fbbe8f7b0d0c",
       "targetKind": "column",
-      "targetId": "cf35f49b-fdaf-4027-bcd2-d98976fe17e5"
+      "targetId": "44820ce8-af45-4615-b294-3002dc3face3"
     }
   ],
   "assumptions": [
     {
-      "id": "964f7f7f-781d-42dd-8a2d-5ec164106c7c",
+      "id": "5b865a81-f1a1-49f8-b636-98894f72e4d6",
       "kind": "enunciado",
-      "text": "Una pieza forma parte de varios muebles y un mueble tiene una o más piezas, con las unidades de cada una.",
-      "elementId": "a39b2eb1-453a-435e-9e03-b2fc80dc13a9"
+      "text": "Una pieza forma parte de varios muebles y un mueble está formado por una o más piezas, con las unidades de cada una.",
+      "elementId": "f55b1d97-b0cd-431f-8749-5cbf6baa5a7f"
     },
     {
-      "id": "a93701d9-373e-47da-948e-5cd746abfe85",
+      "id": "4841a46c-e6cf-47a0-a8bf-3bc2260f92e3",
       "kind": "enunciado",
       "text": "La estantería se identifica por pasillo y altura: clave compuesta.",
-      "elementId": "9d6f409c-5629-4b8c-869f-345aa3c2a1f5"
+      "elementId": "d32f9672-a237-4ed8-a1d6-f36638335dc8"
     },
     {
-      "id": "a711f45b-cb69-41dc-9023-2d5c36060804",
-      "kind": "perdida",
-      "text": "Solo los muebles de una sola pieza se guardan en estanterías: depende de contar las piezas y no se puede imponer con claves.",
-      "elementId": "aa22a229-e95e-457a-b4f2-02307bd0cde1"
+      "id": "2dfc2a3d-c8ac-4725-ad26-49dad72aa2d8",
+      "kind": "enunciado",
+      "text": "Los muebles de una sola pieza se encuentran en una o más estanterías: subclase Mueble_una_pieza (especialización parcial de Mueble) con participación (1,N) en Almacena.",
+      "elementId": "3634966f-91de-404c-8e14-21b1514ddeec"
     },
     {
-      "id": "916d9408-c385-46ea-88aa-fb9905be4e94",
+      "id": "8e4e229d-33bc-4bcc-ad0e-a79218fb0927",
+      "kind": "supuesto",
+      "text": "Una pieza puede estar en el catálogo sin formar parte todavía de ningún mueble: participación (0,N) en Compone.",
+      "elementId": "2eeb7d3b-36fe-4493-be13-a2bfc80178f7"
+    },
+    {
+      "id": "d4073ff5-9058-4e55-b386-61930390b202",
+      "kind": "supuesto",
+      "text": "Una estantería puede estar vacía: participación (0,N) en Almacena.",
+      "elementId": "d32f9672-a237-4ed8-a1d6-f36638335dc8"
+    },
+    {
+      "id": "8d678a2d-7458-4204-bff2-a2f701c0d3f9",
+      "kind": "supuesto",
+      "text": "Las unidades valen al menos 1: si un mueble no tiene unidades en una estantería, no hay fila en Almacena.",
+      "elementId": "8bd51e46-89c6-4d46-a83c-8a331827b08e"
+    },
+    {
+      "id": "e43c1f8b-d894-4d06-bb04-e840c2d64bae",
       "kind": "perdida",
-      "text": "Que todo mueble tenga al menos una pieza (participación total en Compone) no se impone.",
-      "elementId": "a39b2eb1-453a-435e-9e03-b2fc80dc13a9"
+      "text": "Que Mueble_una_pieza contenga exactamente los muebles con una sola pieza depende de contar sus filas en Compone: no se impone con claves.",
+      "elementId": "3634966f-91de-404c-8e14-21b1514ddeec"
     }
   ],
   "physical": {
@@ -726,15 +832,19 @@
   "data": {},
   "presentation": {
     "chen": {
-      "f7cd8628-8e65-4fee-ab60-c45c42a09666": {
+      "9694c881-759b-4a7b-97fb-1992f9bef519": {
         "x": 1080,
         "y": 140
       },
-      "52331fa2-700a-4848-ae38-6e3229974cbc": {
+      "2eeb7d3b-36fe-4493-be13-a2bfc80178f7": {
         "x": 120,
         "y": 980
       },
-      "9d6f409c-5629-4b8c-869f-345aa3c2a1f5": {
+      "3634966f-91de-404c-8e14-21b1514ddeec": {
+        "x": 1080,
+        "y": 980
+      },
+      "d32f9672-a237-4ed8-a1d6-f36638335dc8": {
         "x": 2040,
         "y": 980
       }

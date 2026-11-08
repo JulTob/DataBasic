@@ -409,6 +409,10 @@ export function updateTable(
             model,
             next => {
                 const table = requireTable( next, tableId );
+                const keysBefore = {
+                    indexes: structuredClone( table.indexes ),
+                    alternateKeys: structuredClone( table.alternateKeys || [] )
+                    };
 
                 applyDomainPatch(
                         table,
@@ -418,6 +422,7 @@ export function updateTable(
                             'x', 'y', 'notes', 'definition', 'indexes', 'alternateKeys', 'color'
                             ]
                         );
+                rejectChangedGeneratedKeys( next, keysBefore, table );
 
                 if (table.syncNames && 'name' in patch) {
                     table.conceptualName = patch.name;
@@ -1342,7 +1347,7 @@ export function setModelProfile(
 /** Promotes v1 conservatively; no conceptual intent is inferred from FKs. */
 export function upgradeDocument( model ) {
     if (model.version === 2) {
-        return structuredClone( model );
+        return synchronizedCopy( model );
         }
 
     if (model.version !== 1 || model.conceptual) {
@@ -1361,6 +1366,25 @@ export function upgradeDocument( model ) {
     next.display.notation = next.display.crowsFeet ? 'crows-foot' : 'relational';
 
     return next;
+    }
+
+/*
+ * A format 2 file written by an older version may miss structures that the
+ * current rules generate from its Chen decisions (for example the unique key
+ * of a 1:1 kept as a foreign key). Reading it recomputes them on a copy. If
+ * the recomputation fails, the file is kept exactly as written, as before,
+ * and the first edit reports the problem.
+ */
+function synchronizedCopy( model ) {
+    const copy = structuredClone( model );
+
+    try {
+        synchronizeMaterializedConcepts( copy );
+        return copy;
+        }
+    catch {
+        return structuredClone( model );
+        }
     }
 
 function applyDomainPatch(
@@ -1737,7 +1761,7 @@ function validateDocumentShape( model ) {
         for (const trace of model.traces) {
             demand(
                     ['entity', 'attribute', 'relationship', 'participation', 'generalization'].includes( trace.sourceKind )
-                        && ['table', 'column', 'foreign-key', 'alternate-key'].includes( trace.targetKind ),
+                        && ['table', 'column', 'foreign-key', 'alternate-key', 'index'].includes( trace.targetKind ),
                     'Clase de traza no válida.'
                     );
             text( trace, 'sourceId', 100 );
@@ -2240,6 +2264,26 @@ function nativeAttributeForColumn(
             );
 
     return model.conceptual?.attributes.find( item => item.id === trace?.sourceId );
+    }
+
+/** Keys and indexes generated from a Chen source keep their shape; their source decides them. */
+function rejectChangedGeneratedKeys(
+        model,
+        before,
+        table
+        ) {
+    for (const collection of ['indexes', 'alternateKeys']) {
+        for (const key of before[collection]) {
+            const generated = model.traces.some(
+                    item => item.targetId === key.id && ['alternate-key', 'index'].includes( item.targetKind )
+                    );
+            const after = (table[collection] || []).find( item => item.id === key.id );
+
+            if (generated && JSON.stringify( after ) !== JSON.stringify( key )) {
+                throw new Error( `${key.name}: estructura generada; edita su origen Chen en Conceptual.` );
+                }
+            }
+        }
     }
 
 function rejectGeneratedStructure(
@@ -3347,12 +3391,96 @@ function materializeBinaryForeignKey(
         }
 
     traceDomainTarget( model, 'relationship', relation.id, 'foreign-key', foreignKey.id );
+    materializeOneToOneUniqueness(
+            model,
+            relation,
+            child,
+            foreignKey,
+            parentPart.max === 1
+            );
 
     for (const attribute of model.conceptual.attributes.filter(
             item => item.ownerKind === 'relationship' && item.ownerId === relation.id
             )) {
         materializeNativeAttribute( model, attribute );
         }
+    }
+
+/** True when the columns already hold the whole primary key, so they are unique by themselves. */
+function columnsContainPrimaryKey(
+        table,
+        columnIds
+        ) {
+    const primary = table.columns.filter( item => item.primary ).map( item => item.id );
+
+    return primary.length > 0 && primary.every( id => columnIds.includes( id ) );
+    }
+
+/**
+ * A binary kept as a foreign key whose referenced side appears at most once
+ * (a 1:1) needs unique foreign key values. A required foreign key becomes an
+ * alternate key (NOT NULL and UNIQUE); an optional one becomes a unique
+ * index, which still admits several rows without a reference. Both are
+ * traced to the relationship, so they follow its changes.
+ */
+function materializeOneToOneUniqueness(
+        model,
+        relation,
+        child,
+        foreignKey,
+        referencedAtMostOnce
+        ) {
+    const columnIds = foreignKey.mappings.map( pair => pair.childColumnId );
+    const needed = !referencedAtMostOnce || columnsContainPrimaryKey( child, columnIds )
+        ? null
+        : foreignKey.optional ? 'index' : 'alternate-key';
+    const name = `${needed === 'index' ? 'UX' : 'AK'}_${child.name}_${relation.name}`;
+
+    for (const trace of model.traces.filter(
+            item => item.sourceKind === 'relationship' && item.sourceId === relation.id
+                && ['alternate-key', 'index'].includes( item.targetKind )
+                && item.targetKind !== needed
+            )) {
+        removeTracedKey( model, trace );
+        }
+
+    if (!needed) {
+        return;
+        }
+
+    const trace = model.traces.find(
+            item => item.sourceKind === 'relationship' && item.sourceId === relation.id
+                && item.targetKind === needed
+            );
+    const collection = needed === 'index' ? 'indexes' : 'alternateKeys';
+
+    child[collection] ||= [];
+
+    let key = child[collection].find( item => item.id === trace?.targetId );
+
+    if (!key) {
+        key = needed === 'index'
+            ? {id: newId(), name, columns: [], unique: true}
+            : {id: newId(), name, columns: []};
+        child[collection].push( key );
+        traceDomainTarget( model, 'relationship', relation.id, needed, key.id );
+        }
+
+    key.name = name;
+    key.columns = [...columnIds];
+    }
+
+/** Removes a generated alternate key or unique index together with its trace. */
+function removeTracedKey(
+        model,
+        trace
+        ) {
+    for (const table of model.tables) {
+        table.alternateKeys = (table.alternateKeys || []).filter( item => item.id !== trace.targetId );
+        table.indexes = table.indexes.filter( item => item.id !== trace.targetId );
+        }
+
+    model.traces = model.traces.filter( item => item !== trace );
     }
 
 export function addConceptualGeneralization(
@@ -3677,6 +3805,12 @@ export function removeConceptualElement(
                                     && item.targetKind === 'column'
                                 ).map( item => item.targetId )
                         );
+                const removedKeys = new Set(
+                        next.traces.filter(
+                                item => removedSources.has( item.sourceId )
+                                    && ['alternate-key', 'index'].includes( item.targetKind )
+                                ).map( item => item.targetId )
+                        );
 
                 for (const table of next.tables.filter( item => removedTables.has( item.id ) )) {
                     table.columns.forEach( field => removedColumns.add( field.id ) );
@@ -3696,7 +3830,8 @@ export function removeConceptualElement(
 
                 for (const table of next.tables.filter( item => !removedTables.has( item.id ) )) {
                     const dependent = [...table.indexes, ...(table.alternateKeys || [])].find(
-                            key => key.columns.some( columnId => removedColumns.has( columnId ) )
+                            key => !removedKeys.has( key.id )
+                                && key.columns.some( columnId => removedColumns.has( columnId ) )
                             );
 
                     if (dependent) {
@@ -3712,10 +3847,12 @@ export function removeConceptualElement(
                 for (const table of next.tables) {
                     table.columns = table.columns.filter( item => !removedColumns.has( item.id ) );
                     table.indexes = table.indexes.filter(
-                            item => !item.columns.some( columnId => removedColumns.has( columnId ) )
+                            item => !removedKeys.has( item.id )
+                                && !item.columns.some( columnId => removedColumns.has( columnId ) )
                             );
                     table.alternateKeys = (table.alternateKeys || []).filter(
-                            item => !item.columns.some( columnId => removedColumns.has( columnId ) )
+                            item => !removedKeys.has( item.id )
+                                && !item.columns.some( columnId => removedColumns.has( columnId ) )
                             );
                     }
 
@@ -3733,6 +3870,72 @@ export function removeConceptualElement(
                 removeOrphanData( next );
                 }
             );
+    }
+
+/** The foreign key columns that carry one participation, and the table that holds them. */
+function participationColumns(
+        model,
+        part
+        ) {
+    const trace = model.traces.find(
+            item => item.sourceKind === 'participation' && item.sourceId === part.id
+                && item.targetKind === 'foreign-key'
+            );
+    const foreignKey = model.relationships.find( item => item.id === trace?.targetId );
+    const table = model.tables.find( item => item.id === foreignKey?.childId );
+
+    return table
+        ? {table, columnIds: foreignKey.mappings.map( pair => pair.childColumnId )}
+        : null;
+    }
+
+/** True when a primary key, alternate key or unique index fits inside the given columns. */
+function uniqueWithinColumns(
+        table,
+        columnIds
+        ) {
+    const inside = ids => ids.length > 0 && ids.every( id => columnIds.includes( id ) );
+    const primary = table.columns.filter( item => item.primary ).map( item => item.id );
+
+    return inside( primary )
+        || (table.alternateKeys || []).some( key => inside( key.columns ) )
+        || table.indexes.some( index => index.unique && inside( index.columns ) );
+    }
+
+/*
+ * Which limits of a participation (min,max) the tables do not impose.
+ * - The entity that receives the foreign key of a binary: its single value
+ *   imposes the maximum 1 and NOT NULL imposes the minimum, so nothing is lost.
+ * - Any other role: a minimum of 1 or more is never imposed (nothing obliges
+ *   a row to be referenced); a maximum 1 is imposed when a unique key fits
+ *   inside the role's foreign key columns; any other number is not imposed.
+ */
+function participationLostLimits(
+        model,
+        relation,
+        part
+        ) {
+    if (relation.translation.kind === 'foreign-key'
+        && part.id === relation.translation.childParticipationId) {
+        return [];
+        }
+
+    const lost = [];
+    const holder = participationColumns( model, part );
+
+    if (part.min > 0) {
+        lost.push( `el mínimo ${part.min}` );
+        }
+
+    if (part.max === 1 && !(holder && uniqueWithinColumns( holder.table, holder.columnIds ))) {
+        lost.push( 'el máximo 1' );
+        }
+
+    if (part.max !== null && part.max > 1) {
+        lost.push( `el máximo ${part.max}` );
+        }
+
+    return lost;
     }
 
 /** Pending decisions block complete SQL; documentary limits remain visible. */
@@ -3782,10 +3985,13 @@ export function conceptualStatus( model ) {
             }
 
         for (const part of relation.participations) {
-            if (part.min > 0 || part.max !== null && part.max !== 1) {
+            const lost = relation.translation ? participationLostLimits( model, relation, part ) : [];
+
+            if (lost.length) {
                 report(
                         'documentary',
-                        `${relation.name}, rol ${part.role || part.entityId}: participación (${part.min},${part.max ?? 'N'}) conservada; la FK no impone todos estos límites.`,
+                        `${relation.name}, rol ${part.role || part.entityId}: participación (${part.min},${part.max ?? 'N'}); `
+                            + `las tablas no imponen ${lost.join( ' ni ' )}.`,
                         relation.id
                         );
                 }
@@ -3860,11 +4066,20 @@ export function conceptualStatus( model ) {
         const materialized = item.translation?.kind === 'class-tables';
         const supertype = entityName( item.supertypeId );
         const subtypes = item.subtypeIds.map( entityName ).join( ', ' );
+        const lost = [
+            ...(item.disjoint ? ['la exclusión (cada ocurrencia en una sola subclase)'] : []),
+            ...(item.total ? ['la cobertura (toda ocurrencia en alguna subclase)'] : [])
+            ];
+
+        if (materialized && !lost.length) {
+            continue;
+            }
+
         const decision = materialized
             ? 'tablas de superclase y subclases materializadas; '
                 + `${item.disjoint ? 'disjunta' : 'solapada'}, `
                 + `${item.total ? 'total' : 'parcial'}. `
-                + 'PK/FK no imponen exclusión ni cobertura entre subclases'
+                + `PK/FK no imponen ${lost.join( ' ni ' )}`
             : 'superclase, subclases, disyunción y totalidad conservadas; '
                 + 'elige tablas de superclase y subclases para materializar';
 
@@ -3984,7 +4199,8 @@ function validateConceptualDocument( model ) {
         table: new Set( model.tables.map( item => item.id ) ),
         column: new Set( model.tables.flatMap( item => item.columns.map( field => field.id ) ) ),
         'foreign-key': new Set( model.relationships.map( item => item.id ) ),
-        'alternate-key': new Set( model.tables.flatMap( item => (item.alternateKeys || []).map( key => key.id ) ) )
+        'alternate-key': new Set( model.tables.flatMap( item => (item.alternateKeys || []).map( key => key.id ) ) ),
+        index: new Set( model.tables.flatMap( item => item.indexes.map( index => index.id ) ) )
         };
     const traceKeys = new Set();
 
@@ -4034,13 +4250,15 @@ function validateRelationshipMaterialization(
         relation,
         add
         ) {
-    const traces = model.traces.filter(
+    const ownTraces = model.traces.filter(
             item => item.sourceKind === 'relationship' && item.sourceId === relation.id
             );
+    const traces = ownTraces.filter( item => ['table', 'foreign-key'].includes( item.targetKind ) );
+    const keyTraces = ownTraces.filter( item => ['alternate-key', 'index'].includes( item.targetKind ) );
     const fail = message => add( `${relation.name}: ${message}`, relation.id );
 
     if (!relation.translation) {
-        if (traces.length) {
+        if (ownTraces.length) {
             fail( 'una relación pendiente no puede conservar materialización sin estrategia.' );
             }
         return;
@@ -4048,6 +4266,12 @@ function validateRelationshipMaterialization(
 
     if (traces.length !== 1) {
         fail( 'la estrategia debe tener una única materialización trazada.' );
+        return;
+        }
+
+    if (keyTraces.length > 1
+        || keyTraces.length && relation.translation.kind !== 'foreign-key') {
+        fail( 'solo una 1:1 traducida con FK genera una única clave o índice sin duplicados.' );
         return;
         }
 
@@ -4227,7 +4451,7 @@ function validateConceptualOwnership(
     const permitted = {
         entity: ['table'],
         attribute: ['column', 'table', 'foreign-key'],
-        relationship: ['table', 'foreign-key'],
+        relationship: ['table', 'foreign-key', 'alternate-key', 'index'],
         participation: ['foreign-key', 'alternate-key'],
         generalization: ['column', 'foreign-key']
         };

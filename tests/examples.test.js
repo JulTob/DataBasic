@@ -252,9 +252,13 @@ test( 'Jerarquía entregada: rechazo atómico, corrección local e identidad her
             assert.deepEqual( variant.relationships, model.relationships );
             assert.deepEqual( variant.traces, model.traces );
             assert.doesNotThrow( () => exportSQL( variant ) );
-            assert.ok( domain.conceptualStatus( variant ).some(
-                    item => item.elementId === generalization.id && item.code === 'documentary'
-                    ) );
+            assert.equal(
+                    domain.conceptualStatus( variant ).some(
+                            item => item.elementId === generalization.id && item.code === 'documentary'
+                            ),
+                    disjoint || total,
+                    'an overlapping partial hierarchy loses nothing in class tables'
+                    );
             }
         }
     } );
@@ -325,11 +329,16 @@ test( 'Ejercicio del curso: videoclub con clave compuesta, copia débil, multiva
     assert.deepEqual( primaryNames( film ), ['titulo', 'anio_estreno'] );
     assert.deepEqual( primaryNames( copy ), ['numero_copia', 'pelicula_titulo', 'pelicula_anio_estreno'] );
     assert.deepEqual( primaryNames( actors ), ['Pelicula_titulo', 'Pelicula_anio_estreno', 'actor_principal'] );
-    assert.deepEqual( primaryNames( rental ), ['cliente_dni', 'copia_numero_copia', 'copia_pelicula_titulo', 'copia_pelicula_anio_estreno', 'fecha'] );
+    assert.deepEqual(
+            primaryNames( rental ),
+            ['copia_numero_copia', 'copia_pelicula_titulo', 'copia_pelicula_anio_estreno', 'fecha'],
+            'a copy goes out once a day: the client is not part of the key'
+            );
+    assert.equal( rental.columns.find( column => column.name === 'cliente_dni' ).required, true );
     assert.match( sql, /CHECK \("formato" IN \('DVD', 'BR'\)\)/ );
     assert.equal( attributeNamed( model, 'actor_principal' ).multivalued, true );
     assert.equal( attributeNamed( model, 'fecha' ).ownerKind, 'relationship' );
-    assert.equal( domain.documentAssumptions( model ).length, 5 );
+    assert.equal( domain.documentAssumptions( model ).length, 6 );
     } );
 
 /** Two boxes of the same drawing touch or overlap (with a small margin). */
@@ -377,16 +386,29 @@ for (const filename of courseFiles) {
         } );
     }
 
-test( 'Ejercicio del curso: la Lonja sigue la solución del autor', async () => {
+test( 'Ejercicio del curso: la Lonja con sus dos especializaciones, la ternaria y los derivados', async () => {
     const model = await openExample( 'curso-lonja' );
     const sql = exportSQL( model );
+    const generalization = name => model.conceptual.generalizations.find(
+            item => model.conceptual.entities.find( entity => entity.id === item.supertypeId ).name === name
+            );
+    const attribute = name => model.conceptual.attributes.find( item => item.name === name );
 
-    assert.equal( model.tables.length, 14 );
+    assert.equal( model.tables.length, 15 );
     assert.deepEqual( primaryNames( tableNamed( model, 'Faena' ) ), ['barco_matricula', 'caladero_nombre', 'especie_cod_especie', 'fecha_inicio'] );
+    assert.equal( model.conceptual.relationships.find( item => item.name === 'Faena' ).participations.length, 3, 'la ternaria' );
+    assert.equal( attribute( 'periodo' ).structure, 'composite', 'periodo de faena compuesto' );
     assert.deepEqual( primaryNames( tableNamed( model, 'Adjudicacion' ) ), ['lote_cod_lote'] );
-    assert.deepEqual( primaryNames( tableNamed( model, 'Creditor' ) ), ['Comprador_cod_comprador'] );
-    assert.equal( model.conceptual.generalizations[0].subtypeIds.length, 1, 'especialización por predicado: solo Creditor' );
-    assert.equal( model.conceptual.generalizations[0].total, false );
+
+    assert.deepEqual( [generalization( 'Comprador' ).subtypeIds.length, generalization( 'Comprador' ).disjoint, generalization( 'Comprador' ).total], [2, true, true] );
+    assert.deepEqual( [generalization( 'Factura' ).subtypeIds.length, generalization( 'Factura' ).disjoint, generalization( 'Factura' ).total], [2, true, true] );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Contado' ) ), ['Comprador_cod_comprador'] );
+    assert.ok( tableNamed( model, 'Factura_barco' ).columns.some( column => column.name === 'barco_matricula' && column.required ) );
+    assert.ok( tableNamed( model, 'Pago' ).columns.some( column => column.name === 'factura_num_factura' && column.required ), 'un pago salda una factura' );
+
+    for (const name of ['precio_total_salida', 'precio_total_adjudicacion', 'importe_total']) {
+        assert.deepEqual( [attribute( name ).derived, attribute( name ).translation.kind], [true, 'stored'], `${name} derivado y guardado` );
+        }
 
     for (const name of ['Incluye', 'Provision']) {
         const table = tableNamed( model, name );
@@ -395,9 +417,8 @@ test( 'Ejercicio del curso: la Lonja sigue la solución del autor', async () => 
         }
 
     assert.deepEqual( tableNamed( model, 'Caladero' ).columns.map( column => column.name ), ['nombre', 'extension', 'latitud', 'longitud'] );
-    assert.equal( model.conceptual.relationships.find( item => item.name === 'Faena' ).participations.length, 3, 'la ternaria' );
-    assert.match( sql, /"pendiente" NUMERIC\(1\) NOT NULL DEFAULT 0/ );
-    assert.match( sql, /CHECK \("pendiente" IN \(0, 1\)\)/ );
+    assert.match( sql, /"estado" VARCHAR\(9\) DEFAULT 'pendiente'/ );
+    assert.match( sql, /CHECK \("estado" IN \('pendiente', 'pagada'\)\)/ );
     } );
 
 test( 'Ejercicios del curso: recursiva, débil de débil, clave parcial doble y dos especializaciones', async () => {
@@ -423,4 +444,57 @@ test( 'Ejercicios del curso: recursiva, débil de débil, clave parcial doble y 
 
     assert.equal( staff.conceptual.generalizations.length, 2 );
     assert.equal( staff.tables.length, 5 );
+    } );
+
+test( 'Ejercicios del curso: correcciones de la revisión independiente', async () => {
+    const akColumns = (table, name) => columnNames( table, table.alternateKeys.find( item => item.name === name ).columns );
+
+    const company = await openExample( 'curso-empresa' );
+
+    assert.deepEqual(
+            akColumns( tableNamed( company, 'Departamento' ), 'AK_Departamento_Dirige' ),
+            ['gerente_dni'],
+            'Dirige 1:1: un empleado dirige como mucho un departamento'
+            );
+
+    const university = await openExample( 'curso-universidad' );
+    const schedule = tableNamed( university, 'Horario' );
+
+    assert.deepEqual( akColumns( tableNamed( university, 'Departamento' ), 'AK_Departamento_Dirige' ), ['director_nrp'] );
+    assert.deepEqual( primaryNames( schedule ), ['grupo_codigo', 'grupo_asignatura_codigo', 'dia', 'hora'] );
+    assert.deepEqual( akColumns( schedule, 'AK_Horario_aula_dia_hora' ), ['aula_codigo', 'dia', 'hora'] );
+
+    const transport = await openExample( 'curso-transporte' );
+    const assignment = tableNamed( transport, 'Asignacion' );
+
+    assert.deepEqual( primaryNames( assignment ), ['vehiculo_matricula', 'turno'], 'un conductor por vehículo y turno' );
+    assert.deepEqual( akColumns( assignment, 'AK_Asignacion_conductor_turno' ), ['conductor_Empleado_dni', 'turno'] );
+
+    const dealer = await openExample( 'curso-concesionario' );
+
+    assert.equal( dealer.conceptual.generalizations[0].total, false, 'los coches del taller no tienen por qué ser nuevos o usados' );
+
+    const pharmacy = await openExample( 'curso-farmacos' );
+    const patient = tableNamed( pharmacy, 'Paciente' );
+    const socialSecurity = patient.columns.find( column => column.name === 'num_ss' );
+
+    assert.equal( socialSecurity.required, false );
+    assert.ok( patient.indexes.some( index => index.unique && index.columns.length === 1 && index.columns[0] === socialSecurity.id ) );
+    assert.deepEqual(
+            pharmacy.conceptual.attributes.filter( item => item.ownerId === pharmacy.conceptual.entities.find( entity => entity.name === 'Servicio' ).id && item.derived ).map( item => item.name ),
+            ['gasto_pacientes', 'gasto_total']
+            );
+
+    const furniture = await openExample( 'curso-muebles' );
+    const shelf = furniture.conceptual.relationships.find( item => item.name === 'Almacena' );
+    const single = furniture.conceptual.entities.find( item => item.name === 'Mueble_una_pieza' );
+
+    assert.deepEqual( [shelf.participations[0].entityId, shelf.participations[0].min], [single.id, 1] );
+    assert.ok( furniture.assumptions.filter( item => item.kind === 'supuesto' ).length >= 3 );
+
+    for (const name of filenames.filter( item => item.startsWith( 'curso-' ) )) {
+        const model = await openExample( name.replace( '.databasic.json', '' ) );
+
+        assert.doesNotMatch( exportSQL( model ), /conservada; la FK no impone/, `${name}: sin avisos falsos de semántica perdida` );
+        }
     } );

@@ -131,6 +131,52 @@ test( 'Borrar el elemento de un supuesto conserva el texto como supuesto global'
     assert.equal( relational.assumptions[0].elementId, null );
     } );
 
+test( 'La semántica perdida solo lista los límites que las tablas no imponen', () => {
+    let model = assumptionsFixture();
+    const relation = model.conceptual.relationships[0];
+    const [habitante, hogar] = relation.participations;
+
+    model = domain.updateConceptualParticipation( model, relation.id, hogar.id, {min: 1, max: null} );
+    model = domain.updateConceptualRelationship( model, relation.id, {
+        translation: {kind: 'foreign-key', childParticipationId: habitante.id, identifying: false}
+        } );
+
+    const lines = domain.conceptualStatus( model )
+        .filter( item => item.code === 'documentary' && item.elementId === relation.id )
+        .map( item => item.message );
+
+    assert.deepEqual( lines, ['Habita, rol hogar: participación (1,N); las tablas no imponen el mínimo 1.'] );
+
+    model = domain.updateConceptualParticipation( model, relation.id, hogar.id, {min: 0, max: 1} );
+
+    const persona = model.tables.find( table => table.conceptualName === 'Persona' );
+    const key = persona.alternateKeys.find( item => item.name === 'AK_Persona_Habita' );
+
+    assert.ok( key, 'a required 1:1 foreign key becomes an alternate key' );
+    assert.deepEqual( domain.conceptualStatus( model ).filter( item => item.code === 'documentary' && item.elementId === relation.id ), [] );
+    assert.throws(
+            () => domain.updateTable( model, persona.id, {alternateKeys: []} ),
+            /estructura generada/
+            );
+
+    model = domain.updateConceptualParticipation( model, relation.id, habitante.id, {min: 0, max: 1} );
+
+    const optional = model.tables.find( table => table.conceptualName === 'Persona' );
+
+    assert.equal( (optional.alternateKeys || []).length, 0 );
+    assert.deepEqual(
+            optional.indexes.map( index => [index.name, index.unique] ),
+            [['UX_Persona_Habita', true]],
+            'an optional 1:1 foreign key becomes a unique index'
+            );
+    assert.deepEqual( domain.validateDocument( model ).filter( issue => issue.level === 'error' ), [] );
+    assert.deepEqual( parseDocument( serializeDocument( model ) ), model );
+
+    model = domain.removeConceptualElement( model, relation.id );
+    assert.equal( model.tables.find( table => table.conceptualName === 'Persona' ).indexes.length, 0 );
+    assert.deepEqual( domain.validateDocument( model ).filter( issue => issue.level === 'error' ), [] );
+    } );
+
 test( 'La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida', () => {
     let model = assumptionsFixture();
     const persona = model.conceptual.entities[0].id;
@@ -169,7 +215,7 @@ test( 'La memoria reúne entidades, relaciones con letras, supuestos y semántic
     const lost = report.sections[5].blocks.flatMap( block => block.items || [] );
 
     assert.ok( lost.includes( 'No se exige que toda vivienda esté habitada.' ) );
-    assert.ok( lost.some( item => item.includes( 'participación (1,1) conservada' ) ), 'avisos documentales' );
+    assert.ok( !lost.some( item => item.includes( 'no imponen' ) ), 'a pending relation has no documentary limits yet' );
     assert.ok( lost.some( item => item.includes( 'pendiente de estrategia' ) ), 'decisiones pendientes' );
     assert.equal( JSON.stringify( buildDesignReport( model ) ), JSON.stringify( report ), 'informe determinista' );
 
