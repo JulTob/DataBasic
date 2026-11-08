@@ -14,6 +14,7 @@ import {
     dataStatus,
     tableDataRows
     } from '../domain/data.js';
+import { documentAuthor } from '../domain/delivery.js';
 import { escapeHTML } from '../ui/html.js';
 
 /**
@@ -22,14 +23,21 @@ import { escapeHTML } from '../ui/html.js';
  * each renderer only gives that model a format. Nothing here mutates the
  * document or invents decisions the author did not take.
  * @typedef {{kind:'paragraph',text:string}
+ *   |{kind:'heading',text:string}
  *   |{kind:'list',items:string[]}
  *   |{kind:'table',header:string[],rows:string[][]}} ReportBlock
  * @typedef {{heading:string,blocks:ReportBlock[]}} ReportSection
- * @typedef {{title:string,sections:ReportSection[]}} DesignReport
+ * @typedef {{dni:string,nombre:string,apellidos:string}} ReportAuthor
+ * @typedef {{title:string,author:ReportAuthor,sections:ReportSection[]}} DesignReport
  */
 
 function reportParagraph( text ) {
     return {kind: 'paragraph', text};
+    }
+
+/** The title of one element inside a section (an entity, a relationship, a table). */
+function reportHeading( text ) {
+    return {kind: 'heading', text};
     }
 
 function reportList( items ) {
@@ -73,17 +81,80 @@ function reportDomainSummary( domain ) {
     return parts.join( '; ' ) || '—';
     }
 
-function reportAttributeIdentity( attribute ) {
-    if (attribute.primary) {
-        return 'Clave';
+/** The column that stores an attribute: traced from a native attribute, or the column itself in a projection. */
+function reportAttributeColumn(
+        model,
+        attribute
+        ) {
+    const trace = model.traces?.find(
+            item => item.sourceKind === 'attribute' && item.sourceId === attribute.id
+                && item.targetKind === 'column'
+            );
+    const columnId = trace?.targetId || attribute.id;
+    const table = model.tables.find( item => item.columns.some( field => field.id === columnId ) );
+
+    return table ? {table, columnId} : null;
+    }
+
+/** Alternate keys and unique indexes are part of the identity the statement asks to show. */
+function reportUniqueness(
+        model,
+        attribute
+        ) {
+    const stored = reportAttributeColumn( model, attribute );
+
+    if (!stored) {
+        return null;
+        }
+
+    const alternate = (stored.table.alternateKeys || []).find( key => key.columns.includes( stored.columnId ) );
+
+    if (alternate) {
+        return alternate.columns.length === 1 ? 'Clave alternativa' : `Parte de la clave alternativa ${alternate.name}`;
+        }
+
+    const unique = stored.table.indexes.find(
+            index => index.unique && index.columns.length === 1 && index.columns[0] === stored.columnId
+            );
+
+    return unique ? 'Único, admite vacíos' : null;
+    }
+
+function reportAttributeIdentity(
+        model,
+        attribute,
+        keyAttributeIds = []
+        ) {
+    if (attribute.primary || keyAttributeIds.includes( attribute.id )) {
+        return attribute.ownerKind === 'relationship' ? 'Parte de la clave de la tabla' : 'Clave';
         }
 
     if (attribute.partialKey) {
         return 'Clave parcial';
         }
 
-    return attribute.required ? 'Requerido' : 'Opcional';
+    const uniqueness = reportUniqueness( model, attribute );
+    const presence = attribute.required ? 'Requerido' : 'Opcional';
+
+    return uniqueness ? `${uniqueness} · ${presence}` : presence;
     }
+
+function reportAttributeRow(
+        model,
+        attribute,
+        keyAttributeIds = []
+        ) {
+    return [
+        attribute.name,
+        attribute.type || '—',
+        reportAttributeIdentity( model, attribute, keyAttributeIds ),
+        reportAttributeTypology( attribute ),
+        reportDomainSummary( attribute.domain ),
+        attribute.notes?.trim() || '—'
+        ];
+    }
+
+const REPORT_ATTRIBUTE_HEADER = ['Atributo', 'Tipo', 'Identidad', 'Tipología', 'Dominio', 'Notas'];
 
 function reportAttributeTypology( attribute ) {
     const marks = [];
@@ -111,6 +182,14 @@ function reportEntityHeading(
         projection,
         entity
         ) {
+    const hierarchy = projection.generalizations.find( item => item.subtypeIds.includes( entity.id ) );
+
+    if (hierarchy) {
+        const supertype = projection.entities.find( item => item.id === hierarchy.supertypeId );
+
+        return `${entity.name} — subclase de ${supertype?.name || 'una superclase'} (hereda su clave)`;
+        }
+
     if (!entity.weak) {
         return `${entity.name} — entidad fuerte${entity.projected ? ' (proyección de una tabla)' : ''}`;
         }
@@ -127,24 +206,15 @@ function reportEntitiesSection( model ) {
     for (const entity of projection.entities) {
         const attributes = projection.attributes.filter( item => item.ownerId === entity.id );
 
-        blocks.push( reportParagraph( reportEntityHeading( projection, entity ) ) );
+        blocks.push( reportHeading( reportEntityHeading( projection, entity ) ) );
 
         if (entity.notes?.trim()) {
             blocks.push( reportParagraph( `Notas: ${entity.notes.trim()}` ) );
             }
 
         blocks.push( reportTable(
-                ['Atributo', 'Tipo', 'Identidad', 'Tipología', 'Dominio', 'Notas'],
-                attributes.map(
-                        attribute => [
-                            attribute.name,
-                            attribute.type || '—',
-                            reportAttributeIdentity( attribute ),
-                            reportAttributeTypology( attribute ),
-                            reportDomainSummary( attribute.domain ),
-                            attribute.notes?.trim() || '—'
-                            ]
-                        )
+                REPORT_ATTRIBUTE_HEADER,
+                attributes.map( attribute => reportAttributeRow( model, attribute ) )
                 ) );
         }
 
@@ -156,7 +226,27 @@ function reportEntitiesSection( model ) {
     }
 
 function reportDegree( relation ) {
-    return {2: 'binaria', 3: 'ternaria'}[relation.participations.length] || `de grado ${relation.participations.length}`;
+    const degree = {2: 'binaria', 3: 'ternaria'}[relation.participations.length] || `de grado ${relation.participations.length}`;
+    const recursive = new Set( relation.participations.map( item => item.entityId ) ).size < relation.participations.length;
+
+    return recursive ? `${degree} recursiva` : degree;
+    }
+
+/*
+ * The type of a relationship from the letters drawn by its diamond, written
+ * with the ones first: 1:1, 1:N, N:N for binaries and, for a ternary, one
+ * letter per branch (1:N:N, N:N:N...). Null while a letter is undecided.
+ */
+export function relationshipType( relation ) {
+    const letters = relation.participations.map(
+            participation => participationCardinalityLetter( relation, participation )
+            );
+
+    if (letters.some( letter => !letter )) {
+        return null;
+        }
+
+    return [...letters.filter( letter => letter === '1' ), ...letters.filter( letter => letter !== '1' )].join( ':' );
     }
 
 function reportRelationshipDecision(
@@ -204,7 +294,9 @@ function reportRelationshipsSection( model ) {
                 item => item.ownerKind === 'relationship' && item.ownerId === relation.id
                 );
 
-        blocks.push( reportParagraph( `${relation.name} — relación ${reportDegree( relation )}` ) );
+        blocks.push( reportHeading(
+                `${relation.name} — relación ${reportDegree( relation )} ${relationshipType( relation ) || '(tipo sin decidir)'}`
+                ) );
         blocks.push( reportTable(
                 ['Entidad', 'Rol', 'Participación (mín,máx)', 'Cardinalidad'],
                 relation.participations.map(
@@ -219,8 +311,12 @@ function reportRelationshipsSection( model ) {
                 ) );
 
         if (ownAttributes.length) {
-            blocks.push( reportParagraph(
-                    `Atributos propios: ${ownAttributes.map( item => `${item.name} (${item.type})` ).join( ', ' )}.`
+            const keyAttributeIds = relation.translation?.key?.attributeIds || [];
+
+            blocks.push( reportParagraph( 'Atributos propios de la relación:' ) );
+            blocks.push( reportTable(
+                    REPORT_ATTRIBUTE_HEADER,
+                    ownAttributes.map( attribute => reportAttributeRow( model, attribute, keyAttributeIds ) )
                     ) );
             }
 
@@ -330,7 +426,7 @@ function reportPhysicalSection( model ) {
     const indexLabel = value => ACCESS_INDEX_LABELS[value] || value;
 
     for (const table of schema.tables) {
-        blocks.push( reportParagraph( `${table.name}${table.description ? ` — ${table.description}` : ''}` ) );
+        blocks.push( reportHeading( `${table.name}${table.description ? ` — ${table.description}` : ''}` ) );
         blocks.push( reportTable(
                 ['Campo', 'Tipo de datos', 'Tamaño', 'Requerido', 'Indexado', 'Regla de validación', 'Predeterminado'],
                 table.fields.map(
@@ -381,7 +477,7 @@ function reportSampleDataSection( model ) {
             continue;
             }
 
-        blocks.push( reportParagraph( `${table.name} (${rows.length} filas)` ) );
+        blocks.push( reportHeading( `${table.name} (${rows.length} filas)` ) );
         blocks.push( reportTable(
                 table.columns.map( column => column.name ),
                 rows.map( row => table.columns.map( column => row[column.id] ?? '' ) )
@@ -461,6 +557,7 @@ function reportRelationalSection( model ) {
 export function buildDesignReport( model ) {
     return {
         title: model.name,
+        author: documentAuthor( model ),
         sections: [
             reportEntitiesSection( model ),
             reportRelationshipsSection( model ),
@@ -493,6 +590,8 @@ function reportMarkdownBlock( block ) {
     switch (block.kind) {
         case 'list':
             return block.items.map( item => `- ${reportMarkdownCell( item )}` ).join( '\n' );
+        case 'heading':
+            return `### ${reportMarkdownCell( block.text )}`;
         case 'table':
             return [
                 `| ${block.header.map( reportMarkdownCell ).join( ' | ' )} |`,
@@ -504,8 +603,24 @@ function reportMarkdownBlock( block ) {
         }
     }
 
+/** "Alumno: Nombre Apellidos · DNI: …", or null while no field is filled in. */
+export function reportAuthorLine( author ) {
+    if (!author || !Object.values( author ).some( Boolean )) {
+        return null;
+        }
+
+    const name = `${author.nombre} ${author.apellidos}`.trim() || '—';
+
+    return `Alumno: ${name} · DNI: ${author.dni || '—'}`;
+    }
+
 export function reportToMarkdown( report ) {
     const parts = [`# Memoria del diseño: ${report.title}`];
+    const authorLine = reportAuthorLine( report.author );
+
+    if (authorLine) {
+        parts.push( authorLine );
+        }
 
     for (const section of report.sections) {
         parts.push( `## ${section.heading}` );
@@ -519,6 +634,8 @@ function reportHTMLBlock( block ) {
     switch (block.kind) {
         case 'list':
             return `<ul>${block.items.map( item => `<li>${escapeHTML( item )}</li>` ).join( '' )}</ul>`;
+        case 'heading':
+            return `<h3>${escapeHTML( block.text )}</h3>`;
         case 'table':
             return `<table><thead><tr>${block.header.map( cell => `<th>${escapeHTML( cell )}</th>` ).join( '' )}</tr></thead>`
                 + `<tbody>${block.rows.map(
@@ -531,7 +648,8 @@ function reportHTMLBlock( block ) {
 
 const REPORT_STYLES = `
     body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: #1f2d27; }
-    h1, h2 { line-height: 1.25; }
+    h1, h2, h3 { line-height: 1.25; }
+    h3 { font-size: 1.05em; margin: 1.2rem 0 0.4rem; }
     table { border-collapse: collapse; width: 100%; margin: 0.5rem 0 1rem; font-size: 0.95em; }
     th, td { border: 1px solid #b8cec2; padding: 0.3rem 0.5rem; text-align: left; vertical-align: top; }
     th { background: #edf7f2; }
@@ -551,6 +669,8 @@ export function reportToHTML(
     const sections = report.sections.map(
             section => `<section><h2>${escapeHTML( section.heading )}</h2>${section.blocks.map( reportHTMLBlock ).join( '' )}</section>`
             ).join( '' );
+    const authorLine = reportAuthorLine( report.author );
+    const author = authorLine ? `<p class="author">${escapeHTML( authorLine )}</p>` : '';
 
     return `<!doctype html>
 <html lang="es">
@@ -561,6 +681,7 @@ export function reportToHTML(
 </head>
 <body>
 <h1>Memoria del diseño: ${escapeHTML( report.title )}</h1>
+${author}
 ${figures}
 ${sections}
 </body>

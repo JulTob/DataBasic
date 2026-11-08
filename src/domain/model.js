@@ -221,6 +221,13 @@ export function tableRows(
 
 export const ASSUMPTION_TEXT_LIMIT = 2000;
 
+/*
+ * The student who delivers the practice: identity card number (DNI or NIE),
+ * first name and surnames. Older files have none; they read as empty texts.
+ */
+export const AUTHOR_FIELDS = ['dni', 'nombre', 'apellidos'];
+export const AUTHOR_TEXT_LIMIT = 120;
+
 export function assumptionKindLabel( kind ) {
     return ASSUMPTION_KINDS.find( ([value]) => value === kind )?.[1] || kind;
     }
@@ -1745,6 +1752,18 @@ function validateDocumentShape( model ) {
                         assumption.elementId === null || typeof assumption.elementId === 'string',
                         'Supuesto: el elemento asociado debe ser un identificador o null.'
                         );
+                }
+            }
+
+        if ('author' in model) {
+            demand(
+                    model.author && typeof model.author === 'object' && !Array.isArray( model.author )
+                        && Object.keys( model.author ).every( key => AUTHOR_FIELDS.includes( key ) ),
+                    'Datos del alumno no válidos.'
+                    );
+
+            for (const key of AUTHOR_FIELDS) {
+                text( model.author, key, AUTHOR_TEXT_LIMIT );
                 }
             }
 

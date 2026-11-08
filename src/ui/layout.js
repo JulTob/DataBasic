@@ -81,9 +81,13 @@ export function ribbonContents( state ) {
                             + command( 'vdx', 'Visio 2010', 'file-box', 'class="ribbon-large"' )
                             + command( 'access', 'Access', 'database-zap', 'class="ribbon-large"' )
                             + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
-                            + command( 'report-html', 'Memoria HTML', 'file-text', 'class="ribbon-large"' )
-                            + command( 'report-markdown', 'Memoria Markdown', 'scroll-text', 'class="ribbon-large"' )
+                            + command( 'report-docx', 'Memoria Word', 'file-text', 'class="ribbon-large"' )
                             + command( 'print', 'Imprimir / PDF', 'printer', 'class="ribbon-large"' )
+                        )
+                + ribbonGroup(
+                        'Entrega',
+                        command( 'author', 'Alumno', 'id-card', 'class="ribbon-large"' )
+                            + command( 'delivery', 'Paquete de entrega', 'package', 'class="ribbon-large"' )
                         )
                 + ribbonGroup( 'Practicar', command( 'example', 'Abrir ejemplo', 'book-open', 'class="ribbon-large"' ) );
         case 'home':

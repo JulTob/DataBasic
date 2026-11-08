@@ -23,6 +23,12 @@ import {
     validateDocument
     } from '../domain/model.js';
 import { accessStatus } from '../domain/access.js';
+import {
+    deliveryChecklist,
+    documentAuthor,
+    identityDocumentProblem,
+    setDocumentAuthor
+    } from '../domain/delivery.js';
 import { dataStatus } from '../domain/data.js';
 import { typeFields } from './properties.js';
 import {
@@ -271,6 +277,80 @@ export function showIndexDialog(
                                 }
                             )
                     )
+            );
+    }
+
+/** The student who delivers the practice; the DNI letter is checked before saving. */
+export function showAuthorDialog(
+        state,
+        commit
+        ) {
+    const author = documentAuthor( state.model );
+    const field = (name, label, extra = '') => `<label>${label}<input name="${name}" maxlength="120"
+            value="${escapeHTML( author[name] )}" ${extra}></label>`;
+
+    openDialog(
+            'Datos del alumno',
+            `<p>La práctica pide el DNI, el nombre y los apellidos del alumno. Aparecen en la portada
+                de la memoria y en el nombre del paquete de entrega.</p>
+            <div class="dialog-fields">
+                ${field( 'dni', 'DNI o NIE', 'autocomplete="off" placeholder="12345678Z"' )}
+                ${field( 'nombre', 'Nombre', 'autocomplete="given-name"' )}
+                ${field( 'apellidos', 'Apellidos', 'autocomplete="family-name"' )}
+            </div>`,
+            values => {
+                const dni = values.get( 'dni' );
+                const problem = dni.trim() ? identityDocumentProblem( dni ) : null;
+
+                if (problem) {
+                    throw new Error( `${problem} Déjalo vacío si prefieres escribirlo después.` );
+                    }
+
+                commit( setDocumentAuthor( state.model, {
+                    dni,
+                    nombre: values.get( 'nombre' ),
+                    apellidos: values.get( 'apellidos' )
+                    } ) );
+                }
+            );
+    }
+
+/** What the practice asks for, checked on this document, and the package that answers it. */
+export function showDeliveryDialog( model ) {
+    const checks = deliveryChecklist( model );
+    const list = checks.length
+        ? `<div class="validation-list">${checks.map(
+                item => `<div class="validation-item ${item.level}">
+                    ${icon( item.level === 'error' ? 'circle-x' : 'triangle-alert' )}
+                    <span>${escapeHTML( item.message )}</span></div>`
+                ).join( '' )}</div>`
+        : `<div class="validation-success">${icon( 'circle-check' )}
+            <strong>El documento cumple lo que DataBasic puede comprobar de la entrega.</strong></div>`;
+
+    openDialog(
+            'Paquete de entrega',
+            `${list}
+            <p>El paquete .zip contiene:</p>
+            <ul>
+                <li><strong>Memoria.docx</strong>: portada con tus datos, los diagramas, el diseño conceptual,
+                    los supuestos semánticos, la semántica perdida y el esquema relacional (apartado a).</li>
+                <li><strong>Modelo_relacional.vdx</strong>: el relacional para Visio 2010, con leyenda y
+                    una página de diccionario de datos (apartado b).</li>
+                <li><strong>Access/</strong>: el módulo VBA que crea la base de datos, el SQL de Access y el XML
+                    con esquema (apartado c).</li>
+                <li><strong>LEEME.txt</strong> con los pasos para crear la base de datos .accdb, y el proyecto DataBasic.</li>
+            </ul>
+            <p>DataBasic no puede crear el archivo .accdb: ábrelo en Access, ejecuta el módulo y añade la base
+                de datos al .zip antes de entregarlo.</p>
+            <div class="dialog-actions">
+                ${command( 'download-delivery', 'Descargar paquete (.zip)', 'package', 'class="primary-button"' )}
+                ${command( 'report-docx', 'Solo la memoria Word', 'file-text' )}
+            </div>
+            <p>La memoria también se puede descargar en otros formatos, para revisarla o reutilizar el texto:</p>
+            <div class="dialog-actions">
+                ${command( 'report-html', 'Memoria HTML', 'file-code' )}
+                ${command( 'report-markdown', 'Memoria Markdown', 'scroll-text' )}
+            </div>`
             );
     }
 
