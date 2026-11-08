@@ -3,6 +3,10 @@ import {
     buildDiagramScene,
     sceneColumnKeys
     } from '../ui/scene.js';
+import {
+    dictionaryTableLines,
+    relationalDictionary
+    } from './dictionary.js';
 
 /*
  * Visio 2010 XML drawing (.vdx, DatadiagramML) of the relational diagram.
@@ -17,7 +21,10 @@ import {
  * groups; its IDEF1X or crow's foot marks travel in a second 1-D shape glued
  * to the same points, which keeps the marks solid when the line is dashed.
  * Visio opens the file as an editable drawing; it is not a "Database Model
- * Diagram" with Visio's own database properties.
+ * Diagram" with Visio's own database properties. So that the drawing still
+ * shows everything the practice asks of the relational model, page 1 carries
+ * a legend of the notation and page 2 the data dictionary: domains, nulls,
+ * defaults, keys, dependency, cardinality and referential actions.
  */
 
 const VISIO_NAMESPACE = 'http://schemas.microsoft.com/visio/2003/core';
@@ -57,7 +64,10 @@ export function exportVDX( model ) {
     const relational = setDiagramMode( model, 'relational' );
     const scene = buildDiagramScene( relational );
 
-    return visioDocument( relational.name, visioPage( relational, scene ) );
+    return visioDocument(
+            relational.name,
+            visioPage( relational, scene ) + visioDictionaryPage( relational )
+            );
     }
 
 /* ---------- page ---------- */
@@ -70,16 +80,196 @@ function visioPage(
     const ids = {next: 1};
     const tables = visioReserveTables( scene.nodes, ids );
     const edges = scene.edges.map( edge => visioRegisterEdge( edge, tables ) );
+    const legend = visioLegendBox( model, visioInches( bounds.width ), visioInches( bounds.height ) );
     const shapes = [
         ...[...tables.values()].map( entry => visioTableGroup( model, entry, bounds, ids ) ),
-        ...edges.flatMap( entry => visioEdgeShapes( model, entry, bounds, ids ) )
+        ...edges.flatMap( entry => visioEdgeShapes( model, entry, bounds, ids ) ),
+        ...visioTextBox( legend, ids )
         ];
     const connects = edges.flatMap( entry => visioEdgeConnects( entry ) );
 
-    return `<Page ID="0" NameU="Page-1" Name="Página-1">`
-        + visioPageSheet( visioInches( bounds.width ), visioInches( bounds.height ) )
+    return `<Page ID="0" NameU="Page-1" Name="Modelo relacional">`
+        + visioPageSheet( legend.pageWidth, legend.pageHeight )
         + `<Shapes>${shapes.join( '' )}</Shapes>`
         + `<Connects>${connects.join( '' )}</Connects></Page>`;
+    }
+
+/* ---------- legend and data dictionary ---------- */
+
+const VISIO_NOTE = {
+    margin: 0.4,
+    padding: 0.12,
+    lineHeight: 0.165,
+    titleHeight: 0.24,
+    charWidth: 0.058
+    };
+
+/** Lines a text needs once Visio wraps it inside the given width. */
+function visioWrappedLines(
+        lines,
+        width
+        ) {
+    const perLine = Math.max( 10, Math.floor( (width - 2 * VISIO_NOTE.padding) / VISIO_NOTE.charWidth ) );
+
+    return lines.reduce( (sum, line) => sum + Math.max( 1, Math.ceil( line.length / perLine ) ), 0 );
+    }
+
+function visioNoteHeight(
+        lines,
+        width
+        ) {
+    return VISIO_NOTE.titleHeight + visioWrappedLines( lines, width ) * VISIO_NOTE.lineHeight + 2 * VISIO_NOTE.padding;
+    }
+
+/** What each mark of the drawing means, in the notation the document uses. */
+function visioLegendLines( model ) {
+    const notation = model.display.notation || 'idef1x';
+    const marks = notation === 'idef1x'
+        ? [
+            'Caja de esquinas rectas: tabla independiente. Esquinas redondeadas: tabla dependiente (su clave primaria incluye una clave ajena).',
+            'Línea continua: relación identificadora. Línea discontinua: no identificadora.',
+            'Punto en el extremo de la tabla que recibe la clave ajena: varias filas (0, 1 o más). P: 1 o más. Z: 0 o 1. 1: exactamente una.',
+            'Rombo hueco junto a la tabla referenciada: la clave ajena admite nulos.'
+            ]
+        : notation === 'crows-foot'
+            ? ['Pata de gallo: muchos. Barra: uno. Círculo: cero (opcional).']
+            : [];
+
+    return [
+        ...marks,
+        'PK: clave primaria. FKn: clave ajena n. AKn: clave alternativa n. *: obligatorio (NOT NULL).',
+        'Dominios, valores predeterminados, nulos y acciones referenciales: página «Diccionario de datos».'
+        ];
+    }
+
+/** The legend sits to the right of the drawing; the page grows to hold both. */
+function visioLegendBox(
+        model,
+        drawingWidth,
+        drawingHeight
+        ) {
+    const lines = visioLegendLines( model );
+    const width = 3.6;
+    const height = visioNoteHeight( lines, width );
+    const pageWidth = drawingWidth + VISIO_NOTE.margin + width + VISIO_NOTE.margin;
+    const pageHeight = Math.max( drawingHeight, height + 2 * VISIO_NOTE.margin );
+
+    return {
+        title: 'Leyenda',
+        lines,
+        region: {
+            pin: {x: drawingWidth + VISIO_NOTE.margin + width / 2, y: pageHeight - VISIO_NOTE.margin - height / 2},
+            width,
+            height
+            },
+        pageWidth,
+        pageHeight
+        };
+    }
+
+/*
+ * A framed note: a box, its title in bold along the top and its lines below.
+ * Title and lines are separate text shapes, each with one format, so no
+ * reader has to place a format change inside a text.
+ */
+function visioTextBox(
+        note,
+        ids
+        ) {
+    const inner = {
+        left: note.region.pin.x - note.region.width / 2 + VISIO_NOTE.padding,
+        top: note.region.pin.y + note.region.height / 2 - VISIO_NOTE.padding,
+        width: note.region.width - 2 * VISIO_NOTE.padding
+        };
+    const bodyHeight = note.region.height - 2 * VISIO_NOTE.padding - VISIO_NOTE.titleHeight;
+
+    return [
+        visioBoxShape( visioNextId( ids ), note.region, {line: VISIO_COLORS.border, fill: VISIO_COLORS.white} ),
+        visioTextShape(
+                visioNextId( ids ),
+                {
+                    pin: {x: inner.left + inner.width / 2, y: inner.top - VISIO_NOTE.titleHeight / 2},
+                    width: inner.width,
+                    height: VISIO_NOTE.titleHeight
+                    },
+                [{text: note.title, char: 0}],
+                {chars: [{size: VISIO_SIZES.title, color: VISIO_COLORS.title, bold: true}], align: 0}
+                ),
+        visioTextShape(
+                visioNextId( ids ),
+                {
+                    pin: {x: inner.left + inner.width / 2, y: inner.top - VISIO_NOTE.titleHeight - bodyHeight / 2},
+                    width: inner.width,
+                    height: bodyHeight
+                    },
+                [{text: note.lines.join( '\n' ), char: 0}],
+                {chars: [{size: VISIO_SIZES.type, color: VISIO_COLORS.text}], align: 0, vertical: 0}
+                )
+        ];
+    }
+
+const VISIO_DICTIONARY = {columns: 2, columnWidth: 5.6, gap: 0.3};
+
+/*
+ * Page 2: one framed note per table, placed in two columns; each note goes
+ * to the column that is shorter so far, so the page stays compact.
+ */
+function visioDictionaryPage( model ) {
+    const ids = {next: 1};
+    const width = VISIO_DICTIONARY.columnWidth;
+    const columnTops = Array( VISIO_DICTIONARY.columns ).fill( VISIO_NOTE.margin + VISIO_NOTE.titleHeight + VISIO_NOTE.padding );
+    const placed = relationalDictionary( model ).map(
+            table => {
+                const lines = dictionaryTableLines( table );
+                const height = visioNoteHeight( lines, width );
+                const column = columnTops.indexOf( Math.min( ...columnTops ) );
+                const top = columnTops[column];
+
+                columnTops[column] += height + VISIO_DICTIONARY.gap;
+
+                return {
+                    title: `${table.name} — tabla ${table.dependent ? 'dependiente' : 'independiente'}`,
+                    lines,
+                    column,
+                    top,
+                    height
+                    };
+                }
+            );
+    const pageWidth = 2 * VISIO_NOTE.margin + VISIO_DICTIONARY.columns * width
+        + (VISIO_DICTIONARY.columns - 1) * VISIO_DICTIONARY.gap;
+    const pageHeight = Math.max( ...columnTops ) + VISIO_NOTE.margin;
+    const heading = visioTextShape(
+            visioNextId( ids ),
+            {
+                pin: {x: pageWidth / 2, y: pageHeight - VISIO_NOTE.margin - VISIO_NOTE.titleHeight / 2},
+                width: pageWidth - 2 * VISIO_NOTE.margin,
+                height: VISIO_NOTE.titleHeight
+                },
+            [{text: `Diccionario de datos · ${model.name}`, char: 0}],
+            {chars: [{size: 12, color: VISIO_COLORS.title, bold: true}], align: 0}
+            );
+    const notes = placed.flatMap(
+            item => visioTextBox(
+                    {
+                        title: item.title,
+                        lines: item.lines,
+                        region: {
+                            pin: {
+                                x: VISIO_NOTE.margin + item.column * (width + VISIO_DICTIONARY.gap) + width / 2,
+                                y: pageHeight - item.top - item.height / 2
+                                },
+                            width,
+                            height: item.height
+                            }
+                        },
+                    ids
+                    )
+            );
+
+    return `<Page ID="1" NameU="Page-2" Name="Diccionario de datos">`
+        + visioPageSheet( pageWidth, pageHeight )
+        + `<Shapes>${[heading, ...notes].join( '' )}</Shapes></Page>`;
     }
 
 function visioPageSheet(
@@ -829,7 +1019,7 @@ function visioTextShape(
     const sections = visioXForm( region.pin, region.width, region.height )
         + visioLineSection( {color: VISIO_COLORS.text, visible: false} )
         + visioFillSection( VISIO_COLORS.white, false )
-        + visioTextBlock( {left: visioInches( options.left ?? 0 ), vertical: 1} )
+        + visioTextBlock( {left: visioInches( options.left ?? 0 ), vertical: options.vertical ?? 1} )
         + visioParaRow( 0, options.align )
         + chars
         + visioTextSection( runs );

@@ -15,6 +15,11 @@ import {
     tableDataRows
     } from '../domain/data.js';
 import { documentAuthor } from '../domain/delivery.js';
+import {
+    dictionaryForeignKeyLine,
+    domainSummary,
+    relationalDictionary
+    } from './dictionary.js';
 import { escapeHTML } from '../ui/html.js';
 
 /**
@@ -53,32 +58,6 @@ function reportTable(
 
 function reportPair( participation ) {
     return `(${participation.min},${participation.max === null ? 'N' : participation.max})`;
-    }
-
-function reportDomainSummary( domain ) {
-    if (!domain) {
-        return '—';
-        }
-
-    const parts = [];
-
-    if (domain.minimum !== null) {
-        parts.push( `mínimo ${domain.minimum}` );
-        }
-
-    if (domain.maximum !== null) {
-        parts.push( `máximo ${domain.maximum}` );
-        }
-
-    if (domain.values.length) {
-        parts.push( `valores ${domain.values.join( ', ' )}` );
-        }
-
-    if (domain.check.trim()) {
-        parts.push( `condición ${domain.check.trim()}` );
-        }
-
-    return parts.join( '; ' ) || '—';
     }
 
 /** The column that stores an attribute: traced from a native attribute, or the column itself in a projection. */
@@ -149,7 +128,7 @@ function reportAttributeRow(
         attribute.type || '—',
         reportAttributeIdentity( model, attribute, keyAttributeIds ),
         reportAttributeTypology( attribute ),
-        reportDomainSummary( attribute.domain ),
+        domainSummary( attribute.domain ),
         attribute.notes?.trim() || '—'
         ];
     }
@@ -547,11 +526,42 @@ function reportRelationalSection( model ) {
     return {
         heading: 'Esquema relacional resultante',
         blocks: [
+            reportParagraph( 'Notación compacta (PK clave primaria, FK clave ajena, AK clave alternativa):' ),
             tables.length ? reportList( tables ) : reportParagraph( 'Todavía no hay tablas.' ),
             reportParagraph( 'Claves ajenas (FK), de la tabla que referencia a la referenciada:' ),
-            foreignKeys.length ? reportList( foreignKeys ) : reportParagraph( 'Ninguna.' )
+            foreignKeys.length ? reportList( foreignKeys ) : reportParagraph( 'Ninguna.' ),
+            ...reportDictionaryBlocks( model )
             ]
         };
+    }
+
+/** Every table with its domains, nulls, defaults and keys, as the data dictionary of Visio's second page. */
+function reportDictionaryBlocks( model ) {
+    return relationalDictionary( model ).flatMap(
+            table => [
+                reportHeading( `${table.name} — tabla ${table.dependent ? 'dependiente' : 'independiente'}` ),
+                reportTable(
+                        ['Columna', 'Tipo', 'Claves', 'Nulos', 'Predeterminado', 'Dominio'],
+                        table.columns.map(
+                                column => [
+                                    column.name,
+                                    column.type,
+                                    column.keys.join( ', ' ) || '—',
+                                    column.nullable ? 'Admite nulos' : 'NOT NULL',
+                                    column.defaultValue || '—',
+                                    column.domain
+                                    ]
+                                )
+                        ),
+                ...(table.alternateKeys.length || table.uniqueIndexes.length || table.foreignKeys.length
+                    ? [reportList( [
+                        ...table.alternateKeys.map( key => `${key.label} ${key.name}: única y obligatoria sobre (${key.columns.join( ', ' )}).` ),
+                        ...table.uniqueIndexes.map( index => `Índice único ${index.name} sobre (${index.columns.join( ', ' )}); admite nulos.` ),
+                        ...table.foreignKeys.map( foreignKey => `${dictionaryForeignKeyLine( table, foreignKey )}.` )
+                        ] )]
+                    : [])
+                ]
+            );
     }
 
 export function buildDesignReport( model ) {

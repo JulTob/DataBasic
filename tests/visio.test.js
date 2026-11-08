@@ -108,8 +108,11 @@ test( 'scene pixels become page inches with the y axis pointing up', () => {
     assert.ok( Math.abs( cellValue( group, 'PinX' ) - (socio.x + width / 2 - bounds.x) / PIXELS_PER_INCH ) < 1e-4 );
     assert.ok( Math.abs( cellValue( group, 'PinY' ) - (bounds.y + bounds.height - socio.y - height / 2) / PIXELS_PER_INCH ) < 1e-4 );
     assert.ok( Math.abs( cellValue( group, 'Width' ) - width / PIXELS_PER_INCH ) < 1e-4 );
-    assert.ok( Math.abs( cellValue( page, 'PageWidth' ) - bounds.width / PIXELS_PER_INCH ) < 1e-4 );
-    assert.ok( Math.abs( cellValue( page, 'PageHeight' ) - bounds.height / PIXELS_PER_INCH ) < 1e-4 );
+    assert.ok(
+            Math.abs( cellValue( page, 'PageWidth' ) - (bounds.width / PIXELS_PER_INCH + 4.4) ) < 1e-4,
+            'the page adds the legend column (margin, 3.6 in, margin) to the right of the drawing'
+            );
+    assert.ok( cellValue( page, 'PageHeight' ) >= bounds.height / PIXELS_PER_INCH - 1e-4 );
 
     const libro = shapeById( xml, 3 );
 
@@ -226,8 +229,37 @@ test( 'views, empty tables and hidden types follow the canvas', () => {
     bare.display.keys = false;
 
     const quiet = exportVDX( bare );
+    const drawing = quiet.match( /<Page ID="0"[\s\S]*?<\/Page>/ )[0];
 
-    assert.ok( !quiet.includes( 'VARCHAR(100)' ) );
-    assert.ok( !quiet.includes( '>PK</Text>' ) );
+    assert.ok( !drawing.includes( 'VARCHAR(100)' ), 'the drawing hides the types' );
+    assert.ok( !drawing.includes( '>PK</Text>' ) );
+    assert.ok( quiet.includes( 'VARCHAR(100)' ), 'the data dictionary still lists them' );
     assert.equal( unbalancedTag( quiet ), null );
+    } );
+
+test( 'the Visio file carries a legend and a data dictionary page with what the relational model must show', async () => {
+    const { readFile } = await import( 'node:fs/promises' );
+    const { parseDocument } = await import( '../src/domain/serialization.js' );
+    const model = parseDocument( await readFile( new URL( '../examples/curso-lonja.databasic.json', import.meta.url ), 'utf8' ) );
+    const xml = exportVDX( model );
+    const pages = xml.match( /<Page ID="\d+" NameU="[^"]+" Name="[^"]+">/g );
+
+    assert.deepEqual( pages, [
+        '<Page ID="0" NameU="Page-1" Name="Modelo relacional">',
+        '<Page ID="1" NameU="Page-2" Name="Diccionario de datos">'
+        ] );
+    assert.equal( unbalancedTag( xml ), null );
+
+    const drawing = xml.match( /<Page ID="0"[\s\S]*?<\/Page>/ )[0];
+    const dictionary = xml.match( /<Page ID="1"[\s\S]*?<\/Page>/ )[0];
+
+    assert.match( drawing, /Leyenda/ );
+    assert.match( drawing, /Línea continua: relación identificadora/ );
+    assert.match( dictionary, /Diccionario de datos · Lonja de Santa Pola/ );
+    assert.match( dictionary, /Lote — tabla independiente/ );
+    assert.match( dictionary, /Credito — tabla dependiente/ );
+    assert.match( dictionary, /importe_acumulado NUMBER\(10,2\) · NOT NULL · DEFAULT 0 · mínimo 0/, 'nulos, predeterminado y dominio' );
+    assert.match( dictionary, /estado VARCHAR\(9\) · NULL · DEFAULT &apos;pendiente&apos; · valores pendiente, pagada|estado VARCHAR\(9\) · NULL · DEFAULT 'pendiente' · valores pendiente, pagada/ );
+    assert.match( dictionary, /AK1 AK_Comprador_dni_cif: UNIQUE \(dni_cif\), NOT NULL/ );
+    assert.match( dictionary, /FK1 \(especie_cod_especie\) → Especie\(cod_especie\): Especie 1 — 0\.\.N Lote, no identificadora, obligatoria, ON DELETE NO ACTION, ON UPDATE NO ACTION/ );
     } );

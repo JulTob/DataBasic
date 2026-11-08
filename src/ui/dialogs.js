@@ -419,9 +419,11 @@ export function showHelp() {
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
             <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
-                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
-                el documento con los diagramas, las tablas de atributos y relaciones, los
-                supuestos y las restricciones que el relacional no impone. Word lo abre.
+                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria Word descarga
+                el documento (.docx) con los diagramas, las tablas de atributos y relaciones, los
+                supuestos y las restricciones que el relacional no impone.
+                Archivo → Alumno guarda tu DNI, nombre y apellidos, y Archivo → Paquete de entrega
+                comprueba la práctica y descarga el .zip con la memoria, el Visio y los archivos de Access.
                 Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
                 el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
                 pegados; no lleva las propiedades de base de datos de Visio.</p>
@@ -1170,7 +1172,7 @@ export function showAssumptionsOverview( model ) {
                     ? `<ul>${documentary.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
                     : '<p>Ninguna restricción documental por ahora.</p>'}
                 ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
-                <p class="field-hint">Archivo → Exportar → Memoria HTML reúne estas entradas con los
+                <p class="field-hint">Archivo → Memoria Word reúne estas entradas con los
                     diagramas, las tablas de atributos y relaciones y el esquema relacional.</p></div>`
             );
     }

@@ -324,11 +324,15 @@ cambiar de vista no cambia sus reglas.
    __Insertar → Supuesto__ para una entrada global. __Base de datos →
    Supuestos__ muestra todas las entradas y la semántica perdida que detecta
    DataBasic.
-10. Descarga __Archivo → Memoria HTML__ y ábrela con Word: contiene los dos
-    diagramas, las tablas de atributos y relaciones con letras y pares, las
-    decisiones, los supuestos y la semántica perdida. Completa ahí la
-    justificación que pide la práctica; __Memoria Markdown__ es la misma
-    memoria en texto.
+10. Escribe tus datos en __Archivo → Alumno__ y descarga __Archivo → Memoria
+    Word__: portada con DNI, nombre y apellidos, los dos diagramas, las tablas
+    de atributos y relaciones con su tipo, letras y pares, las decisiones, los
+    supuestos, la semántica perdida y el diccionario de datos. Completa ahí la
+    justificación que pide la práctica. __Archivo → Paquete de entrega__
+    comprueba lo que pide el enunciado y descarga el .zip con la memoria, el
+    Visio del relacional y los archivos de Access; su `LEEME.txt` explica cómo
+    crear el `.accdb` antes de entregar. La memoria también está en HTML y
+    Markdown dentro de esa ventana.
 
 _Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
 ese documento. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y

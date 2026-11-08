@@ -575,3 +575,30 @@ En Chromium se comprobó el deslizador de color en Definición (borde y relleno
 en Relacional y en Diagrama, y «Sin color»), el desplegable Vista con sus tres
 opciones, el selector Tipos, Ayuda → Ejemplos cargando un ejercicio de la
 carpeta y el cambio de nombre a Diagrama, sin errores de consola.
+
+## Revisión de los modelos y entregables en 0.4.4
+
+Revisión de la Lonja contra el enunciado de la práctica 2025-2026 y de los
+otros quince ejercicios por una revisión independiente; cada hallazgo se
+contrastó con su enunciado antes de corregirlo (se rechazó cambiar Prepara a
+1:N en el restaurante, porque el enunciado pide «qué cocineros preparan cada
+plato»). `node scripts/course-examples.mjs` regenera los dieciséis archivos y
+`npm test` pasa 283 pruebas.
+
+Comprobado en este entorno:
+
+- Chromium (Playwright) sobre `node scripts/serve.mjs`: Archivo → Alumno rechaza
+  `12345678A` («debería ser Z») y guarda `12345678Z`; Paquete de entrega muestra
+  la lista y descarga `Practica_Pérez_García_Ana.zip` con sus nueve archivos;
+  Memoria Word descarga `Memoria_Ana_Pérez_García.docx`; sin errores de consola.
+- `unzip -l` y `zipfile` de Python leen el paquete; el CRC-32 de «123456789» es
+  `CBF43926`.
+- LibreOffice 24.2 convierte la memoria .docx de la Lonja a PDF (19 páginas,
+  portada con los datos del alumno, figuras y tablas) y el .vdx a PDF con dos
+  páginas: diagrama con leyenda y diccionario de datos. LibreOffice Draw da a
+  todas las páginas el tamaño de la mayor; Visio conserva el tamaño de cada una.
+- `file` identifica `CrearBaseDeDatos.bas` como texto ISO-8859 con CRLF; las
+  tildes son un byte de Windows-1252 y `→` pasa a `>`.
+
+Queda por comprobar con los programas del laboratorio: abrir la memoria en Word
+2010, el .vdx en Visio 2010 e importar y ejecutar el módulo en Access 2010.
