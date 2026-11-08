@@ -1,0 +1,1499 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Empresa · ejercicio 2 (guion ERE)",
+  "tables": [
+    {
+      "id": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "name": "Departamento",
+      "conceptualName": "Departamento",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
+          "name": "numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "5181e9cc-2b78-41e1-aa80-88767e963e73",
+          "name": "nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "cd0ad4ce-9294-47c1-8cc9-7991d56d8c1b",
+          "name": "gerente_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "0ebf55ab-e0db-44df-85c5-f39b896d33bd",
+          "name": "fecha_inicio",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "ed539d30-3f3f-40bc-9b34-c9f256c27637",
+          "name": "AK_Departamento_nombre",
+          "columns": [
+            "5181e9cc-2b78-41e1-aa80-88767e963e73"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f245ee63-db82-4481-bee3-2fda502849f4",
+      "name": "Lugares_departamento",
+      "conceptualName": "lugar",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "32859f98-a083-4bfc-b37a-4709d134f6b4",
+          "name": "Departamento_numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "692e9814-2c82-4fcb-9f96-846a1ba070cf",
+          "name": "lugar",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
+      "name": "Proyecto",
+      "conceptualName": "Proyecto",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b",
+          "name": "numero",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "1fec2acb-9c70-40cc-8c73-3604802c0142",
+          "name": "nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "229448c3-48b3-4cec-85c3-6cc69b4c636c",
+          "name": "lugar",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "19657486-b1b4-4187-ad8e-f05fbb934bf0",
+          "name": "departamento_numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "69d33296-9133-41bb-ac3e-b63a6b2adf11",
+          "name": "AK_Proyecto_nombre",
+          "columns": [
+            "1fec2acb-9c70-40cc-8c73-3604802c0142"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "name": "Empleado",
+      "conceptualName": "Empleado",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d60c1321-3c27-466a-83e8-fa4cce56a565",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "cc789a10-a61e-486c-8604-e20c3f0d50e6",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "8edb85a1-75d8-4880-91c0-f5901078bcc1",
+          "name": "salario",
+          "type": "NUMBER(8,2)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "fb015ab2-f553-4ae5-b43e-18cf10905016",
+          "name": "sexo",
+          "type": "CHAR(1)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "H",
+              "M"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "7a2f2192-defd-436c-aabb-10aa570608f5",
+          "name": "fecha_nacimiento",
+          "type": "DATE",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f3f44f6c-4200-481f-b95d-6cc413af7a8f",
+          "name": "departamento_numero",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "d7ab5c8d-5ca0-4ff9-b71a-12f6cb442162",
+          "name": "supervisor_dni",
+          "type": "CHAR(9)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "6a067955-7c59-4c54-8d59-cd95de87a845",
+      "name": "Familiar",
+      "conceptualName": "Familiar",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "a06bc92f-746f-4d1b-bb60-fdade99132d3",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9f4f1e83-3a1f-475d-99b1-1042e66957fc",
+          "name": "sexo",
+          "type": "CHAR(1)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "H",
+              "M"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "bf940fa3-21ae-4221-bc99-a80006800638",
+          "name": "fecha_nacimiento",
+          "type": "DATE",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "019c390f-0985-41c0-bb61-1dfec1f6b25c",
+          "name": "parentesco",
+          "type": "VARCHAR(20)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "43c3357e-5b56-4258-8b0f-705be0851cac",
+          "name": "empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "name": "Trabaja_en",
+      "conceptualName": "Trabaja_en",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "ea0c8990-a63a-489d-9d92-28aae0b1913e",
+          "name": "empleado_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "6ce6de76-1c99-43c2-b2e7-e93f2d8efdd6",
+          "name": "proyecto_numero",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "cf076ebc-9e6e-4167-93d0-27d920f77f5e",
+          "name": "horas_semana",
+          "type": "NUMBER(4,1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": 60,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "aa768747-9097-4f5e-9c71-705d279b8001",
+      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "childId": "f245ee63-db82-4481-bee3-2fda502849f4",
+      "name": "FK_Lugares_departamento_Departamento",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
+          "childColumnId": "32859f98-a083-4bfc-b37a-4709d134f6b4"
+        }
+      ]
+    },
+    {
+      "id": "ae005c16-bbff-493a-8016-ec08d3193ee0",
+      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "childId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "name": "FK_Dirige_gerente",
+      "forward": "Dirige",
+      "inverse": "gerente",
+      "cardinality": "zero-one",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "childColumnId": "cd0ad4ce-9294-47c1-8cc9-7991d56d8c1b"
+        }
+      ]
+    },
+    {
+      "id": "3d113b0c-37de-4980-85f3-e82e47f73260",
+      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "childId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "name": "FK_Trabaja_para_departamento",
+      "forward": "Trabaja_para",
+      "inverse": "departamento",
+      "cardinality": "one-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
+          "childColumnId": "f3f44f6c-4200-481f-b95d-6cc413af7a8f"
+        }
+      ]
+    },
+    {
+      "id": "727d4d82-b540-450e-b8f1-e592d5c681ac",
+      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "childId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
+      "name": "FK_Controla_departamento",
+      "forward": "Controla",
+      "inverse": "departamento",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
+          "childColumnId": "19657486-b1b4-4187-ad8e-f05fbb934bf0"
+        }
+      ]
+    },
+    {
+      "id": "0833c25a-b6fe-44e0-baff-693464f234c6",
+      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "childId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "name": "FK_Supervision_supervisor",
+      "forward": "Supervision",
+      "inverse": "supervisor",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": true,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "childColumnId": "d7ab5c8d-5ca0-4ff9-b71a-12f6cb442162"
+        }
+      ]
+    },
+    {
+      "id": "c2503f0d-3a48-4ca4-9001-5977e977e775",
+      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "childId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "name": "FK_Trabaja_en_empleado",
+      "forward": "Trabaja_en",
+      "inverse": "empleado",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "childColumnId": "ea0c8990-a63a-489d-9d92-28aae0b1913e"
+        }
+      ]
+    },
+    {
+      "id": "3a7d1cf5-698c-4c97-9528-5fe3ebcd5beb",
+      "parentId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
+      "childId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "name": "FK_Trabaja_en_proyecto",
+      "forward": "Trabaja_en",
+      "inverse": "proyecto",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b",
+          "childColumnId": "6ce6de76-1c99-43c2-b2e7-e93f2d8efdd6"
+        }
+      ]
+    },
+    {
+      "id": "57322236-85f6-4382-bcb6-49b8fd4b1b7e",
+      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "childId": "6a067955-7c59-4c54-8d59-cd95de87a845",
+      "name": "FK_Familiares_de_empleado",
+      "forward": "Familiares_de",
+      "inverse": "empleado",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "childColumnId": "43c3357e-5b56-4258-8b0f-705be0851cac"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "name": "Departamento",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "name": "Proyecto",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "Empleado",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "name": "Familiar",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "d1d623ef-91ea-49ca-96f5-cc82134f55dc"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "29524f23-acd0-4032-8d3c-79698171736a",
+        "ownerKind": "entity",
+        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "name": "numero",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "185d6681-0584-4ad9-bf8e-66c69c770004",
+        "ownerKind": "entity",
+        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "name": "nombre",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+        "ownerKind": "entity",
+        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "name": "lugar",
+        "type": "VARCHAR(60)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Lugares_departamento"
+        }
+      },
+      {
+        "id": "2035e916-0564-4f2e-ae51-fcdb303c8f70",
+        "ownerKind": "entity",
+        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "name": "num_empleados",
+        "type": "NUMBER(5)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": true,
+        "parentAttributeId": null,
+        "derivation": "Número de empleados que trabajan para el departamento",
+        "domain": null,
+        "translation": {
+          "kind": "omit"
+        }
+      },
+      {
+        "id": "40207622-5104-4b82-8f07-abb5a49a5a3d",
+        "ownerKind": "entity",
+        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "name": "numero",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "653bd4a9-5be4-450c-ac9c-77111119d3fa",
+        "ownerKind": "entity",
+        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "name": "nombre",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "03ebb3b9-7b1f-42b4-a96d-ae6e5de0c29c",
+        "ownerKind": "entity",
+        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "name": "lugar",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "bf015882-f525-4c8f-90d5-68435874e85a",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "4ff1c5e0-3e8a-4d9f-ae82-4339c89cb3e8",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "209fb704-e76f-4d92-9691-c71e2cec9ea4",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "298a1230-9aa2-4528-864a-12aef3c94145",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "salario",
+        "type": "NUMBER(8,2)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "b59b05cd-90da-41f1-9f44-1e78edda59c3",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "sexo",
+        "type": "CHAR(1)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "H",
+            "M"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "f6228a92-508f-4dac-9b1a-d685351adeb6",
+        "ownerKind": "entity",
+        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "name": "fecha_nacimiento",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8ffce0c1-d020-4494-8cc4-c27d6d4fc510",
+        "ownerKind": "entity",
+        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "70506b98-2d46-40e1-b665-4ccf76db984a",
+        "ownerKind": "entity",
+        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "name": "sexo",
+        "type": "CHAR(1)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "H",
+            "M"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ddb28412-bbd3-42d1-ac87-f055082e1c22",
+        "ownerKind": "entity",
+        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "name": "fecha_nacimiento",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "edc3ddbf-c09d-4b6f-beb2-aa55af9fbb4a",
+        "ownerKind": "entity",
+        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "name": "parentesco",
+        "type": "VARCHAR(20)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "fc6c9001-0056-4849-bc8f-348459722b9e",
+        "ownerKind": "relationship",
+        "ownerId": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+        "name": "fecha_inicio",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "70653ac9-500f-4f38-9bd6-a4005062f29f",
+        "ownerKind": "relationship",
+        "ownerId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+        "name": "horas_semana",
+        "type": "NUMBER(4,1)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": 60,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+        "name": "Dirige",
+        "notes": "",
+        "participations": [
+          {
+            "id": "d71e6a92-811d-4c7a-9a33-031302c5b3ea",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "gerente",
+            "min": 0,
+            "max": 1
+          },
+          {
+            "id": "fd67a93b-d2db-4c25-b972-e3bd0cce0ee9",
+            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "role": "dirigido",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "fd67a93b-d2db-4c25-b972-e3bd0cce0ee9",
+          "identifying": false
+        }
+      },
+      {
+        "id": "3d6adc00-b1d8-4773-b69d-35db42edad3d",
+        "name": "Trabaja_para",
+        "notes": "",
+        "participations": [
+          {
+            "id": "b548eec5-b2ba-4e8d-adfd-f50dd572f01f",
+            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "role": "departamento",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "ca785a1a-48ff-4388-9d69-788c7c50f13f",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "empleado",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "ca785a1a-48ff-4388-9d69-788c7c50f13f",
+          "identifying": false
+        }
+      },
+      {
+        "id": "46976724-a6c7-49cf-827e-4ff9658cdc02",
+        "name": "Controla",
+        "notes": "",
+        "participations": [
+          {
+            "id": "e6cc80e1-29c9-4737-b966-4321cc8253a2",
+            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "role": "departamento",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "b6b52284-a92f-4bb7-9de3-9e8c29283c50",
+            "entityId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+            "role": "proyecto",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "b6b52284-a92f-4bb7-9de3-9e8c29283c50",
+          "identifying": false
+        }
+      },
+      {
+        "id": "291564d8-df75-4902-be69-bbb752afe9df",
+        "name": "Supervision",
+        "notes": "",
+        "participations": [
+          {
+            "id": "235d08c6-9561-4bad-b4e1-68036fb41332",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "supervisor",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "04f02156-bc29-4c61-a5c3-c704c168ebca",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "supervisado",
+            "min": 0,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "04f02156-bc29-4c61-a5c3-c704c168ebca",
+          "identifying": false
+        }
+      },
+      {
+        "id": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+        "name": "Trabaja_en",
+        "notes": "",
+        "participations": [
+          {
+            "id": "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "empleado",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "db3b461c-d77a-432e-96fc-22a56d7602b6",
+            "entityId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+            "role": "proyecto",
+            "min": 1,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Trabaja_en",
+          "key": {
+            "participationIds": [
+              "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
+              "db3b461c-d77a-432e-96fc-22a56d7602b6"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "d1d623ef-91ea-49ca-96f5-cc82134f55dc",
+        "name": "Familiares_de",
+        "notes": "",
+        "participations": [
+          {
+            "id": "22369ba7-a94c-479a-be18-1d5f204c60d7",
+            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "role": "empleado",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "6136e883-88c4-4c3a-8863-168093901603",
+            "entityId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+            "role": "familiar",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "6136e883-88c4-4c3a-8863-168093901603",
+          "identifying": true
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+      "targetKind": "table",
+      "targetId": "52aeae90-9bc9-4829-a829-fb13b41acd3b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "29524f23-acd0-4032-8d3c-79698171736a",
+      "targetKind": "column",
+      "targetId": "c18d10ad-0428-4c88-9d81-0a7b0699965c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "185d6681-0584-4ad9-bf8e-66c69c770004",
+      "targetKind": "column",
+      "targetId": "5181e9cc-2b78-41e1-aa80-88767e963e73"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "targetKind": "table",
+      "targetId": "f245ee63-db82-4481-bee3-2fda502849f4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "targetKind": "foreign-key",
+      "targetId": "aa768747-9097-4f5e-9c71-705d279b8001"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "targetKind": "column",
+      "targetId": "692e9814-2c82-4fcb-9f96-846a1ba070cf"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+      "targetKind": "table",
+      "targetId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "40207622-5104-4b82-8f07-abb5a49a5a3d",
+      "targetKind": "column",
+      "targetId": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "653bd4a9-5be4-450c-ac9c-77111119d3fa",
+      "targetKind": "column",
+      "targetId": "1fec2acb-9c70-40cc-8c73-3604802c0142"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "03ebb3b9-7b1f-42b4-a96d-ae6e5de0c29c",
+      "targetKind": "column",
+      "targetId": "229448c3-48b3-4cec-85c3-6cc69b4c636c"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+      "targetKind": "table",
+      "targetId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "bf015882-f525-4c8f-90d5-68435874e85a",
+      "targetKind": "column",
+      "targetId": "416cdd7c-2446-4001-a47b-bafcf347f5bd"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4ff1c5e0-3e8a-4d9f-ae82-4339c89cb3e8",
+      "targetKind": "column",
+      "targetId": "d60c1321-3c27-466a-83e8-fa4cce56a565"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "209fb704-e76f-4d92-9691-c71e2cec9ea4",
+      "targetKind": "column",
+      "targetId": "cc789a10-a61e-486c-8604-e20c3f0d50e6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "298a1230-9aa2-4528-864a-12aef3c94145",
+      "targetKind": "column",
+      "targetId": "8edb85a1-75d8-4880-91c0-f5901078bcc1"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "b59b05cd-90da-41f1-9f44-1e78edda59c3",
+      "targetKind": "column",
+      "targetId": "fb015ab2-f553-4ae5-b43e-18cf10905016"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "f6228a92-508f-4dac-9b1a-d685351adeb6",
+      "targetKind": "column",
+      "targetId": "7a2f2192-defd-436c-aabb-10aa570608f5"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+      "targetKind": "table",
+      "targetId": "6a067955-7c59-4c54-8d59-cd95de87a845"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8ffce0c1-d020-4494-8cc4-c27d6d4fc510",
+      "targetKind": "column",
+      "targetId": "a06bc92f-746f-4d1b-bb60-fdade99132d3"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "70506b98-2d46-40e1-b665-4ccf76db984a",
+      "targetKind": "column",
+      "targetId": "9f4f1e83-3a1f-475d-99b1-1042e66957fc"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "ddb28412-bbd3-42d1-ac87-f055082e1c22",
+      "targetKind": "column",
+      "targetId": "bf940fa3-21ae-4221-bc99-a80006800638"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "edc3ddbf-c09d-4b6f-beb2-aa55af9fbb4a",
+      "targetKind": "column",
+      "targetId": "019c390f-0985-41c0-bb61-1dfec1f6b25c"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "d71e6a92-811d-4c7a-9a33-031302c5b3ea",
+      "targetKind": "foreign-key",
+      "targetId": "ae005c16-bbff-493a-8016-ec08d3193ee0"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+      "targetKind": "foreign-key",
+      "targetId": "ae005c16-bbff-493a-8016-ec08d3193ee0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "fc6c9001-0056-4849-bc8f-348459722b9e",
+      "targetKind": "column",
+      "targetId": "0ebf55ab-e0db-44df-85c5-f39b896d33bd"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "b548eec5-b2ba-4e8d-adfd-f50dd572f01f",
+      "targetKind": "foreign-key",
+      "targetId": "3d113b0c-37de-4980-85f3-e82e47f73260"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "3d6adc00-b1d8-4773-b69d-35db42edad3d",
+      "targetKind": "foreign-key",
+      "targetId": "3d113b0c-37de-4980-85f3-e82e47f73260"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "e6cc80e1-29c9-4737-b966-4321cc8253a2",
+      "targetKind": "foreign-key",
+      "targetId": "727d4d82-b540-450e-b8f1-e592d5c681ac"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "46976724-a6c7-49cf-827e-4ff9658cdc02",
+      "targetKind": "foreign-key",
+      "targetId": "727d4d82-b540-450e-b8f1-e592d5c681ac"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "235d08c6-9561-4bad-b4e1-68036fb41332",
+      "targetKind": "foreign-key",
+      "targetId": "0833c25a-b6fe-44e0-baff-693464f234c6"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "291564d8-df75-4902-be69-bbb752afe9df",
+      "targetKind": "foreign-key",
+      "targetId": "0833c25a-b6fe-44e0-baff-693464f234c6"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+      "targetKind": "table",
+      "targetId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
+      "targetKind": "foreign-key",
+      "targetId": "c2503f0d-3a48-4ca4-9001-5977e977e775"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "db3b461c-d77a-432e-96fc-22a56d7602b6",
+      "targetKind": "foreign-key",
+      "targetId": "3a7d1cf5-698c-4c97-9528-5fe3ebcd5beb"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "70653ac9-500f-4f38-9bd6-a4005062f29f",
+      "targetKind": "column",
+      "targetId": "cf076ebc-9e6e-4167-93d0-27d920f77f5e"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "22369ba7-a94c-479a-be18-1d5f204c60d7",
+      "targetKind": "foreign-key",
+      "targetId": "57322236-85f6-4382-bcb6-49b8fd4b1b7e"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "d1d623ef-91ea-49ca-96f5-cc82134f55dc",
+      "targetKind": "foreign-key",
+      "targetId": "57322236-85f6-4382-bcb6-49b8fd4b1b7e"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "585b9252-9908-455a-8402-3d0185486e41",
+      "kind": "enunciado",
+      "text": "Departamento y proyecto tienen nombre y número únicos: el número es la clave primaria y el nombre una clave alternativa.",
+      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+    },
+    {
+      "id": "49766214-5a9d-4949-99c3-4f0e68b61c55",
+      "kind": "enunciado",
+      "text": "Un departamento puede estar en varios lugares: atributo multivaluado; un proyecto, en uno solo.",
+      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+    },
+    {
+      "id": "6d595d82-6dee-4558-84b1-c76661eb305e",
+      "kind": "enunciado",
+      "text": "Participaciones del apartado b: Dirige total para el departamento, Trabaja_para total en ambos lados, Controla total para el proyecto, Supervision parcial en ambos, Trabaja_en total en ambos y Familiares_de total para el familiar.",
+      "elementId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e"
+    },
+    {
+      "id": "0f619641-418c-4fc9-8692-014924ff6baa",
+      "kind": "enunciado",
+      "text": "Apartado c: la fecha en que el jefe empieza a dirigir es un atributo de Dirige y viaja a la tabla Departamento.",
+      "elementId": "3891ba05-13d5-4d15-a022-c024f28b7bfb"
+    },
+    {
+      "id": "3ca397e4-ef4d-4fb0-ab11-8a1cb4b22bbe",
+      "kind": "supuesto",
+      "text": "El número total de empleados del departamento es un atributo derivado: se calcula contando Trabaja_para y no se almacena.",
+      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+    },
+    {
+      "id": "a71545da-9b36-49f3-b771-c6021bae7c11",
+      "kind": "supuesto",
+      "text": "El familiar se identifica por su nombre dentro de cada empleado: entidad débil con clave parcial.",
+      "elementId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d"
+    },
+    {
+      "id": "1ad4a3d5-e29c-4314-87f7-dd18949eb417",
+      "kind": "perdida",
+      "text": "La participación total del departamento en Trabaja_para y de ambos lados en Trabaja_en no se impone con claves ajenas.",
+      "elementId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e"
+    },
+    {
+      "id": "62628d49-b798-4838-9f6a-9ffcd5ce8df7",
+      "kind": "perdida",
+      "text": "Que el gerente trabaje en el departamento que dirige, y que nadie se supervise a sí mismo, quedan fuera de las claves.",
+      "elementId": "3891ba05-13d5-4d15-a022-c024f28b7bfb"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "9a93d04f-b39d-4bc3-bdd6-8034f185a816": {
+        "x": 120,
+        "y": 140
+      },
+      "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1": {
+        "x": 2040,
+        "y": 140
+      },
+      "161823f4-853c-4107-8fc0-6edb990cafc5": {
+        "x": 1080,
+        "y": 980
+      },
+      "893dc0f3-852c-4ece-b0ce-3bd218fa930d": {
+        "x": 1080,
+        "y": 1820
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

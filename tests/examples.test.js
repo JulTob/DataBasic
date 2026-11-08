@@ -7,6 +7,9 @@ import {
     serializeDocument
     } from '../src/domain/serialization.js';
 import { exportSQL } from '../src/io/sql.js';
+import { exportVDX } from '../src/io/visio.js';
+import { exportAccessVBA } from '../src/io/access.js';
+import { buildDiagramScene } from '../src/ui/scene.js';
 
 const examplesURL = new URL( '../examples/', import.meta.url );
 const filenames = (await readdir( examplesURL )).filter(
@@ -81,7 +84,7 @@ for (const filename of filenames) {
     }
 
 test( 'Núcleo entregado: cuatro tipos, PK/AK, dominio y FK obligatoria', async () => {
-    assert.equal( filenames.length, 13 );
+    assert.equal( filenames.filter( name => !name.startsWith( 'curso-' ) ).length, 11 );
 
     const model = await openExample( '00-nucleo' );
     const instrument = tableNamed( model, 'Instrumento' );
@@ -327,4 +330,97 @@ test( 'Ejercicio del curso: videoclub con clave compuesta, copia débil, multiva
     assert.equal( attributeNamed( model, 'actor_principal' ).multivalued, true );
     assert.equal( attributeNamed( model, 'fecha' ).ownerKind, 'relationship' );
     assert.equal( domain.documentAssumptions( model ).length, 5 );
+    } );
+
+/** Two boxes of the same drawing touch or overlap (with a small margin). */
+function boxesOverlap(
+        first,
+        second
+        ) {
+    return first.x < second.x + second.width + 8 && first.x + first.width + 8 > second.x
+        && first.y < second.y + second.height + 8 && first.y + first.height + 8 > second.y;
+    }
+
+const courseFiles = filenames.filter( name => name.startsWith( 'curso-' ) );
+const exampleIndex = JSON.parse( await readFile( new URL( 'index.json', examplesURL ), 'utf8' ) );
+
+test( 'Los ejercicios del curso están en Ayuda → Ejemplos', () => {
+    const listed = exampleIndex.examples.map( item => item.file );
+
+    assert.equal( courseFiles.length, 16 );
+
+    for (const filename of courseFiles) {
+        assert.ok( listed.includes( filename ), `${filename} debe aparecer en index.json` );
+        }
+    } );
+
+for (const filename of courseFiles) {
+    test( `Ejercicio del curso ${filename}: tres vistas sin solapes, archivos y supuestos`, async () => {
+        const model = await openExample( filename.replace( '.databasic.json', '' ) );
+        const kinds = new Set( domain.documentAssumptions( model ).map( item => item.kind ) );
+
+        assert.ok( domain.documentAssumptions( model ).length >= 3 );
+        assert.ok( kinds.has( 'enunciado' ) && kinds.has( 'perdida' ), 'enunciado y semántica perdida' );
+
+        for (const mode of ['chen', 'relational', 'tables']) {
+            const nodes = buildDiagramScene( domain.setDiagramMode( model, mode ) ).nodes;
+
+            for (let first = 0; first < nodes.length; first += 1) {
+                for (let second = first + 1; second < nodes.length; second += 1) {
+                    assert.equal( boxesOverlap( nodes[first], nodes[second] ), false, `${mode}: ${nodes[first].id} y ${nodes[second].id} se solapan` );
+                    }
+                }
+            }
+
+        assert.match( exportVDX( model ), /<VisioDocument / );
+        assert.match( exportAccessVBA( model ), /Public Sub CrearEsquema\(\)/ );
+        } );
+    }
+
+test( 'Ejercicio del curso: la Lonja sigue la solución del autor', async () => {
+    const model = await openExample( 'curso-lonja' );
+    const sql = exportSQL( model );
+
+    assert.equal( model.tables.length, 14 );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Faena' ) ), ['barco_matricula', 'caladero_nombre', 'especie_cod_especie', 'fecha_inicio'] );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Adjudicacion' ) ), ['lote_cod_lote'] );
+    assert.deepEqual( primaryNames( tableNamed( model, 'Creditor' ) ), ['Comprador_cod_comprador'] );
+    assert.equal( model.conceptual.generalizations[0].subtypeIds.length, 1, 'especialización por predicado: solo Creditor' );
+    assert.equal( model.conceptual.generalizations[0].total, false );
+
+    for (const name of ['Incluye', 'Provision']) {
+        const table = tableNamed( model, name );
+
+        assert.deepEqual( columnNames( table, table.alternateKeys[0].columns ), ['lote_cod_lote'], `${name}: un lote en una sola factura` );
+        }
+
+    assert.deepEqual( tableNamed( model, 'Caladero' ).columns.map( column => column.name ), ['nombre', 'extension', 'latitud', 'longitud'] );
+    assert.equal( model.conceptual.relationships.find( item => item.name === 'Faena' ).participations.length, 3, 'la ternaria' );
+    assert.match( sql, /"pendiente" NUMERIC\(1\) NOT NULL DEFAULT 0/ );
+    assert.match( sql, /CHECK \("pendiente" IN \(0, 1\)\)/ );
+    } );
+
+test( 'Ejercicios del curso: recursiva, débil de débil, clave parcial doble y dos especializaciones', async () => {
+    const company = await openExample( 'curso-empresa' );
+    const employee = tableNamed( company, 'Empleado' );
+    const department = tableNamed( company, 'Departamento' );
+
+    assert.ok( employee.columns.some( column => column.name === 'supervisor_dni' && !column.required ) );
+    assert.ok( department.columns.some( column => column.name === 'fecha_inicio' ) );
+    assert.ok( !department.columns.some( column => column.name === 'num_empleados' ), 'derivado sin almacenar' );
+
+    const estate = await openExample( 'curso-inmobiliaria' );
+
+    assert.deepEqual( primaryNames( tableNamed( estate, 'Pago' ) ), ['anio', 'mes', 'alquiler_numero', 'alquiler_inmueble_codigo'] );
+    assert.equal( estate.conceptual.generalizations.find( item => item.subtypeIds.length === 2 ).disjoint, false, 'Persona solapada' );
+
+    const restaurant = await openExample( 'curso-restaurante' );
+
+    assert.deepEqual( primaryNames( tableNamed( restaurant, 'Consumo' ) ), ['fecha', 'turno', 'plato_nombre'] );
+    assert.deepEqual( columnNames( tableNamed( restaurant, 'Pinche' ), tableNamed( restaurant, 'Pinche' ).alternateKeys[0].columns ), ['cocinero_Empleado_dni'] );
+
+    const staff = await openExample( 'curso-personal' );
+
+    assert.equal( staff.conceptual.generalizations.length, 2 );
+    assert.equal( staff.tables.length, 5 );
     } );

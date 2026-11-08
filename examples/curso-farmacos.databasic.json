@@ -1,0 +1,1520 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Hospital: consumo de fármacos · ejercicio 6 (guion ERE)",
+  "tables": [
+    {
+      "id": "705c0c60-b00f-4f5b-aca7-e49dbd26a70f",
+      "name": "Paciente",
+      "conceptualName": "Paciente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "5bdfc60f-193d-4311-985f-333940dcf8f1",
+          "name": "num_historia",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "548f6870-e05e-4fe6-aac2-f1a93295cae5",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "a9132fc6-4b25-4f7a-b1e8-7b917a2c2b5a",
+          "name": "num_ss",
+          "type": "CHAR(12)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "6d91579b-8a72-4ae7-b302-5dc159ed2987",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "c469861e-b2ca-48f4-8de9-783699743383",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "3f000ef8-633a-42f7-ba30-041b949411b2",
+          "name": "fecha_nacimiento",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "51406331-572a-4e6b-bfdb-20b08e9903cf",
+      "name": "Ingreso",
+      "conceptualName": "Ingreso",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "cdda2fa3-ab49-4538-840d-9edaa47a9c9c",
+          "name": "num_secuencia",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "90f65d0d-bcc8-4799-a33d-5d501878dd91",
+          "name": "diagnostico",
+          "type": "VARCHAR(200)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d44c2561-bf7d-43b6-b666-8159d683a8d3",
+          "name": "fecha_ingreso",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "dc9ed92e-e0e2-4da6-b8bc-f46e9451d5f2",
+          "name": "fecha_alta",
+          "type": "DATE",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [],
+            "check": "fecha_alta >= fecha_ingreso"
+          }
+        },
+        {
+          "id": "44faa43a-13b6-42e2-9de0-07f3c6bf07a2",
+          "name": "paciente_num_historia",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "7e8242c2-0f84-42c1-8cbf-2dd837d8dfb3",
+          "name": "servicio_codigo",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "33d9cc95-9c71-417f-9d74-9048d49dc4e0",
+      "name": "Servicio",
+      "conceptualName": "Servicio",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "5b8e9c82-7d77-4207-9be0-de965a778619",
+          "name": "codigo",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "926eefe5-654d-4478-a93d-2b446a47d0a3",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "595c24d0-4fdd-4f0b-80d0-fc2a56209781",
+          "name": "AK_Servicio_nombre",
+          "columns": [
+            "926eefe5-654d-4478-a93d-2b446a47d0a3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6e16ee22-5d76-42bf-adf0-8ec4b0c18bf2",
+      "name": "Farmaco",
+      "conceptualName": "Farmaco",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "24691286-b3ef-4bcb-bf53-bef23ad4c877",
+          "name": "num_registro",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "6f6bcc5d-66c7-4dd9-96d5-54f80c370172",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d27f7025-2360-464b-83bb-65a989a3e2af",
+          "name": "compuesto",
+          "type": "VARCHAR(80)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "1b3e4e6a-7475-46da-b92a-1572161246d4",
+          "name": "ubicacion",
+          "type": "VARCHAR(40)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "c2e81567-8cb7-4d8f-aab2-9085be8b1dac",
+          "name": "dosis_envase",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "97b95ae2-0c7f-4829-a3f8-ebce2b50662e",
+          "name": "precio_dosis",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "befcbc3e-751c-43bc-b2aa-b0003d17a641",
+      "name": "Consumo_paciente",
+      "conceptualName": "Consume",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "c567dba0-8074-4e1d-97c3-a7c9d90619af",
+          "name": "ingreso_num_secuencia",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "737c8244-036e-425b-90ab-c8fc63fd6c8d",
+          "name": "ingreso_paciente_num_historia",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "7b75c14b-40bb-48f8-9772-3aca2dc0ddec",
+          "name": "farmaco_num_registro",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "58f20463-d34f-4f93-b42e-5b40986379e8",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4adfc3b0-0b9a-44fa-97ae-b1853c01a734",
+          "name": "num_dosis",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "8489fb4b-d4f9-4cb1-a394-ae4a05c9bf21",
+      "name": "Consumo_servicio",
+      "conceptualName": "Gasta",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "a298d174-517c-405f-931c-4d605a2fe2b9",
+          "name": "servicio_codigo",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b79779a7-1780-4511-92fc-22f1e40d8f4e",
+          "name": "farmaco_num_registro",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "faa61138-8465-4784-af5c-c611e1023a6d",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e7fe7557-e99b-4901-96d7-451e350ffaec",
+          "name": "num_dosis",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "4fda61c9-047b-46e6-afbd-042a215620a4",
+      "parentId": "705c0c60-b00f-4f5b-aca7-e49dbd26a70f",
+      "childId": "51406331-572a-4e6b-bfdb-20b08e9903cf",
+      "name": "FK_Ingresa_paciente",
+      "forward": "Ingresa",
+      "inverse": "paciente",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5bdfc60f-193d-4311-985f-333940dcf8f1",
+          "childColumnId": "44faa43a-13b6-42e2-9de0-07f3c6bf07a2"
+        }
+      ]
+    },
+    {
+      "id": "a7d26e48-c4bf-4a67-b181-1c0206d44d09",
+      "parentId": "33d9cc95-9c71-417f-9d74-9048d49dc4e0",
+      "childId": "51406331-572a-4e6b-bfdb-20b08e9903cf",
+      "name": "FK_En_servicio_servicio",
+      "forward": "En_servicio",
+      "inverse": "servicio",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5b8e9c82-7d77-4207-9be0-de965a778619",
+          "childColumnId": "7e8242c2-0f84-42c1-8cbf-2dd837d8dfb3"
+        }
+      ]
+    },
+    {
+      "id": "af8b981d-9c7f-4d81-a13d-e08c14d371fc",
+      "parentId": "51406331-572a-4e6b-bfdb-20b08e9903cf",
+      "childId": "befcbc3e-751c-43bc-b2aa-b0003d17a641",
+      "name": "FK_Consume_ingreso",
+      "forward": "Consume",
+      "inverse": "ingreso",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "cdda2fa3-ab49-4538-840d-9edaa47a9c9c",
+          "childColumnId": "c567dba0-8074-4e1d-97c3-a7c9d90619af"
+        },
+        {
+          "parentColumnId": "44faa43a-13b6-42e2-9de0-07f3c6bf07a2",
+          "childColumnId": "737c8244-036e-425b-90ab-c8fc63fd6c8d"
+        }
+      ]
+    },
+    {
+      "id": "f512c458-e160-4083-a2b7-0906d0755847",
+      "parentId": "6e16ee22-5d76-42bf-adf0-8ec4b0c18bf2",
+      "childId": "befcbc3e-751c-43bc-b2aa-b0003d17a641",
+      "name": "FK_Consume_farmaco",
+      "forward": "Consume",
+      "inverse": "farmaco",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "24691286-b3ef-4bcb-bf53-bef23ad4c877",
+          "childColumnId": "7b75c14b-40bb-48f8-9772-3aca2dc0ddec"
+        }
+      ]
+    },
+    {
+      "id": "4230c9b8-89b8-4380-a721-40d73ca0c384",
+      "parentId": "33d9cc95-9c71-417f-9d74-9048d49dc4e0",
+      "childId": "8489fb4b-d4f9-4cb1-a394-ae4a05c9bf21",
+      "name": "FK_Gasta_servicio",
+      "forward": "Gasta",
+      "inverse": "servicio",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5b8e9c82-7d77-4207-9be0-de965a778619",
+          "childColumnId": "a298d174-517c-405f-931c-4d605a2fe2b9"
+        }
+      ]
+    },
+    {
+      "id": "b704ae80-6e8a-4b62-a43c-38d898babdf7",
+      "parentId": "6e16ee22-5d76-42bf-adf0-8ec4b0c18bf2",
+      "childId": "8489fb4b-d4f9-4cb1-a394-ae4a05c9bf21",
+      "name": "FK_Gasta_farmaco",
+      "forward": "Gasta",
+      "inverse": "farmaco",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "24691286-b3ef-4bcb-bf53-bef23ad4c877",
+          "childColumnId": "b79779a7-1780-4511-92fc-22f1e40d8f4e"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "Paciente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+        "name": "Ingreso",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "b227a367-46bb-49e1-aa4d-d40e1eac2420"
+        }
+      },
+      {
+        "id": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+        "name": "Servicio",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "Farmaco",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "59cc9181-8872-4911-818e-70352db49371",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "num_historia",
+        "type": "NUMBER(8)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0b28dc3b-7d0b-4731-9610-45395037db4b",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "eeb5cab0-1241-4d75-b4c4-9246571a7ae2",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "num_ss",
+        "type": "CHAR(12)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ecbf66f8-83b8-4dd8-82d7-8bbb2f0e6f4a",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ff276a89-0354-44dc-8731-9bd6f09e37b8",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "fcb771fc-eb77-4513-9ac3-913189bcc442",
+        "ownerKind": "entity",
+        "ownerId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+        "name": "fecha_nacimiento",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8e76764a-5b4a-4ca9-a9ae-e719fbedb3db",
+        "ownerKind": "entity",
+        "ownerId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+        "name": "num_secuencia",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "bf9d555a-de56-4d28-8ca3-4d6ac077b4ea",
+        "ownerKind": "entity",
+        "ownerId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+        "name": "diagnostico",
+        "type": "VARCHAR(200)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "3bbc5553-d19b-4309-af54-b67cbf9c2313",
+        "ownerKind": "entity",
+        "ownerId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+        "name": "fecha_ingreso",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c285c776-6e16-4aa6-b3fc-d7978f8c22f4",
+        "ownerKind": "entity",
+        "ownerId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+        "name": "fecha_alta",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [],
+          "check": "fecha_alta >= fecha_ingreso"
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "95edb161-743a-4654-9844-155c45ac9a19",
+        "ownerKind": "entity",
+        "ownerId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+        "name": "codigo",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "7ede7ae7-7944-486b-8a1d-32cb0909533f",
+        "ownerKind": "entity",
+        "ownerId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "6f9419e4-87e0-4611-af02-a0513b8a8ab2",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "num_registro",
+        "type": "NUMBER(8)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c1097eca-06da-4919-b13a-88326e5d00a0",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "58f6300d-c82c-4287-bbd3-aca925bff41d",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "compuesto",
+        "type": "VARCHAR(80)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8a5ffb8f-9a94-4521-aea1-cb192e20792b",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "ubicacion",
+        "type": "VARCHAR(40)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "01c86e5e-0b23-4c9e-aaa7-dedf566fb283",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "dosis_envase",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "6e30edfc-3679-466e-86a6-51c886afe44f",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "precio_dosis",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "58a3b23b-910e-4408-8edd-a98dde118e99",
+        "ownerKind": "entity",
+        "ownerId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+        "name": "precio_envase",
+        "type": "NUMBER(10,2)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": true,
+        "parentAttributeId": null,
+        "derivation": "dosis_envase × precio_dosis",
+        "domain": null,
+        "translation": {
+          "kind": "omit"
+        }
+      },
+      {
+        "id": "e161d016-61c7-4757-9ff9-cab78cf94188",
+        "ownerKind": "relationship",
+        "ownerId": "b4a93053-7c59-4d1b-b416-f271fa000892",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0e49fd88-18c0-4e1f-b824-4df6fc3893fa",
+        "ownerKind": "relationship",
+        "ownerId": "b4a93053-7c59-4d1b-b416-f271fa000892",
+        "name": "num_dosis",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "77c4c73e-0ea6-421f-a786-2159e2bc179d",
+        "ownerKind": "relationship",
+        "ownerId": "63054052-4a1d-4d30-8089-14e3bcc55e0d",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "9fb69fad-2c5a-48c2-8d90-07632bd23d06",
+        "ownerKind": "relationship",
+        "ownerId": "63054052-4a1d-4d30-8089-14e3bcc55e0d",
+        "name": "num_dosis",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "b227a367-46bb-49e1-aa4d-d40e1eac2420",
+        "name": "Ingresa",
+        "notes": "",
+        "participations": [
+          {
+            "id": "ac24fa33-1ac0-4df7-81f7-2d6911a5d21a",
+            "entityId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+            "role": "paciente",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "f7782192-b3a0-4967-aab0-44618854ab12",
+            "entityId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+            "role": "ingreso",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "f7782192-b3a0-4967-aab0-44618854ab12",
+          "identifying": true
+        }
+      },
+      {
+        "id": "0d91c8cb-871c-4ebe-9036-7832a513bc06",
+        "name": "En_servicio",
+        "notes": "",
+        "participations": [
+          {
+            "id": "0f1d4772-fd98-4101-a11b-fe3b0dc32c5a",
+            "entityId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+            "role": "servicio",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "8ed8a5f3-7e27-4056-af81-b21b352dea45",
+            "entityId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+            "role": "ingreso",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "8ed8a5f3-7e27-4056-af81-b21b352dea45",
+          "identifying": false
+        }
+      },
+      {
+        "id": "b4a93053-7c59-4d1b-b416-f271fa000892",
+        "name": "Consume",
+        "notes": "",
+        "participations": [
+          {
+            "id": "0ce312ac-4256-412d-88c9-b5f9eb59e718",
+            "entityId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+            "role": "ingreso",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "939ee456-09b2-4f9e-b93c-e57b01a462e2",
+            "entityId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+            "role": "farmaco",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Consumo_paciente",
+          "key": {
+            "participationIds": [
+              "0ce312ac-4256-412d-88c9-b5f9eb59e718",
+              "939ee456-09b2-4f9e-b93c-e57b01a462e2"
+            ],
+            "attributeIds": [
+              "e161d016-61c7-4757-9ff9-cab78cf94188"
+            ]
+          }
+        }
+      },
+      {
+        "id": "63054052-4a1d-4d30-8089-14e3bcc55e0d",
+        "name": "Gasta",
+        "notes": "",
+        "participations": [
+          {
+            "id": "06dd0a10-c2dd-4852-9266-183ad7b7e407",
+            "entityId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+            "role": "servicio",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "dc6407c1-c923-4a36-a785-732e9c897ca3",
+            "entityId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+            "role": "farmaco",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Consumo_servicio",
+          "key": {
+            "participationIds": [
+              "06dd0a10-c2dd-4852-9266-183ad7b7e407",
+              "dc6407c1-c923-4a36-a785-732e9c897ca3"
+            ],
+            "attributeIds": [
+              "77c4c73e-0ea6-421f-a786-2159e2bc179d"
+            ]
+          }
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c",
+      "targetKind": "table",
+      "targetId": "705c0c60-b00f-4f5b-aca7-e49dbd26a70f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "59cc9181-8872-4911-818e-70352db49371",
+      "targetKind": "column",
+      "targetId": "5bdfc60f-193d-4311-985f-333940dcf8f1"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0b28dc3b-7d0b-4731-9610-45395037db4b",
+      "targetKind": "column",
+      "targetId": "548f6870-e05e-4fe6-aac2-f1a93295cae5"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "eeb5cab0-1241-4d75-b4c4-9246571a7ae2",
+      "targetKind": "column",
+      "targetId": "a9132fc6-4b25-4f7a-b1e8-7b917a2c2b5a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "ecbf66f8-83b8-4dd8-82d7-8bbb2f0e6f4a",
+      "targetKind": "column",
+      "targetId": "6d91579b-8a72-4ae7-b302-5dc159ed2987"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "ff276a89-0354-44dc-8731-9bd6f09e37b8",
+      "targetKind": "column",
+      "targetId": "c469861e-b2ca-48f4-8de9-783699743383"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "fcb771fc-eb77-4513-9ac3-913189bcc442",
+      "targetKind": "column",
+      "targetId": "3f000ef8-633a-42f7-ba30-041b949411b2"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa",
+      "targetKind": "table",
+      "targetId": "51406331-572a-4e6b-bfdb-20b08e9903cf"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8e76764a-5b4a-4ca9-a9ae-e719fbedb3db",
+      "targetKind": "column",
+      "targetId": "cdda2fa3-ab49-4538-840d-9edaa47a9c9c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "bf9d555a-de56-4d28-8ca3-4d6ac077b4ea",
+      "targetKind": "column",
+      "targetId": "90f65d0d-bcc8-4799-a33d-5d501878dd91"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "3bbc5553-d19b-4309-af54-b67cbf9c2313",
+      "targetKind": "column",
+      "targetId": "d44c2561-bf7d-43b6-b666-8159d683a8d3"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c285c776-6e16-4aa6-b3fc-d7978f8c22f4",
+      "targetKind": "column",
+      "targetId": "dc9ed92e-e0e2-4da6-b8bc-f46e9451d5f2"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8",
+      "targetKind": "table",
+      "targetId": "33d9cc95-9c71-417f-9d74-9048d49dc4e0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "95edb161-743a-4654-9844-155c45ac9a19",
+      "targetKind": "column",
+      "targetId": "5b8e9c82-7d77-4207-9be0-de965a778619"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "7ede7ae7-7944-486b-8a1d-32cb0909533f",
+      "targetKind": "column",
+      "targetId": "926eefe5-654d-4478-a93d-2b446a47d0a3"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "9ba17fab-41c8-46c3-96c7-c966827e7393",
+      "targetKind": "table",
+      "targetId": "6e16ee22-5d76-42bf-adf0-8ec4b0c18bf2"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "6f9419e4-87e0-4611-af02-a0513b8a8ab2",
+      "targetKind": "column",
+      "targetId": "24691286-b3ef-4bcb-bf53-bef23ad4c877"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c1097eca-06da-4919-b13a-88326e5d00a0",
+      "targetKind": "column",
+      "targetId": "6f6bcc5d-66c7-4dd9-96d5-54f80c370172"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "58f6300d-c82c-4287-bbd3-aca925bff41d",
+      "targetKind": "column",
+      "targetId": "d27f7025-2360-464b-83bb-65a989a3e2af"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8a5ffb8f-9a94-4521-aea1-cb192e20792b",
+      "targetKind": "column",
+      "targetId": "1b3e4e6a-7475-46da-b92a-1572161246d4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "01c86e5e-0b23-4c9e-aaa7-dedf566fb283",
+      "targetKind": "column",
+      "targetId": "c2e81567-8cb7-4d8f-aab2-9085be8b1dac"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "6e30edfc-3679-466e-86a6-51c886afe44f",
+      "targetKind": "column",
+      "targetId": "97b95ae2-0c7f-4829-a3f8-ebce2b50662e"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "ac24fa33-1ac0-4df7-81f7-2d6911a5d21a",
+      "targetKind": "foreign-key",
+      "targetId": "4fda61c9-047b-46e6-afbd-042a215620a4"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "b227a367-46bb-49e1-aa4d-d40e1eac2420",
+      "targetKind": "foreign-key",
+      "targetId": "4fda61c9-047b-46e6-afbd-042a215620a4"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "0f1d4772-fd98-4101-a11b-fe3b0dc32c5a",
+      "targetKind": "foreign-key",
+      "targetId": "a7d26e48-c4bf-4a67-b181-1c0206d44d09"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "0d91c8cb-871c-4ebe-9036-7832a513bc06",
+      "targetKind": "foreign-key",
+      "targetId": "a7d26e48-c4bf-4a67-b181-1c0206d44d09"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "b4a93053-7c59-4d1b-b416-f271fa000892",
+      "targetKind": "table",
+      "targetId": "befcbc3e-751c-43bc-b2aa-b0003d17a641"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "0ce312ac-4256-412d-88c9-b5f9eb59e718",
+      "targetKind": "foreign-key",
+      "targetId": "af8b981d-9c7f-4d81-a13d-e08c14d371fc"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "939ee456-09b2-4f9e-b93c-e57b01a462e2",
+      "targetKind": "foreign-key",
+      "targetId": "f512c458-e160-4083-a2b7-0906d0755847"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "e161d016-61c7-4757-9ff9-cab78cf94188",
+      "targetKind": "column",
+      "targetId": "58f20463-d34f-4f93-b42e-5b40986379e8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0e49fd88-18c0-4e1f-b824-4df6fc3893fa",
+      "targetKind": "column",
+      "targetId": "4adfc3b0-0b9a-44fa-97ae-b1853c01a734"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "63054052-4a1d-4d30-8089-14e3bcc55e0d",
+      "targetKind": "table",
+      "targetId": "8489fb4b-d4f9-4cb1-a394-ae4a05c9bf21"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "06dd0a10-c2dd-4852-9266-183ad7b7e407",
+      "targetKind": "foreign-key",
+      "targetId": "4230c9b8-89b8-4380-a721-40d73ca0c384"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "dc6407c1-c923-4a36-a785-732e9c897ca3",
+      "targetKind": "foreign-key",
+      "targetId": "b704ae80-6e8a-4b62-a43c-38d898babdf7"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "77c4c73e-0ea6-421f-a786-2159e2bc179d",
+      "targetKind": "column",
+      "targetId": "faa61138-8465-4784-af5c-c611e1023a6d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "9fb69fad-2c5a-48c2-8d90-07632bd23d06",
+      "targetKind": "column",
+      "targetId": "e7fe7557-e99b-4901-96d7-451e350ffaec"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "8c4e1195-ca33-4631-9887-1afa90d26088",
+      "kind": "enunciado",
+      "text": "El paciente se identifica por su número de historia clínica; cada ingreso, por un número de secuencia dentro de ella.",
+      "elementId": "f79c06a8-49e0-498a-aa4d-c6d9bae685aa"
+    },
+    {
+      "id": "748085b7-c86d-4321-8a1c-1bcf853a6aa5",
+      "kind": "enunciado",
+      "text": "Hay consumos por paciente (de un ingreso) y consumos generales de cada servicio con su fecha.",
+      "elementId": "63054052-4a1d-4d30-8089-14e3bcc55e0d"
+    },
+    {
+      "id": "4b95df91-3cbc-4b6c-9cc3-4afcb7e03f4a",
+      "kind": "enunciado",
+      "text": "El precio total por envase se obtiene de las dosis por envase y el precio por dosis: atributo derivado que no se almacena.",
+      "elementId": "9ba17fab-41c8-46c3-96c7-c966827e7393"
+    },
+    {
+      "id": "edbcb9d0-1f29-438c-87ab-72ca67941b94",
+      "kind": "supuesto",
+      "text": "El servicio se identifica por un código; su nombre es único.",
+      "elementId": "9cb9a94a-deb3-4654-8fac-cf61154b1fc8"
+    },
+    {
+      "id": "74fa1b91-4d40-4878-a572-b65cbc6cfba1",
+      "kind": "supuesto",
+      "text": "El consumo de un paciente también lleva fecha, que forma parte de la clave: el mismo fármaco puede darse en días distintos del ingreso.",
+      "elementId": "b4a93053-7c59-4d1b-b416-f271fa000892"
+    },
+    {
+      "id": "c58e6ce2-ac72-40ab-94ba-b604986dccfc",
+      "kind": "supuesto",
+      "text": "El número de la Seguridad Social es opcional (\"si lo tuviera\"), así que no puede ser clave alternativa.",
+      "elementId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c"
+    },
+    {
+      "id": "82706fa8-a799-4f62-bd8e-8d7e8564ed6f",
+      "kind": "perdida",
+      "text": "Los informes de gasto por paciente, servicio o diagnóstico son consultas sobre estas tablas, no datos almacenados.",
+      "elementId": "9ba17fab-41c8-46c3-96c7-c966827e7393"
+    },
+    {
+      "id": "04d86d81-a87c-44eb-b639-a35e800feac5",
+      "kind": "perdida",
+      "text": "Que el número de la Seguridad Social sea único cuando existe no se impone.",
+      "elementId": "73ee61ad-c4f3-4974-b3a0-7c64eaac654c"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {},
+  "presentation": {
+    "chen": {
+      "73ee61ad-c4f3-4974-b3a0-7c64eaac654c": {
+        "x": 120,
+        "y": 140
+      },
+      "f79c06a8-49e0-498a-aa4d-c6d9bae685aa": {
+        "x": 1080,
+        "y": 140
+      },
+      "9cb9a94a-deb3-4654-8fac-cf61154b1fc8": {
+        "x": 1080,
+        "y": 980
+      },
+      "9ba17fab-41c8-46c3-96c7-c966827e7393": {
+        "x": 2040,
+        "y": 140
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}
