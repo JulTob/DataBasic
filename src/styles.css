@@ -84,11 +84,11 @@ svg.lucide {
     }
 
 #app {
-    --properties-height: 240px;
-    --sidebar-width: 222px;
+    --properties-height: 200px;
+    --sidebar-width: 240px;
 
     display: grid;
-    grid-template-rows: 56px 40px 48px minmax( 0, 1fr ) 32px;
+    grid-template-rows: 56px 40px minmax( 0, 1fr ) 32px;
     height: 100dvh;
     min-height: 580px;
     min-width: 720px;
@@ -220,8 +220,8 @@ svg.lucide {
 
 .workspace {
     display: grid;
-    grid-template-columns: var( --sidebar-width ) minmax( 0, 1fr );
-    gap: 12px;
+    grid-template-columns: var( --sidebar-width ) 10px minmax( 0, 1fr );
+    gap: 2px;
     min-height: 0;
     padding: 12px 12px 0;
     }
@@ -1637,3 +1637,72 @@ kbd { padding: 0 4px; border: 1px solid var( --color-border-strong ); border-rad
     font-weight: 500;
     vertical-align: 1px;
     }
+
+
+/* Title bar: the view of the document, then the panel toggles. */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect( 0 0 0 0 ); white-space: nowrap; }
+.titlebar .view-select-label { display: flex; align-items: center; }
+.titlebar .view-select-label select { min-width: 210px; padding: 5px 8px; border: 1px solid var( --color-accent-border ); border-radius: 8px; background: var( --color-accent-soft ); }
+.app-brand { flex: 0 0 auto; }
+.document-title { flex: 1 1 auto; }
+.panel-toggles { display: flex; gap: 4px; }
+.panel-toggles button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    border: 1px solid var( --color-border );
+    border-radius: 8px;
+    background: white;
+    color: var( --color-muted );
+    font-size: 12px;
+    cursor: pointer;
+    }
+.panel-toggles button[aria-pressed="true"] { border-color: var( --color-accent-border ); background: var( --color-accent-soft ); color: var( --color-accent-strong ); }
+.panel-toggles svg { width: 14px; height: 14px; }
+.quick-access { flex: 0 0 auto; }
+.statusbar .status-link { border: 0; background: none; color: var( --color-accent-strong ); font-size: 11px; cursor: pointer; }
+.statusbar .status-link:hover { text-decoration: underline; }
+
+/* Side column: Formas, Tablas and Consola SQL fold; the column hides when no panel is shown. */
+.workspace.side-hidden { grid-template-columns: minmax( 0, 1fr ); }
+.workspace.side-hidden > .side-column, .workspace.side-hidden > .side-splitter { display: none; }
+.side-column { display: flex; flex-direction: column; min-height: 0; }
+.side-section { display: flex; flex-direction: column; min-height: 0; border-bottom: 1px solid var( --color-border ); }
+.side-section.folded > .side-body { display: none; }
+.side-heading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    background: transparent;
+    color: var( --color-ink );
+    font-size: 12px;
+    font-weight: 650;
+    text-align: left;
+    cursor: pointer;
+    }
+.side-heading:hover { background: var( --color-surface-soft ); }
+.side-heading svg { width: 14px; height: 14px; color: var( --color-muted ); }
+.side-body { min-height: 0; overflow: auto; }
+.side-shapes { flex: 0 1 auto; }
+.side-shapes > .side-body { max-height: 46vh; }
+.side-tables { flex: 0 1 auto; }
+.side-tables > .side-body { max-height: 30vh; }
+.side-sql:not(.folded) { flex: 1 1 260px; }
+.side-sql > .side-body { display: flex; flex-direction: column; overflow: hidden; }
+#sql-console { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.side-column .shapes-footer { margin-top: auto; }
+.side-splitter { cursor: col-resize; border-radius: 4px; }
+.side-splitter:hover, .side-splitter:focus-visible { background: var( --color-accent-soft ); outline: none; }
+
+/* The console inside the column: editor, objects to insert, then the history. */
+.console-panel { display: flex; flex-direction: column; flex: 1; min-height: 0; height: auto; }
+.console-workspace { display: block; padding: 0 10px 8px; }
+.console-objects { max-height: none; margin-top: 6px; }
+.console-objects summary { cursor: pointer; color: var( --color-muted ); font-size: 12px; }
+.console-objects > h4 { margin-top: 6px; }
+.console-output { flex: 1; min-height: 120px; }
+#sql-input { min-height: 86px; }

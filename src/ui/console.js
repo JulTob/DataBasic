@@ -72,7 +72,7 @@ function objectsPanel( model ) {
     const views = model.tables.filter( table => table.kind === 'view' );
     const rows = id => (model.data?.[id] || []).length;
 
-    return `<aside class="console-objects" aria-label="Objetos de la base de datos">
+    return `<details class="console-objects"><summary>Tablas y campos para insertar</summary>
         <h4>Tablas</h4>
         ${tables.map( table => `<details><summary><button type="button" data-sql-insert="${escapeHTML( table.name )}"
             title="Insertar el nombre en el SQL">${escapeHTML( table.name )}</button><small>${rows( table.id )}</small></summary>
@@ -83,7 +83,7 @@ function objectsPanel( model ) {
         ${views.map( view => `<button type="button" class="console-saved" data-sql-load="${escapeHTML( view.id )}"
             title="Abrir su SQL en el editor">${icon( 'panels-top-left' )}${escapeHTML( view.name )}</button>` ).join( '' )
             || '<p class="console-empty">Ninguna guardada.</p>'}
-        </aside>`;
+        </details>`;
     }
 
 function datasheet( output ) {

@@ -74,10 +74,13 @@ import {
     escapeHTML
     } from './ui/html.js';
 import {
+    effectiveTab,
     explorerContents,
     initialLayout,
     paletteContents,
-    ribbonContents
+    panelTogglesContents,
+    ribbonContents,
+    ribbonTabsContents
     } from './ui/layout.js';
 import {
     OTHER_TYPE_OPTION,
@@ -118,18 +121,60 @@ const autosaveKey = independentPractice
     ? validPracticeId ? `databasic.document.v1.practica.${practiceId}` : null
     : 'databasic.document.v1';
 
+/*
+ * What each viewer prefers to see: the panels shown, the sections folded and
+ * the width of the side column. Kept in this browser only; a private window
+ * or blocked storage simply starts from the defaults.
+ */
+const LAYOUT_KEY = 'databasic.layout.v1';
+const LAYOUT_DEFAULTS = {
+    panels: {shapes: true, sql: false},
+    folded: {shapes: false, tables: false, sql: false},
+    sidebarWidth: 240,
+    propertiesShown: true
+    };
+
+function readLayoutPreferences() {
+    try {
+        const stored = JSON.parse( globalThis.localStorage?.getItem( LAYOUT_KEY ) || '{}' );
+
+        return {
+            panels: {...LAYOUT_DEFAULTS.panels, ...(stored.panels || {})},
+            folded: {...LAYOUT_DEFAULTS.folded, ...(stored.folded || {})},
+            sidebarWidth: Number.isFinite( stored.sidebarWidth ) ? stored.sidebarWidth : LAYOUT_DEFAULTS.sidebarWidth,
+            propertiesShown: typeof stored.propertiesShown === 'boolean' ? stored.propertiesShown : LAYOUT_DEFAULTS.propertiesShown
+            };
+        }
+    catch {
+        return structuredClone( LAYOUT_DEFAULTS );
+        }
+    }
+
+function saveLayoutPreferences() {
+    try {
+        globalThis.localStorage?.setItem( LAYOUT_KEY, JSON.stringify( {
+            panels: state.panels,
+            folded: state.folded,
+            sidebarWidth: state.sidebarWidth,
+            propertiesShown: state.propertiesShown
+            } ) );
+        }
+    catch {
+        // Storage unavailable: the layout lasts for this visit only.
+        }
+    }
+
 const state = {
     examples: [],
-    model: exampleDocument(),
+    model: fillWithSampleData( exampleDocument() ),
     selectedId: null,
     selectedColumnId: null,
     category: 'definition',
     tab: 'database',
     tool: 'pointer',
     parentId: null,
-    propertiesShown: true,
-    pane: 'properties',
     console: {text: '', history: [], showAlgebra: true},
+    ...readLayoutPreferences(),
     past: [],
     future: [],
     clipboard: null,
@@ -288,15 +333,8 @@ function renderPropertyPane() {
     const selectedName = selected?.name
         || (supertype ? `Especialización de ${supertype.name}` : 'Especialización');
 
-    const body = document.querySelector( '#properties-body' );
-    const editor = state.pane === 'console' ? consoleEditorState() : null;
-
-    body.innerHTML = state.pane === 'console' ? consoleContents( state ) : renderProperties( state.model, state );
-    body.classList?.toggle( 'console-body', state.pane === 'console' );
-    restoreConsoleEditor( editor );
-    document.querySelector( '#properties-name' ).textContent = selected && state.pane !== 'console' ? `— ${selectedName}` : '';
-    document.querySelector( '#pane-tab-properties' )?.setAttribute( 'aria-selected', String( state.pane !== 'console' ) );
-    document.querySelector( '#pane-tab-console' )?.setAttribute( 'aria-selected', String( state.pane === 'console' ) );
+    document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
+    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selectedName}` : '';
     document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
     document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
     document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
@@ -310,7 +348,6 @@ function render( preserveEditors = false ) {
             : state.model.display.mode === 'tables'
                 ? 'Tablas · datos'
                 : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
-    document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Entidades y relaciones'
@@ -335,6 +372,8 @@ function render( preserveEditors = false ) {
         : 'Un documento · representaciones vinculadas';
     document.title = `${state.model.name} — DataBasic`;
     if (!preserveEditors) {
+        state.tab = effectiveTab( state.model.display.mode, state.tab );
+        document.querySelector( '#ribbon-tabs' ).innerHTML = ribbonTabsContents( state );
         document.querySelector( '#ribbon' ).innerHTML = ribbonContents( state );
         document.querySelector( '#entity-list' ).innerHTML = explorerContents( state );
         document.querySelector( '.shape-palette' ).innerHTML = paletteContents( state );
@@ -387,10 +426,40 @@ function render( preserveEditors = false ) {
         : state.model.relationships.find( item => item.id === state.selectedId )?.name || 'Listo';
 
     renderDiagram();
+    applyPanels();
     if (!preserveEditors) {
         renderPropertyPane();
+        renderConsole();
         }
     refreshIcons();
+    }
+
+/** Shows the panels and sections the viewer chose, and the width of the side column. */
+function applyPanels() {
+    const workspace = document.querySelector( '.workspace' );
+    const sideVisible = state.panels.shapes || state.panels.sql;
+
+    for (const [id, shown] of [['shapes', state.panels.shapes], ['sql', state.panels.sql]]) {
+        const section = document.querySelector( `.side-section[data-section="${id}"]` );
+
+        if (section) {
+            section.hidden = !shown;
+            }
+        }
+
+    for (const id of ['shapes', 'tables', 'sql']) {
+        const section = document.querySelector( `.side-section[data-section="${id}"]` );
+
+        section?.classList?.toggle( 'folded', Boolean( state.folded[id] ) );
+        section?.querySelector?.( '.side-heading' )?.setAttribute( 'aria-expanded', String( !state.folded[id] ) );
+        }
+
+    workspace?.classList?.toggle( 'side-hidden', !sideVisible );
+    app.style?.setProperty?.( '--sidebar-width', `${state.sidebarWidth}px` );
+    document.querySelector( '#panel-toggles' ).innerHTML = panelTogglesContents( state );
+    document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
+    document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
+    document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
     }
 
 function showSaveStatus( message ) {
@@ -775,13 +844,70 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/** Archivo → Propiedades: the document's name and the types its columns admit (chosen once per exercise). */
+function showDocumentProperties() {
+    openDialog(
+            'Propiedades del documento',
+            `<div class="dialog-fields">
+                <label>Nombre<input name="name" required maxlength="160" value="${escapeHTML( state.model.name )}"></label>
+                <label>Tipos de datos admitidos<select name="profile">
+                    <option value="course" ${state.model.profile === 'course' ? 'selected' : ''}>Curso · VARCHAR, CHAR, NUMBER, DATE</option>
+                    <option value="general" ${state.model.profile === 'general' ? 'selected' : ''}>General · todos los tipos</option></select></label>
+                <p class="field-hint">El perfil del curso solo admite los cuatro tipos de la práctica. Cambiarlo no convierte
+                    los tipos que ya tengas: si alguna columna usa otro tipo, se te dirá cuál.</p>
+            </div>`,
+            values => {
+                let next = changeDocument( state.model, document => { document.name = values.get( 'name' ).trim(); } );
+
+                if (values.get( 'profile' ) !== next.profile) {
+                    next = setModelProfile( next, values.get( 'profile' ) );
+                    }
+
+                commit( next );
+                }
+            );
+    }
+
 /* ---------- SQL console ---------- */
 
+/** Formas, SQL and Propiedades open or close from the title bar; the choice is remembered here. */
+function togglePanel( panel ) {
+    if (panel === 'properties') {
+        state.propertiesShown = !state.propertiesShown;
+        }
+    else if (panel === 'sql' && !state.panels.sql) {
+        openConsole();
+        return;
+        }
+    else if (['shapes', 'sql'].includes( panel )) {
+        state.panels[panel] = !state.panels[panel];
+        }
+
+    saveLayoutPreferences();
+    render();
+    }
+
+/** The SQL section of the side column: shown, unfolded, and wide enough for a datasheet. */
 function openConsole() {
-    state.pane = 'console';
-    state.propertiesShown = true;
+    state.panels.sql = true;
+    state.folded.sql = false;
+    state.sidebarWidth = Math.max( state.sidebarWidth, 420 );
+    saveLayoutPreferences();
     render();
     document.querySelector( '#sql-input' )?.focus?.();
+    }
+
+function renderConsole() {
+    const host = document.querySelector( '#sql-console' );
+
+    if (!host || !state.panels.sql) {
+        return;
+        }
+
+    const editor = consoleEditorState();
+
+    host.innerHTML = consoleContents( state );
+    restoreConsoleEditor( editor );
     }
 
 /** The editor keeps its caret and scroll when the pane is drawn again. */
@@ -819,14 +945,13 @@ function runConsole() {
     const result = runSql( state.model, text );
 
     state.console.history = [{outputs: result.outputs}, ...state.console.history].slice( 0, CONSOLE_HISTORY_LIMIT );
-    state.pane = 'console';
 
     if (result.changed) {
         commit( result.model );
         }
 
     // A statement that changed nothing (UPDATE of no rows) leaves the document equal: commit draws nothing then.
-    renderPropertyPane();
+    renderConsole();
     refreshIcons();
 
     const failed = result.outputs.find( output => output.kind === 'error' );
@@ -841,7 +966,7 @@ function insertIntoConsole( text ) {
     const end = input?.selectionEnd ?? current.length;
 
     state.console.text = `${current.slice( 0, start )}${text}${current.slice( end )}`;
-    renderPropertyPane();
+    renderConsole();
     refreshIcons();
 
     const editor = document.querySelector( '#sql-input' );
@@ -1068,17 +1193,10 @@ async function act(
             replaceCurrentDocument( emptyDocument() );
             break;
         case 'example':
-            replaceCurrentDocument( exampleDocument() );
+            replaceCurrentDocument( fillWithSampleData( exampleDocument() ) );
             break;
         case 'rename':
-            openDialog(
-                    'Nombre del documento',
-                    `<label class="dialog-fields">Nombre<input name="name" required maxlength="160"
-                        value="${escapeHTML( state.model.name )}"></label>`,
-                    values => commit(
-                            changeDocument( state.model, next => { next.name = values.get( 'name' ).trim(); } )
-                            )
-                    );
+            showDocumentProperties();
             break;
         case 'undo':
             undo();
@@ -1101,6 +1219,7 @@ async function act(
             break;
         case 'properties':
             state.propertiesShown = !state.propertiesShown;
+            saveLayoutPreferences();
             render();
             break;
         case 'display':
@@ -1227,20 +1346,23 @@ async function act(
             downloadMemoDocx();
             break;
         case 'sql-console':
-        case 'pane-console':
             openConsole();
             break;
-        case 'pane-properties':
-            state.pane = 'properties';
-            state.propertiesShown = true;
-            render();
+        case 'toggle-panel':
+            togglePanel( target?.dataset.panel );
+            break;
+        case 'fold-section':
+            state.folded[target?.dataset.section] = !state.folded[target?.dataset.section];
+            saveLayoutPreferences();
+            applyPanels();
+            refreshIcons();
             break;
         case 'sql-run':
             runConsole();
             break;
         case 'sql-clear':
             state.console.history = [];
-            renderPropertyPane();
+            renderConsole();
             refreshIcons();
             break;
         case 'sql-save-view':
@@ -1292,7 +1414,7 @@ function fieldChanged( target ) {
 
     if (target.dataset.sqlAlgebra !== undefined) {
         state.console.showAlgebra = Boolean( target.checked );
-        renderPropertyPane();
+        renderConsole();
         refreshIcons();
         return;
         }
@@ -1302,7 +1424,7 @@ function fieldChanged( target ) {
 
         if (template) {
             state.console.text = state.console.text.trim() ? `${state.console.text.trimEnd()}\n\n${template[1]}` : template[1];
-            renderPropertyPane();
+            renderConsole();
             refreshIcons();
             }
 
@@ -1622,6 +1744,7 @@ function changeRepresentation( mode ) {
     state.tool = 'pointer';
     state.parentId = null;
     state.category = categoryForMode( mode, state.category );
+    state.tab = effectiveTab( mode, state.tab );
     commit( setDiagramMode( state.model, mode ) );
 
     if (state.viewports[mode]) {
@@ -1899,7 +2022,7 @@ document.addEventListener(
                 const view = state.model.tables.find( item => item.id === button.dataset.sqlLoad );
 
                 state.console.text = view ? `${view.definition.trim().replace( /;?$/, ';' )}` : state.console.text;
-                renderPropertyPane();
+                renderConsole();
                 refreshIcons();
                 }
             else if (button.dataset.action) {
@@ -2074,6 +2197,48 @@ canvas.addEventListener(
             }
         );
 
+/* The edge between the side column and the drawing: drag it, or use the arrow keys, to change the width. */
+const sideSplitter = document.querySelector( '#side-splitter' );
+let sideResize = null;
+
+function setSidebarWidth( width ) {
+    state.sidebarWidth = Math.round( Math.max( 180, Math.min( (globalThis.innerWidth || 1400) * 0.6, width ) ) );
+    app.style?.setProperty?.( '--sidebar-width', `${state.sidebarWidth}px` );
+    }
+
+sideSplitter.addEventListener(
+        'pointerdown',
+        event => {
+            sideResize = {x: event.clientX, width: state.sidebarWidth};
+            sideSplitter.setPointerCapture?.( event.pointerId );
+            }
+        );
+sideSplitter.addEventListener(
+        'pointermove',
+        event => {
+            if (sideResize) {
+                setSidebarWidth( sideResize.width + event.clientX - sideResize.x );
+                }
+            }
+        );
+sideSplitter.addEventListener(
+        'pointerup',
+        () => {
+            sideResize = null;
+            saveLayoutPreferences();
+            }
+        );
+sideSplitter.addEventListener(
+        'keydown',
+        event => {
+            if (['ArrowLeft', 'ArrowRight'].includes( event.key )) {
+                event.preventDefault();
+                setSidebarWidth( state.sidebarWidth + (event.key === 'ArrowRight' ? 30 : -30) );
+                saveLayoutPreferences();
+                }
+            }
+        );
+
 const splitter = document.querySelector( '#pane-splitter' );
 let resizeStart = null;
 
@@ -2122,7 +2287,7 @@ async function openExample( file ) {
         }
 
     if (file === '__biblioteca__') {
-        replaceCurrentDocument( exampleDocument() );
+        replaceCurrentDocument( fillWithSampleData( exampleDocument() ) );
         notify( 'Ejemplo de biblioteca abierto.' );
         return;
         }

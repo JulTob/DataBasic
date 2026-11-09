@@ -283,13 +283,13 @@ test( 'La consola de la aplicación ejecuta SQL, muestra la hoja de datos y se d
     assert.ok( Object.values( saved.data ).every( rows => rows.length === 8 ), 'filas de ejemplo en las tres tablas' );
 
     await app.click({action: 'sql-console'});
-    assert.match( app.element( '#properties-body' ).innerHTML, /data-sql-input/ );
-    assert.match( app.element( '#properties-body' ).innerHTML, /data-sql-insert="Socio"/ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /data-sql-input/ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /data-sql-insert="Socio"/ );
 
     app.change( {sqlInput: ''}, 'SELECT nombre FROM Socio ORDER BY nombre;\nSELECT Count(*) AS n FROM Prestamo' );
     await app.click({action: 'sql-run'});
 
-    const body = app.element( '#properties-body' ).innerHTML;
+    const body = app.element( '#sql-console' ).innerHTML;
 
     assert.match( body, /<th class="">nombre<\/th>/ );
     assert.match( body, /Registros: 8/ );
@@ -299,7 +299,7 @@ test( 'La consola de la aplicación ejecuta SQL, muestra la hoja de datos y se d
     app.change( {sqlInput: ''}, "INSERT INTO Socio (id_socio, nombre, email) VALUES (999, 'Nueva', NULL)" );
     await app.click({action: 'sql-run'});
     await app.flushTimers();
-    assert.match( app.element( '#properties-body' ).innerHTML, /1 registro agregado a Socio\./ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /1 registro agregado a Socio\./ );
     assert.equal( Object.values( JSON.parse( app.saved() ).data ).reduce( (sum, rows) => sum + rows.length, 0 ), 25 );
 
     await app.click({action: 'undo'});
@@ -308,10 +308,10 @@ test( 'La consola de la aplicación ejecuta SQL, muestra la hoja de datos y se d
 
     app.change( {sqlInput: ''}, 'SELECT * FROM Nada' );
     await app.click({action: 'sql-run'});
-    assert.match( app.element( '#properties-body' ).innerHTML, /class="console-error"[\s\S]*No se encuentra la tabla o consulta de entrada «Nada»/ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /class="console-error"[\s\S]*No se encuentra la tabla o consulta de entrada «Nada»/ );
 
     app.change( {sqlTemplate: ''}, '0' );
-    assert.match( app.element( '#properties-body' ).innerHTML, /SELECT \*\nFROM Socio;/ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /SELECT \*\nFROM Socio;/ );
 
     app.change( {sqlInput: ''}, 'SELECT nombre FROM Socio WHERE email IS NULL' );
     await app.click({action: 'sql-save-view'});
@@ -319,8 +319,10 @@ test( 'La consola de la aplicación ejecuta SQL, muestra la hoja de datos y se d
     await app.flushTimers();
     assert.ok( JSON.parse( app.saved() ).tables.some( table => table.kind === 'view' && table.name === 'SinCorreo' ) );
 
-    await app.click({action: 'pane-properties'});
-    assert.doesNotMatch( app.element( '#properties-body' ).innerHTML, /data-sql-input/ );
+    await app.click({action: 'toggle-panel', panel: 'sql'});
+    assert.equal( app.element( '.side-section[data-section="sql"]' ).hidden, true, 'el interruptor SQL oculta la consola' );
+    await app.click({action: 'toggle-panel', panel: 'sql'});
+    assert.equal( app.element( '.side-section[data-section="sql"]' ).hidden, false );
     } );
 
 test( 'La consola muestra el resultado aunque la instrucción no cambie ninguna fila', async () => {
@@ -331,5 +333,5 @@ test( 'La consola muestra el resultado aunque la instrucción no cambie ninguna 
     await app.click({action: 'sql-console'});
     app.change( {sqlInput: ''}, 'UPDATE Socio SET nombre = nombre WHERE id_socio = -1' );
     await app.click({action: 'sql-run'});
-    assert.match( app.element( '#properties-body' ).innerHTML, /0 registros actualizados en Socio\./ );
+    assert.match( app.element( '#sql-console' ).innerHTML, /0 registros actualizados en Socio\./ );
     } );

@@ -260,28 +260,31 @@ test( 'the application adds, edits and removes sample rows in the Tablas view', 
 
     let saved = JSON.parse( app.saved() );
     const socio = saved.tables[0];
+    const existing = saved.data[socio.id];
+
+    assert.equal( existing.length, 8, 'the built-in example opens with sample rows' );
 
     await app.click({select: socio.id});
     await app.click({category: 'datasheet'});
     await app.click({action: 'add-data-row'});
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.deepEqual( saved.data[socio.id], [{}] );
+    assert.deepEqual( saved.data[socio.id], [...existing, {}] );
     assert.match( app.element( '#properties-body' ).innerHTML, /es obligatorio/ );
 
-    app.change( {cell: '', row: '0', colId: socio.columns[0].id}, '7', 'text' );
-    app.change( {cell: '', row: '0', colId: socio.columns[1].id}, 'Ana', 'text' );
+    app.change( {cell: '', row: '8', colId: socio.columns[0].id}, '700', 'text' );
+    app.change( {cell: '', row: '8', colId: socio.columns[1].id}, 'Ana', 'text' );
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.deepEqual( saved.data[socio.id], [{[socio.columns[0].id]: '7', [socio.columns[1].id]: 'Ana'}] );
+    assert.deepEqual( saved.data[socio.id].at( -1 ), {[socio.columns[0].id]: '700', [socio.columns[1].id]: 'Ana'} );
     assert.match( app.element( '#properties-body' ).innerHTML, /cumplen obligatoriedad/ );
 
     await app.click({action: 'validate'});
-    assert.doesNotMatch( app.element( '#dialog' ).innerHTML, /fila 1/ );
+    assert.doesNotMatch( app.element( '#dialog' ).innerHTML, /fila 9/ );
     await app.click({action: 'close-dialog'});
 
-    await app.click({action: 'remove-data-row', row: '0'});
+    await app.click({action: 'remove-data-row', row: '8'});
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.equal( saved.data[socio.id], undefined );
+    assert.deepEqual( saved.data[socio.id], existing );
     } );
