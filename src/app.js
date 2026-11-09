@@ -2028,7 +2028,7 @@ function relationshipPick( tableId ) {
     notify( 'Relación creada. Selecciona Varios para ajustar cardinalidad y opcionalidad.' );
     }
 
-/** Column editing happens in Columnas, or in Campos de Access in the Tablas view. */
+/** Column editing happens in Columnas, or in Campos de datos in the Tablas view. */
 function columnsCategory() {
     return state.model.display.mode === 'tables' ? 'fields' : 'columns';
     }

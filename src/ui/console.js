@@ -6,7 +6,7 @@ import {
 import { displayValue } from '../sql/values.js';
 
 /*
- * The SQL console in the bottom pane, laid out like Access's query window:
+ * The SQL console in the left column, laid out like a classic query window:
  * the SQL view above, the datasheet of the result below with its record
  * count, and the objects of the database at the side. Each run adds an entry
  * to the history: the statement, then its datasheet, what it changed or the
