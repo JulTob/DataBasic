@@ -66,9 +66,9 @@ export const VIEW_OPTIONS = [
     ['tables', 'Tablas · datos']
     ];
 
-/** The built-in example plus the files of examples/index.json once they are loaded. */
+/** The built-in example plus the folders of examples/index.json once they are loaded. */
 function exampleSelect( state ) {
-    const files = (state.examples || []).map( item => [item.file, item.name] );
+    const files = (state.examples || []).map( item => [item.folder, item.name] );
 
     return `<label class="ribbon-select">${icon( 'book-open' )}<span>Ejemplos</span>
         <select data-example aria-label="Abrir un ejemplo">${options(
@@ -254,7 +254,7 @@ export function initialLayout( state ) {
         <nav class="quick-access" aria-label="Acceso rápido">
         ${command( 'undo', 'Deshacer', 'undo-2', 'title="Deshacer · ⌘/Ctrl+Z"' )}
         ${command( 'redo', 'Rehacer', 'redo-2', 'title="Rehacer · ⌘/Ctrl+Mayús+Z"' )}
-        ${command( 'save', 'Guardar', 'save', 'class="save-button" title="Guardar archivo · ⌘/Ctrl+S"' )}
+        ${command( 'save', 'Guardar', 'save', 'class="save-button" title="Guardar la carpeta del proyecto (.zip) · ⌘/Ctrl+S"' )}
         </nav></header>
         <nav class="ribbon-tabs" id="ribbon-tabs" aria-label="Cinta de comandos">${ribbonTabsContents( state )}</nav>
         <main class="workspace"><aside class="shapes-panel side-column" aria-label="Formas, tablas y consola SQL">

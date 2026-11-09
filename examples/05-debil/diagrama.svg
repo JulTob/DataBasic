@@ -1,0 +1,458 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1871" height="647"
+        viewBox="84 -6 1871 647">
+        <title>Club de observación · puertos de un instrumento</title>
+        <rect x="84" y="-6" width="1871"
+            height="647" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000028" data-participation-id="00000000-0000-4000-8000-000000000028" data-owner-id="00000000-0000-4000-8000-000000000027"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M322.40143369175627,322.5448028673835 L232.10526315789474,200"/>
+        <path class="relation-line" d="M322.40143369175627,322.5448028673835 L232.10526315789474,200"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000029" data-participation-id="00000000-0000-4000-8000-000000000029" data-owner-id="00000000-0000-4000-8000-000000000027"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M377.59856630824373,397.4551971326165 L467.89473684210526,520"/>
+        <path class="relation-line" d="M377.59856630824373,397.4551971326165 L467.89473684210526,520"
+            transform="translate(2.01263959338342,-1.4829975951246253)"/>
+        <path class="relation-line" d="M377.59856630824373,397.4551971326165 L467.89473684210526,520"
+            transform="translate(-2.01263959338342,1.4829975951246253)"/>
+        </g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000048" data-participation-id="00000000-0000-4000-8000-000000000048" data-owner-id="00000000-0000-4000-8000-000000000047"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M878.1464737793851,322.2061482820977 L791.3157894736842,200"/>
+        <path class="relation-line" d="M878.1464737793851,322.2061482820977 L791.3157894736842,200"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000049" data-participation-id="00000000-0000-4000-8000-000000000049" data-owner-id="00000000-0000-4000-8000-000000000047"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M931.8535262206149,397.7938517179023 L1018.6842105263158,520"/>
+        <path class="relation-line" d="M931.8535262206149,397.7938517179023 L1018.6842105263158,520"
+            transform="translate(2.037951020665685,-1.4480178304729863)"/>
+        <path class="relation-line" d="M931.8535262206149,397.7938517179023 L1018.6842105263158,520"
+            transform="translate(-2.037951020665685,1.4480178304729863)"/>
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000004" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000004" data-owner-id="00000000-0000-4000-8000-000000000003"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M295.638,140 L424.55466070465604,94.83897544151333"/>
+        <path class="relation-line" d="M295.638,140 L424.55466070465604,94.83897544151333"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000009" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000009" data-owner-id="00000000-0000-4000-8000-000000000008"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M860,140.18287834614364 L991.828744184852,96.50783720353431"/>
+        <path class="relation-line" d="M860,140.18287834614364 L991.828744184852,96.50783720353431"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000014" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000014" data-owner-id="00000000-0000-4000-8000-000000000013"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M580,538.5931558935362 L1192.450437295795,460.9695263249943"/>
+        <path class="relation-line" d="M580,538.5931558935362 L1192.450437295795,460.9695263249943"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000016" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000016" data-owner-id="00000000-0000-4000-8000-000000000003"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M300,174.73684210526315 L405.6244989125158,180.29602625855347"/>
+        <path class="relation-line" d="M300,174.73684210526315 L405.6244989125158,180.29602625855347"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000018" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000018" data-owner-id="00000000-0000-4000-8000-000000000008"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M860,174.73684210526315 L965.6244989125157,180.29602625855347"/>
+        <path class="relation-line" d="M860,174.73684210526315 L965.6244989125157,180.29602625855347"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000020" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000020" data-owner-id="00000000-0000-4000-8000-000000000008"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M860,191.7877094972067 L1227.9641007777695,280.8665420877282"/>
+        <path class="relation-line" d="M860,191.7877094972067 L1227.9641007777695,280.8665420877282"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000022" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000022" data-owner-id="00000000-0000-4000-8000-000000000008"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M860,197.94676806083652 L1485.223030695808,392.0908016736032"/>
+        <path class="relation-line" d="M860,197.94676806083652 L1485.223030695808,392.0908016736032"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000024" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000024" data-owner-id="00000000-0000-4000-8000-000000000013"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M580,554.7368421052631 L685.6244989125157,560.2960262585534"/>
+        <path class="relation-line" d="M580,554.7368421052631 L685.6244989125157,560.2960262585534"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000045" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000045" data-owner-id="00000000-0000-4000-8000-000000000044"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1130,538.5931558935362 L1742.450437295795,460.9695263249943"/>
+        <path class="relation-line" d="M1130,538.5931558935362 L1742.450437295795,460.9695263249943"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000028" data-participation-id="00000000-0000-4000-8000-000000000028" data-owner-id="00000000-0000-4000-8000-000000000027"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000028"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M250.16449726466703,224.5089605734767 L240.27313312587913,236.42891309679413"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000028"
+                        cx="250.16449726466703" cy="224.5089605734767" r="2.8" class="label-anchor"/><path data-label-leader="00000000-0000-4000-8000-000000000028"
+                    data-label-purpose="role" class="label-leader"
+                    d="M277.2533484248255,261.27240143369175 L386.37380620790344,142.40680096195015"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000028"
+                        cx="277.2533484248255" cy="261.27240143369175" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000029" data-participation-id="00000000-0000-4000-8000-000000000029" data-owner-id="00000000-0000-4000-8000-000000000027"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000029"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M449.83550273533297,495.4910394265233 L459.7268668741209,473.57108690320587"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000029"
+                        cx="449.83550273533297" cy="495.4910394265233" r="2.8" class="label-anchor"/><path data-label-leader="00000000-0000-4000-8000-000000000029"
+                    data-label-purpose="role" class="label-leader"
+                    d="M422.7466515751745,458.72759856630825 L414.4809965925805,472.85387065874596"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000029"
+                        cx="422.7466515751745" cy="458.72759856630825" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000048" data-participation-id="00000000-0000-4000-8000-000000000048" data-owner-id="00000000-0000-4000-8000-000000000047"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000048"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M808.6819263348243,224.44122965641952 L798.2084028700626,235.77768053927647"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000048"
+                        cx="808.6819263348243" cy="224.44122965641952" r="2.8" class="label-anchor"/><path data-label-leader="00000000-0000-4000-8000-000000000048"
+                    data-label-purpose="role" class="label-leader"
+                    d="M834.7311316265346,261.10307414104886 L835.9051244884431,226.67839500232446"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000048"
+                        cx="834.7311316265346" cy="261.10307414104886" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000049" data-participation-id="00000000-0000-4000-8000-000000000049" data-owner-id="00000000-0000-4000-8000-000000000047"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000049"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1001.3180736651757,495.5587703435805 L1011.7915971299374,474.22231946072355"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000049"
+                        cx="1001.3180736651757" cy="495.5587703435805" r="2.8" class="label-anchor"/><path data-label-leader="00000000-0000-4000-8000-000000000049"
+                    data-label-purpose="role" class="label-leader"
+                    d="M975.2688683734654,458.89692585895114 L967.0497765700015,473.4062805614123"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000049"
+                        cx="975.2688683734654" cy="458.89692585895114" r="2.8" class="label-anchor"/></g><g data-diagram-kind="conceptual-entity" data-diagram-id="00000000-0000-4000-8000-000000000003" data-conceptual-entity-id="00000000-0000-4000-8000-000000000003" data-table-id="00000000-0000-4000-8000-000000000001" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(120,140)" role="button" tabindex="0"
+        aria-label="Entidad Persona">
+        <title>Persona</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Persona</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="00000000-0000-4000-8000-000000000008" data-conceptual-entity-id="00000000-0000-4000-8000-000000000008" data-table-id="00000000-0000-4000-8000-000000000006" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(680,140)" role="button" tabindex="0"
+        aria-label="Entidad Instrumento">
+        <title>Instrumento</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Instrumento</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="00000000-0000-4000-8000-000000000013" data-conceptual-entity-id="00000000-0000-4000-8000-000000000013" data-table-id="00000000-0000-4000-8000-000000000011" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(400,520)" role="button" tabindex="0"
+        aria-label="Entidad Sesion">
+        <title>Sesion</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Sesion</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="00000000-0000-4000-8000-000000000044" data-conceptual-entity-id="00000000-0000-4000-8000-000000000044" data-table-id="00000000-0000-4000-8000-000000000042" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(950,520)" role="button" tabindex="0"
+        aria-label="Entidad Puerto">
+        <title>Puerto</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        <rect class="chen-inner" x="5" y="5"
+            width="170" height="50"/>
+        <text x="90" y="35"
+                class="chen-name centered-label">Puerto</text></g><g data-diagram-kind="conceptual-relationship" data-diagram-id="00000000-0000-4000-8000-000000000027" data-conceptual-relationship-id="00000000-0000-4000-8000-000000000027" 
+        class="chen-node chen-relation "
+        data-identifying="false"
+        transform="translate(240,310)" role="button" tabindex="0"
+        aria-label="Interrelación Coordina">
+        <title>Coordina</title>
+        <path class="chen-shape" d="M110,0 L220,50
+            L110,100 L0,50 Z"/>
+        
+        <text x="110" y="55"
+                class="chen-name centered-label">Coordina</text>
+        </g><g data-diagram-kind="conceptual-relationship" data-diagram-id="00000000-0000-4000-8000-000000000047" data-conceptual-relationship-id="00000000-0000-4000-8000-000000000047" 
+        class="chen-node chen-relation "
+        data-identifying="true"
+        transform="translate(795,310)" role="button" tabindex="0"
+        aria-label="Interrelación Contiene, vínculo identificador">
+        <title>Contiene · vínculo identificador</title>
+        <path class="chen-shape" d="M110,0 L220,50
+            L110,100 L0,50 Z"/>
+        <path class="chen-inner"
+            d="M110,6.590752349233398
+        L205.5003448316865,50
+        L110,93.4092476507666
+        L14.499655168313481,50 Z"/>
+        <text x="110" y="55"
+                class="chen-name centered-label">Contiene</text>
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000004" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000004" data-owner-id="00000000-0000-4000-8000-000000000003" 
+        class="chen-node chen-attribute "
+        transform="translate(405,30)" role="button" tabindex="0"
+        aria-label="Atributo codigoPersona, NUMBER">
+        <title>codigoPersona: NUMBER</title>
+        <ellipse class="chen-shape" cx="90.45999999999998" cy="40"
+            rx="90.45999999999998" ry="40"
+            />
+        
+        <text x="90.45999999999998" y="35"
+                class="chen-name attribute-key  centered-label">codigoPersona</text>
+        <text x="90.45999999999998"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000009" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000009" data-owner-id="00000000-0000-4000-8000-000000000008" 
+        class="chen-node chen-attribute "
+        transform="translate(965,30)" role="button" tabindex="0"
+        aria-label="Atributo codigoInstrumento, NUMBER">
+        <title>codigoInstrumento: NUMBER</title>
+        <ellipse class="chen-shape" cx="106.83999999999999" cy="40"
+            rx="106.83999999999999" ry="40"
+            />
+        
+        <text x="106.83999999999999" y="35"
+                class="chen-name attribute-key  centered-label">codigoInstrumento</text>
+        <text x="106.83999999999999"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000014" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000014" data-owner-id="00000000-0000-4000-8000-000000000013" 
+        class="chen-node chen-attribute "
+        transform="translate(1189,410)" role="button" tabindex="0"
+        aria-label="Atributo codigoSesion, NUMBER">
+        <title>codigoSesion: NUMBER</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name attribute-key  centered-label">codigoSesion</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000016" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000016" data-owner-id="00000000-0000-4000-8000-000000000003" 
+        class="chen-node chen-attribute "
+        transform="translate(405,145)" role="button" tabindex="0"
+        aria-label="Atributo nombre, VARCHAR(60)">
+        <title>nombre: VARCHAR(60)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">nombre</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">VARCHAR(60)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000018" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000018" data-owner-id="00000000-0000-4000-8000-000000000008" 
+        class="chen-node chen-attribute "
+        transform="translate(965,145)" role="button" tabindex="0"
+        aria-label="Atributo serie, CHAR(12)">
+        <title>serie: CHAR(12)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">serie</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">CHAR(12)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000020" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000020" data-owner-id="00000000-0000-4000-8000-000000000008" 
+        class="chen-node chen-attribute "
+        transform="translate(1217,260)" role="button" tabindex="0"
+        aria-label="Atributo fechaAlta, DATE">
+        <title>fechaAlta: DATE</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">fechaAlta</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">DATE</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000022" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000022" data-owner-id="00000000-0000-4000-8000-000000000008" 
+        class="chen-node chen-attribute "
+        transform="translate(1469,375)" role="button" tabindex="0"
+        aria-label="Atributo valor, NUMBER(8,2)">
+        <title>valor: NUMBER(8,2)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">valor</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER(8,2)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000024" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000024" data-owner-id="00000000-0000-4000-8000-000000000013" 
+        class="chen-node chen-attribute "
+        transform="translate(685,525)" role="button" tabindex="0"
+        aria-label="Atributo fecha, DATE">
+        <title>fecha: DATE</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">fecha</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">DATE</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00000000-0000-4000-8000-000000000045" data-conceptual-attribute-id="00000000-0000-4000-8000-000000000045" data-owner-id="00000000-0000-4000-8000-000000000044" 
+        class="chen-node chen-attribute "
+        transform="translate(1739,410)" role="button" tabindex="0"
+        aria-label="Atributo numero, NUMBER">
+        <title>numero: NUMBER</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name  attribute-partial-key centered-label">numero</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000028" data-participation-id="00000000-0000-4000-8000-000000000028" data-owner-id="00000000-0000-4000-8000-000000000027"
+                data-label-for="00000000-0000-4000-8000-000000000028"
+                class="relationship  ">
+                
+                <g data-label-for="00000000-0000-4000-8000-000000000028"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="184.27313312587913" y="236.42891309679413"
+                            width="56" height="22" rx="4"/>
+                        <text x="212.27313312587913" y="252.42891309679413"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(0,N)</text></g><g data-label-for="00000000-0000-4000-8000-000000000028"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="386.37380620790344" y="120.40680096195015"
+                            width="120.67999999999998" height="22" rx="4"/>
+                        <text x="446.7138062079034" y="136.40680096195015"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">coordinadora</text></g><text x="333.4233650518638" y="280.3891915729999"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">1</text></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000029" data-participation-id="00000000-0000-4000-8000-000000000029" data-owner-id="00000000-0000-4000-8000-000000000027"
+                data-label-for="00000000-0000-4000-8000-000000000029"
+                class="relationship  ">
+                
+                <g data-label-for="00000000-0000-4000-8000-000000000029"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="459.7268668741209" y="451.57108690320587"
+                            width="56" height="22" rx="4"/>
+                        <text x="487.7268668741209" y="467.57108690320587"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(1,1)</text></g><g data-label-for="00000000-0000-4000-8000-000000000029"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="349.2409965925805" y="472.85387065874596"
+                            width="65.24000000000001" height="22" rx="4"/>
+                        <text x="381.8609965925805" y="488.85387065874596"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">sesion</text></g><text x="366.5766349481362" y="439.6108084270001"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">N</text></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000048" data-participation-id="00000000-0000-4000-8000-000000000048" data-owner-id="00000000-0000-4000-8000-000000000047"
+                data-label-for="00000000-0000-4000-8000-000000000048"
+                class="relationship  ">
+                
+                <g data-label-for="00000000-0000-4000-8000-000000000048"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="742.2084028700626" y="235.77768053927647"
+                            width="56" height="22" rx="4"/>
+                        <text x="770.2084028700626" y="251.77768053927647"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(0,N)</text></g><g data-label-for="00000000-0000-4000-8000-000000000048"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="835.9051244884431" y="204.67839500232446"
+                            width="111.44" height="22" rx="4"/>
+                        <text x="891.6251244884431" y="220.67839500232446"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">instrumento</text></g><text x="890.1056512435339" y="280.60654376874845"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">1</text></g><g data-diagram-kind="participation" data-diagram-id="00000000-0000-4000-8000-000000000049" data-participation-id="00000000-0000-4000-8000-000000000049" data-owner-id="00000000-0000-4000-8000-000000000047"
+                data-label-for="00000000-0000-4000-8000-000000000049"
+                class="relationship  ">
+                
+                <g data-label-for="00000000-0000-4000-8000-000000000049"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="1011.7915971299374" y="452.22231946072355"
+                            width="56" height="22" rx="4"/>
+                        <text x="1039.7915971299374" y="468.22231946072355"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(1,1)</text></g><g data-label-for="00000000-0000-4000-8000-000000000049"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="897.6097765700015" y="473.4062805614123"
+                            width="69.44" height="22" rx="4"/>
+                        <text x="932.3297765700015" y="489.4062805614123"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">puerto</text></g><text x="919.8943487564661" y="439.39345623125155"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">N</text></g></svg>

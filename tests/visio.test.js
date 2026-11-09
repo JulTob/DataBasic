@@ -240,7 +240,7 @@ test( 'views, empty tables and hidden types follow the canvas', () => {
 test( 'the Visio file carries a legend and a data dictionary page with what the relational model must show', async () => {
     const { readFile } = await import( 'node:fs/promises' );
     const { parseDocument } = await import( '../src/domain/serialization.js' );
-    const model = parseDocument( await readFile( new URL( '../examples/curso-lonja.databasic.json', import.meta.url ), 'utf8' ) );
+    const model = parseDocument( await readFile( new URL( '../examples/curso-lonja/proyecto.databasic.json', import.meta.url ), 'utf8' ) );
     const xml = exportVDX( model );
     const pages = xml.match( /<Page ID="\d+" NameU="[^"]+" Name="[^"]+">/g );
 

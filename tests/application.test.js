@@ -115,7 +115,7 @@ test( 'Multivaluado GUI materializa, deshace, rehace y reabre el JSON descargado
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), materialized );
 
-    await app.click({action: 'save'});
+    await app.click({action: 'save-json'});
     const json = await app.downloads.at( -1 ).text();
 
     assert.deepEqual( JSON.parse( json ), materialized );
@@ -136,7 +136,7 @@ test( 'Multivaluado GUI materializa, deshace, rehace y reabre el JSON descargado
 test( 'La FK generada acepta CASCADE y conserva política tras rematerializar y reabrir', async () => {
     const initial = setDiagramMode(
             JSON.parse( await readFile(
-                    new URL( '../examples/00-nucleo.databasic.json', import.meta.url ),
+                    new URL( '../examples/00-nucleo/proyecto.databasic.json', import.meta.url ),
                     'utf8'
                     ) ),
             'relational'
@@ -195,7 +195,7 @@ test( 'La FK generada acepta CASCADE y conserva política tras rematerializar y 
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), policy );
 
-    await app.click({action: 'save'});
+    await app.click({action: 'save-json'});
     const checkpoint = await app.downloads.at( -1 ).text();
 
     assert.deepEqual( JSON.parse( checkpoint ), policy );
@@ -213,7 +213,7 @@ test( 'La FK generada acepta CASCADE y conserva política tras rematerializar y 
 
     assert.deepEqual( rematerialized.relationships, policy.relationships );
     assert.deepEqual( rematerialized.traces, policy.traces );
-    await app.click({action: 'save'});
+    await app.click({action: 'save-json'});
     const json = await app.downloads.at( -1 ).text();
     const reopened = await applicationHarness( 500, json );
 
@@ -337,7 +337,7 @@ test( 'Ternaria GUI separa límites, identidad y contexto global o por período'
     await app.click({action: 'redo'});
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), temporal );
-    await app.click({action: 'save'});
+    await app.click({action: 'save-json'});
     const reopened = await applicationHarness( 500, await app.downloads.at( -1 ).text() );
 
     await reopened.click({action: 'sql'});
@@ -430,7 +430,7 @@ test( 'Jerarquía GUI rechaza PK local, permite corregirla y preserva columna e 
 
     assert.equal( edited.conceptual.generalizations[0].translation.kind, 'class-tables' );
     assert.deepEqual( edited.tables, materialized.tables );
-    await app.click({action: 'save'});
+    await app.click({action: 'save-json'});
     const json = await app.downloads.at( -1 ).text();
     const reopened = await applicationHarness( 500, json );
 

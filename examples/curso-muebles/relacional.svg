@@ -1,0 +1,457 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1672" height="772"
+        viewBox="84 104 1672 772">
+        <title>Taller de muebles · ejercicio 4 (Tema 2)</title>
+        <rect x="84" y="104" width="1672"
+            height="772" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="715f5dbd-bac8-4b89-befe-03810f33a01a" data-relation-id="715f5dbd-bac8-4b89-befe-03810f33a01a"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Mueble_una_pieza_Mueble">
+        <title>Mueble  Mueble_una_pieza;
+            Mueble_una_pieza  Mueble</title>
+        <path class="relation-hit" d="M920,280 L920,506 L920,506 L920,732"/>
+        <path class="relation-line" d="M920,280 L920,506 L920,506 L920,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="920" cy="724" r="4.5"/>
+        <text data-marker="child-cardinality" x="930"
+            y="714" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3" data-relation-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Compone_mueble">
+        <title>Mueble Compone Compone;
+            Compone mueble Mueble</title>
+        <path class="relation-hit" d="M760,228 L620,228 L620,240 L440,240"/>
+        <path class="relation-line" d="M760,228 L620,228 L620,240 L440,240"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="448" cy="240" r="4.5"/>
+        <text data-marker="child-cardinality" x="462"
+            y="254" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="a766b6ee-df41-4209-994b-eeb490fcda94" data-relation-id="a766b6ee-df41-4209-994b-eeb490fcda94"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Compone_pieza">
+        <title>Pieza Compone Compone;
+            Compone pieza Pieza</title>
+        <path class="relation-hit" d="M280,732 L280,570 L280,570 L280,328"/>
+        <path class="relation-line" d="M280,732 L280,570 L280,570 L280,328"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="336" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144" data-relation-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Almacena_mueble">
+        <title>Mueble_una_pieza Almacena Almacena;
+            Almacena mueble Mueble_una_pieza</title>
+        <path class="relation-hit" d="M958.0952380952381,732 L1249.8950766747375,732 L1249.8950766747375,376 L1421.6949152542372,376"/>
+        <path class="relation-line" d="M958.0952380952381,732 L1249.8950766747375,732 L1249.8950766747375,376 L1421.6949152542372,376"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1413.6949152542372" cy="376" r="4.5"/>
+        <text data-marker="child-cardinality" x="1399.6949152542372"
+            y="370" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="7357a883-b061-48b6-ac01-17faf4e40995" data-relation-id="7357a883-b061-48b6-ac01-17faf4e40995"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Almacena_estanteria">
+        <title>Estanteria Almacena Almacena;
+            Almacena estanteria Estanteria</title>
+        <path class="relation-hit" d="M1560,732 L1560,634 L1560,634 L1560,376"/>
+        <path class="relation-line" d="M1560,732 L1560,634 L1560,634 L1560,376"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1560" cy="384" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3" data-relation-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+        class="relationship ">
+        <path data-label-leader="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M530,240 L530,222"/>
+                    <circle data-label-anchor="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+                        cx="530" cy="240" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="a766b6ee-df41-4209-994b-eeb490fcda94" data-relation-id="a766b6ee-df41-4209-994b-eeb490fcda94"
+        class="relationship ">
+        <path data-label-leader="a766b6ee-df41-4209-994b-eeb490fcda94"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280,449 L280,431"/>
+                    <circle data-label-anchor="a766b6ee-df41-4209-994b-eeb490fcda94"
+                        cx="280" cy="449" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144" data-relation-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+        class="relationship ">
+        <path data-label-leader="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1249.8950766747375,554 L1249.8950766747375,536"/>
+                    <circle data-label-anchor="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+                        cx="1249.8950766747375" cy="554" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="7357a883-b061-48b6-ac01-17faf4e40995" data-relation-id="7357a883-b061-48b6-ac01-17faf4e40995"
+        class="relationship ">
+        <path data-label-leader="7357a883-b061-48b6-ac01-17faf4e40995"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1560,505 L1560,487"/>
+                    <circle data-label-anchor="7357a883-b061-48b6-ac01-17faf4e40995"
+                        cx="1560" cy="505" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="2c0f6ad0-8fe9-46a7-b5d8-0bd3ea0304db" data-table-id="2c0f6ad0-8fe9-46a7-b5d8-0bd3ea0304db" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Mueble">
+        <title>Mueble · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Mueble</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="17462f14-226f-42ae-adb7-4b2ff911d084" data-column-id="17462f14-226f-42ae-adb7-4b2ff911d084" data-owner-id="2c0f6ad0-8fe9-46a7-b5d8-0bd3ea0304db"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(60)">
+                    <title>nombre: VARCHAR(60) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(60)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="f50f51c9-1581-4010-b472-deb13a60c6d8" data-column-id="f50f51c9-1581-4010-b472-deb13a60c6d8" data-owner-id="2c0f6ad0-8fe9-46a7-b5d8-0bd3ea0304db"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio, NUMBER(8,2)">
+                    <title>precio: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">precio *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="83d0751f-fb9f-4981-8640-212d174b90a2" data-table-id="83d0751f-fb9f-4981-8640-212d174b90a2" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,700)" tabindex="0" role="button"
+        aria-label="Entidad Pieza">
+        <title>Pieza · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Pieza</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="05013a89-7cfa-4086-ab05-abe438768a1f" data-column-id="05013a89-7cfa-4086-ab05-abe438768a1f" data-owner-id="83d0751f-fb9f-4981-8640-212d174b90a2"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo, NUMBER(6)">
+                    <title>codigo: NUMBER(6) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(6)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="63b914c1-048f-4228-a137-4f05751b58b0" data-column-id="63b914c1-048f-4228-a137-4f05751b58b0" data-owner-id="83d0751f-fb9f-4981-8640-212d174b90a2"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna descripcion, VARCHAR(120)">
+                    <title>descripcion: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label ">descripcion</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(120)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="7319da4f-b679-4507-89af-127852b4109e" data-table-id="7319da4f-b679-4507-89af-127852b4109e" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,700)" tabindex="0" role="button"
+        aria-label="Entidad Mueble_una_pieza">
+        <title>Mueble_una_pieza · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Mueble_una_pieza</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="60"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="60"/>
+        <g data-diagram-kind="column" data-diagram-id="8f4c1580-f342-41d5-bcd0-4370e37d7f1c" data-column-id="8f4c1580-f342-41d5-bcd0-4370e37d7f1c" data-owner-id="7319da4f-b679-4507-89af-127852b4109e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Mueble_nombre, VARCHAR(60)">
+                    <title>Mueble_nombre: VARCHAR(60) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Mueble_nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(60)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="754cac81-1136-4501-b069-c0d6fff69a2c" data-table-id="754cac81-1136-4501-b069-c0d6fff69a2c" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,700)" tabindex="0" role="button"
+        aria-label="Entidad Estanteria">
+        <title>Estanteria · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Estanteria</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="568d56b5-f341-499d-9674-30747525bc90" data-column-id="568d56b5-f341-499d-9674-30747525bc90" data-owner-id="754cac81-1136-4501-b069-c0d6fff69a2c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna pasillo, NUMBER(3)">
+                    <title>pasillo: NUMBER(3) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">pasillo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="0e17eb88-07ad-4da4-9e77-0bf4bab92f6f" data-column-id="0e17eb88-07ad-4da4-9e77-0bf4bab92f6f" data-owner-id="754cac81-1136-4501-b069-c0d6fff69a2c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna altura, NUMBER(2)">
+                    <title>altura: NUMBER(2) · PK</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text>
+                    <text x="72" y="100"
+                class="field-label field-required">altura *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(2)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="f628c027-c4f7-41d1-99f5-3e40b92e14e0" data-table-id="f628c027-c4f7-41d1-99f5-3e40b92e14e0" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Compone">
+        <title>Compone · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Compone</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="c42ed92f-c61f-47e2-afbc-bf8161e30054" data-column-id="c42ed92f-c61f-47e2-afbc-bf8161e30054" data-owner-id="f628c027-c4f7-41d1-99f5-3e40b92e14e0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna mueble_nombre, VARCHAR(60)">
+                    <title>mueble_nombre: VARCHAR(60) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">mueble_nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(60)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e6f86d52-8981-42c8-be7e-dae0887b98d7" data-column-id="e6f86d52-8981-42c8-be7e-dae0887b98d7" data-owner-id="f628c027-c4f7-41d1-99f5-3e40b92e14e0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna pieza_codigo, NUMBER(6)">
+                    <title>pieza_codigo: NUMBER(6) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">pieza_codigo *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(6)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g><g data-diagram-kind="column" data-diagram-id="d94c1387-f0b2-4af6-8d9f-b31e35912278" data-column-id="d94c1387-f0b2-4af6-8d9f-b31e35912278" data-owner-id="f628c027-c4f7-41d1-99f5-3e40b92e14e0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna unidades, NUMBER(3)">
+                    <title>unidades: NUMBER(3) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">unidades *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(3)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961" data-table-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Almacena">
+        <title>Almacena · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Almacena</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="ca9ceab6-58a5-45ea-bfbd-07f81047ce95" data-column-id="ca9ceab6-58a5-45ea-bfbd-07f81047ce95" data-owner-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna mueble_Mueble_nombre, VARCHAR(60)">
+                    <title>mueble_Mueble_nombre: VARCHAR(60) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">mueble_Mueble_nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(60)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e6972d9a-04d0-45fe-8d66-baa9959d716c" data-column-id="e6972d9a-04d0-45fe-8d66-baa9959d716c" data-owner-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna estanteria_pasillo, NUMBER(3)">
+                    <title>estanteria_pasillo: NUMBER(3) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">estanteria_pasillo *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="a428d68e-7d46-46aa-b596-c3e5629fed67" data-column-id="a428d68e-7d46-46aa-b596-c3e5629fed67" data-owner-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna estanteria_altura, NUMBER(2)">
+                    <title>estanteria_altura: NUMBER(2) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text><text x="12" y="157"
+                class="key-label">FK2</text>
+                    <text x="72" y="148"
+                class="field-label field-required">estanteria_altura *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(2)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="176" y2="176"/></g><g data-diagram-kind="column" data-diagram-id="75a11d36-e7a0-4a97-9901-360a98cfc51a" data-column-id="75a11d36-e7a0-4a97-9901-360a98cfc51a" data-owner-id="ca22aea3-6671-4aa1-a6a9-d0f3f97bc961"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna unidades, NUMBER(4)">
+                    <title>unidades: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">unidades *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(4)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3" data-relation-id="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+                data-label-for="ce0d0269-f3e9-4dc2-a160-ec56453a78d3"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="477.52" y="160"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="530" y="182"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Compone</text><text x="530" y="208"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← mueble</text></g><g data-diagram-kind="relationship" data-diagram-id="a766b6ee-df41-4209-994b-eeb490fcda94" data-relation-id="a766b6ee-df41-4209-994b-eeb490fcda94"
+                data-label-for="a766b6ee-df41-4209-994b-eeb490fcda94"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="227.51999999999998" y="369"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="280" y="391"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Compone</text><text x="280" y="417"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← pieza</text></g><g data-diagram-kind="relationship" data-diagram-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144" data-relation-id="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+                data-label-for="fe863c1e-7fa6-4668-8fc5-59d98cd22144"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1194.8950766747375" y="474"
+                    width="110" height="62" rx="4"/>
+                <text x="1249.8950766747375" y="496"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Almacena</text><text x="1249.8950766747375" y="522"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← mueble</text></g><g data-diagram-kind="relationship" data-diagram-id="7357a883-b061-48b6-ac01-17faf4e40995" data-relation-id="7357a883-b061-48b6-ac01-17faf4e40995"
+                data-label-for="7357a883-b061-48b6-ac01-17faf4e40995"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1495.76" y="425"
+                    width="128.48000000000002" height="62" rx="4"/>
+                <text x="1560" y="447"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Almacena</text><text x="1560" y="473"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← estanteria</text></g></svg>

@@ -1,0 +1,425 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1672" height="868"
+        viewBox="84 104 1672 868">
+        <title>Biblioteca · mini-ejercicio 2 (Tema 2)</title>
+        <rect x="84" y="104" width="1672"
+            height="868" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb" data-relation-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Escribe_autor">
+        <title>Autor Escribe Autoria;
+            Autoria autor Autor</title>
+        <path class="relation-hit" d="M280,280 L280,506 L280,506 L280,732"/>
+        <path class="relation-line" d="M280,280 L280,506 L280,506 L280,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="724" r="4.5"/>
+        <text data-marker="child-cardinality" x="290"
+            y="714" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="555537d6-0519-463f-97ca-7de46e409261" data-relation-id="555537d6-0519-463f-97ca-7de46e409261"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Escribe_libro">
+        <title>Libro Escribe Autoria;
+            Autoria libro Libro</title>
+        <path class="relation-hit" d="M824,328 L603.304347826087,328 L603.304347826087,732 L342.60869565217394,732"/>
+        <path class="relation-line" d="M824,328 L603.304347826087,328 L603.304347826087,732 L342.60869565217394,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="350.60869565217394" cy="732" r="4.5"/>
+        <text data-marker="child-cardinality" x="364.60869565217394"
+            y="746" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="6b16d49d-c576-4a80-8038-b8576752151d" data-relation-id="6b16d49d-c576-4a80-8038-b8576752151d"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Prestamo_usuario">
+        <title>Usuario Prestamo Prestamo;
+            Prestamo usuario Usuario</title>
+        <path class="relation-hit" d="M1560,328 L1560,570 L1560,570 L1560,732"/>
+        <path class="relation-line" d="M1560,328 L1560,570 L1560,570 L1560,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1560" cy="724" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="3f7df0d9-68d6-4124-b62d-23d319142bf6" data-relation-id="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Prestamo_libro">
+        <title>Libro Prestamo Prestamo;
+            Prestamo libro Libro</title>
+        <path class="relation-hit" d="M1007.887323943662,328 L1289.543661971831,328 L1289.543661971831,732 L1451.2,732"/>
+        <path class="relation-line" d="M1007.887323943662,328 L1289.543661971831,328 L1289.543661971831,732 L1451.2,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1443.2" cy="732" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb" data-relation-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+        class="relationship ">
+        <path data-label-leader="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280,393 L280,375"/>
+                    <circle data-label-anchor="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+                        cx="280" cy="393" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="555537d6-0519-463f-97ca-7de46e409261" data-relation-id="555537d6-0519-463f-97ca-7de46e409261"
+        class="relationship ">
+        <path data-label-leader="555537d6-0519-463f-97ca-7de46e409261"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M603.304347826087,530 L603.304347826087,512"/>
+                    <circle data-label-anchor="555537d6-0519-463f-97ca-7de46e409261"
+                        cx="603.304347826087" cy="530" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="6b16d49d-c576-4a80-8038-b8576752151d" data-relation-id="6b16d49d-c576-4a80-8038-b8576752151d"
+        class="relationship ">
+        <path data-label-leader="6b16d49d-c576-4a80-8038-b8576752151d"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1560,449 L1560,431"/>
+                    <circle data-label-anchor="6b16d49d-c576-4a80-8038-b8576752151d"
+                        cx="1560" cy="449" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="3f7df0d9-68d6-4124-b62d-23d319142bf6" data-relation-id="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+        class="relationship ">
+        <path data-label-leader="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1289.543661971831,530 L1289.543661971831,512"/>
+                    <circle data-label-anchor="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+                        cx="1289.543661971831" cy="530" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="abc38837-3017-4bbf-b223-f47482cf2820" data-table-id="abc38837-3017-4bbf-b223-f47482cf2820" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Autor">
+        <title>Autor · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Autor</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="64e243c1-0628-4bed-bd87-2d83feb6599d" data-column-id="64e243c1-0628-4bed-bd87-2d83feb6599d" data-owner-id="abc38837-3017-4bbf-b223-f47482cf2820"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo, NUMBER(6)">
+                    <title>codigo: NUMBER(6) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(6)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="6b7f290b-be19-4dce-8fe0-6820693a555f" data-column-id="6b7f290b-be19-4dce-8fe0-6820693a555f" data-owner-id="abc38837-3017-4bbf-b223-f47482cf2820"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="a4af6031-8a39-4d3e-a509-002ccdac663a" data-table-id="a4af6031-8a39-4d3e-a509-002ccdac663a" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Libro">
+        <title>Libro · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Libro</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="a263f025-137a-42fc-bdc1-9ec8fb014530" data-column-id="a263f025-137a-42fc-bdc1-9ec8fb014530" data-owner-id="a4af6031-8a39-4d3e-a509-002ccdac663a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna isbn, CHAR(13)">
+                    <title>isbn: CHAR(13) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">isbn *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(13)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="5161774f-badc-475d-a02f-0eea21576959" data-column-id="5161774f-badc-475d-a02f-0eea21576959" data-owner-id="a4af6031-8a39-4d3e-a509-002ccdac663a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna titulo, VARCHAR(120)">
+                    <title>titulo: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">titulo *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="f38c533f-e0fa-4de7-aadf-b5ebd4e744f4" data-column-id="f38c533f-e0fa-4de7-aadf-b5ebd4e744f4" data-owner-id="a4af6031-8a39-4d3e-a509-002ccdac663a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna anio_publicacion, NUMBER(4)">
+                    <title>anio_publicacion: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">anio_publicacion</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(4)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="d5cd528c-88df-48a1-a256-c99d7ac6fa28" data-table-id="d5cd528c-88df-48a1-a256-c99d7ac6fa28" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Usuario">
+        <title>Usuario · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Usuario</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="23ead2a5-4394-49fe-88f4-d9dc14a676f3" data-column-id="23ead2a5-4394-49fe-88f4-d9dc14a676f3" data-owner-id="d5cd528c-88df-48a1-a256-c99d7ac6fa28"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dni, CHAR(9)">
+                    <title>dni: CHAR(9) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="397bbe51-ef84-4966-b4e6-0a68b005ca7c" data-column-id="397bbe51-ef84-4966-b4e6-0a68b005ca7c" data-owner-id="d5cd528c-88df-48a1-a256-c99d7ac6fa28"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="df8dd64c-a357-4ceb-a2f5-f81a8c0614a5" data-column-id="df8dd64c-a357-4ceb-a2f5-f81a8c0614a5" data-owner-id="d5cd528c-88df-48a1-a256-c99d7ac6fa28"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna telefono, VARCHAR(15)">
+                    <title>telefono: VARCHAR(15) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">telefono</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(15)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="df9eafeb-96b5-40f4-a71f-474eee7361d6" data-table-id="df9eafeb-96b5-40f4-a71f-474eee7361d6" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,700)" tabindex="0" role="button"
+        aria-label="Entidad Autoria">
+        <title>Autoria · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Autoria</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="e69b22ac-828a-493a-983d-28785a2e0860" data-column-id="e69b22ac-828a-493a-983d-28785a2e0860" data-owner-id="df9eafeb-96b5-40f4-a71f-474eee7361d6"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna autor_codigo, NUMBER(6)">
+                    <title>autor_codigo: NUMBER(6) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">autor_codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(6)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="fb5d12a4-39dc-43a7-8328-6148e09dbd71" data-column-id="fb5d12a4-39dc-43a7-8328-6148e09dbd71" data-owner-id="df9eafeb-96b5-40f4-a71f-474eee7361d6"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna libro_isbn, CHAR(13)">
+                    <title>libro_isbn: CHAR(13) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">libro_isbn *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(13)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1" data-table-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,700)" tabindex="0" role="button"
+        aria-label="Entidad Prestamo">
+        <title>Prestamo · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Prestamo</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="3bd5371f-4df8-4110-aca3-5351cf0a2c0e" data-column-id="3bd5371f-4df8-4110-aca3-5351cf0a2c0e" data-owner-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna usuario_dni, CHAR(9)">
+                    <title>usuario_dni: CHAR(9) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">usuario_dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="b24879d9-619f-4dfa-bd54-448e75757ee9" data-column-id="b24879d9-619f-4dfa-bd54-448e75757ee9" data-owner-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna libro_isbn, CHAR(13)">
+                    <title>libro_isbn: CHAR(13) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">libro_isbn *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(13)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="fc23958d-fae8-49b0-ba51-6a0a4abf6dd5" data-column-id="fc23958d-fae8-49b0-ba51-6a0a4abf6dd5" data-owner-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_prestamo, DATE">
+                    <title>fecha_prestamo: DATE · PK</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text>
+                    <text x="72" y="148"
+                class="field-label field-required">fecha_prestamo *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="176" y2="176"/></g><g data-diagram-kind="column" data-diagram-id="f47212c8-1ae8-41c1-8399-68e2b6613e61" data-column-id="f47212c8-1ae8-41c1-8399-68e2b6613e61" data-owner-id="f18d68c7-1b19-48e5-bcb2-2d23075102d1"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_devolucion, DATE">
+                    <title>fecha_devolucion: DATE · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">fecha_devolucion</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb" data-relation-id="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+                data-label-for="a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="229.62" y="313"
+                    width="100.76" height="62" rx="4"/>
+                <text x="280" y="335"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Escribe</text><text x="280" y="361"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← autor</text></g><g data-diagram-kind="relationship" data-diagram-id="555537d6-0519-463f-97ca-7de46e409261" data-relation-id="555537d6-0519-463f-97ca-7de46e409261"
+                data-label-for="555537d6-0519-463f-97ca-7de46e409261"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="552.924347826087" y="450"
+                    width="100.76" height="62" rx="4"/>
+                <text x="603.304347826087" y="472"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Escribe</text><text x="603.304347826087" y="498"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← libro</text></g><g data-diagram-kind="relationship" data-diagram-id="6b16d49d-c576-4a80-8038-b8576752151d" data-relation-id="6b16d49d-c576-4a80-8038-b8576752151d"
+                data-label-for="6b16d49d-c576-4a80-8038-b8576752151d"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1502.9" y="369"
+                    width="114.2" height="62" rx="4"/>
+                <text x="1560" y="391"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Prestamo</text><text x="1560" y="417"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← usuario</text></g><g data-diagram-kind="relationship" data-diagram-id="3f7df0d9-68d6-4124-b62d-23d319142bf6" data-relation-id="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+                data-label-for="3f7df0d9-68d6-4124-b62d-23d319142bf6"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1232.443661971831" y="450"
+                    width="114.2" height="62" rx="4"/>
+                <text x="1289.543661971831" y="472"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Prestamo</text><text x="1289.543661971831" y="498"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← libro</text></g></svg>

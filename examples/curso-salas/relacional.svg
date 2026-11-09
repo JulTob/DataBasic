@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1672" height="356"
+        viewBox="84 104 1672 356">
+        <title>Salas de un hospital · ejercicio 5 (Tema 2)</title>
+        <rect x="84" y="104" width="1672"
+            height="356" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="42c54962-f70f-4172-988c-06040c2fc99c" data-relation-id="42c54962-f70f-4172-988c-06040c2fc99c"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Trabaja_en_sala">
+        <title>Sala Trabaja_en Personal;
+            Personal sala Sala</title>
+        <path class="relation-hit" d="M760,240 L600,240 L600,276 L440,276"/>
+        <path class="relation-line" d="M760,240 L600,240 L600,276 L440,276"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="448" cy="276" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42" data-relation-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Internado_en_sala">
+        <title>Sala Internado_en Paciente;
+            Paciente sala Sala</title>
+        <path class="relation-hit" d="M1080,228 L1260,228 L1260,240 L1400,240"/>
+        <path class="relation-line" d="M1080,228 L1260,228 L1260,240 L1400,240"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1392" cy="240" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="42c54962-f70f-4172-988c-06040c2fc99c" data-relation-id="42c54962-f70f-4172-988c-06040c2fc99c"
+        class="relationship ">
+        <path data-label-leader="42c54962-f70f-4172-988c-06040c2fc99c"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M680,240 L680,222"/>
+                    <circle data-label-anchor="42c54962-f70f-4172-988c-06040c2fc99c"
+                        cx="680" cy="240" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42" data-relation-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+        class="relationship ">
+        <path data-label-leader="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1170,228 L1170,210"/>
+                    <circle data-label-anchor="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+                        cx="1170" cy="228" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0" data-table-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Personal">
+        <title>Personal · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Personal</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="252"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="a1c937f7-d40d-420c-ab9b-45c3fbeadea0" data-column-id="a1c937f7-d40d-420c-ab9b-45c3fbeadea0" data-owner-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_empleado, NUMBER(6)">
+                    <title>num_empleado: NUMBER(6) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_empleado *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(6)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="26fe139f-089a-4ea2-964f-1a65a1b6a227" data-column-id="26fe139f-089a-4ea2-964f-1a65a1b6a227" data-owner-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="b61bcbf1-81f5-4cd5-9cac-cdc38143f344" data-column-id="b61bcbf1-81f5-4cd5-9cac-cdc38143f344" data-owner-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna direccion, VARCHAR(120)">
+                    <title>direccion: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">direccion</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="43ea89b7-db45-4bc0-88c0-f11fefb4cca2" data-column-id="43ea89b7-db45-4bc0-88c0-f11fefb4cca2" data-owner-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna telefono, VARCHAR(15)">
+                    <title>telefono: VARCHAR(15) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">telefono</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(15)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="0fe9ad3a-982a-47e7-95fc-c047e3d79a22" data-column-id="0fe9ad3a-982a-47e7-95fc-c047e3d79a22" data-owner-id="dbf71e06-c2c4-489c-b074-d61d313ac6f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna sala_nombre, VARCHAR(40)">
+                    <title>sala_nombre: VARCHAR(40) · FK1</title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    <text x="12" y="240"
+                class="key-label">FK1</text>
+                    <text x="72" y="244"
+                class="field-label field-required">sala_nombre *</text>
+                    <text x="72" y="263"
+                        class="type-label">VARCHAR(40)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="cf748e1c-dd75-4234-ba14-bce8001490f0" data-table-id="cf748e1c-dd75-4234-ba14-bce8001490f0" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Sala">
+        <title>Sala · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Sala</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="89fc0173-c7f9-458d-a397-59403d4da093" data-column-id="89fc0173-c7f9-458d-a397-59403d4da093" data-owner-id="cf748e1c-dd75-4234-ba14-bce8001490f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(40)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="4395f48d-1e8f-4380-8d1d-687f59c7831f" data-column-id="4395f48d-1e8f-4380-8d1d-687f59c7831f" data-owner-id="cf748e1c-dd75-4234-ba14-bce8001490f0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_camas, NUMBER(3)">
+                    <title>num_camas: NUMBER(3) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">num_camas *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(3)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="e246bf39-2473-4001-8f19-8b3fef362938" data-table-id="e246bf39-2473-4001-8f19-8b3fef362938" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Paciente">
+        <title>Paciente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Paciente</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="a300a7eb-54df-4c4b-8cd6-79d14435372d" data-column-id="a300a7eb-54df-4c4b-8cd6-79d14435372d" data-owner-id="e246bf39-2473-4001-8f19-8b3fef362938"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_registro, NUMBER(8)">
+                    <title>num_registro: NUMBER(8) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_registro *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(8)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="60459507-790a-4506-873e-93ce598069df" data-column-id="60459507-790a-4506-873e-93ce598069df" data-owner-id="e246bf39-2473-4001-8f19-8b3fef362938"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="4917ad61-c4bf-465f-a76d-650844e36322" data-column-id="4917ad61-c4bf-465f-a76d-650844e36322" data-owner-id="e246bf39-2473-4001-8f19-8b3fef362938"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna sala_nombre, VARCHAR(40)">
+                    <title>sala_nombre: VARCHAR(40) · FK1</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">FK1</text>
+                    <text x="72" y="148"
+                class="field-label field-required">sala_nombre *</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(40)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="42c54962-f70f-4172-988c-06040c2fc99c" data-relation-id="42c54962-f70f-4172-988c-06040c2fc99c"
+                data-label-for="42c54962-f70f-4172-988c-06040c2fc99c"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="613.66" y="160"
+                    width="132.68" height="62" rx="4"/>
+                <text x="680" y="182"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Trabaja_en</text><text x="680" y="208"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← sala</text></g><g data-diagram-kind="relationship" data-diagram-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42" data-relation-id="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+                data-label-for="2c683466-6c1e-47ef-a9c3-0be6f5917d42"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1096.52" y="148"
+                    width="146.95999999999998" height="62" rx="4"/>
+                <text x="1170" y="170"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Internado_en</text><text x="1170" y="196"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← sala</text></g></svg>

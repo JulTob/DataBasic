@@ -4,26 +4,27 @@
  * theirs when scripts/course-examples.mjs builds them. Tables that already
  * have rows keep them, so running it twice changes nothing.
  */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { readdirSync } from 'node:fs';
 import { dataStatus } from '../src/domain/data.js';
-import {
-    parseDocument,
-    serializeDocument
-    } from '../src/domain/serialization.js';
 import { fillWithSampleData } from '../src/sql/sample.js';
+import {
+    EXAMPLES,
+    readExampleModel,
+    writeExampleFolder
+    } from './example-folder.mjs';
 
-const EXAMPLES = fileURLToPath( new URL( '../examples/', import.meta.url ) );
+const folders = readdirSync( EXAMPLES, {withFileTypes: true} )
+    .filter( entry => entry.isDirectory() && !entry.name.startsWith( 'curso-' ) )
+    .map( entry => entry.name );
 
-for (const file of readdirSync( EXAMPLES ).filter( name => name.endsWith( '.databasic.json' ) && !name.startsWith( 'curso-' ) )) {
-    const model = parseDocument( readFileSync( `${EXAMPLES}${file}`, 'utf8' ) );
-    const filled = fillWithSampleData( model, {rowsPerTable: 8} );
+for (const slug of folders) {
+    const filled = fillWithSampleData( readExampleModel( slug ), {rowsPerTable: 8} );
     const issues = dataStatus( filled );
 
     if (issues.length) {
-        throw new Error( `${file}: ${issues[0].message}` );
+        throw new Error( `${slug}: ${issues[0].message}` );
         }
 
-    writeFileSync( `${EXAMPLES}${file}`, serializeDocument( filled ) );
-    console.log( `${file}: filas de ejemplo listas.` );
+    writeExampleFolder( slug, filled );
+    console.log( `${slug}/: filas de ejemplo listas.` );
     }

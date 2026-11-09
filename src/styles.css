@@ -1747,3 +1747,29 @@ kbd { padding: 0 4px; border: 1px solid var( --color-border-strong ); border-rad
 .forms-list small { color: var( --color-muted ); flex: 1; }
 .forms-list svg { width: 14px; height: 14px; }
 .explorer-subheading { margin: 10px 12px 4px; color: var( --color-muted ); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Archivo → Abrir: three ways to bring a project folder; then what was done with each file. */
+.open-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 10px 0; }
+.open-choice { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid var( --color-border ); border-radius: 8px; background: var( --color-surface-soft ); }
+.open-choice h3 { margin: 0; font-size: 13px; }
+.open-choice p { flex: 1; margin: 0; color: var( --color-muted ); font-size: 12px; }
+.open-choice button { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; }
+.open-choice button svg { width: 14px; height: 14px; }
+.open-choice .dialog-fields { display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+.open-choice .dialog-fields input { box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; }
+@media (max-width: 700px) {
+    .open-choices { grid-template-columns: 1fr; }
+    }
+.project-report { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.project-report th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var( --color-border-strong ); }
+.project-report td { vertical-align: top; padding: 6px; border-bottom: 1px solid var( --color-border ); }
+.project-report td:first-child { white-space: nowrap; }
+.project-report small { display: block; color: var( --color-muted ); font-size: 11px; }
+.report-level { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
+.report-level svg { width: 14px; height: 14px; }
+.report-ok .report-level { color: var( --color-accent ); }
+.report-info .report-level { color: #2f6f9f; }
+.report-warning .report-level, .project-notes .report-warning { color: #9a5b00; }
+.report-error .report-level { color: #b3261e; }
+.report-missing .report-level { color: var( --color-muted ); }
+.project-notes { margin: 4px 0 0; padding-left: 18px; font-size: 12.5px; }

@@ -56,7 +56,7 @@ const PIXEL_PNG = new Uint8Array( Buffer.from(
 const FIXED_DATE = new Date( 2026, 10, 8, 12, 0, 0 );
 
 async function lonja() {
-    return parseDocument( await readFile( new URL( '../examples/curso-lonja.databasic.json', import.meta.url ), 'utf8' ) );
+    return parseDocument( await readFile( new URL( '../examples/curso-lonja/proyecto.databasic.json', import.meta.url ), 'utf8' ) );
     }
 
 function withStudent( model ) {
@@ -106,7 +106,7 @@ test( 'La lista de entrega pide alumno, ternaria, especialización, supuestos y 
             );
     assert.deepEqual( deliveryChecklist( withStudent( model ) ), [] );
 
-    const salas = parseDocument( await readFile( new URL( '../examples/curso-salas.databasic.json', import.meta.url ), 'utf8' ) );
+    const salas = parseDocument( await readFile( new URL( '../examples/curso-salas/proyecto.databasic.json', import.meta.url ), 'utf8' ) );
     const warnings = deliveryChecklist( withStudent( salas ) ).map( item => item.message );
 
     assert.ok( warnings.some( message => /relación ternaria/.test( message ) ) );
@@ -130,7 +130,7 @@ test( 'La memoria lleva el alumno, el tipo de cada relación, las subclases y la
     assert.match( markdown, /\| fecha_inicio \| DATE \| Parte de la clave de la tabla \|/, 'atributos de relación con su papel en la clave' );
     assert.doesNotMatch( markdown, /conservada; la FK no impone/ );
 
-    const company = parseDocument( await readFile( new URL( '../examples/curso-empresa.databasic.json', import.meta.url ), 'utf8' ) );
+    const company = parseDocument( await readFile( new URL( '../examples/curso-empresa/proyecto.databasic.json', import.meta.url ), 'utf8' ) );
 
     assert.match( reportToMarkdown( buildDesignReport( company ) ), /### Supervision — relación binaria recursiva 1:N/ );
     assert.match( reportToMarkdown( buildDesignReport( company ) ), /### Dirige — relación binaria 1:1/ );

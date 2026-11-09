@@ -252,7 +252,7 @@ test( 'CREATE, ALTER y DROP pasan por las reglas del modelo', async () => {
     assert.ok( !model.tables.some( table => ['Socio', 'Pendientes'].includes( table.name ) ) );
     assert.deepEqual( domain.validateDocument( model ).filter( issue => issue.level === 'error' ), [] );
 
-    const lonja = parseDocument( await readFile( new URL( '../examples/curso-lonja.databasic.json', import.meta.url ), 'utf8' ) );
+    const lonja = parseDocument( await readFile( new URL( '../examples/curso-lonja/proyecto.databasic.json', import.meta.url ), 'utf8' ) );
 
     assert.match( run( lonja, 'ALTER TABLE Lote ADD COLUMN nota VARCHAR(20)' ).message, /se genera desde el diagrama entidad-relación/ );
     assert.match( run( lonja, 'DROP TABLE Pago' ).message, /se genera desde el diagrama entidad-relación|Edita el origen Chen/ );

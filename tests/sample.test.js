@@ -1,20 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, readdir } from 'node:fs/promises';
 import * as domain from '../src/domain/model.js';
 import { dataStatus } from '../src/domain/data.js';
-import { parseDocument } from '../src/domain/serialization.js';
 import {
     fillWithSampleData,
     sampleData
     } from '../src/sql/sample.js';
 import { runSql } from '../src/sql/console.js';
+import {
+    exampleFolders,
+    readExample
+    } from './support/examples.js';
 
-const examplesURL = new URL( '../examples/', import.meta.url );
-const filenames = (await readdir( examplesURL )).filter( name => name.endsWith( '.databasic.json' ) );
+const filenames = await exampleFolders();
 
 async function openExample( name ) {
-    return parseDocument( await readFile( new URL( name, examplesURL ), 'utf8' ) );
+    return readExample( name );
     }
 
 function tableRows(
@@ -48,7 +49,7 @@ test( 'Todos los ejemplos traen filas de ejemplo que cumplen las reglas de sus t
     } );
 
 test( 'Las subclases reparten las filas de su superclase según la especialización', async () => {
-    const lonja = await openExample( 'curso-lonja.databasic.json' );
+    const lonja = await openExample( 'curso-lonja' );
     const credit = new Set( columnValues( lonja, 'Credito', 'Comprador_cod_comprador' ) );
     const cash = new Set( columnValues( lonja, 'Contado', 'Comprador_cod_comprador' ) );
     const buyers = columnValues( lonja, 'Comprador', 'cod_comprador' );
@@ -56,7 +57,7 @@ test( 'Las subclases reparten las filas de su superclase según la especializaci
     assert.equal( [...credit].filter( code => cash.has( code ) ).length, 0, 'disjunta: nadie está en las dos' );
     assert.deepEqual( [...credit, ...cash].sort(), [...buyers].sort(), 'total: todos están en alguna' );
 
-    const estate = await openExample( 'curso-inmobiliaria.databasic.json' );
+    const estate = await openExample( 'curso-inmobiliaria' );
     const people = columnValues( estate, 'Persona', 'codigo' );
     const covered = new Set( [...columnValues( estate, 'Cliente', 'Persona_codigo' ), ...columnValues( estate, 'Trabajador', 'Persona_codigo' )] );
 
@@ -64,7 +65,7 @@ test( 'Las subclases reparten las filas de su superclase según la especializaci
     } );
 
 test( 'Los datos generados sirven para consultas con combinaciones y derivados calculados', async () => {
-    const lonja = await openExample( 'curso-lonja.databasic.json' );
+    const lonja = await openExample( 'curso-lonja' );
     const joined = runSql( lonja, `
         SELECT b.nombre, e.nombre, Sum(l.kilos_total) AS kilos
         FROM (Lote AS l INNER JOIN Barco AS b ON l.barco_matricula = b.matricula)
@@ -96,7 +97,7 @@ test( 'El generador es determinista y no toca las tablas que ya tienen filas', a
     assert.ok( domain.documentData( filled )[empty.tables.find( table => table.name === 'Libro' ).id].length === 8 );
     assert.deepEqual( dataStatus( filled ), [] );
 
-    const dni = columnValues( await openExample( 'curso-videoclub.databasic.json' ), 'Cliente', 'dni' );
+    const dni = columnValues( await openExample( 'curso-videoclub' ), 'Cliente', 'dni' );
 
     assert.ok( dni.every( value => /^\d{8}[A-Z]$/.test( value ) && 'TRWAGMYFPDXBNJZSQVHLCKE'[Number( value.slice( 0, 8 ) ) % 23] === value[8] ), 'DNI con su letra' );
     } );

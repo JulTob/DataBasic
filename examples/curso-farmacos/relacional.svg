@@ -1,0 +1,666 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1692" height="1428"
+        viewBox="84 104 1692 1428">
+        <title>Hospital: consumo de fármacos · ejercicio 6 (guion ERE)</title>
+        <rect x="84" y="104" width="1692"
+            height="1428" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="7676a6f9-ceab-488c-b045-25472fc842f1" data-relation-id="7676a6f9-ceab-488c-b045-25472fc842f1"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Ingresa_paciente">
+        <title>Paciente Ingresa Ingreso;
+            Ingreso paciente Paciente</title>
+        <path class="relation-hit" d="M440,318 L600,318 L600,318 L760,318"/>
+        <path class="relation-line" d="M440,318 L600,318 L600,318 L760,318"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="752" cy="318" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0" data-relation-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_En_servicio_servicio">
+        <title>Servicio En_servicio Ingreso;
+            Ingreso servicio Servicio</title>
+        <path class="relation-hit" d="M920,732 L920,622 L920,622 L920,472"/>
+        <path class="relation-line" d="M920,732 L920,622 L920,622 L920,472"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="920" cy="480" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="059ad437-74d6-48fb-a683-2782754d2bf3" data-relation-id="059ad437-74d6-48fb-a683-2782754d2bf3"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Consume_ingreso">
+        <title>Ingreso Consume Consumo_paciente;
+            Consumo_paciente ingreso Ingreso</title>
+        <path class="relation-hit" d="M1080,450 L1290.8152173913045,450 L1290.8152173913045,732 L1421.6304347826087,732"/>
+        <path class="relation-line" d="M1080,450 L1290.8152173913045,450 L1290.8152173913045,732 L1421.6304347826087,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1413.6304347826087" cy="732" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7" data-relation-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Consume_farmaco">
+        <title>Farmaco Consume Consumo_paciente;
+            Consumo_paciente farmaco Farmaco</title>
+        <path class="relation-hit" d="M1562.8846153846155,472 L1562.8846153846155,662 L1567.7173913043478,662 L1567.7173913043478,732"/>
+        <path class="relation-line" d="M1562.8846153846155,472 L1562.8846153846155,662 L1567.7173913043478,662 L1567.7173913043478,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1567.7173913043478" cy="724" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="4711641e-31d3-4b2f-bc40-6b5f3a273355" data-relation-id="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Gasta_servicio">
+        <title>Servicio Gasta Consumo_servicio;
+            Consumo_servicio servicio Servicio</title>
+        <path class="relation-hit" d="M978.3783783783783,840 L1296.8814968814968,840 L1296.8814968814968,1292 L1455.3846153846155,1292"/>
+        <path class="relation-line" d="M978.3783783783783,840 L1296.8814968814968,840 L1296.8814968814968,1292 L1455.3846153846155,1292"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1447.3846153846155" cy="1292" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="9c75dba9-d5ae-42af-8b48-6def98d0894f" data-relation-id="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Gasta_farmaco">
+        <title>Farmaco Gasta Consumo_servicio;
+            Consumo_servicio farmaco Farmaco</title>
+        <path class="relation-hit" d="M1560,472 L1560,982 L1560,982 L1560,1292"/>
+        <path class="relation-line" d="M1560,472 L1560,982 L1560,982 L1560,1292"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1560" cy="1284" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="7676a6f9-ceab-488c-b045-25472fc842f1" data-relation-id="7676a6f9-ceab-488c-b045-25472fc842f1"
+        class="relationship ">
+        <path data-label-leader="7676a6f9-ceab-488c-b045-25472fc842f1"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M520,318 L520,300"/>
+                    <circle data-label-anchor="7676a6f9-ceab-488c-b045-25472fc842f1"
+                        cx="520" cy="318" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0" data-relation-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+        class="relationship ">
+        <path data-label-leader="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M920,547 L920,565"/>
+                    <circle data-label-anchor="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+                        cx="920" cy="547" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="059ad437-74d6-48fb-a683-2782754d2bf3" data-relation-id="059ad437-74d6-48fb-a683-2782754d2bf3"
+        class="relationship ">
+        <path data-label-leader="059ad437-74d6-48fb-a683-2782754d2bf3"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1290.8152173913045,591 L1290.8152173913045,573"/>
+                    <circle data-label-anchor="059ad437-74d6-48fb-a683-2782754d2bf3"
+                        cx="1290.8152173913045" cy="591" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7" data-relation-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+        class="relationship ">
+        <path data-label-leader="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1562.8846153846155,567 L1562.8846153846155,549"/>
+                    <circle data-label-anchor="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+                        cx="1562.8846153846155" cy="567" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="4711641e-31d3-4b2f-bc40-6b5f3a273355" data-relation-id="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+        class="relationship ">
+        <path data-label-leader="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1296.8814968814968,1066 L1296.8814968814968,1048"/>
+                    <circle data-label-anchor="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+                        cx="1296.8814968814968" cy="1066" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="9c75dba9-d5ae-42af-8b48-6def98d0894f" data-relation-id="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+        class="relationship ">
+        <path data-label-leader="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1560,727 L1560,690"/>
+                    <circle data-label-anchor="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+                        cx="1560" cy="727" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31" data-table-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Paciente">
+        <title>Paciente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Paciente</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="e7bb69ba-da67-45db-b2ab-ac223f80ae65" data-column-id="e7bb69ba-da67-45db-b2ab-ac223f80ae65" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_historia, NUMBER(8)">
+                    <title>num_historia: NUMBER(8) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_historia *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(8)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="06c43fb0-0c95-4e87-b8cc-191b98be6895" data-column-id="06c43fb0-0c95-4e87-b8cc-191b98be6895" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e9f61a45-a29c-49e6-80b4-00b871258ac0" data-column-id="e9f61a45-a29c-49e6-80b4-00b871258ac0" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_ss, CHAR(12)">
+                    <title>num_ss: CHAR(12) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">num_ss</text>
+                    <text x="72" y="167"
+                        class="type-label">CHAR(12)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="aa0ea706-9f7d-47fb-b772-3f1350d2926a" data-column-id="aa0ea706-9f7d-47fb-b772-3f1350d2926a" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna direccion, VARCHAR(120)">
+                    <title>direccion: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">direccion</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="fb327b80-e10a-464c-a60e-bd097a1dcab6" data-column-id="fb327b80-e10a-464c-a60e-bd097a1dcab6" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna telefono, VARCHAR(15)">
+                    <title>telefono: VARCHAR(15) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">telefono</text>
+                    <text x="72" y="263"
+                        class="type-label">VARCHAR(15)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="cad5d9a3-53c6-4623-83b8-693d5ec94759" data-column-id="cad5d9a3-53c6-4623-83b8-693d5ec94759" data-owner-id="c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_nacimiento, DATE">
+                    <title>fecha_nacimiento: DATE · </title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="292"
+                class="field-label field-required">fecha_nacimiento *</text>
+                    <text x="72" y="311"
+                        class="type-label">DATE</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319" data-table-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Ingreso">
+        <title>Ingreso · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Ingreso</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="d7c5ad90-d421-44f8-ba31-34342aea61dd" data-column-id="d7c5ad90-d421-44f8-ba31-34342aea61dd" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_secuencia, NUMBER(3)">
+                    <title>num_secuencia: NUMBER(3) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_secuencia *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="10f28ba4-dd23-4533-ba6c-07f15af110f1" data-column-id="10f28ba4-dd23-4533-ba6c-07f15af110f1" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna paciente_num_historia, NUMBER(8)">
+                    <title>paciente_num_historia: NUMBER(8) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">paciente_num_historia *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(8)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g><g data-diagram-kind="column" data-diagram-id="fbdb0972-c61f-4634-ac0f-1277fc599e36" data-column-id="fbdb0972-c61f-4634-ac0f-1277fc599e36" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna diagnostico, VARCHAR(8)">
+                    <title>diagnostico: VARCHAR(8) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">diagnostico *</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(8)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="ee757555-b24e-4b03-9666-0a2b885f7931" data-column-id="ee757555-b24e-4b03-9666-0a2b885f7931" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_ingreso, DATE">
+                    <title>fecha_ingreso: DATE · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">fecha_ingreso *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="1c27084a-30d7-414d-b8bc-c0d32e159367" data-column-id="1c27084a-30d7-414d-b8bc-c0d32e159367" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_alta, DATE">
+                    <title>fecha_alta: DATE · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">fecha_alta</text>
+                    <text x="72" y="263"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="eee17626-2cc2-4244-8cfa-25fd95fcaef5" data-column-id="eee17626-2cc2-4244-8cfa-25fd95fcaef5" data-owner-id="80e79ff9-7c4e-4fae-8cf6-8765384fd319"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna servicio_codigo, NUMBER(3)">
+                    <title>servicio_codigo: NUMBER(3) · FK2</title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    <text x="12" y="288"
+                class="key-label">FK2</text>
+                    <text x="72" y="292"
+                class="field-label field-required">servicio_codigo *</text>
+                    <text x="72" y="311"
+                        class="type-label">NUMBER(3)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="349723b8-060b-4806-b483-7b3e21a54a3f" data-table-id="349723b8-060b-4806-b483-7b3e21a54a3f" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,700)" tabindex="0" role="button"
+        aria-label="Entidad Servicio">
+        <title>Servicio · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Servicio</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="9ef75d5e-6ff1-40b7-9d8c-51af81aae64a" data-column-id="9ef75d5e-6ff1-40b7-9d8c-51af81aae64a" data-owner-id="349723b8-060b-4806-b483-7b3e21a54a3f"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo, NUMBER(3)">
+                    <title>codigo: NUMBER(3) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="14c54125-63bb-4d67-af1e-abf189ae587f" data-column-id="14c54125-63bb-4d67-af1e-abf189ae587f" data-owner-id="349723b8-060b-4806-b483-7b3e21a54a3f"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · AK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">AK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(40)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="41c56f61-6158-4628-992a-a40edd4e8d19" data-table-id="41c56f61-6158-4628-992a-a40edd4e8d19" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Farmaco">
+        <title>Farmaco · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Farmaco</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="ad6d4035-a713-447f-9070-4ed0f5a875b4" data-column-id="ad6d4035-a713-447f-9070-4ed0f5a875b4" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_registro, NUMBER(8)">
+                    <title>num_registro: NUMBER(8) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_registro *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(8)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="428df835-09a9-4108-bdc2-5449f7d995b0" data-column-id="428df835-09a9-4108-bdc2-5449f7d995b0" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="d458923a-9962-4860-bce8-2f940ba2857b" data-column-id="d458923a-9962-4860-bce8-2f940ba2857b" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna compuesto, VARCHAR(80)">
+                    <title>compuesto: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">compuesto</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="5ce622a5-447e-456a-ae90-cff1f0b7e1c1" data-column-id="5ce622a5-447e-456a-ae90-cff1f0b7e1c1" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna ubicacion, VARCHAR(40)">
+                    <title>ubicacion: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">ubicacion</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(40)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="1c32aa14-7de3-4de5-a3bd-4360281d2177" data-column-id="1c32aa14-7de3-4de5-a3bd-4360281d2177" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dosis_envase, NUMBER(4)">
+                    <title>dosis_envase: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label field-required">dosis_envase *</text>
+                    <text x="72" y="263"
+                        class="type-label">NUMBER(4)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="d32d7b25-8a81-4d0b-918e-dade70652c8a" data-column-id="d32d7b25-8a81-4d0b-918e-dade70652c8a" data-owner-id="41c56f61-6158-4628-992a-a40edd4e8d19"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio_dosis, NUMBER(8,2)">
+                    <title>precio_dosis: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="292"
+                class="field-label field-required">precio_dosis *</text>
+                    <text x="72" y="311"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="d70604e8-0022-4241-8ec3-78aa510af57d" data-table-id="d70604e8-0022-4241-8ec3-78aa510af57d" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,700)" tabindex="0" role="button"
+        aria-label="Entidad Consumo_paciente">
+        <title>Consumo_paciente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Consumo_paciente</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="340" height="252"/>
+        <rect class="table-body" y="32" rx="12"
+            width="340" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="a8209d61-a878-4c1e-846a-302f11369182" data-column-id="a8209d61-a878-4c1e-846a-302f11369182" data-owner-id="d70604e8-0022-4241-8ec3-78aa510af57d"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna ingreso_num_secuencia, NUMBER(3)">
+                    <title>ingreso_num_secuencia: NUMBER(3) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="338" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">ingreso_num_secuencia *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9" data-column-id="c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9" data-owner-id="d70604e8-0022-4241-8ec3-78aa510af57d"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna ingreso_paciente_num_historia, NUMBER(8)">
+                    <title>ingreso_paciente_num_historia: NUMBER(8) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="338" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">ingreso_paciente_num_historia *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(8)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="6cf2c214-f0cb-44fd-be34-da1e9f7863b3" data-column-id="6cf2c214-f0cb-44fd-be34-da1e9f7863b3" data-owner-id="d70604e8-0022-4241-8ec3-78aa510af57d"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna farmaco_num_registro, NUMBER(8)">
+                    <title>farmaco_num_registro: NUMBER(8) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="338" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text><text x="12" y="157"
+                class="key-label">FK2</text>
+                    <text x="72" y="148"
+                class="field-label field-required">farmaco_num_registro *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(8)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="fa1aafa7-a671-4bcb-990f-a648cbc4efd2" data-column-id="fa1aafa7-a671-4bcb-990f-a648cbc4efd2" data-owner-id="d70604e8-0022-4241-8ec3-78aa510af57d"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha, DATE">
+                    <title>fecha: DATE · PK</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="338" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">PK</text>
+                    <text x="72" y="196"
+                class="field-label field-required">fecha *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    <line class="primary-divider" x1="0" x2="340"
+                        y1="224" y2="224"/></g><g data-diagram-kind="column" data-diagram-id="443d501e-fdb9-4a6d-873a-d1663130a45c" data-column-id="443d501e-fdb9-4a6d-873a-d1663130a45c" data-owner-id="d70604e8-0022-4241-8ec3-78aa510af57d"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_dosis, NUMBER(4)">
+                    <title>num_dosis: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="338" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label field-required">num_dosis *</text>
+                    <text x="72" y="263"
+                        class="type-label">NUMBER(4)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c" data-table-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,1260)" tabindex="0" role="button"
+        aria-label="Entidad Consumo_servicio">
+        <title>Consumo_servicio · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Consumo_servicio</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="96d0af21-84c1-42fe-99ee-979e3f3df6fd" data-column-id="96d0af21-84c1-42fe-99ee-979e3f3df6fd" data-owner-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna servicio_codigo, NUMBER(3)">
+                    <title>servicio_codigo: NUMBER(3) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">servicio_codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="6d7b5bb5-0cb7-41cb-be5e-9a42871c405c" data-column-id="6d7b5bb5-0cb7-41cb-be5e-9a42871c405c" data-owner-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna farmaco_num_registro, NUMBER(8)">
+                    <title>farmaco_num_registro: NUMBER(8) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">farmaco_num_registro *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(8)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="824feae4-832e-4ddf-9b9a-84e2d2529dad" data-column-id="824feae4-832e-4ddf-9b9a-84e2d2529dad" data-owner-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha, DATE">
+                    <title>fecha: DATE · PK</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text>
+                    <text x="72" y="148"
+                class="field-label field-required">fecha *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="176" y2="176"/></g><g data-diagram-kind="column" data-diagram-id="5c65d8c0-2bc7-4842-97df-b5f62a487764" data-column-id="5c65d8c0-2bc7-4842-97df-b5f62a487764" data-owner-id="c8a48f12-1482-452e-b2fb-6eb88c3e845c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_dosis, NUMBER(4)">
+                    <title>num_dosis: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">num_dosis *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(4)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="7676a6f9-ceab-488c-b045-25472fc842f1" data-relation-id="7676a6f9-ceab-488c-b045-25472fc842f1"
+                data-label-for="7676a6f9-ceab-488c-b045-25472fc842f1"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="465" y="238"
+                    width="110" height="62" rx="4"/>
+                <text x="520" y="260"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Ingresa</text><text x="520" y="286"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← paciente</text></g><g data-diagram-kind="relationship" data-diagram-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0" data-relation-id="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+                data-label-for="401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="853.24" y="565"
+                    width="133.52" height="62" rx="4"/>
+                <text x="920" y="587"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ En_servicio</text><text x="920" y="613"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← servicio</text></g><g data-diagram-kind="relationship" data-diagram-id="059ad437-74d6-48fb-a683-2782754d2bf3" data-relation-id="059ad437-74d6-48fb-a683-2782754d2bf3"
+                data-label-for="059ad437-74d6-48fb-a683-2782754d2bf3"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1238.3352173913045" y="511"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="1290.8152173913045" y="533"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Consume</text><text x="1290.8152173913045" y="559"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← ingreso</text></g><g data-diagram-kind="relationship" data-diagram-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7" data-relation-id="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+                data-label-for="582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1510.4046153846155" y="487"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="1562.8846153846155" y="509"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Consume</text><text x="1562.8846153846155" y="535"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← farmaco</text></g><g data-diagram-kind="relationship" data-diagram-id="4711641e-31d3-4b2f-bc40-6b5f3a273355" data-relation-id="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+                data-label-for="4711641e-31d3-4b2f-bc40-6b5f3a273355"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1243.9814968814967" y="986"
+                    width="105.80000000000001" height="62" rx="4"/>
+                <text x="1296.8814968814968" y="1008"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Gasta</text><text x="1296.8814968814968" y="1034"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← servicio</text></g><g data-diagram-kind="relationship" data-diagram-id="9c75dba9-d5ae-42af-8b48-6def98d0894f" data-relation-id="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+                data-label-for="9c75dba9-d5ae-42af-8b48-6def98d0894f"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1507.52" y="628"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="1560" y="650"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Gasta</text><text x="1560" y="676"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← farmaco</text></g></svg>

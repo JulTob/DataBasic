@@ -400,8 +400,11 @@ export function showHelp() {
                 ajena (FK, también llamada foránea).</li>
             <li><strong>Ajusta las reglas.</strong> Selecciona la relación y abre Varios para
                 cambiar cardinalidad, tipo y opcionalidad.</li>
-            <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
-                DataBasic. El último ejercicio se recupera también desde este navegador.</li></ol>
+            <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga la carpeta del
+                proyecto en un .zip: README.md con los supuestos, esquema.sql con tablas y filas,
+                proyecto.databasic.json y los dibujos. Archivo → Abrir la recupera desde el .zip, desde
+                la carpeta descomprimida o desde una carpeta pública de GitHub; si editaste esquema.sql,
+                manda el SQL. El último ejercicio se recupera también desde este navegador.</li></ol>
             <p><strong>Crear una N:N o ternaria.</strong> En Diagrama, pulsa Relación,
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
@@ -1120,6 +1123,13 @@ function compatibility( text ) {
  */
 const EXPORT_GROUPS = [
     {
+        title: 'Proyecto',
+        items: [
+            ['save', 'Carpeta del proyecto (.zip)', 'Lo mismo que Guardar: README.md con los supuestos, esquema.sql con tablas y filas, proyecto.databasic.json, los dibujos y los archivos para otros programas. Descomprímela para trabajar cada archivo, o súbela a GitHub.', null],
+            ['save-json', 'Proyecto en un archivo (.databasic.json)', 'Todo el proyecto en un solo archivo, como en las versiones anteriores. Se abre con Archivo → Abrir.', null]
+            ]
+        },
+    {
         title: 'Modelo relacional',
         items: [
             ['vdx', 'Dibujo relacional (.vdx)', 'El diagrama relacional con notación IDEF1X, una leyenda y una página de diccionario de datos. Se abre como dibujo editable.', 'Compatible con Visio (2010)'],
@@ -1164,6 +1174,75 @@ export function showExportDialog( model ) {
                 ${issues.length
                     ? `<ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
                     : '<p>Nada que señalar: todo el modelo tiene equivalente directo en el diseño físico.</p>'}</div>`
+            );
+    }
+
+/**
+ * Abrir: a project comes as the ZIP DataBasic saves (or a lone
+ * .databasic.json), as a folder of the computer, or as a public GitHub
+ * folder. The two first open the file pickers; the link is this form's field.
+ */
+export function showOpenDialog( onLink ) {
+    openDialog(
+            'Abrir un proyecto',
+            `<p>Un proyecto de DataBasic es una carpeta con <code>esquema.sql</code> (tablas y filas),
+                <code>README.md</code> (supuestos) y <code>proyecto.databasic.json</code> (diagramas y lo demás).
+                Su nombre es el de la carpeta.</p>
+            <div class="open-choices">
+                <section class="open-choice"><h3>Archivo</h3>
+                    <p>El .zip que guarda DataBasic, o un .databasic.json suelto.</p>
+                    ${command( 'open-file-pick', 'Elegir archivo…', 'file-archive' )}</section>
+                <section class="open-choice"><h3>Carpeta</h3>
+                    <p>La carpeta del proyecto, descomprimida en tu equipo.</p>
+                    ${command( 'open-folder-pick', 'Elegir carpeta…', 'folder-open' )}</section>
+                <section class="open-choice"><h3>Enlace de GitHub</h3>
+                    <p>Una carpeta de un repositorio público.</p>
+                    <label class="dialog-fields">Enlace<input name="github" type="url" inputmode="url" autocomplete="off"
+                        placeholder="https://github.com/usuario/repositorio/tree/main/carpeta"></label></section>
+            </div>
+            <p class="field-hint">Si los archivos no dicen lo mismo, esquema.sql manda en tablas, claves, relaciones y filas,
+                y README.md en los supuestos. Al abrir verás qué se hizo con cada archivo.</p>`,
+            values => {
+                const link = String( values.get( 'github' ) || '' ).trim();
+
+                if (!link) {
+                    throw new Error( 'Pega el enlace de una carpeta de GitHub, o elige un archivo o una carpeta.' );
+                    }
+
+                onLink( link );
+                },
+            'Abrir enlace'
+            );
+    }
+
+const REPORT_LEVELS = {
+    ok: ['circle-check', 'Bien'],
+    info: ['info', 'Nota'],
+    warning: ['triangle-alert', 'Aviso'],
+    error: ['circle-x', 'Error'],
+    missing: ['circle-dashed', 'Falta']
+    };
+
+function reportRow( file ) {
+    const [iconName, label] = REPORT_LEVELS[file.level];
+
+    return `<tr class="report-${file.level}">
+        <td><code>${escapeHTML( file.name )}</code><small>${file.role === 'source' ? 'se lee' : 'se escribe al guardar'}</small></td>
+        <td><span class="report-level">${icon( iconName )}${label}</span> ${escapeHTML( file.text )}</td></tr>`;
+    }
+
+/** What DataBasic did with each file of the folder it just opened. */
+export function showProjectReport( report ) {
+    openDialog(
+            `Proyecto abierto: ${escapeHTML( report.name )}`,
+            `<p>Las tres primeras son las fuentes del proyecto; las demás se comprueban y se rehacen al guardar.</p>
+            <table class="project-report"><thead><tr><th>Archivo</th><th>Qué se hizo</th></tr></thead>
+                <tbody>${report.files.map( reportRow ).join( '' )}</tbody></table>
+            ${report.notes.length
+                ? `<h3>Además</h3><ul class="project-notes">${report.notes.map(
+                        item => `<li class="report-${item.level}">${escapeHTML( item.text )}</li>`
+                        ).join( '' )}</ul>`
+                : ''}`
             );
     }
 

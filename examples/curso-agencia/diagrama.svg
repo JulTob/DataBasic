@@ -1,0 +1,726 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="3132" height="1947"
+        viewBox="84 -6 3132 1947">
+        <title>Agencia de viajes · ejercicio 1 (guion ERE)</title>
+        <rect x="84" y="-6" width="3132"
+            height="1947" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="conceptual-generalization" data-diagram-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b" data-conceptual-generalization-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2130,1140 L2130,1040"/>
+        <path class="relation-line" d="M2130,1140 L2130,1040"
+            transform="translate(-2.5,-1.5308084989341916e-16)"/>
+        <path class="relation-line" d="M2130,1140 L2130,1040"
+            transform="translate(2.5,1.5308084989341916e-16)"/>
+        </g><g data-diagram-kind="conceptual-generalization" data-diagram-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b" data-conceptual-generalization-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2112.9392588831856,1173.2446360723804 L1211.799709724238,1820"/>
+        <path class="relation-line" d="M2112.9392588831856,1173.2446360723804 L1211.799709724238,1820"
+            />
+        <path data-marker="subset" class="subset-marker"
+        d="M1610.8986498554698,1520.023507552335 A11,11 0 0 0 1623.726363836059,1537.8966649128074"/>
+        </g><g data-diagram-kind="conceptual-generalization" data-diagram-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b" data-conceptual-generalization-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2147.0607411168144,1173.2446360723804 L3048.200290275762,1820"/>
+        <path class="relation-line" d="M2147.0607411168144,1173.2446360723804 L3048.200290275762,1820"
+            />
+        <path data-marker="subset" class="subset-marker"
+        d="M2636.2736361639413,1537.8966649128074 A11,11 0 0 0 2649.10135014453,1520.023507552335"/>
+        </g><g data-diagram-kind="participation" data-diagram-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-participation-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M580,170 L300,170"/>
+        <path class="relation-line" d="M580,170 L300,170"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-participation-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M800,170 L1080,170"/>
+        <path class="relation-line" d="M800,170 L1080,170"
+            transform="translate(0,-2.5)"/>
+        <path class="relation-line" d="M800,170 L1080,170"
+            transform="translate(0,2.5)"/>
+        </g><g data-diagram-kind="participation" data-diagram-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-participation-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1760,170 L2040,170"/>
+        <path class="relation-line" d="M1760,170 L2040,170"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-participation-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1540,170 L1260,170"/>
+        <path class="relation-line" d="M1540,170 L1260,170"
+            transform="translate(3.061616997868383e-16,2.5)"/>
+        <path class="relation-line" d="M1540,170 L1260,170"
+            transform="translate(-3.061616997868383e-16,-2.5)"/>
+        </g><g data-diagram-kind="participation" data-diagram-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-participation-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1170,1060 L1170,1820"/>
+        <path class="relation-line" d="M1170,1060 L1170,1820"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="b491c14d-4f32-48ae-92da-a413a574df36" data-participation-id="b491c14d-4f32-48ae-92da-a413a574df36" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1170,960 L1170,200"/>
+        <path class="relation-line" d="M1170,960 L1170,200"
+            transform="translate(-2.5,-1.5308084989341916e-16)"/>
+        <path class="relation-line" d="M1170,960 L1170,200"
+            transform="translate(2.5,1.5308084989341916e-16)"/>
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="20121ad9-ebaf-403f-8a49-c2a2307b3942" data-conceptual-attribute-id="20121ad9-ebaf-403f-8a49-c2a2307b3942" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M300,158.5931558935361 L912.450437295795,80.96952632499429"/>
+        <path class="relation-line" d="M300,158.5931558935361 L912.450437295795,80.96952632499429"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00b89c28-da02-47d8-9891-ab937ca998de" data-conceptual-attribute-id="00b89c28-da02-47d8-9891-ab937ca998de" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M261.1976047904192,200 L440.6114820955657,305.1302368770508"/>
+        <path class="relation-line" d="M261.1976047904192,200 L440.6114820955657,305.1302368770508"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="25d8ed60-2011-4446-8843-03db071f54f9" data-conceptual-attribute-id="25d8ed60-2011-4446-8843-03db071f54f9" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M300,191.61383285302594 L671.1647019644558,280.7504087330586"/>
+        <path class="relation-line" d="M300,191.61383285302594 L671.1647019644558,280.7504087330586"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="bed3ff7c-de0d-4cde-8795-a0ffdc654098" data-conceptual-attribute-id="bed3ff7c-de0d-4cde-8795-a0ffdc654098" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M275.7551020408163,200 L684.1990971383228,386.3478189923447"/>
+        <path class="relation-line" d="M275.7551020408163,200 L684.1990971383228,386.3478189923447"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="55478e68-0a2c-4d55-9da2-7aab8dd04707" data-conceptual-attribute-id="55478e68-0a2c-4d55-9da2-7aab8dd04707" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1260,158.94891944990178 L1893.1282224676088,81.20724183845665"/>
+        <path class="relation-line" d="M1260,158.94891944990178 L1893.1282224676088,81.20724183845665"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="448d29de-f315-4c16-ab48-31bfa0249872" data-conceptual-attribute-id="448d29de-f315-4c16-ab48-31bfa0249872" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1221.65748502994,200 L1402.3033751629616,304.9098054396112"/>
+        <path class="relation-line" d="M1221.65748502994,200 L1402.3033751629616,304.9098054396112"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="029217b1-4cbf-4584-a14f-2d79705c6162" data-conceptual-attribute-id="029217b1-4cbf-4584-a14f-2d79705c6162" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1260,191.7877094972067 L1627.9641007777695,280.8665420877282"/>
+        <path class="relation-line" d="M1260,191.7877094972067 L1627.9641007777695,280.8665420877282"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="a44765b0-d19e-43c5-b97f-4d7ad01e7cd5" data-conceptual-attribute-id="a44765b0-d19e-43c5-b97f-4d7ad01e7cd5" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2215.5,140 L2344.360551101992,94.78577154316082"/>
+        <path class="relation-line" d="M2215.5,140 L2344.360551101992,94.78577154316082"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="64a5f293-82f6-4550-962d-589ba4c2dbce" data-conceptual-attribute-id="64a5f293-82f6-4550-962d-589ba4c2dbce" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2220,174.73684210526315 L2325.6244989125157,180.29602625855347"/>
+        <path class="relation-line" d="M2220,174.73684210526315 L2325.6244989125157,180.29602625855347"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="bbe52635-1647-49c8-a6ca-75d27f1bb808" data-conceptual-attribute-id="bbe52635-1647-49c8-a6ca-75d27f1bb808" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2195.769230769231,200 L2352.1921745780614,271.35081647420344"/>
+        <path class="relation-line" d="M2195.769230769231,200 L2352.1921745780614,271.35081647420344"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="4d9953ad-e864-420c-b6d1-3ecaeee99a5e" data-conceptual-attribute-id="4d9953ad-e864-420c-b6d1-3ecaeee99a5e" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2164.8979591836733,200 L2373.6667334170215,379.46789363919385"/>
+        <path class="relation-line" d="M2164.8979591836733,200 L2373.6667334170215,379.46789363919385"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="1732c5cf-d156-4409-a0d3-23d8eb1bddd6" data-conceptual-attribute-id="1732c5cf-d156-4409-a0d3-23d8eb1bddd6" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2215.5,980 L2344.360551101992,934.7857715431609"/>
+        <path class="relation-line" d="M2215.5,980 L2344.360551101992,934.7857715431609"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="abb6aeec-7000-4485-bcf4-df2f0d4158bf" data-conceptual-attribute-id="abb6aeec-7000-4485-bcf4-df2f0d4158bf" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2220,1014.7368421052631 L2325.6244989125157,1020.2960262585534"/>
+        <path class="relation-line" d="M2220,1014.7368421052631 L2325.6244989125157,1020.2960262585534"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="4debc517-3d29-4e4c-bad3-061e52e18b78" data-conceptual-attribute-id="4debc517-3d29-4e4c-bad3-061e52e18b78" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M2201.206153846154,1040 L2365.721206061966,1109.312149300154"/>
+        <path class="relation-line" d="M2201.206153846154,1040 L2365.721206061966,1109.312149300154"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="ea905cb7-638b-4b6a-8e5d-ac3cbd16f00c" data-conceptual-attribute-id="ea905cb7-638b-4b6a-8e5d-ac3cbd16f00c" data-owner-id="856ec052-5657-456b-b17f-a18201f0ebc9"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1257.78,1820 L1387.6426054613257,1775.6177014828006"/>
+        <path class="relation-line" d="M1257.78,1820 L1387.6426054613257,1775.6177014828006"
+            />
+        
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="c274ecd8-b4d4-4fa4-87b1-d63c939afd15" data-conceptual-attribute-id="c274ecd8-b4d4-4fa4-87b1-d63c939afd15" data-owner-id="856ec052-5657-456b-b17f-a18201f0ebc9"
+        class="relationship "
+        role="button" tabindex="0">
+        <path class="relation-hit" d="M1260,1854.3338683788122 L1366.1291312337225,1859.4444204446415"/>
+        <path class="relation-line" d="M1260,1854.3338683788122 L1366.1291312337225,1859.4444204446415"
+            />
+        
+        </g><g data-diagram-kind="participation" data-diagram-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-participation-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+        class="relationship ">
+        <path data-label-leader="046506ef-fa64-43e0-8050-28bfdcd11745"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M356,170 L356,183"/>
+                    <circle data-label-anchor="046506ef-fa64-43e0-8050-28bfdcd11745"
+                        cx="356" cy="170" r="2.8" class="label-anchor"/><path data-label-leader="046506ef-fa64-43e0-8050-28bfdcd11745"
+                    data-label-purpose="role" class="label-leader"
+                    d="M440,170 L440,147"/>
+                    <circle data-label-anchor="046506ef-fa64-43e0-8050-28bfdcd11745"
+                        cx="440" cy="170" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-participation-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+        class="relationship ">
+        <path data-label-leader="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1024,170 L1024,147"/>
+                    <circle data-label-anchor="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                        cx="1024" cy="170" r="2.8" class="label-anchor"/><path data-label-leader="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                    data-label-purpose="role" class="label-leader"
+                    d="M940,170 L940,183"/>
+                    <circle data-label-anchor="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                        cx="940" cy="170" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-participation-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+        class="relationship ">
+        <path data-label-leader="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1984,170 L1984,147"/>
+                    <circle data-label-anchor="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                        cx="1984" cy="170" r="2.8" class="label-anchor"/><path data-label-leader="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                    data-label-purpose="role" class="label-leader"
+                    d="M1900,170 L1900,183"/>
+                    <circle data-label-anchor="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                        cx="1900" cy="170" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-participation-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+        class="relationship ">
+        <path data-label-leader="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1316,170 L1316,183"/>
+                    <circle data-label-anchor="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                        cx="1316" cy="170" r="2.8" class="label-anchor"/><path data-label-leader="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                    data-label-purpose="role" class="label-leader"
+                    d="M1400,170 L1400,147"/>
+                    <circle data-label-anchor="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                        cx="1400" cy="170" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-participation-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+        class="relationship ">
+        <path data-label-leader="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1170,1668 L1188,1668"/>
+                    <circle data-label-anchor="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                        cx="1170" cy="1668" r="2.8" class="label-anchor"/><path data-label-leader="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                    data-label-purpose="role" class="label-leader"
+                    d="M1170,1440 L1152,1440"/>
+                    <circle data-label-anchor="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                        cx="1170" cy="1440" r="2.8" class="label-anchor"/></g><g data-diagram-kind="participation" data-diagram-id="b491c14d-4f32-48ae-92da-a413a574df36" data-participation-id="b491c14d-4f32-48ae-92da-a413a574df36" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+        class="relationship ">
+        <path data-label-leader="b491c14d-4f32-48ae-92da-a413a574df36"
+                    data-label-purpose="participation" class="label-leader"
+                    d="M1170,352 L1152,352"/>
+                    <circle data-label-anchor="b491c14d-4f32-48ae-92da-a413a574df36"
+                        cx="1170" cy="352" r="2.8" class="label-anchor"/><path data-label-leader="b491c14d-4f32-48ae-92da-a413a574df36"
+                    data-label-purpose="role" class="label-leader"
+                    d="M1170,580 L1188,580"/>
+                    <circle data-label-anchor="b491c14d-4f32-48ae-92da-a413a574df36"
+                        cx="1170" cy="580" r="2.8" class="label-anchor"/></g><g data-diagram-kind="conceptual-entity" data-diagram-id="53e62adc-d631-4090-9606-e6517b5f8927" data-conceptual-entity-id="53e62adc-d631-4090-9606-e6517b5f8927" data-table-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(120,140)" role="button" tabindex="0"
+        aria-label="Entidad Cliente">
+        <title>Cliente</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Cliente</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="5d7826fe-e265-4958-9d72-8b3bfda89113" data-conceptual-entity-id="5d7826fe-e265-4958-9d72-8b3bfda89113" data-table-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(1080,140)" role="button" tabindex="0"
+        aria-label="Entidad Reserva">
+        <title>Reserva</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Reserva</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="1d406377-65a8-402e-9618-c68a27f799e8" data-conceptual-entity-id="1d406377-65a8-402e-9618-c68a27f799e8" data-table-id="8f013aa6-2645-427b-b05a-759348de4ed0" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(2040,140)" role="button" tabindex="0"
+        aria-label="Entidad Viaje">
+        <title>Viaje</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Viaje</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="e95cc53a-9c17-40da-897c-889938081da9" data-conceptual-entity-id="e95cc53a-9c17-40da-897c-889938081da9" data-table-id="03d53d5b-2324-4658-8c6f-bb9fb9440981" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(2040,980)" role="button" tabindex="0"
+        aria-label="Entidad Empleado">
+        <title>Empleado</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Empleado</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="856ec052-5657-456b-b17f-a18201f0ebc9" data-conceptual-entity-id="856ec052-5657-456b-b17f-a18201f0ebc9" data-table-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(1080,1820)" role="button" tabindex="0"
+        aria-label="Entidad Agente">
+        <title>Agente</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Agente</text></g><g data-diagram-kind="conceptual-entity" data-diagram-id="3ab07df5-902c-46f2-887b-9f5a7487345d" data-conceptual-entity-id="3ab07df5-902c-46f2-887b-9f5a7487345d" data-table-id="fad2d180-da6f-4885-87f0-a98b3d03b9ff" 
+        class="chen-node chen-entity 
+            "
+        data-projected="false"
+        transform="translate(3000,1820)" role="button" tabindex="0"
+        aria-label="Entidad Administrativo">
+        <title>Administrativo</title>
+        <rect class="chen-shape" width="180" height="60"/>
+        
+        <text x="90" y="35"
+                class="chen-name centered-label">Administrativo</text></g><g data-diagram-kind="conceptual-relationship" data-diagram-id="b2a5715e-d829-4a97-8540-710c69aaf4ca" data-conceptual-relationship-id="b2a5715e-d829-4a97-8540-710c69aaf4ca" 
+        class="chen-node chen-relation "
+        data-identifying="false"
+        transform="translate(580,120)" role="button" tabindex="0"
+        aria-label="Interrelación Realiza">
+        <title>Realiza</title>
+        <path class="chen-shape" d="M110,0 L220,50
+            L110,100 L0,50 Z"/>
+        
+        <text x="110" y="55"
+                class="chen-name centered-label">Realiza</text>
+        </g><g data-diagram-kind="conceptual-relationship" data-diagram-id="dffb2fa8-747a-4c67-96d9-3af339dca162" data-conceptual-relationship-id="dffb2fa8-747a-4c67-96d9-3af339dca162" 
+        class="chen-node chen-relation "
+        data-identifying="false"
+        transform="translate(1540,120)" role="button" tabindex="0"
+        aria-label="Interrelación Reserva_de">
+        <title>Reserva_de</title>
+        <path class="chen-shape" d="M110,0 L220,50
+            L110,100 L0,50 Z"/>
+        
+        <text x="110" y="55"
+                class="chen-name centered-label">Reserva_de</text>
+        </g><g data-diagram-kind="conceptual-relationship" data-diagram-id="9e031425-082e-4db5-bcc4-7d2f49401d9a" data-conceptual-relationship-id="9e031425-082e-4db5-bcc4-7d2f49401d9a" 
+        class="chen-node chen-relation "
+        data-identifying="false"
+        transform="translate(1060,960)" role="button" tabindex="0"
+        aria-label="Interrelación Gestiona">
+        <title>Gestiona</title>
+        <path class="chen-shape" d="M110,0 L220,50
+            L110,100 L0,50 Z"/>
+        
+        <text x="110" y="55"
+                class="chen-name centered-label">Gestiona</text>
+        </g><g data-diagram-kind="conceptual-attribute" data-diagram-id="20121ad9-ebaf-403f-8a49-c2a2307b3942" data-conceptual-attribute-id="20121ad9-ebaf-403f-8a49-c2a2307b3942" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927" 
+        class="chen-node chen-attribute "
+        transform="translate(909,30)" role="button" tabindex="0"
+        aria-label="Atributo dni, CHAR(9)">
+        <title>dni: CHAR(9)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name attribute-key  centered-label">dni</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">CHAR(9)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="00b89c28-da02-47d8-9891-ab937ca998de" data-conceptual-attribute-id="00b89c28-da02-47d8-9891-ab937ca998de" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927" 
+        class="chen-node chen-attribute "
+        transform="translate(405,297)" role="button" tabindex="0"
+        aria-label="Atributo nombre, VARCHAR(80)">
+        <title>nombre: VARCHAR(80)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">nombre</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">VARCHAR(80)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="25d8ed60-2011-4446-8843-03db071f54f9" data-conceptual-attribute-id="25d8ed60-2011-4446-8843-03db071f54f9" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927" 
+        class="chen-node chen-attribute "
+        transform="translate(659.88,260)" role="button" tabindex="0"
+        aria-label="Atributo direccion, VARCHAR(120)">
+        <title>direccion: VARCHAR(120)</title>
+        <ellipse class="chen-shape" cx="91.44" cy="40"
+            rx="91.44" ry="40"
+            />
+        
+        <text x="91.44" y="35"
+                class="chen-name   centered-label">direccion</text>
+        <text x="91.44"
+            y="61"
+            class="type-label centered-label">VARCHAR(120)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="bed3ff7c-de0d-4cde-8795-a0ffdc654098" data-conceptual-attribute-id="bed3ff7c-de0d-4cde-8795-a0ffdc654098" data-owner-id="53e62adc-d631-4090-9606-e6517b5f8927" 
+        class="chen-node chen-attribute "
+        transform="translate(657,375)" role="button" tabindex="0"
+        aria-label="Atributo telefono, VARCHAR(15)">
+        <title>telefono: VARCHAR(15)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        <ellipse class="chen-inner" cx="90" cy="40"
+            rx="85" ry="35"/>
+        <text x="90" y="35"
+                class="chen-name   centered-label">telefono</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">VARCHAR(15)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="55478e68-0a2c-4d55-9da2-7aab8dd04707" data-conceptual-attribute-id="55478e68-0a2c-4d55-9da2-7aab8dd04707" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113" 
+        class="chen-node chen-attribute "
+        transform="translate(1889.32,30)" role="button" tabindex="0"
+        aria-label="Atributo codigo_reserva, NUMBER">
+        <title>codigo_reserva: NUMBER</title>
+        <ellipse class="chen-shape" cx="95.07999999999998" cy="40"
+            rx="95.07999999999998" ry="40"
+            />
+        
+        <text x="95.07999999999998" y="35"
+                class="chen-name attribute-key  centered-label">codigo_reserva</text>
+        <text x="95.07999999999998"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="448d29de-f315-4c16-ab48-31bfa0249872" data-conceptual-attribute-id="448d29de-f315-4c16-ab48-31bfa0249872" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113" 
+        class="chen-node chen-attribute "
+        transform="translate(1365,297)" role="button" tabindex="0"
+        aria-label="Atributo fecha_reserva, DATE">
+        <title>fecha_reserva: DATE</title>
+        <ellipse class="chen-shape" cx="92.55999999999999" cy="40"
+            rx="92.55999999999999" ry="40"
+            />
+        
+        <text x="92.55999999999999" y="35"
+                class="chen-name   centered-label">fecha_reserva</text>
+        <text x="92.55999999999999"
+            y="61"
+            class="type-label centered-label">DATE</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="029217b1-4cbf-4584-a14f-2d79705c6162" data-conceptual-attribute-id="029217b1-4cbf-4584-a14f-2d79705c6162" data-owner-id="5d7826fe-e265-4958-9d72-8b3bfda89113" 
+        class="chen-node chen-attribute "
+        transform="translate(1617,260)" role="button" tabindex="0"
+        aria-label="Atributo num_plazas, NUMBER(3)">
+        <title>num_plazas: NUMBER(3)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">num_plazas</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER(3)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="a44765b0-d19e-43c5-b97f-4d7ad01e7cd5" data-conceptual-attribute-id="a44765b0-d19e-43c5-b97f-4d7ad01e7cd5" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,30)" role="button" tabindex="0"
+        aria-label="Atributo codigo, NUMBER">
+        <title>codigo: NUMBER</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name attribute-key  centered-label">codigo</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="64a5f293-82f6-4550-962d-589ba4c2dbce" data-conceptual-attribute-id="64a5f293-82f6-4550-962d-589ba4c2dbce" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,145)" role="button" tabindex="0"
+        aria-label="Atributo destino, VARCHAR(80)">
+        <title>destino: VARCHAR(80)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">destino</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">VARCHAR(80)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="bbe52635-1647-49c8-a6ca-75d27f1bb808" data-conceptual-attribute-id="bbe52635-1647-49c8-a6ca-75d27f1bb808" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,260)" role="button" tabindex="0"
+        aria-label="Atributo fecha_salida, DATE">
+        <title>fecha_salida: DATE</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">fecha_salida</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">DATE</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="4d9953ad-e864-420c-b6d1-3ecaeee99a5e" data-conceptual-attribute-id="4d9953ad-e864-420c-b6d1-3ecaeee99a5e" data-owner-id="1d406377-65a8-402e-9618-c68a27f799e8" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,375)" role="button" tabindex="0"
+        aria-label="Atributo precio, NUMBER(8,2)">
+        <title>precio: NUMBER(8,2)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">precio</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">NUMBER(8,2)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="1732c5cf-d156-4409-a0d3-23d8eb1bddd6" data-conceptual-attribute-id="1732c5cf-d156-4409-a0d3-23d8eb1bddd6" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,870)" role="button" tabindex="0"
+        aria-label="Atributo dni, CHAR(9)">
+        <title>dni: CHAR(9)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name attribute-key  centered-label">dni</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">CHAR(9)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="abb6aeec-7000-4485-bcf4-df2f0d4158bf" data-conceptual-attribute-id="abb6aeec-7000-4485-bcf4-df2f0d4158bf" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,985)" role="button" tabindex="0"
+        aria-label="Atributo nombre, VARCHAR(80)">
+        <title>nombre: VARCHAR(80)</title>
+        <ellipse class="chen-shape" cx="90" cy="40"
+            rx="90" ry="40"
+            />
+        
+        <text x="90" y="35"
+                class="chen-name   centered-label">nombre</text>
+        <text x="90"
+            y="61"
+            class="type-label centered-label">VARCHAR(80)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="4debc517-3d29-4e4c-bad3-061e52e18b78" data-conceptual-attribute-id="4debc517-3d29-4e4c-bad3-061e52e18b78" data-owner-id="e95cc53a-9c17-40da-897c-889938081da9" 
+        class="chen-node chen-attribute "
+        transform="translate(2325,1100)" role="button" tabindex="0"
+        aria-label="Atributo fecha_contratacion, DATE">
+        <title>fecha_contratacion: DATE</title>
+        <ellipse class="chen-shape" cx="113.56" cy="40"
+            rx="113.56" ry="40"
+            />
+        
+        <text x="113.56" y="35"
+                class="chen-name   centered-label">fecha_contratacion</text>
+        <text x="113.56"
+            y="61"
+            class="type-label centered-label">DATE</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="ea905cb7-638b-4b6a-8e5d-ac3cbd16f00c" data-conceptual-attribute-id="ea905cb7-638b-4b6a-8e5d-ac3cbd16f00c" data-owner-id="856ec052-5657-456b-b17f-a18201f0ebc9" 
+        class="chen-node chen-attribute "
+        transform="translate(1365,1710)" role="button" tabindex="0"
+        aria-label="Atributo codigo_empleado, NUMBER(5)">
+        <title>codigo_empleado: NUMBER(5)</title>
+        <ellipse class="chen-shape" cx="97.6" cy="40"
+            rx="97.6" ry="40"
+            />
+        
+        <text x="97.6" y="35"
+                class="chen-name   centered-label">codigo_empleado</text>
+        <text x="97.6"
+            y="61"
+            class="type-label centered-label">NUMBER(5)</text></g><g data-diagram-kind="conceptual-attribute" data-diagram-id="c274ecd8-b4d4-4fa4-87b1-d63c939afd15" data-conceptual-attribute-id="c274ecd8-b4d4-4fa4-87b1-d63c939afd15" data-owner-id="856ec052-5657-456b-b17f-a18201f0ebc9" 
+        class="chen-node chen-attribute "
+        transform="translate(1365,1825)" role="button" tabindex="0"
+        aria-label="Atributo area_especializacion, VARCHAR(40)">
+        <title>area_especializacion: VARCHAR(40)</title>
+        <ellipse class="chen-shape" cx="116.50000000000001" cy="40"
+            rx="116.50000000000001" ry="40"
+            />
+        
+        <text x="116.50000000000001" y="35"
+                class="chen-name   centered-label">area_especializacion</text>
+        <text x="116.50000000000001"
+            y="61"
+            class="type-label centered-label">VARCHAR(40)</text></g><g data-diagram-kind="conceptual-generalization" data-diagram-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b" data-conceptual-generalization-id="7eb04a5b-6822-452c-88ab-dfe8bed9561b"
+        class="chen-node "
+        transform="translate(2109,1140)" role="button" tabindex="0"
+        aria-label="Especialización disjunta, total">
+        <title>Disjunta · total</title>
+        <circle class="chen-shape" cx="21" cy="21" r="21"/>
+        <text x="21" y="26" class="chen-name centered-label">d</text></g><g data-diagram-kind="participation" data-diagram-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-participation-id="046506ef-fa64-43e0-8050-28bfdcd11745" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+                data-label-for="046506ef-fa64-43e0-8050-28bfdcd11745"
+                class="relationship  ">
+                
+                <g data-label-for="046506ef-fa64-43e0-8050-28bfdcd11745"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="328" y="183"
+                            width="56" height="22" rx="4"/>
+                        <text x="356" y="199"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(0,N)</text></g><g data-label-for="046506ef-fa64-43e0-8050-28bfdcd11745"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="404.86" y="125"
+                            width="70.28" height="22" rx="4"/>
+                        <text x="440" y="141"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">cliente</text></g><text x="529.6" y="141"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">1</text></g><g data-diagram-kind="participation" data-diagram-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-participation-id="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9" data-owner-id="b2a5715e-d829-4a97-8540-710c69aaf4ca"
+                data-label-for="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                class="relationship  ">
+                
+                <g data-label-for="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="996" y="125"
+                            width="56" height="22" rx="4"/>
+                        <text x="1024" y="141"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(1,1)</text></g><g data-label-for="aefcf4c8-3b12-4d1f-b175-f9ac4d5343b9"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="900.66" y="183"
+                            width="78.68" height="22" rx="4"/>
+                        <text x="940" y="199"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">reserva</text></g><text x="850.4" y="199"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">N</text></g><g data-diagram-kind="participation" data-diagram-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-participation-id="8b79f7dc-97da-43e8-93af-f71d43eda5b0" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+                data-label-for="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                class="relationship  ">
+                
+                <g data-label-for="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="1956" y="125"
+                            width="56" height="22" rx="4"/>
+                        <text x="1984" y="141"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(0,N)</text></g><g data-label-for="8b79f7dc-97da-43e8-93af-f71d43eda5b0"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="1872" y="183"
+                            width="56.00000000000001" height="22" rx="4"/>
+                        <text x="1900" y="199"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">viaje</text></g><text x="1810.4" y="199"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">1</text></g><g data-diagram-kind="participation" data-diagram-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-participation-id="11fd1242-a95e-4164-8da8-5133fbcb8187" data-owner-id="dffb2fa8-747a-4c67-96d9-3af339dca162"
+                data-label-for="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                class="relationship  ">
+                
+                <g data-label-for="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="1288" y="183"
+                            width="56" height="22" rx="4"/>
+                        <text x="1316" y="199"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(1,1)</text></g><g data-label-for="11fd1242-a95e-4164-8da8-5133fbcb8187"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="1360.66" y="125"
+                            width="78.68" height="22" rx="4"/>
+                        <text x="1400" y="141"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">reserva</text></g><text x="1489.6" y="141"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">N</text></g><g data-diagram-kind="participation" data-diagram-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-participation-id="4e89a6a7-1af4-40a1-8730-62e20ae93cca" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+                data-label-for="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                class="relationship  ">
+                
+                <g data-label-for="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="1188" y="1652"
+                            width="56" height="22" rx="4"/>
+                        <text x="1216" y="1668"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(0,N)</text></g><g data-label-for="4e89a6a7-1af4-40a1-8730-62e20ae93cca"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="1082.56" y="1424"
+                            width="69.44" height="22" rx="4"/>
+                        <text x="1117.28" y="1440"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">agente</text></g><text x="1140.38" y="1196.8"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">1</text></g><g data-diagram-kind="participation" data-diagram-id="b491c14d-4f32-48ae-92da-a413a574df36" data-participation-id="b491c14d-4f32-48ae-92da-a413a574df36" data-owner-id="9e031425-082e-4db5-bcc4-7d2f49401d9a"
+                data-label-for="b491c14d-4f32-48ae-92da-a413a574df36"
+                class="relationship  ">
+                
+                <g data-label-for="b491c14d-4f32-48ae-92da-a413a574df36"
+                        data-label-purpose="participation" class="participation-caption">
+                        <rect class="label-background" x="1096" y="336"
+                            width="56" height="22" rx="4"/>
+                        <text x="1124" y="352"
+                    data-reading="participation" class="relation-label "
+                    text-anchor="middle">(1,1)</text></g><g data-label-for="b491c14d-4f32-48ae-92da-a413a574df36"
+                        data-label-purpose="role" class="participation-caption">
+                        <rect class="label-background" x="1188" y="564"
+                            width="78.68" height="22" rx="4"/>
+                        <text x="1227.34" y="580"
+                    data-reading="role" class="relation-label "
+                    text-anchor="middle">reserva</text></g><text x="1199.62" y="823.2"
+                    data-reading="cardinality" class="relation-label cardinality-letter"
+                    text-anchor="middle">N</text></g></svg>

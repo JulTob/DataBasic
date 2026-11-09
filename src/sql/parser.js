@@ -119,6 +119,14 @@ function isNameToken( current ) {
     return current.kind === 'name' || current.kind === 'word' && !SQL_RESERVED.has( current.upper );
     }
 
+/** A name as this dialect writes it: plain when it reads as a word that is not reserved, in [brackets] otherwise. */
+export function sqlName( name ) {
+    const text = String( name );
+    const plain = /^[\p{L}_][\p{L}\p{N}_]*$/u.test( text ) && !SQL_RESERVED.has( text.toUpperCase() );
+
+    return plain ? text : `[${text}]`;
+    }
+
 function readNameList(
         cursor,
         what

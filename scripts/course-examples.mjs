@@ -1,17 +1,16 @@
 /*
  * Builds the course exercises as DataBasic documents through the domain API,
  * so every file is a valid, fully materialized model. Run it with
- * `node scripts/course-examples.mjs`; it rewrites examples/curso-*.databasic.json
- * (identifiers are generated anew on each run).
+ * `node scripts/course-examples.mjs`; it rewrites the project folders
+ * examples/curso-<nombre>/ (identifiers are generated anew on each run).
  */
-import { writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import * as domain from '../src/domain/model.js';
-import { serializeDocument } from '../src/domain/serialization.js';
 import { exportSQL } from '../src/io/sql.js';
 import { fillWithSampleData } from '../src/sql/sample.js';
-
-const OUT = fileURLToPath( new URL( '../examples', import.meta.url ) );
+import {
+    exampleSlug,
+    writeExampleFolder
+    } from './example-folder.mjs';
 
 /* ---------- small helpers over the domain API ---------- */
 
@@ -207,7 +206,7 @@ function finish( state, filename ) {
 
     const sql = exportSQL( state.model );
 
-    writeFileSync( `${OUT}/${filename}`, serializeDocument( state.model ) );
+    writeExampleFolder( exampleSlug( filename ), state.model );
     console.log( `${filename}: ${state.model.tables.length} tablas, ${state.model.relationships.length} FKs, ${state.model.conceptual.relationships.length} relaciones, ${(sql.match( /CREATE TABLE/g ) || []).length} CREATE TABLE` );
 
     for (const table of state.model.tables) {

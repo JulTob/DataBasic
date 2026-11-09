@@ -50,6 +50,15 @@ import {
     deliveryFilename,
     memoFilename
     } from './io/package.js';
+import {
+    PROJECT_FILES,
+    isProjectFile,
+    openProject,
+    projectFolder,
+    projectZip
+    } from './io/project.js';
+import { readZip } from './io/zipread.js';
+import { fetchGitHubFolder } from './io/github.js';
 import { svgToPNG } from './ui/raster.js';
 import { runSql } from './sql/console.js';
 import {
@@ -118,7 +127,9 @@ import {
     showAlternateKeyDialog,
     showAssumptionDialog,
     showAssumptionsOverview,
-    showExportDialog
+    showExportDialog,
+    showOpenDialog,
+    showProjectReport
     } from './ui/dialogs.js';
 import {
     buildDesignReport,
@@ -1297,18 +1308,107 @@ function downloadDeliveryPackage() {
             );
     }
 
+/** The two drawings of a document: the entity-relationship diagram and the relational model. */
+function projectDiagrams( model ) {
+    return {
+        chen: exportSVG( setDiagramMode( model, 'chen' ) ),
+        relational: exportSVG( setDiagramMode( model, 'relational' ) )
+        };
+    }
+
 /** Both representations, drawn from the same document, illustrate the report. */
 function designDiagrams() {
+    const drawings = projectDiagrams( state.model );
+
     return [
-        {
-            title: 'Diagrama entidad-relación extendido (Chen)',
-            svg: exportSVG( setDiagramMode( state.model, 'chen' ) )
-            },
-        {
-            title: 'Diagrama relacional',
-            svg: exportSVG( setDiagramMode( state.model, 'relational' ) )
-            }
+        {title: 'Diagrama entidad-relación extendido (Chen)', svg: drawings.chen},
+        {title: 'Diagrama relacional', svg: drawings.relational}
         ];
+    }
+
+/* ---------- project folders: save and open ---------- */
+
+/** Guardar: the project folder in a ZIP, named after the project. */
+function saveProject() {
+    const project = projectZip( state.model, {diagrams: projectDiagrams( state.model )} );
+    const missing = project.skipped.map( item => item.name ).join( ', ' );
+
+    download( project.bytes, project.filename, 'application/zip' );
+    notify(
+            missing
+                ? `Proyecto guardado en ${project.filename}, sin ${missing}: ${project.skipped[0].reason}`
+                : `Proyecto guardado en ${project.filename}. Descomprímelo para trabajar sus archivos o súbelo a GitHub.`
+            );
+    }
+
+function reportNeedsAttention( report ) {
+    return report.files.some( file => ['warning', 'error'].includes( file.level ) )
+        || report.notes.some( item => item.level === 'warning' );
+    }
+
+/**
+ * Opens the project found among some files [{name, data}] and shows what
+ * was done with each file. Examples open quietly (with the JSON's name)
+ * unless something needs attention.
+ */
+function openProjectFiles(
+        entries,
+        fallbackName,
+        {name, quiet = false} = {}
+        ) {
+    const folder = projectFolder( entries, fallbackName );
+    const opened = openProject( folder, {diagrams: projectDiagrams, name: name === undefined ? folder.name : name} );
+
+    replaceCurrentDocument( opened.model );
+
+    if (!quiet || reportNeedsAttention( opened.report )) {
+        showProjectReport( opened.report );
+        }
+
+    return opened.model;
+    }
+
+async function openGitHubLink( link ) {
+    notify( 'Leyendo la carpeta de GitHub…' );
+
+    try {
+        const folder = await fetchGitHubFolder( link, isProjectFile );
+        const model = openProjectFiles( folder.files, folder.name );
+
+        notify( `Carpeta de GitHub abierta: ${model.name}.` );
+        }
+    catch (error) {
+        notify( `No se pudo abrir la carpeta de GitHub. ${error.message}` );
+        }
+    }
+
+/** A ZIP: the project folder it holds (DataBasic's, or any with the same files). */
+async function openZipFile( file ) {
+    const entries = await readZip( new Uint8Array( await file.arrayBuffer() ) );
+
+    openProjectFiles( entries, file.name.replace( /\.zip$/i, '' ) );
+    }
+
+/** A lone .databasic.json, as earlier versions saved the project. */
+async function openJSONFile( file ) {
+    if (file.size > 5_000_000) {
+        throw new Error( 'El archivo supera los 5 MB admitidos.' );
+        }
+
+    const model = parseDocument( await file.text() );
+
+    replaceCurrentDocument( model );
+    notify( `Proyecto abierto: ${model.name}` );
+    }
+
+/** A folder of the computer: only the files of the format are read. */
+async function openFolderFiles( files ) {
+    const wanted = files.filter( file => isProjectFile( file.webkitRelativePath || file.name ) );
+    const entries = await Promise.all( wanted.map(
+            async file => ({name: file.webkitRelativePath || file.name, data: new Uint8Array( await file.arrayBuffer() )})
+            ) );
+
+    openProjectFiles( entries, 'Proyecto' );
     }
 
 function showSQL() {
@@ -1394,11 +1494,22 @@ async function act(
             render();
             break;
         case 'save':
+            saveProject();
+            break;
+        case 'save-json':
             download( serializeDocument( state.model ), filename( 'databasic.json' ), 'application/json' );
-            notify( 'Copia del ejercicio descargada.' );
+            notify( 'Proyecto descargado en un solo archivo .databasic.json.' );
             break;
         case 'open':
+            showOpenDialog( link => { openGitHubLink( link ); } );
+            break;
+        case 'open-file-pick':
+            closeDialog();
             document.querySelector( '#open-file' ).click();
+            break;
+        case 'open-folder-pick':
+            closeDialog();
+            document.querySelector( '#open-folder' ).click();
             break;
         case 'new':
             replaceCurrentDocument( emptyDocument() );
@@ -2344,21 +2455,29 @@ document.querySelector( '#open-file' ).addEventListener(
                 }
 
             try {
-                if (file.size > 5_000_000) {
-                    throw new Error( 'El archivo supera los 5 MB admitidos.' );
+                if (/\.zip$/i.test( file.name )) {
+                    await openZipFile( file );
                     }
-
-                const model = parseDocument( await file.text() );
-
-                state.selectedId = null;
-                state.parentId = null;
-                state.tool = 'pointer';
-                commit( model );
-                focusDiagram();
-                notify( `Ejercicio abierto: ${model.name}` );
+                else {
+                    await openJSONFile( file );
+                    }
                 }
             catch (error) {
-                notify( `No se pudo abrir el ejercicio. ${error.message}` );
+                notify( `No se pudo abrir el proyecto. ${error.message}` );
+                }
+
+            event.target.value = '';
+            }
+        );
+
+document.querySelector( '#open-folder' )?.addEventListener(
+        'change',
+        async event => {
+            try {
+                await openFolderFiles( [...event.target.files] );
+                }
+            catch (error) {
+                notify( `No se pudo abrir la carpeta. ${error.message}` );
                 }
 
             event.target.value = '';
@@ -2524,36 +2643,42 @@ splitter.addEventListener(
             }
         );
 
-/** The built-in example or one of the files listed in examples/index.json. */
-async function openExample( file ) {
-    if (!file) {
+/** The built-in example or one of the folders listed in examples/index.json. */
+async function openExample( folderName ) {
+    if (!folderName) {
         return;
         }
 
-    if (file === '__biblioteca__') {
+    if (folderName === '__biblioteca__') {
         replaceCurrentDocument( fillWithSampleData( exampleDocument() ) );
         notify( 'Ejemplo de biblioteca abierto.' );
         return;
         }
 
-    const entry = state.examples.find( item => item.file === file );
+    const entry = state.examples.find( item => item.folder === folderName );
 
     if (!entry) {
         throw new Error( 'Ese ejemplo no está en la lista.' );
         }
 
-    const response = await fetch( `./examples/${encodeURIComponent( entry.file )}` );
+    const files = await Promise.all( entry.files.map( async name => {
+        const response = await fetch( `./examples/${encodeURIComponent( entry.folder )}/${encodeURIComponent( name )}` );
 
-    if (!response.ok) {
-        throw new Error( `No se pudo cargar el ejemplo ${entry.name}.` );
-        }
+        if (!response.ok) {
+            throw new Error( `No se pudo cargar ${name} del ejemplo ${entry.name}.` );
+            }
 
-    replaceCurrentDocument( parseDocument( await response.text() ) );
+        return {name, data: new Uint8Array( await response.arrayBuffer() )};
+        } ) );
+
+    openProjectFiles( files, entry.folder, {name: null, quiet: true} );
     notify( `Ejemplo abierto: ${entry.name}.` );
     }
 
 /** The list is optional: without it, Ayuda → Ejemplos offers only the built-in one. */
 async function loadExampleIndex() {
+    const known = new Set( PROJECT_FILES.map( file => file.name ) );
+
     try {
         const response = await fetch( './examples/index.json' );
 
@@ -2563,10 +2688,12 @@ async function loadExampleIndex() {
 
         const index = await response.json();
 
-        state.examples = (index.examples || []).filter(
-                item => typeof item.file === 'string' && /^[\w.-]+\.databasic\.json$/.test( item.file )
-                    && typeof item.name === 'string'
-                );
+        state.examples = (index.examples || [])
+            .filter(
+                    item => typeof item.folder === 'string' && /^[\w.-]+$/.test( item.folder )
+                        && typeof item.name === 'string' && Array.isArray( item.files )
+                    )
+            .map( item => ({...item, files: item.files.filter( name => known.has( name ) )}) );
         render();
         }
     catch {

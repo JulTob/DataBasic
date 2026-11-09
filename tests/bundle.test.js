@@ -174,8 +174,8 @@ test( 'El artefacto offline conserva recursos y arranca con el bundle común', a
     assert.ok( html.includes( `<meta name="databasic-version" content="${metadata.version}">` ) );
     assert.equal( metadata.version, '0.4.5' );
     assert.deepEqual(
-            await readFile( resolve( output, 'examples/00-nucleo.databasic.json' ) ),
-            await readFile( resolve( projectRoot, 'examples/00-nucleo.databasic.json' ) )
+            await readFile( resolve( output, 'examples/00-nucleo/proyecto.databasic.json' ) ),
+            await readFile( resolve( projectRoot, 'examples/00-nucleo/proyecto.databasic.json' ) )
             );
 
     for (const match of html.matchAll( /(?:src|href)="([^"]+)"/g )) {

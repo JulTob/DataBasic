@@ -1,112 +1,301 @@
 {
   "examples": [
     {
-      "file": "curso-lonja.databasic.json",
-      "name": "Lonja de Santa Pola · práctica 1 (2025-2026)"
+      "folder": "curso-lonja",
+      "name": "Lonja de Santa Pola · práctica 1 (2025-2026)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-agencia.databasic.json",
-      "name": "Agencia de viajes · ejercicio 1 (guion ERE)"
+      "folder": "curso-agencia",
+      "name": "Agencia de viajes · ejercicio 1 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-empresa.databasic.json",
-      "name": "Empresa · ejercicio 2 (guion ERE)"
+      "folder": "curso-empresa",
+      "name": "Empresa · ejercicio 2 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-hoteles.databasic.json",
-      "name": "Cadena hotelera · ejercicio 3 (guion ERE)"
+      "folder": "curso-hoteles",
+      "name": "Cadena hotelera · ejercicio 3 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-restaurante.databasic.json",
-      "name": "Restaurante · ejercicio 4 (guion ERE)"
+      "folder": "curso-restaurante",
+      "name": "Restaurante · ejercicio 4 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-inmobiliaria.databasic.json",
-      "name": "Inmobiliaria · ejercicio 5 (guion ERE)"
+      "folder": "curso-inmobiliaria",
+      "name": "Inmobiliaria · ejercicio 5 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-farmacos.databasic.json",
-      "name": "Hospital: consumo de fármacos · ejercicio 6 (guion ERE)"
+      "folder": "curso-farmacos",
+      "name": "Hospital: consumo de fármacos · ejercicio 6 (guion ERE)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-idiomas.databasic.json",
-      "name": "Escuela de idiomas · ejercicio 1 (Tema 2)"
+      "folder": "curso-idiomas",
+      "name": "Escuela de idiomas · ejercicio 1 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-personal.databasic.json",
-      "name": "Funcionarios y contratados · ejercicio 2 (Tema 2)"
+      "folder": "curso-personal",
+      "name": "Funcionarios y contratados · ejercicio 2 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-videoclub.databasic.json",
-      "name": "Videoclub · ejercicio 3 (Tema 2)"
+      "folder": "curso-videoclub",
+      "name": "Videoclub · ejercicio 3 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-muebles.databasic.json",
-      "name": "Taller de muebles · ejercicio 4 (Tema 2)"
+      "folder": "curso-muebles",
+      "name": "Taller de muebles · ejercicio 4 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-salas.databasic.json",
-      "name": "Salas de un hospital · ejercicio 5 (Tema 2)"
+      "folder": "curso-salas",
+      "name": "Salas de un hospital · ejercicio 5 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-transporte.databasic.json",
-      "name": "Empresa de transporte · ejercicio 6 (Tema 2)"
+      "folder": "curso-transporte",
+      "name": "Empresa de transporte · ejercicio 6 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-concesionario.databasic.json",
-      "name": "Concesionario · ejercicio 7 (Tema 2)"
+      "folder": "curso-concesionario",
+      "name": "Concesionario · ejercicio 7 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-universidad.databasic.json",
-      "name": "Gestión universitaria · ejercicio 8 (Tema 2)"
+      "folder": "curso-universidad",
+      "name": "Gestión universitaria · ejercicio 8 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "curso-biblioteca.databasic.json",
-      "name": "Biblioteca · mini-ejercicio 2 (Tema 2)"
+      "folder": "curso-biblioteca",
+      "name": "Biblioteca · mini-ejercicio 2 (Tema 2)",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "00-nucleo.databasic.json",
-      "name": "Club de observación · núcleo"
+      "folder": "00-nucleo",
+      "name": "Club de observación · núcleo",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "01-nn.databasic.json",
-      "name": "Club de observación · N:N con atributo"
+      "folder": "01-nn",
+      "name": "Club de observación · N:N con atributo",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "02-ternaria-pendiente.databasic.json",
-      "name": "Club de observación · ternaria por decidir"
+      "folder": "02-ternaria-pendiente",
+      "name": "Club de observación · ternaria por decidir",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "02-ternaria-resuelta.databasic.json",
-      "name": "Club de observación · ternaria temporal"
+      "folder": "02-ternaria-resuelta",
+      "name": "Club de observación · ternaria temporal",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "03-multivaluados-pendiente.databasic.json",
-      "name": "Club de observación · multivaluados por decidir"
+      "folder": "03-multivaluados-pendiente",
+      "name": "Club de observación · multivaluados por decidir",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "03-multivaluados-resuelto.databasic.json",
-      "name": "Club de observación · tablas de valores múltiples"
+      "folder": "03-multivaluados-resuelto",
+      "name": "Club de observación · tablas de valores múltiples",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "04-jerarquia-pendiente.databasic.json",
-      "name": "Club de observación · jerarquía con claves locales por resolver"
+      "folder": "04-jerarquia-pendiente",
+      "name": "Club de observación · jerarquía con claves locales por resolver",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "04-jerarquia-resuelta.databasic.json",
-      "name": "Club de observación · tablas de superclase y subclases disjunta total"
+      "folder": "04-jerarquia-resuelta",
+      "name": "Club de observación · tablas de superclase y subclases disjunta total",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "04b-jerarquia-solapada-parcial.databasic.json",
-      "name": "Club de observación · tablas de superclase y subclases solapada parcial"
+      "folder": "04b-jerarquia-solapada-parcial",
+      "name": "Club de observación · tablas de superclase y subclases solapada parcial",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "05-debil.databasic.json",
-      "name": "Club de observación · puertos de un instrumento"
+      "folder": "05-debil",
+      "name": "Club de observación · puertos de un instrumento",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     },
     {
-      "file": "06-compuestos-recursiva.databasic.json",
-      "name": "Club de observación · compuestos, derivado y recursiva"
+      "folder": "06-compuestos-recursiva",
+      "name": "Club de observación · compuestos, derivado y recursiva",
+      "files": [
+        "README.md",
+        "esquema.sql",
+        "proyecto.databasic.json",
+        "diagrama.svg",
+        "relacional.svg"
+      ]
     }
   ]
 }
