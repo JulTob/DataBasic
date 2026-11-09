@@ -15,6 +15,7 @@ import {
 import {
     cellFromValue,
     truth,
+    typeKind,
     valueFromCell
     } from './values.js';
 
@@ -541,4 +542,112 @@ export function executeDelete(
     const extra = cascaded ? ` y ${plural( cascaded, 'registro relacionado', 'registros relacionados' )} en cascada` : '';
 
     return commitRows( model, data, `${plural( doomed.length, 'registro eliminado', 'registros eliminados' )} de ${table.name}${extra}.` );
+    }
+
+/* ---------- one record from a form ---------- */
+
+/** The cells a form sends: only fields of the table; a number typed with a comma takes a point. */
+function formCells(
+        table,
+        cells
+        ) {
+    const clean = {};
+
+    for (const column of table.columns) {
+        if (!(column.id in cells)) {
+            continue;
+            }
+
+        const text = String( cells[column.id] ?? '' ).trim();
+
+        clean[column.id] = typeKind( column.type ) === 'number' ? text.replace( /^([+-]?\d*),(\d+)$/, '$1.$2' ) : text;
+        }
+
+    return clean;
+    }
+
+function recordTable(
+        model,
+        tableId
+        ) {
+    const table = model.tables.find( item => item.id === tableId );
+
+    if (!table || table.kind !== 'entity') {
+        throw new SqlError( 'Solo se pueden editar registros de una tabla; una consulta guardada se consulta.' );
+        }
+
+    return table;
+    }
+
+/**
+ * Saves one record typed in a form, with the same rules as INSERT and
+ * UPDATE: index null adds a record (missing fields take their DEFAULT);
+ * otherwise the record at that position changes, and a changed key follows
+ * the ON UPDATE action of the relationships that reference it.
+ */
+export function saveRecord(
+        model,
+        tableId,
+        index,
+        cells
+        ) {
+    const table = recordTable( model, tableId );
+    const database = openDatabase( model );
+    const data = workingCopy( model );
+    const changedByTable = new Map();
+
+    if (index === null || index === undefined) {
+        const row = Object.fromEntries( table.columns.map( column => [column.id, defaultCell( database, column )] ) );
+
+        Object.assign( row, formCells( table, cells ) );
+        data[table.id].push( row );
+
+        if (data[table.id].length > DATA_ROW_LIMIT) {
+            throw new SqlError( `La tabla «${table.name}» admite hasta ${DATA_ROW_LIMIT} registros de ejemplo.` );
+            }
+
+        markChanged( changedByTable, table.id, row );
+        checkChangedRows( model, database, data, changedByTable );
+        return commitRows( model, data, `Registro agregado a ${table.name}.` );
+        }
+
+    const row = data[table.id][index];
+
+    if (!row) {
+        throw new SqlError( 'Ese registro ya no existe.' );
+        }
+
+    const before = {...row};
+
+    Object.assign( row, formCells( table, cells ) );
+    markChanged( changedByTable, table.id, row );
+    updateWithActions( model, database, data, [{tableId: table.id, before, row}], changedByTable );
+    checkChangedRows( model, database, data, changedByTable );
+    return commitRows( model, data, `Registro guardado en ${table.name}.` );
+    }
+
+/** Deletes one record, with the ON DELETE action of the relationships that reference it. */
+export function deleteRecord(
+        model,
+        tableId,
+        index
+        ) {
+    const table = recordTable( model, tableId );
+    const database = openDatabase( model );
+    const data = workingCopy( model );
+    const row = data[table.id][index];
+
+    if (!row) {
+        throw new SqlError( 'Ese registro ya no existe.' );
+        }
+
+    const changedByTable = new Map();
+    const cascaded = deleteWithActions( model, database, data, table, [row], changedByTable );
+
+    checkChangedRows( model, database, data, changedByTable );
+    return commitRows(
+            model,
+            data,
+            `Registro eliminado de ${table.name}${cascaded ? ` y ${plural( cascaded, 'registro relacionado', 'registros relacionados' )} en cascada` : ''}.`
+            );
     }

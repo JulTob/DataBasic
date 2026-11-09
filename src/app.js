@@ -52,6 +52,21 @@ import {
     } from './io/package.js';
 import { svgToPNG } from './ui/raster.js';
 import { runSql } from './sql/console.js';
+import {
+    deleteRecord,
+    saveRecord
+    } from './sql/dml.js';
+import {
+    addForm,
+    documentForms,
+    removeForm,
+    suggestedFormName
+    } from './domain/forms.js';
+import {
+    formWindow,
+    formsList,
+    wizardStep
+    } from './ui/forms.js';
 import { createView } from './sql/ddl.js';
 import { parseQuery } from './sql/parser.js';
 import { fillWithSampleData } from './sql/sample.js';
@@ -174,6 +189,8 @@ const state = {
     tool: 'pointer',
     parentId: null,
     console: {text: '', history: [], showAlgebra: true},
+    wizard: null,
+    formView: null,
     ...readLayoutPreferences(),
     past: [],
     future: [],
@@ -868,6 +885,200 @@ function showDocumentProperties() {
             );
     }
 
+/* ---------- forms ---------- */
+
+/** Crear → Asistente para formularios: four steps over the selected table (or the first one). */
+function startFormWizard() {
+    const source = state.model.tables.find( table => table.id === state.selectedId )
+        || state.model.tables.find( table => table.kind === 'entity' )
+        || state.model.tables[0];
+
+    if (!source) {
+        notify( 'Crea primero una tabla para el formulario.' );
+        return;
+        }
+
+    state.wizard = {
+        step: 1,
+        sourceId: source.id,
+        fields: [],
+        layout: 'columnar',
+        title: source.name,
+        name: suggestedFormName( state.model, source )
+        };
+    showWizardStep();
+    }
+
+function showWizardStep() {
+    const step = wizardStep( state.model, state.wizard );
+
+    openDialog( 'Asistente para formularios', step.content, values => advanceWizard( values ), step.submitLabel );
+    }
+
+function advanceWizard( values ) {
+    const wizard = state.wizard;
+
+    if (wizard.step === 1) {
+        const sourceId = values.get( 'sourceId' );
+        const source = state.model.tables.find( table => table.id === sourceId );
+
+        if (sourceId !== wizard.sourceId && source) {
+            wizard.fields = [];
+            wizard.title = source.name;
+            wizard.name = suggestedFormName( state.model, source );
+            }
+
+        wizard.sourceId = sourceId;
+        }
+    else if (wizard.step === 2) {
+        const fields = values.getAll( 'field' );
+
+        if (!fields.length) {
+            throw new Error( 'Elige al menos un campo para el formulario.' );
+            }
+
+        wizard.fields = fields;
+        }
+    else if (wizard.step === 3) {
+        wizard.layout = values.get( 'layout' ) || 'columnar';
+        }
+    else {
+        const next = addForm( state.model, {
+            name: values.get( 'name' ),
+            title: values.get( 'title' ),
+            sourceId: wizard.sourceId,
+            fields: wizard.fields,
+            layout: wizard.layout
+            } );
+        const form = next.forms.at( -1 );
+
+        state.wizard = null;
+        commit( next );
+        openFormWindow( form.id, 0 );
+        notify( `Formulario ${form.name} creado. Se exporta con el módulo VBA de la base de datos.` );
+        return false;
+        }
+
+    wizard.step += 1;
+    showWizardStep();
+    return false;
+    }
+
+function currentForm() {
+    return documentForms( state.model ).find( form => form.id === state.formView?.formId ) || null;
+    }
+
+/** The window of a form at a record (null: a new, empty record). */
+function openFormWindow(
+        formId,
+        position
+        ) {
+    const form = documentForms( state.model ).find( item => item.id === formId );
+
+    if (!form) {
+        notify( 'Ese formulario ya no existe.' );
+        return;
+        }
+
+    const view = formWindow( state.model, form, position );
+
+    state.formView = {formId, position: view.position};
+    openDialog(
+            form.title,
+            view.content,
+            view.editable ? values => saveFormRecord( form, values ) : null,
+            state.formView.position === null ? 'Agregar registro' : 'Guardar registro'
+            );
+    }
+
+function recordCount( form ) {
+    return (state.model.data?.[form.sourceId] || []).length;
+    }
+
+function saveFormRecord(
+        form,
+        values
+        ) {
+    const adding = state.formView.position === null;
+    const cells = Object.fromEntries( form.fields.map( key => [key, values.get( key ) ?? ''] ) );
+    const result = saveRecord( state.model, form.sourceId, state.formView.position, cells );
+
+    commit( result.model );
+    openFormWindow( form.id, adding ? recordCount( form ) - 1 : state.formView.position );
+    notify( result.message );
+    return false;
+    }
+
+function showDialogError( message ) {
+    const box = document.querySelector( '#dialog #dialog-error' );
+
+    box.textContent = message;
+    box.hidden = false;
+    }
+
+/** Tabular and datasheet forms save one row with its own button. */
+function saveFormRow( row ) {
+    const form = currentForm();
+    const cells = {};
+
+    for (const input of document.querySelectorAll( `[data-form-row="${row}"]` )) {
+        cells[input.dataset.formField] = input.value;
+        }
+
+    try {
+        const result = saveRecord( state.model, form.sourceId, row, cells );
+
+        commit( result.model );
+        openFormWindow( form.id, row );
+        notify( result.message );
+        }
+    catch (error) {
+        showDialogError( error.message );
+        }
+    }
+
+function moveInForm( action ) {
+    const form = currentForm();
+
+    if (!form) {
+        return;
+        }
+
+    const total = recordCount( form );
+    const position = state.formView.position;
+    const target = {
+        'form-first': 0,
+        'form-previous': position === null ? total - 1 : Math.max( 0, position - 1 ),
+        'form-next': position === null ? 0 : Math.min( total - 1, position + 1 ),
+        'form-last': total - 1,
+        'form-new': null
+        }[action];
+
+    openFormWindow( form.id, target );
+    }
+
+function deleteFormRecord() {
+    const form = currentForm();
+
+    try {
+        const result = deleteRecord( state.model, form.sourceId, state.formView.position );
+
+        commit( result.model );
+        openFormWindow( form.id, Math.min( state.formView.position, recordCount( form ) - 1 ) );
+        notify( `${result.message} Deshacer lo recupera.` );
+        }
+    catch (error) {
+        showDialogError( error.message );
+        }
+    }
+
+function showFormsList() {
+    openDialog(
+            'Formularios',
+            `${formsList( state.model )}<div class="dialog-actions">${command( 'form-wizard', 'Asistente para formularios', 'layout-template', 'class="primary-button"' )}</div>`
+            );
+    }
+
 /* ---------- SQL console ---------- */
 
 /** Formas, SQL and Propiedades open or close from the title bar; the choice is remembered here. */
@@ -1347,6 +1558,33 @@ async function act(
             break;
         case 'sql-console':
             openConsole();
+            break;
+        case 'form-wizard':
+            startFormWizard();
+            break;
+        case 'form-wizard-back':
+            state.wizard.step = Math.max( 1, state.wizard.step - 1 );
+            showWizardStep();
+            break;
+        case 'forms':
+            showFormsList();
+            break;
+        case 'form-remove':
+            commit( removeForm( state.model, target.dataset.formId ) );
+            showFormsList();
+            break;
+        case 'form-first':
+        case 'form-previous':
+        case 'form-next':
+        case 'form-last':
+        case 'form-new':
+            moveInForm( action );
+            break;
+        case 'form-delete':
+            deleteFormRecord();
+            break;
+        case 'form-save-row':
+            saveFormRow( Number( target.dataset.row ) );
             break;
         case 'toggle-panel':
             togglePanel( target?.dataset.panel );
@@ -2014,6 +2252,12 @@ document.addEventListener(
                 for (const tab of document.querySelectorAll( '[data-modal-tab]' )) {
                     tab.setAttribute( 'aria-selected', String( tab === button ) );
                     }
+                }
+            else if (button.dataset.formOpen) {
+                openFormWindow( button.dataset.formOpen, 0 );
+                }
+            else if (button.dataset.formGoto !== undefined) {
+                openFormWindow( state.formView.formId, Number( button.dataset.formGoto ) );
                 }
             else if (button.dataset.sqlInsert !== undefined) {
                 insertIntoConsole( button.dataset.sqlInsert );

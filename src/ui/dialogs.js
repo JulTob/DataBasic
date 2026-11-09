@@ -118,8 +118,10 @@ export function openDialog(
         event.preventDefault();
 
         try {
-            onSubmit?.( new FormData( event.currentTarget ) );
-            dialog.close();
+            // A step that opens the next one (a wizard, a form window) returns false to keep the window.
+            if (onSubmit?.( new FormData( event.currentTarget ) ) !== false) {
+                dialog.close();
+                }
             }
         catch (error) {
             const message = dialog.querySelector( '#dialog-error' );

@@ -1,4 +1,5 @@
 import { getConceptualProjection } from '../domain/model.js';
+import { documentForms } from '../domain/forms.js';
 import {
     command,
     escapeHTML,
@@ -316,11 +317,18 @@ export function explorerContents( state ) {
                 ).join( '' ) || '<p class="explorer-empty">Todavía no hay entidades.</p>';
         }
 
-    return state.model.tables.map(
+    const tables = state.model.tables.map(
             table => `<button data-select="${table.id}" class="${table.id === state.selectedId ? 'active' : ''}">
                 ${icon( table.kind === 'view' ? 'panels-top-left' : 'table-2' )}
                 <span>${escapeHTML( table.name )}</span><small>${table.columns.length}</small></button>`
             ).join( '' ) || '<p class="explorer-empty">Todavía no hay entidades.</p>';
+    const forms = state.model.display.mode === 'tables' ? documentForms( state.model ) : [];
+
+    return forms.length
+        ? `${tables}<p class="explorer-subheading">Formularios</p>${forms.map(
+                form => `<button data-form-open="${form.id}">${icon( 'layout-template' )}<span>${escapeHTML( form.title )}</span></button>`
+                ).join( '' )}`
+        : tables;
     }
 
 
