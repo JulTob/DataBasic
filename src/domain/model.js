@@ -1268,6 +1268,48 @@ export function setDataRows(
             );
     }
 
+/**
+ * The sample rows of every table at once, as one operation: what a SQL
+ * statement changes in several tables (a cascade) is undone in one step.
+ */
+export function replaceDocumentData(
+        model,
+        data
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                next.data = {};
+
+                for (const [tableId, rows] of Object.entries( data )) {
+                    requireTable( next, tableId );
+
+                    if (rows.length > DATA_ROW_LIMIT) {
+                        throw new Error( `La hoja de datos admite hasta ${DATA_ROW_LIMIT} filas por tabla.` );
+                        }
+
+                    if (rows.length) {
+                        next.data[tableId] = structuredClone( rows );
+                        }
+                    }
+                }
+            );
+    }
+
+/** True when the table comes from the Chen diagram: its structure is edited there, not in the table. */
+export function isGeneratedTable(
+        model,
+        tableId
+        ) {
+    const table = model.tables.find( item => item.id === tableId );
+    const columnIds = new Set( (table?.columns || []).map( column => column.id ) );
+
+    return (model.traces || []).some(
+            trace => trace.targetKind === 'table' && trace.targetId === tableId
+                || trace.targetKind === 'column' && columnIds.has( trace.targetId )
+            );
+    }
+
 export function exampleDocument() {
     let model = emptyDocument();
 
