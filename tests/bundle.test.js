@@ -172,7 +172,7 @@ test( 'El artefacto offline conserva recursos y arranca con el bundle común', a
     const pageURL = new URL( 'https://example.test/DataBasic/index.html' );
 
     assert.ok( html.includes( `<meta name="databasic-version" content="${metadata.version}">` ) );
-    assert.equal( metadata.version, '0.4.5' );
+    assert.equal( metadata.version, '0.5.0' );
     assert.deepEqual(
             await readFile( resolve( output, 'examples/00-nucleo/proyecto.databasic.json' ) ),
             await readFile( resolve( projectRoot, 'examples/00-nucleo/proyecto.databasic.json' ) )

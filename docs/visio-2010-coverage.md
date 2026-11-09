@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.4.5 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.5.0 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -91,7 +91,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | B-15 · POG | Deshacer y rehacer de varios niveles. | Disponible | R-20, R-31 | Cien niveles por sesión. |
 | B-16 · POG | Copiar, pegar y duplicar formas. | Disponible | R-26 | Sólo tablas relacionales; sin selección múltiple. |
 | B-17 · POG | Imprimir y vista previa. | Parcial | R-32 | Imprimir/PDF usa la ventana del navegador y los límites de la escena. |
-| B-18 · POG | Guardar como VSD/VDX, PDF, XPS, SVG, PNG. | Parcial (0.4.3) | R-18, R-19; Visio | JSON propio, SVG y dibujo XML de Visio 2010 (.vdx) del diagrama relacional; PDF por impresión. Sin VSD binario, VSDX ni PNG. El .vdx es un dibujo editable, no un «Diagrama de modelo de base de datos» con sus propiedades. |
+| B-18 · POG | Guardar como VSD/VDX, PDF, XPS, SVG, PNG. | Parcial (0.5.0) | R-18, R-19; Visio; Proyecto | Carpeta de proyecto propia (SQL, README y JSON editables por separado, con los dibujos), SVG y dibujo XML de Visio 2010 (.vdx) del diagrama relacional; PDF por impresión. Sin VSD binario, VSDX ni PNG. El .vdx es un dibujo editable, no un «Diagrama de modelo de base de datos» con sus propiedades. |
 | B-19 · POG | Validación de diagramas (Premium). | Alternativa propia | R-33, C-16 | «Comprobar» revisa claves, FKs, tipos y decisiones pendientes del modelo. |
 | B-20 · POG | Publicación en SharePoint y Visio Services. | Fuera de alcance | — | Guardado local por navegador y práctica independiente por URL. |
 | B-21 · POG | Formato de texto, relleno y línea por forma. | Fuera de alcance | — | — |

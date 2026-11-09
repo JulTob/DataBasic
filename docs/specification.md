@@ -1,4 +1,4 @@
-# DataBasic 0.4.5 — especificación funcional
+# DataBasic 0.5.0 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,8 +14,9 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.5 escribe documentos `.databasic.json` de **formato 2**.
-Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
+La aplicación 0.5.0 guarda cada proyecto como una carpeta (véase
+[Carpetas de proyecto](#carpetas-de-proyecto)) cuyo documento,
+`proyecto.databasic.json`, es de **formato 2**. Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
 | Operación | Resultado y obligación |
@@ -37,7 +38,12 @@ haya implementado una base de datos física en un SGBD.
 
 | Selección o ruta | Contenido |
 | --- | --- |
-| Barra superior | Desplegable Vista (Diagrama, Relacional, Tablas), desplegable Tipos (Curso o General) y acceso a revisión. Ayuda → Ejemplos lista `examples/index.json` más el ejemplo integrado. |
+| Barra de título | Desplegable de la vista (Diagrama, Relacional, Tablas), nombre del documento, botones Formas, SQL y Propiedades que muestran u ocultan cada panel (la elección se recuerda en el navegador) y acceso rápido (Deshacer, Rehacer, Guardar). |
+| Cinta | Cambia con la vista: Insertar y Modelo en Diagrama; Insertar y Base de datos en Relacional; Crear y Datos en Tablas; siempre Archivo, Inicio, Diseño, Vista y Ayuda. Si la pestaña elegida no existe en la vista nueva, se abre la primera propia de esa vista (Insertar o Crear). Ayuda → Ejemplos lista las carpetas de `examples/index.json` más el ejemplo integrado. |
+| Columna izquierda | Secciones plegables Formas, Tablas (o Entidades y relaciones) y Consola SQL; su anchura se cambia arrastrando el separador o con las flechas cuando tiene el foco. |
+| Archivo → Propiedades | Nombre del documento y perfil de tipos (Curso · 4 tipos o General). |
+| Archivo → Exportar | Formatos por grupos: proyecto (carpeta .zip o un solo .databasic.json), modelo relacional (.vdx, .svg, SQL estándar), base de datos (.bas, .sql, .xml) y memoria (.docx, HTML, Markdown). El programa compatible aparece solo como detalle del formato. |
+| Crear → Asistente para formularios | Cuatro pasos: tabla o consulta, campos, distribución y título; véase [Formularios](#formularios). |
 | Tabla → Definición | Nombre físico y conceptual, sincronización y espacio de nombres. Propietario/origen se muestran sin edición; no hay ingeniería inversa. |
 | Tabla → Columnas | Nombre, tipo, requerido, PK y notas; agregar, quitar, editar y reordenar. El tipo se elige en una lista de tipos estándar agrupados por categoría (texto, numérico, temporal, lógico, datos en bruto y otros) y filtrada por perfil; el valor actual se conserva aunque no sea estándar y «Otro…» descubre un cuadro para escribirlo. |
 | Columnas → Editar… | Familia, longitud o precisión/escala, predeterminado y dominio declarativo. |
@@ -181,8 +187,8 @@ situados justo encima de la primera forma, bajo la barra flotante. Distribuir re
 de los bloques relacionales en una operación que puede deshacerse.
 Las posiciones Chen antiguas se conservan hasta moverlas o distribuirlas.
 
-Guardar/abrir JSON, exportar SVG, exportar el dibujo de Visio 2010 y
-mostrar/descargar SQL son operaciones disponibles; Imprimir/PDF utiliza la
+Guardar y abrir la carpeta del proyecto, exportar SVG, exportar el dibujo
+.vdx y mostrar/descargar SQL son operaciones disponibles; Imprimir/PDF utiliza la
 ventana del navegador. El guardado local
 no sincroniza equipos. El SQL de estudio usa sintaxis tipo PostgreSQL/SQL
 estándar y traduce NUMBER a NUMERIC; no se ejecuta en DataBasic. Restricciones
@@ -191,7 +197,7 @@ exportación completa. Una FK sola no exige que toda fila referenciada tenga fil
 
 ## Dibujo de Visio 2010
 
-__Archivo → Visio 2010__ descarga `<nombre>.vdx`, el formato XML nativo de
+__Archivo → Exportar → Dibujo relacional (.vdx)__ descarga `<nombre>.vdx`, el formato XML nativo de
 Visio 2010 (DatadiagramML), con el diagrama relacional aunque esté abierta la
 vista Chen. La escena es la misma que dibuja el lienzo: cada tabla es un
 grupo con un texto por bloque (título, etiquetas PK/FK/AK, nombre y tipo de
@@ -250,7 +256,8 @@ Doble, los textos de más de 255 caracteres como Texto largo, las claves ajenas
 compuestas sin campo de búsqueda y las vistas como consultas guardadas por
 revisar.
 
-**Archivo → Access** ofrece tres archivos sobre la misma capa física, porque
+**Archivo → Exportar → Base de datos** ofrece tres archivos compatibles con
+Access sobre la misma capa física, porque
 Access no abre ningún formato de archivo que lleve las relaciones y su `.accdb`
 no puede escribirse desde el navegador:
 
@@ -368,8 +375,8 @@ Archivo → Paquete de entrega muestra la lista de comprobación de la entrega
 tablas, quedan decisiones pendientes; avisos: falta ternaria, especialización,
 supuestos o semántica perdida del autor, tipos fuera de VARCHAR/CHAR/NUMBER/DATE)
 y descarga un .zip sin compresión con `LEEME.txt`, `Memoria.docx`,
-`Modelo_relacional.vdx`, `Access/CrearBaseDeDatos.bas` (Windows-1252, CRLF),
-`Access/Esquema_Access.sql`, `Access/Esquema_Access.xml`, `Diagramas/*.svg` y
+`Modelo_relacional.vdx`, `BaseDeDatos/CrearBaseDeDatos.bas` (Windows-1252, CRLF),
+`BaseDeDatos/Esquema.sql`, `BaseDeDatos/Esquema.xml`, `Diagramas/*.svg` y
 `Proyecto.databasic.json`. La memoria Word incluye las figuras como PNG que el
 navegador dibuja al doble de tamaño, con un máximo de 6000 píxeles por lado.
 
@@ -406,3 +413,77 @@ claves únicas sin repetir, derivados almacenados calculados cuando su
 derivación es una fórmula de la fila y filas de la superclase repartidas entre
 subclases según la especialización. Una semilla fija hace el resultado
 reproducible.
+
+## Formularios
+
+El documento puede llevar `forms: [{id, name, title, sourceId, fields, layout}]`
+(hasta 100): el origen es una tabla o una consulta guardada, `fields` son los
+campos en el orden elegido (ids de columna, o nombres de columna de la consulta)
+y `layout` es `columnar` (un registro cada vez), `tabular` (un registro por fila)
+o `datasheet` (cuadrícula). El nombre empieza por letra y solo lleva letras,
+cifras y `_`; se sugiere `Formulario_<Tabla>`. Al borrar una tabla se borran
+sus formularios y, al borrar un campo, el campo desaparece de ellos.
+
+La ventana del formulario recorre los registros (Primero, Anterior, Siguiente,
+Último), crea uno nuevo y elimina el actual. Guardar aplica las reglas de la
+tabla, como INSERT y UPDATE: tipo, obligatorio, dominio, CHECK, claves únicas,
+referencias y acciones referenciales al eliminar; la coma decimal se admite.
+Una clave ajena simple se elige en una lista con las filas de la tabla
+referenciada. Un formulario sobre una consulta muestra su resultado y no se
+edita. El módulo VBA crea los formularios con `CreateForm` y `CreateControl`
+(`CrearFormularios`), con su origen, título, vista predeterminada y un control
+por campo.
+
+## Carpetas de proyecto
+
+**Archivo → Guardar** descarga `<carpeta>.zip` con `<carpeta>/` dentro; la
+carpeta se llama como el proyecto, sin los caracteres que un nombre de archivo
+no admite (`<>:"/\|?*`). Contiene tres **fuentes**, que DataBasic lee, y
+**salidas**, que escribe al guardar y solo comprueba al abrir:
+
+| Archivo | Papel | Contenido |
+| --- | --- | --- |
+| `esquema.sql` | Fuente; manda en tablas y filas | CREATE TABLE con NOT NULL, DEFAULT, CHECK del dominio, PRIMARY KEY y CONSTRAINT … UNIQUE; ALTER TABLE … ADD CONSTRAINT … FOREIGN KEY … ON DELETE … ON UPDATE …; CREATE [UNIQUE] INDEX; CREATE VIEW; INSERT con lista de campos, una fila por línea, las referenciadas primero. Números y fechas `#AAAA-MM-DD#` sin comillas solo cuando el texto se lee igual; NULL para la celda vacía. |
+| `README.md` | Fuente; manda en los supuestos | `# nombre`, las secciones «Semántica del enunciado», «Supuestos semánticos» y «Semántica perdida» con una entrada `- texto _(Elemento)_` por línea (las líneas siguientes, sangradas, siguen en la entrada); tras el comentario `<!-- DataBasic: … -->`, los dibujos, los archivos y las tablas, que no se leen. |
+| `proyecto.databasic.json` | Fuente; completa lo demás | El documento entero (formato 2). |
+| `diagrama.svg`, `relacional.svg` | Salida | Los dos dibujos. |
+| `relacional.vdx` | Salida | El dibujo relacional editable. |
+| `base_de_datos.bas`, `.sql`, `.xml` | Salida | Los archivos de la base de datos; se omiten, con su motivo en el README, mientras el diseño tenga decisiones pendientes. |
+
+`esquema.sql` está en el dialecto de la consola y su escritura y su lectura son
+inversas: leer lo escrito da un documento que escribe las mismas instrucciones.
+Se lee con las reglas de la consola (CREATE, ALTER y DROP por el modelo) salvo
+las filas, que se toman tal como están escritas para no perder nada: la Hoja de
+datos señala después las que incumplen una regla. Un campo que INSERT no nombra
+toma su DEFAULT. Cualquier otra instrucción (SELECT, UPDATE, DELETE) se rechaza
+con su línea. El perfil es Curso si todos los tipos son de sus cuatro familias.
+
+**Archivo → Abrir** acepta un `.zip` (con entradas guardadas o comprimidas con
+deflate), un `.databasic.json` suelto, una carpeta del equipo o el enlace de una
+carpeta pública de GitHub (`https://github.com/usuario/repositorio/tree/rama/ruta`,
+leída con la API de contenidos sin cuenta). Dentro de un `.zip` se busca la
+carpeta que tiene `esquema.sql` o el JSON (se ignoran `__MACOSX` y las carpetas
+ocultas); un `*.databasic.json` con otro nombre, como el `Proyecto.databasic.json`
+del paquete de entrega, vale como JSON del proyecto. Las dos fuentes se comparan
+por lo que dicen en SQL (estructura e INSERT, sin comentarios):
+
+| Caso | Documento que se abre |
+| --- | --- |
+| Misma estructura y mismas filas | El del JSON, tal cual. |
+| Misma estructura, otras filas | El del JSON con las filas del SQL. |
+| Otra estructura | El del SQL, con lo que el JSON dice de los mismos nombres: posiciones, color, notas, nombre conceptual y espacio de nombres de cada tabla; notas y dominio por partes de cada campo (si su CHECK coincide); cardinalidad, textos de lectura, identificación y color de cada relación; diseño físico; formularios con su origen y campos. El diagrama entidad-relación se deja fuera, con un aviso. |
+| Solo SQL | El del SQL, con las tablas en cuadrícula. |
+| Solo JSON | El del JSON. |
+
+Si `esquema.sql` tiene un error y hay JSON, se abre el JSON y el informe da el
+error con su línea; sin JSON, no se abre. Los supuestos salen del README cuando
+tiene alguna de sus tres secciones: cada entrada busca su elemento por la misma
+entrada del JSON y, si no, por su etiqueta (la entidad del diagrama antes que su
+tabla); la que no lo encuentra queda sin elemento y el informe la nombra. Sin
+README, se quedan los del JSON. El proyecto toma el nombre de la carpeta, salvo
+que la carpeta sea el mismo nombre escrito para archivos; las salidas se
+comparan con el diseño antes de ese cambio de nombre. El informe dice, archivo
+por archivo, Bien, Nota, Aviso, Error o Falta, y añade los avisos de las filas.
+
+Los ejemplos de `examples/` son carpetas con las tres fuentes y los dos dibujos;
+`examples/index.json` lista para cada una su carpeta, su título y sus archivos.

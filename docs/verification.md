@@ -617,3 +617,38 @@ datos, «Registros: 8» y su álgebra; un UPDATE que no cambia filas informa de
 «0 registros actualizados»; un DELETE de una especie con lotes se rechaza por
 la acción NO ACTION de la relación; sin errores de consola. Se corrigió un
 choque de nombres de clase CSS con la ventana Ver SQL.
+
+## Disposición, formularios y carpetas de proyecto en 0.5.0
+
+`npm test` pasa 327 pruebas y `npm run check` verifica la sintaxis. Entre
+ellas, project.test.js escribe y relee `esquema.sql` en los veintisiete
+ejemplos con el mismo resultado, abre cada carpeta de `examples/` y obtiene
+el mismo documento que su JSON, con las tres fuentes y los dos dibujos «Bien».
+
+En Chromium (Playwright) sobre `node scripts/serve.mjs`:
+
+- la vista se elige en la barra de título y la cinta cambia de pestañas; la
+  columna izquierda pliega Formas, Tablas y la Consola SQL, y los botones de la
+  barra muestran u ocultan cada panel; el asistente para formularios recorre sus
+  cuatro pasos y el formulario rechaza un número mal escrito con la regla de la
+  tabla;
+- Ayuda → Ejemplos abre la Lonja desde su carpeta sin informe (todo coincide);
+- Ctrl+S descarga `Lonja de Santa Pola · práctica 1 (2025-2026).zip` (833 KB)
+  con la carpeta dentro;
+- Archivo → Abrir muestra las tres maneras; el .zip se abre en unos 150 ms y el
+  informe da «Bien» en los nueve archivos;
+- la carpeta descomprimida, renombrada `Lonja` y con un campo añadido a mano a
+  `Barco` en `esquema.sql`, se abre desde Archivo → Abrir → Carpeta: el
+  proyecto se llama Lonja, manda el SQL, se conservan posiciones y supuestos
+  por nombre, el informe nombra los supuestos cuyo elemento del diagrama ya no
+  existe y avisa de que el diagrama entidad-relación se deja fuera;
+- un enlace `https://github.com/…/tree/main/practicas/Salas_hospital`, con las
+  respuestas de la API de contenidos y de las descargas simuladas en el
+  navegador, abre el proyecto «Salas_hospital» con las fuentes «Bien», los
+  dibujos «al día» y «Falta» en los cuatro archivos que la carpeta no trae;
+- sin errores de consola.
+
+Playwright no entrega al selector de archivos una ruta con «·»; la prueba usa
+una copia con nombre sencillo. El navegador real recibe el archivo sin
+problema. La lectura de una carpeta pública de GitHub real depende de la red
+del usuario y del límite de 60 consultas por hora sin cuenta.

@@ -1,28 +1,30 @@
-# Guía de práctica de DataBasic 0.4.0
+# Guía de práctica de DataBasic 0.5.0
 
 El _club de observación_ presta instrumentos y organiza sesiones. El núcleo
 usa sólo tres entidades: `Persona`, `Instrumento` y `Sesion`. Cada ampliación
 es una copia independiente; no hace falta reunirlas en un dibujo enorme.
 Los supuestos son propios de este ejemplo, sin reproducir la práctica del curso.
 
-Descarga el archivo de cada etapa y ábrelo con __Archivo → Abrir__.
-En GitHub, abre el enlace y usa __Download raw file__ para descargar el JSON.
-Conserva tu trabajo con __Archivo → Guardar__ antes de abrir otra etapa.
+Cada etapa es una carpeta de proyecto. Ábrela desde __Ayuda → Ejemplos__, o
+copia el enlace de su carpeta en GitHub y pégalo en __Archivo → Abrir → Enlace
+de GitHub__. Conserva tu trabajo con __Archivo → Guardar__ (descarga la carpeta
+en un .zip) antes de abrir otra etapa.
 Para practicar aparte, abre [una práctica independiente](https://jultob.github.io/DataBasic/?practica=club-observacion)
 y comprueba el indicador __Práctica independiente__.
 
-| Etapa | Archivo editable | Punto de control |
+| Etapa | Carpeta editable | Punto de control |
 | --- | --- | --- |
-| 0 | [Núcleo](../examples/00-nucleo.databasic.json) | 3 entidades, 1 relación; cuatro familias de tipos, PK, AK y dominio. |
-| 1 | [N:N con atributo](../examples/01-nn.databasic.json) | `Habilitacion`, 2 FKs y PK de la pareja. |
-| 2 | [Ternaria pendiente](../examples/02-ternaria-pendiente.databasic.json) · [resultado](../examples/02-ternaria-resuelta.databasic.json) | `Utilizacion`, 3 FKs, instante en PK y contexto explícito. |
-| 3 | [Multivaluados pendientes](../examples/03-multivaluados-pendiente.databasic.json) · [resultado](../examples/03-multivaluados-resuelto.databasic.json) | `Etiquetas` y `Calibraciones`; PK propietaria compuesta completa. |
-| 4 | [Jerarquía pendiente](../examples/04-jerarquia-pendiente.databasic.json) · [resultado](../examples/04-jerarquia-resuelta.databasic.json) | Rechazo de PK local, corrección y PK/FK heredada. |
-| 4b | [Solapada y parcial](../examples/04b-jerarquia-solapada-parcial.databasic.json) | Misma estrategia; restricciones residuales diferentes. |
-| 5 | [Entidad débil](../examples/05-debil.databasic.json) | `Puerto` identificado por instrumento y número local. |
-| 6 | [Compuestos, derivado y recursiva](../examples/06-compuestos-recursiva.databasic.json) | Componentes de entidad y relación; dos roles de Persona. |
+| 0 | [Núcleo](../examples/00-nucleo/) | 3 entidades, 1 relación; cuatro familias de tipos, PK, AK y dominio. |
+| 1 | [N:N con atributo](../examples/01-nn/) | `Habilitacion`, 2 FKs y PK de la pareja. |
+| 2 | [Ternaria pendiente](../examples/02-ternaria-pendiente/) · [resultado](../examples/02-ternaria-resuelta/) | `Utilizacion`, 3 FKs, instante en PK y contexto explícito. |
+| 3 | [Multivaluados pendientes](../examples/03-multivaluados-pendiente/) · [resultado](../examples/03-multivaluados-resuelto/) | `Etiquetas` y `Calibraciones`; PK propietaria compuesta completa. |
+| 4 | [Jerarquía pendiente](../examples/04-jerarquia-pendiente/) · [resultado](../examples/04-jerarquia-resuelta/) | Rechazo de PK local, corrección y PK/FK heredada. |
+| 4b | [Solapada y parcial](../examples/04b-jerarquia-solapada-parcial/) | Misma estrategia; restricciones residuales diferentes. |
+| 5 | [Entidad débil](../examples/05-debil/) | `Puerto` identificado por instrumento y número local. |
+| 6 | [Compuestos, derivado y recursiva](../examples/06-compuestos-recursiva/) | Componentes de entidad y relación; dos roles de Persona. |
 
-Los archivos son documentos de formato 2 con IDs fijos. El ejemplo pendiente
+Cada carpeta lleva su documento (`proyecto.databasic.json`, formato 2 con IDs
+fijos), su `esquema.sql` y su `README.md` con los dos dibujos. El ejemplo pendiente
 permite practicar la decisión; el resultado sirve para comparar. Abrir el
 resultado no demuestra haber ejecutado la transformación desde los controles.
 Las [pruebas del ejemplo](../tests/examples.test.js) leen estos archivos reales,
@@ -299,24 +301,26 @@ cambiar de vista no cambia sus reglas.
 4. Usa __Distribuir__, __Ajustar__ y zoom; deshaz Distribuir. En
    __Vista → Opciones de visualización__, compara IDEF1X, patas de cuervo y
    flecha relacional; activa tipos completos, claves y cardinalidad numérica.
-5. Pon nombre con __Archivo → Nombre__, descarga __Archivo → Guardar__ y
-   reabre ese JSON con __Archivo → Abrir__. Revisa ambos modos y propiedades.
-6. Descarga __Archivo → Imagen SVG__ en cada representación. Abre el SVG:
-   comprueba textos completos, roles y bordes sin recortes. Descarga
-   __Archivo → Visio 2010__ y abre el `.vdx` en Visio 2010: mueve una tabla y
-   comprueba que el conector la sigue; el dibujo no trae la ventana
-   Propiedades de base de datos de Visio. Descarga __Archivo → Access →
-   Módulo VBA__, crea una base de datos en blanco en Access, importa el módulo
-   con Alt+F11 → Archivo → Importar archivo y ejecuta `CrearEsquema`; abre
-   Herramientas de base de datos → Relaciones y compara con el relacional.
-   El diálogo lista lo que Access expresa de otra manera. Antes, en la vista
-   __Tablas__, revisa campo a campo el tipo de Access, el tamaño, requerido,
+5. Pon nombre con __Archivo → Propiedades__, descarga __Archivo → Guardar__ y
+   reabre el .zip con __Archivo → Abrir__: el informe debe dar «Bien» en las
+   tres fuentes. Revisa ambos modos y propiedades.
+6. En __Archivo → Exportar__, descarga la imagen (.svg) en cada
+   representación. Abre el SVG: comprueba textos completos, roles y bordes sin
+   recortes. Descarga el dibujo relacional (.vdx) y ábrelo en Visio 2010: mueve
+   una tabla y comprueba que el conector la sigue; el dibujo no trae la ventana
+   Propiedades de base de datos de Visio. Descarga el módulo VBA (.bas), crea
+   una base de datos en blanco en Access, importa el módulo con Alt+F11 →
+   Archivo → Importar archivo y ejecuta `CrearEsquema`; abre Herramientas de
+   base de datos → Relaciones y compara con el relacional. El diálogo lista lo
+   que el diseño físico expresa de otra manera. Antes, en la vista
+   __Tablas__, revisa campo a campo el tipo físico, el tamaño, requerido,
    indexado y la regla de validación, y en cada relación la integridad
    referencial, las cascadas y el campo de búsqueda; ajusta lo que el curso
    pida (por ejemplo Autonumeración en un identificador interno).
 7. Abre __Imprimir / PDF__. En la vista previa comprueba márgenes y que todas
    las formas quepan; guarda PDF si el navegador lo permite.
-8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.
+8. Usa __Archivo → Exportar → SQL estándar__, revisa los comentarios
+   documentales y descarga.
    Un pendiente debe impedir presentar un SQL completo sin resolverlo.
 
 9. Selecciona una entidad o relación y abre __Supuestos__. Registra lo que
@@ -325,30 +329,42 @@ cambiar de vista no cambia sus reglas.
    Supuestos__ muestra todas las entradas y la semántica perdida que detecta
    DataBasic.
 10. Escribe tus datos en __Archivo → Alumno__ y descarga __Archivo → Memoria
-    Word__: portada con DNI, nombre y apellidos, los dos diagramas, las tablas
+    (.docx)__: portada con DNI, nombre y apellidos, los dos diagramas, las tablas
     de atributos y relaciones con su tipo, letras y pares, las decisiones, los
     supuestos, la semántica perdida y el diccionario de datos. Completa ahí la
     justificación que pide la práctica. __Archivo → Paquete de entrega__
     comprueba lo que pide el enunciado y descarga el .zip con la memoria, el
-    Visio del relacional y los archivos de Access; su `LEEME.txt` explica cómo
+    dibujo del relacional y los archivos de la base de datos; su `LEEME.txt` explica cómo
     crear el `.accdb` antes de entregar. La memoria también está en HTML y
     Markdown dentro de esa ventana.
 
-11. En la vista Tablas abre la **Consola SQL**. Si tus tablas están vacías,
+11. En la vista Tablas abre la **Consola SQL** (botón SQL de la barra de título). Si tus tablas están vacías,
     pulsa **Datos de ejemplo**. Prueba una consulta de cada tipo (selección,
     combinación, totales, subconsulta) y compara su álgebra relacional con la
     que harías a mano. Después intenta un DELETE de una fila referenciada: la
     acción referencial de la relación decide si se rechaza o se propaga.
+12. En la vista Tablas, pulsa __Crear → Asistente para formularios__: elige
+    una tabla con clave ajena, sus campos, la distribución en columnas y un
+    título. Recorre los registros, cambia uno y guarda; deja vacío un campo
+    obligatorio y comprueba que el formulario lo rechaza con la regla de la tabla.
+13. Guarda la carpeta y descomprímela. En `esquema.sql`, añade una fila con
+    INSERT; en `README.md`, añade una entrada a «Supuestos semánticos» con
+    `_(Entidad …)_` al final. Abre la carpeta con __Archivo → Abrir → Carpeta__:
+    el informe dice que mandan las filas del SQL y que el README manda en los
+    supuestos. Después añade un campo a un CREATE TABLE y vuelve a abrirla: la
+    estructura cambia, se conservan posiciones y supuestos por nombre y el
+    diagrama entidad-relación se deja fuera con un aviso.
 
-_Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
-ese documento. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y
+_Qué comprobar y escribir._ La carpeta del proyecto es el respaldo editable;
+SVG/PDF no sustituyen sus fuentes. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y
 no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.
 
 El SQL exportado usa sintaxis tipo PostgreSQL/SQL estándar y `ALTER TABLE ADD
 CONSTRAINT`; no se ha acreditado su ejecución en un SGBD. SQLite no admite esa
 forma de añadir restricciones. No se modifica el DDL para presentar otro script
-como si fuera el export original. DataBasic no abre/genera VSD, VDX, VSDX ni
-Access; tampoco reconstruye un ERE único desde cualquier esquema relacional.
+como si fuera el export original. DataBasic escribe el dibujo .vdx pero no
+abre archivos de Visio, no genera VSD ni VSDX y no escribe el `.accdb`; tampoco
+reconstruye un ERE único desde cualquier esquema relacional.
 
 ## Transferencia y evidencia
 
