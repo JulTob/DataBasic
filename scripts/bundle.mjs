@@ -31,6 +31,7 @@ const modules = [
     'io/visio.js',
     'io/package.js',
     'ui/raster.js',
+    'ui/console.js',
     'ui/properties.js',
     'ui/layout.js',
     'ui/dialogs.js',

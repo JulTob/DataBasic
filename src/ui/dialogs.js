@@ -433,6 +433,11 @@ export function showHelp() {
                 tamaño, requerido, indexado, reglas y textos de validación, predeterminado, título,
                 integridad referencial, cascadas y campo de búsqueda. Todo se deriva del relacional;
                 lo que ajustes se marca como «ajustado» y Restablecer vuelve a derivarlo.</p>
+            <p><strong>Consola SQL.</strong> En la vista Tablas (o Base de datos → Consola SQL), escribe SQL
+                de Access y pulsa Ctrl+Intro. SELECT muestra la hoja de datos del resultado y su expresión en
+                álgebra relacional; INSERT, UPDATE y DELETE cambian las filas de ejemplo respetando claves,
+                dominios e integridad referencial; CREATE, ALTER y DROP cambian las tablas. Guardar como
+                consulta la añade al documento como consulta de Access. Deshacer revierte cada ejecución.</p>
             <p><strong>Hoja de datos.</strong> En la vista Tablas, cada tabla tiene una Hoja de datos
                 donde escribir filas de ejemplo como en Access o Excel. DataBasic marca en rojo la
                 celda o la fila que incumple una regla: obligatorio, formato del tipo, dominio,

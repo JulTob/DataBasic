@@ -1506,3 +1506,115 @@ a {
 .datasheet-grid .row-actions svg { width: 14px; height: 14px; }
 .data-issues { margin: 8px 0 0; padding-left: 20px; color: #8a2a24; font-size: 13px; }
 .data-ok { margin: 8px 0 0; color: #16805e; font-size: 13px; }
+
+/* Bottom pane tabs: properties of the selection, or the SQL console. */
+.pane-tabs { display: flex; gap: 4px; min-width: 0; overflow: hidden; }
+.pane-tabs button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var( --color-muted );
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+    }
+.pane-tabs button[aria-selected="true"] {
+    border-color: var( --color-accent-border );
+    background: var( --color-accent-soft );
+    color: var( --color-accent-strong );
+    }
+.pane-tabs svg { width: 14px; height: 14px; }
+
+/* SQL console: the SQL view above, the datasheet of each result below, the database objects at the side. */
+.console-body { overflow: hidden; }
+.console-panel { display: grid; grid-template-rows: auto minmax( 0, 1fr ); height: 100%; min-height: 0; }
+.console-workspace {
+    display: grid;
+    grid-template-columns: minmax( 0, 1fr ) 210px;
+    gap: 10px;
+    padding: 0 12px 8px;
+    border-bottom: 1px solid var( --color-border );
+    }
+.console-editor { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.console-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.console-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 7px;
+    background: white;
+    font-size: 12px;
+    cursor: pointer;
+    }
+.console-toolbar button.primary-button { border-color: var( --color-accent ); background: var( --color-accent ); color: white; }
+.console-toolbar svg { width: 14px; height: 14px; }
+.console-template, .console-algebra-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+.console-template select { max-width: 210px; }
+#sql-input {
+    width: 100%;
+    min-height: 92px;
+    max-height: 260px;
+    padding: 8px 10px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 8px;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.45;
+    resize: vertical;
+    tab-size: 4;
+    }
+#sql-input:focus { outline: 2px solid var( --color-accent-border ); border-color: var( --color-accent ); }
+.console-objects { max-height: 150px; overflow: auto; font-size: 12px; }
+.console-objects h4 { margin: 2px 0 4px; color: var( --color-muted ); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.console-objects details { margin-bottom: 2px; }
+.console-objects summary { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.console-objects summary small { margin-left: auto; color: var( --color-muted ); }
+.console-objects ul { margin: 2px 0 4px 14px; padding: 0; list-style: none; }
+.console-objects button { padding: 1px 3px; border: 0; background: none; color: var( --color-ink ); font: inherit; text-align: left; cursor: pointer; }
+.console-objects button:hover { color: var( --color-accent-strong ); text-decoration: underline; }
+.console-objects .console-saved { display: flex; align-items: center; gap: 4px; }
+.console-objects .console-saved svg { width: 13px; height: 13px; color: var( --color-accent ); }
+.console-empty { margin: 0 0 6px; color: var( --color-muted ); }
+.console-output { overflow: auto; padding: 8px 12px 14px; }
+.console-welcome { display: flex; gap: 10px; align-items: flex-start; color: var( --color-muted ); max-width: 70ch; }
+.console-welcome svg { flex: 0 0 auto; width: 20px; height: 20px; color: var( --color-accent ); }
+.console-welcome p { margin: 0; line-height: 1.5; }
+kbd { padding: 0 4px; border: 1px solid var( --color-border-strong ); border-radius: 4px; background: var( --color-surface-soft ); font-size: 11px; }
+.console-entry { margin-bottom: 14px; }
+.console-statement {
+    margin: 0 0 5px;
+    padding: 5px 8px;
+    border-left: 3px solid var( --color-accent-border );
+    background: var( --color-surface-soft );
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    }
+.console-kind-error .console-statement { border-left-color: #e3a29c; }
+.console-done, .console-error { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: 13px; }
+.console-done svg, .console-error svg { flex: 0 0 auto; width: 16px; height: 16px; margin-top: 1px; }
+.console-done { color: #16805e; }
+.console-error { color: #8a2a24; }
+/* The datasheet of a result, drawn like Access: grey field headers, the record selector column, a record count. */
+.console-datasheet { width: fit-content; max-width: 100%; max-height: 320px; overflow: auto; border: 1px solid #b9c7bf; }
+.console-datasheet table { border-collapse: collapse; font-size: 12px; }
+.console-datasheet th, .console-datasheet td { padding: 3px 8px; border: 1px solid #d3ddd6; text-align: left; white-space: nowrap; }
+.console-datasheet th { position: sticky; top: 0; background: #e9efe9; font-weight: 600; }
+.console-datasheet tbody tr:nth-child( even ) td { background: #f7faf7; }
+.console-datasheet .number { text-align: right; font-variant-numeric: tabular-nums; }
+.console-datasheet .record { width: 26px; padding: 3px 4px; background: #eef2ee; color: #8a9a90; text-align: center; font-size: 11px; }
+.console-datasheet .console-no-rows { color: var( --color-muted ); font-style: italic; }
+.console-records { width: fit-content; min-width: 160px; max-width: 100%; padding: 3px 8px; border: 1px solid #b9c7bf; border-top: 0; background: #eef2ee; color: #4b5f55; font-size: 11px; }
+.console-algebra { margin: 5px 0 0; color: #3b5a4c; font-family: "Cambria Math", "STIX Two Math", Georgia, serif; font-size: 13.5px; line-height: 1.7; overflow-wrap: anywhere; }
+.console-algebra sub { font-size: 0.78em; }
+@media (max-width: 900px) {
+    .console-workspace { grid-template-columns: 1fr; }
+    .console-objects { max-height: 90px; }
+    }

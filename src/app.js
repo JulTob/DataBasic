@@ -51,6 +51,15 @@ import {
     memoFilename
     } from './io/package.js';
 import { svgToPNG } from './ui/raster.js';
+import { runSql } from './sql/console.js';
+import { createView } from './sql/ddl.js';
+import { parseQuery } from './sql/parser.js';
+import { fillWithSampleData } from './sql/sample.js';
+import {
+    CONSOLE_HISTORY_LIMIT,
+    consoleContents,
+    sqlTemplates
+    } from './ui/console.js';
 import {
     diagramContents,
     exportSVG,
@@ -119,6 +128,8 @@ const state = {
     tool: 'pointer',
     parentId: null,
     propertiesShown: true,
+    pane: 'properties',
+    console: {text: '', history: [], showAlgebra: true},
     past: [],
     future: [],
     clipboard: null,
@@ -277,8 +288,15 @@ function renderPropertyPane() {
     const selectedName = selected?.name
         || (supertype ? `Especialización de ${supertype.name}` : 'Especialización');
 
-    document.querySelector( '#properties-body' ).innerHTML = renderProperties( state.model, state );
-    document.querySelector( '#properties-name' ).textContent = selected ? `— ${selectedName}` : '';
+    const body = document.querySelector( '#properties-body' );
+    const editor = state.pane === 'console' ? consoleEditorState() : null;
+
+    body.innerHTML = state.pane === 'console' ? consoleContents( state ) : renderProperties( state.model, state );
+    body.classList?.toggle( 'console-body', state.pane === 'console' );
+    restoreConsoleEditor( editor );
+    document.querySelector( '#properties-name' ).textContent = selected && state.pane !== 'console' ? `— ${selectedName}` : '';
+    document.querySelector( '#pane-tab-properties' )?.setAttribute( 'aria-selected', String( state.pane !== 'console' ) );
+    document.querySelector( '#pane-tab-console' )?.setAttribute( 'aria-selected', String( state.pane === 'console' ) );
     document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
     document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
     document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
@@ -757,6 +775,120 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/* ---------- SQL console ---------- */
+
+function openConsole() {
+    state.pane = 'console';
+    state.propertiesShown = true;
+    render();
+    document.querySelector( '#sql-input' )?.focus?.();
+    }
+
+/** The editor keeps its caret and scroll when the pane is drawn again. */
+function consoleEditorState() {
+    const input = document.querySelector( '#sql-input' );
+
+    if (!input || document.activeElement !== input) {
+        return null;
+        }
+
+    return {start: input.selectionStart, end: input.selectionEnd, scroll: input.scrollTop};
+    }
+
+function restoreConsoleEditor( editor ) {
+    const input = document.querySelector( '#sql-input' );
+
+    if (!editor || !input) {
+        return;
+        }
+
+    input.focus?.();
+    input.setSelectionRange?.( editor.start, editor.end );
+    input.scrollTop = editor.scroll;
+    }
+
+/** Runs the editor's SQL; a change to the document is one step of Deshacer. */
+function runConsole() {
+    const text = state.console.text;
+
+    if (!text.trim()) {
+        notify( 'Escribe una instrucción SQL en la consola.' );
+        return;
+        }
+
+    const result = runSql( state.model, text );
+
+    state.console.history = [{outputs: result.outputs}, ...state.console.history].slice( 0, CONSOLE_HISTORY_LIMIT );
+    state.pane = 'console';
+
+    if (result.changed) {
+        commit( result.model );
+        }
+
+    // A statement that changed nothing (UPDATE of no rows) leaves the document equal: commit draws nothing then.
+    renderPropertyPane();
+    refreshIcons();
+
+    const failed = result.outputs.find( output => output.kind === 'error' );
+
+    notify( failed ? 'La consola se detuvo en un error.' : `${result.outputs.length} instrucción${result.outputs.length === 1 ? '' : 'es'} ejecutada${result.outputs.length === 1 ? '' : 's'}.` );
+    }
+
+function insertIntoConsole( text ) {
+    const input = document.querySelector( '#sql-input' );
+    const current = state.console.text;
+    const start = input?.selectionStart ?? current.length;
+    const end = input?.selectionEnd ?? current.length;
+
+    state.console.text = `${current.slice( 0, start )}${text}${current.slice( end )}`;
+    renderPropertyPane();
+    refreshIcons();
+
+    const editor = document.querySelector( '#sql-input' );
+
+    editor?.focus?.();
+    editor?.setSelectionRange?.( start + text.length, start + text.length );
+    }
+
+/** Guardar como consulta: the editor's SELECT becomes a saved query (an Access query, a view of the model). */
+function saveConsoleQuery() {
+    let query;
+
+    try {
+        query = parseQuery( state.console.text );
+        }
+    catch (error) {
+        notify( `Para guardar una consulta, el editor debe tener un solo SELECT. ${error.message}` );
+        return;
+        }
+
+    openDialog(
+            'Guardar como consulta',
+            `<p>La consulta se guarda en el documento como en Access: aparece entre las tablas,
+                se puede usar en FROM y viaja a Access como consulta guardada.</p>
+            <label class="dialog-fields">Nombre de la consulta<input name="name" required maxlength="64"
+                pattern="[\\p{L}_][\\p{L}\\p{N}_]*" value="Consulta${state.model.tables.filter( item => item.kind === 'view' ).length + 1}"></label>`,
+            values => {
+                const result = createView( state.model, values.get( 'name' ).trim(), query );
+
+                commit( result.model );
+                notify( result.message );
+                }
+            );
+    }
+
+function fillSampleRows() {
+    const empty = state.model.tables.filter( table => table.kind === 'entity' && !(state.model.data?.[table.id] || []).length );
+
+    if (!empty.length) {
+        notify( 'Todas las tablas tienen ya filas de ejemplo; vacía una tabla para generar las suyas.' );
+        return;
+        }
+
+    commit( fillWithSampleData( state.model ) );
+    notify( `Filas de ejemplo en ${empty.length} tabla${empty.length === 1 ? '' : 's'}; cumplen claves, dominios y referencias.` );
+    }
+
 /** The diagrams of the memo as PNG figures for Word, drawn by the browser. */
 async function designFigures() {
     const figures = [];
@@ -1093,6 +1225,29 @@ async function act(
             closeDialog();
             downloadMemoDocx();
             break;
+        case 'sql-console':
+        case 'pane-console':
+            openConsole();
+            break;
+        case 'pane-properties':
+            state.pane = 'properties';
+            state.propertiesShown = true;
+            render();
+            break;
+        case 'sql-run':
+            runConsole();
+            break;
+        case 'sql-clear':
+            state.console.history = [];
+            renderPropertyPane();
+            refreshIcons();
+            break;
+        case 'sql-save-view':
+            saveConsoleQuery();
+            break;
+        case 'sample-data':
+            fillSampleRows();
+            break;
         case 'author':
             showAuthorDialog( state, commit );
             break;
@@ -1129,6 +1284,30 @@ async function act(
     }
 
 function fieldChanged( target ) {
+    if (target.dataset.sqlInput !== undefined) {
+        state.console.text = target.value;
+        return;
+        }
+
+    if (target.dataset.sqlAlgebra !== undefined) {
+        state.console.showAlgebra = Boolean( target.checked );
+        renderPropertyPane();
+        refreshIcons();
+        return;
+        }
+
+    if (target.dataset.sqlTemplate !== undefined) {
+        const template = sqlTemplates( state.model )[Number( target.value )];
+
+        if (template) {
+            state.console.text = state.console.text.trim() ? `${state.console.text.trimEnd()}\n\n${template[1]}` : template[1];
+            renderPropertyPane();
+            refreshIcons();
+            }
+
+        return;
+        }
+
     if (target.dataset.view !== undefined) {
         changeRepresentation( target.value );
         return;
@@ -1634,8 +1813,16 @@ function keyboard( event ) {
         return;
         }
 
-    const editing = event.target.closest( 'input, textarea, select, [contenteditable]' );
     const modifier = event.ctrlKey || event.metaKey;
+
+    if (event.target.dataset?.sqlInput !== undefined && modifier && event.key === 'Enter') {
+        event.preventDefault();
+        state.console.text = event.target.value;
+        runConsole();
+        return;
+        }
+
+    const editing = event.target.closest( 'input, textarea, select, [contenteditable]' );
     let action = null;
 
     if (modifier && event.key.toLowerCase() === 's') {
@@ -1704,6 +1891,16 @@ document.addEventListener(
                     tab.setAttribute( 'aria-selected', String( tab === button ) );
                     }
                 }
+            else if (button.dataset.sqlInsert !== undefined) {
+                insertIntoConsole( button.dataset.sqlInsert );
+                }
+            else if (button.dataset.sqlLoad) {
+                const view = state.model.tables.find( item => item.id === button.dataset.sqlLoad );
+
+                state.console.text = view ? `${view.definition.trim().replace( /;?$/, ';' )}` : state.console.text;
+                renderPropertyPane();
+                refreshIcons();
+                }
             else if (button.dataset.action) {
                 act( button.dataset.action, button ).catch( error => notify( error.message ) );
                 }
@@ -1740,6 +1937,15 @@ document.addEventListener(
             catch (error) {
                 notify( error.message );
                 render();
+                }
+            }
+        );
+
+document.querySelector( '#properties-body' ).addEventListener(
+        'input',
+        event => {
+            if (event.target.dataset?.sqlInput !== undefined) {
+                state.console.text = event.target.value;
                 }
             }
         );

@@ -334,6 +334,12 @@ cambiar de vista no cambia sus reglas.
     crear el `.accdb` antes de entregar. La memoria también está en HTML y
     Markdown dentro de esa ventana.
 
+11. En la vista Tablas abre la **Consola SQL**. Si tus tablas están vacías,
+    pulsa **Datos de ejemplo**. Prueba una consulta de cada tipo (selección,
+    combinación, totales, subconsulta) y compara su álgebra relacional con la
+    que harías a mano. Después intenta un DELETE de una fila referenciada: la
+    acción referencial de la relación decide si se rechaza o se propaga.
+
 _Qué comprobar y escribir._ JSON es el respaldo editable; SVG/PDF no sustituyen
 ese documento. La memoria reúne tus supuestos, no los redacta por ti. El guardado automático es local a navegador/origen/práctica y
 no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.

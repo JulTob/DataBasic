@@ -1,4 +1,4 @@
-# DataBasic 0.4.4 — especificación funcional
+# DataBasic 0.4.5 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,7 +14,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.4 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.5 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -88,7 +88,7 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.4 |
+| Construcción | Alcance 0.4.5 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
 | Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación. Si la otra participación también tiene máximo uno (1:1), la FK es única: clave alternativa si es obligatoria, índice único que admite nulos si es opcional, trazados a la relación. La semántica perdida solo enumera lo que las tablas no imponen: mínimos de 1 o más fuera de la FK receptora, máximos sin clave única y la exclusión o cobertura de una jerarquía. |
@@ -372,3 +372,37 @@ y descarga un .zip sin compresión con `LEEME.txt`, `Memoria.docx`,
 `Access/Esquema_Access.sql`, `Access/Esquema_Access.xml`, `Diagramas/*.svg` y
 `Proyecto.databasic.json`. La memoria Word incluye las figuras como PNG que el
 navegador dibuja al doble de tamaño, con un máximo de 6000 píxeles por lado.
+
+## Consola SQL y datos de ejemplo
+
+La consola ejecuta un guion de instrucciones separadas por «;». Un error de
+sintaxis detiene el guion antes de ejecutar nada; las instrucciones se
+ejecutan en orden y la primera que falla detiene las siguientes, sin deshacer
+las anteriores. Toda la ejecución es un paso de Deshacer.
+
+- **SELECT**: FROM con tablas, consultas guardadas, subconsultas con alias,
+  productos con coma y combinaciones INNER, LEFT y RIGHT entre paréntesis como
+  las escribe Access; WHERE, GROUP BY, HAVING, ORDER BY (por nombre, posición
+  o expresión), DISTINCT, TOP n [PERCENT] con empates, UNION [ALL]. Lógica de
+  tres valores para NULL; los textos se comparan sin distinguir mayúsculas; los
+  NULL van primero al ordenar. Los campos sin alias se llaman Expr1000,
+  Expr1001…; los repetidos se muestran como Tabla.campo. El plan se escribe en
+  álgebra relacional: σ, π, ⋈, ⟕, ⟖, ×, γ, δ, τ, ∪ y ρ.
+- **INSERT, UPDATE y DELETE** cambian las filas de ejemplo y se aplican enteras
+  o no se aplican: comprueban tipo, obligatoriedad, dominio, CHECK, claves
+  principales, alternativas e índices únicos, y la existencia de la fila
+  referenciada. Al borrar o cambiar una clave referenciada se sigue la acción
+  de la relación (NO ACTION rechaza; CASCADE, SET NULL y SET DEFAULT propagan).
+- **CREATE TABLE, ALTER TABLE, DROP TABLE, CREATE/DROP INDEX y CREATE/DROP
+  VIEW** cambian el modelo relacional con las mismas reglas que el editor. Las
+  tablas generadas desde el diagrama ER conservan allí su estructura. UNIQUE es
+  clave alternativa si el campo es NOT NULL e índice único si admite nulos; un
+  CHECK de tabla se guarda en el dominio del primer campo que nombra.
+
+**Datos de ejemplo** rellena las tablas vacías (las que tienen filas las
+conservan): primero las referenciadas, claves ajenas tomadas de filas
+existentes, valores según tipo, dominio y nombre del campo, CHECK evaluados,
+claves únicas sin repetir, derivados almacenados calculados cuando su
+derivación es una fórmula de la fila y filas de la superclase repartidas entre
+subclases según la especialización. Una semilla fija hace el resultado
+reproducible.

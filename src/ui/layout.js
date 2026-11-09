@@ -137,6 +137,7 @@ export function ribbonContents( state ) {
                     'Modelo de base de datos',
                     command( 'validate', 'Comprobar', 'list-checks', 'class="ribbon-large"' )
                         + command( 'assumptions', 'Supuestos', 'clipboard-list', 'class="ribbon-large"' )
+                        + command( 'sql-console', 'Consola SQL', 'square-terminal', 'class="ribbon-large"' )
                         + command( 'sql', 'Ver SQL', 'file-code-2', 'class="ribbon-large"' )
                         + command( 'layout', 'Distribuir', 'network', 'class="ribbon-large"' )
                     );
@@ -192,8 +193,10 @@ export function initialLayout( state ) {
         <div id="pane-splitter" class="pane-splitter" role="separator"
             aria-label="Cambiar altura de propiedades" aria-orientation="horizontal" tabindex="0"></div>
         <section id="properties-pane" class="properties-pane" aria-label="Propiedades de la base de datos">
-            <div class="pane-heading"><span>Propiedades de la base de datos <span id="properties-name"></span></span>
-            <button data-action="properties" title="Ocultar propiedades" aria-label="Ocultar propiedades">${icon( 'x' )}</button></div>
+            <div class="pane-heading"><div class="pane-tabs" role="tablist" aria-label="Panel inferior">
+                <button id="pane-tab-properties" role="tab" data-action="pane-properties" aria-selected="${state.pane !== 'console'}">Propiedades de la base de datos <span id="properties-name"></span></button>
+                <button id="pane-tab-console" role="tab" data-action="pane-console" aria-selected="${state.pane === 'console'}">${icon( 'square-terminal' )}Consola SQL</button></div>
+            <button data-action="properties" title="Ocultar el panel" aria-label="Ocultar el panel">${icon( 'x' )}</button></div>
             <div id="properties-body" class="properties-body"></div>
         </section></section></main>
         <footer class="statusbar"><span id="model-count"></span><span id="selection-status"></span>
@@ -235,7 +238,9 @@ export function paletteContents( state ) {
         ] : access ? [
         ['entity', 'Tabla', 'Campos con tipos de Access', 'table-2'],
         ['relationship', 'Relación', 'Integridad referencial y búsqueda', 'git-branch'],
-        ['view-shape', 'Consulta', 'Vista SQL guardada como consulta', 'panels-top-left']
+        ['view-shape', 'Consulta', 'Vista SQL guardada como consulta', 'panels-top-left'],
+        ['sql-console', 'Consola SQL', 'Consultas, datos y tablas en SQL', 'square-terminal'],
+        ['sample-data', 'Datos de ejemplo', 'Filas que cumplen las reglas', 'wand-sparkles']
         ] : [
         ['entity', 'Entidad', 'Tabla y columnas', 'table-2'],
         ['relationship', 'Relación', 'Referenciada y luego la de la FK', 'git-branch'],

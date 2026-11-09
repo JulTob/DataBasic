@@ -268,3 +268,68 @@ test( 'Una consulta guardada que se usa a sí misma se rechaza sin colgar la con
     model = domain.updateTable( model, view.id, {definition: 'SELECT * FROM A'} );
     assert.match( run( model, 'SELECT * FROM A' ).message, /se usa a sí misma/ );
     } );
+
+test( 'La consola de la aplicación ejecuta SQL, muestra la hoja de datos y se deshace en un paso', async () => {
+    const { applicationHarness } = await import( './support/application.js' );
+    const app = await applicationHarness( 500 );
+
+    await app.click({action: 'example'});
+    await app.click({mode: 'tables'});
+    await app.click({action: 'sample-data'});
+    await app.flushTimers();
+
+    const saved = JSON.parse( app.saved() );
+
+    assert.ok( Object.values( saved.data ).every( rows => rows.length === 8 ), 'filas de ejemplo en las tres tablas' );
+
+    await app.click({action: 'sql-console'});
+    assert.match( app.element( '#properties-body' ).innerHTML, /data-sql-input/ );
+    assert.match( app.element( '#properties-body' ).innerHTML, /data-sql-insert="Socio"/ );
+
+    app.change( {sqlInput: ''}, 'SELECT nombre FROM Socio ORDER BY nombre;\nSELECT Count(*) AS n FROM Prestamo' );
+    await app.click({action: 'sql-run'});
+
+    const body = app.element( '#properties-body' ).innerHTML;
+
+    assert.match( body, /<th class="">nombre<\/th>/ );
+    assert.match( body, /Registros: 8/ );
+    assert.match( body, /<p class="console-algebra"/ );
+    assert.match( body, /τ<sub>nombre<\/sub>/ );
+
+    app.change( {sqlInput: ''}, "INSERT INTO Socio (id_socio, nombre, email) VALUES (999, 'Nueva', NULL)" );
+    await app.click({action: 'sql-run'});
+    await app.flushTimers();
+    assert.match( app.element( '#properties-body' ).innerHTML, /1 registro agregado a Socio\./ );
+    assert.equal( Object.values( JSON.parse( app.saved() ).data ).reduce( (sum, rows) => sum + rows.length, 0 ), 25 );
+
+    await app.click({action: 'undo'});
+    await app.flushTimers();
+    assert.equal( Object.values( JSON.parse( app.saved() ).data ).reduce( (sum, rows) => sum + rows.length, 0 ), 24, 'Deshacer revierte la instrucción' );
+
+    app.change( {sqlInput: ''}, 'SELECT * FROM Nada' );
+    await app.click({action: 'sql-run'});
+    assert.match( app.element( '#properties-body' ).innerHTML, /class="console-error"[\s\S]*No se encuentra la tabla o consulta de entrada «Nada»/ );
+
+    app.change( {sqlTemplate: ''}, '0' );
+    assert.match( app.element( '#properties-body' ).innerHTML, /SELECT \*\nFROM Socio;/ );
+
+    app.change( {sqlInput: ''}, 'SELECT nombre FROM Socio WHERE email IS NULL' );
+    await app.click({action: 'sql-save-view'});
+    app.submit( {name: 'SinCorreo'} );
+    await app.flushTimers();
+    assert.ok( JSON.parse( app.saved() ).tables.some( table => table.kind === 'view' && table.name === 'SinCorreo' ) );
+
+    await app.click({action: 'pane-properties'});
+    assert.doesNotMatch( app.element( '#properties-body' ).innerHTML, /data-sql-input/ );
+    } );
+
+test( 'La consola muestra el resultado aunque la instrucción no cambie ninguna fila', async () => {
+    const { applicationHarness } = await import( './support/application.js' );
+    const app = await applicationHarness( 500 );
+
+    await app.click({action: 'example'});
+    await app.click({action: 'sql-console'});
+    app.change( {sqlInput: ''}, 'UPDATE Socio SET nombre = nombre WHERE id_socio = -1' );
+    await app.click({action: 'sql-run'});
+    assert.match( app.element( '#properties-body' ).innerHTML, /0 registros actualizados en Socio\./ );
+    } );

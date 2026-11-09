@@ -602,3 +602,18 @@ Comprobado en este entorno:
 
 Queda por comprobar con los programas del laboratorio: abrir la memoria en Word
 2010, el .vdx en Visio 2010 e importar y ejecutar el módulo en Access 2010.
+
+## Consola SQL y datos de ejemplo en 0.4.5
+
+`npm test` pasa 299 pruebas (sql.test.js, sample.test.js y la aplicación con la consola).
+`node scripts/example-data.mjs` y `node scripts/course-examples.mjs` dejan
+ocho filas por tabla en los veintisiete ejemplos sin incidencias de la Hoja de
+datos.
+
+En Chromium (Playwright) sobre `node scripts/serve.mjs`, con la Lonja en la
+vista Tablas: la consola se abre desde la paleta, Ctrl+Intro ejecuta una
+consulta de dos combinaciones con GROUP BY y ORDER BY y muestra la hoja de
+datos, «Registros: 8» y su álgebra; un UPDATE que no cambia filas informa de
+«0 registros actualizados»; un DELETE de una especie con lotes se rechaza por
+la acción NO ACTION de la relación; sin errores de consola. Se corrigió un
+choque de nombres de clase CSS con la ventana Ver SQL.

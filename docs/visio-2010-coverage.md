@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.4.4 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.4.5 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,

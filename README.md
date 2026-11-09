@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.4** permite editar un documento con tres representaciones
+La versión **0.4.5** permite editar un documento con tres representaciones
 progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 **Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
 Access, con sus tipos y propiedades. El desplegable Vista cambia la
@@ -36,6 +36,16 @@ diseño (.docx) con portada, los dos diagramas, las tablas de atributos y
 relaciones con su tipo (1:1, 1:N, N:N, N:N:N), los supuestos, las restricciones
 que el relacional no impone y el diccionario de datos. También hay versión HTML
 y Markdown.
+
+La **Consola SQL** (vista Tablas o Base de datos → Consola SQL) ejecuta SQL
+de Access sobre las filas de ejemplo: consultas SELECT con combinaciones,
+totales, subconsultas y UNION, que se muestran como hoja de datos y como
+expresión de álgebra relacional (σ, π, ⋈, γ…); INSERT, UPDATE y DELETE, que
+respetan claves, dominios, CHECK e integridad referencial con sus acciones
+(CASCADE, SET NULL…); y CREATE, ALTER y DROP de tablas, índices y consultas.
+Cada ejecución se deshace con Deshacer. **Datos de ejemplo** rellena las tablas
+vacías con filas que cumplen esas reglas; todos los ejemplos traen ocho filas
+por tabla.
 
 **Archivo → Alumno** guarda el DNI o NIE (con su letra comprobada), el nombre y
 los apellidos, y **Archivo → Paquete de entrega** comprueba el documento frente
