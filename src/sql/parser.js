@@ -400,7 +400,7 @@ function readPrimary( cursor ) {
         }
 
     if (cursor.isWord( 'CASE' )) {
-        throw new SqlError( 'Access no tiene CASE: usa IIf(condición, si es verdad, si no) o Switch(condición, valor, …).', current.start );
+        throw new SqlError( 'Este dialecto no tiene CASE: usa IIf(condición, si es verdad, si no) o Switch(condición, valor, …).', current.start );
         }
 
     if (current.kind === 'word' && cursor.peek().kind === 'symbol' && cursor.peek().value === '('

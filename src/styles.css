@@ -1618,3 +1618,22 @@ kbd { padding: 0 4px; border: 1px solid var( --color-border-strong ); border-rad
     .console-workspace { grid-template-columns: 1fr; }
     .console-objects { max-height: 90px; }
     }
+
+/* Archivo → Exportar: formats by group; the compatible program is only a small detail of a format. */
+.export-groups h3 { margin: 14px 0 6px; font-size: 13px; }
+.export-group { margin-bottom: 6px; }
+.export-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 8px 0; border-top: 1px solid var( --color-border ); }
+.export-item p { margin: 3px 0 0; color: var( --color-muted ); font-size: 12px; max-width: 62ch; }
+.export-item button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; }
+.export-item button svg { width: 14px; height: 14px; }
+.compatibility {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 0 7px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 999px;
+    color: var( --color-muted );
+    font-size: 11px;
+    font-weight: 500;
+    vertical-align: 1px;
+    }

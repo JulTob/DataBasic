@@ -28,7 +28,7 @@ function ribbonGroup(
 export const VIEW_OPTIONS = [
     ['chen', 'Diagrama · entidad-relación'],
     ['relational', 'Relacional · tablas y claves'],
-    ['tables', 'Tablas · Access']
+    ['tables', 'Tablas · datos']
     ];
 
 /** The built-in example plus the files of examples/index.json once they are loaded. */
@@ -77,11 +77,8 @@ export function ribbonContents( state ) {
                     )
                 + ribbonGroup(
                         'Exportar',
-                        command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
-                            + command( 'vdx', 'Visio 2010', 'file-box', 'class="ribbon-large"' )
-                            + command( 'access', 'Access', 'database-zap', 'class="ribbon-large"' )
-                            + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
-                            + command( 'report-docx', 'Memoria Word', 'file-text', 'class="ribbon-large"' )
+                        command( 'export', 'Exportar…', 'file-output', 'class="ribbon-large" title="Todos los formatos: dibujo, base de datos y memoria"' )
+                            + command( 'report-docx', 'Memoria (.docx)', 'file-text', 'class="ribbon-large"' )
                             + command( 'print', 'Imprimir / PDF', 'printer', 'class="ribbon-large"' )
                         )
                 + ribbonGroup(
@@ -236,7 +233,7 @@ export function paletteContents( state ) {
         ['conceptual-relationship', 'Relación', 'Binaria, N:N o ternaria', 'diamond'],
         ['generalization', 'Especialización', 'Superclase y subclases', 'git-fork']
         ] : access ? [
-        ['entity', 'Tabla', 'Campos con tipos de Access', 'table-2'],
+        ['entity', 'Tabla', 'Campos con tipos de datos', 'table-2'],
         ['relationship', 'Relación', 'Integridad referencial y búsqueda', 'git-branch'],
         ['view-shape', 'Consulta', 'Vista SQL guardada como consulta', 'panels-top-left'],
         ['sql-console', 'Consola SQL', 'Consultas, datos y tablas en SQL', 'square-terminal'],

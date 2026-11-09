@@ -196,7 +196,7 @@ test( 'La memoria reúne entidades, relaciones con letras, supuestos y semántic
         'Supuestos semánticos',
         'Semántica perdida',
         'Esquema relacional resultante',
-        'Diseño físico en Access',
+        'Diseño físico',
         'Datos de ejemplo'
         ] );
 

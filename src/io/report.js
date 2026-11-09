@@ -384,8 +384,8 @@ function reportLostSemanticsSection( model ) {
 
     const access = accessStatus( model ).map( item => item.message );
 
-    blocks.push( reportParagraph( 'Lo que Access expresa de otra manera:' ) );
-    blocks.push( access.length ? reportList( access ) : reportParagraph( 'Nada: todo tiene equivalente directo en Access.' ) );
+    blocks.push( reportParagraph( 'Lo que el diseño físico expresa de otra manera:' ) );
+    blocks.push( access.length ? reportList( access ) : reportParagraph( 'Nada: todo tiene equivalente directo en el diseño físico.' ) );
 
     return {heading: 'Semántica perdida', blocks};
     }
@@ -438,10 +438,10 @@ function reportPhysicalSection( model ) {
                 + `${relation.lookup ? `; campo de búsqueda que muestra ${relation.displayColumn || relation.pairs[0].parentColumn}` : ''}.`
             );
 
-    blocks.push( reportParagraph( 'Relaciones en Access:' ) );
+    blocks.push( reportParagraph( 'Relaciones del diseño físico:' ) );
     blocks.push( relations.length ? reportList( relations ) : reportParagraph( 'Ninguna.' ) );
 
-    return {heading: 'Diseño físico en Access', blocks};
+    return {heading: 'Diseño físico', blocks};
     }
 
 /** The datasheets the author filled in, and what the rules say about them. */

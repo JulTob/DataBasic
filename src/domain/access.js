@@ -75,12 +75,12 @@ export function requireExportableForAccess( model ) {
     const pending = conceptualStatus( model ).find( item => item.code === 'pending' );
 
     if (pending) {
-        throw new Error( `Access incompleto: ${pending.message}` );
+        throw new Error( `Exportación de la base de datos incompleta: ${pending.message}` );
         }
 
     for (const table of model.tables.filter( item => item.kind === 'entity' )) {
         if (!table.columns.length) {
-            throw new Error( `${table.name}: añade al menos una columna antes de exportar a Access.` );
+            throw new Error( `${table.name}: añade al menos una columna antes de exportar la base de datos.` );
             }
         }
     }
@@ -100,7 +100,7 @@ function physicalTable(
 
     if (checks.length && overrides.validationRule === undefined) {
         issues.push( physicalIssue(
-                `${table.name}: la regla de validación de tabla se copia del CHECK; revisa su sintaxis en Access.`,
+                `${table.name}: la regla de validación de tabla se copia del CHECK; revisa su sintaxis al importarla.`,
                 table.id
                 ) );
         }
@@ -126,7 +126,7 @@ function physicalView(
     const overrides = documentPhysical( model ).tables[view.id] || {};
 
     issues.push( physicalIssue(
-            `${view.name}: la vista se exporta como consulta guardada; revisa la sintaxis SQL en Access.`,
+            `${view.name}: la vista se exporta como consulta guardada; revisa su SQL al importarla.`,
             view.id
             ) );
 
@@ -245,7 +245,7 @@ function physicalTypeFor( type ) {
         case 'SMALLINT':
             return physicalNumber( 'Entero' );
         case 'BIGINT':
-            return physicalNumber( 'Doble', 'BIGINT no existe en Access 2010-2013; se exporta como Número Doble.' );
+            return physicalNumber( 'Doble', 'BIGINT no existe en la base de datos de destino; se exporta como Número Doble.' );
         case 'REAL':
             return physicalNumber( 'Simple' );
         case 'FLOAT':
@@ -423,7 +423,7 @@ function physicalDefaultFor(
         }
 
     issues.push( physicalIssue(
-            `${label}: el valor predeterminado «${trimmed}» se copia tal cual; revisa su sintaxis en Access.`,
+            `${label}: el valor predeterminado «${trimmed}» se copia tal cual; revisa su sintaxis al importarlo.`,
             columnId
             ) );
     return trimmed;
@@ -499,7 +499,7 @@ function physicalRelationshipIssues(
     for (const [action, key] of [['onDelete', 'eliminar'], ['onUpdate', 'actualizar']]) {
         if (['SET NULL', 'SET DEFAULT'].includes( relation[action] )) {
             issues.push( physicalIssue(
-                    `${label}: Access no admite ${relation[action]} al ${key}; se exporta como ${key === 'eliminar' ? 'eliminación' : 'actualización'} restringida.`,
+                    `${label}: la base de datos de destino no admite ${relation[action]} al ${key}; se exporta como ${key === 'eliminar' ? 'eliminación' : 'actualización'} restringida.`,
                     relation.id
                     ) );
             }

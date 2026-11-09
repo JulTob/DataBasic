@@ -256,7 +256,7 @@ function diagramAccessTable(
         class="entity access-entity ${selected ? 'selected' : ''} ${parentId === table.id ? 'connect-parent' : ''}"
         transform="translate(${node.x},${node.y})" tabindex="0" role="button"
         aria-label="${table.kind === 'view' ? 'Consulta' : 'Tabla'} ${escapeHTML( table.name )}">
-        <title>${escapeHTML( table.name )} · como la ve Access</title>
+        <title>${escapeHTML( table.name )} · tabla de datos</title>
         <rect class="table-shadow" x="0" y="4" width="${node.width}" height="${node.height}"/>
         <rect class="access-header" width="${node.width}" height="${header}"/>
         ${diagramTextLines( title, 10, 21, 'access-title', 20 )}

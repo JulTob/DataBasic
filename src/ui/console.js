@@ -157,7 +157,7 @@ function historyHTML(
         ) {
     if (!history.length) {
         return `<div class="console-welcome">${icon( 'terminal' )}
-            <p>Escribe SQL de Access y pulsa <kbd>Ctrl</kbd> + <kbd>Intro</kbd> o <strong>Ejecutar</strong>.
+            <p>Escribe SQL (fechas entre #, IIf, Nz, comodines * y ?) y pulsa <kbd>Ctrl</kbd> + <kbd>Intro</kbd> o <strong>Ejecutar</strong>.
             Las consultas muestran su hoja de datos; INSERT, UPDATE y DELETE cambian las filas de ejemplo;
             CREATE, ALTER y DROP cambian las tablas. Todo se puede deshacer.</p></div>`;
         }

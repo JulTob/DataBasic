@@ -291,7 +291,7 @@ function evaluateAggregate(
 
     if (expr.distinct) {
         throw new SqlError(
-                `Access no admite ${expr.name}(DISTINCT …): agrupa antes con una subconsulta SELECT DISTINCT.`,
+                `Este dialecto no admite ${expr.name}(DISTINCT …): agrupa antes con una subconsulta SELECT DISTINCT.`,
                 expr.start
                 );
         }
@@ -580,7 +580,7 @@ function evaluateFunction(
     const definition = FUNCTIONS[expr.name];
 
     if (!definition) {
-        throw new SqlError( `Función desconocida ${expr.name}. Revisa el nombre o usa una de Access (IIf, Nz, Len, Left, Year…).`, expr.start );
+        throw new SqlError( `Función desconocida ${expr.name}. Revisa el nombre o usa una de las disponibles (IIf, Nz, Len, Left, Year…).`, expr.start );
         }
 
     const [minimum, maximum, body] = definition;

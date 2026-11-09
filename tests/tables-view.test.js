@@ -125,8 +125,8 @@ test( 'the layout offers the three views and an Access palette', () => {
     const model = exampleDocument();
     const html = initialLayout( tablesState( model ) );
 
-    assert.match( html, /id="view-select"[\s\S]*Diagrama · entidad-relación[\s\S]*Relacional · tablas y claves[\s\S]*Tablas · Access/ );
-    assert.match( paletteContents( {model: setDiagramMode( model, 'tables' )} ), /Campos con tipos de Access/ );
+    assert.match( html, /id="view-select"[\s\S]*Diagrama · entidad-relación[\s\S]*Relacional · tablas y claves[\s\S]*Tablas · datos/ );
+    assert.match( paletteContents( {model: setDiagramMode( model, 'tables' )} ), /Campos con tipos de datos/ );
     assert.match( paletteContents( {model} ), /Tabla y columnas/ );
     } );
 
@@ -136,10 +136,10 @@ test( 'the memo gets a physical design section and the Access warnings', () => {
     model = updateRelationship( model, model.relationships[0].id, {optional: true, onDelete: 'SET NULL'} );
 
     const report = buildDesignReport( model );
-    const physical = report.sections.find( section => section.heading === 'Diseño físico en Access' );
+    const physical = report.sections.find( section => section.heading === 'Diseño físico' );
     const lost = report.sections.find( section => section.heading === 'Semántica perdida' );
 
-    assert.equal( physical.heading, 'Diseño físico en Access' );
+    assert.equal( physical.heading, 'Diseño físico' );
     assert.deepEqual( physical.blocks[1].header, ['Campo', 'Tipo de datos', 'Tamaño', 'Requerido', 'Indexado', 'Regla de validación', 'Predeterminado'] );
     assert.deepEqual( physical.blocks[1].rows[0], ['id_socio (PK)', 'Número', 'Entero largo', 'Sí', 'Sí (Sin duplicados)', '—', '—'] );
     assert.ok( physical.blocks.at( -1 ).items.some( item => item.includes( 'Prestamo → Socio (uno a varios): exigir integridad referencial, eliminación restringida; campo de búsqueda que muestra nombre.' ) ) );
@@ -152,13 +152,13 @@ test( 'the application switches to the Tablas view, edits Access properties and 
     await app.click({action: 'example'});
     await app.click({mode: 'tables'});
     await app.flushTimers();
-    assert.equal( app.element( '#diagram-mode-label' ).textContent, 'Tablas · Access' );
+    assert.equal( app.element( '#diagram-mode-label' ).textContent, 'Tablas · datos' );
 
     let saved = JSON.parse( app.saved() );
     const socio = saved.tables[0];
 
     await app.click({select: socio.id});
-    assert.match( app.element( '#properties-body' ).innerHTML, /Campos de Access/ );
+    assert.match( app.element( '#properties-body' ).innerHTML, /Campos de datos/ );
 
     app.change( {physical: 'column', colId: socio.columns[0].id, field: 'accessType'}, 'Autonumeración' );
     await app.flushTimers();
@@ -183,7 +183,7 @@ test( 'the application switches to the Tablas view, edits Access properties and 
     assert.deepEqual( saved.physical.relationships[saved.relationships[0].id], {cascadeDelete: true} );
 
     await app.click({mode: 'relational'});
-    assert.doesNotMatch( app.element( '#properties-body' ).innerHTML, /Campos de Access/ );
+    assert.doesNotMatch( app.element( '#properties-body' ).innerHTML, /Campos de datos/ );
     assert.match( app.element( '#diagram-mode-label' ).textContent, /Relacional/ );
 
     app.change( {view: ''}, 'chen' );

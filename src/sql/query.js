@@ -164,7 +164,7 @@ function rowScope(
             throw new SqlError(
                     known
                         ? `No se encuentra la tabla «${reference.table}» en FROM para «${reference.table}.${reference.name}».`
-                        : `No se encuentra el campo «${reference.table ? `${reference.table}.` : ''}${reference.name}». Access lo pediría como parámetro.`,
+                        : `No se encuentra el campo «${reference.table ? `${reference.table}.` : ''}${reference.name}».`,
                     reference.start
                     );
             },

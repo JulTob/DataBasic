@@ -100,7 +100,7 @@ import {
     showAlternateKeyDialog,
     showAssumptionDialog,
     showAssumptionsOverview,
-    showAccessDialog
+    showExportDialog
     } from './ui/dialogs.js';
 import {
     buildDesignReport,
@@ -308,18 +308,18 @@ function render( preserveEditors = false ) {
         state.model.display.mode === 'chen'
             ? 'Diagrama · entidad-relación (Chen)'
             : state.model.display.mode === 'tables'
-                ? 'Tablas · Access'
+                ? 'Tablas · datos'
                 : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
     document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Entidades y relaciones'
-            : state.model.display.mode === 'tables' ? 'Tablas de Access' : 'Tablas y vistas';
+            : state.model.display.mode === 'tables' ? 'Tablas de datos' : 'Tablas y vistas';
     document.querySelector( '#stencil-tip' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Crea objetos conceptuales. Las restricciones pendientes también se guardan.'
             : state.model.display.mode === 'tables'
-                ? 'Las mismas tablas del relacional con los tipos y propiedades de Access. Selecciona un campo para ajustarlos.'
+                ? 'Las mismas tablas del relacional con sus tipos y propiedades físicas. Selecciona un campo para ajustarlos.'
                 : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
 
     const viewSelect = document.querySelector( '#view-select' );
@@ -864,8 +864,8 @@ function saveConsoleQuery() {
 
     openDialog(
             'Guardar como consulta',
-            `<p>La consulta se guarda en el documento como en Access: aparece entre las tablas,
-                se puede usar en FROM y viaja a Access como consulta guardada.</p>
+            `<p>La consulta se guarda en el documento: aparece entre las tablas,
+                se puede usar en FROM y viaja a la base de datos exportada como consulta guardada.</p>
             <label class="dialog-fields">Nombre de la consulta<input name="name" required maxlength="64"
                 pattern="[\\p{L}_][\\p{L}\\p{N}_]*" value="Consulta${state.model.tables.filter( item => item.kind === 'view' ).length + 1}"></label>`,
             values => {
@@ -928,7 +928,7 @@ async function runDeliveryExport(
 
 function downloadMemoDocx() {
     return runDeliveryExport(
-            'la memoria Word',
+            'la memoria (.docx)',
             async () => {
                 const figures = await designFigures();
 
@@ -937,7 +937,7 @@ function downloadMemoDocx() {
                         memoFilename( state.model ),
                         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                         );
-                notify( 'Memoria Word descargada. Ábrela en Word para revisarla o guardarla como PDF.' );
+                notify( 'Memoria .docx descargada. Ábrela en tu procesador de textos para revisarla o guardarla como PDF.' );
                 }
             );
     }
@@ -956,7 +956,7 @@ function downloadDeliveryPackage() {
                         deliveryFilename( state.model ),
                         'application/zip'
                         );
-                notify( 'Paquete de entrega descargado. Sigue LEEME.txt para crear la base de datos de Access y añádela al .zip.' );
+                notify( 'Paquete de entrega descargado. Sigue LEEME.txt para crear la base de datos y añádela al .zip.' );
                 }
             );
     }
@@ -1125,7 +1125,8 @@ async function act(
             download( exportVDX( state.model ), filename( 'vdx' ), 'application/xml' );
             break;
         case 'access':
-            showAccessDialog( state.model );
+        case 'export':
+            showExportDialog( state.model );
             break;
         case 'reset-physical':
             resetPhysical( target.dataset.scope, target.dataset.target );
@@ -1219,7 +1220,7 @@ async function act(
                     filename( 'memoria.html' ),
                     'text/html'
                     );
-            notify( 'Memoria del diseño descargada. Word la abre como documento.' );
+            notify( 'Memoria del diseño descargada en HTML.' );
             break;
         case 'report-docx':
             closeDialog();

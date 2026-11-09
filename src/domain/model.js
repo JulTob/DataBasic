@@ -1945,7 +1945,7 @@ function validatePhysicalValue(
             text( overrides, key, 100 );
             break;
         case 'accessType':
-            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos de Access no válido.' );
+            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos físico no válido.' );
             break;
         case 'fieldSize':
             demand(

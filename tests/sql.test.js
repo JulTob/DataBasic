@@ -84,7 +84,7 @@ test( 'Los errores de sintaxis dicen qué se esperaba y dónde', () => {
 
     assert.equal( output.kind, 'error' );
     assert.match( output.message, /se esperaba el nombre de una tabla o consulta, pero aparece «WHERE» \(línea 2, columna 6\)/ );
-    assert.match( run( domain.emptyDocument(), 'SELECT CASE WHEN 1 THEN 2 END' ).message, /Access no tiene CASE: usa IIf/ );
+    assert.match( run( domain.emptyDocument(), 'SELECT CASE WHEN 1 THEN 2 END' ).message, /Este dialecto no tiene CASE: usa IIf/ );
     assert.equal( parseScript( 'SELECT 1; ; SELECT 2;' ).length, 2 );
     assert.equal( parseExpression( "estado IN ('pendiente', 'pagada')" ).type, 'in' );
     } );
@@ -164,7 +164,7 @@ test( 'Los errores de las consultas se explican como en Access', () => {
     assert.match( run( model, 'SELECT id_socio FROM Socio, Prestamo, Socio s' ).message, /puede referirse a más de una tabla/ );
     assert.match( run( model, "SELECT nombre FROM Socio WHERE nombre = 1" ).message, /No coinciden los tipos de datos/ );
     assert.match( run( model, 'SELECT nombre FROM Socio WHERE Count(*) > 1' ).message, /No se puede usar una función de agregado en WHERE/ );
-    assert.match( run( model, 'SELECT Count(DISTINCT socio) FROM Prestamo' ).message, /Access no admite COUNT\(DISTINCT/ );
+    assert.match( run( model, 'SELECT Count(DISTINCT socio) FROM Prestamo' ).message, /Este dialecto no admite COUNT\(DISTINCT/ );
     assert.match( run( model, 'SELECT nombre FROM Socio UNION SELECT id_libro, titulo FROM Libro' ).message, /número de campos/ );
     assert.match( run( model, 'SELECT (SELECT nombre FROM Socio) FROM Libro' ).message, /como mucho un registro/ );
     assert.match( run( model, 'SELECT 1 / 0' ).message, /División por cero/ );

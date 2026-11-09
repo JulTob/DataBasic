@@ -132,14 +132,14 @@ export function pngSize( bytes ) {
 
     if (!(bytes instanceof Uint8Array) || bytes.length < 24
         || signature.some( (value, index) => bytes[index] !== value )) {
-        throw new Error( 'Memoria Word: cada figura debe ser una imagen PNG.' );
+        throw new Error( 'Memoria .docx: cada figura debe ser una imagen PNG.' );
         }
 
     const view = new DataView( bytes.buffer, bytes.byteOffset, bytes.byteLength );
     const size = {width: view.getUint32( 16 ), height: view.getUint32( 20 )};
 
     if (!size.width || !size.height) {
-        throw new Error( 'Memoria Word: la figura PNG no tiene tamaño.' );
+        throw new Error( 'Memoria .docx: la figura PNG no tiene tamaño.' );
         }
 
     return size;
@@ -192,7 +192,7 @@ function docxCover( report ) {
                 [['DNI', author.dni || ''], ['Nombre y apellidos', name]]
                 )
         + docxParagraph( 'Contenido: diagramas, diseño conceptual (entidades, relaciones y especializaciones), '
-            + 'supuestos semánticos, semántica perdida, esquema relacional y diseño físico en Access.' );
+            + 'supuestos semánticos, semántica perdida, esquema relacional y diseño físico.' );
     }
 
 function docxFigures( figures ) {
