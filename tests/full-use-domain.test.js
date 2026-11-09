@@ -285,7 +285,10 @@ for (const disjoint of [false, true]) {
 
             model = domain.updateConceptualGeneralization( model, id, unchanged );
             assert.equal( serializeDocument( model ), initial );
-            assert.match( exportSQL( model ), /PK\/FK no imponen exclusión ni cobertura/ );
+            const sql = exportSQL( model );
+
+            assert.equal( /no imponen la exclusión/.test( sql ), disjoint, 'only a disjoint hierarchy loses exclusion' );
+            assert.equal( /la cobertura/.test( sql ), total, 'only a total hierarchy loses coverage' );
             assert.deepEqual( parseDocument( serializeDocument( model ) ), model );
             } );
         }

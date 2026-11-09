@@ -5,243 +5,7 @@
   "name": "Lonja de Santa Pola · práctica 1 (2025-2026)",
   "tables": [
     {
-      "id": "a2f80e63-619a-47b1-8f77-ffbee0813300",
-      "name": "Lote",
-      "conceptualName": "Lote",
-      "syncNames": true,
-      "namespace": "",
-      "kind": "entity",
-      "x": 760,
-      "y": 700,
-      "columns": [
-        {
-          "id": "a28d9ab0-0784-4156-acd6-afeda006f657",
-          "name": "cod_lote",
-          "type": "CHAR(5)",
-          "required": true,
-          "primary": true,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "493ac725-b71d-4160-9513-71ac660d0719",
-          "name": "num_cajas",
-          "type": "NUMBER(4)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 1,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "5d0f1c07-f238-48f8-8fdd-431fe322eb74",
-          "name": "kilos_total",
-          "type": "NUMBER(8,2)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 0,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "c98f2248-edf1-4e2d-9bae-e15a39839f3d",
-          "name": "fecha_llegada",
-          "type": "DATE",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "744ebf5f-92d9-423d-a9ca-b246a926daba",
-          "name": "precio_kg_salida",
-          "type": "NUMBER(8,2)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 0,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "dac3753e-3201-45b9-abf4-5d8a4aaa6331",
-          "name": "precio_total_salida",
-          "type": "NUMBER(10,2)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 0,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "d43faa5a-3188-4728-b4f5-ce2782e2bceb",
-          "name": "especie_cod_especie",
-          "type": "VARCHAR(5)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": ""
-        },
-        {
-          "id": "878d6e34-b905-499d-b142-da79113b6ef7",
-          "name": "barco_matricula",
-          "type": "CHAR(10)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": ""
-        }
-      ],
-      "notes": "",
-      "definition": "",
-      "indexes": [],
-      "alternateKeys": []
-    },
-    {
-      "id": "82b0d7b7-f81c-4668-8322-850c1e09fcee",
-      "name": "Especie",
-      "conceptualName": "Especie",
-      "syncNames": true,
-      "namespace": "",
-      "kind": "entity",
-      "x": 760,
-      "y": 140,
-      "columns": [
-        {
-          "id": "718629a0-eb04-4c70-ad98-c8a26b185f66",
-          "name": "cod_especie",
-          "type": "VARCHAR(5)",
-          "required": true,
-          "primary": true,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "a8f79bb7-6c8f-4b06-9284-493ff22a0b9b",
-          "name": "nombre",
-          "type": "VARCHAR(40)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "00499c77-f5e8-4f85-ac69-b5e9bba9237f",
-          "name": "tipo",
-          "type": "VARCHAR(30)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        }
-      ],
-      "notes": "",
-      "definition": "",
-      "indexes": [],
-      "alternateKeys": []
-    },
-    {
-      "id": "a7757ce1-82d4-4294-b094-1aee5c0539cc",
-      "name": "Barco",
-      "conceptualName": "Barco",
-      "syncNames": true,
-      "namespace": "",
-      "kind": "entity",
-      "x": 120,
-      "y": 700,
-      "columns": [
-        {
-          "id": "e6d8d15c-8cad-4e30-b6b9-f6bdbcf3f155",
-          "name": "matricula",
-          "type": "CHAR(10)",
-          "required": true,
-          "primary": true,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "866a245a-bb10-4f60-a999-78f0cf66e35e",
-          "name": "nombre",
-          "type": "VARCHAR(40)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "f59746ed-bd7a-42af-9f24-a7a8087cf420",
-          "name": "clase",
-          "type": "VARCHAR(30)",
-          "required": false,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "06111bb1-9718-40d0-b82b-f82ed545f2c5",
-          "name": "capitan",
-          "type": "VARCHAR(60)",
-          "required": false,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "b6d646c5-547d-483c-90b7-a9660a4b8600",
-          "name": "armador",
-          "type": "VARCHAR(60)",
-          "required": false,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "d4530908-df87-4ce9-bcc6-71cdbd9700eb",
-          "name": "cif",
-          "type": "CHAR(9)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        }
-      ],
-      "notes": "",
-      "definition": "",
-      "indexes": [],
-      "alternateKeys": []
-    },
-    {
-      "id": "ad4c0d07-6817-404d-b608-610cc47ed22d",
+      "id": "58cfe830-0880-4115-bab6-300ebffed1de",
       "name": "Caladero",
       "conceptualName": "Caladero",
       "syncNames": true,
@@ -251,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "a57af53a-b981-4672-8136-a03785b7a6bc",
+          "id": "e7913399-beb6-4605-8536-4d62812c241e",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -261,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "cf48876a-e17a-40d0-a532-4bd13ee2a963",
+          "id": "7e436d4b-b7c9-4ddf-8dc7-5495c47db31c",
           "name": "extension",
           "type": "NUMBER(8,2)",
           "required": false,
@@ -276,7 +40,7 @@
           }
         },
         {
-          "id": "66b20e19-f9df-4621-8888-458de1c730ca",
+          "id": "4613abda-682c-40ed-8ea6-3095bd2fe476",
           "name": "latitud",
           "type": "NUMBER(9,6)",
           "required": true,
@@ -291,7 +55,7 @@
           }
         },
         {
-          "id": "200018fe-e2a4-44dc-8e58-d09210fada3f",
+          "id": "46419dd3-de25-4941-929f-4a5e31dd39e6",
           "name": "longitud",
           "type": "NUMBER(9,6)",
           "required": true,
@@ -312,19 +76,19 @@
       "alternateKeys": []
     },
     {
-      "id": "e1263344-63db-491a-b76a-aafc0fc0424c",
-      "name": "Comprador",
-      "conceptualName": "Comprador",
+      "id": "f1380584-15d7-4ac6-9845-f637e1613a6a",
+      "name": "Especie",
+      "conceptualName": "Especie",
       "syncNames": true,
       "namespace": "",
       "kind": "entity",
-      "x": 1400,
-      "y": 700,
+      "x": 760,
+      "y": 140,
       "columns": [
         {
-          "id": "239c9045-d7c1-4ccf-87ed-6c246d500fdf",
-          "name": "cod_comprador",
-          "type": "CHAR(5)",
+          "id": "e729aec0-35b2-4e03-a66a-9deb15703731",
+          "name": "cod_especie",
+          "type": "VARCHAR(5)",
           "required": true,
           "primary": true,
           "notes": "",
@@ -332,7 +96,7 @@
           "domain": null
         },
         {
-          "id": "99c92b90-02b3-4cb5-ae55-af4526b66ad3",
+          "id": "193eba10-d793-4fd5-8b3c-e648b74c82b0",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -342,7 +106,243 @@
           "domain": null
         },
         {
-          "id": "aace4f02-1bf4-4e5e-a0ab-2c1fc5984262",
+          "id": "a925b50e-cea2-4de3-b5b0-9ca5e22e3ecb",
+          "name": "tipo",
+          "type": "VARCHAR(30)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "27a30999-dfa6-44d1-a607-6bc4b0ec71fd",
+      "name": "Barco",
+      "conceptualName": "Barco",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "09aaf9ea-f5ed-480b-b4e8-8d5b17dee173",
+          "name": "matricula",
+          "type": "CHAR(10)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "91c563d2-f030-42b8-b940-230e333925c5",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "ff796b98-a69c-4dd5-9cfa-b6f03890c5be",
+          "name": "clase",
+          "type": "VARCHAR(30)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "270b9aed-50ad-4016-9d4c-5583137910aa",
+          "name": "capitan",
+          "type": "VARCHAR(60)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d4b4888e-1a35-4d3b-b124-df76f270993a",
+          "name": "armador",
+          "type": "VARCHAR(60)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "eb9e2a28-b1ef-4be1-a234-64ed779be2d7",
+          "name": "cif",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
+      "name": "Lote",
+      "conceptualName": "Lote",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "f6a95a04-0bf4-4dfc-b865-e33f7d425940",
+          "name": "cod_lote",
+          "type": "CHAR(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "cbfe8e92-867f-45ae-8368-749ead73a53f",
+          "name": "num_cajas",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "63bd3d40-928d-42f6-8afd-eacf054b7a8e",
+          "name": "kilos_total",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "dd794d87-0e9b-4519-aee6-4af09eaf4b23",
+          "name": "fecha_llegada",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9d76c02d-d0b2-4e62-98a1-b2bc11d3a3f4",
+          "name": "precio_kg_salida",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "745d58a3-03df-4ec8-976f-41b49fa457a2",
+          "name": "precio_total_salida",
+          "type": "NUMBER(10,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "ef440d21-7b02-4e36-89bc-9720bbc855fa",
+          "name": "especie_cod_especie",
+          "type": "VARCHAR(5)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "75224f9a-41f5-4674-8a7b-c8eb293f26db",
+          "name": "barco_matricula",
+          "type": "CHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "4e059dc5-a863-479d-b51e-39416cb53ad5",
+      "name": "Comprador",
+      "conceptualName": "Comprador",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "43fe2bd8-b21c-430b-8070-f1b148363d5d",
+          "name": "cod_comprador",
+          "type": "CHAR(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "286b1e66-1700-4332-9685-0e27adf9e2fa",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "6a3ed85c-12eb-4882-8dac-948300230ed6",
           "name": "direccion",
           "type": "VARCHAR(60)",
           "required": false,
@@ -352,9 +352,9 @@
           "domain": null
         },
         {
-          "id": "85af1899-fcd7-4a86-93fa-46a2c65e0663",
+          "id": "8405013e-2031-42b2-8f5c-2db2e8b9bb9e",
           "name": "dni_cif",
-          "type": "VARCHAR(15)",
+          "type": "CHAR(9)",
           "required": true,
           "primary": false,
           "notes": "",
@@ -362,7 +362,7 @@
           "domain": null
         },
         {
-          "id": "35faaef6-601e-48c6-86b1-041acdc7e5af",
+          "id": "e4fb5e92-d4f2-432f-85f9-58ad765e34e9",
           "name": "cuota_anual",
           "type": "NUMBER(8,2)",
           "required": true,
@@ -382,27 +382,27 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "9b543d4a-a4a9-4882-9a4b-1c8cf824b6e8",
+          "id": "fbf621cd-1ae6-483e-a774-882213952c58",
           "name": "AK_Comprador_dni_cif",
           "columns": [
-            "85af1899-fcd7-4a86-93fa-46a2c65e0663"
+            "8405013e-2031-42b2-8f5c-2db2e8b9bb9e"
           ]
         }
       ]
     },
     {
-      "id": "db747af1-f508-4cfd-8d29-995e0901595c",
-      "name": "Creditor",
-      "conceptualName": "Creditor",
+      "id": "299f4f0a-4705-43df-be39-25d475b26159",
+      "name": "Credito",
+      "conceptualName": "Credito",
       "syncNames": true,
       "namespace": "",
       "kind": "entity",
       "x": 2040,
-      "y": 700,
+      "y": 140,
       "columns": [
         {
-          "id": "48d4c042-2a92-4e9a-b6cf-60d1c17345d1",
-          "name": "iban",
+          "id": "3f2532d0-ad06-4793-9d19-607e21c85526",
+          "name": "num_cuenta",
           "type": "CHAR(24)",
           "required": true,
           "primary": false,
@@ -411,7 +411,7 @@
           "domain": null
         },
         {
-          "id": "58e5b49d-c22f-4456-9520-11d36fc758c2",
+          "id": "36649f90-53cb-4846-b8b4-841e86a011b8",
           "name": "importe_acumulado",
           "type": "NUMBER(10,2)",
           "required": true,
@@ -426,7 +426,7 @@
           }
         },
         {
-          "id": "97e1a675-4e26-4926-817d-b3fe07d2dbc3",
+          "id": "8eb8291a-e582-49e1-a3d7-c58001f51007",
           "name": "fecha_vencimiento",
           "type": "DATE",
           "required": true,
@@ -436,7 +436,7 @@
           "domain": null
         },
         {
-          "id": "c2b23275-07bb-4cc9-acb7-21a04f6f8862",
+          "id": "968571c4-91bf-42a4-8e70-ee372eabf09e",
           "name": "Comprador_cod_comprador",
           "type": "CHAR(5)",
           "required": true,
@@ -451,17 +451,42 @@
       "alternateKeys": []
     },
     {
-      "id": "4f7a69ae-9868-4e61-b0a8-1f29ad34ef18",
-      "name": "Factura_cliente",
-      "conceptualName": "Factura_cliente",
+      "id": "6214543d-ae09-4b8b-8071-49fba45c686c",
+      "name": "Contado",
+      "conceptualName": "Contado",
       "syncNames": true,
       "namespace": "",
       "kind": "entity",
-      "x": 1400,
-      "y": 1260,
+      "x": 2040,
+      "y": 700,
       "columns": [
         {
-          "id": "f873caca-09ec-497c-bdad-bb4443671bd9",
+          "id": "57d3a9bc-35b0-49d7-b949-512ccd9ab1d8",
+          "name": "Comprador_cod_comprador",
+          "type": "CHAR(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "81df6ed1-08f8-4cfd-ae2c-ce6e0bc4ac5c",
+      "name": "Factura",
+      "conceptualName": "Factura",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1820,
+      "columns": [
+        {
+          "id": "8eeb824c-7a95-4bb2-b8e1-292e43f7040f",
           "name": "num_factura",
           "type": "CHAR(10)",
           "required": true,
@@ -471,7 +496,7 @@
           "domain": null
         },
         {
-          "id": "30f90a8a-b159-499c-a858-71254636fc80",
+          "id": "9dfd4f2a-7176-4c70-ad33-44ac18eac5bb",
           "name": "fecha_emision",
           "type": "DATE",
           "required": true,
@@ -481,7 +506,7 @@
           "domain": null
         },
         {
-          "id": "5540fe52-60bd-43e0-b6f3-cd81bf7d6905",
+          "id": "98d46c76-8185-4f03-a56c-37797d47efe7",
           "name": "importe_total",
           "type": "NUMBER(10,2)",
           "required": true,
@@ -494,27 +519,86 @@
             "values": [],
             "check": ""
           }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "c93c7881-c24a-4e3e-9c62-8d66525354ef",
+      "name": "Factura_barco",
+      "conceptualName": "Factura_barco",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "74dfd167-f7b1-4a1d-977f-2ada9926b850",
+          "name": "Factura_num_factura",
+          "type": "CHAR(10)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
         },
         {
-          "id": "f80f669e-c3ec-4da5-bf96-488ae7e69e64",
-          "name": "pendiente",
-          "type": "NUMBER(1)",
+          "id": "fd088f0a-6ab7-4e9a-9c72-7553a88b188f",
+          "name": "barco_matricula",
+          "type": "CHAR(10)",
           "required": true,
           "primary": false,
           "notes": "",
-          "defaultValue": "0",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "1780893e-ca96-4dd5-9b1f-e670b07c9c68",
+      "name": "Factura_comprador",
+      "conceptualName": "Factura_comprador",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "b676e6d8-5a98-4f31-9b97-4dcef3cbfe95",
+          "name": "estado",
+          "type": "VARCHAR(9)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "'pendiente'",
           "domain": {
             "minimum": null,
             "maximum": null,
             "values": [
-              0,
-              1
+              "pendiente",
+              "pagada"
             ],
             "check": ""
           }
         },
         {
-          "id": "3b06975a-69ec-404f-b518-37b96239e5c0",
+          "id": "d3b233df-30ca-4c97-af6a-233c5c24a229",
+          "name": "Factura_num_factura",
+          "type": "CHAR(10)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "d57ec40f-f5ca-4677-a962-2ed29b8b5099",
           "name": "comprador_cod_comprador",
           "type": "CHAR(5)",
           "required": true,
@@ -525,20 +609,21 @@
       ],
       "notes": "",
       "definition": "",
-      "indexes": []
+      "indexes": [],
+      "alternateKeys": []
     },
     {
-      "id": "2edaa9cc-0a91-4742-a7a3-5fcbeab44086",
-      "name": "Venta",
-      "conceptualName": "Venta",
+      "id": "eccb2b4b-2407-4c96-afaa-fdf4bfbb6f10",
+      "name": "Pago",
+      "conceptualName": "Pago",
       "syncNames": true,
       "namespace": "",
       "kind": "entity",
-      "x": 2040,
-      "y": 1260,
+      "x": 760,
+      "y": 2380,
       "columns": [
         {
-          "id": "caea21a3-2470-4e29-b8e4-52a49e484a5f",
+          "id": "580b5220-e726-4561-8f8d-4ad308feedef",
           "name": "cod_pago",
           "type": "CHAR(5)",
           "required": true,
@@ -548,7 +633,7 @@
           "domain": null
         },
         {
-          "id": "3316d887-90be-4295-8f54-06a9790c7750",
+          "id": "77acfa2a-0b87-41a8-9a3e-3fa9d8281d08",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -558,7 +643,7 @@
           "domain": null
         },
         {
-          "id": "1d300a9c-43ee-4d8d-8df3-0a1689e4bc9f",
+          "id": "a3250d0b-f66b-43e5-989e-8716765b2dbe",
           "name": "importe",
           "type": "NUMBER(10,2)",
           "required": true,
@@ -573,7 +658,7 @@
           }
         },
         {
-          "id": "b7118a78-2737-4e9b-ba4b-d135404da131",
+          "id": "22c582c0-ace2-4eb3-b96f-f75acee94004",
           "name": "factura_num_factura",
           "type": "CHAR(10)",
           "required": true,
@@ -587,143 +672,7 @@
       "indexes": []
     },
     {
-      "id": "0b3df6dd-63d4-4e9e-9b6c-c9b8b3869862",
-      "name": "Factura_proveedor",
-      "conceptualName": "Factura_proveedor",
-      "syncNames": true,
-      "namespace": "",
-      "kind": "entity",
-      "x": 120,
-      "y": 1260,
-      "columns": [
-        {
-          "id": "e3eb698c-4e11-402a-a03d-dec0c0ba2410",
-          "name": "num_factura",
-          "type": "CHAR(10)",
-          "required": true,
-          "primary": true,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "2fdd942d-ee11-46f1-9abd-8498aaa0772f",
-          "name": "fecha_emision",
-          "type": "DATE",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "a8b80ee8-ea3e-4d12-b713-c119afa3208e",
-          "name": "importe_total",
-          "type": "NUMBER(10,2)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 0,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "3a6cfe93-bb44-4feb-8390-bc68f350a1cb",
-          "name": "pagada",
-          "type": "NUMBER(1)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "1",
-          "domain": {
-            "minimum": null,
-            "maximum": null,
-            "values": [
-              0,
-              1
-            ],
-            "check": ""
-          }
-        },
-        {
-          "id": "a9d16de9-c89f-47a0-a5d8-1b79f2ee3a05",
-          "name": "barco_matricula",
-          "type": "CHAR(10)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": ""
-        }
-      ],
-      "notes": "",
-      "definition": "",
-      "indexes": []
-    },
-    {
-      "id": "12813c91-5bfe-4c47-bfcd-137265e8e512",
-      "name": "Pago_barco",
-      "conceptualName": "Pago_barco",
-      "syncNames": true,
-      "namespace": "",
-      "kind": "entity",
-      "x": 120,
-      "y": 1820,
-      "columns": [
-        {
-          "id": "b2e22fd6-d9d4-4d8b-9031-6424bb5420bb",
-          "name": "cod_pago",
-          "type": "CHAR(5)",
-          "required": true,
-          "primary": true,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "db6f3293-91ee-4575-bd07-b42057e2e082",
-          "name": "fecha",
-          "type": "DATE",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": null
-        },
-        {
-          "id": "42d952dd-2066-4715-851a-87da08045052",
-          "name": "importe",
-          "type": "NUMBER(10,2)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": "",
-          "domain": {
-            "minimum": 0,
-            "maximum": null,
-            "values": [],
-            "check": ""
-          }
-        },
-        {
-          "id": "cf194078-7cb5-4708-bbc5-ad1dcf8dee7a",
-          "name": "factura_num_factura",
-          "type": "CHAR(10)",
-          "required": true,
-          "primary": false,
-          "notes": "",
-          "defaultValue": ""
-        }
-      ],
-      "notes": "",
-      "definition": "",
-      "indexes": []
-    },
-    {
-      "id": "3179ce90-924a-4fbb-8f4c-002286d94d50",
+      "id": "a6b8f3c3-e1a4-4e90-bef1-c3aa8f0abafd",
       "name": "Faena",
       "conceptualName": "Faena",
       "syncNames": false,
@@ -733,7 +682,7 @@
       "y": -420,
       "columns": [
         {
-          "id": "2f307cea-dd99-48f6-b8a3-fd26ce820f3c",
+          "id": "dfa93600-2ddf-4da4-a815-2dcc2e4f2cb0",
           "name": "barco_matricula",
           "type": "CHAR(10)",
           "required": true,
@@ -742,7 +691,7 @@
           "defaultValue": ""
         },
         {
-          "id": "2e181cfb-743a-43e5-9cfd-716ffb0c104a",
+          "id": "be337ffe-838d-4594-956b-6f85855c17ec",
           "name": "caladero_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -751,7 +700,7 @@
           "defaultValue": ""
         },
         {
-          "id": "13f61c85-4e44-42eb-b71c-8a1477e336a9",
+          "id": "4a1143d5-026a-45df-a727-089a92c0396a",
           "name": "especie_cod_especie",
           "type": "VARCHAR(5)",
           "required": true,
@@ -760,7 +709,7 @@
           "defaultValue": ""
         },
         {
-          "id": "aa56f8e1-84ca-4c7a-a35f-1888e5604bbe",
+          "id": "7cec6124-221e-442b-8866-b783a922a884",
           "name": "fecha_inicio",
           "type": "DATE",
           "required": true,
@@ -770,7 +719,7 @@
           "domain": null
         },
         {
-          "id": "fa9ab9ef-0577-4ea2-985c-52dee3eee366",
+          "id": "24775697-1c93-4058-a81c-eb445e97eb5c",
           "name": "fecha_fin",
           "type": "DATE",
           "required": false,
@@ -785,7 +734,7 @@
           }
         },
         {
-          "id": "201a597c-3f8f-4c48-bd72-49e1f825d097",
+          "id": "038e2e35-d815-4632-8cfb-5433f28d711b",
           "name": "kg_especie",
           "type": "NUMBER(8,2)",
           "required": true,
@@ -805,7 +754,7 @@
       "indexes": []
     },
     {
-      "id": "2300e02d-ca9c-4e15-82ea-f94bdf4f2f93",
+      "id": "f372ae0a-08c2-4798-a18c-1456a3bc818f",
       "name": "Adjudicacion",
       "conceptualName": "Adjudicacion",
       "syncNames": false,
@@ -815,7 +764,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "007fcf14-2940-4956-a21c-33b31967f7e9",
+          "id": "39ef02fe-03d4-44ba-adc3-1d6c09722613",
           "name": "lote_cod_lote",
           "type": "CHAR(5)",
           "required": true,
@@ -824,7 +773,7 @@
           "defaultValue": ""
         },
         {
-          "id": "8cad163b-9781-4084-b695-ef5cd164f852",
+          "id": "35c180a9-2ea2-4892-91cf-fe034a326d82",
           "name": "comprador_cod_comprador",
           "type": "CHAR(5)",
           "required": true,
@@ -833,8 +782,8 @@
           "defaultValue": ""
         },
         {
-          "id": "8235ce31-7252-4a08-84c5-7be2df67d21f",
-          "name": "precio_kg",
+          "id": "24d45a3a-b46f-459d-b3c9-17598b630a2f",
+          "name": "precio_kg_compra",
           "type": "NUMBER(8,2)",
           "required": true,
           "primary": false,
@@ -848,8 +797,8 @@
           }
         },
         {
-          "id": "19ba4df6-2257-4e09-95a7-09b1cd3a9ed7",
-          "name": "precio_total",
+          "id": "6e6e521e-63f5-49bb-8e79-a0b5e187f261",
+          "name": "precio_total_adjudicacion",
           "type": "NUMBER(10,2)",
           "required": true,
           "primary": false,
@@ -868,18 +817,18 @@
       "indexes": []
     },
     {
-      "id": "074e12a0-f360-46a1-8579-f400519a82e7",
+      "id": "ff649d7f-b319-4071-b7b0-3fd9fea5e672",
       "name": "Incluye",
       "conceptualName": "Incluye",
       "syncNames": false,
       "namespace": "",
       "kind": "entity",
-      "x": 760,
-      "y": 1260,
+      "x": 1400,
+      "y": 1820,
       "columns": [
         {
-          "id": "fa2d884a-8881-4673-b41d-79d9dcf62b65",
-          "name": "factura_num_factura",
+          "id": "0a08f6e0-1d99-4319-b319-f4fe0873a8e6",
+          "name": "factura_Factura_num_factura",
           "type": "CHAR(10)",
           "required": true,
           "primary": true,
@@ -887,7 +836,7 @@
           "defaultValue": ""
         },
         {
-          "id": "e449e474-15ba-4bed-946c-32ed151dc02c",
+          "id": "b7e64a04-c1d0-46c6-9123-2e9a992777a1",
           "name": "lote_cod_lote",
           "type": "CHAR(5)",
           "required": true,
@@ -901,27 +850,27 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "a2e5a08e-09f0-4862-b982-2c9cedaea6fb",
+          "id": "bdd1dfd8-1d71-41cd-a1db-c1ccf5588864",
           "name": "AK_Incluye_lote",
           "columns": [
-            "e449e474-15ba-4bed-946c-32ed151dc02c"
+            "b7e64a04-c1d0-46c6-9123-2e9a992777a1"
           ]
         }
       ]
     },
     {
-      "id": "78ef196a-a270-4091-9818-f1ed20f11a07",
+      "id": "b9ca846f-a787-472b-8848-ed84713dbff5",
       "name": "Provision",
       "conceptualName": "Provision",
       "syncNames": false,
       "namespace": "",
       "kind": "entity",
-      "x": 760,
+      "x": 120,
       "y": 1820,
       "columns": [
         {
-          "id": "7b2de5a8-f563-4d59-bc84-5fb4dabd1cd4",
-          "name": "factura_num_factura",
+          "id": "90bbaf1a-047d-4e30-83ad-f3405c097f34",
+          "name": "factura_Factura_num_factura",
           "type": "CHAR(10)",
           "required": true,
           "primary": true,
@@ -929,7 +878,7 @@
           "defaultValue": ""
         },
         {
-          "id": "4dcea6ee-3d93-4822-8c1d-48cc94c4202a",
+          "id": "ab256ee2-633d-462a-9ade-a9258c4e5e1e",
           "name": "lote_cod_lote",
           "type": "CHAR(5)",
           "required": true,
@@ -943,10 +892,10 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "05d02e43-8a17-40ae-a300-2e51f3830de5",
+          "id": "9d3ad65a-a95f-49fa-a5cc-bbdb83bd118f",
           "name": "AK_Provision_lote",
           "columns": [
-            "4dcea6ee-3d93-4822-8c1d-48cc94c4202a"
+            "ab256ee2-633d-462a-9ade-a9258c4e5e1e"
           ]
         }
       ]
@@ -954,10 +903,10 @@
   ],
   "relationships": [
     {
-      "id": "93c2bb59-70df-44a6-85ba-3c7a078e12da",
-      "parentId": "e1263344-63db-491a-b76a-aafc0fc0424c",
-      "childId": "db747af1-f508-4cfd-8d29-995e0901595c",
-      "name": "FK_Creditor_Comprador",
+      "id": "f21ee2ea-be85-4f31-b2db-bceef37367ed",
+      "parentId": "4e059dc5-a863-479d-b51e-39416cb53ad5",
+      "childId": "299f4f0a-4705-43df-be39-25d475b26159",
+      "name": "FK_Credito_Comprador",
       "forward": "",
       "inverse": "",
       "cardinality": "zero-one",
@@ -967,15 +916,72 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "239c9045-d7c1-4ccf-87ed-6c246d500fdf",
-          "childColumnId": "c2b23275-07bb-4cc9-acb7-21a04f6f8862"
+          "parentColumnId": "43fe2bd8-b21c-430b-8070-f1b148363d5d",
+          "childColumnId": "968571c4-91bf-42a4-8e70-ee372eabf09e"
         }
       ]
     },
     {
-      "id": "7b2b4a95-78d6-40a5-8df4-5c06d50f6c09",
-      "parentId": "82b0d7b7-f81c-4668-8322-850c1e09fcee",
-      "childId": "a2f80e63-619a-47b1-8f77-ffbee0813300",
+      "id": "41cee97d-512f-4f5f-a4c1-e258b789de9f",
+      "parentId": "4e059dc5-a863-479d-b51e-39416cb53ad5",
+      "childId": "6214543d-ae09-4b8b-8071-49fba45c686c",
+      "name": "FK_Contado_Comprador",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "43fe2bd8-b21c-430b-8070-f1b148363d5d",
+          "childColumnId": "57d3a9bc-35b0-49d7-b949-512ccd9ab1d8"
+        }
+      ]
+    },
+    {
+      "id": "d8cb36ed-b7c0-4def-a8a3-adb3d4e6a1b2",
+      "parentId": "81df6ed1-08f8-4cfd-ae2c-ce6e0bc4ac5c",
+      "childId": "c93c7881-c24a-4e3e-9c62-8d66525354ef",
+      "name": "FK_Factura_barco_Factura",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "8eeb824c-7a95-4bb2-b8e1-292e43f7040f",
+          "childColumnId": "74dfd167-f7b1-4a1d-977f-2ada9926b850"
+        }
+      ]
+    },
+    {
+      "id": "88b308ac-6237-4b5a-bc0b-8e1551093ce6",
+      "parentId": "81df6ed1-08f8-4cfd-ae2c-ce6e0bc4ac5c",
+      "childId": "1780893e-ca96-4dd5-9b1f-e670b07c9c68",
+      "name": "FK_Factura_comprador_Factura",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "8eeb824c-7a95-4bb2-b8e1-292e43f7040f",
+          "childColumnId": "d3b233df-30ca-4c97-af6a-233c5c24a229"
+        }
+      ]
+    },
+    {
+      "id": "24396f33-8a01-4c06-b29d-089625a4ea7d",
+      "parentId": "f1380584-15d7-4ac6-9845-f637e1613a6a",
+      "childId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
       "name": "FK_De_especie_especie",
       "forward": "De_especie",
       "inverse": "especie",
@@ -986,15 +992,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "718629a0-eb04-4c70-ad98-c8a26b185f66",
-          "childColumnId": "d43faa5a-3188-4728-b4f5-ce2782e2bceb"
+          "parentColumnId": "e729aec0-35b2-4e03-a66a-9deb15703731",
+          "childColumnId": "ef440d21-7b02-4e36-89bc-9720bbc855fa"
         }
       ]
     },
     {
-      "id": "97afaa9b-3ed1-4108-87cb-c31048ba48bb",
-      "parentId": "a7757ce1-82d4-4294-b094-1aee5c0539cc",
-      "childId": "a2f80e63-619a-47b1-8f77-ffbee0813300",
+      "id": "5361cf4e-0a0d-415d-9985-3ef99d2c3e2b",
+      "parentId": "27a30999-dfa6-44d1-a607-6bc4b0ec71fd",
+      "childId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
       "name": "FK_Capturado_por_barco",
       "forward": "Capturado_por",
       "inverse": "barco",
@@ -1005,15 +1011,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e6d8d15c-8cad-4e30-b6b9-f6bdbcf3f155",
-          "childColumnId": "878d6e34-b905-499d-b142-da79113b6ef7"
+          "parentColumnId": "09aaf9ea-f5ed-480b-b4e8-8d5b17dee173",
+          "childColumnId": "75224f9a-41f5-4674-8a7b-c8eb293f26db"
         }
       ]
     },
     {
-      "id": "e389c2cf-a66e-42d8-aca6-08e5024d5c45",
-      "parentId": "a7757ce1-82d4-4294-b094-1aee5c0539cc",
-      "childId": "3179ce90-924a-4fbb-8f4c-002286d94d50",
+      "id": "884a5816-5252-4178-bcd0-b88e92e9983f",
+      "parentId": "27a30999-dfa6-44d1-a607-6bc4b0ec71fd",
+      "childId": "a6b8f3c3-e1a4-4e90-bef1-c3aa8f0abafd",
       "name": "FK_Faena_barco",
       "forward": "Faena",
       "inverse": "barco",
@@ -1024,15 +1030,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e6d8d15c-8cad-4e30-b6b9-f6bdbcf3f155",
-          "childColumnId": "2f307cea-dd99-48f6-b8a3-fd26ce820f3c"
+          "parentColumnId": "09aaf9ea-f5ed-480b-b4e8-8d5b17dee173",
+          "childColumnId": "dfa93600-2ddf-4da4-a815-2dcc2e4f2cb0"
         }
       ]
     },
     {
-      "id": "35e8144b-9e1e-48e5-88e2-c4460764d65b",
-      "parentId": "ad4c0d07-6817-404d-b608-610cc47ed22d",
-      "childId": "3179ce90-924a-4fbb-8f4c-002286d94d50",
+      "id": "e577fe2e-922d-4410-87f0-cf4fdadae2cb",
+      "parentId": "58cfe830-0880-4115-bab6-300ebffed1de",
+      "childId": "a6b8f3c3-e1a4-4e90-bef1-c3aa8f0abafd",
       "name": "FK_Faena_caladero",
       "forward": "Faena",
       "inverse": "caladero",
@@ -1043,15 +1049,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a57af53a-b981-4672-8136-a03785b7a6bc",
-          "childColumnId": "2e181cfb-743a-43e5-9cfd-716ffb0c104a"
+          "parentColumnId": "e7913399-beb6-4605-8536-4d62812c241e",
+          "childColumnId": "be337ffe-838d-4594-956b-6f85855c17ec"
         }
       ]
     },
     {
-      "id": "3f3fdbfa-6185-4edb-8c5b-0000dcb24375",
-      "parentId": "82b0d7b7-f81c-4668-8322-850c1e09fcee",
-      "childId": "3179ce90-924a-4fbb-8f4c-002286d94d50",
+      "id": "78fe4f1c-d997-461a-875f-7b9f09be1117",
+      "parentId": "f1380584-15d7-4ac6-9845-f637e1613a6a",
+      "childId": "a6b8f3c3-e1a4-4e90-bef1-c3aa8f0abafd",
       "name": "FK_Faena_especie",
       "forward": "Faena",
       "inverse": "especie",
@@ -1062,15 +1068,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "718629a0-eb04-4c70-ad98-c8a26b185f66",
-          "childColumnId": "13f61c85-4e44-42eb-b71c-8a1477e336a9"
+          "parentColumnId": "e729aec0-35b2-4e03-a66a-9deb15703731",
+          "childColumnId": "4a1143d5-026a-45df-a727-089a92c0396a"
         }
       ]
     },
     {
-      "id": "7795fbe1-4578-49da-8635-a21346e0037a",
-      "parentId": "a2f80e63-619a-47b1-8f77-ffbee0813300",
-      "childId": "2300e02d-ca9c-4e15-82ea-f94bdf4f2f93",
+      "id": "b88d8d1f-7bbc-4bf7-870c-5ec14e2f0a76",
+      "parentId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
+      "childId": "f372ae0a-08c2-4798-a18c-1456a3bc818f",
       "name": "FK_Adjudicacion_lote",
       "forward": "Adjudicacion",
       "inverse": "lote",
@@ -1081,15 +1087,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a28d9ab0-0784-4156-acd6-afeda006f657",
-          "childColumnId": "007fcf14-2940-4956-a21c-33b31967f7e9"
+          "parentColumnId": "f6a95a04-0bf4-4dfc-b865-e33f7d425940",
+          "childColumnId": "39ef02fe-03d4-44ba-adc3-1d6c09722613"
         }
       ]
     },
     {
-      "id": "13abeae9-b63c-4a64-8f55-3438e729f417",
-      "parentId": "e1263344-63db-491a-b76a-aafc0fc0424c",
-      "childId": "2300e02d-ca9c-4e15-82ea-f94bdf4f2f93",
+      "id": "35edbdb0-5c24-4905-a389-d0e80780eefb",
+      "parentId": "4e059dc5-a863-479d-b51e-39416cb53ad5",
+      "childId": "f372ae0a-08c2-4798-a18c-1456a3bc818f",
       "name": "FK_Adjudicacion_comprador",
       "forward": "Adjudicacion",
       "inverse": "comprador",
@@ -1100,15 +1106,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "239c9045-d7c1-4ccf-87ed-6c246d500fdf",
-          "childColumnId": "8cad163b-9781-4084-b695-ef5cd164f852"
+          "parentColumnId": "43fe2bd8-b21c-430b-8070-f1b148363d5d",
+          "childColumnId": "35c180a9-2ea2-4892-91cf-fe034a326d82"
         }
       ]
     },
     {
-      "id": "0e7f882d-5797-4902-a8b8-10c6b2e4a678",
-      "parentId": "e1263344-63db-491a-b76a-aafc0fc0424c",
-      "childId": "4f7a69ae-9868-4e61-b0a8-1f29ad34ef18",
+      "id": "bf21a72d-6be7-4e74-b7f8-65cf8d052f80",
+      "parentId": "4e059dc5-a863-479d-b51e-39416cb53ad5",
+      "childId": "1780893e-ca96-4dd5-9b1f-e670b07c9c68",
       "name": "FK_Emitida_a_comprador",
       "forward": "Emitida_a",
       "inverse": "comprador",
@@ -1119,15 +1125,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "239c9045-d7c1-4ccf-87ed-6c246d500fdf",
-          "childColumnId": "3b06975a-69ec-404f-b518-37b96239e5c0"
+          "parentColumnId": "43fe2bd8-b21c-430b-8070-f1b148363d5d",
+          "childColumnId": "d57ec40f-f5ca-4677-a962-2ed29b8b5099"
         }
       ]
     },
     {
-      "id": "53f9c3e8-d7d8-44b2-a5e4-0b0ac719f450",
-      "parentId": "4f7a69ae-9868-4e61-b0a8-1f29ad34ef18",
-      "childId": "074e12a0-f360-46a1-8579-f400519a82e7",
+      "id": "f15debdf-fe5c-4685-9455-26e28f1ea4bf",
+      "parentId": "1780893e-ca96-4dd5-9b1f-e670b07c9c68",
+      "childId": "ff649d7f-b319-4071-b7b0-3fd9fea5e672",
       "name": "FK_Incluye_factura",
       "forward": "Incluye",
       "inverse": "factura",
@@ -1138,53 +1144,34 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "f873caca-09ec-497c-bdad-bb4443671bd9",
-          "childColumnId": "fa2d884a-8881-4673-b41d-79d9dcf62b65"
+          "parentColumnId": "d3b233df-30ca-4c97-af6a-233c5c24a229",
+          "childColumnId": "0a08f6e0-1d99-4319-b319-f4fe0873a8e6"
         }
       ]
     },
     {
-      "id": "7b07e16b-75d0-447e-9770-ce9b77676b18",
-      "parentId": "a2f80e63-619a-47b1-8f77-ffbee0813300",
-      "childId": "074e12a0-f360-46a1-8579-f400519a82e7",
+      "id": "4036415d-33a1-48a7-9cf9-5fbb2802365e",
+      "parentId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
+      "childId": "ff649d7f-b319-4071-b7b0-3fd9fea5e672",
       "name": "FK_Incluye_lote",
       "forward": "Incluye",
       "inverse": "lote",
-      "cardinality": "zero-one",
+      "cardinality": "one-one",
       "identifying": true,
       "optional": false,
       "onDelete": "NO ACTION",
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a28d9ab0-0784-4156-acd6-afeda006f657",
-          "childColumnId": "e449e474-15ba-4bed-946c-32ed151dc02c"
+          "parentColumnId": "f6a95a04-0bf4-4dfc-b865-e33f7d425940",
+          "childColumnId": "b7e64a04-c1d0-46c6-9123-2e9a992777a1"
         }
       ]
     },
     {
-      "id": "d725627f-b61a-4a75-927a-550fcc56283f",
-      "parentId": "4f7a69ae-9868-4e61-b0a8-1f29ad34ef18",
-      "childId": "2edaa9cc-0a91-4742-a7a3-5fcbeab44086",
-      "name": "FK_Cobra_factura",
-      "forward": "Cobra",
-      "inverse": "factura",
-      "cardinality": "zero-many",
-      "identifying": false,
-      "optional": false,
-      "onDelete": "NO ACTION",
-      "onUpdate": "NO ACTION",
-      "mappings": [
-        {
-          "parentColumnId": "f873caca-09ec-497c-bdad-bb4443671bd9",
-          "childColumnId": "b7118a78-2737-4e9b-ba4b-d135404da131"
-        }
-      ]
-    },
-    {
-      "id": "9f6d5799-1519-4f6f-9d19-9b076eacfb89",
-      "parentId": "a7757ce1-82d4-4294-b094-1aee5c0539cc",
-      "childId": "0b3df6dd-63d4-4e9e-9b6c-c9b8b3869862",
+      "id": "5bbf6cfe-0efc-4834-9803-d9b576393a32",
+      "parentId": "27a30999-dfa6-44d1-a607-6bc4b0ec71fd",
+      "childId": "c93c7881-c24a-4e3e-9c62-8d66525354ef",
       "name": "FK_Emitida_por_barco",
       "forward": "Emitida_por",
       "inverse": "barco",
@@ -1195,15 +1182,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e6d8d15c-8cad-4e30-b6b9-f6bdbcf3f155",
-          "childColumnId": "a9d16de9-c89f-47a0-a5d8-1b79f2ee3a05"
+          "parentColumnId": "09aaf9ea-f5ed-480b-b4e8-8d5b17dee173",
+          "childColumnId": "fd088f0a-6ab7-4e9a-9c72-7553a88b188f"
         }
       ]
     },
     {
-      "id": "80d08264-7655-41a5-9103-4a8615e272ad",
-      "parentId": "0b3df6dd-63d4-4e9e-9b6c-c9b8b3869862",
-      "childId": "78ef196a-a270-4091-9818-f1ed20f11a07",
+      "id": "0dbe797b-9491-46a8-9a21-c8e1d5ba1b39",
+      "parentId": "c93c7881-c24a-4e3e-9c62-8d66525354ef",
+      "childId": "b9ca846f-a787-472b-8848-ed84713dbff5",
       "name": "FK_Provision_factura",
       "forward": "Provision",
       "inverse": "factura",
@@ -1214,36 +1201,36 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e3eb698c-4e11-402a-a03d-dec0c0ba2410",
-          "childColumnId": "7b2de5a8-f563-4d59-bc84-5fb4dabd1cd4"
+          "parentColumnId": "74dfd167-f7b1-4a1d-977f-2ada9926b850",
+          "childColumnId": "90bbaf1a-047d-4e30-83ad-f3405c097f34"
         }
       ]
     },
     {
-      "id": "933cf1c1-4a76-4635-91e6-bf3848f0763e",
-      "parentId": "a2f80e63-619a-47b1-8f77-ffbee0813300",
-      "childId": "78ef196a-a270-4091-9818-f1ed20f11a07",
+      "id": "0918e86b-7d33-4c34-9f03-3d85740421dc",
+      "parentId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6",
+      "childId": "b9ca846f-a787-472b-8848-ed84713dbff5",
       "name": "FK_Provision_lote",
       "forward": "Provision",
       "inverse": "lote",
-      "cardinality": "zero-one",
+      "cardinality": "one-one",
       "identifying": true,
       "optional": false,
       "onDelete": "NO ACTION",
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a28d9ab0-0784-4156-acd6-afeda006f657",
-          "childColumnId": "4dcea6ee-3d93-4822-8c1d-48cc94c4202a"
+          "parentColumnId": "f6a95a04-0bf4-4dfc-b865-e33f7d425940",
+          "childColumnId": "ab256ee2-633d-462a-9ade-a9258c4e5e1e"
         }
       ]
     },
     {
-      "id": "15ac2f58-66ff-4a94-a010-d64f05e451e3",
-      "parentId": "0b3df6dd-63d4-4e9e-9b6c-c9b8b3869862",
-      "childId": "12813c91-5bfe-4c47-bfcd-137265e8e512",
-      "name": "FK_Paga_factura",
-      "forward": "Paga",
+      "id": "7da9a296-e590-4ca3-97df-0c1815f288aa",
+      "parentId": "81df6ed1-08f8-4cfd-ae2c-ce6e0bc4ac5c",
+      "childId": "eccb2b4b-2407-4c96-afaa-fdf4bfbb6f10",
+      "name": "FK_Salda_factura",
+      "forward": "Salda",
       "inverse": "factura",
       "cardinality": "zero-many",
       "identifying": false,
@@ -1252,8 +1239,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e3eb698c-4e11-402a-a03d-dec0c0ba2410",
-          "childColumnId": "cf194078-7cb5-4708-bbc5-ad1dcf8dee7a"
+          "parentColumnId": "8eeb824c-7a95-4bb2-b8e1-292e43f7040f",
+          "childColumnId": "22c582c0-ace2-4eb3-b96f-f75acee94004"
         }
       ]
     }
@@ -1261,37 +1248,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "Lote",
-        "notes": "",
-        "weak": false,
-        "ownerEntityId": null,
-        "translation": {
-          "kind": "table"
-        }
-      },
-      {
-        "id": "05746d08-c3c0-456c-a6c8-6128b939830d",
-        "name": "Especie",
-        "notes": "",
-        "weak": false,
-        "ownerEntityId": null,
-        "translation": {
-          "kind": "table"
-        }
-      },
-      {
-        "id": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "Barco",
-        "notes": "",
-        "weak": false,
-        "ownerEntityId": null,
-        "translation": {
-          "kind": "table"
-        }
-      },
-      {
-        "id": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "id": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "Caladero",
         "notes": "",
         "weak": false,
@@ -1301,7 +1258,37 @@
         }
       },
       {
-        "id": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "id": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
+        "name": "Especie",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "Barco",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "Lote",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "972b408c-9066-4442-8265-7a7fe5ea87e6",
         "name": "Comprador",
         "notes": "",
         "weak": false,
@@ -1311,8 +1298,8 @@
         }
       },
       {
-        "id": "f04f6179-a46d-4ca2-a819-27f766e6c959",
-        "name": "Creditor",
+        "id": "a7fd490c-76ee-47d9-b881-e180710f89fb",
+        "name": "Credito",
         "notes": "",
         "weak": false,
         "ownerEntityId": null,
@@ -1321,8 +1308,8 @@
         }
       },
       {
-        "id": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
-        "name": "Factura_cliente",
+        "id": "0a05b653-23a5-427c-bb91-8e977840ed7f",
+        "name": "Contado",
         "notes": "",
         "weak": false,
         "ownerEntityId": null,
@@ -1331,8 +1318,8 @@
         }
       },
       {
-        "id": "84dee75f-c069-43f2-a70a-fa78db5479f6",
-        "name": "Venta",
+        "id": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
+        "name": "Factura",
         "notes": "",
         "weak": false,
         "ownerEntityId": null,
@@ -1341,8 +1328,8 @@
         }
       },
       {
-        "id": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
-        "name": "Factura_proveedor",
+        "id": "8f135905-bf95-420a-9f78-81b83ee9f549",
+        "name": "Factura_barco",
         "notes": "",
         "weak": false,
         "ownerEntityId": null,
@@ -1351,8 +1338,18 @@
         }
       },
       {
-        "id": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
-        "name": "Pago_barco",
+        "id": "a22c2683-c443-408f-81f3-effad86e9ab3",
+        "name": "Factura_comprador",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
+        "name": "Pago",
         "notes": "",
         "weak": false,
         "ownerEntityId": null,
@@ -1363,344 +1360,9 @@
     ],
     "attributes": [
       {
-        "id": "77f45445-e95b-46b8-806f-f53d8959f520",
+        "id": "78c74c05-32fa-42d7-a4f1-0e4e1222491a",
         "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "cod_lote",
-        "type": "CHAR(5)",
-        "required": true,
-        "primary": true,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "1674f117-bc3d-42bf-9573-a845ad77338b",
-        "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "num_cajas",
-        "type": "NUMBER(4)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 1,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "ab946f90-82f3-450c-97c2-c57f1d8f9640",
-        "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "kilos_total",
-        "type": "NUMBER(8,2)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 0,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "934f1dc0-b1b1-484a-811c-8b0cf60ab323",
-        "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "fecha_llegada",
-        "type": "DATE",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "cc64a946-ac89-47f7-9363-a4cf4fb550e1",
-        "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "precio_kg_salida",
-        "type": "NUMBER(8,2)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 0,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "71a874b0-bfb7-44a9-8862-e8a17094ea69",
-        "ownerKind": "entity",
-        "ownerId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
-        "name": "precio_total_salida",
-        "type": "NUMBER(10,2)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 0,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "d2eda623-d839-410d-ae76-389e57494fe7",
-        "ownerKind": "entity",
-        "ownerId": "05746d08-c3c0-456c-a6c8-6128b939830d",
-        "name": "cod_especie",
-        "type": "VARCHAR(5)",
-        "required": true,
-        "primary": true,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "906df8cc-60e4-4efc-a1d1-9e21efd59969",
-        "ownerKind": "entity",
-        "ownerId": "05746d08-c3c0-456c-a6c8-6128b939830d",
-        "name": "nombre",
-        "type": "VARCHAR(40)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "6c7340f7-2795-484a-915c-5bb9a743a97a",
-        "ownerKind": "entity",
-        "ownerId": "05746d08-c3c0-456c-a6c8-6128b939830d",
-        "name": "tipo",
-        "type": "VARCHAR(30)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "ba18623b-08e1-4dfa-bcc0-ad8a4c269f59",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "matricula",
-        "type": "CHAR(10)",
-        "required": true,
-        "primary": true,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "77b42608-ca7c-4685-8c5c-4a60e199bdd4",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "nombre",
-        "type": "VARCHAR(40)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "ba9d7a02-fd91-464c-b7bf-b7497e4d9aa4",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "clase",
-        "type": "VARCHAR(30)",
-        "required": false,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "fad62b3a-3b66-4183-b01c-be34062b2dc2",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "capitan",
-        "type": "VARCHAR(60)",
-        "required": false,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "fcd8164a-8c07-46da-b32a-b4711292a9c8",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "armador",
-        "type": "VARCHAR(60)",
-        "required": false,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "5b1d6201-478b-438c-9ff0-cb1277cdae44",
-        "ownerKind": "entity",
-        "ownerId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
-        "name": "cif",
-        "type": "CHAR(9)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "7bf94587-c358-4312-bf96-3266934ad62c",
-        "ownerKind": "entity",
-        "ownerId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "ownerId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -1719,9 +1381,9 @@
         }
       },
       {
-        "id": "1c1afcdd-ef84-429a-ac37-238db5f6b542",
+        "id": "db2cbd0d-843f-4828-8f48-de970d8637bb",
         "ownerKind": "entity",
-        "ownerId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "ownerId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "extension",
         "type": "NUMBER(8,2)",
         "required": false,
@@ -1745,9 +1407,9 @@
         }
       },
       {
-        "id": "a3eb8aa4-0534-4797-85d1-8494a097f1c0",
+        "id": "fe155c44-bd7c-49c7-bc5c-d111e61cb340",
         "ownerKind": "entity",
-        "ownerId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "ownerId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "ubicacion",
         "type": "VARCHAR(50)",
         "required": false,
@@ -1766,9 +1428,9 @@
         }
       },
       {
-        "id": "b91d78a9-b2a3-40fc-a1f6-26504310562c",
+        "id": "44eb8619-6012-45c7-83b1-50c6c7f445f6",
         "ownerKind": "entity",
-        "ownerId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "ownerId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "latitud",
         "type": "NUMBER(9,6)",
         "required": true,
@@ -1779,7 +1441,7 @@
         "structure": "simple",
         "multivalued": false,
         "derived": false,
-        "parentAttributeId": "a3eb8aa4-0534-4797-85d1-8494a097f1c0",
+        "parentAttributeId": "fe155c44-bd7c-49c7-bc5c-d111e61cb340",
         "derivation": "",
         "domain": {
           "minimum": -90,
@@ -1792,9 +1454,9 @@
         }
       },
       {
-        "id": "5a46d026-00b0-4863-8a1c-b076e013514f",
+        "id": "741d95c8-dd05-4ba2-abe9-8db96b7fd4e1",
         "ownerKind": "entity",
-        "ownerId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+        "ownerId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
         "name": "longitud",
         "type": "NUMBER(9,6)",
         "required": true,
@@ -1805,7 +1467,7 @@
         "structure": "simple",
         "multivalued": false,
         "derived": false,
-        "parentAttributeId": "a3eb8aa4-0534-4797-85d1-8494a097f1c0",
+        "parentAttributeId": "fe155c44-bd7c-49c7-bc5c-d111e61cb340",
         "derivation": "",
         "domain": {
           "minimum": -180,
@@ -1818,11 +1480,11 @@
         }
       },
       {
-        "id": "4125dc27-fcbb-416c-a156-4335038a4705",
+        "id": "b81e4de0-265f-464e-a5c4-37ecbae52cc7",
         "ownerKind": "entity",
-        "ownerId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
-        "name": "cod_comprador",
-        "type": "CHAR(5)",
+        "ownerId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
+        "name": "cod_especie",
+        "type": "VARCHAR(5)",
         "required": true,
         "primary": true,
         "partialKey": false,
@@ -1839,9 +1501,9 @@
         }
       },
       {
-        "id": "81547bc1-aec5-471d-9a56-4796f5680a2f",
+        "id": "4cb3b21c-ae8d-47f2-b94b-a8c3e8505324",
         "ownerKind": "entity",
-        "ownerId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "ownerId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -1860,9 +1522,344 @@
         }
       },
       {
-        "id": "be968046-6543-40ea-8851-47b98ea3ffce",
+        "id": "cd6dc5cf-dd29-451c-a486-324d28ec85bf",
         "ownerKind": "entity",
-        "ownerId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "ownerId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
+        "name": "tipo",
+        "type": "VARCHAR(30)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "fed08d33-5ecf-4dd6-b094-06fcad7c23fc",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "matricula",
+        "type": "CHAR(10)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "92ab9164-5adf-4911-b7fe-ad70d6fd3783",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "f0180450-2ff3-4891-bc6a-a36820b65e14",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "clase",
+        "type": "VARCHAR(30)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0d5013ae-6a9b-47bd-8be2-9dd74118ec70",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "capitan",
+        "type": "VARCHAR(60)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "77e43775-f305-4643-a864-34a1e61d7f28",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "armador",
+        "type": "VARCHAR(60)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "574d14c5-b4ef-423d-9aa7-ffa25974e9a1",
+        "ownerKind": "entity",
+        "ownerId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
+        "name": "cif",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ffde4350-80fc-4011-b522-e4a84badfa09",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "cod_lote",
+        "type": "CHAR(5)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "651f273a-f125-4e43-8746-14edf5fade30",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "num_cajas",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a8776c0a-2603-4417-8be4-990cd61bf479",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "kilos_total",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "2803bf4b-4f48-485e-b294-7c9c229cacc0",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "fecha_llegada",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "24e14b15-eceb-4a0d-bc57-0bcf7e1a2952",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "precio_kg_salida",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "01039dc2-23eb-47d5-869a-012b8d4c143d",
+        "ownerKind": "entity",
+        "ownerId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
+        "name": "precio_total_salida",
+        "type": "NUMBER(10,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": true,
+        "parentAttributeId": null,
+        "derivation": "kilos_total × precio_kg_salida",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "stored"
+        }
+      },
+      {
+        "id": "b6546a5d-65f4-49da-9717-29673eb33a34",
+        "ownerKind": "entity",
+        "ownerId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
+        "name": "cod_comprador",
+        "type": "CHAR(5)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "5c4b321b-4ddb-4b1c-8d27-cd3332c28886",
+        "ownerKind": "entity",
+        "ownerId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "41c2d578-9fec-4da2-bf97-a08d5d091643",
+        "ownerKind": "entity",
+        "ownerId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
         "name": "direccion",
         "type": "VARCHAR(60)",
         "required": false,
@@ -1881,11 +1878,11 @@
         }
       },
       {
-        "id": "21141b1e-2caf-46dd-b221-dd27dd9f6df4",
+        "id": "278946a5-d1ff-4cff-b3ce-81f6c53fb151",
         "ownerKind": "entity",
-        "ownerId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "ownerId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
         "name": "dni_cif",
-        "type": "VARCHAR(15)",
+        "type": "CHAR(9)",
         "required": true,
         "primary": false,
         "partialKey": false,
@@ -1902,9 +1899,9 @@
         }
       },
       {
-        "id": "8962063d-53fe-49b5-8329-7a3c91021f5d",
+        "id": "ccb40762-9466-4b3a-a1b4-817a16f68351",
         "ownerKind": "entity",
-        "ownerId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "ownerId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
         "name": "cuota_anual",
         "type": "NUMBER(8,2)",
         "required": true,
@@ -1928,10 +1925,10 @@
         }
       },
       {
-        "id": "4da9635e-fc4d-43ef-a56c-5f455efc4da7",
+        "id": "b5200f43-6545-4da1-afb5-d4c8ab9e6ecf",
         "ownerKind": "entity",
-        "ownerId": "f04f6179-a46d-4ca2-a819-27f766e6c959",
-        "name": "iban",
+        "ownerId": "a7fd490c-76ee-47d9-b881-e180710f89fb",
+        "name": "num_cuenta",
         "type": "CHAR(24)",
         "required": true,
         "primary": false,
@@ -1949,9 +1946,9 @@
         }
       },
       {
-        "id": "988f0595-7670-4462-8fb7-9868e1ec34d4",
+        "id": "e7f497e5-b012-494a-a6a8-d7b3b3cdf92e",
         "ownerKind": "entity",
-        "ownerId": "f04f6179-a46d-4ca2-a819-27f766e6c959",
+        "ownerId": "a7fd490c-76ee-47d9-b881-e180710f89fb",
         "name": "importe_acumulado",
         "type": "NUMBER(10,2)",
         "required": true,
@@ -1975,9 +1972,9 @@
         }
       },
       {
-        "id": "d6e4e27b-e277-444d-9732-843db01d786c",
+        "id": "8b680bfc-de99-4c94-b5fd-43afb2e13e87",
         "ownerKind": "entity",
-        "ownerId": "f04f6179-a46d-4ca2-a819-27f766e6c959",
+        "ownerId": "a7fd490c-76ee-47d9-b881-e180710f89fb",
         "name": "fecha_vencimiento",
         "type": "DATE",
         "required": true,
@@ -1996,9 +1993,9 @@
         }
       },
       {
-        "id": "866cfcf3-939a-48f0-9219-00c1c56c5646",
+        "id": "8198f77c-0cfb-4a8e-a2f6-a4115ba2edb1",
         "ownerKind": "entity",
-        "ownerId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+        "ownerId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
         "name": "num_factura",
         "type": "CHAR(10)",
         "required": true,
@@ -2017,9 +2014,9 @@
         }
       },
       {
-        "id": "989f0862-ddb4-4170-918e-6f071be99475",
+        "id": "754d1912-8ce0-4b82-87fa-8e89cc25ed25",
         "ownerKind": "entity",
-        "ownerId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+        "ownerId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
         "name": "fecha_emision",
         "type": "DATE",
         "required": true,
@@ -2038,9 +2035,9 @@
         }
       },
       {
-        "id": "5c8f6610-6739-40ac-939b-5d16526f65e5",
+        "id": "e0d81c02-13eb-4adb-843c-93e6ac356f68",
         "ownerKind": "entity",
-        "ownerId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+        "ownerId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
         "name": "importe_total",
         "type": "NUMBER(10,2)",
         "required": true,
@@ -2050,9 +2047,9 @@
         "defaultValue": "",
         "structure": "simple",
         "multivalued": false,
-        "derived": false,
+        "derived": true,
         "parentAttributeId": null,
-        "derivation": "",
+        "derivation": "Suma de los importes de los lotes que incluye",
         "domain": {
           "minimum": 0,
           "maximum": null,
@@ -2060,20 +2057,20 @@
           "check": ""
         },
         "translation": {
-          "kind": "column"
+          "kind": "stored"
         }
       },
       {
-        "id": "0f9a93af-db93-498f-b5f8-9be9cd06ff07",
+        "id": "a4625958-8276-480b-b48a-5b884ca1da7c",
         "ownerKind": "entity",
-        "ownerId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
-        "name": "pendiente",
-        "type": "NUMBER(1)",
-        "required": true,
+        "ownerId": "a22c2683-c443-408f-81f3-effad86e9ab3",
+        "name": "estado",
+        "type": "VARCHAR(9)",
+        "required": false,
         "primary": false,
         "partialKey": false,
         "notes": "",
-        "defaultValue": "0",
+        "defaultValue": "'pendiente'",
         "structure": "simple",
         "multivalued": false,
         "derived": false,
@@ -2083,8 +2080,8 @@
           "minimum": null,
           "maximum": null,
           "values": [
-            0,
-            1
+            "pendiente",
+            "pagada"
           ],
           "check": ""
         },
@@ -2093,9 +2090,9 @@
         }
       },
       {
-        "id": "91d0d872-3c3a-434c-9c1a-b00e9627d068",
+        "id": "d37e30b4-40a7-43ce-9064-860a76971497",
         "ownerKind": "entity",
-        "ownerId": "84dee75f-c069-43f2-a70a-fa78db5479f6",
+        "ownerId": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
         "name": "cod_pago",
         "type": "CHAR(5)",
         "required": true,
@@ -2114,9 +2111,9 @@
         }
       },
       {
-        "id": "ca44abf1-88a0-4558-a65e-48478128d304",
+        "id": "d4aa4777-6007-4d36-9cbc-1f75863700e4",
         "ownerKind": "entity",
-        "ownerId": "84dee75f-c069-43f2-a70a-fa78db5479f6",
+        "ownerId": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -2135,9 +2132,9 @@
         }
       },
       {
-        "id": "c241c6a7-76ad-47cf-8b32-7378dd04779d",
+        "id": "e03c5854-6ed8-42f7-bbf9-4e409d254f73",
         "ownerKind": "entity",
-        "ownerId": "84dee75f-c069-43f2-a70a-fa78db5479f6",
+        "ownerId": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
         "name": "importe",
         "type": "NUMBER(10,2)",
         "required": true,
@@ -2161,174 +2158,30 @@
         }
       },
       {
-        "id": "a59e440e-4a42-4def-98de-06f4f033d710",
-        "ownerKind": "entity",
-        "ownerId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
-        "name": "num_factura",
-        "type": "CHAR(10)",
-        "required": true,
-        "primary": true,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "5ab9460e-c68f-4b8b-b1ea-1e2b5db1b465",
-        "ownerKind": "entity",
-        "ownerId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
-        "name": "fecha_emision",
-        "type": "DATE",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "f1e3640a-c1fd-46ce-87d5-1f9901be87d8",
-        "ownerKind": "entity",
-        "ownerId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
-        "name": "importe_total",
-        "type": "NUMBER(10,2)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 0,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "a75251de-1e2c-40e6-84e9-0d7295907bfd",
-        "ownerKind": "entity",
-        "ownerId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
-        "name": "pagada",
-        "type": "NUMBER(1)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "1",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": null,
-          "maximum": null,
-          "values": [
-            0,
-            1
-          ],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "3f052b20-41cf-466b-89c4-be4813a14a6d",
-        "ownerKind": "entity",
-        "ownerId": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
-        "name": "cod_pago",
-        "type": "CHAR(5)",
-        "required": true,
-        "primary": true,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "38b66ff8-14f1-41c0-a78b-67ab2d70a671",
-        "ownerKind": "entity",
-        "ownerId": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
-        "name": "fecha",
-        "type": "DATE",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": null,
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "c209127d-2b58-494c-9689-ba114ea7c9cc",
-        "ownerKind": "entity",
-        "ownerId": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
-        "name": "importe",
-        "type": "NUMBER(10,2)",
-        "required": true,
-        "primary": false,
-        "partialKey": false,
-        "notes": "",
-        "defaultValue": "",
-        "structure": "simple",
-        "multivalued": false,
-        "derived": false,
-        "parentAttributeId": null,
-        "derivation": "",
-        "domain": {
-          "minimum": 0,
-          "maximum": null,
-          "values": [],
-          "check": ""
-        },
-        "translation": {
-          "kind": "column"
-        }
-      },
-      {
-        "id": "015c4884-8043-46ae-a3e9-c779be32619c",
+        "id": "3ddb8572-585c-4821-b493-a1c9c166064f",
         "ownerKind": "relationship",
-        "ownerId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f",
+        "ownerId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
+        "name": "periodo",
+        "type": "VARCHAR(30)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "composite",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "flatten"
+        }
+      },
+      {
+        "id": "682d907a-fc8b-480b-9f25-5100a74e9e62",
+        "ownerKind": "relationship",
+        "ownerId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
         "name": "fecha_inicio",
         "type": "DATE",
         "required": true,
@@ -2339,7 +2192,7 @@
         "structure": "simple",
         "multivalued": false,
         "derived": false,
-        "parentAttributeId": null,
+        "parentAttributeId": "3ddb8572-585c-4821-b493-a1c9c166064f",
         "derivation": "",
         "domain": null,
         "translation": {
@@ -2347,9 +2200,9 @@
         }
       },
       {
-        "id": "b204d30b-fd7a-45c9-bb3a-f0b5def68430",
+        "id": "079c17b2-ccc2-4620-8ff5-005b1372bb85",
         "ownerKind": "relationship",
-        "ownerId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f",
+        "ownerId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
         "name": "fecha_fin",
         "type": "DATE",
         "required": false,
@@ -2360,7 +2213,7 @@
         "structure": "simple",
         "multivalued": false,
         "derived": false,
-        "parentAttributeId": null,
+        "parentAttributeId": "3ddb8572-585c-4821-b493-a1c9c166064f",
         "derivation": "",
         "domain": {
           "minimum": null,
@@ -2373,9 +2226,9 @@
         }
       },
       {
-        "id": "a40290e8-7302-49e3-b317-be85d1acedaa",
+        "id": "9d8d82f8-5d34-4801-b857-da4acce81d05",
         "ownerKind": "relationship",
-        "ownerId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f",
+        "ownerId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
         "name": "kg_especie",
         "type": "NUMBER(8,2)",
         "required": true,
@@ -2399,10 +2252,10 @@
         }
       },
       {
-        "id": "4a4056ee-0da2-4674-91b8-9c6f6daa1ead",
+        "id": "6528886f-07f9-45ac-9499-9e8904855e7e",
         "ownerKind": "relationship",
-        "ownerId": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1",
-        "name": "precio_kg",
+        "ownerId": "80128a85-5860-44a2-98db-698a1cec131e",
+        "name": "precio_kg_compra",
         "type": "NUMBER(8,2)",
         "required": true,
         "primary": false,
@@ -2425,10 +2278,10 @@
         }
       },
       {
-        "id": "8d2b6e11-984b-4ed7-b380-cd0e5acd9fd5",
+        "id": "35cfc53c-5492-4e7b-bdb2-465b965d8417",
         "ownerKind": "relationship",
-        "ownerId": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1",
-        "name": "precio_total",
+        "ownerId": "80128a85-5860-44a2-98db-698a1cec131e",
+        "name": "precio_total_adjudicacion",
         "type": "NUMBER(10,2)",
         "required": true,
         "primary": false,
@@ -2437,9 +2290,9 @@
         "defaultValue": "",
         "structure": "simple",
         "multivalued": false,
-        "derived": false,
+        "derived": true,
         "parentAttributeId": null,
-        "derivation": "",
+        "derivation": "kilos_total del lote × precio_kg_compra",
         "domain": {
           "minimum": 0,
           "maximum": null,
@@ -2447,26 +2300,26 @@
           "check": ""
         },
         "translation": {
-          "kind": "column"
+          "kind": "stored"
         }
       }
     ],
     "relationships": [
       {
-        "id": "b6fbc76f-ca29-4f6c-b1f3-77bc7a8b83c5",
+        "id": "4d9b2f1f-a5f8-4df2-ab1b-a7db924674b1",
         "name": "De_especie",
         "notes": "",
         "participations": [
           {
-            "id": "07958636-9a73-442d-9a6c-ed04bd30481b",
-            "entityId": "05746d08-c3c0-456c-a6c8-6128b939830d",
+            "id": "979445d3-1957-40cf-ba61-75f7f5ce1b76",
+            "entityId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
             "role": "especie",
             "min": 0,
             "max": null
           },
           {
-            "id": "15de175b-ef7b-4f49-9792-f6021f8acce5",
-            "entityId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+            "id": "96e6ad4d-fc20-4b78-af19-538a25926343",
+            "entityId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
             "role": "lote",
             "min": 1,
             "max": 1
@@ -2474,25 +2327,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "15de175b-ef7b-4f49-9792-f6021f8acce5",
+          "childParticipationId": "96e6ad4d-fc20-4b78-af19-538a25926343",
           "identifying": false
         }
       },
       {
-        "id": "37c902ab-cffb-46ae-8627-df8391ebaa0c",
+        "id": "6ee3cb0d-1d52-428f-a196-9c756943a658",
         "name": "Capturado_por",
         "notes": "",
         "participations": [
           {
-            "id": "b400f189-2611-4290-91d3-dd0b38ea43b3",
-            "entityId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
+            "id": "2a09909e-5f31-40e5-8167-fc46f1921d3f",
+            "entityId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
             "role": "barco",
             "min": 1,
             "max": null
           },
           {
-            "id": "41b1dfce-07eb-47ee-b40e-7dd7e305d048",
-            "entityId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+            "id": "15ef2b77-4bb1-457d-909b-2f0bd856ef67",
+            "entityId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
             "role": "lote",
             "min": 1,
             "max": 1
@@ -2500,34 +2353,34 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "41b1dfce-07eb-47ee-b40e-7dd7e305d048",
+          "childParticipationId": "15ef2b77-4bb1-457d-909b-2f0bd856ef67",
           "identifying": false
         }
       },
       {
-        "id": "2b237bfc-785d-4c40-86e3-703fad1dfe9f",
+        "id": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
         "name": "Faena",
         "notes": "",
         "participations": [
           {
-            "id": "debb76e1-2a76-47c2-bc26-f79141f99aca",
-            "entityId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
+            "id": "d027bbd7-df4d-48ee-8ade-f145ff421d6e",
+            "entityId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
             "role": "barco",
             "min": 0,
             "max": null,
             "cardinality": "many"
           },
           {
-            "id": "00d2817a-a316-4d15-9d4e-33bca58e6438",
-            "entityId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+            "id": "26f1c1d0-b32d-413c-8215-1f27e365f332",
+            "entityId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
             "role": "caladero",
             "min": 0,
             "max": null,
             "cardinality": "many"
           },
           {
-            "id": "8523fcfe-b9ee-4250-841d-1cda3adbc524",
-            "entityId": "05746d08-c3c0-456c-a6c8-6128b939830d",
+            "id": "825ab0d4-26e2-4330-86fe-c9403ab661b3",
+            "entityId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
             "role": "especie",
             "min": 0,
             "max": null,
@@ -2539,31 +2392,31 @@
           "tableName": "Faena",
           "key": {
             "participationIds": [
-              "debb76e1-2a76-47c2-bc26-f79141f99aca",
-              "00d2817a-a316-4d15-9d4e-33bca58e6438",
-              "8523fcfe-b9ee-4250-841d-1cda3adbc524"
+              "d027bbd7-df4d-48ee-8ade-f145ff421d6e",
+              "26f1c1d0-b32d-413c-8215-1f27e365f332",
+              "825ab0d4-26e2-4330-86fe-c9403ab661b3"
             ],
             "attributeIds": [
-              "015c4884-8043-46ae-a3e9-c779be32619c"
+              "682d907a-fc8b-480b-9f25-5100a74e9e62"
             ]
           }
         }
       },
       {
-        "id": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1",
+        "id": "80128a85-5860-44a2-98db-698a1cec131e",
         "name": "Adjudicacion",
         "notes": "",
         "participations": [
           {
-            "id": "74fbed8d-b55d-4840-948e-e3e608388b42",
-            "entityId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+            "id": "6716a6ca-9ba4-47f8-b87d-ef24511c65cd",
+            "entityId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
             "role": "lote",
             "min": 1,
             "max": 1
           },
           {
-            "id": "682488b7-a1e7-4d24-a1d8-5a0ff8b1298f",
-            "entityId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+            "id": "d9ee682f-c886-4fab-b3fc-e643d631b990",
+            "entityId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
             "role": "comprador",
             "min": 0,
             "max": null
@@ -2574,27 +2427,27 @@
           "tableName": "Adjudicacion",
           "key": {
             "participationIds": [
-              "74fbed8d-b55d-4840-948e-e3e608388b42"
+              "6716a6ca-9ba4-47f8-b87d-ef24511c65cd"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "5d37aacd-f81b-44b8-ad61-0ce87016352e",
+        "id": "7a16ae4b-1d61-4ba9-bcb1-ea6da436a6c2",
         "name": "Emitida_a",
         "notes": "",
         "participations": [
           {
-            "id": "50677236-eec4-43c1-8778-60d2166734f0",
-            "entityId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+            "id": "aaa15098-00d9-4de5-915e-75568fa7a78b",
+            "entityId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
             "role": "comprador",
             "min": 0,
             "max": null
           },
           {
-            "id": "641d378d-627c-400e-8ec9-38df9a7c98db",
-            "entityId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+            "id": "2ee0c2df-d1e1-4313-a37d-22a12287ae26",
+            "entityId": "a22c2683-c443-408f-81f3-effad86e9ab3",
             "role": "factura",
             "min": 1,
             "max": 1
@@ -2602,27 +2455,27 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "641d378d-627c-400e-8ec9-38df9a7c98db",
+          "childParticipationId": "2ee0c2df-d1e1-4313-a37d-22a12287ae26",
           "identifying": false
         }
       },
       {
-        "id": "f6e739c0-9b74-431b-b1f3-61a7a03fb2a7",
+        "id": "805c2d5e-7184-4335-b031-20096cab080f",
         "name": "Incluye",
         "notes": "",
         "participations": [
           {
-            "id": "4b8019a4-e375-4fd1-97b0-16ea5bc8fbba",
-            "entityId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+            "id": "5b8177b1-f695-4d67-ba54-ea1ff43d6036",
+            "entityId": "a22c2683-c443-408f-81f3-effad86e9ab3",
             "role": "factura",
             "min": 1,
             "max": null
           },
           {
-            "id": "ac7cad4f-1598-48bc-a9ea-fc914c27df55",
-            "entityId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+            "id": "b180c66e-9161-4a5f-a93b-2d80dce302a7",
+            "entityId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
             "role": "lote",
-            "min": 0,
+            "min": 1,
             "max": 1
           }
         ],
@@ -2631,54 +2484,28 @@
           "tableName": "Incluye",
           "key": {
             "participationIds": [
-              "4b8019a4-e375-4fd1-97b0-16ea5bc8fbba",
-              "ac7cad4f-1598-48bc-a9ea-fc914c27df55"
+              "5b8177b1-f695-4d67-ba54-ea1ff43d6036",
+              "b180c66e-9161-4a5f-a93b-2d80dce302a7"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "b0ebd9d9-023d-4083-9abc-aa6448d92e89",
-        "name": "Cobra",
-        "notes": "",
-        "participations": [
-          {
-            "id": "71a3048f-d51c-4d7f-a6a8-748faad587c1",
-            "entityId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
-            "role": "factura",
-            "min": 0,
-            "max": null
-          },
-          {
-            "id": "143e6a80-8a88-4473-bf51-c011f6bb94bb",
-            "entityId": "84dee75f-c069-43f2-a70a-fa78db5479f6",
-            "role": "pago",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "translation": {
-          "kind": "foreign-key",
-          "childParticipationId": "143e6a80-8a88-4473-bf51-c011f6bb94bb",
-          "identifying": false
-        }
-      },
-      {
-        "id": "38e66233-d9e3-491f-8c7e-260454b28c5c",
+        "id": "0e3f5dad-375e-45a8-95c3-fedb792d0e3f",
         "name": "Emitida_por",
         "notes": "",
         "participations": [
           {
-            "id": "a0e2e230-dc43-4207-a87a-c33ca042cc8c",
-            "entityId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
+            "id": "a057f6de-ed65-4428-a963-bcdf22b30e3c",
+            "entityId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
             "role": "barco",
             "min": 0,
             "max": null
           },
           {
-            "id": "0c2eac8a-10c3-42f5-a208-546e42f2dbdd",
-            "entityId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
+            "id": "fa7d9616-fc25-42e8-b465-7ddaf85df7ef",
+            "entityId": "8f135905-bf95-420a-9f78-81b83ee9f549",
             "role": "factura",
             "min": 1,
             "max": 1
@@ -2686,27 +2513,27 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "0c2eac8a-10c3-42f5-a208-546e42f2dbdd",
+          "childParticipationId": "fa7d9616-fc25-42e8-b465-7ddaf85df7ef",
           "identifying": false
         }
       },
       {
-        "id": "b6f60fb7-eac6-4950-9bcd-cdb9e19b7322",
+        "id": "ee30da9c-6cb4-4ab3-b865-ea6f4b8eb053",
         "name": "Provision",
         "notes": "",
         "participations": [
           {
-            "id": "9118b810-93e3-498f-8ba9-210c8a78bbea",
-            "entityId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
+            "id": "deb37314-99ad-4e7c-8ca0-72f836534be9",
+            "entityId": "8f135905-bf95-420a-9f78-81b83ee9f549",
             "role": "factura",
             "min": 1,
             "max": null
           },
           {
-            "id": "e18e6d25-5e18-4354-9db2-9d3f01985493",
-            "entityId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+            "id": "ae7d6d15-b56b-4d04-ad81-e0c5366c2a90",
+            "entityId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
             "role": "lote",
-            "min": 0,
+            "min": 1,
             "max": 1
           }
         ],
@@ -2715,28 +2542,28 @@
           "tableName": "Provision",
           "key": {
             "participationIds": [
-              "9118b810-93e3-498f-8ba9-210c8a78bbea",
-              "e18e6d25-5e18-4354-9db2-9d3f01985493"
+              "deb37314-99ad-4e7c-8ca0-72f836534be9",
+              "ae7d6d15-b56b-4d04-ad81-e0c5366c2a90"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "e6513b50-7451-4404-826e-d6f53b396a11",
-        "name": "Paga",
+        "id": "b5521182-b1d4-4a5c-aafe-da03d9a9f60f",
+        "name": "Salda",
         "notes": "",
         "participations": [
           {
-            "id": "2a4a4d54-abe0-487e-abda-187fd9cfdf03",
-            "entityId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
+            "id": "d485862c-5f21-4a9f-8bf5-71adf19fad5f",
+            "entityId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
             "role": "factura",
             "min": 0,
             "max": null
           },
           {
-            "id": "c5978784-1d97-486e-a7d3-47fc0c005904",
-            "entityId": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
+            "id": "83e5195a-0a68-422a-bb61-54e93ccd4494",
+            "entityId": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
             "role": "pago",
             "min": 1,
             "max": 1
@@ -2744,20 +2571,35 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "c5978784-1d97-486e-a7d3-47fc0c005904",
+          "childParticipationId": "83e5195a-0a68-422a-bb61-54e93ccd4494",
           "identifying": false
         }
       }
     ],
     "generalizations": [
       {
-        "id": "53665884-68c1-4469-8b8a-0b42cc19adcf",
-        "supertypeId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+        "id": "9b3a42d8-362a-4a38-9735-866750db9f78",
+        "supertypeId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
         "subtypeIds": [
-          "f04f6179-a46d-4ca2-a819-27f766e6c959"
+          "a7fd490c-76ee-47d9-b881-e180710f89fb",
+          "0a05b653-23a5-427c-bb91-8e977840ed7f"
         ],
         "disjoint": true,
-        "total": false,
+        "total": true,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      },
+      {
+        "id": "89e48ce3-3b35-4ddf-a03b-aa78372290c4",
+        "supertypeId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
+        "subtypeIds": [
+          "8f135905-bf95-420a-9f78-81b83ee9f549",
+          "a22c2683-c443-408f-81f3-effad86e9ab3"
+        ],
+        "disjoint": true,
+        "total": true,
         "notes": "",
         "translation": {
           "kind": "class-tables"
@@ -2768,581 +2610,617 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414",
+      "sourceId": "89d10afc-cba0-4659-a1a2-956f8f35c0ba",
       "targetKind": "table",
-      "targetId": "a2f80e63-619a-47b1-8f77-ffbee0813300"
+      "targetId": "58cfe830-0880-4115-bab6-300ebffed1de"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "77f45445-e95b-46b8-806f-f53d8959f520",
+      "sourceId": "78c74c05-32fa-42d7-a4f1-0e4e1222491a",
       "targetKind": "column",
-      "targetId": "a28d9ab0-0784-4156-acd6-afeda006f657"
+      "targetId": "e7913399-beb6-4605-8536-4d62812c241e"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1674f117-bc3d-42bf-9573-a845ad77338b",
+      "sourceId": "db2cbd0d-843f-4828-8f48-de970d8637bb",
       "targetKind": "column",
-      "targetId": "493ac725-b71d-4160-9513-71ac660d0719"
+      "targetId": "7e436d4b-b7c9-4ddf-8dc7-5495c47db31c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ab946f90-82f3-450c-97c2-c57f1d8f9640",
+      "sourceId": "44eb8619-6012-45c7-83b1-50c6c7f445f6",
       "targetKind": "column",
-      "targetId": "5d0f1c07-f238-48f8-8fdd-431fe322eb74"
+      "targetId": "4613abda-682c-40ed-8ea6-3095bd2fe476"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "934f1dc0-b1b1-484a-811c-8b0cf60ab323",
+      "sourceId": "741d95c8-dd05-4ba2-abe9-8db96b7fd4e1",
       "targetKind": "column",
-      "targetId": "c98f2248-edf1-4e2d-9bae-e15a39839f3d"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "cc64a946-ac89-47f7-9363-a4cf4fb550e1",
-      "targetKind": "column",
-      "targetId": "744ebf5f-92d9-423d-a9ca-b246a926daba"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "71a874b0-bfb7-44a9-8862-e8a17094ea69",
-      "targetKind": "column",
-      "targetId": "dac3753e-3201-45b9-abf4-5d8a4aaa6331"
+      "targetId": "46419dd3-de25-4941-929f-4a5e31dd39e6"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "05746d08-c3c0-456c-a6c8-6128b939830d",
+      "sourceId": "727353a0-328d-4ab4-9100-2b2e7b5596e4",
       "targetKind": "table",
-      "targetId": "82b0d7b7-f81c-4668-8322-850c1e09fcee"
+      "targetId": "f1380584-15d7-4ac6-9845-f637e1613a6a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d2eda623-d839-410d-ae76-389e57494fe7",
+      "sourceId": "b81e4de0-265f-464e-a5c4-37ecbae52cc7",
       "targetKind": "column",
-      "targetId": "718629a0-eb04-4c70-ad98-c8a26b185f66"
+      "targetId": "e729aec0-35b2-4e03-a66a-9deb15703731"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "906df8cc-60e4-4efc-a1d1-9e21efd59969",
+      "sourceId": "4cb3b21c-ae8d-47f2-b94b-a8c3e8505324",
       "targetKind": "column",
-      "targetId": "a8f79bb7-6c8f-4b06-9284-493ff22a0b9b"
+      "targetId": "193eba10-d793-4fd5-8b3c-e648b74c82b0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "6c7340f7-2795-484a-915c-5bb9a743a97a",
+      "sourceId": "cd6dc5cf-dd29-451c-a486-324d28ec85bf",
       "targetKind": "column",
-      "targetId": "00499c77-f5e8-4f85-ac69-b5e9bba9237f"
+      "targetId": "a925b50e-cea2-4de3-b5b0-9ca5e22e3ecb"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a",
+      "sourceId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084",
       "targetKind": "table",
-      "targetId": "a7757ce1-82d4-4294-b094-1aee5c0539cc"
+      "targetId": "27a30999-dfa6-44d1-a607-6bc4b0ec71fd"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ba18623b-08e1-4dfa-bcc0-ad8a4c269f59",
+      "sourceId": "fed08d33-5ecf-4dd6-b094-06fcad7c23fc",
       "targetKind": "column",
-      "targetId": "e6d8d15c-8cad-4e30-b6b9-f6bdbcf3f155"
+      "targetId": "09aaf9ea-f5ed-480b-b4e8-8d5b17dee173"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "77b42608-ca7c-4685-8c5c-4a60e199bdd4",
+      "sourceId": "92ab9164-5adf-4911-b7fe-ad70d6fd3783",
       "targetKind": "column",
-      "targetId": "866a245a-bb10-4f60-a999-78f0cf66e35e"
+      "targetId": "91c563d2-f030-42b8-b940-230e333925c5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ba9d7a02-fd91-464c-b7bf-b7497e4d9aa4",
+      "sourceId": "f0180450-2ff3-4891-bc6a-a36820b65e14",
       "targetKind": "column",
-      "targetId": "f59746ed-bd7a-42af-9f24-a7a8087cf420"
+      "targetId": "ff796b98-a69c-4dd5-9cfa-b6f03890c5be"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fad62b3a-3b66-4183-b01c-be34062b2dc2",
+      "sourceId": "0d5013ae-6a9b-47bd-8be2-9dd74118ec70",
       "targetKind": "column",
-      "targetId": "06111bb1-9718-40d0-b82b-f82ed545f2c5"
+      "targetId": "270b9aed-50ad-4016-9d4c-5583137910aa"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fcd8164a-8c07-46da-b32a-b4711292a9c8",
+      "sourceId": "77e43775-f305-4643-a864-34a1e61d7f28",
       "targetKind": "column",
-      "targetId": "b6d646c5-547d-483c-90b7-a9660a4b8600"
+      "targetId": "d4b4888e-1a35-4d3b-b124-df76f270993a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "5b1d6201-478b-438c-9ff0-cb1277cdae44",
+      "sourceId": "574d14c5-b4ef-423d-9aa7-ffa25974e9a1",
       "targetKind": "column",
-      "targetId": "d4530908-df87-4ce9-bcc6-71cdbd9700eb"
+      "targetId": "eb9e2a28-b1ef-4be1-a234-64ed779be2d7"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd",
+      "sourceId": "ef720ae3-89f2-4da7-b88f-07f641a399bc",
       "targetKind": "table",
-      "targetId": "ad4c0d07-6817-404d-b608-610cc47ed22d"
+      "targetId": "dbf10649-6f48-4937-b7c2-e1ccf24b9bb6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7bf94587-c358-4312-bf96-3266934ad62c",
+      "sourceId": "ffde4350-80fc-4011-b522-e4a84badfa09",
       "targetKind": "column",
-      "targetId": "a57af53a-b981-4672-8136-a03785b7a6bc"
+      "targetId": "f6a95a04-0bf4-4dfc-b865-e33f7d425940"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1c1afcdd-ef84-429a-ac37-238db5f6b542",
+      "sourceId": "651f273a-f125-4e43-8746-14edf5fade30",
       "targetKind": "column",
-      "targetId": "cf48876a-e17a-40d0-a532-4bd13ee2a963"
+      "targetId": "cbfe8e92-867f-45ae-8368-749ead73a53f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "b91d78a9-b2a3-40fc-a1f6-26504310562c",
+      "sourceId": "a8776c0a-2603-4417-8be4-990cd61bf479",
       "targetKind": "column",
-      "targetId": "66b20e19-f9df-4621-8888-458de1c730ca"
+      "targetId": "63bd3d40-928d-42f6-8afd-eacf054b7a8e"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "5a46d026-00b0-4863-8a1c-b076e013514f",
+      "sourceId": "2803bf4b-4f48-485e-b294-7c9c229cacc0",
       "targetKind": "column",
-      "targetId": "200018fe-e2a4-44dc-8e58-d09210fada3f"
+      "targetId": "dd794d87-0e9b-4519-aee6-4af09eaf4b23"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "24e14b15-eceb-4a0d-bc57-0bcf7e1a2952",
+      "targetKind": "column",
+      "targetId": "9d76c02d-d0b2-4e62-98a1-b2bc11d3a3f4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "01039dc2-23eb-47d5-869a-012b8d4c143d",
+      "targetKind": "column",
+      "targetId": "745d58a3-03df-4ec8-976f-41b49fa457a2"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f",
+      "sourceId": "972b408c-9066-4442-8265-7a7fe5ea87e6",
       "targetKind": "table",
-      "targetId": "e1263344-63db-491a-b76a-aafc0fc0424c"
+      "targetId": "4e059dc5-a863-479d-b51e-39416cb53ad5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4125dc27-fcbb-416c-a156-4335038a4705",
+      "sourceId": "b6546a5d-65f4-49da-9717-29673eb33a34",
       "targetKind": "column",
-      "targetId": "239c9045-d7c1-4ccf-87ed-6c246d500fdf"
+      "targetId": "43fe2bd8-b21c-430b-8070-f1b148363d5d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "81547bc1-aec5-471d-9a56-4796f5680a2f",
+      "sourceId": "5c4b321b-4ddb-4b1c-8d27-cd3332c28886",
       "targetKind": "column",
-      "targetId": "99c92b90-02b3-4cb5-ae55-af4526b66ad3"
+      "targetId": "286b1e66-1700-4332-9685-0e27adf9e2fa"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "be968046-6543-40ea-8851-47b98ea3ffce",
+      "sourceId": "41c2d578-9fec-4da2-bf97-a08d5d091643",
       "targetKind": "column",
-      "targetId": "aace4f02-1bf4-4e5e-a0ab-2c1fc5984262"
+      "targetId": "6a3ed85c-12eb-4882-8dac-948300230ed6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "21141b1e-2caf-46dd-b221-dd27dd9f6df4",
+      "sourceId": "278946a5-d1ff-4cff-b3ce-81f6c53fb151",
       "targetKind": "column",
-      "targetId": "85af1899-fcd7-4a86-93fa-46a2c65e0663"
+      "targetId": "8405013e-2031-42b2-8f5c-2db2e8b9bb9e"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8962063d-53fe-49b5-8329-7a3c91021f5d",
+      "sourceId": "ccb40762-9466-4b3a-a1b4-817a16f68351",
       "targetKind": "column",
-      "targetId": "35faaef6-601e-48c6-86b1-041acdc7e5af"
+      "targetId": "e4fb5e92-d4f2-432f-85f9-58ad765e34e9"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "f04f6179-a46d-4ca2-a819-27f766e6c959",
+      "sourceId": "a7fd490c-76ee-47d9-b881-e180710f89fb",
       "targetKind": "table",
-      "targetId": "db747af1-f508-4cfd-8d29-995e0901595c"
+      "targetId": "299f4f0a-4705-43df-be39-25d475b26159"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4da9635e-fc4d-43ef-a56c-5f455efc4da7",
+      "sourceId": "b5200f43-6545-4da1-afb5-d4c8ab9e6ecf",
       "targetKind": "column",
-      "targetId": "48d4c042-2a92-4e9a-b6cf-60d1c17345d1"
+      "targetId": "3f2532d0-ad06-4793-9d19-607e21c85526"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "988f0595-7670-4462-8fb7-9868e1ec34d4",
+      "sourceId": "e7f497e5-b012-494a-a6a8-d7b3b3cdf92e",
       "targetKind": "column",
-      "targetId": "58e5b49d-c22f-4456-9520-11d36fc758c2"
+      "targetId": "36649f90-53cb-4846-b8b4-841e86a011b8"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d6e4e27b-e277-444d-9732-843db01d786c",
+      "sourceId": "8b680bfc-de99-4c94-b5fd-43afb2e13e87",
       "targetKind": "column",
-      "targetId": "97e1a675-4e26-4926-817d-b3fe07d2dbc3"
+      "targetId": "8eb8291a-e582-49e1-a3d7-c58001f51007"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "0a05b653-23a5-427c-bb91-8e977840ed7f",
+      "targetKind": "table",
+      "targetId": "6214543d-ae09-4b8b-8071-49fba45c686c"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "53665884-68c1-4469-8b8a-0b42cc19adcf",
+      "sourceId": "9b3a42d8-362a-4a38-9735-866750db9f78",
       "targetKind": "foreign-key",
-      "targetId": "93c2bb59-70df-44a6-85ba-3c7a078e12da"
+      "targetId": "f21ee2ea-be85-4f31-b2db-bceef37367ed"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "53665884-68c1-4469-8b8a-0b42cc19adcf",
+      "sourceId": "9b3a42d8-362a-4a38-9735-866750db9f78",
       "targetKind": "column",
-      "targetId": "c2b23275-07bb-4cc9-acb7-21a04f6f8862"
+      "targetId": "968571c4-91bf-42a4-8e70-ee372eabf09e"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "9b3a42d8-362a-4a38-9735-866750db9f78",
+      "targetKind": "foreign-key",
+      "targetId": "41cee97d-512f-4f5f-a4c1-e258b789de9f"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "9b3a42d8-362a-4a38-9735-866750db9f78",
+      "targetKind": "column",
+      "targetId": "57d3a9bc-35b0-49d7-b949-512ccd9ab1d8"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "ccb127e8-928e-4b61-99c4-56db6cc71f33",
+      "sourceId": "93c757d3-6249-42a3-8da9-969a7e6ac52d",
       "targetKind": "table",
-      "targetId": "4f7a69ae-9868-4e61-b0a8-1f29ad34ef18"
+      "targetId": "81df6ed1-08f8-4cfd-ae2c-ce6e0bc4ac5c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "866cfcf3-939a-48f0-9219-00c1c56c5646",
+      "sourceId": "8198f77c-0cfb-4a8e-a2f6-a4115ba2edb1",
       "targetKind": "column",
-      "targetId": "f873caca-09ec-497c-bdad-bb4443671bd9"
+      "targetId": "8eeb824c-7a95-4bb2-b8e1-292e43f7040f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "989f0862-ddb4-4170-918e-6f071be99475",
+      "sourceId": "754d1912-8ce0-4b82-87fa-8e89cc25ed25",
       "targetKind": "column",
-      "targetId": "30f90a8a-b159-499c-a858-71254636fc80"
+      "targetId": "9dfd4f2a-7176-4c70-ad33-44ac18eac5bb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "5c8f6610-6739-40ac-939b-5d16526f65e5",
+      "sourceId": "e0d81c02-13eb-4adb-843c-93e6ac356f68",
       "targetKind": "column",
-      "targetId": "5540fe52-60bd-43e0-b6f3-cd81bf7d6905"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "0f9a93af-db93-498f-b5f8-9be9cd06ff07",
-      "targetKind": "column",
-      "targetId": "f80f669e-c3ec-4da5-bf96-488ae7e69e64"
+      "targetId": "98d46c76-8185-4f03-a56c-37797d47efe7"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "84dee75f-c069-43f2-a70a-fa78db5479f6",
+      "sourceId": "8f135905-bf95-420a-9f78-81b83ee9f549",
       "targetKind": "table",
-      "targetId": "2edaa9cc-0a91-4742-a7a3-5fcbeab44086"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "91d0d872-3c3a-434c-9c1a-b00e9627d068",
-      "targetKind": "column",
-      "targetId": "caea21a3-2470-4e29-b8e4-52a49e484a5f"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "ca44abf1-88a0-4558-a65e-48478128d304",
-      "targetKind": "column",
-      "targetId": "3316d887-90be-4295-8f54-06a9790c7750"
-    },
-    {
-      "sourceKind": "attribute",
-      "sourceId": "c241c6a7-76ad-47cf-8b32-7378dd04779d",
-      "targetKind": "column",
-      "targetId": "1d300a9c-43ee-4d8d-8df3-0a1689e4bc9f"
+      "targetId": "c93c7881-c24a-4e3e-9c62-8d66525354ef"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "58f733a7-b6ab-4f72-b16e-6b67e8843b56",
+      "sourceId": "a22c2683-c443-408f-81f3-effad86e9ab3",
       "targetKind": "table",
-      "targetId": "0b3df6dd-63d4-4e9e-9b6c-c9b8b3869862"
+      "targetId": "1780893e-ca96-4dd5-9b1f-e670b07c9c68"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a59e440e-4a42-4def-98de-06f4f033d710",
+      "sourceId": "a4625958-8276-480b-b48a-5b884ca1da7c",
       "targetKind": "column",
-      "targetId": "e3eb698c-4e11-402a-a03d-dec0c0ba2410"
+      "targetId": "b676e6d8-5a98-4f31-9b97-4dcef3cbfe95"
     },
     {
-      "sourceKind": "attribute",
-      "sourceId": "5ab9460e-c68f-4b8b-b1ea-1e2b5db1b465",
-      "targetKind": "column",
-      "targetId": "2fdd942d-ee11-46f1-9abd-8498aaa0772f"
+      "sourceKind": "generalization",
+      "sourceId": "89e48ce3-3b35-4ddf-a03b-aa78372290c4",
+      "targetKind": "foreign-key",
+      "targetId": "d8cb36ed-b7c0-4def-a8a3-adb3d4e6a1b2"
     },
     {
-      "sourceKind": "attribute",
-      "sourceId": "f1e3640a-c1fd-46ce-87d5-1f9901be87d8",
+      "sourceKind": "generalization",
+      "sourceId": "89e48ce3-3b35-4ddf-a03b-aa78372290c4",
       "targetKind": "column",
-      "targetId": "a8b80ee8-ea3e-4d12-b713-c119afa3208e"
+      "targetId": "74dfd167-f7b1-4a1d-977f-2ada9926b850"
     },
     {
-      "sourceKind": "attribute",
-      "sourceId": "a75251de-1e2c-40e6-84e9-0d7295907bfd",
+      "sourceKind": "generalization",
+      "sourceId": "89e48ce3-3b35-4ddf-a03b-aa78372290c4",
+      "targetKind": "foreign-key",
+      "targetId": "88b308ac-6237-4b5a-bc0b-8e1551093ce6"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "89e48ce3-3b35-4ddf-a03b-aa78372290c4",
       "targetKind": "column",
-      "targetId": "3a6cfe93-bb44-4feb-8390-bc68f350a1cb"
+      "targetId": "d3b233df-30ca-4c97-af6a-233c5c24a229"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "71dbd7b0-5312-4cd0-91bf-be22fcd16113",
+      "sourceId": "870db3f1-f0c1-4978-b2ae-9244ce8e98b3",
       "targetKind": "table",
-      "targetId": "12813c91-5bfe-4c47-bfcd-137265e8e512"
+      "targetId": "eccb2b4b-2407-4c96-afaa-fdf4bfbb6f10"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "3f052b20-41cf-466b-89c4-be4813a14a6d",
+      "sourceId": "d37e30b4-40a7-43ce-9064-860a76971497",
       "targetKind": "column",
-      "targetId": "b2e22fd6-d9d4-4d8b-9031-6424bb5420bb"
+      "targetId": "580b5220-e726-4561-8f8d-4ad308feedef"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "38b66ff8-14f1-41c0-a78b-67ab2d70a671",
+      "sourceId": "d4aa4777-6007-4d36-9cbc-1f75863700e4",
       "targetKind": "column",
-      "targetId": "db6f3293-91ee-4575-bd07-b42057e2e082"
+      "targetId": "77acfa2a-0b87-41a8-9a3e-3fa9d8281d08"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c209127d-2b58-494c-9689-ba114ea7c9cc",
+      "sourceId": "e03c5854-6ed8-42f7-bbf9-4e409d254f73",
       "targetKind": "column",
-      "targetId": "42d952dd-2066-4715-851a-87da08045052"
+      "targetId": "a3250d0b-f66b-43e5-989e-8716765b2dbe"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "07958636-9a73-442d-9a6c-ed04bd30481b",
+      "sourceId": "979445d3-1957-40cf-ba61-75f7f5ce1b76",
       "targetKind": "foreign-key",
-      "targetId": "7b2b4a95-78d6-40a5-8df4-5c06d50f6c09"
+      "targetId": "24396f33-8a01-4c06-b29d-089625a4ea7d"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "b6fbc76f-ca29-4f6c-b1f3-77bc7a8b83c5",
+      "sourceId": "4d9b2f1f-a5f8-4df2-ab1b-a7db924674b1",
       "targetKind": "foreign-key",
-      "targetId": "7b2b4a95-78d6-40a5-8df4-5c06d50f6c09"
+      "targetId": "24396f33-8a01-4c06-b29d-089625a4ea7d"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "b400f189-2611-4290-91d3-dd0b38ea43b3",
+      "sourceId": "2a09909e-5f31-40e5-8167-fc46f1921d3f",
       "targetKind": "foreign-key",
-      "targetId": "97afaa9b-3ed1-4108-87cb-c31048ba48bb"
+      "targetId": "5361cf4e-0a0d-415d-9985-3ef99d2c3e2b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "37c902ab-cffb-46ae-8627-df8391ebaa0c",
+      "sourceId": "6ee3cb0d-1d52-428f-a196-9c756943a658",
       "targetKind": "foreign-key",
-      "targetId": "97afaa9b-3ed1-4108-87cb-c31048ba48bb"
+      "targetId": "5361cf4e-0a0d-415d-9985-3ef99d2c3e2b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f",
+      "sourceId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e",
       "targetKind": "table",
-      "targetId": "3179ce90-924a-4fbb-8f4c-002286d94d50"
+      "targetId": "a6b8f3c3-e1a4-4e90-bef1-c3aa8f0abafd"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "debb76e1-2a76-47c2-bc26-f79141f99aca",
+      "sourceId": "d027bbd7-df4d-48ee-8ade-f145ff421d6e",
       "targetKind": "foreign-key",
-      "targetId": "e389c2cf-a66e-42d8-aca6-08e5024d5c45"
+      "targetId": "884a5816-5252-4178-bcd0-b88e92e9983f"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "00d2817a-a316-4d15-9d4e-33bca58e6438",
+      "sourceId": "26f1c1d0-b32d-413c-8215-1f27e365f332",
       "targetKind": "foreign-key",
-      "targetId": "35e8144b-9e1e-48e5-88e2-c4460764d65b"
+      "targetId": "e577fe2e-922d-4410-87f0-cf4fdadae2cb"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "8523fcfe-b9ee-4250-841d-1cda3adbc524",
+      "sourceId": "825ab0d4-26e2-4330-86fe-c9403ab661b3",
       "targetKind": "foreign-key",
-      "targetId": "3f3fdbfa-6185-4edb-8c5b-0000dcb24375"
+      "targetId": "78fe4f1c-d997-461a-875f-7b9f09be1117"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "015c4884-8043-46ae-a3e9-c779be32619c",
+      "sourceId": "682d907a-fc8b-480b-9f25-5100a74e9e62",
       "targetKind": "column",
-      "targetId": "aa56f8e1-84ca-4c7a-a35f-1888e5604bbe"
+      "targetId": "7cec6124-221e-442b-8866-b783a922a884"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "b204d30b-fd7a-45c9-bb3a-f0b5def68430",
+      "sourceId": "079c17b2-ccc2-4620-8ff5-005b1372bb85",
       "targetKind": "column",
-      "targetId": "fa9ab9ef-0577-4ea2-985c-52dee3eee366"
+      "targetId": "24775697-1c93-4058-a81c-eb445e97eb5c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a40290e8-7302-49e3-b317-be85d1acedaa",
+      "sourceId": "9d8d82f8-5d34-4801-b857-da4acce81d05",
       "targetKind": "column",
-      "targetId": "201a597c-3f8f-4c48-bd72-49e1f825d097"
+      "targetId": "038e2e35-d815-4632-8cfb-5433f28d711b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1",
+      "sourceId": "80128a85-5860-44a2-98db-698a1cec131e",
       "targetKind": "table",
-      "targetId": "2300e02d-ca9c-4e15-82ea-f94bdf4f2f93"
+      "targetId": "f372ae0a-08c2-4798-a18c-1456a3bc818f"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "74fbed8d-b55d-4840-948e-e3e608388b42",
+      "sourceId": "6716a6ca-9ba4-47f8-b87d-ef24511c65cd",
       "targetKind": "foreign-key",
-      "targetId": "7795fbe1-4578-49da-8635-a21346e0037a"
+      "targetId": "b88d8d1f-7bbc-4bf7-870c-5ec14e2f0a76"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "682488b7-a1e7-4d24-a1d8-5a0ff8b1298f",
+      "sourceId": "d9ee682f-c886-4fab-b3fc-e643d631b990",
       "targetKind": "foreign-key",
-      "targetId": "13abeae9-b63c-4a64-8f55-3438e729f417"
+      "targetId": "35edbdb0-5c24-4905-a389-d0e80780eefb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4a4056ee-0da2-4674-91b8-9c6f6daa1ead",
+      "sourceId": "6528886f-07f9-45ac-9499-9e8904855e7e",
       "targetKind": "column",
-      "targetId": "8235ce31-7252-4a08-84c5-7be2df67d21f"
+      "targetId": "24d45a3a-b46f-459d-b3c9-17598b630a2f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8d2b6e11-984b-4ed7-b380-cd0e5acd9fd5",
+      "sourceId": "35cfc53c-5492-4e7b-bdb2-465b965d8417",
       "targetKind": "column",
-      "targetId": "19ba4df6-2257-4e09-95a7-09b1cd3a9ed7"
+      "targetId": "6e6e521e-63f5-49bb-8e79-a0b5e187f261"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "50677236-eec4-43c1-8778-60d2166734f0",
+      "sourceId": "aaa15098-00d9-4de5-915e-75568fa7a78b",
       "targetKind": "foreign-key",
-      "targetId": "0e7f882d-5797-4902-a8b8-10c6b2e4a678"
+      "targetId": "bf21a72d-6be7-4e74-b7f8-65cf8d052f80"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "5d37aacd-f81b-44b8-ad61-0ce87016352e",
+      "sourceId": "7a16ae4b-1d61-4ba9-bcb1-ea6da436a6c2",
       "targetKind": "foreign-key",
-      "targetId": "0e7f882d-5797-4902-a8b8-10c6b2e4a678"
+      "targetId": "bf21a72d-6be7-4e74-b7f8-65cf8d052f80"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "f6e739c0-9b74-431b-b1f3-61a7a03fb2a7",
+      "sourceId": "805c2d5e-7184-4335-b031-20096cab080f",
       "targetKind": "table",
-      "targetId": "074e12a0-f360-46a1-8579-f400519a82e7"
+      "targetId": "ff649d7f-b319-4071-b7b0-3fd9fea5e672"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "4b8019a4-e375-4fd1-97b0-16ea5bc8fbba",
+      "sourceId": "5b8177b1-f695-4d67-ba54-ea1ff43d6036",
       "targetKind": "foreign-key",
-      "targetId": "53f9c3e8-d7d8-44b2-a5e4-0b0ac719f450"
+      "targetId": "f15debdf-fe5c-4685-9455-26e28f1ea4bf"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "ac7cad4f-1598-48bc-a9ea-fc914c27df55",
+      "sourceId": "b180c66e-9161-4a5f-a93b-2d80dce302a7",
       "targetKind": "foreign-key",
-      "targetId": "7b07e16b-75d0-447e-9770-ce9b77676b18"
+      "targetId": "4036415d-33a1-48a7-9cf9-5fbb2802365e"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "71a3048f-d51c-4d7f-a6a8-748faad587c1",
+      "sourceId": "a057f6de-ed65-4428-a963-bcdf22b30e3c",
       "targetKind": "foreign-key",
-      "targetId": "d725627f-b61a-4a75-927a-550fcc56283f"
+      "targetId": "5bbf6cfe-0efc-4834-9803-d9b576393a32"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "b0ebd9d9-023d-4083-9abc-aa6448d92e89",
+      "sourceId": "0e3f5dad-375e-45a8-95c3-fedb792d0e3f",
       "targetKind": "foreign-key",
-      "targetId": "d725627f-b61a-4a75-927a-550fcc56283f"
-    },
-    {
-      "sourceKind": "participation",
-      "sourceId": "a0e2e230-dc43-4207-a87a-c33ca042cc8c",
-      "targetKind": "foreign-key",
-      "targetId": "9f6d5799-1519-4f6f-9d19-9b076eacfb89"
+      "targetId": "5bbf6cfe-0efc-4834-9803-d9b576393a32"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "38e66233-d9e3-491f-8c7e-260454b28c5c",
-      "targetKind": "foreign-key",
-      "targetId": "9f6d5799-1519-4f6f-9d19-9b076eacfb89"
-    },
-    {
-      "sourceKind": "relationship",
-      "sourceId": "b6f60fb7-eac6-4950-9bcd-cdb9e19b7322",
+      "sourceId": "ee30da9c-6cb4-4ab3-b865-ea6f4b8eb053",
       "targetKind": "table",
-      "targetId": "78ef196a-a270-4091-9818-f1ed20f11a07"
+      "targetId": "b9ca846f-a787-472b-8848-ed84713dbff5"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "9118b810-93e3-498f-8ba9-210c8a78bbea",
+      "sourceId": "deb37314-99ad-4e7c-8ca0-72f836534be9",
       "targetKind": "foreign-key",
-      "targetId": "80d08264-7655-41a5-9103-4a8615e272ad"
+      "targetId": "0dbe797b-9491-46a8-9a21-c8e1d5ba1b39"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e18e6d25-5e18-4354-9db2-9d3f01985493",
+      "sourceId": "ae7d6d15-b56b-4d04-ad81-e0c5366c2a90",
       "targetKind": "foreign-key",
-      "targetId": "933cf1c1-4a76-4635-91e6-bf3848f0763e"
+      "targetId": "0918e86b-7d33-4c34-9f03-3d85740421dc"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "2a4a4d54-abe0-487e-abda-187fd9cfdf03",
+      "sourceId": "d485862c-5f21-4a9f-8bf5-71adf19fad5f",
       "targetKind": "foreign-key",
-      "targetId": "15ac2f58-66ff-4a94-a010-d64f05e451e3"
+      "targetId": "7da9a296-e590-4ca3-97df-0c1815f288aa"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "e6513b50-7451-4404-826e-d6f53b396a11",
+      "sourceId": "b5521182-b1d4-4a5c-aafe-da03d9a9f60f",
       "targetKind": "foreign-key",
-      "targetId": "15ac2f58-66ff-4a94-a010-d64f05e451e3"
+      "targetId": "7da9a296-e590-4ca3-97df-0c1815f288aa"
     }
   ],
   "assumptions": [
     {
-      "id": "e27ec3c4-0b11-4057-8739-182c508e47e6",
+      "id": "88de7a6f-2a77-4668-acc3-16ed53db8bad",
       "kind": "enunciado",
-      "text": "Cada lote tiene un código único y es de una sola especie, capturada por un barco.",
-      "elementId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414"
+      "text": "Cada lote tiene un código único, es de una sola especie y lo capturó un barco.",
+      "elementId": "ef720ae3-89f2-4da7-b88f-07f641a399bc"
     },
     {
-      "id": "588d9ff3-f860-4dde-9022-adf9597ae0eb",
+      "id": "ae753acb-550c-474b-a0e8-cfc2225a3633",
       "kind": "enunciado",
-      "text": "La relación ternaria es Faena: qué barcos capturan qué especies en qué caladeros, con los kilos y el periodo de faena.",
-      "elementId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f"
+      "text": "La relación ternaria es Faena: qué barcos capturan qué especies en qué caladeros, con los kilos y el periodo (fecha de inicio y de fin).",
+      "elementId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e"
     },
     {
-      "id": "6f7bfaa9-4a36-419e-a177-8285d3954d08",
+      "id": "7f914936-0c1a-454c-b14b-cc9ce14fdec2",
       "kind": "enunciado",
-      "text": "Un comprador no puede ser de crédito y de contado a la vez.",
-      "elementId": "0fdda76d-ec90-499b-ad1b-1b2156165a8f"
+      "text": "Un comprador es de crédito o de contado, nunca ambos: especialización disjunta. Como todo comprador es de uno de los dos tipos, es total.",
+      "elementId": "972b408c-9066-4442-8265-7a7fe5ea87e6"
     },
     {
-      "id": "6dfd8e6b-5229-4e20-8004-2395c64ebbc4",
+      "id": "9a56c599-e6ce-4d64-bed4-720b1156548f",
+      "kind": "enunciado",
+      "text": "Las facturas de los barcos guardan \"además de los datos mencionados de la factura\" su barco y sus lotes: generalización Factura con lo común (número, fecha, importe) y dos subclases.",
+      "elementId": "93c757d3-6249-42a3-8da9-969a7e6ac52d"
+    },
+    {
+      "id": "bb9e1031-da08-43b2-9415-5a1b64eabd03",
+      "kind": "enunciado",
+      "text": "Solo las facturas a compradores sin crédito necesitan el estado (pendiente o pagada).",
+      "elementId": "a22c2683-c443-408f-81f3-effad86e9ab3"
+    },
+    {
+      "id": "f7c6c343-13f7-4219-a84c-655274119072",
+      "kind": "enunciado",
+      "text": "De la adjudicación se guardan el precio de compra por kilo y el precio total de adjudicación.",
+      "elementId": "80128a85-5860-44a2-98db-698a1cec131e"
+    },
+    {
+      "id": "0ec69165-ca96-461f-945e-bd85567ba174",
       "kind": "supuesto",
-      "text": "Especialización por predicado: solo Creditor tiene tabla; un comprador que no aparece en ella paga al contado.",
-      "elementId": "f04f6179-a46d-4ca2-a819-27f766e6c959"
+      "text": "El número de factura es el registro que asigna la lonja, único para todas las facturas que guarda, también las recibidas de los barcos.",
+      "elementId": "93c757d3-6249-42a3-8da9-969a7e6ac52d"
     },
     {
-      "id": "c3763cf0-b8ad-4043-b08f-6949e9e83e77",
+      "id": "f0bd4c0b-bc2e-4356-a3b8-0d88ea90aab0",
+      "kind": "supuesto",
+      "text": "Los precios totales y el importe de la factura son derivados (se calculan de kilos, precios y lotes), pero se guardan porque el enunciado pide conocerlos y guardarlos.",
+      "elementId": "ef720ae3-89f2-4da7-b88f-07f641a399bc"
+    },
+    {
+      "id": "8605d4c9-e6ce-4c05-a14e-e7531232b804",
       "kind": "supuesto",
       "text": "La fecha de inicio forma parte de la clave de Faena: el mismo barco puede faenar la misma especie en el mismo caladero en periodos distintos.",
-      "elementId": "2b237bfc-785d-4c40-86e3-703fad1dfe9f"
+      "elementId": "5bfbe014-f0a5-454a-9afa-fa5fc3b3f86e"
     },
     {
-      "id": "20a20f38-8d03-47b7-b8aa-42d3c78c957b",
+      "id": "e4bc42a4-5453-4001-8d6c-043944348c3f",
       "kind": "supuesto",
-      "text": "No se guardan las pujas, solo la adjudicación ganadora; guardar todas las pujas encarecería el sistema sin uso posterior. Debería confirmarlo el cliente.",
-      "elementId": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1"
+      "text": "No se guardan las pujas, solo la adjudicación ganadora; guardar todas encarecería el sistema sin uso posterior. Debería confirmarlo el cliente.",
+      "elementId": "80128a85-5860-44a2-98db-698a1cec131e"
     },
     {
-      "id": "648a5f8c-fb82-4506-8138-0a8ae3ff140e",
+      "id": "77cb2c10-7870-4702-a8f2-b446f851df24",
       "kind": "supuesto",
-      "text": "El CIF del barco se guarda en Barco y la factura del proveedor lo obtiene por su matrícula, sin repetirlo.",
-      "elementId": "d915586d-9e3f-43d2-bf59-6eb377dcba1a"
+      "text": "El CIF del barco se guarda en Barco y la factura del barco lo obtiene por su relación, sin repetirlo.",
+      "elementId": "2fe043ef-71b8-4cb8-b2f8-3f91bb094084"
     },
     {
-      "id": "3bcd5fbd-dd10-499b-8d00-45c43c3b3fa5",
+      "id": "84936156-b4eb-4516-9f25-5a1ae1536552",
       "kind": "supuesto",
-      "text": "El IBAN se guarda como CHAR(24) porque contiene letras de país.",
-      "elementId": "f04f6179-a46d-4ca2-a819-27f766e6c959"
+      "text": "El número de cuenta bancaria es un IBAN y se guarda como CHAR(24) porque lleva letras de país.",
+      "elementId": "a7fd490c-76ee-47d9-b881-e180710f89fb"
     },
     {
-      "id": "25d17731-0996-4601-9ead-553384aac0ae",
+      "id": "b3b480cc-7487-476c-8dd0-96ed818dc877",
       "kind": "supuesto",
-      "text": "El estado de la factura se guarda en todas como indicador (1 pendiente, 0 pagada); solo es relevante para los compradores al contado.",
-      "elementId": "ccb127e8-928e-4b61-99c4-56db6cc71f33"
+      "text": "Contado no tiene atributos propios: su tabla solo guarda la clave. Alternativa válida: omitirla y entender que paga al contado quien no está en Credito; ahorra una tabla pero la cobertura total deja de verse.",
+      "elementId": "0a05b653-23a5-427c-bb91-8e977840ed7f"
     },
     {
-      "id": "f769e4b0-ee81-4c08-a03d-bf37a5f31cbd",
+      "id": "46735a15-b074-4ee4-b0c9-d228771e9b1f",
       "kind": "supuesto",
-      "text": "Una factura puede no tener todavía cobros ni pagos: participación (0,N) en Cobra y Paga.",
-      "elementId": "b0ebd9d9-023d-4083-9abc-aa6448d92e89"
+      "text": "Cada pago salda una factura, sea del barco (pago de la lonja) o del comprador (cobro); el tipo de factura dice quién paga. Un comprador con crédito registra al final de mes un pago por cada factura.",
+      "elementId": "b5521182-b1d4-4a5c-aafe-da03d9a9f60f"
     },
     {
-      "id": "c852a7fe-ec64-4419-9229-edeef29446ba",
+      "id": "09e51135-867c-404b-b51b-380f95a1c00e",
+      "kind": "supuesto",
+      "text": "Incluye y Provision son tablas propias para que un lote pueda existir antes de facturarse; la clave alternativa sobre el lote impide que esté en dos facturas.",
+      "elementId": "805c2d5e-7184-4335-b031-20096cab080f"
+    },
+    {
+      "id": "ce630d35-5cb9-4d09-b8df-470d611254a3",
       "kind": "perdida",
-      "text": "La adjudicación vive en su propia tabla: un lote sin adjudicar no aparece en ella, así que la participación total del lote no se impone.",
-      "elementId": "f43abdc7-09ce-4fe9-9c96-ce9e08eb4ea1"
+      "text": "Las pujas no se registran: solo queda la ganadora.",
+      "elementId": "80128a85-5860-44a2-98db-698a1cec131e"
     },
     {
-      "id": "71ec6d59-e202-4cf8-9b9f-e32a823bc535",
+      "id": "3876b65a-fca0-44db-83ac-d129ae67624d",
       "kind": "perdida",
-      "text": "Que el precio total sea kilos por precio por kilo, y que el importe de la factura sume sus lotes, no se comprueba con claves.",
-      "elementId": "cd2662db-ce77-45ba-9ebb-79b8d8eef414"
+      "text": "Adjudicación, Incluye y Provision están en tablas aparte: un lote sin adjudicar o sin facturar no aparece en ellas, así que su participación total (1,1) no se impone.",
+      "elementId": "80128a85-5860-44a2-98db-698a1cec131e"
     },
     {
-      "id": "d4f692c4-34dc-4375-a91d-57afd3b801bd",
+      "id": "18fabe9b-9b41-4187-b019-c369fad64330",
+      "kind": "perdida",
+      "text": "Que los valores derivados guardados coincidan con su cálculo no lo impone ninguna clave.",
+      "elementId": "ef720ae3-89f2-4da7-b88f-07f641a399bc"
+    },
+    {
+      "id": "c1e3bf05-97eb-4dff-b5ed-da900ff7020f",
+      "kind": "perdida",
+      "text": "Que el estado solo se use en facturas de compradores al contado, y que los lotes de una factura sean los adjudicados a su comprador o capturados por su barco, no se impone con claves.",
+      "elementId": "a22c2683-c443-408f-81f3-effad86e9ab3"
+    },
+    {
+      "id": "4d342645-33d7-48df-b24e-fcfbfabd16b9",
+      "kind": "perdida",
+      "text": "Que cada comprador esté exactamente en Credito o en Contado (disjunta y total) no lo imponen las claves primarias y ajenas.",
+      "elementId": "972b408c-9066-4442-8265-7a7fe5ea87e6"
+    },
+    {
+      "id": "d583b4fd-3fb8-48a3-9c92-8709ba947812",
       "kind": "perdida",
       "text": "Que la especie de un lote sea una de las que su barco faena no lo impone ninguna clave ajena.",
-      "elementId": "b6fbc76f-ca29-4f6c-b1f3-77bc7a8b83c5"
+      "elementId": "4d9b2f1f-a5f8-4df2-ab1b-a7db924674b1"
     }
   ],
   "physical": {
@@ -3353,45 +3231,49 @@
   "data": {},
   "presentation": {
     "chen": {
-      "cd2662db-ce77-45ba-9ebb-79b8d8eef414": {
-        "x": 1080,
-        "y": 980
-      },
-      "05746d08-c3c0-456c-a6c8-6128b939830d": {
-        "x": 1080,
-        "y": 140
-      },
-      "d915586d-9e3f-43d2-bf59-6eb377dcba1a": {
-        "x": 120,
-        "y": 980
-      },
-      "9d8c37a7-4e18-4891-b18e-e6b7bb70cddd": {
+      "89d10afc-cba0-4659-a1a2-956f8f35c0ba": {
         "x": 120,
         "y": 140
       },
-      "0fdda76d-ec90-499b-ad1b-1b2156165a8f": {
+      "727353a0-328d-4ab4-9100-2b2e7b5596e4": {
+        "x": 1080,
+        "y": 140
+      },
+      "2fe043ef-71b8-4cb8-b2f8-3f91bb094084": {
+        "x": 120,
+        "y": 980
+      },
+      "ef720ae3-89f2-4da7-b88f-07f641a399bc": {
+        "x": 1080,
+        "y": 980
+      },
+      "972b408c-9066-4442-8265-7a7fe5ea87e6": {
         "x": 2040,
         "y": 980
       },
-      "f04f6179-a46d-4ca2-a819-27f766e6c959": {
+      "a7fd490c-76ee-47d9-b881-e180710f89fb": {
+        "x": 3000,
+        "y": 140
+      },
+      "0a05b653-23a5-427c-bb91-8e977840ed7f": {
         "x": 3000,
         "y": 980
       },
-      "ccb127e8-928e-4b61-99c4-56db6cc71f33": {
-        "x": 2040,
-        "y": 1820
-      },
-      "84dee75f-c069-43f2-a70a-fa78db5479f6": {
-        "x": 3000,
-        "y": 1820
-      },
-      "58f733a7-b6ab-4f72-b16e-6b67e8843b56": {
-        "x": 120,
-        "y": 1820
-      },
-      "71dbd7b0-5312-4cd0-91bf-be22fcd16113": {
-        "x": 120,
+      "93c757d3-6249-42a3-8da9-969a7e6ac52d": {
+        "x": 1080,
         "y": 2660
+      },
+      "8f135905-bf95-420a-9f78-81b83ee9f549": {
+        "x": 120,
+        "y": 1820
+      },
+      "a22c2683-c443-408f-81f3-effad86e9ab3": {
+        "x": 2040,
+        "y": 1820
+      },
+      "870db3f1-f0c1-4978-b2ae-9244ce8e98b3": {
+        "x": 1080,
+        "y": 3500
       }
     },
     "relational": {}

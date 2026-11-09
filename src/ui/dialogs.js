@@ -23,6 +23,12 @@ import {
     validateDocument
     } from '../domain/model.js';
 import { accessStatus } from '../domain/access.js';
+import {
+    deliveryChecklist,
+    documentAuthor,
+    identityDocumentProblem,
+    setDocumentAuthor
+    } from '../domain/delivery.js';
 import { dataStatus } from '../domain/data.js';
 import { typeFields } from './properties.js';
 import {
@@ -274,6 +280,80 @@ export function showIndexDialog(
             );
     }
 
+/** The student who delivers the practice; the DNI letter is checked before saving. */
+export function showAuthorDialog(
+        state,
+        commit
+        ) {
+    const author = documentAuthor( state.model );
+    const field = (name, label, extra = '') => `<label>${label}<input name="${name}" maxlength="120"
+            value="${escapeHTML( author[name] )}" ${extra}></label>`;
+
+    openDialog(
+            'Datos del alumno',
+            `<p>La práctica pide el DNI, el nombre y los apellidos del alumno. Aparecen en la portada
+                de la memoria y en el nombre del paquete de entrega.</p>
+            <div class="dialog-fields">
+                ${field( 'dni', 'DNI o NIE', 'autocomplete="off" placeholder="12345678Z"' )}
+                ${field( 'nombre', 'Nombre', 'autocomplete="given-name"' )}
+                ${field( 'apellidos', 'Apellidos', 'autocomplete="family-name"' )}
+            </div>`,
+            values => {
+                const dni = values.get( 'dni' );
+                const problem = dni.trim() ? identityDocumentProblem( dni ) : null;
+
+                if (problem) {
+                    throw new Error( `${problem} Déjalo vacío si prefieres escribirlo después.` );
+                    }
+
+                commit( setDocumentAuthor( state.model, {
+                    dni,
+                    nombre: values.get( 'nombre' ),
+                    apellidos: values.get( 'apellidos' )
+                    } ) );
+                }
+            );
+    }
+
+/** What the practice asks for, checked on this document, and the package that answers it. */
+export function showDeliveryDialog( model ) {
+    const checks = deliveryChecklist( model );
+    const list = checks.length
+        ? `<div class="validation-list">${checks.map(
+                item => `<div class="validation-item ${item.level}">
+                    ${icon( item.level === 'error' ? 'circle-x' : 'triangle-alert' )}
+                    <span>${escapeHTML( item.message )}</span></div>`
+                ).join( '' )}</div>`
+        : `<div class="validation-success">${icon( 'circle-check' )}
+            <strong>El documento cumple lo que DataBasic puede comprobar de la entrega.</strong></div>`;
+
+    openDialog(
+            'Paquete de entrega',
+            `${list}
+            <p>El paquete .zip contiene:</p>
+            <ul>
+                <li><strong>Memoria.docx</strong>: portada con tus datos, los diagramas, el diseño conceptual,
+                    los supuestos semánticos, la semántica perdida y el esquema relacional (apartado a).</li>
+                <li><strong>Modelo_relacional.vdx</strong>: el relacional para Visio 2010, con leyenda y
+                    una página de diccionario de datos (apartado b).</li>
+                <li><strong>Access/</strong>: el módulo VBA que crea la base de datos, el SQL de Access y el XML
+                    con esquema (apartado c).</li>
+                <li><strong>LEEME.txt</strong> con los pasos para crear la base de datos .accdb, y el proyecto DataBasic.</li>
+            </ul>
+            <p>DataBasic no puede crear el archivo .accdb: ábrelo en Access, ejecuta el módulo y añade la base
+                de datos al .zip antes de entregarlo.</p>
+            <div class="dialog-actions">
+                ${command( 'download-delivery', 'Descargar paquete (.zip)', 'package', 'class="primary-button"' )}
+                ${command( 'report-docx', 'Solo la memoria Word', 'file-text' )}
+            </div>
+            <p>La memoria también se puede descargar en otros formatos, para revisarla o reutilizar el texto:</p>
+            <div class="dialog-actions">
+                ${command( 'report-html', 'Memoria HTML', 'file-code' )}
+                ${command( 'report-markdown', 'Memoria Markdown', 'scroll-text' )}
+            </div>`
+            );
+    }
+
 export function showValidation( model ) {
     // validateDocument already reports the pending and documentary statuses
     // of a format 2 document; appending conceptualStatus again duplicated them.
@@ -339,9 +419,11 @@ export function showHelp() {
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
             <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
-                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria HTML descarga
-                el documento con los diagramas, las tablas de atributos y relaciones, los
-                supuestos y las restricciones que el relacional no impone. Word lo abre.
+                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria Word descarga
+                el documento (.docx) con los diagramas, las tablas de atributos y relaciones, los
+                supuestos y las restricciones que el relacional no impone.
+                Archivo → Alumno guarda tu DNI, nombre y apellidos, y Archivo → Paquete de entrega
+                comprueba la práctica y descarga el .zip con la memoria, el Visio y los archivos de Access.
                 Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
                 el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
                 pegados; no lleva las propiedades de base de datos de Visio.</p>
@@ -1090,7 +1172,7 @@ export function showAssumptionsOverview( model ) {
                     ? `<ul>${documentary.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
                     : '<p>Ninguna restricción documental por ahora.</p>'}
                 ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
-                <p class="field-hint">Archivo → Exportar → Memoria HTML reúne estas entradas con los
+                <p class="field-hint">Archivo → Memoria Word reúne estas entradas con los
                     diagramas, las tablas de atributos y relaciones y el esquema relacional.</p></div>`
             );
     }

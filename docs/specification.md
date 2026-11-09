@@ -1,4 +1,4 @@
-# DataBasic 0.4.3 — especificación funcional
+# DataBasic 0.4.4 — especificación funcional
 
 DataBasic permite practicar modelado relacional y conceptual en el navegador.
 Conserva rutas de propiedades reconocibles de Visio 2010 y una identidad
@@ -14,7 +14,7 @@ Los resultados de ejecución y publicación están en
 
 ## Documento y representaciones
 
-La aplicación 0.4.3 escribe documentos `.databasic.json` de **formato 2**.
+La aplicación 0.4.4 escribe documentos `.databasic.json` de **formato 2**.
 Un documento conserva tablas, columnas, FKs, objetos conceptuales nativos,
 correspondencias e información de presentación por representación.
 
@@ -88,10 +88,10 @@ de las representaciones Relacional/Chen.
 
 ## Transformación conceptual
 
-| Construcción | Alcance 0.4.3 |
+| Construcción | Alcance 0.4.4 |
 | --- | --- |
 | Entidad y atributo simple | Tabla/columna trazadas; atributos propios de relación se materializan con su relación. |
-| Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación; se conservan restricciones residuales. |
+| Binaria mediante FK | Lado receptor explícito compatible con máximo uno de esa participación. Si la otra participación también tiene máximo uno (1:1), la FK es única: clave alternativa si es obligatoria, índice único que admite nulos si es opcional, trazados a la relación. La semántica perdida solo enumera lo que las tablas no imponen: mínimos de 1 o más fuera de la FK receptora, máximos sin clave única y la exclusión o cobertura de una jerarquía. |
 | N:N o ternaria | Tabla asociativa con una FK por participación. Clave elegida entre claves participantes y atributos simples almacenados; admite un período que distinga ocurrencias. La cardinalidad ternaria por combinación se decide por rol y tiene contexto global o por atributos, separado de la PK. |
 | Recursiva | Participaciones y roles con identidades distintas aunque compartan entidad. |
 | Débil | Definición permite propietaria y vínculo; el atributo marca clave parcial y la materialización binaria permite identificación. La PK heredada se combina con la parcial. |
@@ -354,3 +354,21 @@ las relaciones y el XML las incluye en `dataroot`, en los tres casos con las
 tablas referenciadas antes que las que las referencian y con la notación de
 Access (números tal cual, fechas entre `#` o con hora `T00:00:00`, sí/no como
 True/False o 1/0, textos entre comillas dobles).
+
+## Entrega de la práctica
+
+El documento puede llevar `author: {dni, nombre, apellidos}`, tres textos de
+hasta 120 caracteres; los archivos anteriores, sin ese bloque, se leen con los
+tres vacíos. Archivo → Alumno exige que un DNI o NIE escrito tenga la letra de
+control correcta (número módulo 23 en `TRWAGMYFPDXBNJZSQVHLCKE`; X, Y y Z valen
+0, 1 y 2) y lo guarda en mayúsculas, sin espacios ni guiones.
+
+Archivo → Paquete de entrega muestra la lista de comprobación de la entrega
+(errores: faltan nombre, apellidos o un DNI válido, no hay entidades ERE o
+tablas, quedan decisiones pendientes; avisos: falta ternaria, especialización,
+supuestos o semántica perdida del autor, tipos fuera de VARCHAR/CHAR/NUMBER/DATE)
+y descarga un .zip sin compresión con `LEEME.txt`, `Memoria.docx`,
+`Modelo_relacional.vdx`, `Access/CrearBaseDeDatos.bas` (Windows-1252, CRLF),
+`Access/Esquema_Access.sql`, `Access/Esquema_Access.xml`, `Diagramas/*.svg` y
+`Proyecto.databasic.json`. La memoria Word incluye las figuras como PNG que el
+navegador dibuja al doble de tamaño, con un máximo de 6000 píxeles por lado.

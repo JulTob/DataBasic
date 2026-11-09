@@ -40,10 +40,17 @@ import {
 import { exportSQL } from './io/sql.js';
 import { exportVDX } from './io/visio.js';
 import {
+    accessModuleBytes,
     exportAccessSQL,
-    exportAccessVBA,
     exportAccessXML
     } from './io/access.js';
+import { reportToDocx } from './io/docx.js';
+import {
+    buildDeliveryPackage,
+    deliveryFilename,
+    memoFilename
+    } from './io/package.js';
+import { svgToPNG } from './ui/raster.js';
 import {
     diagramContents,
     exportSVG,
@@ -75,6 +82,8 @@ import {
     showHelp,
     showIndexDialog,
     showValidation,
+    showAuthorDialog,
+    showDeliveryDialog,
     showConceptualAttributeDialog,
     showConceptualRelationshipDialog,
     showMaterializationDialog,
@@ -748,6 +757,78 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/** The diagrams of the memo as PNG figures for Word, drawn by the browser. */
+async function designFigures() {
+    const figures = [];
+
+    for (const diagram of designDiagrams()) {
+        figures.push( {title: diagram.title, png: await svgToPNG( diagram.svg )} );
+        }
+
+    return figures;
+    }
+
+/** Long exports run once at a time; the message says what happened, errors included. */
+let deliveryBusy = false;
+
+async function runDeliveryExport(
+        label,
+        work
+        ) {
+    if (deliveryBusy) {
+        notify( 'Ya se está preparando un archivo; espera a que termine.' );
+        return;
+        }
+
+    deliveryBusy = true;
+    notify( `Preparando ${label}…` );
+
+    try {
+        await work();
+        }
+    catch (error) {
+        notify( `No se pudo preparar ${label}: ${error.message}` );
+        }
+    finally {
+        deliveryBusy = false;
+        }
+    }
+
+function downloadMemoDocx() {
+    return runDeliveryExport(
+            'la memoria Word',
+            async () => {
+                const figures = await designFigures();
+
+                download(
+                        reportToDocx( buildDesignReport( state.model ), figures ),
+                        memoFilename( state.model ),
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        );
+                notify( 'Memoria Word descargada. Ábrela en Word para revisarla o guardarla como PDF.' );
+                }
+            );
+    }
+
+function downloadDeliveryPackage() {
+    return runDeliveryExport(
+            'el paquete de entrega',
+            async () => {
+                const figures = await designFigures();
+                const diagrams = designDiagrams().map(
+                        (diagram, index) => ({name: ['Diagrama_ERE.svg', 'Diagrama_relacional.svg'][index], svg: diagram.svg})
+                        );
+
+                download(
+                        buildDeliveryPackage( state.model, {figures, diagrams} ),
+                        deliveryFilename( state.model ),
+                        'application/zip'
+                        );
+                notify( 'Paquete de entrega descargado. Sigue LEEME.txt para crear la base de datos de Access y añádela al .zip.' );
+                }
+            );
+    }
+
 /** Both representations, drawn from the same document, illustrate the report. */
 function designDiagrams() {
     return [
@@ -927,7 +1008,7 @@ async function act(
             commit( removeDataRow( state.model, state.selectedId, Number( target.dataset.row ) ) );
             break;
         case 'download-access-vba':
-            download( exportAccessVBA( state.model ), filename( 'access.bas' ), 'text/plain' );
+            download( accessModuleBytes( state.model ), filename( 'access.bas' ), 'text/plain;charset=windows-1252' );
             notify( 'Módulo VBA descargado. Impórtalo en una base de datos en blanco y ejecuta CrearEsquema.' );
             break;
         case 'download-access-sql':
@@ -1007,6 +1088,20 @@ async function act(
                     'text/html'
                     );
             notify( 'Memoria del diseño descargada. Word la abre como documento.' );
+            break;
+        case 'report-docx':
+            closeDialog();
+            downloadMemoDocx();
+            break;
+        case 'author':
+            showAuthorDialog( state, commit );
+            break;
+        case 'delivery':
+            showDeliveryDialog( state.model );
+            break;
+        case 'download-delivery':
+            closeDialog();
+            downloadDeliveryPackage();
             break;
         case 'report-markdown':
             download(

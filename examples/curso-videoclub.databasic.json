@@ -5,7 +5,7 @@
   "name": "Videoclub · ejercicio 3 (Tema 2)",
   "tables": [
     {
-      "id": "1339b854-d4ec-44f9-bad1-b3f6b2b5820e",
+      "id": "f3db5b57-32b6-4a24-9626-6541f77ad32a",
       "name": "Pelicula",
       "conceptualName": "Pelicula",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 200,
       "columns": [
         {
-          "id": "67ef69e9-5a10-4bdf-b9f0-4e4c1aa63514",
+          "id": "55ffed1a-9809-4a8e-96f7-0955bbc3fde9",
           "name": "titulo",
           "type": "VARCHAR(120)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "7ccb2daf-96fd-4e38-b87e-736382fd4b95",
+          "id": "757c2a7c-ec5c-4471-b533-aa962e980892",
           "name": "anio_estreno",
           "type": "NUMBER(4)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "7319b9b2-08af-4380-8325-825162eb6246",
+          "id": "c7520055-bcec-4b0b-8759-639088bcf299",
           "name": "tema",
           "type": "VARCHAR(40)",
           "required": false,
@@ -50,7 +50,7 @@
       "indexes": []
     },
     {
-      "id": "4e12abfd-26d4-48b4-866e-f1029b3988a3",
+      "id": "f43cc8ae-5b5b-4f48-82f8-44139791f6e4",
       "name": "Actores",
       "conceptualName": "actor_principal",
       "syncNames": false,
@@ -60,7 +60,7 @@
       "y": 560,
       "columns": [
         {
-          "id": "d4f2c6bc-a225-496a-b06a-a6e5ca4e0a65",
+          "id": "a9202980-826f-4e62-9423-05686fd1a7fb",
           "name": "Pelicula_titulo",
           "type": "VARCHAR(120)",
           "required": true,
@@ -69,7 +69,7 @@
           "defaultValue": ""
         },
         {
-          "id": "6fd5c567-cd97-454d-982b-bcfbca74fad1",
+          "id": "3f6b4735-deff-45d9-9aa8-92c2123496bd",
           "name": "Pelicula_anio_estreno",
           "type": "NUMBER(4)",
           "required": true,
@@ -78,7 +78,7 @@
           "defaultValue": ""
         },
         {
-          "id": "3d243388-fac2-4ce6-9da9-30fa8292458a",
+          "id": "7bb38437-e159-4708-8edb-9c60cf2ed5c5",
           "name": "actor_principal",
           "type": "VARCHAR(80)",
           "required": true,
@@ -93,7 +93,7 @@
       "indexes": []
     },
     {
-      "id": "4d3534ef-b203-4398-bc47-8eaef74d13c3",
+      "id": "7dfed403-cb0e-4e97-875d-c8fefbe21db1",
       "name": "Copia",
       "conceptualName": "Copia",
       "syncNames": true,
@@ -103,7 +103,7 @@
       "y": 200,
       "columns": [
         {
-          "id": "771fb765-025f-4b22-ad8b-87c80752ac3f",
+          "id": "84f5b459-3867-4e97-b6c4-055c7b28fb77",
           "name": "numero_copia",
           "type": "NUMBER(3)",
           "required": true,
@@ -113,7 +113,7 @@
           "domain": null
         },
         {
-          "id": "278709b0-4ec2-4260-9dc5-0144b6325aaa",
+          "id": "f16af225-567f-46cc-9a8b-f95d49f700ae",
           "name": "formato",
           "type": "CHAR(3)",
           "required": true,
@@ -131,7 +131,7 @@
           }
         },
         {
-          "id": "7575e7e3-2731-4334-9a0a-01e8f870de2a",
+          "id": "76636201-06a4-4a14-91c2-1d52bb08f223",
           "name": "pelicula_titulo",
           "type": "VARCHAR(120)",
           "required": true,
@@ -140,7 +140,7 @@
           "defaultValue": ""
         },
         {
-          "id": "c71af609-6f8a-464b-a21c-b100113ab0b9",
+          "id": "9d432799-0b36-46a4-9695-c5122a7499ea",
           "name": "pelicula_anio_estreno",
           "type": "NUMBER(4)",
           "required": true,
@@ -154,7 +154,7 @@
       "indexes": []
     },
     {
-      "id": "d0ceb9f8-d477-4377-800f-a73870e87899",
+      "id": "40a9a6df-8d6e-477b-a50c-cab569472bff",
       "name": "Cliente",
       "conceptualName": "Cliente",
       "syncNames": true,
@@ -164,7 +164,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "0fc17b90-cda4-4ef8-b5d6-1f5c87bb6c9b",
+          "id": "00df154c-f2cc-4d9f-8174-dbd58fb90f5d",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -174,7 +174,7 @@
           "domain": null
         },
         {
-          "id": "b0abefc6-bf4d-496a-a7f3-58da27697463",
+          "id": "153a08fc-e465-43cb-aa8b-cd6e533dc3b4",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -184,7 +184,7 @@
           "domain": null
         },
         {
-          "id": "4ad6519e-78da-426f-b0f1-e754f260f517",
+          "id": "a113d895-bee2-4c53-b85c-49cf4676be28",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -194,7 +194,7 @@
           "domain": null
         },
         {
-          "id": "b6fa05fd-0099-47c0-897b-4ab56d48e9c9",
+          "id": "8f27c9b3-2be1-4598-98f9-3e8d8e6dac84",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": false,
@@ -209,7 +209,7 @@
       "indexes": []
     },
     {
-      "id": "0c9d403a-0a8a-40f5-b3e6-2b9a02d01190",
+      "id": "850e4091-7e47-46ab-bddf-710d29a70c75",
       "name": "Alquiler",
       "conceptualName": "Alquila",
       "syncNames": false,
@@ -219,16 +219,16 @@
       "y": 420,
       "columns": [
         {
-          "id": "c332138e-1ef9-4c03-9bb8-993de7da04db",
+          "id": "61550e27-0259-4dcd-8aea-11c7ddd8fc23",
           "name": "cliente_dni",
           "type": "CHAR(9)",
           "required": true,
-          "primary": true,
+          "primary": false,
           "notes": "",
           "defaultValue": ""
         },
         {
-          "id": "a8fe6a1a-9bcf-4dd4-b1a2-88b629245bae",
+          "id": "deac2304-6b10-4d54-8a16-bae3b9ee990b",
           "name": "copia_numero_copia",
           "type": "NUMBER(3)",
           "required": true,
@@ -237,7 +237,7 @@
           "defaultValue": ""
         },
         {
-          "id": "66216ed0-43dd-4096-b93d-038621ec3d42",
+          "id": "e657568d-fd5a-4be3-8d37-8ad9a0d616da",
           "name": "copia_pelicula_titulo",
           "type": "VARCHAR(120)",
           "required": true,
@@ -246,7 +246,7 @@
           "defaultValue": ""
         },
         {
-          "id": "97006bfb-ece1-46e6-b721-7422451e6b7f",
+          "id": "5b989ed1-bca5-4563-b3be-e85b41a1105a",
           "name": "copia_pelicula_anio_estreno",
           "type": "NUMBER(4)",
           "required": true,
@@ -255,7 +255,7 @@
           "defaultValue": ""
         },
         {
-          "id": "8b56fc4c-d0bc-4947-b44e-9e4d17237190",
+          "id": "d8a35055-ba9d-4292-bef0-2e27a085eadc",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -272,9 +272,9 @@
   ],
   "relationships": [
     {
-      "id": "c4c3a8fb-dbce-4fdd-b746-ee46aff6ece4",
-      "parentId": "1339b854-d4ec-44f9-bad1-b3f6b2b5820e",
-      "childId": "4e12abfd-26d4-48b4-866e-f1029b3988a3",
+      "id": "62b581d3-cb6d-484f-adc2-0028007a45b5",
+      "parentId": "f3db5b57-32b6-4a24-9626-6541f77ad32a",
+      "childId": "f43cc8ae-5b5b-4f48-82f8-44139791f6e4",
       "name": "FK_Actores_Pelicula",
       "forward": "",
       "inverse": "",
@@ -285,19 +285,19 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "67ef69e9-5a10-4bdf-b9f0-4e4c1aa63514",
-          "childColumnId": "d4f2c6bc-a225-496a-b06a-a6e5ca4e0a65"
+          "parentColumnId": "55ffed1a-9809-4a8e-96f7-0955bbc3fde9",
+          "childColumnId": "a9202980-826f-4e62-9423-05686fd1a7fb"
         },
         {
-          "parentColumnId": "7ccb2daf-96fd-4e38-b87e-736382fd4b95",
-          "childColumnId": "6fd5c567-cd97-454d-982b-bcfbca74fad1"
+          "parentColumnId": "757c2a7c-ec5c-4471-b533-aa962e980892",
+          "childColumnId": "3f6b4735-deff-45d9-9aa8-92c2123496bd"
         }
       ]
     },
     {
-      "id": "5197adee-fa58-4207-ba4c-7f66927ef529",
-      "parentId": "1339b854-d4ec-44f9-bad1-b3f6b2b5820e",
-      "childId": "4d3534ef-b203-4398-bc47-8eaef74d13c3",
+      "id": "09094f60-2ba1-4d0e-949b-54ea3e695c9c",
+      "parentId": "f3db5b57-32b6-4a24-9626-6541f77ad32a",
+      "childId": "7dfed403-cb0e-4e97-875d-c8fefbe21db1",
       "name": "FK_Tiene_pelicula",
       "forward": "Tiene",
       "inverse": "pelicula",
@@ -308,38 +308,38 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "67ef69e9-5a10-4bdf-b9f0-4e4c1aa63514",
-          "childColumnId": "7575e7e3-2731-4334-9a0a-01e8f870de2a"
+          "parentColumnId": "55ffed1a-9809-4a8e-96f7-0955bbc3fde9",
+          "childColumnId": "76636201-06a4-4a14-91c2-1d52bb08f223"
         },
         {
-          "parentColumnId": "7ccb2daf-96fd-4e38-b87e-736382fd4b95",
-          "childColumnId": "c71af609-6f8a-464b-a21c-b100113ab0b9"
+          "parentColumnId": "757c2a7c-ec5c-4471-b533-aa962e980892",
+          "childColumnId": "9d432799-0b36-46a4-9695-c5122a7499ea"
         }
       ]
     },
     {
-      "id": "8aa6518c-5b9b-4d4d-8239-09df2a78a363",
-      "parentId": "d0ceb9f8-d477-4377-800f-a73870e87899",
-      "childId": "0c9d403a-0a8a-40f5-b3e6-2b9a02d01190",
+      "id": "4ba17639-b61d-4c35-ad98-6c6e67804f03",
+      "parentId": "40a9a6df-8d6e-477b-a50c-cab569472bff",
+      "childId": "850e4091-7e47-46ab-bddf-710d29a70c75",
       "name": "FK_Alquila_cliente",
       "forward": "Alquila",
       "inverse": "cliente",
       "cardinality": "zero-many",
-      "identifying": true,
+      "identifying": false,
       "optional": false,
       "onDelete": "NO ACTION",
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0fc17b90-cda4-4ef8-b5d6-1f5c87bb6c9b",
-          "childColumnId": "c332138e-1ef9-4c03-9bb8-993de7da04db"
+          "parentColumnId": "00df154c-f2cc-4d9f-8174-dbd58fb90f5d",
+          "childColumnId": "61550e27-0259-4dcd-8aea-11c7ddd8fc23"
         }
       ]
     },
     {
-      "id": "dc5c06a7-41bf-4b2f-b5b7-f472190eeed5",
-      "parentId": "4d3534ef-b203-4398-bc47-8eaef74d13c3",
-      "childId": "0c9d403a-0a8a-40f5-b3e6-2b9a02d01190",
+      "id": "b45ec07d-916f-4e54-8562-2adc0463cd52",
+      "parentId": "7dfed403-cb0e-4e97-875d-c8fefbe21db1",
+      "childId": "850e4091-7e47-46ab-bddf-710d29a70c75",
       "name": "FK_Alquila_copia",
       "forward": "Alquila",
       "inverse": "copia",
@@ -350,16 +350,16 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "771fb765-025f-4b22-ad8b-87c80752ac3f",
-          "childColumnId": "a8fe6a1a-9bcf-4dd4-b1a2-88b629245bae"
+          "parentColumnId": "84f5b459-3867-4e97-b6c4-055c7b28fb77",
+          "childColumnId": "deac2304-6b10-4d54-8a16-bae3b9ee990b"
         },
         {
-          "parentColumnId": "7575e7e3-2731-4334-9a0a-01e8f870de2a",
-          "childColumnId": "66216ed0-43dd-4096-b93d-038621ec3d42"
+          "parentColumnId": "76636201-06a4-4a14-91c2-1d52bb08f223",
+          "childColumnId": "e657568d-fd5a-4be3-8d37-8ad9a0d616da"
         },
         {
-          "parentColumnId": "c71af609-6f8a-464b-a21c-b100113ab0b9",
-          "childColumnId": "97006bfb-ece1-46e6-b721-7422451e6b7f"
+          "parentColumnId": "9d432799-0b36-46a4-9695-c5122a7499ea",
+          "childColumnId": "5b989ed1-bca5-4563-b3be-e85b41a1105a"
         }
       ]
     }
@@ -367,7 +367,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "id": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "name": "Pelicula",
         "notes": "",
         "weak": false,
@@ -377,18 +377,18 @@
         }
       },
       {
-        "id": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+        "id": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
         "name": "Copia",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "ownerEntityId": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "translation": {
           "kind": "weak",
-          "relationshipId": "3110b830-4d12-4dcd-b29e-46e23da15784"
+          "relationshipId": "d199dbed-0f21-4ec5-9adb-04bc6bf93520"
         }
       },
       {
-        "id": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+        "id": "4c6e9295-9829-434f-af56-c30e1d37034c",
         "name": "Cliente",
         "notes": "",
         "weak": false,
@@ -400,9 +400,9 @@
     ],
     "attributes": [
       {
-        "id": "deebc856-b60f-40ae-932b-2c0564667d5e",
+        "id": "41392393-c88c-49f7-91c4-86c2422d2d55",
         "ownerKind": "entity",
-        "ownerId": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "ownerId": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "name": "titulo",
         "type": "VARCHAR(120)",
         "required": true,
@@ -421,9 +421,9 @@
         }
       },
       {
-        "id": "b000a8b8-7061-497d-99c6-2c70636149da",
+        "id": "ed271082-8dbb-4aaa-9f50-586a16416cc9",
         "ownerKind": "entity",
-        "ownerId": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "ownerId": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "name": "anio_estreno",
         "type": "NUMBER(4)",
         "required": true,
@@ -442,9 +442,9 @@
         }
       },
       {
-        "id": "1cee8e9d-0fa1-4e78-872d-a3706ada28d0",
+        "id": "e680ca39-4412-4088-a274-912477fe78f1",
         "ownerKind": "entity",
-        "ownerId": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "ownerId": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "name": "tema",
         "type": "VARCHAR(40)",
         "required": false,
@@ -463,9 +463,9 @@
         }
       },
       {
-        "id": "6fbf9d2d-7a34-4cb1-8539-d7c8e484ec5d",
+        "id": "7532ccd2-56b4-49b7-aed0-a370122a6470",
         "ownerKind": "entity",
-        "ownerId": "323bc68a-67cd-4955-96b0-07961aea6476",
+        "ownerId": "3c40ef46-50d9-4eca-933a-47751e71e604",
         "name": "actor_principal",
         "type": "VARCHAR(80)",
         "required": false,
@@ -485,9 +485,9 @@
         }
       },
       {
-        "id": "aac481f3-0b28-4b2f-983a-d1182a253562",
+        "id": "94b29d31-2d35-45fa-8407-75c409d00112",
         "ownerKind": "entity",
-        "ownerId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+        "ownerId": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
         "name": "numero_copia",
         "type": "NUMBER(3)",
         "required": true,
@@ -506,9 +506,9 @@
         }
       },
       {
-        "id": "8b6a89d9-3cd2-4fb5-8189-b1908261ae7d",
+        "id": "9f835984-f8d0-4a5f-bd2f-d470975c7886",
         "ownerKind": "entity",
-        "ownerId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+        "ownerId": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
         "name": "formato",
         "type": "CHAR(3)",
         "required": true,
@@ -535,9 +535,9 @@
         }
       },
       {
-        "id": "1623548f-df59-456f-a0a4-d4a0f9517875",
+        "id": "4c97796c-c935-482d-8261-3e6a010d8a6c",
         "ownerKind": "entity",
-        "ownerId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+        "ownerId": "4c6e9295-9829-434f-af56-c30e1d37034c",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -556,9 +556,9 @@
         }
       },
       {
-        "id": "7db61f71-f7ae-4c50-b238-8bd38e1a4b8e",
+        "id": "7b4f0dde-6127-4ab9-9501-8e3e45398201",
         "ownerKind": "entity",
-        "ownerId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+        "ownerId": "4c6e9295-9829-434f-af56-c30e1d37034c",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -577,9 +577,9 @@
         }
       },
       {
-        "id": "9c6e8eb6-f0de-4baf-81f8-7635708bae6b",
+        "id": "d1924b7c-a860-401a-819d-3ab5d538d775",
         "ownerKind": "entity",
-        "ownerId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+        "ownerId": "4c6e9295-9829-434f-af56-c30e1d37034c",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -598,9 +598,9 @@
         }
       },
       {
-        "id": "7e14968b-310f-45b2-af97-2ae8bd554163",
+        "id": "5ff321cd-a1ac-49cb-b149-182b2bb6453a",
         "ownerKind": "entity",
-        "ownerId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+        "ownerId": "4c6e9295-9829-434f-af56-c30e1d37034c",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -619,9 +619,9 @@
         }
       },
       {
-        "id": "ed288115-3a84-4cc0-83e6-2d37d15f2aee",
+        "id": "24a2ebd8-12c7-4445-9ffd-5163ba3e9fb4",
         "ownerKind": "relationship",
-        "ownerId": "9422ba8a-2401-4cbf-907a-b37a75acea58",
+        "ownerId": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -642,20 +642,20 @@
     ],
     "relationships": [
       {
-        "id": "3110b830-4d12-4dcd-b29e-46e23da15784",
+        "id": "d199dbed-0f21-4ec5-9adb-04bc6bf93520",
         "name": "Tiene",
         "notes": "",
         "participations": [
           {
-            "id": "20457eb4-b9d7-489a-a6b4-91d76d50eead",
-            "entityId": "323bc68a-67cd-4955-96b0-07961aea6476",
+            "id": "f5cc38ba-c08c-4850-90d6-0c2b0cbe4282",
+            "entityId": "3c40ef46-50d9-4eca-933a-47751e71e604",
             "role": "pelicula",
             "min": 1,
             "max": null
           },
           {
-            "id": "ad0dd558-e236-4472-8be2-0d118d909368",
-            "entityId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+            "id": "c6647726-175f-49b8-b379-a589c3783573",
+            "entityId": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
             "role": "copia",
             "min": 1,
             "max": 1
@@ -663,25 +663,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "ad0dd558-e236-4472-8be2-0d118d909368",
+          "childParticipationId": "c6647726-175f-49b8-b379-a589c3783573",
           "identifying": true
         }
       },
       {
-        "id": "9422ba8a-2401-4cbf-907a-b37a75acea58",
+        "id": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9",
         "name": "Alquila",
         "notes": "",
         "participations": [
           {
-            "id": "63d3377e-603b-454c-a53e-088e9221614e",
-            "entityId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+            "id": "6ce7749b-713f-42b8-be48-f7fe7ac17b78",
+            "entityId": "4c6e9295-9829-434f-af56-c30e1d37034c",
             "role": "cliente",
             "min": 0,
             "max": null
           },
           {
-            "id": "698a40f0-84f8-4451-9e74-27773ad61352",
-            "entityId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+            "id": "11b29c91-12dc-49c0-a6ca-a301a6366cf4",
+            "entityId": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
             "role": "copia",
             "min": 0,
             "max": null
@@ -692,11 +692,10 @@
           "tableName": "Alquiler",
           "key": {
             "participationIds": [
-              "63d3377e-603b-454c-a53e-088e9221614e",
-              "698a40f0-84f8-4451-9e74-27773ad61352"
+              "11b29c91-12dc-49c0-a6ca-a301a6366cf4"
             ],
             "attributeIds": [
-              "ed288115-3a84-4cc0-83e6-2d37d15f2aee"
+              "24a2ebd8-12c7-4445-9ffd-5163ba3e9fb4"
             ]
           }
         }
@@ -707,161 +706,167 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "323bc68a-67cd-4955-96b0-07961aea6476",
+      "sourceId": "3c40ef46-50d9-4eca-933a-47751e71e604",
       "targetKind": "table",
-      "targetId": "1339b854-d4ec-44f9-bad1-b3f6b2b5820e"
+      "targetId": "f3db5b57-32b6-4a24-9626-6541f77ad32a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "deebc856-b60f-40ae-932b-2c0564667d5e",
+      "sourceId": "41392393-c88c-49f7-91c4-86c2422d2d55",
       "targetKind": "column",
-      "targetId": "67ef69e9-5a10-4bdf-b9f0-4e4c1aa63514"
+      "targetId": "55ffed1a-9809-4a8e-96f7-0955bbc3fde9"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "b000a8b8-7061-497d-99c6-2c70636149da",
+      "sourceId": "ed271082-8dbb-4aaa-9f50-586a16416cc9",
       "targetKind": "column",
-      "targetId": "7ccb2daf-96fd-4e38-b87e-736382fd4b95"
+      "targetId": "757c2a7c-ec5c-4471-b533-aa962e980892"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1cee8e9d-0fa1-4e78-872d-a3706ada28d0",
+      "sourceId": "e680ca39-4412-4088-a274-912477fe78f1",
       "targetKind": "column",
-      "targetId": "7319b9b2-08af-4380-8325-825162eb6246"
+      "targetId": "c7520055-bcec-4b0b-8759-639088bcf299"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "6fbf9d2d-7a34-4cb1-8539-d7c8e484ec5d",
+      "sourceId": "7532ccd2-56b4-49b7-aed0-a370122a6470",
       "targetKind": "table",
-      "targetId": "4e12abfd-26d4-48b4-866e-f1029b3988a3"
+      "targetId": "f43cc8ae-5b5b-4f48-82f8-44139791f6e4"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "6fbf9d2d-7a34-4cb1-8539-d7c8e484ec5d",
+      "sourceId": "7532ccd2-56b4-49b7-aed0-a370122a6470",
       "targetKind": "foreign-key",
-      "targetId": "c4c3a8fb-dbce-4fdd-b746-ee46aff6ece4"
+      "targetId": "62b581d3-cb6d-484f-adc2-0028007a45b5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "6fbf9d2d-7a34-4cb1-8539-d7c8e484ec5d",
+      "sourceId": "7532ccd2-56b4-49b7-aed0-a370122a6470",
       "targetKind": "column",
-      "targetId": "3d243388-fac2-4ce6-9da9-30fa8292458a"
+      "targetId": "7bb38437-e159-4708-8edb-9c60cf2ed5c5"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3",
+      "sourceId": "6e80a01e-2997-4c7a-8b8b-393663fc5834",
       "targetKind": "table",
-      "targetId": "4d3534ef-b203-4398-bc47-8eaef74d13c3"
+      "targetId": "7dfed403-cb0e-4e97-875d-c8fefbe21db1"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "aac481f3-0b28-4b2f-983a-d1182a253562",
+      "sourceId": "94b29d31-2d35-45fa-8407-75c409d00112",
       "targetKind": "column",
-      "targetId": "771fb765-025f-4b22-ad8b-87c80752ac3f"
+      "targetId": "84f5b459-3867-4e97-b6c4-055c7b28fb77"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8b6a89d9-3cd2-4fb5-8189-b1908261ae7d",
+      "sourceId": "9f835984-f8d0-4a5f-bd2f-d470975c7886",
       "targetKind": "column",
-      "targetId": "278709b0-4ec2-4260-9dc5-0144b6325aaa"
+      "targetId": "f16af225-567f-46cc-9a8b-f95d49f700ae"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "428dbbf9-0833-4b25-af9a-1a4fb6a2b701",
+      "sourceId": "4c6e9295-9829-434f-af56-c30e1d37034c",
       "targetKind": "table",
-      "targetId": "d0ceb9f8-d477-4377-800f-a73870e87899"
+      "targetId": "40a9a6df-8d6e-477b-a50c-cab569472bff"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1623548f-df59-456f-a0a4-d4a0f9517875",
+      "sourceId": "4c97796c-c935-482d-8261-3e6a010d8a6c",
       "targetKind": "column",
-      "targetId": "0fc17b90-cda4-4ef8-b5d6-1f5c87bb6c9b"
+      "targetId": "00df154c-f2cc-4d9f-8174-dbd58fb90f5d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7db61f71-f7ae-4c50-b238-8bd38e1a4b8e",
+      "sourceId": "7b4f0dde-6127-4ab9-9501-8e3e45398201",
       "targetKind": "column",
-      "targetId": "b0abefc6-bf4d-496a-a7f3-58da27697463"
+      "targetId": "153a08fc-e465-43cb-aa8b-cd6e533dc3b4"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9c6e8eb6-f0de-4baf-81f8-7635708bae6b",
+      "sourceId": "d1924b7c-a860-401a-819d-3ab5d538d775",
       "targetKind": "column",
-      "targetId": "4ad6519e-78da-426f-b0f1-e754f260f517"
+      "targetId": "a113d895-bee2-4c53-b85c-49cf4676be28"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7e14968b-310f-45b2-af97-2ae8bd554163",
+      "sourceId": "5ff321cd-a1ac-49cb-b149-182b2bb6453a",
       "targetKind": "column",
-      "targetId": "b6fa05fd-0099-47c0-897b-4ab56d48e9c9"
+      "targetId": "8f27c9b3-2be1-4598-98f9-3e8d8e6dac84"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "20457eb4-b9d7-489a-a6b4-91d76d50eead",
+      "sourceId": "f5cc38ba-c08c-4850-90d6-0c2b0cbe4282",
       "targetKind": "foreign-key",
-      "targetId": "5197adee-fa58-4207-ba4c-7f66927ef529"
+      "targetId": "09094f60-2ba1-4d0e-949b-54ea3e695c9c"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "3110b830-4d12-4dcd-b29e-46e23da15784",
+      "sourceId": "d199dbed-0f21-4ec5-9adb-04bc6bf93520",
       "targetKind": "foreign-key",
-      "targetId": "5197adee-fa58-4207-ba4c-7f66927ef529"
+      "targetId": "09094f60-2ba1-4d0e-949b-54ea3e695c9c"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "9422ba8a-2401-4cbf-907a-b37a75acea58",
+      "sourceId": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9",
       "targetKind": "table",
-      "targetId": "0c9d403a-0a8a-40f5-b3e6-2b9a02d01190"
+      "targetId": "850e4091-7e47-46ab-bddf-710d29a70c75"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "63d3377e-603b-454c-a53e-088e9221614e",
+      "sourceId": "6ce7749b-713f-42b8-be48-f7fe7ac17b78",
       "targetKind": "foreign-key",
-      "targetId": "8aa6518c-5b9b-4d4d-8239-09df2a78a363"
+      "targetId": "4ba17639-b61d-4c35-ad98-6c6e67804f03"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "698a40f0-84f8-4451-9e74-27773ad61352",
+      "sourceId": "11b29c91-12dc-49c0-a6ca-a301a6366cf4",
       "targetKind": "foreign-key",
-      "targetId": "dc5c06a7-41bf-4b2f-b5b7-f472190eeed5"
+      "targetId": "b45ec07d-916f-4e54-8562-2adc0463cd52"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ed288115-3a84-4cc0-83e6-2d37d15f2aee",
+      "sourceId": "24a2ebd8-12c7-4445-9ffd-5163ba3e9fb4",
       "targetKind": "column",
-      "targetId": "8b56fc4c-d0bc-4947-b44e-9e4d17237190"
+      "targetId": "d8a35055-ba9d-4292-bef0-2e27a085eadc"
     }
   ],
   "assumptions": [
     {
-      "id": "dca2477b-ec47-426f-bbc9-101bff8da584",
+      "id": "0a6951d3-d885-4236-b23a-6b83e17f0c24",
       "kind": "enunciado",
       "text": "Puede haber películas con igual título pero distinto año: la clave es (título, año de estreno).",
-      "elementId": "323bc68a-67cd-4955-96b0-07961aea6476"
+      "elementId": "3c40ef46-50d9-4eca-933a-47751e71e604"
     },
     {
-      "id": "6f805122-ff24-4656-a5ca-c54beb8cc5cc",
+      "id": "bff20377-4b02-4c00-a374-63a3cf6d860e",
       "kind": "enunciado",
       "text": "Las copias se numeran dentro de cada película: entidad débil con clave parcial.",
-      "elementId": "6c7ae3fb-a668-4a48-9330-f48a4e645cb3"
+      "elementId": "6e80a01e-2997-4c7a-8b8b-393663fc5834"
     },
     {
-      "id": "e72f9278-0391-4b7e-87b1-344a46a344dc",
+      "id": "c52d1d09-f3f5-41f0-9cd2-789124fdccef",
       "kind": "supuesto",
       "text": "Los actores principales se guardan como atributo multivaluado, traducido a la tabla Actores.",
-      "elementId": "323bc68a-67cd-4955-96b0-07961aea6476"
+      "elementId": "3c40ef46-50d9-4eca-933a-47751e71e604"
     },
     {
-      "id": "562423a8-a941-4b1c-8f82-25106aa03f35",
+      "id": "848fb0f3-cc42-4097-9be3-bd7f7aa94e73",
       "kind": "supuesto",
-      "text": "Una misma copia se alquila como mucho una vez al día: la fecha forma parte de la clave del alquiler.",
-      "elementId": "9422ba8a-2401-4cbf-907a-b37a75acea58"
+      "text": "Una misma copia se alquila como mucho una vez al día: la clave del alquiler es (copia, fecha) y el cliente es una clave ajena obligatoria fuera de la clave.",
+      "elementId": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9"
     },
     {
-      "id": "fa3b998a-f649-47b9-987a-15ac97e649c4",
+      "id": "8dc91a49-b131-49a4-b99c-ca063d666d6c",
+      "kind": "enunciado",
+      "text": "Un cliente puede realizar varios alquileres en un día: el cliente no forma parte de la clave, así que puede repetirse con la misma fecha.",
+      "elementId": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9"
+    },
+    {
+      "id": "562e47b9-b00a-4466-93d9-5a4f145996df",
       "kind": "perdida",
       "text": "La devolución del alquiler no figura en el enunciado y no se modela.",
-      "elementId": "9422ba8a-2401-4cbf-907a-b37a75acea58"
+      "elementId": "5a2ca0d6-edee-428a-a03c-1967bdbe51c9"
     }
   ],
   "physical": {
@@ -872,15 +877,15 @@
   "data": {},
   "presentation": {
     "chen": {
-      "323bc68a-67cd-4955-96b0-07961aea6476": {
+      "3c40ef46-50d9-4eca-933a-47751e71e604": {
         "x": 180,
         "y": 230
       },
-      "6c7ae3fb-a668-4a48-9330-f48a4e645cb3": {
+      "6e80a01e-2997-4c7a-8b8b-393663fc5834": {
         "x": 1080,
         "y": 230
       },
-      "428dbbf9-0833-4b25-af9a-1a4fb6a2b701": {
+      "4c6e9295-9829-434f-af56-c30e1d37034c": {
         "x": 1080,
         "y": 980
       }

@@ -5,7 +5,7 @@
   "name": "Salas de un hospital · ejercicio 5 (Tema 2)",
   "tables": [
     {
-      "id": "6f84e6a7-f825-4e02-8e8a-788c302537c1",
+      "id": "679e71ec-62be-473b-bd65-7efc79a27e56",
       "name": "Personal",
       "conceptualName": "Personal",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "6018bfaf-cf45-428b-9e55-e6751e72b468",
+          "id": "505364a5-eba0-4c13-8c91-22517bee7e59",
           "name": "num_empleado",
           "type": "NUMBER(6)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "e3e70d30-6640-4df7-802c-9037a589eda0",
+          "id": "97aa568d-b56f-4263-99c9-32226483dcbb",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "bd21978e-6644-48e9-bf75-920830615f3a",
+          "id": "46395e3e-2ff2-48bd-8457-a275691ff81d",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -45,7 +45,7 @@
           "domain": null
         },
         {
-          "id": "a9312af4-1e69-426b-849f-28174721dd30",
+          "id": "aeb500a6-8806-47f9-9b03-0e1de75628a2",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": false,
@@ -55,7 +55,7 @@
           "domain": null
         },
         {
-          "id": "56f5a98d-4b3c-4385-81f5-03ad2b1e3d85",
+          "id": "f9159a57-8390-4850-8fe1-25c8020dcc55",
           "name": "sala_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -69,7 +69,7 @@
       "indexes": []
     },
     {
-      "id": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
+      "id": "31f16c12-683d-4577-b419-ded57de83621",
       "name": "Sala",
       "conceptualName": "Sala",
       "syncNames": true,
@@ -79,7 +79,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
+          "id": "009433fa-05bc-4347-a980-a1c74a3e51d1",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -89,7 +89,7 @@
           "domain": null
         },
         {
-          "id": "7e7caf98-65ca-4e76-96bb-4e2fef8d20e4",
+          "id": "4fd04d90-f038-4f30-bc39-3155c1c5fb1a",
           "name": "num_camas",
           "type": "NUMBER(3)",
           "required": true,
@@ -109,7 +109,7 @@
       "indexes": []
     },
     {
-      "id": "6e654648-3934-4eec-91be-2e2ff1a2c41a",
+      "id": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1",
       "name": "Paciente",
       "conceptualName": "Paciente",
       "syncNames": true,
@@ -119,7 +119,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "90584386-c747-4bbf-ac12-d19585875d02",
+          "id": "8e0f49b7-6d75-4026-9bb0-20a2a5bab650",
           "name": "num_registro",
           "type": "NUMBER(8)",
           "required": true,
@@ -129,7 +129,7 @@
           "domain": null
         },
         {
-          "id": "d072aad9-18bf-43ef-ade8-a41259d823f1",
+          "id": "93f12d6c-8e3e-43fc-9090-c139c6a93015",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -139,7 +139,7 @@
           "domain": null
         },
         {
-          "id": "81a21aa6-42ab-4f8b-82e1-535fb186ccbe",
+          "id": "85f9c467-2ea5-4445-aff8-bc4cba32efe5",
           "name": "sala_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -155,9 +155,9 @@
   ],
   "relationships": [
     {
-      "id": "fa5d769e-2849-45dd-9613-f70a92c3ac97",
-      "parentId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
-      "childId": "6f84e6a7-f825-4e02-8e8a-788c302537c1",
+      "id": "73831ee3-ae50-4fee-977d-2e50485bdf56",
+      "parentId": "31f16c12-683d-4577-b419-ded57de83621",
+      "childId": "679e71ec-62be-473b-bd65-7efc79a27e56",
       "name": "FK_Trabaja_en_sala",
       "forward": "Trabaja_en",
       "inverse": "sala",
@@ -168,15 +168,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
-          "childColumnId": "56f5a98d-4b3c-4385-81f5-03ad2b1e3d85"
+          "parentColumnId": "009433fa-05bc-4347-a980-a1c74a3e51d1",
+          "childColumnId": "f9159a57-8390-4850-8fe1-25c8020dcc55"
         }
       ]
     },
     {
-      "id": "633198d1-a18b-48c4-bb5a-41404f53d830",
-      "parentId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628",
-      "childId": "6e654648-3934-4eec-91be-2e2ff1a2c41a",
+      "id": "cdff1f89-d40b-4605-8f23-7222e10078a9",
+      "parentId": "31f16c12-683d-4577-b419-ded57de83621",
+      "childId": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1",
       "name": "FK_Internado_en_sala",
       "forward": "Internado_en",
       "inverse": "sala",
@@ -187,8 +187,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f",
-          "childColumnId": "81a21aa6-42ab-4f8b-82e1-535fb186ccbe"
+          "parentColumnId": "009433fa-05bc-4347-a980-a1c74a3e51d1",
+          "childColumnId": "85f9c467-2ea5-4445-aff8-bc4cba32efe5"
         }
       ]
     }
@@ -196,7 +196,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "id": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
         "name": "Personal",
         "notes": "",
         "weak": false,
@@ -206,7 +206,7 @@
         }
       },
       {
-        "id": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "id": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
         "name": "Sala",
         "notes": "",
         "weak": false,
@@ -216,7 +216,7 @@
         }
       },
       {
-        "id": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "id": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
         "name": "Paciente",
         "notes": "",
         "weak": false,
@@ -228,9 +228,9 @@
     ],
     "attributes": [
       {
-        "id": "a9e9ddca-2c1d-4bef-a0b2-78bc4c341b8e",
+        "id": "bc998418-eb7a-491f-b0b6-390c69d6f2e6",
         "ownerKind": "entity",
-        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
         "name": "num_empleado",
         "type": "NUMBER(6)",
         "required": true,
@@ -249,9 +249,9 @@
         }
       },
       {
-        "id": "0f046d85-2d7a-4fa8-a518-566e374d92ce",
+        "id": "88c9a7b5-42af-4792-874c-8bcec580ea7c",
         "ownerKind": "entity",
-        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -270,9 +270,9 @@
         }
       },
       {
-        "id": "4f675581-b055-45af-b7d5-f4b4f17f91a0",
+        "id": "d7fa652b-db52-4a8e-baa2-8e77c0e53b99",
         "ownerKind": "entity",
-        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -291,9 +291,9 @@
         }
       },
       {
-        "id": "856a0977-f30f-485a-8e65-470dd0a432ca",
+        "id": "7c19f18b-0973-4e70-94ba-c68f963007f8",
         "ownerKind": "entity",
-        "ownerId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -312,9 +312,9 @@
         }
       },
       {
-        "id": "77c26b98-d0f9-4663-a967-38564d336ecd",
+        "id": "04f3dac4-22a0-41ea-b95b-dcb870ae148a",
         "ownerKind": "entity",
-        "ownerId": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "ownerId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -333,9 +333,9 @@
         }
       },
       {
-        "id": "9bb32bbd-a6fe-4fe9-8a5d-48f5c36e5771",
+        "id": "cb65f20b-049c-4234-81c2-a90235e41203",
         "ownerKind": "entity",
-        "ownerId": "3ac22787-1896-4069-a5fb-899a8277030d",
+        "ownerId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
         "name": "num_camas",
         "type": "NUMBER(3)",
         "required": true,
@@ -359,9 +359,9 @@
         }
       },
       {
-        "id": "64f55d1e-3e8c-40db-823c-df5715515e8a",
+        "id": "f2375842-bce6-4810-921d-33dfa9a9bd3c",
         "ownerKind": "entity",
-        "ownerId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "ownerId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
         "name": "num_registro",
         "type": "NUMBER(8)",
         "required": true,
@@ -380,9 +380,9 @@
         }
       },
       {
-        "id": "83af04f6-3525-4042-8349-b0d3c6ab86c7",
+        "id": "4fbf55ed-b3eb-41ae-a457-79039d1caaa2",
         "ownerKind": "entity",
-        "ownerId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+        "ownerId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -403,20 +403,20 @@
     ],
     "relationships": [
       {
-        "id": "7dc58957-7648-4ea0-8009-8ee23c3fd7ad",
+        "id": "7b7133e4-b225-404a-838a-cde4fd3528b6",
         "name": "Trabaja_en",
         "notes": "",
         "participations": [
           {
-            "id": "622bbcc3-72c2-413d-acfb-0d67f01a3aae",
-            "entityId": "3ac22787-1896-4069-a5fb-899a8277030d",
+            "id": "64d1a54d-7291-4714-b041-89c0725c3dee",
+            "entityId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
             "role": "sala",
             "min": 0,
             "max": null
           },
           {
-            "id": "c5f3c2dd-9cd3-4395-84bc-b04394dbb8f2",
-            "entityId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+            "id": "0639cd33-f340-483e-a4e4-fdc691e7e963",
+            "entityId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
             "role": "empleado",
             "min": 1,
             "max": 1
@@ -424,25 +424,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "c5f3c2dd-9cd3-4395-84bc-b04394dbb8f2",
+          "childParticipationId": "0639cd33-f340-483e-a4e4-fdc691e7e963",
           "identifying": false
         }
       },
       {
-        "id": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9",
+        "id": "59fe22b4-a28a-42aa-938d-60842f0e62ab",
         "name": "Internado_en",
         "notes": "",
         "participations": [
           {
-            "id": "e310d4a6-2639-4b64-ad51-f6c8d25f3834",
-            "entityId": "3ac22787-1896-4069-a5fb-899a8277030d",
+            "id": "bc2dd877-8b84-4274-93fa-487099b4f977",
+            "entityId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
             "role": "sala",
             "min": 0,
             "max": null
           },
           {
-            "id": "678385d2-3359-4e85-be53-5793fbe265e9",
-            "entityId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+            "id": "95c2d3ad-9d3c-40c9-9b78-8c60b63f4b57",
+            "entityId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
             "role": "paciente",
             "min": 1,
             "max": 1
@@ -450,7 +450,7 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "678385d2-3359-4e85-be53-5793fbe265e9",
+          "childParticipationId": "95c2d3ad-9d3c-40c9-9b78-8c60b63f4b57",
           "identifying": false
         }
       }
@@ -460,113 +460,113 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "584e3d55-cbda-4066-bfe5-f8a56a0d613d",
+      "sourceId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
       "targetKind": "table",
-      "targetId": "6f84e6a7-f825-4e02-8e8a-788c302537c1"
+      "targetId": "679e71ec-62be-473b-bd65-7efc79a27e56"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a9e9ddca-2c1d-4bef-a0b2-78bc4c341b8e",
+      "sourceId": "bc998418-eb7a-491f-b0b6-390c69d6f2e6",
       "targetKind": "column",
-      "targetId": "6018bfaf-cf45-428b-9e55-e6751e72b468"
+      "targetId": "505364a5-eba0-4c13-8c91-22517bee7e59"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "0f046d85-2d7a-4fa8-a518-566e374d92ce",
+      "sourceId": "88c9a7b5-42af-4792-874c-8bcec580ea7c",
       "targetKind": "column",
-      "targetId": "e3e70d30-6640-4df7-802c-9037a589eda0"
+      "targetId": "97aa568d-b56f-4263-99c9-32226483dcbb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4f675581-b055-45af-b7d5-f4b4f17f91a0",
+      "sourceId": "d7fa652b-db52-4a8e-baa2-8e77c0e53b99",
       "targetKind": "column",
-      "targetId": "bd21978e-6644-48e9-bf75-920830615f3a"
+      "targetId": "46395e3e-2ff2-48bd-8457-a275691ff81d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "856a0977-f30f-485a-8e65-470dd0a432ca",
+      "sourceId": "7c19f18b-0973-4e70-94ba-c68f963007f8",
       "targetKind": "column",
-      "targetId": "a9312af4-1e69-426b-849f-28174721dd30"
+      "targetId": "aeb500a6-8806-47f9-9b03-0e1de75628a2"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "3ac22787-1896-4069-a5fb-899a8277030d",
+      "sourceId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
       "targetKind": "table",
-      "targetId": "f0f2857f-11ed-4cfa-8144-6a57f45b2628"
+      "targetId": "31f16c12-683d-4577-b419-ded57de83621"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "77c26b98-d0f9-4663-a967-38564d336ecd",
+      "sourceId": "04f3dac4-22a0-41ea-b95b-dcb870ae148a",
       "targetKind": "column",
-      "targetId": "a6f44607-f9eb-451f-af8f-8ba41ad6305f"
+      "targetId": "009433fa-05bc-4347-a980-a1c74a3e51d1"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9bb32bbd-a6fe-4fe9-8a5d-48f5c36e5771",
+      "sourceId": "cb65f20b-049c-4234-81c2-a90235e41203",
       "targetKind": "column",
-      "targetId": "7e7caf98-65ca-4e76-96bb-4e2fef8d20e4"
+      "targetId": "4fd04d90-f038-4f30-bc39-3155c1c5fb1a"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "3ba24e36-98b1-4b58-ade3-bafab79df421",
+      "sourceId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
       "targetKind": "table",
-      "targetId": "6e654648-3934-4eec-91be-2e2ff1a2c41a"
+      "targetId": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "64f55d1e-3e8c-40db-823c-df5715515e8a",
+      "sourceId": "f2375842-bce6-4810-921d-33dfa9a9bd3c",
       "targetKind": "column",
-      "targetId": "90584386-c747-4bbf-ac12-d19585875d02"
+      "targetId": "8e0f49b7-6d75-4026-9bb0-20a2a5bab650"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "83af04f6-3525-4042-8349-b0d3c6ab86c7",
+      "sourceId": "4fbf55ed-b3eb-41ae-a457-79039d1caaa2",
       "targetKind": "column",
-      "targetId": "d072aad9-18bf-43ef-ade8-a41259d823f1"
+      "targetId": "93f12d6c-8e3e-43fc-9090-c139c6a93015"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "622bbcc3-72c2-413d-acfb-0d67f01a3aae",
+      "sourceId": "64d1a54d-7291-4714-b041-89c0725c3dee",
       "targetKind": "foreign-key",
-      "targetId": "fa5d769e-2849-45dd-9613-f70a92c3ac97"
+      "targetId": "73831ee3-ae50-4fee-977d-2e50485bdf56"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "7dc58957-7648-4ea0-8009-8ee23c3fd7ad",
+      "sourceId": "7b7133e4-b225-404a-838a-cde4fd3528b6",
       "targetKind": "foreign-key",
-      "targetId": "fa5d769e-2849-45dd-9613-f70a92c3ac97"
+      "targetId": "73831ee3-ae50-4fee-977d-2e50485bdf56"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e310d4a6-2639-4b64-ad51-f6c8d25f3834",
+      "sourceId": "bc2dd877-8b84-4274-93fa-487099b4f977",
       "targetKind": "foreign-key",
-      "targetId": "633198d1-a18b-48c4-bb5a-41404f53d830"
+      "targetId": "cdff1f89-d40b-4605-8f23-7222e10078a9"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9",
+      "sourceId": "59fe22b4-a28a-42aa-938d-60842f0e62ab",
       "targetKind": "foreign-key",
-      "targetId": "633198d1-a18b-48c4-bb5a-41404f53d830"
+      "targetId": "cdff1f89-d40b-4605-8f23-7222e10078a9"
     }
   ],
   "assumptions": [
     {
-      "id": "214ff32f-9ef6-4463-ba64-2c0aafdbc8a0",
+      "id": "d8aaaeb5-2af3-4238-a44e-22e388a53caa",
       "kind": "enunciado",
       "text": "Un empleado trabaja en una única sala y un paciente está en una única sala; en una sala hay varios de cada.",
-      "elementId": "3ac22787-1896-4069-a5fb-899a8277030d"
+      "elementId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515"
     },
     {
-      "id": "357c7709-e8b1-4f55-88a0-29a693a2a3aa",
+      "id": "46d8f02e-b0a5-4a28-91fb-452b9a97ff50",
       "kind": "supuesto",
       "text": "Una sala puede no tener todavía personal ni pacientes: participación (0,N).",
-      "elementId": "3ac22787-1896-4069-a5fb-899a8277030d"
+      "elementId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515"
     },
     {
-      "id": "017a353e-ef19-4585-b00b-66f47c4b4a42",
+      "id": "d2211d6c-05f8-479c-b0fc-45627a19a06b",
       "kind": "perdida",
       "text": "Que los pacientes internados no superen las camas de la sala no se puede expresar con claves.",
-      "elementId": "5a3a82b2-c1fb-4e08-ac9a-cad4d38954d9"
+      "elementId": "59fe22b4-a28a-42aa-938d-60842f0e62ab"
     }
   ],
   "physical": {
@@ -577,15 +577,15 @@
   "data": {},
   "presentation": {
     "chen": {
-      "584e3d55-cbda-4066-bfe5-f8a56a0d613d": {
+      "ad370df0-f5d5-4a0e-bd5e-9f297c031099": {
         "x": 120,
         "y": 140
       },
-      "3ac22787-1896-4069-a5fb-899a8277030d": {
+      "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515": {
         "x": 1080,
         "y": 140
       },
-      "3ba24e36-98b1-4b58-ade3-bafab79df421": {
+      "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f": {
         "x": 2040,
         "y": 140
       }

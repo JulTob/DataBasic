@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.3** permite editar un documento con tres representaciones
+La versión **0.4.4** permite editar un documento con tres representaciones
 progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 **Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
 Access, con sus tipos y propiedades. El desplegable Vista cambia la
@@ -31,10 +31,18 @@ rombo doble del vínculo identificador y arcos de subconjunto en las subclases.
 
 Cada objeto tiene una categoría **Supuestos** para anotar la semántica del
 enunciado, los supuestos propios y la semántica perdida; **Base de datos →
-Supuestos** los reúne y **Archivo → Memoria HTML** descarga la memoria del
-diseño con los dos diagramas, las tablas de atributos y relaciones, los
-supuestos y las restricciones que el relacional no impone. Word abre ese
-archivo; también hay versión Markdown.
+Supuestos** los reúne y **Archivo → Memoria Word** descarga la memoria del
+diseño (.docx) con portada, los dos diagramas, las tablas de atributos y
+relaciones con su tipo (1:1, 1:N, N:N, N:N:N), los supuestos, las restricciones
+que el relacional no impone y el diccionario de datos. También hay versión HTML
+y Markdown.
+
+**Archivo → Alumno** guarda el DNI o NIE (con su letra comprobada), el nombre y
+los apellidos, y **Archivo → Paquete de entrega** comprueba el documento frente
+al enunciado de la práctica y descarga `Practica_Apellidos_Nombre.zip` con la
+memoria Word, el Visio del relacional (con leyenda y diccionario de datos), los
+archivos de Access, los diagramas en SVG, el proyecto y un `LEEME.txt` con los
+pasos para crear la base de datos `.accdb`, que DataBasic no puede escribir.
 
 Arrastra las tablas desde su título o sus filas, los rombos en Chen o los
 bloques de lectura en Relacional para recolocar las formas y relaciones. El arrastre busca hueco entre formas y rótulos;

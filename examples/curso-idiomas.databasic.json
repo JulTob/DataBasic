@@ -5,7 +5,7 @@
   "name": "Escuela de idiomas · ejercicio 1 (Tema 2)",
   "tables": [
     {
-      "id": "a5453a28-6117-4b90-862f-d8630433170f",
+      "id": "4d840dfb-2976-4a65-be78-3c5a0386af0b",
       "name": "Alumno",
       "conceptualName": "Alumno",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "0a9830a7-909a-454d-97c3-c16ebce2810d",
+          "id": "e60985ac-eb7a-4c62-a0fa-e3068831df9b",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "517a18db-2231-4a71-92d2-1978803f8dbb",
+          "id": "e2112f23-9993-47f1-81ce-17f4eb8d6458",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "dec5b4c6-e980-480b-8cb4-69c7a3aeae6a",
+          "id": "e5608ff6-86b4-41a4-bb05-3006548f34d3",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": false,
@@ -50,7 +50,7 @@
       "indexes": []
     },
     {
-      "id": "6354971e-e484-45ed-8aa7-b597c17ca105",
+      "id": "0e7e15cb-700e-46c9-8fa9-563743c59198",
       "name": "Idioma",
       "conceptualName": "Idioma",
       "syncNames": true,
@@ -60,7 +60,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "e0e08824-6136-438c-a7db-445fe6eadd7d",
+          "id": "dcdd68cd-aa30-4c9a-8d99-131cd204c591",
           "name": "codigo",
           "type": "CHAR(3)",
           "required": true,
@@ -70,7 +70,7 @@
           "domain": null
         },
         {
-          "id": "429eb73a-9d92-43fe-a08a-e0a8f6c6c30a",
+          "id": "03acee65-fae6-4fcc-b136-dce6c043d887",
           "name": "nombre",
           "type": "VARCHAR(30)",
           "required": true,
@@ -85,16 +85,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "3331d07c-1286-48ed-bcd4-bb803af8d5c2",
+          "id": "f6d4d6f0-e4cc-49f1-b4af-756351f2ff5a",
           "name": "AK_Idioma_nombre",
           "columns": [
-            "429eb73a-9d92-43fe-a08a-e0a8f6c6c30a"
+            "03acee65-fae6-4fcc-b136-dce6c043d887"
           ]
         }
       ]
     },
     {
-      "id": "73813b9c-4c28-4508-ab6b-b9a9ac694002",
+      "id": "f0f0bbfc-8598-415b-b69b-a04cee44587c",
       "name": "Nivel",
       "conceptualName": "Nivel",
       "syncNames": true,
@@ -104,7 +104,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "9804551a-27e6-4140-bce7-a9581f1c031f",
+          "id": "4a94ba19-b585-4861-8122-5139c72cce84",
           "name": "codigo",
           "type": "CHAR(2)",
           "required": true,
@@ -114,7 +114,7 @@
           "domain": null
         },
         {
-          "id": "e3eaf30c-9135-49cd-83af-321f115eeaf7",
+          "id": "936b02cf-ef3b-429b-ba96-ddc286e4fdcf",
           "name": "descripcion",
           "type": "VARCHAR(60)",
           "required": false,
@@ -129,7 +129,7 @@
       "indexes": []
     },
     {
-      "id": "34e14c38-1aa4-418c-b30b-30bdfb87d3c0",
+      "id": "3977960b-6082-47c9-9604-f5c748b53a10",
       "name": "Curso",
       "conceptualName": "Curso",
       "syncNames": true,
@@ -139,7 +139,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "37c4b874-b07a-4a01-bb02-3add9def51d2",
+          "id": "56179569-be9d-4f42-a8cc-95c41008da15",
           "name": "codigo",
           "type": "NUMBER(5)",
           "required": true,
@@ -149,7 +149,7 @@
           "domain": null
         },
         {
-          "id": "d0b219d4-b7cc-42d4-9321-f32c2d38e46e",
+          "id": "3ceb11bd-f790-48dc-bf36-7a16e83c08cd",
           "name": "idioma_codigo",
           "type": "CHAR(3)",
           "required": true,
@@ -158,7 +158,7 @@
           "defaultValue": ""
         },
         {
-          "id": "6e44a8c0-96f6-46aa-aa17-f75ee34f5af7",
+          "id": "5b1d35c2-c5a8-48dd-b86b-28677f42ede4",
           "name": "nivel_codigo",
           "type": "CHAR(2)",
           "required": true,
@@ -172,17 +172,17 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "d05eb907-70d9-400a-9970-a67c724bc1cc",
+          "id": "e4db15ff-980d-4d13-9e2f-c8c03f1bdfaa",
           "name": "AK_Curso_idioma_nivel",
           "columns": [
-            "d0b219d4-b7cc-42d4-9321-f32c2d38e46e",
-            "6e44a8c0-96f6-46aa-aa17-f75ee34f5af7"
+            "3ceb11bd-f790-48dc-bf36-7a16e83c08cd",
+            "5b1d35c2-c5a8-48dd-b86b-28677f42ede4"
           ]
         }
       ]
     },
     {
-      "id": "4ce70f53-72a9-40bd-a70c-8f19f52a0246",
+      "id": "2dcc6acd-93d3-4dca-9b31-baf96ec7ef05",
       "name": "Matricula",
       "conceptualName": "Matricula",
       "syncNames": false,
@@ -192,7 +192,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "d6af1544-bd20-49d2-860f-f9e4825d7b0e",
+          "id": "16cb28b4-130d-4f27-8f91-60da3ffaf929",
           "name": "alumno_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -201,7 +201,7 @@
           "defaultValue": ""
         },
         {
-          "id": "04e95b59-f4d3-4433-ac1b-bc7fd1866af2",
+          "id": "99343853-3f4c-49c5-8571-6986f3ac1fa0",
           "name": "curso_codigo",
           "type": "NUMBER(5)",
           "required": true,
@@ -210,7 +210,7 @@
           "defaultValue": ""
         },
         {
-          "id": "1c27c206-dbce-4ec2-b17c-17b55aaf557b",
+          "id": "e1427432-8b9f-4a7a-bed6-c0f44045e8a5",
           "name": "calificacion",
           "type": "NUMBER(4,2)",
           "required": false,
@@ -232,9 +232,9 @@
   ],
   "relationships": [
     {
-      "id": "a939be50-7856-472d-a981-bfca015607c5",
-      "parentId": "6354971e-e484-45ed-8aa7-b597c17ca105",
-      "childId": "34e14c38-1aa4-418c-b30b-30bdfb87d3c0",
+      "id": "cdbc3402-1e31-4806-985d-73ecdb046ec1",
+      "parentId": "0e7e15cb-700e-46c9-8fa9-563743c59198",
+      "childId": "3977960b-6082-47c9-9604-f5c748b53a10",
       "name": "FK_De_idioma_idioma",
       "forward": "De_idioma",
       "inverse": "idioma",
@@ -245,15 +245,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "e0e08824-6136-438c-a7db-445fe6eadd7d",
-          "childColumnId": "d0b219d4-b7cc-42d4-9321-f32c2d38e46e"
+          "parentColumnId": "dcdd68cd-aa30-4c9a-8d99-131cd204c591",
+          "childColumnId": "3ceb11bd-f790-48dc-bf36-7a16e83c08cd"
         }
       ]
     },
     {
-      "id": "3df1813c-68ec-4373-a3ca-b881a02f8342",
-      "parentId": "73813b9c-4c28-4508-ab6b-b9a9ac694002",
-      "childId": "34e14c38-1aa4-418c-b30b-30bdfb87d3c0",
+      "id": "8cd941be-34a8-4500-bf88-38a723037e65",
+      "parentId": "f0f0bbfc-8598-415b-b69b-a04cee44587c",
+      "childId": "3977960b-6082-47c9-9604-f5c748b53a10",
       "name": "FK_De_nivel_nivel",
       "forward": "De_nivel",
       "inverse": "nivel",
@@ -264,15 +264,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "9804551a-27e6-4140-bce7-a9581f1c031f",
-          "childColumnId": "6e44a8c0-96f6-46aa-aa17-f75ee34f5af7"
+          "parentColumnId": "4a94ba19-b585-4861-8122-5139c72cce84",
+          "childColumnId": "5b1d35c2-c5a8-48dd-b86b-28677f42ede4"
         }
       ]
     },
     {
-      "id": "df0200a3-f390-4656-b822-ecc51c27415e",
-      "parentId": "a5453a28-6117-4b90-862f-d8630433170f",
-      "childId": "4ce70f53-72a9-40bd-a70c-8f19f52a0246",
+      "id": "3b1323b3-c68b-416b-94df-bdcc7ca082fa",
+      "parentId": "4d840dfb-2976-4a65-be78-3c5a0386af0b",
+      "childId": "2dcc6acd-93d3-4dca-9b31-baf96ec7ef05",
       "name": "FK_Matricula_alumno",
       "forward": "Matricula",
       "inverse": "alumno",
@@ -283,15 +283,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "0a9830a7-909a-454d-97c3-c16ebce2810d",
-          "childColumnId": "d6af1544-bd20-49d2-860f-f9e4825d7b0e"
+          "parentColumnId": "e60985ac-eb7a-4c62-a0fa-e3068831df9b",
+          "childColumnId": "16cb28b4-130d-4f27-8f91-60da3ffaf929"
         }
       ]
     },
     {
-      "id": "75bdee93-d802-4e6a-af79-591d2ceb7de6",
-      "parentId": "34e14c38-1aa4-418c-b30b-30bdfb87d3c0",
-      "childId": "4ce70f53-72a9-40bd-a70c-8f19f52a0246",
+      "id": "256916f5-e2b6-4324-ae15-787395eb500f",
+      "parentId": "3977960b-6082-47c9-9604-f5c748b53a10",
+      "childId": "2dcc6acd-93d3-4dca-9b31-baf96ec7ef05",
       "name": "FK_Matricula_curso",
       "forward": "Matricula",
       "inverse": "curso",
@@ -302,8 +302,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "37c4b874-b07a-4a01-bb02-3add9def51d2",
-          "childColumnId": "04e95b59-f4d3-4433-ac1b-bc7fd1866af2"
+          "parentColumnId": "56179569-be9d-4f42-a8cc-95c41008da15",
+          "childColumnId": "99343853-3f4c-49c5-8571-6986f3ac1fa0"
         }
       ]
     }
@@ -311,7 +311,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+        "id": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
         "name": "Alumno",
         "notes": "",
         "weak": false,
@@ -321,7 +321,7 @@
         }
       },
       {
-        "id": "149863e7-f701-437e-97c2-7b9aac139f62",
+        "id": "7706fe49-a7e4-4176-9f29-c37b9782866e",
         "name": "Idioma",
         "notes": "",
         "weak": false,
@@ -331,7 +331,7 @@
         }
       },
       {
-        "id": "45bd4ae8-dbd1-407d-8a9d-a76442bacb48",
+        "id": "05269aa7-1b03-463e-89bb-4a38d90b7f4f",
         "name": "Nivel",
         "notes": "",
         "weak": false,
@@ -341,7 +341,7 @@
         }
       },
       {
-        "id": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+        "id": "d1034581-0d0d-4a09-a7a0-737d586fd016",
         "name": "Curso",
         "notes": "",
         "weak": false,
@@ -353,9 +353,9 @@
     ],
     "attributes": [
       {
-        "id": "221eb357-ef48-4be8-81ac-9bb7319d38f1",
+        "id": "e6345965-c4a7-49bb-a6ab-dd500bba9496",
         "ownerKind": "entity",
-        "ownerId": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+        "ownerId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -374,9 +374,9 @@
         }
       },
       {
-        "id": "c4fe86fd-bf47-4717-b7de-46593c2f0c14",
+        "id": "9aab484a-6a68-410d-9ccc-d5f133fc5684",
         "ownerKind": "entity",
-        "ownerId": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+        "ownerId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -395,9 +395,9 @@
         }
       },
       {
-        "id": "0e29d594-e547-4da7-8521-640b8256cad0",
+        "id": "ee8f832c-783b-4668-a672-2aa120f0cade",
         "ownerKind": "entity",
-        "ownerId": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+        "ownerId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -416,9 +416,9 @@
         }
       },
       {
-        "id": "d300251e-ab2a-4bfa-acd9-08b2780c30ab",
+        "id": "5ebb1dd5-91dd-4e40-acd7-c1def7bca57e",
         "ownerKind": "entity",
-        "ownerId": "149863e7-f701-437e-97c2-7b9aac139f62",
+        "ownerId": "7706fe49-a7e4-4176-9f29-c37b9782866e",
         "name": "codigo",
         "type": "CHAR(3)",
         "required": true,
@@ -437,9 +437,9 @@
         }
       },
       {
-        "id": "20d914ef-31d7-4f93-abc7-5d55cdf4f6c5",
+        "id": "186c1583-9e5b-4229-a2fe-0488ab4f2feb",
         "ownerKind": "entity",
-        "ownerId": "149863e7-f701-437e-97c2-7b9aac139f62",
+        "ownerId": "7706fe49-a7e4-4176-9f29-c37b9782866e",
         "name": "nombre",
         "type": "VARCHAR(30)",
         "required": true,
@@ -458,9 +458,9 @@
         }
       },
       {
-        "id": "9742a7c7-dcd3-4f59-ac5f-cf86c530efda",
+        "id": "4fcc6183-8d9d-41a4-abb7-aaca55c17327",
         "ownerKind": "entity",
-        "ownerId": "45bd4ae8-dbd1-407d-8a9d-a76442bacb48",
+        "ownerId": "05269aa7-1b03-463e-89bb-4a38d90b7f4f",
         "name": "codigo",
         "type": "CHAR(2)",
         "required": true,
@@ -479,9 +479,9 @@
         }
       },
       {
-        "id": "fb50aa7f-6540-4ccc-82dd-e252f0bddadc",
+        "id": "d5f4f323-f63d-4b16-9233-7410f3b7318b",
         "ownerKind": "entity",
-        "ownerId": "45bd4ae8-dbd1-407d-8a9d-a76442bacb48",
+        "ownerId": "05269aa7-1b03-463e-89bb-4a38d90b7f4f",
         "name": "descripcion",
         "type": "VARCHAR(60)",
         "required": false,
@@ -500,9 +500,9 @@
         }
       },
       {
-        "id": "265f27ff-8763-43dd-bb78-37578fb01873",
+        "id": "56d1707c-6d3f-45cb-94f9-66b58d19a075",
         "ownerKind": "entity",
-        "ownerId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+        "ownerId": "d1034581-0d0d-4a09-a7a0-737d586fd016",
         "name": "codigo",
         "type": "NUMBER(5)",
         "required": true,
@@ -521,9 +521,9 @@
         }
       },
       {
-        "id": "86db7154-5e90-441d-b781-b30a6f4fe549",
+        "id": "0be92d81-d20c-4ef2-84d9-446a886ee1f2",
         "ownerKind": "relationship",
-        "ownerId": "eb83b40a-2d5c-400e-a98a-4495b0e264c4",
+        "ownerId": "270a70ab-03a7-45a9-93b3-339a7df17cb8",
         "name": "calificacion",
         "type": "NUMBER(4,2)",
         "required": false,
@@ -549,20 +549,20 @@
     ],
     "relationships": [
       {
-        "id": "9c66a3c4-0aec-417f-8c4f-8ce54d4a1b07",
+        "id": "669cf070-db00-44f4-9f37-6c1317742130",
         "name": "De_idioma",
         "notes": "",
         "participations": [
           {
-            "id": "a3cda714-b62a-4e05-981a-04d2a88a453d",
-            "entityId": "149863e7-f701-437e-97c2-7b9aac139f62",
+            "id": "d39b3fe5-a0ab-44fb-a8a6-f53006c484f9",
+            "entityId": "7706fe49-a7e4-4176-9f29-c37b9782866e",
             "role": "idioma",
             "min": 0,
             "max": null
           },
           {
-            "id": "6fd70126-c1b3-4ca8-81b8-af2cfa291f8d",
-            "entityId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+            "id": "cb1b4281-a78a-4ee1-9c0a-167f38868627",
+            "entityId": "d1034581-0d0d-4a09-a7a0-737d586fd016",
             "role": "curso",
             "min": 1,
             "max": 1
@@ -570,25 +570,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "6fd70126-c1b3-4ca8-81b8-af2cfa291f8d",
+          "childParticipationId": "cb1b4281-a78a-4ee1-9c0a-167f38868627",
           "identifying": false
         }
       },
       {
-        "id": "486ba845-9d19-4d6f-a3b4-347bcedb36e2",
+        "id": "648e474e-19c2-4c81-b51c-3b30fce44f0f",
         "name": "De_nivel",
         "notes": "",
         "participations": [
           {
-            "id": "14563f40-71e8-4345-a1e0-321aae49e216",
-            "entityId": "45bd4ae8-dbd1-407d-8a9d-a76442bacb48",
+            "id": "7e9d66ee-ae09-421c-9e37-547e732454e2",
+            "entityId": "05269aa7-1b03-463e-89bb-4a38d90b7f4f",
             "role": "nivel",
             "min": 0,
             "max": null
           },
           {
-            "id": "6bb91b27-b537-4a97-982e-114c0dbeb8fb",
-            "entityId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+            "id": "7662e0d0-2b2c-4ea9-b330-f3295f7dfefb",
+            "entityId": "d1034581-0d0d-4a09-a7a0-737d586fd016",
             "role": "curso",
             "min": 1,
             "max": 1
@@ -596,25 +596,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "6bb91b27-b537-4a97-982e-114c0dbeb8fb",
+          "childParticipationId": "7662e0d0-2b2c-4ea9-b330-f3295f7dfefb",
           "identifying": false
         }
       },
       {
-        "id": "eb83b40a-2d5c-400e-a98a-4495b0e264c4",
+        "id": "270a70ab-03a7-45a9-93b3-339a7df17cb8",
         "name": "Matricula",
         "notes": "",
         "participations": [
           {
-            "id": "99fa337a-adcd-4064-bad3-ae3472e30644",
-            "entityId": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+            "id": "6820772b-c8f4-4c63-a560-071b317ebb2f",
+            "entityId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
             "role": "alumno",
             "min": 1,
             "max": null
           },
           {
-            "id": "2199573a-307a-42be-a70a-3e720dd3e395",
-            "entityId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+            "id": "76f1cf0e-0a83-4537-b9ca-bea7afdb4690",
+            "entityId": "d1034581-0d0d-4a09-a7a0-737d586fd016",
             "role": "curso",
             "min": 0,
             "max": null
@@ -625,8 +625,8 @@
           "tableName": "Matricula",
           "key": {
             "participationIds": [
-              "99fa337a-adcd-4064-bad3-ae3472e30644",
-              "2199573a-307a-42be-a70a-3e720dd3e395"
+              "6820772b-c8f4-4c63-a560-071b317ebb2f",
+              "76f1cf0e-0a83-4537-b9ca-bea7afdb4690"
             ],
             "attributeIds": []
           }
@@ -638,155 +638,155 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "4667a157-9854-4df9-a5c6-87c3f267b7ff",
+      "sourceId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd",
       "targetKind": "table",
-      "targetId": "a5453a28-6117-4b90-862f-d8630433170f"
+      "targetId": "4d840dfb-2976-4a65-be78-3c5a0386af0b"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "221eb357-ef48-4be8-81ac-9bb7319d38f1",
+      "sourceId": "e6345965-c4a7-49bb-a6ab-dd500bba9496",
       "targetKind": "column",
-      "targetId": "0a9830a7-909a-454d-97c3-c16ebce2810d"
+      "targetId": "e60985ac-eb7a-4c62-a0fa-e3068831df9b"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c4fe86fd-bf47-4717-b7de-46593c2f0c14",
+      "sourceId": "9aab484a-6a68-410d-9ccc-d5f133fc5684",
       "targetKind": "column",
-      "targetId": "517a18db-2231-4a71-92d2-1978803f8dbb"
+      "targetId": "e2112f23-9993-47f1-81ce-17f4eb8d6458"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "0e29d594-e547-4da7-8521-640b8256cad0",
+      "sourceId": "ee8f832c-783b-4668-a672-2aa120f0cade",
       "targetKind": "column",
-      "targetId": "dec5b4c6-e980-480b-8cb4-69c7a3aeae6a"
+      "targetId": "e5608ff6-86b4-41a4-bb05-3006548f34d3"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "149863e7-f701-437e-97c2-7b9aac139f62",
+      "sourceId": "7706fe49-a7e4-4176-9f29-c37b9782866e",
       "targetKind": "table",
-      "targetId": "6354971e-e484-45ed-8aa7-b597c17ca105"
+      "targetId": "0e7e15cb-700e-46c9-8fa9-563743c59198"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d300251e-ab2a-4bfa-acd9-08b2780c30ab",
+      "sourceId": "5ebb1dd5-91dd-4e40-acd7-c1def7bca57e",
       "targetKind": "column",
-      "targetId": "e0e08824-6136-438c-a7db-445fe6eadd7d"
+      "targetId": "dcdd68cd-aa30-4c9a-8d99-131cd204c591"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "20d914ef-31d7-4f93-abc7-5d55cdf4f6c5",
+      "sourceId": "186c1583-9e5b-4229-a2fe-0488ab4f2feb",
       "targetKind": "column",
-      "targetId": "429eb73a-9d92-43fe-a08a-e0a8f6c6c30a"
+      "targetId": "03acee65-fae6-4fcc-b136-dce6c043d887"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "45bd4ae8-dbd1-407d-8a9d-a76442bacb48",
+      "sourceId": "05269aa7-1b03-463e-89bb-4a38d90b7f4f",
       "targetKind": "table",
-      "targetId": "73813b9c-4c28-4508-ab6b-b9a9ac694002"
+      "targetId": "f0f0bbfc-8598-415b-b69b-a04cee44587c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9742a7c7-dcd3-4f59-ac5f-cf86c530efda",
+      "sourceId": "4fcc6183-8d9d-41a4-abb7-aaca55c17327",
       "targetKind": "column",
-      "targetId": "9804551a-27e6-4140-bce7-a9581f1c031f"
+      "targetId": "4a94ba19-b585-4861-8122-5139c72cce84"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fb50aa7f-6540-4ccc-82dd-e252f0bddadc",
+      "sourceId": "d5f4f323-f63d-4b16-9233-7410f3b7318b",
       "targetKind": "column",
-      "targetId": "e3eaf30c-9135-49cd-83af-321f115eeaf7"
+      "targetId": "936b02cf-ef3b-429b-ba96-ddc286e4fdcf"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d",
+      "sourceId": "d1034581-0d0d-4a09-a7a0-737d586fd016",
       "targetKind": "table",
-      "targetId": "34e14c38-1aa4-418c-b30b-30bdfb87d3c0"
+      "targetId": "3977960b-6082-47c9-9604-f5c748b53a10"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "265f27ff-8763-43dd-bb78-37578fb01873",
+      "sourceId": "56d1707c-6d3f-45cb-94f9-66b58d19a075",
       "targetKind": "column",
-      "targetId": "37c4b874-b07a-4a01-bb02-3add9def51d2"
+      "targetId": "56179569-be9d-4f42-a8cc-95c41008da15"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "a3cda714-b62a-4e05-981a-04d2a88a453d",
+      "sourceId": "d39b3fe5-a0ab-44fb-a8a6-f53006c484f9",
       "targetKind": "foreign-key",
-      "targetId": "a939be50-7856-472d-a981-bfca015607c5"
+      "targetId": "cdbc3402-1e31-4806-985d-73ecdb046ec1"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "9c66a3c4-0aec-417f-8c4f-8ce54d4a1b07",
+      "sourceId": "669cf070-db00-44f4-9f37-6c1317742130",
       "targetKind": "foreign-key",
-      "targetId": "a939be50-7856-472d-a981-bfca015607c5"
+      "targetId": "cdbc3402-1e31-4806-985d-73ecdb046ec1"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "14563f40-71e8-4345-a1e0-321aae49e216",
+      "sourceId": "7e9d66ee-ae09-421c-9e37-547e732454e2",
       "targetKind": "foreign-key",
-      "targetId": "3df1813c-68ec-4373-a3ca-b881a02f8342"
+      "targetId": "8cd941be-34a8-4500-bf88-38a723037e65"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "486ba845-9d19-4d6f-a3b4-347bcedb36e2",
+      "sourceId": "648e474e-19c2-4c81-b51c-3b30fce44f0f",
       "targetKind": "foreign-key",
-      "targetId": "3df1813c-68ec-4373-a3ca-b881a02f8342"
+      "targetId": "8cd941be-34a8-4500-bf88-38a723037e65"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "eb83b40a-2d5c-400e-a98a-4495b0e264c4",
+      "sourceId": "270a70ab-03a7-45a9-93b3-339a7df17cb8",
       "targetKind": "table",
-      "targetId": "4ce70f53-72a9-40bd-a70c-8f19f52a0246"
+      "targetId": "2dcc6acd-93d3-4dca-9b31-baf96ec7ef05"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "99fa337a-adcd-4064-bad3-ae3472e30644",
+      "sourceId": "6820772b-c8f4-4c63-a560-071b317ebb2f",
       "targetKind": "foreign-key",
-      "targetId": "df0200a3-f390-4656-b822-ecc51c27415e"
+      "targetId": "3b1323b3-c68b-416b-94df-bdcc7ca082fa"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "2199573a-307a-42be-a70a-3e720dd3e395",
+      "sourceId": "76f1cf0e-0a83-4537-b9ca-bea7afdb4690",
       "targetKind": "foreign-key",
-      "targetId": "75bdee93-d802-4e6a-af79-591d2ceb7de6"
+      "targetId": "256916f5-e2b6-4324-ae15-787395eb500f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "86db7154-5e90-441d-b781-b30a6f4fe549",
+      "sourceId": "0be92d81-d20c-4ef2-84d9-446a886ee1f2",
       "targetKind": "column",
-      "targetId": "1c27c206-dbce-4ec2-b17c-17b55aaf557b"
+      "targetId": "e1427432-8b9f-4a7a-bed6-c0f44045e8a5"
     }
   ],
   "assumptions": [
     {
-      "id": "41df40b4-5337-44a5-af60-923bb2f9230b",
+      "id": "0a1ad1d2-151f-4b6c-9a60-752442b25534",
       "kind": "enunciado",
       "text": "Un mismo nivel puede existir para idiomas distintos y la escuela no oferta todos los niveles de todos los idiomas.",
-      "elementId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d"
+      "elementId": "d1034581-0d0d-4a09-a7a0-737d586fd016"
     },
     {
-      "id": "21d057df-ad5f-4066-a6ab-5685113b48e3",
+      "id": "c526c6f3-f65f-45f4-a5cd-713bcde19658",
       "kind": "supuesto",
       "text": "Cada combinación ofertada de idioma y nivel es un Curso con código propio; la pareja idioma–nivel es clave alternativa para no repetirla.",
-      "elementId": "27179f03-03cf-4a18-9941-cf2c0a1acf0d"
+      "elementId": "d1034581-0d0d-4a09-a7a0-737d586fd016"
     },
     {
-      "id": "ad7d78f8-ab56-4917-8f89-b8b8d1cd40d8",
+      "id": "cdf6ea02-434c-476b-a579-6036718bfb9b",
       "kind": "supuesto",
       "text": "El alumno se matricula en cursos, no en idiomas y niveles sueltos; la calificación es un atributo de la matrícula.",
-      "elementId": "eb83b40a-2d5c-400e-a98a-4495b0e264c4"
+      "elementId": "270a70ab-03a7-45a9-93b3-339a7df17cb8"
     },
     {
-      "id": "788c0e88-5d60-4fb1-ba22-292207e13da1",
+      "id": "89f98999-90ca-49b8-93bd-f100221964df",
       "kind": "supuesto",
       "text": "Un alumno se matricula al menos de un curso.",
-      "elementId": "4667a157-9854-4df9-a5c6-87c3f267b7ff"
+      "elementId": "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd"
     },
     {
-      "id": "fd7ffb13-f873-4ebd-85ee-38ef65586706",
+      "id": "ae51c20a-2294-462d-aef9-2d0716e54a9d",
       "kind": "perdida",
       "text": "Si un alumno repite curso en años distintos haría falta el año en la clave de la matrícula; el enunciado no lo pide.",
-      "elementId": "eb83b40a-2d5c-400e-a98a-4495b0e264c4"
+      "elementId": "270a70ab-03a7-45a9-93b3-339a7df17cb8"
     }
   ],
   "physical": {
@@ -797,19 +797,19 @@
   "data": {},
   "presentation": {
     "chen": {
-      "4667a157-9854-4df9-a5c6-87c3f267b7ff": {
+      "ce67d1d9-6a28-4a4b-b84a-f8afbd301bbd": {
         "x": 120,
         "y": 980
       },
-      "149863e7-f701-437e-97c2-7b9aac139f62": {
+      "7706fe49-a7e4-4176-9f29-c37b9782866e": {
         "x": 1080,
         "y": 140
       },
-      "45bd4ae8-dbd1-407d-8a9d-a76442bacb48": {
+      "05269aa7-1b03-463e-89bb-4a38d90b7f4f": {
         "x": 3000,
         "y": 140
       },
-      "27179f03-03cf-4a18-9941-cf2c0a1acf0d": {
+      "d1034581-0d0d-4a09-a7a0-737d586fd016": {
         "x": 2040,
         "y": 980
       }

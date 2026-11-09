@@ -5,7 +5,7 @@
   "name": "Empresa · ejercicio 2 (guion ERE)",
   "tables": [
     {
-      "id": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "id": "c68e20b2-8062-469d-99f0-939dec1576eb",
       "name": "Departamento",
       "conceptualName": "Departamento",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
+          "id": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
           "name": "numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "5181e9cc-2b78-41e1-aa80-88767e963e73",
+          "id": "3e693b71-1a4f-4f95-a5dc-77f321d78dd8",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "cd0ad4ce-9294-47c1-8cc9-7991d56d8c1b",
+          "id": "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7",
           "name": "gerente_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -44,7 +44,7 @@
           "defaultValue": ""
         },
         {
-          "id": "0ebf55ab-e0db-44df-85c5-f39b896d33bd",
+          "id": "02758d1f-ca35-487f-bacd-ff5879e6f8d9",
           "name": "fecha_inicio",
           "type": "DATE",
           "required": true,
@@ -59,16 +59,23 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "ed539d30-3f3f-40bc-9b34-c9f256c27637",
+          "id": "09dadd29-e3e3-434b-94c0-828ca58a0f38",
           "name": "AK_Departamento_nombre",
           "columns": [
-            "5181e9cc-2b78-41e1-aa80-88767e963e73"
+            "3e693b71-1a4f-4f95-a5dc-77f321d78dd8"
+          ]
+        },
+        {
+          "id": "9ceb7bed-92f0-453a-853c-0b8fa9c6840a",
+          "name": "AK_Departamento_Dirige",
+          "columns": [
+            "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7"
           ]
         }
       ]
     },
     {
-      "id": "f245ee63-db82-4481-bee3-2fda502849f4",
+      "id": "9d2ea293-a6b4-49e0-9070-f177818c499a",
       "name": "Lugares_departamento",
       "conceptualName": "lugar",
       "syncNames": false,
@@ -78,7 +85,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "32859f98-a083-4bfc-b37a-4709d134f6b4",
+          "id": "56685a6c-5f37-447e-80ae-9e909394fa83",
           "name": "Departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -87,7 +94,7 @@
           "defaultValue": ""
         },
         {
-          "id": "692e9814-2c82-4fcb-9f96-846a1ba070cf",
+          "id": "e5b0ceae-7b5c-400b-825e-fbd0cd2af456",
           "name": "lugar",
           "type": "VARCHAR(60)",
           "required": true,
@@ -102,7 +109,7 @@
       "indexes": []
     },
     {
-      "id": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
+      "id": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
       "name": "Proyecto",
       "conceptualName": "Proyecto",
       "syncNames": true,
@@ -112,7 +119,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b",
+          "id": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8",
           "name": "numero",
           "type": "NUMBER(4)",
           "required": true,
@@ -122,7 +129,7 @@
           "domain": null
         },
         {
-          "id": "1fec2acb-9c70-40cc-8c73-3604802c0142",
+          "id": "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -132,7 +139,7 @@
           "domain": null
         },
         {
-          "id": "229448c3-48b3-4cec-85c3-6cc69b4c636c",
+          "id": "0bc88984-aa34-4dd2-ae16-79487de6c042",
           "name": "lugar",
           "type": "VARCHAR(60)",
           "required": true,
@@ -142,7 +149,7 @@
           "domain": null
         },
         {
-          "id": "19657486-b1b4-4187-ad8e-f05fbb934bf0",
+          "id": "d1b4e243-805e-472b-baea-3380f54df07c",
           "name": "departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -156,16 +163,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "69d33296-9133-41bb-ac3e-b63a6b2adf11",
+          "id": "2e7f7daf-e771-450c-aaa4-b44c8a64ed4f",
           "name": "AK_Proyecto_nombre",
           "columns": [
-            "1fec2acb-9c70-40cc-8c73-3604802c0142"
+            "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60"
           ]
         }
       ]
     },
     {
-      "id": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "id": "7dc647f6-d904-4246-808f-829435cea6c8",
       "name": "Empleado",
       "conceptualName": "Empleado",
       "syncNames": true,
@@ -175,7 +182,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
+          "id": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -185,7 +192,7 @@
           "domain": null
         },
         {
-          "id": "d60c1321-3c27-466a-83e8-fa4cce56a565",
+          "id": "59e98324-b49d-4845-8d62-5f1811699dfb",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -195,7 +202,7 @@
           "domain": null
         },
         {
-          "id": "cc789a10-a61e-486c-8604-e20c3f0d50e6",
+          "id": "9990f70b-24be-471c-9766-b9dd41b6e283",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -205,7 +212,7 @@
           "domain": null
         },
         {
-          "id": "8edb85a1-75d8-4880-91c0-f5901078bcc1",
+          "id": "abb1f84b-3c70-4a10-8c45-ec536618ae05",
           "name": "salario",
           "type": "NUMBER(8,2)",
           "required": false,
@@ -220,7 +227,7 @@
           }
         },
         {
-          "id": "fb015ab2-f553-4ae5-b43e-18cf10905016",
+          "id": "38109f07-5858-4a9b-b0c5-5a005ca1326c",
           "name": "sexo",
           "type": "CHAR(1)",
           "required": false,
@@ -238,7 +245,7 @@
           }
         },
         {
-          "id": "7a2f2192-defd-436c-aabb-10aa570608f5",
+          "id": "02f0b4fb-951a-47c0-80bb-33fe96f9c051",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": false,
@@ -248,7 +255,7 @@
           "domain": null
         },
         {
-          "id": "f3f44f6c-4200-481f-b95d-6cc413af7a8f",
+          "id": "31e34353-bac4-43a3-b9ec-03de40ebb434",
           "name": "departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -257,7 +264,7 @@
           "defaultValue": ""
         },
         {
-          "id": "d7ab5c8d-5ca0-4ff9-b71a-12f6cb442162",
+          "id": "a95eb263-de9a-4032-980d-75dc74c31637",
           "name": "supervisor_dni",
           "type": "CHAR(9)",
           "required": false,
@@ -271,7 +278,7 @@
       "indexes": []
     },
     {
-      "id": "6a067955-7c59-4c54-8d59-cd95de87a845",
+      "id": "7198390d-3f11-4a8b-93bf-d22c353db946",
       "name": "Familiar",
       "conceptualName": "Familiar",
       "syncNames": true,
@@ -281,7 +288,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "a06bc92f-746f-4d1b-bb60-fdade99132d3",
+          "id": "71f194d2-e703-42a3-b3b6-62e1f0df4553",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -291,7 +298,7 @@
           "domain": null
         },
         {
-          "id": "9f4f1e83-3a1f-475d-99b1-1042e66957fc",
+          "id": "86deda01-d697-442d-a8b6-8c055dcf776d",
           "name": "sexo",
           "type": "CHAR(1)",
           "required": false,
@@ -309,7 +316,7 @@
           }
         },
         {
-          "id": "bf940fa3-21ae-4221-bc99-a80006800638",
+          "id": "1fd2537d-5b89-47f2-b345-0ff16320800d",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": false,
@@ -319,7 +326,7 @@
           "domain": null
         },
         {
-          "id": "019c390f-0985-41c0-bb61-1dfec1f6b25c",
+          "id": "a186f942-9e73-438a-adb6-2b53633c48c7",
           "name": "parentesco",
           "type": "VARCHAR(20)",
           "required": true,
@@ -329,7 +336,7 @@
           "domain": null
         },
         {
-          "id": "43c3357e-5b56-4258-8b0f-705be0851cac",
+          "id": "3abcacf7-82f8-40cf-b014-92a7e2e2a9c3",
           "name": "empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -343,7 +350,7 @@
       "indexes": []
     },
     {
-      "id": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "id": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
       "name": "Trabaja_en",
       "conceptualName": "Trabaja_en",
       "syncNames": false,
@@ -353,7 +360,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "ea0c8990-a63a-489d-9d92-28aae0b1913e",
+          "id": "15adc46e-80e8-4c6f-adb3-2c5b632efd74",
           "name": "empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -362,7 +369,7 @@
           "defaultValue": ""
         },
         {
-          "id": "6ce6de76-1c99-43c2-b2e7-e93f2d8efdd6",
+          "id": "cca95b87-2f02-47ea-a747-6b9f60c8d80e",
           "name": "proyecto_numero",
           "type": "NUMBER(4)",
           "required": true,
@@ -371,7 +378,7 @@
           "defaultValue": ""
         },
         {
-          "id": "cf076ebc-9e6e-4167-93d0-27d920f77f5e",
+          "id": "f62787f0-c4d5-4570-8c86-c6f48530fec4",
           "name": "horas_semana",
           "type": "NUMBER(4,1)",
           "required": true,
@@ -393,9 +400,9 @@
   ],
   "relationships": [
     {
-      "id": "aa768747-9097-4f5e-9c71-705d279b8001",
-      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
-      "childId": "f245ee63-db82-4481-bee3-2fda502849f4",
+      "id": "7d1e02dc-e5b8-4032-9de0-026ea28deb79",
+      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
+      "childId": "9d2ea293-a6b4-49e0-9070-f177818c499a",
       "name": "FK_Lugares_departamento_Departamento",
       "forward": "",
       "inverse": "",
@@ -406,15 +413,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
-          "childColumnId": "32859f98-a083-4bfc-b37a-4709d134f6b4"
+          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
+          "childColumnId": "56685a6c-5f37-447e-80ae-9e909394fa83"
         }
       ]
     },
     {
-      "id": "ae005c16-bbff-493a-8016-ec08d3193ee0",
-      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
-      "childId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
+      "id": "4e369262-a90a-439e-8234-df064c85d6d3",
+      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "childId": "c68e20b2-8062-469d-99f0-939dec1576eb",
       "name": "FK_Dirige_gerente",
       "forward": "Dirige",
       "inverse": "gerente",
@@ -425,15 +432,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
-          "childColumnId": "cd0ad4ce-9294-47c1-8cc9-7991d56d8c1b"
+          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
+          "childColumnId": "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7"
         }
       ]
     },
     {
-      "id": "3d113b0c-37de-4980-85f3-e82e47f73260",
-      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
-      "childId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "id": "43318efc-c328-46f3-bd4a-ee7a346c9902",
+      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
+      "childId": "7dc647f6-d904-4246-808f-829435cea6c8",
       "name": "FK_Trabaja_para_departamento",
       "forward": "Trabaja_para",
       "inverse": "departamento",
@@ -444,15 +451,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
-          "childColumnId": "f3f44f6c-4200-481f-b95d-6cc413af7a8f"
+          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
+          "childColumnId": "31e34353-bac4-43a3-b9ec-03de40ebb434"
         }
       ]
     },
     {
-      "id": "727d4d82-b540-450e-b8f1-e592d5c681ac",
-      "parentId": "52aeae90-9bc9-4829-a829-fb13b41acd3b",
-      "childId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
+      "id": "908c8efb-c188-489c-9d7f-da0bfaf735e8",
+      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
+      "childId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
       "name": "FK_Controla_departamento",
       "forward": "Controla",
       "inverse": "departamento",
@@ -463,15 +470,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "c18d10ad-0428-4c88-9d81-0a7b0699965c",
-          "childColumnId": "19657486-b1b4-4187-ad8e-f05fbb934bf0"
+          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
+          "childColumnId": "d1b4e243-805e-472b-baea-3380f54df07c"
         }
       ]
     },
     {
-      "id": "0833c25a-b6fe-44e0-baff-693464f234c6",
-      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
-      "childId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
+      "id": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1",
+      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "childId": "7dc647f6-d904-4246-808f-829435cea6c8",
       "name": "FK_Supervision_supervisor",
       "forward": "Supervision",
       "inverse": "supervisor",
@@ -482,15 +489,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
-          "childColumnId": "d7ab5c8d-5ca0-4ff9-b71a-12f6cb442162"
+          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
+          "childColumnId": "a95eb263-de9a-4032-980d-75dc74c31637"
         }
       ]
     },
     {
-      "id": "c2503f0d-3a48-4ca4-9001-5977e977e775",
-      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
-      "childId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "id": "4da45042-d36f-4c46-aa04-01483a6c441b",
+      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "childId": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
       "name": "FK_Trabaja_en_empleado",
       "forward": "Trabaja_en",
       "inverse": "empleado",
@@ -501,15 +508,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
-          "childColumnId": "ea0c8990-a63a-489d-9d92-28aae0b1913e"
+          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
+          "childColumnId": "15adc46e-80e8-4c6f-adb3-2c5b632efd74"
         }
       ]
     },
     {
-      "id": "3a7d1cf5-698c-4c97-9528-5fe3ebcd5beb",
-      "parentId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc",
-      "childId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb",
+      "id": "8d1151d2-aaeb-4115-b2cb-f2245eb472af",
+      "parentId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
+      "childId": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
       "name": "FK_Trabaja_en_proyecto",
       "forward": "Trabaja_en",
       "inverse": "proyecto",
@@ -520,15 +527,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b",
-          "childColumnId": "6ce6de76-1c99-43c2-b2e7-e93f2d8efdd6"
+          "parentColumnId": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8",
+          "childColumnId": "cca95b87-2f02-47ea-a747-6b9f60c8d80e"
         }
       ]
     },
     {
-      "id": "57322236-85f6-4382-bcb6-49b8fd4b1b7e",
-      "parentId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0",
-      "childId": "6a067955-7c59-4c54-8d59-cd95de87a845",
+      "id": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d",
+      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "childId": "7198390d-3f11-4a8b-93bf-d22c353db946",
       "name": "FK_Familiares_de_empleado",
       "forward": "Familiares_de",
       "inverse": "empleado",
@@ -539,8 +546,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "416cdd7c-2446-4001-a47b-bafcf347f5bd",
-          "childColumnId": "43c3357e-5b56-4258-8b0f-705be0851cac"
+          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
+          "childColumnId": "3abcacf7-82f8-40cf-b014-92a7e2e2a9c3"
         }
       ]
     }
@@ -548,7 +555,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "id": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
         "name": "Departamento",
         "notes": "",
         "weak": false,
@@ -558,7 +565,7 @@
         }
       },
       {
-        "id": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "id": "767db012-d898-4385-8601-6fdb60136608",
         "name": "Proyecto",
         "notes": "",
         "weak": false,
@@ -568,7 +575,7 @@
         }
       },
       {
-        "id": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "id": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "Empleado",
         "notes": "",
         "weak": false,
@@ -578,22 +585,22 @@
         }
       },
       {
-        "id": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "id": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
         "name": "Familiar",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerEntityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "translation": {
           "kind": "weak",
-          "relationshipId": "d1d623ef-91ea-49ca-96f5-cc82134f55dc"
+          "relationshipId": "55121de0-ef0b-41c9-b302-ded9d9ca3354"
         }
       }
     ],
     "attributes": [
       {
-        "id": "29524f23-acd0-4032-8d3c-79698171736a",
+        "id": "428e4294-3f7b-429e-a16c-1e17e0e2d69b",
         "ownerKind": "entity",
-        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
         "name": "numero",
         "type": "NUMBER(3)",
         "required": true,
@@ -612,9 +619,9 @@
         }
       },
       {
-        "id": "185d6681-0584-4ad9-bf8e-66c69c770004",
+        "id": "18f40995-5b04-459e-8a4e-2a448ecb5045",
         "ownerKind": "entity",
-        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -633,9 +640,9 @@
         }
       },
       {
-        "id": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+        "id": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
         "ownerKind": "entity",
-        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
         "name": "lugar",
         "type": "VARCHAR(60)",
         "required": false,
@@ -655,9 +662,9 @@
         }
       },
       {
-        "id": "2035e916-0564-4f2e-ae51-fcdb303c8f70",
+        "id": "37169b5f-e9b5-40c8-843b-df6ef20d6d11",
         "ownerKind": "entity",
-        "ownerId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
         "name": "num_empleados",
         "type": "NUMBER(5)",
         "required": false,
@@ -676,9 +683,9 @@
         }
       },
       {
-        "id": "40207622-5104-4b82-8f07-abb5a49a5a3d",
+        "id": "a8858053-be91-4cce-aa46-e3fb6288827c",
         "ownerKind": "entity",
-        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
         "name": "numero",
         "type": "NUMBER(4)",
         "required": true,
@@ -697,9 +704,9 @@
         }
       },
       {
-        "id": "653bd4a9-5be4-450c-ac9c-77111119d3fa",
+        "id": "9d2736be-3dc0-467c-b885-5d2ab04c5b13",
         "ownerKind": "entity",
-        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -718,9 +725,9 @@
         }
       },
       {
-        "id": "03ebb3b9-7b1f-42b4-a96d-ae6e5de0c29c",
+        "id": "2c449c41-e4d5-4e74-ae5c-576c3a7b4a1c",
         "ownerKind": "entity",
-        "ownerId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
         "name": "lugar",
         "type": "VARCHAR(60)",
         "required": true,
@@ -739,9 +746,9 @@
         }
       },
       {
-        "id": "bf015882-f525-4c8f-90d5-68435874e85a",
+        "id": "c82f5205-2b96-4336-a124-f1be701512d7",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -760,9 +767,9 @@
         }
       },
       {
-        "id": "4ff1c5e0-3e8a-4d9f-ae82-4339c89cb3e8",
+        "id": "8a01dcd2-f868-477b-8c81-56e4432c20ec",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -781,9 +788,9 @@
         }
       },
       {
-        "id": "209fb704-e76f-4d92-9691-c71e2cec9ea4",
+        "id": "95f76750-baa8-4f55-b3c9-57405392ec81",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -802,9 +809,9 @@
         }
       },
       {
-        "id": "298a1230-9aa2-4528-864a-12aef3c94145",
+        "id": "dc5568f2-3498-4c35-8dc4-11b21fc5ae0a",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "salario",
         "type": "NUMBER(8,2)",
         "required": false,
@@ -828,9 +835,9 @@
         }
       },
       {
-        "id": "b59b05cd-90da-41f1-9f44-1e78edda59c3",
+        "id": "4fd2254b-5d58-4cc2-8b1b-1d39c644be09",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "sexo",
         "type": "CHAR(1)",
         "required": false,
@@ -857,9 +864,9 @@
         }
       },
       {
-        "id": "f6228a92-508f-4dac-9b1a-d685351adeb6",
+        "id": "b2953455-cbf0-4a2a-8015-922d910838df",
         "ownerKind": "entity",
-        "ownerId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": false,
@@ -878,9 +885,9 @@
         }
       },
       {
-        "id": "8ffce0c1-d020-4494-8cc4-c27d6d4fc510",
+        "id": "3afaf4a9-d2c0-4acd-acfe-bda70bef1a52",
         "ownerKind": "entity",
-        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -899,9 +906,9 @@
         }
       },
       {
-        "id": "70506b98-2d46-40e1-b665-4ccf76db984a",
+        "id": "6f191724-8fc9-49df-8b09-2ff65b86bf31",
         "ownerKind": "entity",
-        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
         "name": "sexo",
         "type": "CHAR(1)",
         "required": false,
@@ -928,9 +935,9 @@
         }
       },
       {
-        "id": "ddb28412-bbd3-42d1-ac87-f055082e1c22",
+        "id": "283bc039-4297-4a7d-b38c-07b07d7d2f9c",
         "ownerKind": "entity",
-        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": false,
@@ -949,9 +956,9 @@
         }
       },
       {
-        "id": "edc3ddbf-c09d-4b6f-beb2-aa55af9fbb4a",
+        "id": "5fadd206-ad06-440e-bff5-1558775e5892",
         "ownerKind": "entity",
-        "ownerId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
         "name": "parentesco",
         "type": "VARCHAR(20)",
         "required": true,
@@ -970,9 +977,9 @@
         }
       },
       {
-        "id": "fc6c9001-0056-4849-bc8f-348459722b9e",
+        "id": "76d2fa73-61ca-405b-ab6d-ead79788d4bb",
         "ownerKind": "relationship",
-        "ownerId": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+        "ownerId": "82929c63-90ab-417f-982d-585cd19f6bd6",
         "name": "fecha_inicio",
         "type": "DATE",
         "required": true,
@@ -991,9 +998,9 @@
         }
       },
       {
-        "id": "70653ac9-500f-4f38-9bd6-a4005062f29f",
+        "id": "132d14b9-fec0-42a1-bf7e-9c7108c3147e",
         "ownerKind": "relationship",
-        "ownerId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+        "ownerId": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
         "name": "horas_semana",
         "type": "NUMBER(4,1)",
         "required": true,
@@ -1019,20 +1026,20 @@
     ],
     "relationships": [
       {
-        "id": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+        "id": "82929c63-90ab-417f-982d-585cd19f6bd6",
         "name": "Dirige",
         "notes": "",
         "participations": [
           {
-            "id": "d71e6a92-811d-4c7a-9a33-031302c5b3ea",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "b3bab73a-f647-42d4-9c11-e487b15583d9",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "gerente",
             "min": 0,
             "max": 1
           },
           {
-            "id": "fd67a93b-d2db-4c25-b972-e3bd0cce0ee9",
-            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "id": "7d04b1e1-1981-473a-8ca3-f084a90c4f3b",
+            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
             "role": "dirigido",
             "min": 1,
             "max": 1
@@ -1040,25 +1047,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "fd67a93b-d2db-4c25-b972-e3bd0cce0ee9",
+          "childParticipationId": "7d04b1e1-1981-473a-8ca3-f084a90c4f3b",
           "identifying": false
         }
       },
       {
-        "id": "3d6adc00-b1d8-4773-b69d-35db42edad3d",
+        "id": "b1fa2110-b803-4084-ac47-fa75cf604c52",
         "name": "Trabaja_para",
         "notes": "",
         "participations": [
           {
-            "id": "b548eec5-b2ba-4e8d-adfd-f50dd572f01f",
-            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "id": "071d69b0-8e84-4afc-b67d-63b10c45d051",
+            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
             "role": "departamento",
             "min": 1,
             "max": null
           },
           {
-            "id": "ca785a1a-48ff-4388-9d69-788c7c50f13f",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "7f81e6ad-2e17-4a24-830b-30e8b81e6fb3",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "empleado",
             "min": 1,
             "max": 1
@@ -1066,25 +1073,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "ca785a1a-48ff-4388-9d69-788c7c50f13f",
+          "childParticipationId": "7f81e6ad-2e17-4a24-830b-30e8b81e6fb3",
           "identifying": false
         }
       },
       {
-        "id": "46976724-a6c7-49cf-827e-4ff9658cdc02",
+        "id": "09e0964e-f3af-4d24-b982-314c5f6b8f01",
         "name": "Controla",
         "notes": "",
         "participations": [
           {
-            "id": "e6cc80e1-29c9-4737-b966-4321cc8253a2",
-            "entityId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+            "id": "e521fa0c-6c83-49d9-9e26-377cbec577c0",
+            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
             "role": "departamento",
             "min": 0,
             "max": null
           },
           {
-            "id": "b6b52284-a92f-4bb7-9de3-9e8c29283c50",
-            "entityId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+            "id": "ba9beb4a-1e42-412a-adbf-e47f528e550c",
+            "entityId": "767db012-d898-4385-8601-6fdb60136608",
             "role": "proyecto",
             "min": 1,
             "max": 1
@@ -1092,25 +1099,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "b6b52284-a92f-4bb7-9de3-9e8c29283c50",
+          "childParticipationId": "ba9beb4a-1e42-412a-adbf-e47f528e550c",
           "identifying": false
         }
       },
       {
-        "id": "291564d8-df75-4902-be69-bbb752afe9df",
+        "id": "062f6431-8eb9-4559-b0e6-4c91c2110cff",
         "name": "Supervision",
         "notes": "",
         "participations": [
           {
-            "id": "235d08c6-9561-4bad-b4e1-68036fb41332",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "14e86fb5-c29c-4d20-9bd5-b39ddae46731",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "supervisor",
             "min": 0,
             "max": null
           },
           {
-            "id": "04f02156-bc29-4c61-a5c3-c704c168ebca",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "d4e5ceac-0347-40a8-a634-37fc28f74624",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "supervisado",
             "min": 0,
             "max": 1
@@ -1118,25 +1125,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "04f02156-bc29-4c61-a5c3-c704c168ebca",
+          "childParticipationId": "d4e5ceac-0347-40a8-a634-37fc28f74624",
           "identifying": false
         }
       },
       {
-        "id": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+        "id": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
         "name": "Trabaja_en",
         "notes": "",
         "participations": [
           {
-            "id": "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "4d459ae4-41ff-4392-94a9-9e317ce9933d",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "empleado",
             "min": 1,
             "max": null
           },
           {
-            "id": "db3b461c-d77a-432e-96fc-22a56d7602b6",
-            "entityId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+            "id": "59f67dc8-b7a5-48ba-8514-8ae9279cf556",
+            "entityId": "767db012-d898-4385-8601-6fdb60136608",
             "role": "proyecto",
             "min": 1,
             "max": null
@@ -1147,28 +1154,28 @@
           "tableName": "Trabaja_en",
           "key": {
             "participationIds": [
-              "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
-              "db3b461c-d77a-432e-96fc-22a56d7602b6"
+              "4d459ae4-41ff-4392-94a9-9e317ce9933d",
+              "59f67dc8-b7a5-48ba-8514-8ae9279cf556"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "d1d623ef-91ea-49ca-96f5-cc82134f55dc",
+        "id": "55121de0-ef0b-41c9-b302-ded9d9ca3354",
         "name": "Familiares_de",
         "notes": "",
         "participations": [
           {
-            "id": "22369ba7-a94c-479a-be18-1d5f204c60d7",
-            "entityId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+            "id": "90ad66c9-5e8d-412f-bb6d-01f3d54ae717",
+            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
             "role": "empleado",
             "min": 0,
             "max": null
           },
           {
-            "id": "6136e883-88c4-4c3a-8863-168093901603",
-            "entityId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+            "id": "6acee91a-b1cc-4d74-b8bc-da23396d0ab8",
+            "entityId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
             "role": "familiar",
             "min": 1,
             "max": 1
@@ -1176,7 +1183,7 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "6136e883-88c4-4c3a-8863-168093901603",
+          "childParticipationId": "6acee91a-b1cc-4d74-b8bc-da23396d0ab8",
           "identifying": true
         }
       }
@@ -1186,275 +1193,287 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816",
+      "sourceId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
       "targetKind": "table",
-      "targetId": "52aeae90-9bc9-4829-a829-fb13b41acd3b"
+      "targetId": "c68e20b2-8062-469d-99f0-939dec1576eb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "29524f23-acd0-4032-8d3c-79698171736a",
+      "sourceId": "428e4294-3f7b-429e-a16c-1e17e0e2d69b",
       "targetKind": "column",
-      "targetId": "c18d10ad-0428-4c88-9d81-0a7b0699965c"
+      "targetId": "4970a64e-53cb-4a74-bd60-47bcbca91d02"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "185d6681-0584-4ad9-bf8e-66c69c770004",
+      "sourceId": "18f40995-5b04-459e-8a4e-2a448ecb5045",
       "targetKind": "column",
-      "targetId": "5181e9cc-2b78-41e1-aa80-88767e963e73"
+      "targetId": "3e693b71-1a4f-4f95-a5dc-77f321d78dd8"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
       "targetKind": "table",
-      "targetId": "f245ee63-db82-4481-bee3-2fda502849f4"
+      "targetId": "9d2ea293-a6b4-49e0-9070-f177818c499a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
       "targetKind": "foreign-key",
-      "targetId": "aa768747-9097-4f5e-9c71-705d279b8001"
+      "targetId": "7d1e02dc-e5b8-4032-9de0-026ea28deb79"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4ca8f1e7-a460-4a12-9d23-9905bef426ab",
+      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
       "targetKind": "column",
-      "targetId": "692e9814-2c82-4fcb-9f96-846a1ba070cf"
+      "targetId": "e5b0ceae-7b5c-400b-825e-fbd0cd2af456"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1",
+      "sourceId": "767db012-d898-4385-8601-6fdb60136608",
       "targetKind": "table",
-      "targetId": "24f6cc5e-31fb-41c5-93b9-2449abe54fcc"
+      "targetId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "40207622-5104-4b82-8f07-abb5a49a5a3d",
+      "sourceId": "a8858053-be91-4cce-aa46-e3fb6288827c",
       "targetKind": "column",
-      "targetId": "ad1e7de3-2ec4-479a-90f2-d7bc4f01217b"
+      "targetId": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "653bd4a9-5be4-450c-ac9c-77111119d3fa",
+      "sourceId": "9d2736be-3dc0-467c-b885-5d2ab04c5b13",
       "targetKind": "column",
-      "targetId": "1fec2acb-9c70-40cc-8c73-3604802c0142"
+      "targetId": "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "03ebb3b9-7b1f-42b4-a96d-ae6e5de0c29c",
+      "sourceId": "2c449c41-e4d5-4e74-ae5c-576c3a7b4a1c",
       "targetKind": "column",
-      "targetId": "229448c3-48b3-4cec-85c3-6cc69b4c636c"
+      "targetId": "0bc88984-aa34-4dd2-ae16-79487de6c042"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "161823f4-853c-4107-8fc0-6edb990cafc5",
+      "sourceId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
       "targetKind": "table",
-      "targetId": "01a8eee9-e7da-4471-b4d8-d10a269f96e0"
+      "targetId": "7dc647f6-d904-4246-808f-829435cea6c8"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "bf015882-f525-4c8f-90d5-68435874e85a",
+      "sourceId": "c82f5205-2b96-4336-a124-f1be701512d7",
       "targetKind": "column",
-      "targetId": "416cdd7c-2446-4001-a47b-bafcf347f5bd"
+      "targetId": "5fe11047-30ee-44f7-9552-c07ce39c56d6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4ff1c5e0-3e8a-4d9f-ae82-4339c89cb3e8",
+      "sourceId": "8a01dcd2-f868-477b-8c81-56e4432c20ec",
       "targetKind": "column",
-      "targetId": "d60c1321-3c27-466a-83e8-fa4cce56a565"
+      "targetId": "59e98324-b49d-4845-8d62-5f1811699dfb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "209fb704-e76f-4d92-9691-c71e2cec9ea4",
+      "sourceId": "95f76750-baa8-4f55-b3c9-57405392ec81",
       "targetKind": "column",
-      "targetId": "cc789a10-a61e-486c-8604-e20c3f0d50e6"
+      "targetId": "9990f70b-24be-471c-9766-b9dd41b6e283"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "298a1230-9aa2-4528-864a-12aef3c94145",
+      "sourceId": "dc5568f2-3498-4c35-8dc4-11b21fc5ae0a",
       "targetKind": "column",
-      "targetId": "8edb85a1-75d8-4880-91c0-f5901078bcc1"
+      "targetId": "abb1f84b-3c70-4a10-8c45-ec536618ae05"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "b59b05cd-90da-41f1-9f44-1e78edda59c3",
+      "sourceId": "4fd2254b-5d58-4cc2-8b1b-1d39c644be09",
       "targetKind": "column",
-      "targetId": "fb015ab2-f553-4ae5-b43e-18cf10905016"
+      "targetId": "38109f07-5858-4a9b-b0c5-5a005ca1326c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "f6228a92-508f-4dac-9b1a-d685351adeb6",
+      "sourceId": "b2953455-cbf0-4a2a-8015-922d910838df",
       "targetKind": "column",
-      "targetId": "7a2f2192-defd-436c-aabb-10aa570608f5"
+      "targetId": "02f0b4fb-951a-47c0-80bb-33fe96f9c051"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d",
+      "sourceId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
       "targetKind": "table",
-      "targetId": "6a067955-7c59-4c54-8d59-cd95de87a845"
+      "targetId": "7198390d-3f11-4a8b-93bf-d22c353db946"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8ffce0c1-d020-4494-8cc4-c27d6d4fc510",
+      "sourceId": "3afaf4a9-d2c0-4acd-acfe-bda70bef1a52",
       "targetKind": "column",
-      "targetId": "a06bc92f-746f-4d1b-bb60-fdade99132d3"
+      "targetId": "71f194d2-e703-42a3-b3b6-62e1f0df4553"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "70506b98-2d46-40e1-b665-4ccf76db984a",
+      "sourceId": "6f191724-8fc9-49df-8b09-2ff65b86bf31",
       "targetKind": "column",
-      "targetId": "9f4f1e83-3a1f-475d-99b1-1042e66957fc"
+      "targetId": "86deda01-d697-442d-a8b6-8c055dcf776d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ddb28412-bbd3-42d1-ac87-f055082e1c22",
+      "sourceId": "283bc039-4297-4a7d-b38c-07b07d7d2f9c",
       "targetKind": "column",
-      "targetId": "bf940fa3-21ae-4221-bc99-a80006800638"
+      "targetId": "1fd2537d-5b89-47f2-b345-0ff16320800d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "edc3ddbf-c09d-4b6f-beb2-aa55af9fbb4a",
+      "sourceId": "5fadd206-ad06-440e-bff5-1558775e5892",
       "targetKind": "column",
-      "targetId": "019c390f-0985-41c0-bb61-1dfec1f6b25c"
+      "targetId": "a186f942-9e73-438a-adb6-2b53633c48c7"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "d71e6a92-811d-4c7a-9a33-031302c5b3ea",
+      "sourceId": "b3bab73a-f647-42d4-9c11-e487b15583d9",
       "targetKind": "foreign-key",
-      "targetId": "ae005c16-bbff-493a-8016-ec08d3193ee0"
+      "targetId": "4e369262-a90a-439e-8234-df064c85d6d3"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "3891ba05-13d5-4d15-a022-c024f28b7bfb",
+      "sourceId": "82929c63-90ab-417f-982d-585cd19f6bd6",
       "targetKind": "foreign-key",
-      "targetId": "ae005c16-bbff-493a-8016-ec08d3193ee0"
+      "targetId": "4e369262-a90a-439e-8234-df064c85d6d3"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "82929c63-90ab-417f-982d-585cd19f6bd6",
+      "targetKind": "alternate-key",
+      "targetId": "9ceb7bed-92f0-453a-853c-0b8fa9c6840a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fc6c9001-0056-4849-bc8f-348459722b9e",
+      "sourceId": "76d2fa73-61ca-405b-ab6d-ead79788d4bb",
       "targetKind": "column",
-      "targetId": "0ebf55ab-e0db-44df-85c5-f39b896d33bd"
+      "targetId": "02758d1f-ca35-487f-bacd-ff5879e6f8d9"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "b548eec5-b2ba-4e8d-adfd-f50dd572f01f",
+      "sourceId": "071d69b0-8e84-4afc-b67d-63b10c45d051",
       "targetKind": "foreign-key",
-      "targetId": "3d113b0c-37de-4980-85f3-e82e47f73260"
+      "targetId": "43318efc-c328-46f3-bd4a-ee7a346c9902"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "3d6adc00-b1d8-4773-b69d-35db42edad3d",
+      "sourceId": "b1fa2110-b803-4084-ac47-fa75cf604c52",
       "targetKind": "foreign-key",
-      "targetId": "3d113b0c-37de-4980-85f3-e82e47f73260"
+      "targetId": "43318efc-c328-46f3-bd4a-ee7a346c9902"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e6cc80e1-29c9-4737-b966-4321cc8253a2",
+      "sourceId": "e521fa0c-6c83-49d9-9e26-377cbec577c0",
       "targetKind": "foreign-key",
-      "targetId": "727d4d82-b540-450e-b8f1-e592d5c681ac"
+      "targetId": "908c8efb-c188-489c-9d7f-da0bfaf735e8"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "46976724-a6c7-49cf-827e-4ff9658cdc02",
+      "sourceId": "09e0964e-f3af-4d24-b982-314c5f6b8f01",
       "targetKind": "foreign-key",
-      "targetId": "727d4d82-b540-450e-b8f1-e592d5c681ac"
+      "targetId": "908c8efb-c188-489c-9d7f-da0bfaf735e8"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "235d08c6-9561-4bad-b4e1-68036fb41332",
+      "sourceId": "14e86fb5-c29c-4d20-9bd5-b39ddae46731",
       "targetKind": "foreign-key",
-      "targetId": "0833c25a-b6fe-44e0-baff-693464f234c6"
+      "targetId": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "291564d8-df75-4902-be69-bbb752afe9df",
+      "sourceId": "062f6431-8eb9-4559-b0e6-4c91c2110cff",
       "targetKind": "foreign-key",
-      "targetId": "0833c25a-b6fe-44e0-baff-693464f234c6"
+      "targetId": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e",
+      "sourceId": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
       "targetKind": "table",
-      "targetId": "43259335-6a8a-43f0-9a50-bbd0ce2843fb"
+      "targetId": "76d5421d-d62e-480a-9c27-ca107c12cdf3"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "68aa1a1f-7c7c-4c85-9aa6-e5047f2e6f60",
+      "sourceId": "4d459ae4-41ff-4392-94a9-9e317ce9933d",
       "targetKind": "foreign-key",
-      "targetId": "c2503f0d-3a48-4ca4-9001-5977e977e775"
+      "targetId": "4da45042-d36f-4c46-aa04-01483a6c441b"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "db3b461c-d77a-432e-96fc-22a56d7602b6",
+      "sourceId": "59f67dc8-b7a5-48ba-8514-8ae9279cf556",
       "targetKind": "foreign-key",
-      "targetId": "3a7d1cf5-698c-4c97-9528-5fe3ebcd5beb"
+      "targetId": "8d1151d2-aaeb-4115-b2cb-f2245eb472af"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "70653ac9-500f-4f38-9bd6-a4005062f29f",
+      "sourceId": "132d14b9-fec0-42a1-bf7e-9c7108c3147e",
       "targetKind": "column",
-      "targetId": "cf076ebc-9e6e-4167-93d0-27d920f77f5e"
+      "targetId": "f62787f0-c4d5-4570-8c86-c6f48530fec4"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "22369ba7-a94c-479a-be18-1d5f204c60d7",
+      "sourceId": "90ad66c9-5e8d-412f-bb6d-01f3d54ae717",
       "targetKind": "foreign-key",
-      "targetId": "57322236-85f6-4382-bcb6-49b8fd4b1b7e"
+      "targetId": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "d1d623ef-91ea-49ca-96f5-cc82134f55dc",
+      "sourceId": "55121de0-ef0b-41c9-b302-ded9d9ca3354",
       "targetKind": "foreign-key",
-      "targetId": "57322236-85f6-4382-bcb6-49b8fd4b1b7e"
+      "targetId": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d"
     }
   ],
   "assumptions": [
     {
-      "id": "585b9252-9908-455a-8402-3d0185486e41",
+      "id": "a6aabd88-6032-478c-a6fd-46b1f5357131",
       "kind": "enunciado",
       "text": "Departamento y proyecto tienen nombre y número únicos: el número es la clave primaria y el nombre una clave alternativa.",
-      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
     },
     {
-      "id": "49766214-5a9d-4949-99c3-4f0e68b61c55",
+      "id": "a10ff6a7-206f-4622-98e3-195c38a3c242",
       "kind": "enunciado",
       "text": "Un departamento puede estar en varios lugares: atributo multivaluado; un proyecto, en uno solo.",
-      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
     },
     {
-      "id": "6d595d82-6dee-4558-84b1-c76661eb305e",
+      "id": "69a9f1a8-9ef1-4d9a-84cf-92be434edeef",
       "kind": "enunciado",
       "text": "Participaciones del apartado b: Dirige total para el departamento, Trabaja_para total en ambos lados, Controla total para el proyecto, Supervision parcial en ambos, Trabaja_en total en ambos y Familiares_de total para el familiar.",
-      "elementId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e"
+      "elementId": "80b0278b-17c9-4f26-98f4-4cd061f417f7"
     },
     {
-      "id": "0f619641-418c-4fc9-8692-014924ff6baa",
+      "id": "f782562f-3a3a-44f1-bb41-1a49fb537f48",
       "kind": "enunciado",
       "text": "Apartado c: la fecha en que el jefe empieza a dirigir es un atributo de Dirige y viaja a la tabla Departamento.",
-      "elementId": "3891ba05-13d5-4d15-a022-c024f28b7bfb"
+      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
     },
     {
-      "id": "3ca397e4-ef4d-4fb0-ab11-8a1cb4b22bbe",
+      "id": "a5039d6f-7cf0-419d-b52c-5492707086bf",
+      "kind": "enunciado",
+      "text": "Dirige es 1:1: la clave ajena del gerente en Departamento es además clave alternativa, así que un empleado dirige como mucho un departamento.",
+      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
+    },
+    {
+      "id": "b90922cb-cbe8-4e09-90f2-ea15ddf46688",
       "kind": "supuesto",
       "text": "El número total de empleados del departamento es un atributo derivado: se calcula contando Trabaja_para y no se almacena.",
-      "elementId": "9a93d04f-b39d-4bc3-bdd6-8034f185a816"
+      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
     },
     {
-      "id": "a71545da-9b36-49f3-b771-c6021bae7c11",
+      "id": "9555b998-2344-49b0-9e55-4f57d62d53bd",
       "kind": "supuesto",
       "text": "El familiar se identifica por su nombre dentro de cada empleado: entidad débil con clave parcial.",
-      "elementId": "893dc0f3-852c-4ece-b0ce-3bd218fa930d"
+      "elementId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb"
     },
     {
-      "id": "1ad4a3d5-e29c-4314-87f7-dd18949eb417",
+      "id": "d29526d4-c53a-4a61-8cdd-804da5b3e3f3",
       "kind": "perdida",
       "text": "La participación total del departamento en Trabaja_para y de ambos lados en Trabaja_en no se impone con claves ajenas.",
-      "elementId": "1e9f06e6-92ec-4f77-9bec-b8a522496f1e"
+      "elementId": "80b0278b-17c9-4f26-98f4-4cd061f417f7"
     },
     {
-      "id": "62628d49-b798-4838-9f6a-9ffcd5ce8df7",
+      "id": "e04bbdc2-13d8-4813-a858-d7842a3a3370",
       "kind": "perdida",
       "text": "Que el gerente trabaje en el departamento que dirige, y que nadie se supervise a sí mismo, quedan fuera de las claves.",
-      "elementId": "3891ba05-13d5-4d15-a022-c024f28b7bfb"
+      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
     }
   ],
   "physical": {
@@ -1465,19 +1484,19 @@
   "data": {},
   "presentation": {
     "chen": {
-      "9a93d04f-b39d-4bc3-bdd6-8034f185a816": {
+      "ec1d8236-4e34-43f1-a94a-cb24bc7ec538": {
         "x": 120,
         "y": 140
       },
-      "6eee19ac-0aba-4cf0-af3f-3c7fe22481b1": {
+      "767db012-d898-4385-8601-6fdb60136608": {
         "x": 2040,
         "y": 140
       },
-      "161823f4-853c-4107-8fc0-6edb990cafc5": {
+      "80e7349b-aea6-4877-a342-ff1ee3e78bdb": {
         "x": 1080,
         "y": 980
       },
-      "893dc0f3-852c-4ece-b0ce-3bd218fa930d": {
+      "b3dc85e6-b6fb-4525-9870-6b08cee84ddb": {
         "x": 1080,
         "y": 1820
       }

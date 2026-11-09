@@ -982,6 +982,22 @@ dialog::backdrop {
 .dialog-fields fieldset .check {
     margin-bottom: 5px;
     }
+.dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    }
+.dialog-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    }
+.dialog-actions svg {
+    width: 16px;
+    height: 16px;
+    }
 .dialog-tabs {
     display: flex;
     gap: 3px;

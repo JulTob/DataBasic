@@ -1,8 +1,9 @@
 # Ejercicios de la asignatura
 
 Resueltos a partir de los enunciados de los apuntes (guion de introducción al
-ERE y Tema 2) y, en el caso de la Lonja, de la solución del autor a la práctica
-del curso 2025-2026 (repositorio BasesDeDatos), con la notación del curso. Cada archivo lleva sus
+ERE y Tema 2) y, en el caso de la Lonja, del enunciado de la práctica del curso
+2025-2026 y de la solución del autor (repositorio BasesDeDatos), revisada contra
+el enunciado, con la notación del curso. Cada archivo lleva sus
 supuestos en la categoría Supuestos: lo que dice el enunciado, lo que se ha
 supuesto y lo que el modelo no impone. Son borradores para comparar con la
 solución del profesor; ajusta claves, cardinalidades o nombres si difieren.
@@ -10,7 +11,7 @@ Se generan con `node scripts/course-examples.mjs`.
 
 | Archivo | Enunciado | Qué muestra |
 | --- | --- | --- |
-| [curso-lonja](curso-lonja.databasic.json) | Práctica 1 del curso 2025-2026 | Solución del autor: ternaria Faena con el periodo en la clave, Creditor como única subclase (especialización por predicado), adjudicación en tabla propia, facturas y pagos de compradores y barcos, ubicación compuesta del caladero. |
+| [curso-lonja](curso-lonja.databasic.json) | Práctica 1 del curso 2025-2026 | Ternaria Faena con el periodo compuesto (fecha de inicio en la clave); Comprador especializado en Crédito y Contado (total y disjunta); Factura especializada en factura del barco y del comprador; un único Pago por factura; adjudicación en tabla propia; totales derivados almacenados; ubicación compuesta del caladero. |
 | [curso-agencia](curso-agencia.databasic.json) | Guion ERE, ejercicio 1 | Reserva como entidad que enlaza cliente, viaje y agente; teléfonos multivaluados; especialización total y disjunta de Empleado con clave alternativa del agente. |
 | [curso-empresa](curso-empresa.databasic.json) | Guion ERE, ejercicio 2 | Dirige 1:1 con fecha de inicio, supervisión recursiva, Trabaja_en N:N con horas, familiar débil, lugares multivaluados y número de empleados derivado. |
 | [curso-hoteles](curso-hoteles.databasic.json) | Guion ERE, ejercicio 3 | Habitacion y Factura débiles, clave alternativa del nombre, N:N Reserva–Habitacion, especialización total y disjunta de Empleado, dominios 1..5 y CHECK de fechas. |
