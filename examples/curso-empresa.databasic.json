@@ -5,7 +5,7 @@
   "name": "Empresa · ejercicio 2 (guion ERE)",
   "tables": [
     {
-      "id": "c68e20b2-8062-469d-99f0-939dec1576eb",
+      "id": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f",
       "name": "Departamento",
       "conceptualName": "Departamento",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
+          "id": "4880174b-7a7b-4c12-bbd4-bcb35203bb92",
           "name": "numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "3e693b71-1a4f-4f95-a5dc-77f321d78dd8",
+          "id": "e644cf12-8ed5-4fa8-b5c0-525b829506b8",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7",
+          "id": "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2",
           "name": "gerente_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -44,7 +44,7 @@
           "defaultValue": ""
         },
         {
-          "id": "02758d1f-ca35-487f-bacd-ff5879e6f8d9",
+          "id": "ebc567bf-2cc5-44cf-b613-0f108eca9d09",
           "name": "fecha_inicio",
           "type": "DATE",
           "required": true,
@@ -59,23 +59,23 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "09dadd29-e3e3-434b-94c0-828ca58a0f38",
+          "id": "15293b65-56f6-45fc-9c81-20beb0c9a382",
           "name": "AK_Departamento_nombre",
           "columns": [
-            "3e693b71-1a4f-4f95-a5dc-77f321d78dd8"
+            "e644cf12-8ed5-4fa8-b5c0-525b829506b8"
           ]
         },
         {
-          "id": "9ceb7bed-92f0-453a-853c-0b8fa9c6840a",
+          "id": "3e1b8090-e93d-4546-8dae-67d404b997db",
           "name": "AK_Departamento_Dirige",
           "columns": [
-            "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7"
+            "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2"
           ]
         }
       ]
     },
     {
-      "id": "9d2ea293-a6b4-49e0-9070-f177818c499a",
+      "id": "cec06421-0207-4846-b9d2-39a0681510c1",
       "name": "Lugares_departamento",
       "conceptualName": "lugar",
       "syncNames": false,
@@ -85,7 +85,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "56685a6c-5f37-447e-80ae-9e909394fa83",
+          "id": "dcad46d4-78c2-482e-8e45-86e875b2ce07",
           "name": "Departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -94,7 +94,7 @@
           "defaultValue": ""
         },
         {
-          "id": "e5b0ceae-7b5c-400b-825e-fbd0cd2af456",
+          "id": "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f",
           "name": "lugar",
           "type": "VARCHAR(60)",
           "required": true,
@@ -109,7 +109,7 @@
       "indexes": []
     },
     {
-      "id": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
+      "id": "8252d5e2-bcca-45b6-8f8a-05424763ca60",
       "name": "Proyecto",
       "conceptualName": "Proyecto",
       "syncNames": true,
@@ -119,7 +119,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8",
+          "id": "fa37acf8-342b-4d9a-a63f-325fb9e5c774",
           "name": "numero",
           "type": "NUMBER(4)",
           "required": true,
@@ -129,7 +129,7 @@
           "domain": null
         },
         {
-          "id": "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60",
+          "id": "7bf79d25-a7af-4e33-8b60-f3fdab954b8f",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -139,7 +139,7 @@
           "domain": null
         },
         {
-          "id": "0bc88984-aa34-4dd2-ae16-79487de6c042",
+          "id": "dcc832d9-2a24-46e9-9513-ca45141b8460",
           "name": "lugar",
           "type": "VARCHAR(60)",
           "required": true,
@@ -149,7 +149,7 @@
           "domain": null
         },
         {
-          "id": "d1b4e243-805e-472b-baea-3380f54df07c",
+          "id": "41fc7a99-6783-4348-a64a-c0cb67c08f27",
           "name": "departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -163,16 +163,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "2e7f7daf-e771-450c-aaa4-b44c8a64ed4f",
+          "id": "d3c860a6-c6bd-4e7a-b4b6-db00a0e0f9a7",
           "name": "AK_Proyecto_nombre",
           "columns": [
-            "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60"
+            "7bf79d25-a7af-4e33-8b60-f3fdab954b8f"
           ]
         }
       ]
     },
     {
-      "id": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "id": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
       "name": "Empleado",
       "conceptualName": "Empleado",
       "syncNames": true,
@@ -182,7 +182,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
+          "id": "66c969a6-979c-4b9b-95d3-61cd55609459",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -192,7 +192,7 @@
           "domain": null
         },
         {
-          "id": "59e98324-b49d-4845-8d62-5f1811699dfb",
+          "id": "3b45947c-2451-4763-ab07-84094107154c",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -202,7 +202,7 @@
           "domain": null
         },
         {
-          "id": "9990f70b-24be-471c-9766-b9dd41b6e283",
+          "id": "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -212,7 +212,7 @@
           "domain": null
         },
         {
-          "id": "abb1f84b-3c70-4a10-8c45-ec536618ae05",
+          "id": "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6",
           "name": "salario",
           "type": "NUMBER(8,2)",
           "required": false,
@@ -227,7 +227,7 @@
           }
         },
         {
-          "id": "38109f07-5858-4a9b-b0c5-5a005ca1326c",
+          "id": "5c447ff2-43a3-4943-a478-cf3ff9293af7",
           "name": "sexo",
           "type": "CHAR(1)",
           "required": false,
@@ -245,7 +245,7 @@
           }
         },
         {
-          "id": "02f0b4fb-951a-47c0-80bb-33fe96f9c051",
+          "id": "f7ddc620-87c4-4084-87d4-df716e70038e",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": false,
@@ -255,7 +255,7 @@
           "domain": null
         },
         {
-          "id": "31e34353-bac4-43a3-b9ec-03de40ebb434",
+          "id": "f53965ec-7a91-457a-b186-5f6c1db129a6",
           "name": "departamento_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -264,7 +264,7 @@
           "defaultValue": ""
         },
         {
-          "id": "a95eb263-de9a-4032-980d-75dc74c31637",
+          "id": "00a65176-11c8-4412-8fce-3cf56c219224",
           "name": "supervisor_dni",
           "type": "CHAR(9)",
           "required": false,
@@ -278,7 +278,7 @@
       "indexes": []
     },
     {
-      "id": "7198390d-3f11-4a8b-93bf-d22c353db946",
+      "id": "4d1836b4-a54b-457d-8b19-f42bce5999d2",
       "name": "Familiar",
       "conceptualName": "Familiar",
       "syncNames": true,
@@ -288,7 +288,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "71f194d2-e703-42a3-b3b6-62e1f0df4553",
+          "id": "3cb76301-503a-470e-a2ae-f48002f3ad37",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -298,7 +298,7 @@
           "domain": null
         },
         {
-          "id": "86deda01-d697-442d-a8b6-8c055dcf776d",
+          "id": "11cf5bda-9c0e-4e77-b095-86eeb84ad92c",
           "name": "sexo",
           "type": "CHAR(1)",
           "required": false,
@@ -316,7 +316,7 @@
           }
         },
         {
-          "id": "1fd2537d-5b89-47f2-b345-0ff16320800d",
+          "id": "30a89f0d-178f-43f2-bc2a-5b7804ec45d4",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": false,
@@ -326,7 +326,7 @@
           "domain": null
         },
         {
-          "id": "a186f942-9e73-438a-adb6-2b53633c48c7",
+          "id": "51a0023d-c0c3-4800-a0ea-6687de711ce9",
           "name": "parentesco",
           "type": "VARCHAR(20)",
           "required": true,
@@ -336,7 +336,7 @@
           "domain": null
         },
         {
-          "id": "3abcacf7-82f8-40cf-b014-92a7e2e2a9c3",
+          "id": "5783d0f6-cf45-48c4-b73e-4ff582fad829",
           "name": "empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -350,7 +350,7 @@
       "indexes": []
     },
     {
-      "id": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
+      "id": "d5a8886d-8b6e-49fe-bfb2-693f8644fb9e",
       "name": "Trabaja_en",
       "conceptualName": "Trabaja_en",
       "syncNames": false,
@@ -360,7 +360,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "15adc46e-80e8-4c6f-adb3-2c5b632efd74",
+          "id": "5acba8bd-74ff-4e69-a2fa-a027e0bb0582",
           "name": "empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -369,7 +369,7 @@
           "defaultValue": ""
         },
         {
-          "id": "cca95b87-2f02-47ea-a747-6b9f60c8d80e",
+          "id": "6137e6a0-9d5a-48a5-86bb-02d07e22ab43",
           "name": "proyecto_numero",
           "type": "NUMBER(4)",
           "required": true,
@@ -378,7 +378,7 @@
           "defaultValue": ""
         },
         {
-          "id": "f62787f0-c4d5-4570-8c86-c6f48530fec4",
+          "id": "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6",
           "name": "horas_semana",
           "type": "NUMBER(4,1)",
           "required": true,
@@ -400,9 +400,9 @@
   ],
   "relationships": [
     {
-      "id": "7d1e02dc-e5b8-4032-9de0-026ea28deb79",
-      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
-      "childId": "9d2ea293-a6b4-49e0-9070-f177818c499a",
+      "id": "f09776db-e627-432d-8add-0e7ffede005e",
+      "parentId": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f",
+      "childId": "cec06421-0207-4846-b9d2-39a0681510c1",
       "name": "FK_Lugares_departamento_Departamento",
       "forward": "",
       "inverse": "",
@@ -413,15 +413,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
-          "childColumnId": "56685a6c-5f37-447e-80ae-9e909394fa83"
+          "parentColumnId": "4880174b-7a7b-4c12-bbd4-bcb35203bb92",
+          "childColumnId": "dcad46d4-78c2-482e-8e45-86e875b2ce07"
         }
       ]
     },
     {
-      "id": "4e369262-a90a-439e-8234-df064c85d6d3",
-      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
-      "childId": "c68e20b2-8062-469d-99f0-939dec1576eb",
+      "id": "8b5ae092-f780-411c-9dc5-67703274281b",
+      "parentId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
+      "childId": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f",
       "name": "FK_Dirige_gerente",
       "forward": "Dirige",
       "inverse": "gerente",
@@ -432,15 +432,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
-          "childColumnId": "7ef1aabd-8248-4005-b2f3-b4f611ff7dd7"
+          "parentColumnId": "66c969a6-979c-4b9b-95d3-61cd55609459",
+          "childColumnId": "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2"
         }
       ]
     },
     {
-      "id": "43318efc-c328-46f3-bd4a-ee7a346c9902",
-      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
-      "childId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "id": "c42da0d2-cd29-4a01-bb25-5de7fa2bd94b",
+      "parentId": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f",
+      "childId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
       "name": "FK_Trabaja_para_departamento",
       "forward": "Trabaja_para",
       "inverse": "departamento",
@@ -451,15 +451,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
-          "childColumnId": "31e34353-bac4-43a3-b9ec-03de40ebb434"
+          "parentColumnId": "4880174b-7a7b-4c12-bbd4-bcb35203bb92",
+          "childColumnId": "f53965ec-7a91-457a-b186-5f6c1db129a6"
         }
       ]
     },
     {
-      "id": "908c8efb-c188-489c-9d7f-da0bfaf735e8",
-      "parentId": "c68e20b2-8062-469d-99f0-939dec1576eb",
-      "childId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
+      "id": "e5acc807-c3b7-4a53-b89b-c899bb163889",
+      "parentId": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f",
+      "childId": "8252d5e2-bcca-45b6-8f8a-05424763ca60",
       "name": "FK_Controla_departamento",
       "forward": "Controla",
       "inverse": "departamento",
@@ -470,15 +470,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "4970a64e-53cb-4a74-bd60-47bcbca91d02",
-          "childColumnId": "d1b4e243-805e-472b-baea-3380f54df07c"
+          "parentColumnId": "4880174b-7a7b-4c12-bbd4-bcb35203bb92",
+          "childColumnId": "41fc7a99-6783-4348-a64a-c0cb67c08f27"
         }
       ]
     },
     {
-      "id": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1",
-      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
-      "childId": "7dc647f6-d904-4246-808f-829435cea6c8",
+      "id": "f2d6f528-1646-43ba-b399-66610f63754f",
+      "parentId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
+      "childId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
       "name": "FK_Supervision_supervisor",
       "forward": "Supervision",
       "inverse": "supervisor",
@@ -489,15 +489,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
-          "childColumnId": "a95eb263-de9a-4032-980d-75dc74c31637"
+          "parentColumnId": "66c969a6-979c-4b9b-95d3-61cd55609459",
+          "childColumnId": "00a65176-11c8-4412-8fce-3cf56c219224"
         }
       ]
     },
     {
-      "id": "4da45042-d36f-4c46-aa04-01483a6c441b",
-      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
-      "childId": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
+      "id": "1f77e6a2-dfd6-4602-8de5-c81ad4a1d491",
+      "parentId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
+      "childId": "d5a8886d-8b6e-49fe-bfb2-693f8644fb9e",
       "name": "FK_Trabaja_en_empleado",
       "forward": "Trabaja_en",
       "inverse": "empleado",
@@ -508,15 +508,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
-          "childColumnId": "15adc46e-80e8-4c6f-adb3-2c5b632efd74"
+          "parentColumnId": "66c969a6-979c-4b9b-95d3-61cd55609459",
+          "childColumnId": "5acba8bd-74ff-4e69-a2fa-a027e0bb0582"
         }
       ]
     },
     {
-      "id": "8d1151d2-aaeb-4115-b2cb-f2245eb472af",
-      "parentId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf",
-      "childId": "76d5421d-d62e-480a-9c27-ca107c12cdf3",
+      "id": "0115dd8c-f688-4e6c-9558-3932ffdb4e77",
+      "parentId": "8252d5e2-bcca-45b6-8f8a-05424763ca60",
+      "childId": "d5a8886d-8b6e-49fe-bfb2-693f8644fb9e",
       "name": "FK_Trabaja_en_proyecto",
       "forward": "Trabaja_en",
       "inverse": "proyecto",
@@ -527,15 +527,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8",
-          "childColumnId": "cca95b87-2f02-47ea-a747-6b9f60c8d80e"
+          "parentColumnId": "fa37acf8-342b-4d9a-a63f-325fb9e5c774",
+          "childColumnId": "6137e6a0-9d5a-48a5-86bb-02d07e22ab43"
         }
       ]
     },
     {
-      "id": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d",
-      "parentId": "7dc647f6-d904-4246-808f-829435cea6c8",
-      "childId": "7198390d-3f11-4a8b-93bf-d22c353db946",
+      "id": "503a33f1-c2b7-48cf-a196-6d0881478fea",
+      "parentId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5",
+      "childId": "4d1836b4-a54b-457d-8b19-f42bce5999d2",
       "name": "FK_Familiares_de_empleado",
       "forward": "Familiares_de",
       "inverse": "empleado",
@@ -546,8 +546,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5fe11047-30ee-44f7-9552-c07ce39c56d6",
-          "childColumnId": "3abcacf7-82f8-40cf-b014-92a7e2e2a9c3"
+          "parentColumnId": "66c969a6-979c-4b9b-95d3-61cd55609459",
+          "childColumnId": "5783d0f6-cf45-48c4-b73e-4ff582fad829"
         }
       ]
     }
@@ -555,7 +555,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+        "id": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
         "name": "Departamento",
         "notes": "",
         "weak": false,
@@ -565,7 +565,7 @@
         }
       },
       {
-        "id": "767db012-d898-4385-8601-6fdb60136608",
+        "id": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
         "name": "Proyecto",
         "notes": "",
         "weak": false,
@@ -575,7 +575,7 @@
         }
       },
       {
-        "id": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "id": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "Empleado",
         "notes": "",
         "weak": false,
@@ -585,22 +585,22 @@
         }
       },
       {
-        "id": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+        "id": "158f4c36-50d6-4858-8000-e5f4976eedad",
         "name": "Familiar",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerEntityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "translation": {
           "kind": "weak",
-          "relationshipId": "55121de0-ef0b-41c9-b302-ded9d9ca3354"
+          "relationshipId": "8e755db8-932e-4748-a71a-70ece4559339"
         }
       }
     ],
     "attributes": [
       {
-        "id": "428e4294-3f7b-429e-a16c-1e17e0e2d69b",
+        "id": "48e591ab-c80b-473e-ba4c-526d00e34da3",
         "ownerKind": "entity",
-        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+        "ownerId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
         "name": "numero",
         "type": "NUMBER(3)",
         "required": true,
@@ -619,9 +619,9 @@
         }
       },
       {
-        "id": "18f40995-5b04-459e-8a4e-2a448ecb5045",
+        "id": "e86728dc-6108-4a02-b578-9b254fda71d5",
         "ownerKind": "entity",
-        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+        "ownerId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -640,9 +640,9 @@
         }
       },
       {
-        "id": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
+        "id": "d26babff-f668-4584-85c8-2d824343265c",
         "ownerKind": "entity",
-        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+        "ownerId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
         "name": "lugar",
         "type": "VARCHAR(60)",
         "required": false,
@@ -662,9 +662,9 @@
         }
       },
       {
-        "id": "37169b5f-e9b5-40c8-843b-df6ef20d6d11",
+        "id": "a5f9c273-ec6e-465f-a2a1-58cb5b17583a",
         "ownerKind": "entity",
-        "ownerId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+        "ownerId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
         "name": "num_empleados",
         "type": "NUMBER(5)",
         "required": false,
@@ -683,9 +683,9 @@
         }
       },
       {
-        "id": "a8858053-be91-4cce-aa46-e3fb6288827c",
+        "id": "aa1ef6ae-b9f2-47a8-b23a-5be775740184",
         "ownerKind": "entity",
-        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
+        "ownerId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
         "name": "numero",
         "type": "NUMBER(4)",
         "required": true,
@@ -704,9 +704,9 @@
         }
       },
       {
-        "id": "9d2736be-3dc0-467c-b885-5d2ab04c5b13",
+        "id": "68a17afc-3406-4ca1-a724-60ddbf4af957",
         "ownerKind": "entity",
-        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
+        "ownerId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -725,9 +725,9 @@
         }
       },
       {
-        "id": "2c449c41-e4d5-4e74-ae5c-576c3a7b4a1c",
+        "id": "10e1654b-da34-4e18-b7da-a7d58a2ed7ae",
         "ownerKind": "entity",
-        "ownerId": "767db012-d898-4385-8601-6fdb60136608",
+        "ownerId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
         "name": "lugar",
         "type": "VARCHAR(60)",
         "required": true,
@@ -746,9 +746,9 @@
         }
       },
       {
-        "id": "c82f5205-2b96-4336-a124-f1be701512d7",
+        "id": "dce995f3-54ac-4310-bd5c-51c2c8514691",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -767,9 +767,9 @@
         }
       },
       {
-        "id": "8a01dcd2-f868-477b-8c81-56e4432c20ec",
+        "id": "f21fa4ce-9f74-45fc-b1f6-98f9b2d40de2",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -788,9 +788,9 @@
         }
       },
       {
-        "id": "95f76750-baa8-4f55-b3c9-57405392ec81",
+        "id": "d1e922bc-e678-40b6-bc2a-34d7fec4b6bd",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -809,9 +809,9 @@
         }
       },
       {
-        "id": "dc5568f2-3498-4c35-8dc4-11b21fc5ae0a",
+        "id": "79ef587d-7761-48e8-90b6-339efd196c57",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "salario",
         "type": "NUMBER(8,2)",
         "required": false,
@@ -835,9 +835,9 @@
         }
       },
       {
-        "id": "4fd2254b-5d58-4cc2-8b1b-1d39c644be09",
+        "id": "dcf27410-8e38-40c9-90d6-8af46bcaa9a4",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "sexo",
         "type": "CHAR(1)",
         "required": false,
@@ -864,9 +864,9 @@
         }
       },
       {
-        "id": "b2953455-cbf0-4a2a-8015-922d910838df",
+        "id": "45dc6b9c-4ef1-4ead-81a4-b5b5246233e7",
         "ownerKind": "entity",
-        "ownerId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+        "ownerId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": false,
@@ -885,9 +885,9 @@
         }
       },
       {
-        "id": "3afaf4a9-d2c0-4acd-acfe-bda70bef1a52",
+        "id": "3886db81-d1e5-4bb2-ab74-24ec3ffe9b63",
         "ownerKind": "entity",
-        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+        "ownerId": "158f4c36-50d6-4858-8000-e5f4976eedad",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -906,9 +906,9 @@
         }
       },
       {
-        "id": "6f191724-8fc9-49df-8b09-2ff65b86bf31",
+        "id": "97ac9b0c-2291-4ccb-a0b9-af5539934574",
         "ownerKind": "entity",
-        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+        "ownerId": "158f4c36-50d6-4858-8000-e5f4976eedad",
         "name": "sexo",
         "type": "CHAR(1)",
         "required": false,
@@ -935,9 +935,9 @@
         }
       },
       {
-        "id": "283bc039-4297-4a7d-b38c-07b07d7d2f9c",
+        "id": "82ce2328-1c82-408e-ad6a-0999210ed207",
         "ownerKind": "entity",
-        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+        "ownerId": "158f4c36-50d6-4858-8000-e5f4976eedad",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": false,
@@ -956,9 +956,9 @@
         }
       },
       {
-        "id": "5fadd206-ad06-440e-bff5-1558775e5892",
+        "id": "37b264fc-61c6-44a5-ac72-880988441f8f",
         "ownerKind": "entity",
-        "ownerId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+        "ownerId": "158f4c36-50d6-4858-8000-e5f4976eedad",
         "name": "parentesco",
         "type": "VARCHAR(20)",
         "required": true,
@@ -977,9 +977,9 @@
         }
       },
       {
-        "id": "76d2fa73-61ca-405b-ab6d-ead79788d4bb",
+        "id": "46d505f2-8a46-4831-9eaf-e48dcb0d33be",
         "ownerKind": "relationship",
-        "ownerId": "82929c63-90ab-417f-982d-585cd19f6bd6",
+        "ownerId": "983baedf-6ba9-49c9-9438-7b2e70190636",
         "name": "fecha_inicio",
         "type": "DATE",
         "required": true,
@@ -998,9 +998,9 @@
         }
       },
       {
-        "id": "132d14b9-fec0-42a1-bf7e-9c7108c3147e",
+        "id": "2f1fde02-260a-4b85-9262-8edc80625338",
         "ownerKind": "relationship",
-        "ownerId": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
+        "ownerId": "e5a6c61c-8145-40af-bb6d-70d4652fc44d",
         "name": "horas_semana",
         "type": "NUMBER(4,1)",
         "required": true,
@@ -1026,20 +1026,20 @@
     ],
     "relationships": [
       {
-        "id": "82929c63-90ab-417f-982d-585cd19f6bd6",
+        "id": "983baedf-6ba9-49c9-9438-7b2e70190636",
         "name": "Dirige",
         "notes": "",
         "participations": [
           {
-            "id": "b3bab73a-f647-42d4-9c11-e487b15583d9",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "257b36cb-3ca6-4cac-a6aa-21ea9c8b47f6",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "gerente",
             "min": 0,
             "max": 1
           },
           {
-            "id": "7d04b1e1-1981-473a-8ca3-f084a90c4f3b",
-            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+            "id": "b6a4f27a-5424-43dd-8e00-bc1b09b25167",
+            "entityId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
             "role": "dirigido",
             "min": 1,
             "max": 1
@@ -1047,25 +1047,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "7d04b1e1-1981-473a-8ca3-f084a90c4f3b",
+          "childParticipationId": "b6a4f27a-5424-43dd-8e00-bc1b09b25167",
           "identifying": false
         }
       },
       {
-        "id": "b1fa2110-b803-4084-ac47-fa75cf604c52",
+        "id": "67784e00-74ad-47ac-b5ff-66c65203ac38",
         "name": "Trabaja_para",
         "notes": "",
         "participations": [
           {
-            "id": "071d69b0-8e84-4afc-b67d-63b10c45d051",
-            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+            "id": "52c24ef0-93f9-4da5-b3a2-74f1c2bdade0",
+            "entityId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
             "role": "departamento",
             "min": 1,
             "max": null
           },
           {
-            "id": "7f81e6ad-2e17-4a24-830b-30e8b81e6fb3",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "9df46806-ec2d-40ae-b7db-7b1646e1eb9e",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "empleado",
             "min": 1,
             "max": 1
@@ -1073,25 +1073,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "7f81e6ad-2e17-4a24-830b-30e8b81e6fb3",
+          "childParticipationId": "9df46806-ec2d-40ae-b7db-7b1646e1eb9e",
           "identifying": false
         }
       },
       {
-        "id": "09e0964e-f3af-4d24-b982-314c5f6b8f01",
+        "id": "e79c1f2c-28a8-4388-a713-ef1f30e2bc75",
         "name": "Controla",
         "notes": "",
         "participations": [
           {
-            "id": "e521fa0c-6c83-49d9-9e26-377cbec577c0",
-            "entityId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+            "id": "3f760dc1-a7b9-4f52-b2fe-25bf4cb63b6d",
+            "entityId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
             "role": "departamento",
             "min": 0,
             "max": null
           },
           {
-            "id": "ba9beb4a-1e42-412a-adbf-e47f528e550c",
-            "entityId": "767db012-d898-4385-8601-6fdb60136608",
+            "id": "b4078ce9-d9c5-44ce-9a03-d71eb9bc8ea9",
+            "entityId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
             "role": "proyecto",
             "min": 1,
             "max": 1
@@ -1099,25 +1099,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "ba9beb4a-1e42-412a-adbf-e47f528e550c",
+          "childParticipationId": "b4078ce9-d9c5-44ce-9a03-d71eb9bc8ea9",
           "identifying": false
         }
       },
       {
-        "id": "062f6431-8eb9-4559-b0e6-4c91c2110cff",
+        "id": "0debe874-a905-45c3-b227-7a40f86a9572",
         "name": "Supervision",
         "notes": "",
         "participations": [
           {
-            "id": "14e86fb5-c29c-4d20-9bd5-b39ddae46731",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "a373d811-3283-4a03-aa24-72c73284a239",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "supervisor",
             "min": 0,
             "max": null
           },
           {
-            "id": "d4e5ceac-0347-40a8-a634-37fc28f74624",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "7509c012-d199-4839-958b-327c346b7461",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "supervisado",
             "min": 0,
             "max": 1
@@ -1125,25 +1125,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "d4e5ceac-0347-40a8-a634-37fc28f74624",
+          "childParticipationId": "7509c012-d199-4839-958b-327c346b7461",
           "identifying": false
         }
       },
       {
-        "id": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
+        "id": "e5a6c61c-8145-40af-bb6d-70d4652fc44d",
         "name": "Trabaja_en",
         "notes": "",
         "participations": [
           {
-            "id": "4d459ae4-41ff-4392-94a9-9e317ce9933d",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "7689a970-2c97-4658-a3dd-16c7f0e1f811",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "empleado",
             "min": 1,
             "max": null
           },
           {
-            "id": "59f67dc8-b7a5-48ba-8514-8ae9279cf556",
-            "entityId": "767db012-d898-4385-8601-6fdb60136608",
+            "id": "c158f7ee-1c22-4199-8303-dd46639b286e",
+            "entityId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
             "role": "proyecto",
             "min": 1,
             "max": null
@@ -1154,28 +1154,28 @@
           "tableName": "Trabaja_en",
           "key": {
             "participationIds": [
-              "4d459ae4-41ff-4392-94a9-9e317ce9933d",
-              "59f67dc8-b7a5-48ba-8514-8ae9279cf556"
+              "7689a970-2c97-4658-a3dd-16c7f0e1f811",
+              "c158f7ee-1c22-4199-8303-dd46639b286e"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "55121de0-ef0b-41c9-b302-ded9d9ca3354",
+        "id": "8e755db8-932e-4748-a71a-70ece4559339",
         "name": "Familiares_de",
         "notes": "",
         "participations": [
           {
-            "id": "90ad66c9-5e8d-412f-bb6d-01f3d54ae717",
-            "entityId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+            "id": "c7eb3175-ae5c-49d7-bb74-eaaa8d091ca8",
+            "entityId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
             "role": "empleado",
             "min": 0,
             "max": null
           },
           {
-            "id": "6acee91a-b1cc-4d74-b8bc-da23396d0ab8",
-            "entityId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+            "id": "ad56df89-5072-483a-a86b-b3e4bc319ddd",
+            "entityId": "158f4c36-50d6-4858-8000-e5f4976eedad",
             "role": "familiar",
             "min": 1,
             "max": 1
@@ -1183,7 +1183,7 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "6acee91a-b1cc-4d74-b8bc-da23396d0ab8",
+          "childParticipationId": "ad56df89-5072-483a-a86b-b3e4bc319ddd",
           "identifying": true
         }
       }
@@ -1193,287 +1193,287 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538",
+      "sourceId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0",
       "targetKind": "table",
-      "targetId": "c68e20b2-8062-469d-99f0-939dec1576eb"
+      "targetId": "41f77eef-fe9d-4789-9f11-4cc5a131bb3f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "428e4294-3f7b-429e-a16c-1e17e0e2d69b",
+      "sourceId": "48e591ab-c80b-473e-ba4c-526d00e34da3",
       "targetKind": "column",
-      "targetId": "4970a64e-53cb-4a74-bd60-47bcbca91d02"
+      "targetId": "4880174b-7a7b-4c12-bbd4-bcb35203bb92"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "18f40995-5b04-459e-8a4e-2a448ecb5045",
+      "sourceId": "e86728dc-6108-4a02-b578-9b254fda71d5",
       "targetKind": "column",
-      "targetId": "3e693b71-1a4f-4f95-a5dc-77f321d78dd8"
+      "targetId": "e644cf12-8ed5-4fa8-b5c0-525b829506b8"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
+      "sourceId": "d26babff-f668-4584-85c8-2d824343265c",
       "targetKind": "table",
-      "targetId": "9d2ea293-a6b4-49e0-9070-f177818c499a"
+      "targetId": "cec06421-0207-4846-b9d2-39a0681510c1"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
+      "sourceId": "d26babff-f668-4584-85c8-2d824343265c",
       "targetKind": "foreign-key",
-      "targetId": "7d1e02dc-e5b8-4032-9de0-026ea28deb79"
+      "targetId": "f09776db-e627-432d-8add-0e7ffede005e"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c2e7c6ec-7c8a-4896-83fe-85dc9dda94c0",
+      "sourceId": "d26babff-f668-4584-85c8-2d824343265c",
       "targetKind": "column",
-      "targetId": "e5b0ceae-7b5c-400b-825e-fbd0cd2af456"
+      "targetId": "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "767db012-d898-4385-8601-6fdb60136608",
+      "sourceId": "981077e9-7209-4fb8-a8b2-cc366c19d11f",
       "targetKind": "table",
-      "targetId": "c7cdf4fc-3f9e-40ef-96cf-f1d03a082fdf"
+      "targetId": "8252d5e2-bcca-45b6-8f8a-05424763ca60"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a8858053-be91-4cce-aa46-e3fb6288827c",
+      "sourceId": "aa1ef6ae-b9f2-47a8-b23a-5be775740184",
       "targetKind": "column",
-      "targetId": "8cf69546-fbf1-4037-95d1-1ad7ffd0b5d8"
+      "targetId": "fa37acf8-342b-4d9a-a63f-325fb9e5c774"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9d2736be-3dc0-467c-b885-5d2ab04c5b13",
+      "sourceId": "68a17afc-3406-4ca1-a724-60ddbf4af957",
       "targetKind": "column",
-      "targetId": "4d18dbe2-aae3-48ec-aa7a-fb3c0ab59d60"
+      "targetId": "7bf79d25-a7af-4e33-8b60-f3fdab954b8f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "2c449c41-e4d5-4e74-ae5c-576c3a7b4a1c",
+      "sourceId": "10e1654b-da34-4e18-b7da-a7d58a2ed7ae",
       "targetKind": "column",
-      "targetId": "0bc88984-aa34-4dd2-ae16-79487de6c042"
+      "targetId": "dcc832d9-2a24-46e9-9513-ca45141b8460"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "80e7349b-aea6-4877-a342-ff1ee3e78bdb",
+      "sourceId": "fddfd4a5-912b-47c1-94fd-75e5a57c3909",
       "targetKind": "table",
-      "targetId": "7dc647f6-d904-4246-808f-829435cea6c8"
+      "targetId": "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c82f5205-2b96-4336-a124-f1be701512d7",
+      "sourceId": "dce995f3-54ac-4310-bd5c-51c2c8514691",
       "targetKind": "column",
-      "targetId": "5fe11047-30ee-44f7-9552-c07ce39c56d6"
+      "targetId": "66c969a6-979c-4b9b-95d3-61cd55609459"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8a01dcd2-f868-477b-8c81-56e4432c20ec",
+      "sourceId": "f21fa4ce-9f74-45fc-b1f6-98f9b2d40de2",
       "targetKind": "column",
-      "targetId": "59e98324-b49d-4845-8d62-5f1811699dfb"
+      "targetId": "3b45947c-2451-4763-ab07-84094107154c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "95f76750-baa8-4f55-b3c9-57405392ec81",
+      "sourceId": "d1e922bc-e678-40b6-bc2a-34d7fec4b6bd",
       "targetKind": "column",
-      "targetId": "9990f70b-24be-471c-9766-b9dd41b6e283"
+      "targetId": "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "dc5568f2-3498-4c35-8dc4-11b21fc5ae0a",
+      "sourceId": "79ef587d-7761-48e8-90b6-339efd196c57",
       "targetKind": "column",
-      "targetId": "abb1f84b-3c70-4a10-8c45-ec536618ae05"
+      "targetId": "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4fd2254b-5d58-4cc2-8b1b-1d39c644be09",
+      "sourceId": "dcf27410-8e38-40c9-90d6-8af46bcaa9a4",
       "targetKind": "column",
-      "targetId": "38109f07-5858-4a9b-b0c5-5a005ca1326c"
+      "targetId": "5c447ff2-43a3-4943-a478-cf3ff9293af7"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "b2953455-cbf0-4a2a-8015-922d910838df",
+      "sourceId": "45dc6b9c-4ef1-4ead-81a4-b5b5246233e7",
       "targetKind": "column",
-      "targetId": "02f0b4fb-951a-47c0-80bb-33fe96f9c051"
+      "targetId": "f7ddc620-87c4-4084-87d4-df716e70038e"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb",
+      "sourceId": "158f4c36-50d6-4858-8000-e5f4976eedad",
       "targetKind": "table",
-      "targetId": "7198390d-3f11-4a8b-93bf-d22c353db946"
+      "targetId": "4d1836b4-a54b-457d-8b19-f42bce5999d2"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "3afaf4a9-d2c0-4acd-acfe-bda70bef1a52",
+      "sourceId": "3886db81-d1e5-4bb2-ab74-24ec3ffe9b63",
       "targetKind": "column",
-      "targetId": "71f194d2-e703-42a3-b3b6-62e1f0df4553"
+      "targetId": "3cb76301-503a-470e-a2ae-f48002f3ad37"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "6f191724-8fc9-49df-8b09-2ff65b86bf31",
+      "sourceId": "97ac9b0c-2291-4ccb-a0b9-af5539934574",
       "targetKind": "column",
-      "targetId": "86deda01-d697-442d-a8b6-8c055dcf776d"
+      "targetId": "11cf5bda-9c0e-4e77-b095-86eeb84ad92c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "283bc039-4297-4a7d-b38c-07b07d7d2f9c",
+      "sourceId": "82ce2328-1c82-408e-ad6a-0999210ed207",
       "targetKind": "column",
-      "targetId": "1fd2537d-5b89-47f2-b345-0ff16320800d"
+      "targetId": "30a89f0d-178f-43f2-bc2a-5b7804ec45d4"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "5fadd206-ad06-440e-bff5-1558775e5892",
+      "sourceId": "37b264fc-61c6-44a5-ac72-880988441f8f",
       "targetKind": "column",
-      "targetId": "a186f942-9e73-438a-adb6-2b53633c48c7"
+      "targetId": "51a0023d-c0c3-4800-a0ea-6687de711ce9"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "b3bab73a-f647-42d4-9c11-e487b15583d9",
+      "sourceId": "257b36cb-3ca6-4cac-a6aa-21ea9c8b47f6",
       "targetKind": "foreign-key",
-      "targetId": "4e369262-a90a-439e-8234-df064c85d6d3"
+      "targetId": "8b5ae092-f780-411c-9dc5-67703274281b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "82929c63-90ab-417f-982d-585cd19f6bd6",
+      "sourceId": "983baedf-6ba9-49c9-9438-7b2e70190636",
       "targetKind": "foreign-key",
-      "targetId": "4e369262-a90a-439e-8234-df064c85d6d3"
+      "targetId": "8b5ae092-f780-411c-9dc5-67703274281b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "82929c63-90ab-417f-982d-585cd19f6bd6",
+      "sourceId": "983baedf-6ba9-49c9-9438-7b2e70190636",
       "targetKind": "alternate-key",
-      "targetId": "9ceb7bed-92f0-453a-853c-0b8fa9c6840a"
+      "targetId": "3e1b8090-e93d-4546-8dae-67d404b997db"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "76d2fa73-61ca-405b-ab6d-ead79788d4bb",
+      "sourceId": "46d505f2-8a46-4831-9eaf-e48dcb0d33be",
       "targetKind": "column",
-      "targetId": "02758d1f-ca35-487f-bacd-ff5879e6f8d9"
+      "targetId": "ebc567bf-2cc5-44cf-b613-0f108eca9d09"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "071d69b0-8e84-4afc-b67d-63b10c45d051",
+      "sourceId": "52c24ef0-93f9-4da5-b3a2-74f1c2bdade0",
       "targetKind": "foreign-key",
-      "targetId": "43318efc-c328-46f3-bd4a-ee7a346c9902"
+      "targetId": "c42da0d2-cd29-4a01-bb25-5de7fa2bd94b"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "b1fa2110-b803-4084-ac47-fa75cf604c52",
+      "sourceId": "67784e00-74ad-47ac-b5ff-66c65203ac38",
       "targetKind": "foreign-key",
-      "targetId": "43318efc-c328-46f3-bd4a-ee7a346c9902"
+      "targetId": "c42da0d2-cd29-4a01-bb25-5de7fa2bd94b"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e521fa0c-6c83-49d9-9e26-377cbec577c0",
+      "sourceId": "3f760dc1-a7b9-4f52-b2fe-25bf4cb63b6d",
       "targetKind": "foreign-key",
-      "targetId": "908c8efb-c188-489c-9d7f-da0bfaf735e8"
+      "targetId": "e5acc807-c3b7-4a53-b89b-c899bb163889"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "09e0964e-f3af-4d24-b982-314c5f6b8f01",
+      "sourceId": "e79c1f2c-28a8-4388-a713-ef1f30e2bc75",
       "targetKind": "foreign-key",
-      "targetId": "908c8efb-c188-489c-9d7f-da0bfaf735e8"
+      "targetId": "e5acc807-c3b7-4a53-b89b-c899bb163889"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "14e86fb5-c29c-4d20-9bd5-b39ddae46731",
+      "sourceId": "a373d811-3283-4a03-aa24-72c73284a239",
       "targetKind": "foreign-key",
-      "targetId": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1"
+      "targetId": "f2d6f528-1646-43ba-b399-66610f63754f"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "062f6431-8eb9-4559-b0e6-4c91c2110cff",
+      "sourceId": "0debe874-a905-45c3-b227-7a40f86a9572",
       "targetKind": "foreign-key",
-      "targetId": "0a753b1a-8dcd-47ed-82fa-a1df2300f3b1"
+      "targetId": "f2d6f528-1646-43ba-b399-66610f63754f"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "80b0278b-17c9-4f26-98f4-4cd061f417f7",
+      "sourceId": "e5a6c61c-8145-40af-bb6d-70d4652fc44d",
       "targetKind": "table",
-      "targetId": "76d5421d-d62e-480a-9c27-ca107c12cdf3"
+      "targetId": "d5a8886d-8b6e-49fe-bfb2-693f8644fb9e"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "4d459ae4-41ff-4392-94a9-9e317ce9933d",
+      "sourceId": "7689a970-2c97-4658-a3dd-16c7f0e1f811",
       "targetKind": "foreign-key",
-      "targetId": "4da45042-d36f-4c46-aa04-01483a6c441b"
+      "targetId": "1f77e6a2-dfd6-4602-8de5-c81ad4a1d491"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "59f67dc8-b7a5-48ba-8514-8ae9279cf556",
+      "sourceId": "c158f7ee-1c22-4199-8303-dd46639b286e",
       "targetKind": "foreign-key",
-      "targetId": "8d1151d2-aaeb-4115-b2cb-f2245eb472af"
+      "targetId": "0115dd8c-f688-4e6c-9558-3932ffdb4e77"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "132d14b9-fec0-42a1-bf7e-9c7108c3147e",
+      "sourceId": "2f1fde02-260a-4b85-9262-8edc80625338",
       "targetKind": "column",
-      "targetId": "f62787f0-c4d5-4570-8c86-c6f48530fec4"
+      "targetId": "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "90ad66c9-5e8d-412f-bb6d-01f3d54ae717",
+      "sourceId": "c7eb3175-ae5c-49d7-bb74-eaaa8d091ca8",
       "targetKind": "foreign-key",
-      "targetId": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d"
+      "targetId": "503a33f1-c2b7-48cf-a196-6d0881478fea"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "55121de0-ef0b-41c9-b302-ded9d9ca3354",
+      "sourceId": "8e755db8-932e-4748-a71a-70ece4559339",
       "targetKind": "foreign-key",
-      "targetId": "d1d00c9d-f765-4d0b-8be0-93c6b6b98b4d"
+      "targetId": "503a33f1-c2b7-48cf-a196-6d0881478fea"
     }
   ],
   "assumptions": [
     {
-      "id": "a6aabd88-6032-478c-a6fd-46b1f5357131",
+      "id": "8d34e1dd-917f-45f6-b09c-9e7956fd8fe4",
       "kind": "enunciado",
       "text": "Departamento y proyecto tienen nombre y número únicos: el número es la clave primaria y el nombre una clave alternativa.",
-      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
+      "elementId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0"
     },
     {
-      "id": "a10ff6a7-206f-4622-98e3-195c38a3c242",
+      "id": "438d85f7-55ee-46f8-bc08-cf05fb882e51",
       "kind": "enunciado",
       "text": "Un departamento puede estar en varios lugares: atributo multivaluado; un proyecto, en uno solo.",
-      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
+      "elementId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0"
     },
     {
-      "id": "69a9f1a8-9ef1-4d9a-84cf-92be434edeef",
+      "id": "2af6b3c3-ec1f-4feb-b9f9-4d026a9a81c3",
       "kind": "enunciado",
       "text": "Participaciones del apartado b: Dirige total para el departamento, Trabaja_para total en ambos lados, Controla total para el proyecto, Supervision parcial en ambos, Trabaja_en total en ambos y Familiares_de total para el familiar.",
-      "elementId": "80b0278b-17c9-4f26-98f4-4cd061f417f7"
+      "elementId": "e5a6c61c-8145-40af-bb6d-70d4652fc44d"
     },
     {
-      "id": "f782562f-3a3a-44f1-bb41-1a49fb537f48",
+      "id": "ef5ece24-35b9-4906-9fac-7c56c142f634",
       "kind": "enunciado",
       "text": "Apartado c: la fecha en que el jefe empieza a dirigir es un atributo de Dirige y viaja a la tabla Departamento.",
-      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
+      "elementId": "983baedf-6ba9-49c9-9438-7b2e70190636"
     },
     {
-      "id": "a5039d6f-7cf0-419d-b52c-5492707086bf",
+      "id": "78cb6bdc-db48-423a-a08a-860f53f285a1",
       "kind": "enunciado",
       "text": "Dirige es 1:1: la clave ajena del gerente en Departamento es además clave alternativa, así que un empleado dirige como mucho un departamento.",
-      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
+      "elementId": "983baedf-6ba9-49c9-9438-7b2e70190636"
     },
     {
-      "id": "b90922cb-cbe8-4e09-90f2-ea15ddf46688",
+      "id": "9a00235e-bafd-42c0-aba7-47f99cbbd6de",
       "kind": "supuesto",
       "text": "El número total de empleados del departamento es un atributo derivado: se calcula contando Trabaja_para y no se almacena.",
-      "elementId": "ec1d8236-4e34-43f1-a94a-cb24bc7ec538"
+      "elementId": "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0"
     },
     {
-      "id": "9555b998-2344-49b0-9e55-4f57d62d53bd",
+      "id": "1d959aca-0e14-4819-ade0-b08c12225cef",
       "kind": "supuesto",
       "text": "El familiar se identifica por su nombre dentro de cada empleado: entidad débil con clave parcial.",
-      "elementId": "b3dc85e6-b6fb-4525-9870-6b08cee84ddb"
+      "elementId": "158f4c36-50d6-4858-8000-e5f4976eedad"
     },
     {
-      "id": "d29526d4-c53a-4a61-8cdd-804da5b3e3f3",
+      "id": "62e37c15-47f2-4242-8998-46d79d623bf9",
       "kind": "perdida",
       "text": "La participación total del departamento en Trabaja_para y de ambos lados en Trabaja_en no se impone con claves ajenas.",
-      "elementId": "80b0278b-17c9-4f26-98f4-4cd061f417f7"
+      "elementId": "e5a6c61c-8145-40af-bb6d-70d4652fc44d"
     },
     {
-      "id": "e04bbdc2-13d8-4813-a858-d7842a3a3370",
+      "id": "11f68927-8163-4afd-b428-b23c8bc6cc38",
       "kind": "perdida",
       "text": "Que el gerente trabaje en el departamento que dirige, y que nadie se supervise a sí mismo, quedan fuera de las claves.",
-      "elementId": "82929c63-90ab-417f-982d-585cd19f6bd6"
+      "elementId": "983baedf-6ba9-49c9-9438-7b2e70190636"
     }
   ],
   "physical": {
@@ -1481,22 +1481,339 @@
     "relationships": {},
     "tables": {}
   },
-  "data": {},
+  "data": {
+    "41f77eef-fe9d-4789-9f11-4cc5a131bb3f": [
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "1",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Logística",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10039823R",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2025-05-27"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "2",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Administración",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10032450B",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2024-07-25"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "3",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Mantenimiento",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10000561T",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2025-10-13"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "4",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Ventas",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10056401L",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2024-09-23"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "5",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Recursos Humanos",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10016340R",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2024-12-27"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "6",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Informática",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10024678J",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2025-11-09"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "7",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Calidad",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10007983Q",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2024-02-05"
+      },
+      {
+        "4880174b-7a7b-4c12-bbd4-bcb35203bb92": "8",
+        "e644cf12-8ed5-4fa8-b5c0-525b829506b8": "Compras",
+        "9249ec21-2bf0-452c-ada9-d42cf1c4c3f2": "10047978Z",
+        "ebc567bf-2cc5-44cf-b613-0f108eca9d09": "2025-09-14"
+      }
+    ],
+    "cec06421-0207-4846-b9d2-39a0681510c1": [
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "8",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Orihuela"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "7",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Santa Pola"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "2",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Elche"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "1",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Alicante"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "8",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Torrevieja"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "2",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Alicante"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "2",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Santa Pola"
+      },
+      {
+        "dcad46d4-78c2-482e-8e45-86e875b2ce07": "6",
+        "75c8b2c8-540b-4c50-918b-ccf7fdb7a37f": "Crevillente"
+      }
+    ],
+    "8252d5e2-bcca-45b6-8f8a-05424763ca60": [
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "1",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Alfa",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Orihuela",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "5"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "2",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Brisa",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Santa Pola",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "7"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "3",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Coral",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Orihuela",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "6"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "4",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Delta",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Orihuela",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "5"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "5",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Eco",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Valencia",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "5"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "6",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Faro",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Torrevieja",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "2"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "7",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Alfa 2",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Alicante",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "6"
+      },
+      {
+        "fa37acf8-342b-4d9a-a63f-325fb9e5c774": "8",
+        "7bf79d25-a7af-4e33-8b60-f3fdab954b8f": "Proyecto Brisa 2",
+        "dcc832d9-2a24-46e9-9513-ca45141b8460": "Orihuela",
+        "41fc7a99-6783-4348-a64a-c0cb67c08f27": "5"
+      }
+    ],
+    "0ef6cf15-5bb9-4ebe-9e7a-bf620131c3d5": [
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10000561T",
+        "3b45947c-2451-4763-ab07-84094107154c": "Ana Romero",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "C/ Reina Victoria 29, Torrevieja",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "2540.6",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "H",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "1970-02-28",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "1",
+        "00a65176-11c8-4412-8fce-3cf56c219224": ""
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10007983Q",
+        "3b45947c-2451-4763-ab07-84094107154c": "Diego Díaz",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "C/ Mayor 69, Alicante",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "3099.82",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "M",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "1993-10-10",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "5",
+        "00a65176-11c8-4412-8fce-3cf56c219224": ""
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10016340R",
+        "3b45947c-2451-4763-ab07-84094107154c": "Óscar Sánchez",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "2513.88",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "H",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "2",
+        "00a65176-11c8-4412-8fce-3cf56c219224": ""
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10024678J",
+        "3b45947c-2451-4763-ab07-84094107154c": "Marta García",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "C/ San Vicente 4, Valencia",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "2220.08",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "H",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "1971-02-17",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "4",
+        "00a65176-11c8-4412-8fce-3cf56c219224": "10007983Q"
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10032450B",
+        "3b45947c-2451-4763-ab07-84094107154c": "Diego Romero",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "C/ Mayor 89, Valencia",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "3246.96",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "M",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "1976-11-19",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "8",
+        "00a65176-11c8-4412-8fce-3cf56c219224": ""
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10039823R",
+        "3b45947c-2451-4763-ab07-84094107154c": "Nuria Romero",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "Av. de Elche 68, Torrevieja",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "1960.11",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "H",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "2003-02-13",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "8",
+        "00a65176-11c8-4412-8fce-3cf56c219224": "10007983Q"
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10047978Z",
+        "3b45947c-2451-4763-ab07-84094107154c": "Marta Díaz",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "Pl. de España 55, Santa Pola",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "2964.31",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "H",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "2005-03-25",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "7",
+        "00a65176-11c8-4412-8fce-3cf56c219224": ""
+      },
+      {
+        "66c969a6-979c-4b9b-95d3-61cd55609459": "10056401L",
+        "3b45947c-2451-4763-ab07-84094107154c": "Andrés García",
+        "b760f87a-8fd6-4ae2-8f5c-027b0c91f07b": "Av. de Elche 68, Santa Pola",
+        "fa3b5ca4-32dc-4949-b370-702f7d9e8ec6": "1669.98",
+        "5c447ff2-43a3-4943-a478-cf3ff9293af7": "M",
+        "f7ddc620-87c4-4084-87d4-df716e70038e": "1995-04-06",
+        "f53965ec-7a91-457a-b186-5f6c1db129a6": "4",
+        "00a65176-11c8-4412-8fce-3cf56c219224": "10016340R"
+      }
+    ],
+    "4d1836b4-a54b-457d-8b19-f42bce5999d2": [
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Marta Moreno",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "H",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1970-10-27",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hija",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10047978Z"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Sara López",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1976-05-06",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "madre",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10047978Z"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Hugo Álvarez",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "M",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1996-09-18",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hijo",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10047978Z"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Luis Navarro",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "H",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1995-12-28",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hija",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10039823R"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Andrés Romero",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "H",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hijo",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10000561T"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Alba Sánchez",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "M",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1980-09-26",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hijo",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10000561T"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Lucía Martínez",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "M",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1991-02-25",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hija",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10032450B"
+      },
+      {
+        "3cb76301-503a-470e-a2ae-f48002f3ad37": "Andrés Torres",
+        "11cf5bda-9c0e-4e77-b095-86eeb84ad92c": "",
+        "30a89f0d-178f-43f2-bc2a-5b7804ec45d4": "1999-12-01",
+        "51a0023d-c0c3-4800-a0ea-6687de711ce9": "hijo",
+        "5783d0f6-cf45-48c4-b73e-4ff582fad829": "10056401L"
+      }
+    ],
+    "d5a8886d-8b6e-49fe-bfb2-693f8644fb9e": [
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10032450B",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "6",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "34.1"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10007983Q",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "3",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "6.7"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10007983Q",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "1",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "30.2"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10032450B",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "1",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "9"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10024678J",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "7",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "31.6"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10016340R",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "1",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "24.5"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10032450B",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "4",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "28.6"
+      },
+      {
+        "5acba8bd-74ff-4e69-a2fa-a027e0bb0582": "10024678J",
+        "6137e6a0-9d5a-48a5-86bb-02d07e22ab43": "2",
+        "7e5ddf98-cc0e-48e4-ae93-05d9eeed69b6": "40"
+      }
+    ]
+  },
   "presentation": {
     "chen": {
-      "ec1d8236-4e34-43f1-a94a-cb24bc7ec538": {
+      "fb7a7bcd-b9a2-4ce3-b3a3-130cc21d91f0": {
         "x": 120,
         "y": 140
       },
-      "767db012-d898-4385-8601-6fdb60136608": {
+      "981077e9-7209-4fb8-a8b2-cc366c19d11f": {
         "x": 2040,
         "y": 140
       },
-      "80e7349b-aea6-4877-a342-ff1ee3e78bdb": {
+      "fddfd4a5-912b-47c1-94fd-75e5a57c3909": {
         "x": 1080,
         "y": 980
       },
-      "b3dc85e6-b6fb-4525-9870-6b08cee84ddb": {
+      "158f4c36-50d6-4858-8000-e5f4976eedad": {
         "x": 1080,
         "y": 1820
       }

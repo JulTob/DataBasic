@@ -5,7 +5,7 @@
   "name": "Restaurante · ejercicio 4 (guion ERE)",
   "tables": [
     {
-      "id": "410aaad1-2296-4776-899a-f5c6babdac1a",
+      "id": "55c9d223-6dae-4177-a345-3bcd19b15717",
       "name": "Empleado",
       "conceptualName": "Empleado",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "45537894-3fe7-4a57-a351-3c3244c28d42",
+          "id": "a933b8d0-c7e8-4c01-92bc-c6d5389615b9",
           "name": "dni",
           "type": "CHAR(9)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "ef75e0e7-a870-4f2d-af31-3fc8fcebc0b8",
+          "id": "cc756b12-a2d2-47b9-ac29-b0fca389377c",
           "name": "num_ss",
           "type": "CHAR(12)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "be6578d0-84e7-41b5-9ab9-5dc88c129671",
+          "id": "76c65cf6-f134-470a-ac6d-f750d7d36a74",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -45,7 +45,7 @@
           "domain": null
         },
         {
-          "id": "1c8ac29e-e18a-4bce-83d3-faa76d89848e",
+          "id": "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a",
           "name": "apellidos",
           "type": "VARCHAR(80)",
           "required": true,
@@ -60,16 +60,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "9fd2aaa1-fcf1-4c89-ada5-7dd1a0561836",
+          "id": "96a7b8c1-cb69-4d4a-95b9-806e316eca64",
           "name": "AK_Empleado_num_ss",
           "columns": [
-            "ef75e0e7-a870-4f2d-af31-3fc8fcebc0b8"
+            "cc756b12-a2d2-47b9-ac29-b0fca389377c"
           ]
         }
       ]
     },
     {
-      "id": "b6ae204b-935b-4eff-9ac7-253d1bbac6df",
+      "id": "9c020e41-69f1-468b-bf07-7330fb81ff58",
       "name": "Telefonos_empleado",
       "conceptualName": "telefono",
       "syncNames": false,
@@ -79,7 +79,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "fd45a61e-2e55-48b2-ac0d-d225eaa5f8dd",
+          "id": "ad97be6b-ee02-4631-b2a4-a59d81dd2f77",
           "name": "Empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -88,7 +88,7 @@
           "defaultValue": ""
         },
         {
-          "id": "b203b58c-32f2-4241-b68d-f1cceec4d48b",
+          "id": "fbb16528-0949-47ed-b345-ffc9fe02799e",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": true,
@@ -104,7 +104,7 @@
       "alternateKeys": []
     },
     {
-      "id": "689ead2f-c8c5-4b96-9166-37d85900fc4b",
+      "id": "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561",
       "name": "Cocinero",
       "conceptualName": "Cocinero",
       "syncNames": true,
@@ -114,7 +114,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "5e46b1c8-8461-44a1-b9d2-b6f29ab9c2bd",
+          "id": "8f21cfae-0ed0-4a47-b343-b8ec68060a94",
           "name": "fecha_alta",
           "type": "DATE",
           "required": true,
@@ -124,7 +124,7 @@
           "domain": null
         },
         {
-          "id": "478c2606-968a-4216-8bcb-d97965d48bd0",
+          "id": "dbc66970-75f8-4830-9dac-5050b7867761",
           "name": "Empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -139,7 +139,7 @@
       "alternateKeys": []
     },
     {
-      "id": "fb9b9beb-78c2-49b4-8a45-8240dfaa542b",
+      "id": "476eadac-c15c-4893-9dd6-bd7021107d27",
       "name": "Pinche",
       "conceptualName": "Pinche",
       "syncNames": true,
@@ -149,7 +149,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "22cf90a7-4bbc-44e4-9a39-2067bfb46a74",
+          "id": "7a7444c0-f53e-46dc-822e-9e3068067349",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": true,
@@ -159,7 +159,7 @@
           "domain": null
         },
         {
-          "id": "47892cb7-aa67-4645-86bc-32b119e5eb21",
+          "id": "4e2e01a5-e2a9-41f4-bca9-e9619d306e37",
           "name": "Empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -168,7 +168,7 @@
           "defaultValue": ""
         },
         {
-          "id": "196d5705-121e-4fe7-b0c3-b278a4d0c704",
+          "id": "e8882205-6acc-482c-9351-f8a4e11a300f",
           "name": "cocinero_Empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -182,16 +182,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "18bcac5a-af81-42e9-b959-3af44f2f71b0",
+          "id": "5732a582-f964-4f00-9e7b-7cbe13b8f24a",
           "name": "AK_Pinche_Asignado",
           "columns": [
-            "196d5705-121e-4fe7-b0c3-b278a4d0c704"
+            "e8882205-6acc-482c-9351-f8a4e11a300f"
           ]
         }
       ]
     },
     {
-      "id": "e7b82309-f5b3-42ba-b410-778fefc2ec20",
+      "id": "ff9f645e-8eba-4fd4-985b-c878fdfe824d",
       "name": "Plato",
       "conceptualName": "Plato",
       "syncNames": true,
@@ -201,7 +201,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "359164a1-e414-43ee-baa5-088d2ed4ab6c",
+          "id": "81ce1a6f-29dd-466a-bc90-10d6831b4b5a",
           "name": "nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -211,7 +211,7 @@
           "domain": null
         },
         {
-          "id": "123b5665-f49b-4ec7-9700-9ac792f833e6",
+          "id": "7f2fef17-5605-4235-8d60-e5aa387122c5",
           "name": "precio",
           "type": "NUMBER(6,2)",
           "required": true,
@@ -226,7 +226,7 @@
           }
         },
         {
-          "id": "0476d7fc-c0c9-4fe8-aa51-aff83bccbc85",
+          "id": "9a6a47b2-6731-4e4c-814b-7154c5f43349",
           "name": "tipo",
           "type": "VARCHAR(10)",
           "required": true,
@@ -251,7 +251,7 @@
       "indexes": []
     },
     {
-      "id": "6c2c48fd-4a70-454b-afd1-6eeb60107c75",
+      "id": "70ff2d45-b914-41c8-99a1-d28eac79e716",
       "name": "Ingrediente",
       "conceptualName": "Ingrediente",
       "syncNames": true,
@@ -261,7 +261,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "6b979f5a-8ceb-4990-a1b9-a6b6c6473687",
+          "id": "fd5a01cb-f1bc-425f-a9fd-70691c9f555f",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -271,7 +271,7 @@
           "domain": null
         },
         {
-          "id": "18b00cce-2da3-4110-83b1-ba9320e00c6c",
+          "id": "2e7cf4f2-351f-409e-8441-d00bd404b904",
           "name": "precio_kg",
           "type": "NUMBER(6,2)",
           "required": true,
@@ -286,7 +286,7 @@
           }
         },
         {
-          "id": "56f17d4a-12f7-4dc9-8f80-2e78c9134615",
+          "id": "7dd173ce-257f-450b-9d9c-4188253b8b90",
           "name": "estante_letra",
           "type": "CHAR(1)",
           "required": true,
@@ -295,7 +295,7 @@
           "defaultValue": ""
         },
         {
-          "id": "c3ca2aab-86b3-4fb1-8ce3-8e06e59bcdce",
+          "id": "3004db02-450f-42e0-be17-012095121cd8",
           "name": "estante_almacen_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -304,7 +304,7 @@
           "defaultValue": ""
         },
         {
-          "id": "d3b68ff4-7006-4930-9f18-2c63403a7010",
+          "id": "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c",
           "name": "cantidad",
           "type": "NUMBER(7,2)",
           "required": true,
@@ -324,7 +324,7 @@
       "indexes": []
     },
     {
-      "id": "c05f99fa-6ba9-43f0-816f-16a53b295fa1",
+      "id": "0814758a-9719-4d81-804e-6288b3aa5aab",
       "name": "Almacen",
       "conceptualName": "Almacen",
       "syncNames": true,
@@ -334,7 +334,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "42763cad-a861-4189-b88b-133ea5f0d994",
+          "id": "e1275778-13f7-44da-8856-aef7e08867f6",
           "name": "numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -344,7 +344,7 @@
           "domain": null
         },
         {
-          "id": "b098b8be-36d5-467c-b655-39b6de7d5254",
+          "id": "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -354,7 +354,7 @@
           "domain": null
         },
         {
-          "id": "ffcc7afc-1675-4a79-af59-c93ae6b5a280",
+          "id": "fe183394-61ec-4479-8c20-06b0b07dc9e5",
           "name": "descripcion",
           "type": "VARCHAR(200)",
           "required": false,
@@ -369,7 +369,7 @@
       "indexes": []
     },
     {
-      "id": "076a4042-263a-40f8-9456-a3e22e82bc0e",
+      "id": "762b2178-b786-4d8c-b836-dc8e9cf2682b",
       "name": "Estante",
       "conceptualName": "Estante",
       "syncNames": true,
@@ -379,7 +379,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "dbeae749-d080-4086-a199-f4c4dc6a367e",
+          "id": "85e81817-aedf-4e9f-94c5-43c94211e481",
           "name": "letra",
           "type": "CHAR(1)",
           "required": true,
@@ -421,7 +421,7 @@
           }
         },
         {
-          "id": "67c89fd5-4ffa-4973-87c1-3dd466da6f53",
+          "id": "71c4887b-02b9-4d1b-97ed-b705f3528ef7",
           "name": "tamano_cm",
           "type": "NUMBER(4)",
           "required": true,
@@ -436,7 +436,7 @@
           }
         },
         {
-          "id": "626186f8-642f-455a-b5ad-63469d2e36a7",
+          "id": "4d893e1f-972d-47b6-be73-30596b64e8e8",
           "name": "almacen_numero",
           "type": "NUMBER(3)",
           "required": true,
@@ -450,7 +450,7 @@
       "indexes": []
     },
     {
-      "id": "8d223ef4-e4c1-4745-a4fd-c7892265e5de",
+      "id": "5a54738d-eda2-435d-8153-fc3bc187f871",
       "name": "Consumo",
       "conceptualName": "Consumo",
       "syncNames": true,
@@ -460,7 +460,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "22ce5c4a-a134-460b-9ea4-7030d12a11b9",
+          "id": "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -470,7 +470,7 @@
           "domain": null
         },
         {
-          "id": "81441372-4196-4989-b12f-5fba8dd52ea3",
+          "id": "556a503e-1d34-4854-88c3-ba8d8fdff136",
           "name": "turno",
           "type": "VARCHAR(6)",
           "required": true,
@@ -488,7 +488,7 @@
           }
         },
         {
-          "id": "787581e2-eb4d-45bb-b28a-115431c6004e",
+          "id": "0e8ff323-4da2-4d06-b2a8-7a67987a27b7",
           "name": "raciones",
           "type": "NUMBER(4)",
           "required": true,
@@ -503,7 +503,7 @@
           }
         },
         {
-          "id": "b31d7bd0-60e3-4739-b780-22c736242526",
+          "id": "11200e9c-5b74-4dc3-ba0e-bf18225be617",
           "name": "plato_nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -517,7 +517,7 @@
       "indexes": []
     },
     {
-      "id": "fc9ba203-a1b0-4477-adf6-5b52f68dedda",
+      "id": "3f96c871-da8b-4c73-b162-138482c3cb19",
       "name": "Compone",
       "conceptualName": "Compone",
       "syncNames": false,
@@ -527,7 +527,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "f8afb96f-1708-406d-8f82-674a0b449a29",
+          "id": "6d60723e-c285-4143-9b93-47c293176dbf",
           "name": "plato_nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -536,7 +536,7 @@
           "defaultValue": ""
         },
         {
-          "id": "14deb4bc-62e3-4466-bd21-3f5088d1aec3",
+          "id": "72ee2f4e-e3b8-4285-84bf-2c03a04196bc",
           "name": "ingrediente_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -545,7 +545,7 @@
           "defaultValue": ""
         },
         {
-          "id": "f8997588-e81f-4bf4-8662-3ee08160057b",
+          "id": "edd4d503-5803-4138-a981-3365c6ef57b1",
           "name": "cantidad",
           "type": "NUMBER(6,3)",
           "required": true,
@@ -565,7 +565,7 @@
       "indexes": []
     },
     {
-      "id": "cb294f9e-3592-4895-aa07-5e70f404afb1",
+      "id": "97fda221-9e64-4fa4-9fad-aa11b9a5e8e3",
       "name": "Prepara",
       "conceptualName": "Prepara",
       "syncNames": false,
@@ -575,7 +575,7 @@
       "y": 1820,
       "columns": [
         {
-          "id": "2dfc080f-ed9a-4286-beb8-44b8e6f2d8d5",
+          "id": "757655f0-c18f-4e45-aa4f-ce78903a5384",
           "name": "cocinero_Empleado_dni",
           "type": "CHAR(9)",
           "required": true,
@@ -584,7 +584,7 @@
           "defaultValue": ""
         },
         {
-          "id": "5e58f9ab-d243-4d9e-973d-8d4dd8c5fbda",
+          "id": "656d8d1a-bda6-456f-9e96-3e8c400e3dd6",
           "name": "plato_nombre",
           "type": "VARCHAR(60)",
           "required": true,
@@ -600,9 +600,9 @@
   ],
   "relationships": [
     {
-      "id": "f8126e23-7ecf-4dd5-8d97-466aa49db8a1",
-      "parentId": "410aaad1-2296-4776-899a-f5c6babdac1a",
-      "childId": "b6ae204b-935b-4eff-9ac7-253d1bbac6df",
+      "id": "76e41964-fad0-4223-a7bc-1b810c869b25",
+      "parentId": "55c9d223-6dae-4177-a345-3bcd19b15717",
+      "childId": "9c020e41-69f1-468b-bf07-7330fb81ff58",
       "name": "FK_Telefonos_empleado_Empleado",
       "forward": "",
       "inverse": "",
@@ -613,15 +613,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "45537894-3fe7-4a57-a351-3c3244c28d42",
-          "childColumnId": "fd45a61e-2e55-48b2-ac0d-d225eaa5f8dd"
+          "parentColumnId": "a933b8d0-c7e8-4c01-92bc-c6d5389615b9",
+          "childColumnId": "ad97be6b-ee02-4631-b2a4-a59d81dd2f77"
         }
       ]
     },
     {
-      "id": "eb33c307-585d-4f83-b25b-9b39aecb9586",
-      "parentId": "410aaad1-2296-4776-899a-f5c6babdac1a",
-      "childId": "689ead2f-c8c5-4b96-9166-37d85900fc4b",
+      "id": "fc45b490-d6bf-4180-a181-c2354ec397fc",
+      "parentId": "55c9d223-6dae-4177-a345-3bcd19b15717",
+      "childId": "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561",
       "name": "FK_Cocinero_Empleado",
       "forward": "",
       "inverse": "",
@@ -632,15 +632,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "45537894-3fe7-4a57-a351-3c3244c28d42",
-          "childColumnId": "478c2606-968a-4216-8bcb-d97965d48bd0"
+          "parentColumnId": "a933b8d0-c7e8-4c01-92bc-c6d5389615b9",
+          "childColumnId": "dbc66970-75f8-4830-9dac-5050b7867761"
         }
       ]
     },
     {
-      "id": "ca7ce2e1-bea0-4383-8362-6d1afb52cb71",
-      "parentId": "410aaad1-2296-4776-899a-f5c6babdac1a",
-      "childId": "fb9b9beb-78c2-49b4-8a45-8240dfaa542b",
+      "id": "dc046aae-f2d6-450d-afec-34d2832aabdb",
+      "parentId": "55c9d223-6dae-4177-a345-3bcd19b15717",
+      "childId": "476eadac-c15c-4893-9dd6-bd7021107d27",
       "name": "FK_Pinche_Empleado",
       "forward": "",
       "inverse": "",
@@ -651,15 +651,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "45537894-3fe7-4a57-a351-3c3244c28d42",
-          "childColumnId": "47892cb7-aa67-4645-86bc-32b119e5eb21"
+          "parentColumnId": "a933b8d0-c7e8-4c01-92bc-c6d5389615b9",
+          "childColumnId": "4e2e01a5-e2a9-41f4-bca9-e9619d306e37"
         }
       ]
     },
     {
-      "id": "4564f180-fc26-4b6d-a519-f4e84b4767cf",
-      "parentId": "c05f99fa-6ba9-43f0-816f-16a53b295fa1",
-      "childId": "076a4042-263a-40f8-9456-a3e22e82bc0e",
+      "id": "fbb9b271-94a6-4d44-b41d-7f70479c3230",
+      "parentId": "0814758a-9719-4d81-804e-6288b3aa5aab",
+      "childId": "762b2178-b786-4d8c-b836-dc8e9cf2682b",
       "name": "FK_Contiene_almacen",
       "forward": "Contiene",
       "inverse": "almacen",
@@ -670,15 +670,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "42763cad-a861-4189-b88b-133ea5f0d994",
-          "childColumnId": "626186f8-642f-455a-b5ad-63469d2e36a7"
+          "parentColumnId": "e1275778-13f7-44da-8856-aef7e08867f6",
+          "childColumnId": "4d893e1f-972d-47b6-be73-30596b64e8e8"
         }
       ]
     },
     {
-      "id": "1b9b997c-e69b-43c4-bc11-3a0633784c7d",
-      "parentId": "076a4042-263a-40f8-9456-a3e22e82bc0e",
-      "childId": "6c2c48fd-4a70-454b-afd1-6eeb60107c75",
+      "id": "07b8b768-6267-40a9-ba8c-a1f0ed1bfebb",
+      "parentId": "762b2178-b786-4d8c-b836-dc8e9cf2682b",
+      "childId": "70ff2d45-b914-41c8-99a1-d28eac79e716",
       "name": "FK_Ubicado_estante",
       "forward": "Ubicado",
       "inverse": "estante",
@@ -689,19 +689,19 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "dbeae749-d080-4086-a199-f4c4dc6a367e",
-          "childColumnId": "56f17d4a-12f7-4dc9-8f80-2e78c9134615"
+          "parentColumnId": "85e81817-aedf-4e9f-94c5-43c94211e481",
+          "childColumnId": "7dd173ce-257f-450b-9d9c-4188253b8b90"
         },
         {
-          "parentColumnId": "626186f8-642f-455a-b5ad-63469d2e36a7",
-          "childColumnId": "c3ca2aab-86b3-4fb1-8ce3-8e06e59bcdce"
+          "parentColumnId": "4d893e1f-972d-47b6-be73-30596b64e8e8",
+          "childColumnId": "3004db02-450f-42e0-be17-012095121cd8"
         }
       ]
     },
     {
-      "id": "972234f4-ba7f-44c3-9555-824d4fb277b8",
-      "parentId": "e7b82309-f5b3-42ba-b410-778fefc2ec20",
-      "childId": "fc9ba203-a1b0-4477-adf6-5b52f68dedda",
+      "id": "3880213a-f3d9-43bf-a2e5-06a8c11e59ae",
+      "parentId": "ff9f645e-8eba-4fd4-985b-c878fdfe824d",
+      "childId": "3f96c871-da8b-4c73-b162-138482c3cb19",
       "name": "FK_Compone_plato",
       "forward": "Compone",
       "inverse": "plato",
@@ -712,15 +712,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "359164a1-e414-43ee-baa5-088d2ed4ab6c",
-          "childColumnId": "f8afb96f-1708-406d-8f82-674a0b449a29"
+          "parentColumnId": "81ce1a6f-29dd-466a-bc90-10d6831b4b5a",
+          "childColumnId": "6d60723e-c285-4143-9b93-47c293176dbf"
         }
       ]
     },
     {
-      "id": "c6835903-aa7b-454b-803e-d1aa0226fc15",
-      "parentId": "6c2c48fd-4a70-454b-afd1-6eeb60107c75",
-      "childId": "fc9ba203-a1b0-4477-adf6-5b52f68dedda",
+      "id": "eb2862c0-ac6e-4785-9954-4effbd32ec03",
+      "parentId": "70ff2d45-b914-41c8-99a1-d28eac79e716",
+      "childId": "3f96c871-da8b-4c73-b162-138482c3cb19",
       "name": "FK_Compone_ingrediente",
       "forward": "Compone",
       "inverse": "ingrediente",
@@ -731,15 +731,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "6b979f5a-8ceb-4990-a1b9-a6b6c6473687",
-          "childColumnId": "14deb4bc-62e3-4466-bd21-3f5088d1aec3"
+          "parentColumnId": "fd5a01cb-f1bc-425f-a9fd-70691c9f555f",
+          "childColumnId": "72ee2f4e-e3b8-4285-84bf-2c03a04196bc"
         }
       ]
     },
     {
-      "id": "8436931a-1ef7-452f-a4e7-9fcb0644b5b4",
-      "parentId": "689ead2f-c8c5-4b96-9166-37d85900fc4b",
-      "childId": "cb294f9e-3592-4895-aa07-5e70f404afb1",
+      "id": "824f794f-87c9-4e6a-9cb7-d18ac24231cc",
+      "parentId": "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561",
+      "childId": "97fda221-9e64-4fa4-9fad-aa11b9a5e8e3",
       "name": "FK_Prepara_cocinero",
       "forward": "Prepara",
       "inverse": "cocinero",
@@ -750,15 +750,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "478c2606-968a-4216-8bcb-d97965d48bd0",
-          "childColumnId": "2dfc080f-ed9a-4286-beb8-44b8e6f2d8d5"
+          "parentColumnId": "dbc66970-75f8-4830-9dac-5050b7867761",
+          "childColumnId": "757655f0-c18f-4e45-aa4f-ce78903a5384"
         }
       ]
     },
     {
-      "id": "2579afef-dad6-4a74-a838-65d65d34ca1e",
-      "parentId": "e7b82309-f5b3-42ba-b410-778fefc2ec20",
-      "childId": "cb294f9e-3592-4895-aa07-5e70f404afb1",
+      "id": "a81fbe15-e2bf-44b9-b9f8-5b239448b0f9",
+      "parentId": "ff9f645e-8eba-4fd4-985b-c878fdfe824d",
+      "childId": "97fda221-9e64-4fa4-9fad-aa11b9a5e8e3",
       "name": "FK_Prepara_plato",
       "forward": "Prepara",
       "inverse": "plato",
@@ -769,15 +769,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "359164a1-e414-43ee-baa5-088d2ed4ab6c",
-          "childColumnId": "5e58f9ab-d243-4d9e-973d-8d4dd8c5fbda"
+          "parentColumnId": "81ce1a6f-29dd-466a-bc90-10d6831b4b5a",
+          "childColumnId": "656d8d1a-bda6-456f-9e96-3e8c400e3dd6"
         }
       ]
     },
     {
-      "id": "ef7f2d21-fd00-4baa-8a4b-3f8ed1ec934f",
-      "parentId": "689ead2f-c8c5-4b96-9166-37d85900fc4b",
-      "childId": "fb9b9beb-78c2-49b4-8a45-8240dfaa542b",
+      "id": "03de9aa8-e1e0-49a0-9695-055522e76723",
+      "parentId": "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561",
+      "childId": "476eadac-c15c-4893-9dd6-bd7021107d27",
       "name": "FK_Asignado_cocinero",
       "forward": "Asignado",
       "inverse": "cocinero",
@@ -788,15 +788,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "478c2606-968a-4216-8bcb-d97965d48bd0",
-          "childColumnId": "196d5705-121e-4fe7-b0c3-b278a4d0c704"
+          "parentColumnId": "dbc66970-75f8-4830-9dac-5050b7867761",
+          "childColumnId": "e8882205-6acc-482c-9351-f8a4e11a300f"
         }
       ]
     },
     {
-      "id": "515ccdf6-45c2-4c24-9961-829be5a0e0e5",
-      "parentId": "e7b82309-f5b3-42ba-b410-778fefc2ec20",
-      "childId": "8d223ef4-e4c1-4745-a4fd-c7892265e5de",
+      "id": "57955d53-b120-410f-8366-eeaddeae3cd3",
+      "parentId": "ff9f645e-8eba-4fd4-985b-c878fdfe824d",
+      "childId": "5a54738d-eda2-435d-8153-fc3bc187f871",
       "name": "FK_Registra_plato",
       "forward": "Registra",
       "inverse": "plato",
@@ -807,8 +807,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "359164a1-e414-43ee-baa5-088d2ed4ab6c",
-          "childColumnId": "b31d7bd0-60e3-4739-b780-22c736242526"
+          "parentColumnId": "81ce1a6f-29dd-466a-bc90-10d6831b4b5a",
+          "childColumnId": "11200e9c-5b74-4dc3-ba0e-bf18225be617"
         }
       ]
     }
@@ -816,7 +816,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "id": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "Empleado",
         "notes": "",
         "weak": false,
@@ -826,7 +826,7 @@
         }
       },
       {
-        "id": "963cbfba-548c-408a-8554-a85180acbacb",
+        "id": "093d25ce-c400-4d5b-93bf-bee7259d97f3",
         "name": "Cocinero",
         "notes": "",
         "weak": false,
@@ -836,7 +836,7 @@
         }
       },
       {
-        "id": "028895f2-514a-4bfc-9e54-506043859346",
+        "id": "5f9934dc-ca95-4a15-99a4-03750f511b1d",
         "name": "Pinche",
         "notes": "",
         "weak": false,
@@ -846,7 +846,7 @@
         }
       },
       {
-        "id": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+        "id": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
         "name": "Plato",
         "notes": "",
         "weak": false,
@@ -856,7 +856,7 @@
         }
       },
       {
-        "id": "c001df90-64b4-4696-a396-019576ae54b5",
+        "id": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
         "name": "Ingrediente",
         "notes": "",
         "weak": false,
@@ -866,7 +866,7 @@
         }
       },
       {
-        "id": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+        "id": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
         "name": "Almacen",
         "notes": "",
         "weak": false,
@@ -876,33 +876,33 @@
         }
       },
       {
-        "id": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+        "id": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
         "name": "Estante",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+        "ownerEntityId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
         "translation": {
           "kind": "weak",
-          "relationshipId": "362b8a1e-7d86-4e73-ad99-a38418a5bee9"
+          "relationshipId": "f664f1e7-544d-41fa-9e6b-c072284ae6f5"
         }
       },
       {
-        "id": "1f358771-7622-45b5-b256-c957674c94c1",
+        "id": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
         "name": "Consumo",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+        "ownerEntityId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
         "translation": {
           "kind": "weak",
-          "relationshipId": "0ba70968-33d8-4255-8d6c-4f38247e0c82"
+          "relationshipId": "5771b800-20cd-4faa-a3ae-4b54be27d5e6"
         }
       }
     ],
     "attributes": [
       {
-        "id": "311cce63-5041-4b99-82fa-7abbc81b66b4",
+        "id": "12c2783a-a2c1-4e72-a94f-2a74812f45f2",
         "ownerKind": "entity",
-        "ownerId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "ownerId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "dni",
         "type": "CHAR(9)",
         "required": true,
@@ -921,9 +921,9 @@
         }
       },
       {
-        "id": "87ba0286-7229-4fe2-9afc-ab0b56184224",
+        "id": "b12c889f-b6b8-41f4-ab9d-c5c8a101c825",
         "ownerKind": "entity",
-        "ownerId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "ownerId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "num_ss",
         "type": "CHAR(12)",
         "required": true,
@@ -942,9 +942,9 @@
         }
       },
       {
-        "id": "8cb89353-b53f-451d-8db6-ba382d08b346",
+        "id": "93da0157-c007-42d0-8d59-e46ec8069b87",
         "ownerKind": "entity",
-        "ownerId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "ownerId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -963,9 +963,9 @@
         }
       },
       {
-        "id": "dff88bd7-3d93-41c4-8f31-4763e9e50298",
+        "id": "e4826fcd-3aed-4946-839e-a559e3069adf",
         "ownerKind": "entity",
-        "ownerId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "ownerId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "apellidos",
         "type": "VARCHAR(80)",
         "required": true,
@@ -984,9 +984,9 @@
         }
       },
       {
-        "id": "ce407195-512b-487e-afea-d4757efd078d",
+        "id": "a4506430-2f58-479a-b799-caead8b68ad7",
         "ownerKind": "entity",
-        "ownerId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "ownerId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -1006,9 +1006,9 @@
         }
       },
       {
-        "id": "35300630-3db6-453c-af6c-b058368a345b",
+        "id": "b1f9596f-84f6-4bd5-8000-7e2e407b4d85",
         "ownerKind": "entity",
-        "ownerId": "963cbfba-548c-408a-8554-a85180acbacb",
+        "ownerId": "093d25ce-c400-4d5b-93bf-bee7259d97f3",
         "name": "fecha_alta",
         "type": "DATE",
         "required": true,
@@ -1027,9 +1027,9 @@
         }
       },
       {
-        "id": "9c2ce1d5-65c5-4ae8-9770-60c61c851682",
+        "id": "a1d768f8-4a8e-442c-885e-232e27b9cf77",
         "ownerKind": "entity",
-        "ownerId": "028895f2-514a-4bfc-9e54-506043859346",
+        "ownerId": "5f9934dc-ca95-4a15-99a4-03750f511b1d",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": true,
@@ -1048,9 +1048,9 @@
         }
       },
       {
-        "id": "7348f2f7-b84f-4d77-b68f-57f69305291e",
+        "id": "87034686-043a-4b61-b9d3-dc126dc81679",
         "ownerKind": "entity",
-        "ownerId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+        "ownerId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
         "name": "nombre",
         "type": "VARCHAR(60)",
         "required": true,
@@ -1069,9 +1069,9 @@
         }
       },
       {
-        "id": "22204a2f-b943-4c72-8952-0be110214b33",
+        "id": "9ad990a1-b0c1-4c44-a316-d717c28d70e0",
         "ownerKind": "entity",
-        "ownerId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+        "ownerId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
         "name": "precio",
         "type": "NUMBER(6,2)",
         "required": true,
@@ -1095,9 +1095,9 @@
         }
       },
       {
-        "id": "72b8dd0b-c05c-4f54-ac83-127c3c3eadf8",
+        "id": "3ade2a35-bccb-4df1-8d2a-e2233384b7ef",
         "ownerKind": "entity",
-        "ownerId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+        "ownerId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
         "name": "tipo",
         "type": "VARCHAR(10)",
         "required": true,
@@ -1126,9 +1126,9 @@
         }
       },
       {
-        "id": "c004bf80-02ca-4baf-8115-90f0c4852c0d",
+        "id": "5bdea365-6628-498f-bf6c-7ccbaaa0503e",
         "ownerKind": "entity",
-        "ownerId": "c001df90-64b4-4696-a396-019576ae54b5",
+        "ownerId": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -1147,9 +1147,9 @@
         }
       },
       {
-        "id": "1d9b1211-1688-469d-8c03-3a1fa6e64515",
+        "id": "88414099-998d-4cb1-b537-0f597c46e2fd",
         "ownerKind": "entity",
-        "ownerId": "c001df90-64b4-4696-a396-019576ae54b5",
+        "ownerId": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
         "name": "precio_kg",
         "type": "NUMBER(6,2)",
         "required": true,
@@ -1173,9 +1173,9 @@
         }
       },
       {
-        "id": "60796917-c99d-4f26-a0bd-f3460b5dc257",
+        "id": "c172c5f7-f422-4249-a116-f2f952b34f12",
         "ownerKind": "entity",
-        "ownerId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+        "ownerId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
         "name": "numero",
         "type": "NUMBER(3)",
         "required": true,
@@ -1194,9 +1194,9 @@
         }
       },
       {
-        "id": "830500f9-60ad-487b-a7d4-3f63ccacc02b",
+        "id": "5a5d2312-e9e6-454b-a805-b43dee11aef7",
         "ownerKind": "entity",
-        "ownerId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+        "ownerId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -1215,9 +1215,9 @@
         }
       },
       {
-        "id": "cb04eb1e-f157-469a-9ce6-2853cbd2cc9b",
+        "id": "aca878e8-061c-48b8-b88f-c4eca77de62b",
         "ownerKind": "entity",
-        "ownerId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+        "ownerId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
         "name": "descripcion",
         "type": "VARCHAR(200)",
         "required": false,
@@ -1236,9 +1236,9 @@
         }
       },
       {
-        "id": "fc7edca9-4130-4177-88ca-2522d421ddf0",
+        "id": "d73309d2-cf1e-4534-80c8-68d636c4381f",
         "ownerKind": "entity",
-        "ownerId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+        "ownerId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
         "name": "letra",
         "type": "CHAR(1)",
         "required": true,
@@ -1289,9 +1289,9 @@
         }
       },
       {
-        "id": "507d0993-264e-4fc4-bd5c-176106adab4e",
+        "id": "b4b834eb-b72b-4cd0-b04e-0d123a5aa764",
         "ownerKind": "entity",
-        "ownerId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+        "ownerId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
         "name": "tamano_cm",
         "type": "NUMBER(4)",
         "required": true,
@@ -1315,9 +1315,9 @@
         }
       },
       {
-        "id": "ba6141aa-86cb-4e9e-b8c7-6104b37abd60",
+        "id": "8636513b-f2a5-474d-a19e-b040bd1e3be5",
         "ownerKind": "entity",
-        "ownerId": "1f358771-7622-45b5-b256-c957674c94c1",
+        "ownerId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -1336,9 +1336,9 @@
         }
       },
       {
-        "id": "a536ee79-79c5-4886-8ab8-60005bff2b02",
+        "id": "824bff54-b6e8-4f76-801e-798c73fa39b6",
         "ownerKind": "entity",
-        "ownerId": "1f358771-7622-45b5-b256-c957674c94c1",
+        "ownerId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
         "name": "turno",
         "type": "VARCHAR(6)",
         "required": true,
@@ -1365,9 +1365,9 @@
         }
       },
       {
-        "id": "7708cfde-8e82-4909-bede-51794753b099",
+        "id": "3c438e41-febc-4cbe-a2e8-d85fbdadac70",
         "ownerKind": "entity",
-        "ownerId": "1f358771-7622-45b5-b256-c957674c94c1",
+        "ownerId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
         "name": "raciones",
         "type": "NUMBER(4)",
         "required": true,
@@ -1391,9 +1391,9 @@
         }
       },
       {
-        "id": "7871dfbf-da8d-4108-9454-356733b66e5e",
+        "id": "c18a0c61-5e04-4d86-8927-d0bdc689b75b",
         "ownerKind": "relationship",
-        "ownerId": "de711d81-6f5e-4756-8748-222bcde415bf",
+        "ownerId": "53003d29-86dd-4116-8e5b-107378329e48",
         "name": "cantidad",
         "type": "NUMBER(7,2)",
         "required": true,
@@ -1417,9 +1417,9 @@
         }
       },
       {
-        "id": "1cec0d66-d04f-487d-9ce6-eeaa45455ece",
+        "id": "5c809506-1943-40ff-8e56-05368b959687",
         "ownerKind": "relationship",
-        "ownerId": "7c359c2b-fe84-449c-97f5-363a7c283c62",
+        "ownerId": "de43f069-6691-4fc9-a7a8-14744d00723c",
         "name": "cantidad",
         "type": "NUMBER(6,3)",
         "required": true,
@@ -1445,20 +1445,20 @@
     ],
     "relationships": [
       {
-        "id": "362b8a1e-7d86-4e73-ad99-a38418a5bee9",
+        "id": "f664f1e7-544d-41fa-9e6b-c072284ae6f5",
         "name": "Contiene",
         "notes": "",
         "participations": [
           {
-            "id": "d444804c-b6d6-4f6b-b07a-abd82e80428a",
-            "entityId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+            "id": "b8fe52f0-36f8-4743-ba1d-303890a60e54",
+            "entityId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
             "role": "almacen",
             "min": 1,
             "max": null
           },
           {
-            "id": "091dbb41-9ae9-4d9a-92c2-05b79286e4e7",
-            "entityId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+            "id": "8a147a34-2729-4ba3-8317-7956e1ef1d98",
+            "entityId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
             "role": "estante",
             "min": 1,
             "max": 1
@@ -1466,25 +1466,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "091dbb41-9ae9-4d9a-92c2-05b79286e4e7",
+          "childParticipationId": "8a147a34-2729-4ba3-8317-7956e1ef1d98",
           "identifying": true
         }
       },
       {
-        "id": "de711d81-6f5e-4756-8748-222bcde415bf",
+        "id": "53003d29-86dd-4116-8e5b-107378329e48",
         "name": "Ubicado",
         "notes": "",
         "participations": [
           {
-            "id": "6e03b8d7-32e2-4a7b-9510-da797c7f8cc0",
-            "entityId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+            "id": "f6c02748-2052-45bf-8376-316fd26d1190",
+            "entityId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
             "role": "estante",
             "min": 0,
             "max": null
           },
           {
-            "id": "7f9f514a-90db-4f54-abef-6cacea462035",
-            "entityId": "c001df90-64b4-4696-a396-019576ae54b5",
+            "id": "f56fade0-0c9d-4955-9cb8-880504530543",
+            "entityId": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
             "role": "ingrediente",
             "min": 1,
             "max": 1
@@ -1492,25 +1492,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "7f9f514a-90db-4f54-abef-6cacea462035",
+          "childParticipationId": "f56fade0-0c9d-4955-9cb8-880504530543",
           "identifying": false
         }
       },
       {
-        "id": "7c359c2b-fe84-449c-97f5-363a7c283c62",
+        "id": "de43f069-6691-4fc9-a7a8-14744d00723c",
         "name": "Compone",
         "notes": "",
         "participations": [
           {
-            "id": "9706b720-b439-4138-a76d-eb6f5fab65f1",
-            "entityId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+            "id": "fb0de7c5-4e08-41ed-bba9-05789bd7b97b",
+            "entityId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
             "role": "plato",
             "min": 1,
             "max": null
           },
           {
-            "id": "8e08af33-77f7-4821-9948-e92382839aa2",
-            "entityId": "c001df90-64b4-4696-a396-019576ae54b5",
+            "id": "d6075589-34f1-494e-90eb-2cfd18ae6df8",
+            "entityId": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
             "role": "ingrediente",
             "min": 0,
             "max": null
@@ -1521,28 +1521,28 @@
           "tableName": "Compone",
           "key": {
             "participationIds": [
-              "9706b720-b439-4138-a76d-eb6f5fab65f1",
-              "8e08af33-77f7-4821-9948-e92382839aa2"
+              "fb0de7c5-4e08-41ed-bba9-05789bd7b97b",
+              "d6075589-34f1-494e-90eb-2cfd18ae6df8"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "78269f43-9bf1-4ca1-9b85-e8cfe4ac439b",
+        "id": "0bcb4696-e727-46e0-904f-9bd5ba252786",
         "name": "Prepara",
         "notes": "",
         "participations": [
           {
-            "id": "cca3e5a5-9657-43b2-a675-c82aec80936e",
-            "entityId": "963cbfba-548c-408a-8554-a85180acbacb",
+            "id": "38db854c-45fc-4ec0-a443-b2d0039eb6b8",
+            "entityId": "093d25ce-c400-4d5b-93bf-bee7259d97f3",
             "role": "cocinero",
             "min": 0,
             "max": null
           },
           {
-            "id": "462d0f3e-1851-4dc6-b932-51cecffad48f",
-            "entityId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+            "id": "3c897e9b-5efe-48ea-9d41-742d5dd755de",
+            "entityId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
             "role": "plato",
             "min": 1,
             "max": null
@@ -1553,28 +1553,28 @@
           "tableName": "Prepara",
           "key": {
             "participationIds": [
-              "cca3e5a5-9657-43b2-a675-c82aec80936e",
-              "462d0f3e-1851-4dc6-b932-51cecffad48f"
+              "38db854c-45fc-4ec0-a443-b2d0039eb6b8",
+              "3c897e9b-5efe-48ea-9d41-742d5dd755de"
             ],
             "attributeIds": []
           }
         }
       },
       {
-        "id": "f2cf78ea-0b1f-4ede-b212-a10ef2372507",
+        "id": "6b85b66b-f2f4-4d04-ab44-61c39b061c5b",
         "name": "Asignado",
         "notes": "",
         "participations": [
           {
-            "id": "35e6d43c-85b2-4a35-b22e-5d9d2071d3e8",
-            "entityId": "963cbfba-548c-408a-8554-a85180acbacb",
+            "id": "860062cd-4c1d-44c1-9f99-8cea0e2bec0d",
+            "entityId": "093d25ce-c400-4d5b-93bf-bee7259d97f3",
             "role": "cocinero",
             "min": 0,
             "max": 1
           },
           {
-            "id": "3109e974-8b6e-49b0-a2ca-b893dae1bd2a",
-            "entityId": "028895f2-514a-4bfc-9e54-506043859346",
+            "id": "4347366e-88d2-4ace-9b90-33d694669836",
+            "entityId": "5f9934dc-ca95-4a15-99a4-03750f511b1d",
             "role": "pinche",
             "min": 1,
             "max": 1
@@ -1582,25 +1582,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "3109e974-8b6e-49b0-a2ca-b893dae1bd2a",
+          "childParticipationId": "4347366e-88d2-4ace-9b90-33d694669836",
           "identifying": false
         }
       },
       {
-        "id": "0ba70968-33d8-4255-8d6c-4f38247e0c82",
+        "id": "5771b800-20cd-4faa-a3ae-4b54be27d5e6",
         "name": "Registra",
         "notes": "",
         "participations": [
           {
-            "id": "75c1ba8c-c43d-41da-a978-6533bebf02d2",
-            "entityId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+            "id": "4fb5114a-94a1-43f0-a9ff-1a7cb08b3d65",
+            "entityId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
             "role": "plato",
             "min": 0,
             "max": null
           },
           {
-            "id": "2af2d2f2-1df1-4504-a28e-8d3964806d23",
-            "entityId": "1f358771-7622-45b5-b256-c957674c94c1",
+            "id": "c366e40a-d5e6-4aaa-9ce1-6a55c1ef2979",
+            "entityId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
             "role": "consumo",
             "min": 1,
             "max": 1
@@ -1608,18 +1608,18 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "2af2d2f2-1df1-4504-a28e-8d3964806d23",
+          "childParticipationId": "c366e40a-d5e6-4aaa-9ce1-6a55c1ef2979",
           "identifying": true
         }
       }
     ],
     "generalizations": [
       {
-        "id": "fc452dde-cb8f-4eba-9ee2-c631ba26d002",
-        "supertypeId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+        "id": "979238a7-16ec-4ece-bb17-7b92ef3b2d43",
+        "supertypeId": "2d683ec7-af02-4537-b29e-f70f50501979",
         "subtypeIds": [
-          "963cbfba-548c-408a-8554-a85180acbacb",
-          "028895f2-514a-4bfc-9e54-506043859346"
+          "093d25ce-c400-4d5b-93bf-bee7259d97f3",
+          "5f9934dc-ca95-4a15-99a4-03750f511b1d"
         ],
         "disjoint": true,
         "total": false,
@@ -1633,377 +1633,377 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a",
+      "sourceId": "2d683ec7-af02-4537-b29e-f70f50501979",
       "targetKind": "table",
-      "targetId": "410aaad1-2296-4776-899a-f5c6babdac1a"
+      "targetId": "55c9d223-6dae-4177-a345-3bcd19b15717"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "311cce63-5041-4b99-82fa-7abbc81b66b4",
+      "sourceId": "12c2783a-a2c1-4e72-a94f-2a74812f45f2",
       "targetKind": "column",
-      "targetId": "45537894-3fe7-4a57-a351-3c3244c28d42"
+      "targetId": "a933b8d0-c7e8-4c01-92bc-c6d5389615b9"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "87ba0286-7229-4fe2-9afc-ab0b56184224",
+      "sourceId": "b12c889f-b6b8-41f4-ab9d-c5c8a101c825",
       "targetKind": "column",
-      "targetId": "ef75e0e7-a870-4f2d-af31-3fc8fcebc0b8"
+      "targetId": "cc756b12-a2d2-47b9-ac29-b0fca389377c"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8cb89353-b53f-451d-8db6-ba382d08b346",
+      "sourceId": "93da0157-c007-42d0-8d59-e46ec8069b87",
       "targetKind": "column",
-      "targetId": "be6578d0-84e7-41b5-9ab9-5dc88c129671"
+      "targetId": "76c65cf6-f134-470a-ac6d-f750d7d36a74"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "dff88bd7-3d93-41c4-8f31-4763e9e50298",
+      "sourceId": "e4826fcd-3aed-4946-839e-a559e3069adf",
       "targetKind": "column",
-      "targetId": "1c8ac29e-e18a-4bce-83d3-faa76d89848e"
+      "targetId": "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ce407195-512b-487e-afea-d4757efd078d",
+      "sourceId": "a4506430-2f58-479a-b799-caead8b68ad7",
       "targetKind": "table",
-      "targetId": "b6ae204b-935b-4eff-9ac7-253d1bbac6df"
+      "targetId": "9c020e41-69f1-468b-bf07-7330fb81ff58"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ce407195-512b-487e-afea-d4757efd078d",
+      "sourceId": "a4506430-2f58-479a-b799-caead8b68ad7",
       "targetKind": "foreign-key",
-      "targetId": "f8126e23-7ecf-4dd5-8d97-466aa49db8a1"
+      "targetId": "76e41964-fad0-4223-a7bc-1b810c869b25"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ce407195-512b-487e-afea-d4757efd078d",
+      "sourceId": "a4506430-2f58-479a-b799-caead8b68ad7",
       "targetKind": "column",
-      "targetId": "b203b58c-32f2-4241-b68d-f1cceec4d48b"
+      "targetId": "fbb16528-0949-47ed-b345-ffc9fe02799e"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "963cbfba-548c-408a-8554-a85180acbacb",
+      "sourceId": "093d25ce-c400-4d5b-93bf-bee7259d97f3",
       "targetKind": "table",
-      "targetId": "689ead2f-c8c5-4b96-9166-37d85900fc4b"
+      "targetId": "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "35300630-3db6-453c-af6c-b058368a345b",
+      "sourceId": "b1f9596f-84f6-4bd5-8000-7e2e407b4d85",
       "targetKind": "column",
-      "targetId": "5e46b1c8-8461-44a1-b9d2-b6f29ab9c2bd"
+      "targetId": "8f21cfae-0ed0-4a47-b343-b8ec68060a94"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "028895f2-514a-4bfc-9e54-506043859346",
+      "sourceId": "5f9934dc-ca95-4a15-99a4-03750f511b1d",
       "targetKind": "table",
-      "targetId": "fb9b9beb-78c2-49b4-8a45-8240dfaa542b"
+      "targetId": "476eadac-c15c-4893-9dd6-bd7021107d27"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "9c2ce1d5-65c5-4ae8-9770-60c61c851682",
+      "sourceId": "a1d768f8-4a8e-442c-885e-232e27b9cf77",
       "targetKind": "column",
-      "targetId": "22cf90a7-4bbc-44e4-9a39-2067bfb46a74"
+      "targetId": "7a7444c0-f53e-46dc-822e-9e3068067349"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "fc452dde-cb8f-4eba-9ee2-c631ba26d002",
+      "sourceId": "979238a7-16ec-4ece-bb17-7b92ef3b2d43",
       "targetKind": "foreign-key",
-      "targetId": "eb33c307-585d-4f83-b25b-9b39aecb9586"
+      "targetId": "fc45b490-d6bf-4180-a181-c2354ec397fc"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "fc452dde-cb8f-4eba-9ee2-c631ba26d002",
+      "sourceId": "979238a7-16ec-4ece-bb17-7b92ef3b2d43",
       "targetKind": "column",
-      "targetId": "478c2606-968a-4216-8bcb-d97965d48bd0"
+      "targetId": "dbc66970-75f8-4830-9dac-5050b7867761"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "fc452dde-cb8f-4eba-9ee2-c631ba26d002",
+      "sourceId": "979238a7-16ec-4ece-bb17-7b92ef3b2d43",
       "targetKind": "foreign-key",
-      "targetId": "ca7ce2e1-bea0-4383-8362-6d1afb52cb71"
+      "targetId": "dc046aae-f2d6-450d-afec-34d2832aabdb"
     },
     {
       "sourceKind": "generalization",
-      "sourceId": "fc452dde-cb8f-4eba-9ee2-c631ba26d002",
+      "sourceId": "979238a7-16ec-4ece-bb17-7b92ef3b2d43",
       "targetKind": "column",
-      "targetId": "47892cb7-aa67-4645-86bc-32b119e5eb21"
+      "targetId": "4e2e01a5-e2a9-41f4-bca9-e9619d306e37"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c",
+      "sourceId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5",
       "targetKind": "table",
-      "targetId": "e7b82309-f5b3-42ba-b410-778fefc2ec20"
+      "targetId": "ff9f645e-8eba-4fd4-985b-c878fdfe824d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7348f2f7-b84f-4d77-b68f-57f69305291e",
+      "sourceId": "87034686-043a-4b61-b9d3-dc126dc81679",
       "targetKind": "column",
-      "targetId": "359164a1-e414-43ee-baa5-088d2ed4ab6c"
+      "targetId": "81ce1a6f-29dd-466a-bc90-10d6831b4b5a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "22204a2f-b943-4c72-8952-0be110214b33",
+      "sourceId": "9ad990a1-b0c1-4c44-a316-d717c28d70e0",
       "targetKind": "column",
-      "targetId": "123b5665-f49b-4ec7-9700-9ac792f833e6"
+      "targetId": "7f2fef17-5605-4235-8d60-e5aa387122c5"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "72b8dd0b-c05c-4f54-ac83-127c3c3eadf8",
+      "sourceId": "3ade2a35-bccb-4df1-8d2a-e2233384b7ef",
       "targetKind": "column",
-      "targetId": "0476d7fc-c0c9-4fe8-aa51-aff83bccbc85"
+      "targetId": "9a6a47b2-6731-4e4c-814b-7154c5f43349"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "c001df90-64b4-4696-a396-019576ae54b5",
+      "sourceId": "feb5bf16-460f-4fa2-b1da-5c70baf95e5b",
       "targetKind": "table",
-      "targetId": "6c2c48fd-4a70-454b-afd1-6eeb60107c75"
+      "targetId": "70ff2d45-b914-41c8-99a1-d28eac79e716"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c004bf80-02ca-4baf-8115-90f0c4852c0d",
+      "sourceId": "5bdea365-6628-498f-bf6c-7ccbaaa0503e",
       "targetKind": "column",
-      "targetId": "6b979f5a-8ceb-4990-a1b9-a6b6c6473687"
+      "targetId": "fd5a01cb-f1bc-425f-a9fd-70691c9f555f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1d9b1211-1688-469d-8c03-3a1fa6e64515",
+      "sourceId": "88414099-998d-4cb1-b537-0f597c46e2fd",
       "targetKind": "column",
-      "targetId": "18b00cce-2da3-4110-83b1-ba9320e00c6c"
+      "targetId": "2e7cf4f2-351f-409e-8441-d00bd404b904"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "0d01dd92-1e87-4a57-bd44-c50337c2981c",
+      "sourceId": "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef",
       "targetKind": "table",
-      "targetId": "c05f99fa-6ba9-43f0-816f-16a53b295fa1"
+      "targetId": "0814758a-9719-4d81-804e-6288b3aa5aab"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "60796917-c99d-4f26-a0bd-f3460b5dc257",
+      "sourceId": "c172c5f7-f422-4249-a116-f2f952b34f12",
       "targetKind": "column",
-      "targetId": "42763cad-a861-4189-b88b-133ea5f0d994"
+      "targetId": "e1275778-13f7-44da-8856-aef7e08867f6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "830500f9-60ad-487b-a7d4-3f63ccacc02b",
+      "sourceId": "5a5d2312-e9e6-454b-a805-b43dee11aef7",
       "targetKind": "column",
-      "targetId": "b098b8be-36d5-467c-b655-39b6de7d5254"
+      "targetId": "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "cb04eb1e-f157-469a-9ce6-2853cbd2cc9b",
+      "sourceId": "aca878e8-061c-48b8-b88f-c4eca77de62b",
       "targetKind": "column",
-      "targetId": "ffcc7afc-1675-4a79-af59-c93ae6b5a280"
+      "targetId": "fe183394-61ec-4479-8c20-06b0b07dc9e5"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1",
+      "sourceId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f",
       "targetKind": "table",
-      "targetId": "076a4042-263a-40f8-9456-a3e22e82bc0e"
+      "targetId": "762b2178-b786-4d8c-b836-dc8e9cf2682b"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "fc7edca9-4130-4177-88ca-2522d421ddf0",
+      "sourceId": "d73309d2-cf1e-4534-80c8-68d636c4381f",
       "targetKind": "column",
-      "targetId": "dbeae749-d080-4086-a199-f4c4dc6a367e"
+      "targetId": "85e81817-aedf-4e9f-94c5-43c94211e481"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "507d0993-264e-4fc4-bd5c-176106adab4e",
+      "sourceId": "b4b834eb-b72b-4cd0-b04e-0d123a5aa764",
       "targetKind": "column",
-      "targetId": "67c89fd5-4ffa-4973-87c1-3dd466da6f53"
+      "targetId": "71c4887b-02b9-4d1b-97ed-b705f3528ef7"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "1f358771-7622-45b5-b256-c957674c94c1",
+      "sourceId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40",
       "targetKind": "table",
-      "targetId": "8d223ef4-e4c1-4745-a4fd-c7892265e5de"
+      "targetId": "5a54738d-eda2-435d-8153-fc3bc187f871"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "ba6141aa-86cb-4e9e-b8c7-6104b37abd60",
+      "sourceId": "8636513b-f2a5-474d-a19e-b040bd1e3be5",
       "targetKind": "column",
-      "targetId": "22ce5c4a-a134-460b-9ea4-7030d12a11b9"
+      "targetId": "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a536ee79-79c5-4886-8ab8-60005bff2b02",
+      "sourceId": "824bff54-b6e8-4f76-801e-798c73fa39b6",
       "targetKind": "column",
-      "targetId": "81441372-4196-4989-b12f-5fba8dd52ea3"
+      "targetId": "556a503e-1d34-4854-88c3-ba8d8fdff136"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7708cfde-8e82-4909-bede-51794753b099",
+      "sourceId": "3c438e41-febc-4cbe-a2e8-d85fbdadac70",
       "targetKind": "column",
-      "targetId": "787581e2-eb4d-45bb-b28a-115431c6004e"
+      "targetId": "0e8ff323-4da2-4d06-b2a8-7a67987a27b7"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "d444804c-b6d6-4f6b-b07a-abd82e80428a",
+      "sourceId": "b8fe52f0-36f8-4743-ba1d-303890a60e54",
       "targetKind": "foreign-key",
-      "targetId": "4564f180-fc26-4b6d-a519-f4e84b4767cf"
+      "targetId": "fbb9b271-94a6-4d44-b41d-7f70479c3230"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "362b8a1e-7d86-4e73-ad99-a38418a5bee9",
+      "sourceId": "f664f1e7-544d-41fa-9e6b-c072284ae6f5",
       "targetKind": "foreign-key",
-      "targetId": "4564f180-fc26-4b6d-a519-f4e84b4767cf"
+      "targetId": "fbb9b271-94a6-4d44-b41d-7f70479c3230"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "6e03b8d7-32e2-4a7b-9510-da797c7f8cc0",
+      "sourceId": "f6c02748-2052-45bf-8376-316fd26d1190",
       "targetKind": "foreign-key",
-      "targetId": "1b9b997c-e69b-43c4-bc11-3a0633784c7d"
+      "targetId": "07b8b768-6267-40a9-ba8c-a1f0ed1bfebb"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "de711d81-6f5e-4756-8748-222bcde415bf",
+      "sourceId": "53003d29-86dd-4116-8e5b-107378329e48",
       "targetKind": "foreign-key",
-      "targetId": "1b9b997c-e69b-43c4-bc11-3a0633784c7d"
+      "targetId": "07b8b768-6267-40a9-ba8c-a1f0ed1bfebb"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7871dfbf-da8d-4108-9454-356733b66e5e",
+      "sourceId": "c18a0c61-5e04-4d86-8927-d0bdc689b75b",
       "targetKind": "column",
-      "targetId": "d3b68ff4-7006-4930-9f18-2c63403a7010"
+      "targetId": "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "7c359c2b-fe84-449c-97f5-363a7c283c62",
+      "sourceId": "de43f069-6691-4fc9-a7a8-14744d00723c",
       "targetKind": "table",
-      "targetId": "fc9ba203-a1b0-4477-adf6-5b52f68dedda"
+      "targetId": "3f96c871-da8b-4c73-b162-138482c3cb19"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "9706b720-b439-4138-a76d-eb6f5fab65f1",
+      "sourceId": "fb0de7c5-4e08-41ed-bba9-05789bd7b97b",
       "targetKind": "foreign-key",
-      "targetId": "972234f4-ba7f-44c3-9555-824d4fb277b8"
+      "targetId": "3880213a-f3d9-43bf-a2e5-06a8c11e59ae"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "8e08af33-77f7-4821-9948-e92382839aa2",
+      "sourceId": "d6075589-34f1-494e-90eb-2cfd18ae6df8",
       "targetKind": "foreign-key",
-      "targetId": "c6835903-aa7b-454b-803e-d1aa0226fc15"
+      "targetId": "eb2862c0-ac6e-4785-9954-4effbd32ec03"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1cec0d66-d04f-487d-9ce6-eeaa45455ece",
+      "sourceId": "5c809506-1943-40ff-8e56-05368b959687",
       "targetKind": "column",
-      "targetId": "f8997588-e81f-4bf4-8662-3ee08160057b"
+      "targetId": "edd4d503-5803-4138-a981-3365c6ef57b1"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "78269f43-9bf1-4ca1-9b85-e8cfe4ac439b",
+      "sourceId": "0bcb4696-e727-46e0-904f-9bd5ba252786",
       "targetKind": "table",
-      "targetId": "cb294f9e-3592-4895-aa07-5e70f404afb1"
+      "targetId": "97fda221-9e64-4fa4-9fad-aa11b9a5e8e3"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "cca3e5a5-9657-43b2-a675-c82aec80936e",
+      "sourceId": "38db854c-45fc-4ec0-a443-b2d0039eb6b8",
       "targetKind": "foreign-key",
-      "targetId": "8436931a-1ef7-452f-a4e7-9fcb0644b5b4"
+      "targetId": "824f794f-87c9-4e6a-9cb7-d18ac24231cc"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "462d0f3e-1851-4dc6-b932-51cecffad48f",
+      "sourceId": "3c897e9b-5efe-48ea-9d41-742d5dd755de",
       "targetKind": "foreign-key",
-      "targetId": "2579afef-dad6-4a74-a838-65d65d34ca1e"
+      "targetId": "a81fbe15-e2bf-44b9-b9f8-5b239448b0f9"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "35e6d43c-85b2-4a35-b22e-5d9d2071d3e8",
+      "sourceId": "860062cd-4c1d-44c1-9f99-8cea0e2bec0d",
       "targetKind": "foreign-key",
-      "targetId": "ef7f2d21-fd00-4baa-8a4b-3f8ed1ec934f"
+      "targetId": "03de9aa8-e1e0-49a0-9695-055522e76723"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "f2cf78ea-0b1f-4ede-b212-a10ef2372507",
+      "sourceId": "6b85b66b-f2f4-4d04-ab44-61c39b061c5b",
       "targetKind": "foreign-key",
-      "targetId": "ef7f2d21-fd00-4baa-8a4b-3f8ed1ec934f"
+      "targetId": "03de9aa8-e1e0-49a0-9695-055522e76723"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "f2cf78ea-0b1f-4ede-b212-a10ef2372507",
+      "sourceId": "6b85b66b-f2f4-4d04-ab44-61c39b061c5b",
       "targetKind": "alternate-key",
-      "targetId": "18bcac5a-af81-42e9-b959-3af44f2f71b0"
+      "targetId": "5732a582-f964-4f00-9e7b-7cbe13b8f24a"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "75c1ba8c-c43d-41da-a978-6533bebf02d2",
+      "sourceId": "4fb5114a-94a1-43f0-a9ff-1a7cb08b3d65",
       "targetKind": "foreign-key",
-      "targetId": "515ccdf6-45c2-4c24-9961-829be5a0e0e5"
+      "targetId": "57955d53-b120-410f-8366-eeaddeae3cd3"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "0ba70968-33d8-4255-8d6c-4f38247e0c82",
+      "sourceId": "5771b800-20cd-4faa-a3ae-4b54be27d5e6",
       "targetKind": "foreign-key",
-      "targetId": "515ccdf6-45c2-4c24-9961-829be5a0e0e5"
+      "targetId": "57955d53-b120-410f-8366-eeaddeae3cd3"
     }
   ],
   "assumptions": [
     {
-      "id": "ff58cfd3-51bb-4ba6-b6b6-700fefa6a236",
+      "id": "70f192ff-e629-4740-b8ea-224d952b03f2",
       "kind": "enunciado",
       "text": "El número de la Seguridad Social es único: clave alternativa. Los teléfonos son un atributo multivaluado.",
-      "elementId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a"
+      "elementId": "2d683ec7-af02-4537-b29e-f70f50501979"
     },
     {
-      "id": "c44527da-3d47-48c6-96ea-586fe0139dd2",
+      "id": "f85cc038-429a-40fb-8623-d4e46555341f",
       "kind": "enunciado",
       "text": "Los estantes se nombran con letras de la A a la Z dentro de cada almacén: entidad débil de Almacen.",
-      "elementId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1"
+      "elementId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f"
     },
     {
-      "id": "002ce06f-3c05-4aea-a1cb-b63baf8234f7",
+      "id": "8cc8c2f6-8a99-42d5-8a4b-701a4802fe96",
       "kind": "enunciado",
       "text": "Un ingrediente está en un solo estante y un estante guarda varios; la cantidad guardada es un atributo de la relación.",
-      "elementId": "de711d81-6f5e-4756-8748-222bcde415bf"
+      "elementId": "53003d29-86dd-4116-8e5b-107378329e48"
     },
     {
-      "id": "99ebd991-ddb3-4925-93fb-8ecf61a5d9f0",
+      "id": "83f0e8bb-e692-48fd-a94c-f5d759420f53",
       "kind": "enunciado",
       "text": "Un cocinero tiene como máximo un pinche y todo pinche tiene su cocinero: 1:1 con la clave ajena en Pinche, única.",
-      "elementId": "f2cf78ea-0b1f-4ede-b212-a10ef2372507"
+      "elementId": "6b85b66b-f2f4-4d04-ab44-61c39b061c5b"
     },
     {
-      "id": "f96cedc3-b6c8-4cd2-90fb-34eaa1c09848",
+      "id": "9f7ba41a-21a4-4d36-ad61-b43454841114",
       "kind": "supuesto",
       "text": "Los empleados comunes no tienen atributos propios: son los que no están en ninguna subclase. Especialización parcial y disjunta.",
-      "elementId": "c61a7af8-5e66-4fce-8fcb-03ca4324e10a"
+      "elementId": "2d683ec7-af02-4537-b29e-f70f50501979"
     },
     {
-      "id": "595a0ed1-1c11-4d37-ba5a-5f2de55f3c87",
+      "id": "14e0c08f-4337-4706-9821-01e0b1ab2b79",
       "kind": "supuesto",
       "text": "El tipo de plato es un dominio y no una especialización, porque los tipos no tienen atributos propios.",
-      "elementId": "e4e4a13e-131e-4b7f-8535-62e6eb10785c"
+      "elementId": "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5"
     },
     {
-      "id": "0fa5c906-2331-420d-941f-430905c43695",
+      "id": "c03b7b31-cda7-4e61-ba1c-d4a8c59d9999",
       "kind": "supuesto",
       "text": "Prepara es N:N porque el enunciado pide «qué cocineros preparan cada plato»: varios cocineros pueden compartir especialidad y un cocinero prepara varios platos.",
-      "elementId": "78269f43-9bf1-4ca1-9b85-e8cfe4ac439b"
+      "elementId": "0bcb4696-e727-46e0-904f-9bd5ba252786"
     },
     {
-      "id": "a87037de-f976-48e7-afc6-d90544ca00a1",
+      "id": "00ddb84d-71d9-45bd-a0d2-2fde11df7990",
       "kind": "enunciado",
       "text": "Prepara registra la especialidad: «solamente pueden preparar ellos» se cumple porque solo los cocineros relacionados con un plato en Prepara lo preparan.",
-      "elementId": "78269f43-9bf1-4ca1-9b85-e8cfe4ac439b"
+      "elementId": "0bcb4696-e727-46e0-904f-9bd5ba252786"
     },
     {
-      "id": "eb503f1d-2a68-453a-99bc-09d8e9a389b5",
+      "id": "2989c4e9-87d4-47a6-816e-0185b240a3aa",
       "kind": "supuesto",
       "text": "El consumo diario es una entidad débil del plato identificada por fecha y turno (comida o cena), con el número de raciones.",
-      "elementId": "1f358771-7622-45b5-b256-c957674c94c1"
+      "elementId": "ecf3bdd8-651c-4a0b-b708-9777df5bda40"
     },
     {
-      "id": "a97a1929-b25c-4a0d-8300-86164914bd9a",
+      "id": "283a6b12-5acf-4a6a-96e2-ef7ca240f708",
       "kind": "perdida",
       "text": "Que todo plato tenga al menos un cocinero que lo prepare no se impone con claves: nada obliga a que el plato aparezca en Prepara.",
-      "elementId": "78269f43-9bf1-4ca1-9b85-e8cfe4ac439b"
+      "elementId": "0bcb4696-e727-46e0-904f-9bd5ba252786"
     },
     {
-      "id": "7466955d-78a5-4684-b221-c4d84b3f20ac",
+      "id": "bba7eb8a-2c46-44cb-b064-260885b01577",
       "kind": "supuesto",
       "text": "La letra del estante se limita a la lista A–Z como dominio.",
-      "elementId": "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1"
+      "elementId": "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f"
     }
   ],
   "physical": {
@@ -2011,38 +2011,464 @@
     "relationships": {},
     "tables": {}
   },
-  "data": {},
+  "data": {
+    "55c9d223-6dae-4177-a345-3bcd19b15717": [
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10000569P",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000000228",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Marta",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Gómez Navarro"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10008319F",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000105482",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Pablo",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Álvarez Castro"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10016797K",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000209869",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Óscar",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Fernández Gil"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10023913F",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000314263",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Luis",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Sánchez Pérez"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10032595H",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000419675",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Sara",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Sánchez Pérez"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10039819C",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000523973",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Óscar",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Torres Marín"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10048103R",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000628871",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Carlos",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "Gómez Navarro"
+      },
+      {
+        "a933b8d0-c7e8-4c01-92bc-c6d5389615b9": "10056135Y",
+        "cc756b12-a2d2-47b9-ac29-b0fca389377c": "280000733535",
+        "76c65cf6-f134-470a-ac6d-f750d7d36a74": "Andrés",
+        "9ac8a7e9-ad28-4d9f-9f61-f75715ce635a": "López Molina"
+      }
+    ],
+    "ff9f645e-8eba-4fd4-985b-c878fdfe824d": [
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Paella valenciana",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "31.96",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "segundo"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Gazpacho",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "13.88",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "postre"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Arroz a banda",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "41",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "entrante"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Tortilla de patatas",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "34.86",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "primero"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Flan casero",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "3.86",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "postre"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Ensalada mixta",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "34.15",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "entrante"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Merluza a la plancha",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "49.71",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "segundo"
+      },
+      {
+        "81ce1a6f-29dd-466a-bc90-10d6831b4b5a": "Crema catalana",
+        "7f2fef17-5605-4235-8d60-e5aa387122c5": "52.33",
+        "9a6a47b2-6731-4e4c-814b-7154c5f43349": "primero"
+      }
+    ],
+    "0814758a-9719-4d81-804e-6288b3aa5aab": [
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "1",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Cámara frigorífica",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 1"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "2",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Despensa",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 2"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "3",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Bodega",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 3"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "4",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Congelador",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 4"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "5",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Almacén seco",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": ""
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "6",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Cámara frigorífica 2",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 6"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "7",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Despensa 2",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 7"
+      },
+      {
+        "e1275778-13f7-44da-8856-aef7e08867f6": "8",
+        "8d54e8e3-10c9-4d26-bef1-a4e7468e64d0": "Bodega 2",
+        "fe183394-61ec-4479-8c20-06b0b07dc9e5": "Descripción de almacen 8"
+      }
+    ],
+    "9c020e41-69f1-468b-bf07-7330fb81ff58": [
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10056135Y",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610000054"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10016797K",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610000817"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10032595H",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610001674"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10056135Y",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610002436"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10048103R",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610003257"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10008319F",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610004138"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10056135Y",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610004934"
+      },
+      {
+        "ad97be6b-ee02-4631-b2a4-a59d81dd2f77": "10016797K",
+        "fbb16528-0949-47ed-b345-ffc9fe02799e": "610005751"
+      }
+    ],
+    "00df0f9f-dcc7-4ae6-97d1-c0c2fec4c561": [
+      {
+        "8f21cfae-0ed0-4a47-b343-b8ec68060a94": "2024-03-06",
+        "dbc66970-75f8-4830-9dac-5050b7867761": "10032595H"
+      },
+      {
+        "8f21cfae-0ed0-4a47-b343-b8ec68060a94": "2026-04-29",
+        "dbc66970-75f8-4830-9dac-5050b7867761": "10023913F"
+      },
+      {
+        "8f21cfae-0ed0-4a47-b343-b8ec68060a94": "2025-06-14",
+        "dbc66970-75f8-4830-9dac-5050b7867761": "10008319F"
+      }
+    ],
+    "762b2178-b786-4d8c-b836-dc8e9cf2682b": [
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "A",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "6",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "5"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "Q",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "44",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "4"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "K",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "6",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "8"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "Q",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "4",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "2"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "U",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "47",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "6"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "A",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "56",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "4"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "E",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "58",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "3"
+      },
+      {
+        "85e81817-aedf-4e9f-94c5-43c94211e481": "J",
+        "71c4887b-02b9-4d1b-97ed-b705f3528ef7": "78",
+        "4d893e1f-972d-47b6-be73-30596b64e8e8": "8"
+      }
+    ],
+    "5a54738d-eda2-435d-8153-fc3bc187f871": [
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2025-11-11",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "cena",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "3",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Tortilla de patatas"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2025-08-15",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "comida",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "27",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Crema catalana"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2025-11-28",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "comida",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "13",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Ensalada mixta"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2025-08-12",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "cena",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "19",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Merluza a la plancha"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2024-07-24",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "comida",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "25",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Arroz a banda"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2025-09-04",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "cena",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "27",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Crema catalana"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2024-11-18",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "cena",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "5",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Arroz a banda"
+      },
+      {
+        "9ac38ab1-3ab1-4d2d-87db-f2b3750c2de6": "2026-04-28",
+        "556a503e-1d34-4854-88c3-ba8d8fdff136": "comida",
+        "0e8ff323-4da2-4d06-b2a8-7a67987a27b7": "14",
+        "11200e9c-5b74-4dc3-ba0e-bf18225be617": "Flan casero"
+      }
+    ],
+    "476eadac-c15c-4893-9dd6-bd7021107d27": [
+      {
+        "7a7444c0-f53e-46dc-822e-9e3068067349": "1962-06-02",
+        "4e2e01a5-e2a9-41f4-bca9-e9619d306e37": "10039819C",
+        "e8882205-6acc-482c-9351-f8a4e11a300f": "10008319F"
+      },
+      {
+        "7a7444c0-f53e-46dc-822e-9e3068067349": "1975-06-18",
+        "4e2e01a5-e2a9-41f4-bca9-e9619d306e37": "10056135Y",
+        "e8882205-6acc-482c-9351-f8a4e11a300f": "10023913F"
+      },
+      {
+        "7a7444c0-f53e-46dc-822e-9e3068067349": "1999-10-19",
+        "4e2e01a5-e2a9-41f4-bca9-e9619d306e37": "10000569P",
+        "e8882205-6acc-482c-9351-f8a4e11a300f": "10032595H"
+      }
+    ],
+    "70ff2d45-b914-41c8-99a1-d28eac79e716": [
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Arroz",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "28.11",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "Q",
+        "3004db02-450f-42e0-be17-012095121cd8": "2",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "29.64"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Tomate",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "52.48",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "Q",
+        "3004db02-450f-42e0-be17-012095121cd8": "4",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "14.05"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Aceite de oliva",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "25.33",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "A",
+        "3004db02-450f-42e0-be17-012095121cd8": "4",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "29.08"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Ajo",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "5.88",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "A",
+        "3004db02-450f-42e0-be17-012095121cd8": "4",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "9.82"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Cebolla",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "45.5",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "A",
+        "3004db02-450f-42e0-be17-012095121cd8": "4",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "8.39"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Huevo",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "15.01",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "A",
+        "3004db02-450f-42e0-be17-012095121cd8": "4",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "7.72"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Patata",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "18.37",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "J",
+        "3004db02-450f-42e0-be17-012095121cd8": "8",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "24.06"
+      },
+      {
+        "fd5a01cb-f1bc-425f-a9fd-70691c9f555f": "Merluza",
+        "2e7cf4f2-351f-409e-8441-d00bd404b904": "13.28",
+        "7dd173ce-257f-450b-9d9c-4188253b8b90": "K",
+        "3004db02-450f-42e0-be17-012095121cd8": "8",
+        "3bb0f314-4e87-4b15-84ec-9fc3dc0f9d8c": "23.99"
+      }
+    ],
+    "97fda221-9e64-4fa4-9fad-aa11b9a5e8e3": [
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10008319F",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Flan casero"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10023913F",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Paella valenciana"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10023913F",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Arroz a banda"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10008319F",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Crema catalana"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10032595H",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Merluza a la plancha"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10023913F",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Tortilla de patatas"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10032595H",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Arroz a banda"
+      },
+      {
+        "757655f0-c18f-4e45-aa4f-ce78903a5384": "10032595H",
+        "656d8d1a-bda6-456f-9e96-3e8c400e3dd6": "Crema catalana"
+      }
+    ],
+    "3f96c871-da8b-4c73-b162-138482c3cb19": [
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Merluza a la plancha",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Aceite de oliva",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "22.089"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Arroz a banda",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Huevo",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "16.06"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Merluza a la plancha",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Huevo",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "19.212"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Paella valenciana",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Huevo",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "8.165"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Crema catalana",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Ajo",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "1.971"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Flan casero",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Patata",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "29.308"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Crema catalana",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Aceite de oliva",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "3.571"
+      },
+      {
+        "6d60723e-c285-4143-9b93-47c293176dbf": "Crema catalana",
+        "72ee2f4e-e3b8-4285-84bf-2c03a04196bc": "Patata",
+        "edd4d503-5803-4138-a981-3365c6ef57b1": "23.658"
+      }
+    ]
+  },
   "presentation": {
     "chen": {
-      "c61a7af8-5e66-4fce-8fcb-03ca4324e10a": {
+      "2d683ec7-af02-4537-b29e-f70f50501979": {
         "x": 120,
         "y": 140
       },
-      "963cbfba-548c-408a-8554-a85180acbacb": {
+      "093d25ce-c400-4d5b-93bf-bee7259d97f3": {
         "x": 120,
         "y": 980
       },
-      "028895f2-514a-4bfc-9e54-506043859346": {
+      "5f9934dc-ca95-4a15-99a4-03750f511b1d": {
         "x": 120,
         "y": 1820
       },
-      "e4e4a13e-131e-4b7f-8535-62e6eb10785c": {
+      "d20914c4-e7d7-4891-bfd6-f751ec0ef5a5": {
         "x": 1080,
         "y": 980
       },
-      "c001df90-64b4-4696-a396-019576ae54b5": {
+      "feb5bf16-460f-4fa2-b1da-5c70baf95e5b": {
         "x": 2040,
         "y": 980
       },
-      "0d01dd92-1e87-4a57-bd44-c50337c2981c": {
+      "d5b684d4-36c4-44af-8d28-1b6a5f2d00ef": {
         "x": 3000,
         "y": 140
       },
-      "9221c27c-5d2b-47bc-bf7a-c3f20ca910e1": {
+      "ff58fe5a-ff60-40aa-a001-9162cf9ffb8f": {
         "x": 3000,
         "y": 980
       },
-      "1f358771-7622-45b5-b256-c957674c94c1": {
+      "ecf3bdd8-651c-4a0b-b708-9777df5bda40": {
         "x": 1080,
         "y": 1820
       }

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import * as domain from '../src/domain/model.js';
 import { serializeDocument } from '../src/domain/serialization.js';
 import { exportSQL } from '../src/io/sql.js';
+import { fillWithSampleData } from '../src/sql/sample.js';
 
 const OUT = fileURLToPath( new URL( '../examples', import.meta.url ) );
 
@@ -195,6 +196,8 @@ function spreadChenEntities( state ) {
 
 function finish( state, filename ) {
     spreadChenEntities( state );
+    // Sample rows that keep every rule, so the SQL console has something to query.
+    state.model = fillWithSampleData( state.model, {rowsPerTable: 8} );
     state.model = domain.setDiagramMode( state.model, 'chen' );
     const errors = domain.validateDocument( state.model ).filter( issue => issue.level === 'error' );
 

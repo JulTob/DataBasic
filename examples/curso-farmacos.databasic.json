@@ -5,7 +5,7 @@
   "name": "Hospital: consumo de fármacos · ejercicio 6 (guion ERE)",
   "tables": [
     {
-      "id": "1f1ae15a-a379-472a-992c-d759159125ec",
+      "id": "c8c9b18c-d532-45ff-bd3e-92dbd1cacb31",
       "name": "Paciente",
       "conceptualName": "Paciente",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "341f0d47-d204-4834-8de5-6d57a00fb510",
+          "id": "e7bb69ba-da67-45db-b2ab-ac223f80ae65",
           "name": "num_historia",
           "type": "NUMBER(8)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "345496a2-61c4-493d-9e03-808a78564d84",
+          "id": "06c43fb0-0c95-4e87-b8cc-191b98be6895",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "d8752d53-de02-4049-afc4-9b04b1277ef0",
+          "id": "e9f61a45-a29c-49e6-80b4-00b871258ac0",
           "name": "num_ss",
           "type": "CHAR(12)",
           "required": false,
@@ -45,7 +45,7 @@
           "domain": null
         },
         {
-          "id": "bb08104d-a117-47ec-9519-873620edb2e1",
+          "id": "aa0ea706-9f7d-47fb-b772-3f1350d2926a",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -55,7 +55,7 @@
           "domain": null
         },
         {
-          "id": "ec99dfea-f775-4f7f-8c29-52c6c2c62946",
+          "id": "fb327b80-e10a-464c-a60e-bd097a1dcab6",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": false,
@@ -65,7 +65,7 @@
           "domain": null
         },
         {
-          "id": "7a0e4b22-8a22-4194-bbcf-c0a538c423c0",
+          "id": "cad5d9a3-53c6-4623-83b8-693d5ec94759",
           "name": "fecha_nacimiento",
           "type": "DATE",
           "required": true,
@@ -79,17 +79,17 @@
       "definition": "",
       "indexes": [
         {
-          "id": "e8735d36-7d00-499a-a0c6-8ef0b25b9372",
+          "id": "43ee4ed9-f212-44ba-a1a6-7cbff9164c63",
           "name": "UX_Paciente_num_ss",
           "columns": [
-            "d8752d53-de02-4049-afc4-9b04b1277ef0"
+            "e9f61a45-a29c-49e6-80b4-00b871258ac0"
           ],
           "unique": true
         }
       ]
     },
     {
-      "id": "cc6b7fee-e343-4675-9e9e-53dc5bcc39a3",
+      "id": "80e79ff9-7c4e-4fae-8cf6-8765384fd319",
       "name": "Ingreso",
       "conceptualName": "Ingreso",
       "syncNames": true,
@@ -99,7 +99,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "5ce908ee-3ed9-448a-a57c-3572a05a5e8d",
+          "id": "d7c5ad90-d421-44f8-ba31-34342aea61dd",
           "name": "num_secuencia",
           "type": "NUMBER(3)",
           "required": true,
@@ -109,7 +109,7 @@
           "domain": null
         },
         {
-          "id": "ce8cbde5-9a31-4138-bfd8-0cbc558e3daf",
+          "id": "fbdb0972-c61f-4634-ac0f-1277fc599e36",
           "name": "diagnostico",
           "type": "VARCHAR(8)",
           "required": true,
@@ -119,7 +119,7 @@
           "domain": null
         },
         {
-          "id": "9fe846f3-6971-476e-b954-cb43822c067e",
+          "id": "ee757555-b24e-4b03-9666-0a2b885f7931",
           "name": "fecha_ingreso",
           "type": "DATE",
           "required": true,
@@ -129,7 +129,7 @@
           "domain": null
         },
         {
-          "id": "cb7960eb-69ea-4b03-a7e2-0e5200363731",
+          "id": "1c27084a-30d7-414d-b8bc-c0d32e159367",
           "name": "fecha_alta",
           "type": "DATE",
           "required": false,
@@ -144,7 +144,7 @@
           }
         },
         {
-          "id": "5090dbbc-c958-48f7-9907-735644899c7e",
+          "id": "10f28ba4-dd23-4533-ba6c-07f15af110f1",
           "name": "paciente_num_historia",
           "type": "NUMBER(8)",
           "required": true,
@@ -153,7 +153,7 @@
           "defaultValue": ""
         },
         {
-          "id": "05ca9896-99ee-422a-b9c1-15853c2cae60",
+          "id": "eee17626-2cc2-4244-8cfa-25fd95fcaef5",
           "name": "servicio_codigo",
           "type": "NUMBER(3)",
           "required": true,
@@ -167,7 +167,7 @@
       "indexes": []
     },
     {
-      "id": "543aebae-6194-4f5b-8249-ff33925532cb",
+      "id": "349723b8-060b-4806-b483-7b3e21a54a3f",
       "name": "Servicio",
       "conceptualName": "Servicio",
       "syncNames": true,
@@ -177,7 +177,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "297dba39-add4-46c1-a498-9e13bd48ded5",
+          "id": "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a",
           "name": "codigo",
           "type": "NUMBER(3)",
           "required": true,
@@ -187,7 +187,7 @@
           "domain": null
         },
         {
-          "id": "6f99a738-523a-40f9-a16e-5ad6fe2c72d3",
+          "id": "14c54125-63bb-4d67-af1e-abf189ae587f",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -202,16 +202,16 @@
       "indexes": [],
       "alternateKeys": [
         {
-          "id": "a9072f16-fb09-43cd-be32-bb6debf50d40",
+          "id": "d0845342-083b-4e46-85e5-201556c622bb",
           "name": "AK_Servicio_nombre",
           "columns": [
-            "6f99a738-523a-40f9-a16e-5ad6fe2c72d3"
+            "14c54125-63bb-4d67-af1e-abf189ae587f"
           ]
         }
       ]
     },
     {
-      "id": "4d511fda-a474-42ca-a7a3-31319f27e74d",
+      "id": "41c56f61-6158-4628-992a-a40edd4e8d19",
       "name": "Farmaco",
       "conceptualName": "Farmaco",
       "syncNames": true,
@@ -221,7 +221,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "3e433923-e168-4240-9117-29677f87e4b3",
+          "id": "ad6d4035-a713-447f-9070-4ed0f5a875b4",
           "name": "num_registro",
           "type": "NUMBER(8)",
           "required": true,
@@ -231,7 +231,7 @@
           "domain": null
         },
         {
-          "id": "9b4561ec-b789-4b08-b24a-ae0de64f0b01",
+          "id": "428df835-09a9-4108-bdc2-5449f7d995b0",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -241,7 +241,7 @@
           "domain": null
         },
         {
-          "id": "5c891f62-2ff1-43cf-b348-e87a47b6c3f0",
+          "id": "d458923a-9962-4860-bce8-2f940ba2857b",
           "name": "compuesto",
           "type": "VARCHAR(80)",
           "required": false,
@@ -251,7 +251,7 @@
           "domain": null
         },
         {
-          "id": "ad57df2f-3a54-4b70-a872-a2638674ed19",
+          "id": "5ce622a5-447e-456a-ae90-cff1f0b7e1c1",
           "name": "ubicacion",
           "type": "VARCHAR(40)",
           "required": false,
@@ -261,7 +261,7 @@
           "domain": null
         },
         {
-          "id": "d7b81714-55e9-49f8-839a-22ab1aac6acb",
+          "id": "1c32aa14-7de3-4de5-a3bd-4360281d2177",
           "name": "dosis_envase",
           "type": "NUMBER(4)",
           "required": true,
@@ -276,7 +276,7 @@
           }
         },
         {
-          "id": "a7393f5b-c213-4899-aaa3-9a475d3a3e6a",
+          "id": "d32d7b25-8a81-4d0b-918e-dade70652c8a",
           "name": "precio_dosis",
           "type": "NUMBER(8,2)",
           "required": true,
@@ -296,7 +296,7 @@
       "indexes": []
     },
     {
-      "id": "a42e4621-b856-4e03-b0dc-ae88bd6798cb",
+      "id": "d70604e8-0022-4241-8ec3-78aa510af57d",
       "name": "Consumo_paciente",
       "conceptualName": "Consume",
       "syncNames": false,
@@ -306,7 +306,7 @@
       "y": 700,
       "columns": [
         {
-          "id": "2a22840c-0340-4099-b1fe-07dc047ef90c",
+          "id": "a8209d61-a878-4c1e-846a-302f11369182",
           "name": "ingreso_num_secuencia",
           "type": "NUMBER(3)",
           "required": true,
@@ -315,7 +315,7 @@
           "defaultValue": ""
         },
         {
-          "id": "683fe7cc-a5cf-4d56-ad3f-dd7e103c51d2",
+          "id": "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9",
           "name": "ingreso_paciente_num_historia",
           "type": "NUMBER(8)",
           "required": true,
@@ -324,7 +324,7 @@
           "defaultValue": ""
         },
         {
-          "id": "fa9770c5-8c89-41e8-840d-ef83d2b93b98",
+          "id": "6cf2c214-f0cb-44fd-be34-da1e9f7863b3",
           "name": "farmaco_num_registro",
           "type": "NUMBER(8)",
           "required": true,
@@ -333,7 +333,7 @@
           "defaultValue": ""
         },
         {
-          "id": "4c5dbf7c-bf42-426b-9d73-5c3a830a7941",
+          "id": "fa1aafa7-a671-4bcb-990f-a648cbc4efd2",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -343,7 +343,7 @@
           "domain": null
         },
         {
-          "id": "a21f13b8-6ac2-4c2d-a20d-1389bc5291af",
+          "id": "443d501e-fdb9-4a6d-873a-d1663130a45c",
           "name": "num_dosis",
           "type": "NUMBER(4)",
           "required": true,
@@ -363,7 +363,7 @@
       "indexes": []
     },
     {
-      "id": "088c86ba-04e4-4a35-9a2c-6351fa54291a",
+      "id": "c8a48f12-1482-452e-b2fb-6eb88c3e845c",
       "name": "Consumo_servicio",
       "conceptualName": "Gasta",
       "syncNames": false,
@@ -373,7 +373,7 @@
       "y": 1260,
       "columns": [
         {
-          "id": "41980517-dc53-47d9-aa0e-264eeef627c9",
+          "id": "96d0af21-84c1-42fe-99ee-979e3f3df6fd",
           "name": "servicio_codigo",
           "type": "NUMBER(3)",
           "required": true,
@@ -382,7 +382,7 @@
           "defaultValue": ""
         },
         {
-          "id": "99d227cb-51e7-40d3-8ca6-65bff385d0ec",
+          "id": "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c",
           "name": "farmaco_num_registro",
           "type": "NUMBER(8)",
           "required": true,
@@ -391,7 +391,7 @@
           "defaultValue": ""
         },
         {
-          "id": "69f32c12-1444-440b-8601-c883416c41c7",
+          "id": "824feae4-832e-4ddf-9b9a-84e2d2529dad",
           "name": "fecha",
           "type": "DATE",
           "required": true,
@@ -401,7 +401,7 @@
           "domain": null
         },
         {
-          "id": "cd637dbc-bc67-4199-8f8a-7ef2e9aa5310",
+          "id": "5c65d8c0-2bc7-4842-97df-b5f62a487764",
           "name": "num_dosis",
           "type": "NUMBER(4)",
           "required": true,
@@ -423,9 +423,9 @@
   ],
   "relationships": [
     {
-      "id": "dfd0b44a-6c5d-498f-9410-d80529ab1c38",
-      "parentId": "1f1ae15a-a379-472a-992c-d759159125ec",
-      "childId": "cc6b7fee-e343-4675-9e9e-53dc5bcc39a3",
+      "id": "7676a6f9-ceab-488c-b045-25472fc842f1",
+      "parentId": "c8c9b18c-d532-45ff-bd3e-92dbd1cacb31",
+      "childId": "80e79ff9-7c4e-4fae-8cf6-8765384fd319",
       "name": "FK_Ingresa_paciente",
       "forward": "Ingresa",
       "inverse": "paciente",
@@ -436,15 +436,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "341f0d47-d204-4834-8de5-6d57a00fb510",
-          "childColumnId": "5090dbbc-c958-48f7-9907-735644899c7e"
+          "parentColumnId": "e7bb69ba-da67-45db-b2ab-ac223f80ae65",
+          "childColumnId": "10f28ba4-dd23-4533-ba6c-07f15af110f1"
         }
       ]
     },
     {
-      "id": "0278530b-839f-477e-ac5f-144a70bbced6",
-      "parentId": "543aebae-6194-4f5b-8249-ff33925532cb",
-      "childId": "cc6b7fee-e343-4675-9e9e-53dc5bcc39a3",
+      "id": "401a1c8e-aee4-438c-aa08-30ccb5f0f2b0",
+      "parentId": "349723b8-060b-4806-b483-7b3e21a54a3f",
+      "childId": "80e79ff9-7c4e-4fae-8cf6-8765384fd319",
       "name": "FK_En_servicio_servicio",
       "forward": "En_servicio",
       "inverse": "servicio",
@@ -455,15 +455,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "297dba39-add4-46c1-a498-9e13bd48ded5",
-          "childColumnId": "05ca9896-99ee-422a-b9c1-15853c2cae60"
+          "parentColumnId": "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a",
+          "childColumnId": "eee17626-2cc2-4244-8cfa-25fd95fcaef5"
         }
       ]
     },
     {
-      "id": "4cc31fef-ff67-46e0-9e49-5a315c1a5627",
-      "parentId": "cc6b7fee-e343-4675-9e9e-53dc5bcc39a3",
-      "childId": "a42e4621-b856-4e03-b0dc-ae88bd6798cb",
+      "id": "059ad437-74d6-48fb-a683-2782754d2bf3",
+      "parentId": "80e79ff9-7c4e-4fae-8cf6-8765384fd319",
+      "childId": "d70604e8-0022-4241-8ec3-78aa510af57d",
       "name": "FK_Consume_ingreso",
       "forward": "Consume",
       "inverse": "ingreso",
@@ -474,19 +474,19 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "5ce908ee-3ed9-448a-a57c-3572a05a5e8d",
-          "childColumnId": "2a22840c-0340-4099-b1fe-07dc047ef90c"
+          "parentColumnId": "d7c5ad90-d421-44f8-ba31-34342aea61dd",
+          "childColumnId": "a8209d61-a878-4c1e-846a-302f11369182"
         },
         {
-          "parentColumnId": "5090dbbc-c958-48f7-9907-735644899c7e",
-          "childColumnId": "683fe7cc-a5cf-4d56-ad3f-dd7e103c51d2"
+          "parentColumnId": "10f28ba4-dd23-4533-ba6c-07f15af110f1",
+          "childColumnId": "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9"
         }
       ]
     },
     {
-      "id": "ea83ef53-9221-4051-8645-bd6f0bc9d005",
-      "parentId": "4d511fda-a474-42ca-a7a3-31319f27e74d",
-      "childId": "a42e4621-b856-4e03-b0dc-ae88bd6798cb",
+      "id": "582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7",
+      "parentId": "41c56f61-6158-4628-992a-a40edd4e8d19",
+      "childId": "d70604e8-0022-4241-8ec3-78aa510af57d",
       "name": "FK_Consume_farmaco",
       "forward": "Consume",
       "inverse": "farmaco",
@@ -497,15 +497,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "3e433923-e168-4240-9117-29677f87e4b3",
-          "childColumnId": "fa9770c5-8c89-41e8-840d-ef83d2b93b98"
+          "parentColumnId": "ad6d4035-a713-447f-9070-4ed0f5a875b4",
+          "childColumnId": "6cf2c214-f0cb-44fd-be34-da1e9f7863b3"
         }
       ]
     },
     {
-      "id": "403dc38e-cccc-4900-832b-132154534f6b",
-      "parentId": "543aebae-6194-4f5b-8249-ff33925532cb",
-      "childId": "088c86ba-04e4-4a35-9a2c-6351fa54291a",
+      "id": "4711641e-31d3-4b2f-bc40-6b5f3a273355",
+      "parentId": "349723b8-060b-4806-b483-7b3e21a54a3f",
+      "childId": "c8a48f12-1482-452e-b2fb-6eb88c3e845c",
       "name": "FK_Gasta_servicio",
       "forward": "Gasta",
       "inverse": "servicio",
@@ -516,15 +516,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "297dba39-add4-46c1-a498-9e13bd48ded5",
-          "childColumnId": "41980517-dc53-47d9-aa0e-264eeef627c9"
+          "parentColumnId": "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a",
+          "childColumnId": "96d0af21-84c1-42fe-99ee-979e3f3df6fd"
         }
       ]
     },
     {
-      "id": "69db9350-a48b-42e7-afa3-1bf6882e351e",
-      "parentId": "4d511fda-a474-42ca-a7a3-31319f27e74d",
-      "childId": "088c86ba-04e4-4a35-9a2c-6351fa54291a",
+      "id": "9c75dba9-d5ae-42af-8b48-6def98d0894f",
+      "parentId": "41c56f61-6158-4628-992a-a40edd4e8d19",
+      "childId": "c8a48f12-1482-452e-b2fb-6eb88c3e845c",
       "name": "FK_Gasta_farmaco",
       "forward": "Gasta",
       "inverse": "farmaco",
@@ -535,8 +535,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "3e433923-e168-4240-9117-29677f87e4b3",
-          "childColumnId": "99d227cb-51e7-40d3-8ca6-65bff385d0ec"
+          "parentColumnId": "ad6d4035-a713-447f-9070-4ed0f5a875b4",
+          "childColumnId": "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c"
         }
       ]
     }
@@ -544,7 +544,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "id": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "Paciente",
         "notes": "",
         "weak": false,
@@ -554,18 +554,18 @@
         }
       },
       {
-        "id": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+        "id": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
         "name": "Ingreso",
         "notes": "",
         "weak": true,
-        "ownerEntityId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerEntityId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "translation": {
           "kind": "weak",
-          "relationshipId": "5fded425-aa06-4d74-902e-bce4ea77e666"
+          "relationshipId": "2201cd6b-84ea-4b53-89d6-3a3a28197d64"
         }
       },
       {
-        "id": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+        "id": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
         "name": "Servicio",
         "notes": "",
         "weak": false,
@@ -575,7 +575,7 @@
         }
       },
       {
-        "id": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "id": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "Farmaco",
         "notes": "",
         "weak": false,
@@ -587,9 +587,9 @@
     ],
     "attributes": [
       {
-        "id": "8c60df6f-f0a6-4434-99f0-238c4069ce06",
+        "id": "07b1c200-3af8-428e-a305-e31b2f5a4825",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "num_historia",
         "type": "NUMBER(8)",
         "required": true,
@@ -608,9 +608,9 @@
         }
       },
       {
-        "id": "108137a0-4cfc-4ebb-94ff-465e24a975a3",
+        "id": "f9b76012-777c-48ab-b5ea-67f8e99a7755",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -629,9 +629,9 @@
         }
       },
       {
-        "id": "2c7de9bd-ef65-4cd2-99cf-016e92ddb4ab",
+        "id": "0985df68-b1d6-479b-8c50-987dd981053d",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "num_ss",
         "type": "CHAR(12)",
         "required": false,
@@ -650,9 +650,9 @@
         }
       },
       {
-        "id": "2b1c6712-a352-497e-987e-49e1aea8893e",
+        "id": "12688c62-edb7-4729-95b6-dbd2f0cc39e5",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -671,9 +671,9 @@
         }
       },
       {
-        "id": "570ef083-f8fc-47ce-a717-dca1f21e015b",
+        "id": "8cb0f3a7-e7ab-439f-b5c8-939d3788d9c2",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -692,9 +692,9 @@
         }
       },
       {
-        "id": "d2dea42a-7bff-4f32-a209-ecd095b1d6bd",
+        "id": "eff58e66-cca7-4619-ba80-e9e3eeb58b0b",
         "ownerKind": "entity",
-        "ownerId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+        "ownerId": "858999bf-7171-437f-827a-5b680dbfe2be",
         "name": "fecha_nacimiento",
         "type": "DATE",
         "required": true,
@@ -713,9 +713,9 @@
         }
       },
       {
-        "id": "cb5fc853-55be-44c4-b1e7-322f596bec3d",
+        "id": "30d48d5e-bded-4fdf-a9e9-7735f433de59",
         "ownerKind": "entity",
-        "ownerId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+        "ownerId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
         "name": "num_secuencia",
         "type": "NUMBER(3)",
         "required": true,
@@ -734,9 +734,9 @@
         }
       },
       {
-        "id": "39186f55-620e-4ad3-8cf3-81864a19e508",
+        "id": "75367ff0-c9d8-4dfe-bab8-61fd13fedbdb",
         "ownerKind": "entity",
-        "ownerId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+        "ownerId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
         "name": "diagnostico",
         "type": "VARCHAR(8)",
         "required": true,
@@ -755,9 +755,9 @@
         }
       },
       {
-        "id": "0fc06bbc-9dba-4735-b17b-cf15c7a1397d",
+        "id": "d4825964-8f27-4c76-8905-4ee81ef7a72b",
         "ownerKind": "entity",
-        "ownerId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+        "ownerId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
         "name": "fecha_ingreso",
         "type": "DATE",
         "required": true,
@@ -776,9 +776,9 @@
         }
       },
       {
-        "id": "c747d7d9-f2a9-4789-a81e-57ac2746b69c",
+        "id": "833d016e-19ef-4640-b74c-122118b76496",
         "ownerKind": "entity",
-        "ownerId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+        "ownerId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
         "name": "fecha_alta",
         "type": "DATE",
         "required": false,
@@ -802,9 +802,9 @@
         }
       },
       {
-        "id": "1c968c9d-0b47-475f-a7d1-add6fd2e67e9",
+        "id": "84e14997-8361-4755-9c5d-31d5f6f6a3a8",
         "ownerKind": "entity",
-        "ownerId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+        "ownerId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
         "name": "codigo",
         "type": "NUMBER(3)",
         "required": true,
@@ -823,9 +823,9 @@
         }
       },
       {
-        "id": "4ad89744-e177-4377-a0bc-961231115ad9",
+        "id": "5ba8ee6e-20c1-438c-9ba7-4c36ac481267",
         "ownerKind": "entity",
-        "ownerId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+        "ownerId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -844,9 +844,9 @@
         }
       },
       {
-        "id": "9e1d32c4-c41b-43ca-a16f-bc514d3fe212",
+        "id": "e11b6137-3b7e-4297-a7b9-069480996fa3",
         "ownerKind": "entity",
-        "ownerId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+        "ownerId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
         "name": "gasto_pacientes",
         "type": "NUMBER(12,2)",
         "required": false,
@@ -865,9 +865,9 @@
         }
       },
       {
-        "id": "4d1dd869-56b6-4fca-9412-244a761cec22",
+        "id": "c35d888c-ccbe-471c-b5e3-520830f8c3a0",
         "ownerKind": "entity",
-        "ownerId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+        "ownerId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
         "name": "gasto_total",
         "type": "NUMBER(12,2)",
         "required": false,
@@ -886,9 +886,9 @@
         }
       },
       {
-        "id": "293d700a-e615-4ff0-8001-a0277bacb8a6",
+        "id": "1e6c3f49-a1eb-423c-983b-481feb46929a",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "num_registro",
         "type": "NUMBER(8)",
         "required": true,
@@ -907,9 +907,9 @@
         }
       },
       {
-        "id": "f70a55ce-92c7-4ae8-85c8-2ec1163ecc27",
+        "id": "92a85e07-0eef-428e-83d8-b546af30e0be",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -928,9 +928,9 @@
         }
       },
       {
-        "id": "5e4138d9-666e-4931-a0b7-2a43d1dbc3ba",
+        "id": "be9b578c-2382-428d-ab96-33132e1d9002",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "compuesto",
         "type": "VARCHAR(80)",
         "required": false,
@@ -949,9 +949,9 @@
         }
       },
       {
-        "id": "a71ec9a4-ba68-42df-b33e-05a2f31515bc",
+        "id": "1076e088-04a7-46ea-89fb-1ececc0afb65",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "ubicacion",
         "type": "VARCHAR(40)",
         "required": false,
@@ -970,9 +970,9 @@
         }
       },
       {
-        "id": "cd4b0499-9fe0-467f-9e44-e6ba7f7f23c3",
+        "id": "e1f31163-45eb-4781-a9c5-71f4f5b0b124",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "dosis_envase",
         "type": "NUMBER(4)",
         "required": true,
@@ -996,9 +996,9 @@
         }
       },
       {
-        "id": "94f292fb-ba1e-4d92-98b8-6347e3eccb73",
+        "id": "4a03dace-5d7d-424e-84da-3105b6786687",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "precio_dosis",
         "type": "NUMBER(8,2)",
         "required": true,
@@ -1022,9 +1022,9 @@
         }
       },
       {
-        "id": "43b2429b-e98a-4a0f-84d1-5303b526181e",
+        "id": "946cc7cb-ff89-40d3-a588-9662762ef632",
         "ownerKind": "entity",
-        "ownerId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+        "ownerId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
         "name": "precio_envase",
         "type": "NUMBER(10,2)",
         "required": false,
@@ -1043,9 +1043,9 @@
         }
       },
       {
-        "id": "87c57269-b23a-4ceb-8b80-ea0453387688",
+        "id": "f90ce906-916d-4dd4-b1c4-3f85e1ab4ea7",
         "ownerKind": "relationship",
-        "ownerId": "0298f21b-5811-46a2-879d-6a2af2c5f3fe",
+        "ownerId": "40844da8-290c-429f-9e0d-21d66acc652a",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -1064,9 +1064,9 @@
         }
       },
       {
-        "id": "4a3a7099-b6d3-4e45-a267-ad028d994e81",
+        "id": "25285c94-d193-42a2-8581-b730ff0b3add",
         "ownerKind": "relationship",
-        "ownerId": "0298f21b-5811-46a2-879d-6a2af2c5f3fe",
+        "ownerId": "40844da8-290c-429f-9e0d-21d66acc652a",
         "name": "num_dosis",
         "type": "NUMBER(4)",
         "required": true,
@@ -1090,9 +1090,9 @@
         }
       },
       {
-        "id": "2b01aaf5-18d9-44f6-bf68-81bd23df39dd",
+        "id": "fa7e90c7-b913-4b97-bf6b-9389467f2df6",
         "ownerKind": "relationship",
-        "ownerId": "c03bc549-4009-4b2e-8e33-6fd5e3c982bc",
+        "ownerId": "538d81f5-c69a-47af-8931-c798cd228852",
         "name": "fecha",
         "type": "DATE",
         "required": true,
@@ -1111,9 +1111,9 @@
         }
       },
       {
-        "id": "13922c13-012e-4f2e-8246-aa8f37252d32",
+        "id": "6b0d315c-d0d1-4f11-94c1-574a8762225e",
         "ownerKind": "relationship",
-        "ownerId": "c03bc549-4009-4b2e-8e33-6fd5e3c982bc",
+        "ownerId": "538d81f5-c69a-47af-8931-c798cd228852",
         "name": "num_dosis",
         "type": "NUMBER(4)",
         "required": true,
@@ -1139,20 +1139,20 @@
     ],
     "relationships": [
       {
-        "id": "5fded425-aa06-4d74-902e-bce4ea77e666",
+        "id": "2201cd6b-84ea-4b53-89d6-3a3a28197d64",
         "name": "Ingresa",
         "notes": "",
         "participations": [
           {
-            "id": "e1da1066-7014-4c3b-a16c-55fd91d75ca0",
-            "entityId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+            "id": "422915b6-6305-4e87-9058-f64005cb55b8",
+            "entityId": "858999bf-7171-437f-827a-5b680dbfe2be",
             "role": "paciente",
             "min": 0,
             "max": null
           },
           {
-            "id": "777718fa-1878-4efd-88b8-2916deda1afd",
-            "entityId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+            "id": "b2c4348a-6a87-4876-b6aa-60abf567309e",
+            "entityId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
             "role": "ingreso",
             "min": 1,
             "max": 1
@@ -1160,25 +1160,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "777718fa-1878-4efd-88b8-2916deda1afd",
+          "childParticipationId": "b2c4348a-6a87-4876-b6aa-60abf567309e",
           "identifying": true
         }
       },
       {
-        "id": "d47d1763-f643-41eb-8b5b-a5175b6cfb3c",
+        "id": "5a489f70-8c52-44bb-8185-b1cc75ed6da8",
         "name": "En_servicio",
         "notes": "",
         "participations": [
           {
-            "id": "1527bc6f-f911-46fe-8155-c8b1afa00fba",
-            "entityId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+            "id": "ccc4c34c-36bf-403a-9f22-c72060aecca8",
+            "entityId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
             "role": "servicio",
             "min": 0,
             "max": null
           },
           {
-            "id": "f6ebece0-4694-4294-a946-5b04e320ed72",
-            "entityId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+            "id": "57cdfb1d-47e3-4d36-97dc-2fe2417e6ae2",
+            "entityId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
             "role": "ingreso",
             "min": 1,
             "max": 1
@@ -1186,25 +1186,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "f6ebece0-4694-4294-a946-5b04e320ed72",
+          "childParticipationId": "57cdfb1d-47e3-4d36-97dc-2fe2417e6ae2",
           "identifying": false
         }
       },
       {
-        "id": "0298f21b-5811-46a2-879d-6a2af2c5f3fe",
+        "id": "40844da8-290c-429f-9e0d-21d66acc652a",
         "name": "Consume",
         "notes": "",
         "participations": [
           {
-            "id": "b9132339-a71c-4d99-9fcf-2dc2adcb4c24",
-            "entityId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+            "id": "bb5cca1a-329a-401f-a338-3978e154d8bd",
+            "entityId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
             "role": "ingreso",
             "min": 0,
             "max": null
           },
           {
-            "id": "251b1f39-855d-41e5-855c-5f3caf7724c9",
-            "entityId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+            "id": "4ebe67f9-2f68-45ca-b3bb-d6cdfeeffc27",
+            "entityId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
             "role": "farmaco",
             "min": 0,
             "max": null
@@ -1215,30 +1215,30 @@
           "tableName": "Consumo_paciente",
           "key": {
             "participationIds": [
-              "b9132339-a71c-4d99-9fcf-2dc2adcb4c24",
-              "251b1f39-855d-41e5-855c-5f3caf7724c9"
+              "bb5cca1a-329a-401f-a338-3978e154d8bd",
+              "4ebe67f9-2f68-45ca-b3bb-d6cdfeeffc27"
             ],
             "attributeIds": [
-              "87c57269-b23a-4ceb-8b80-ea0453387688"
+              "f90ce906-916d-4dd4-b1c4-3f85e1ab4ea7"
             ]
           }
         }
       },
       {
-        "id": "c03bc549-4009-4b2e-8e33-6fd5e3c982bc",
+        "id": "538d81f5-c69a-47af-8931-c798cd228852",
         "name": "Gasta",
         "notes": "",
         "participations": [
           {
-            "id": "456a2e00-df11-4a6e-84a9-988e45e0d2a8",
-            "entityId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+            "id": "7f8d2a18-9e16-4001-8170-ddc49d376322",
+            "entityId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
             "role": "servicio",
             "min": 0,
             "max": null
           },
           {
-            "id": "0b1387c7-c852-475e-9dbd-f61bfce65f3c",
-            "entityId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+            "id": "75b3ec30-1b9d-48af-9ec2-8ff1314644ed",
+            "entityId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
             "role": "farmaco",
             "min": 0,
             "max": null
@@ -1249,11 +1249,11 @@
           "tableName": "Consumo_servicio",
           "key": {
             "participationIds": [
-              "456a2e00-df11-4a6e-84a9-988e45e0d2a8",
-              "0b1387c7-c852-475e-9dbd-f61bfce65f3c"
+              "7f8d2a18-9e16-4001-8170-ddc49d376322",
+              "75b3ec30-1b9d-48af-9ec2-8ff1314644ed"
             ],
             "attributeIds": [
-              "2b01aaf5-18d9-44f6-bf68-81bd23df39dd"
+              "fa7e90c7-b913-4b97-bf6b-9389467f2df6"
             ]
           }
         }
@@ -1264,275 +1264,275 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a",
+      "sourceId": "858999bf-7171-437f-827a-5b680dbfe2be",
       "targetKind": "table",
-      "targetId": "1f1ae15a-a379-472a-992c-d759159125ec"
+      "targetId": "c8c9b18c-d532-45ff-bd3e-92dbd1cacb31"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "8c60df6f-f0a6-4434-99f0-238c4069ce06",
+      "sourceId": "07b1c200-3af8-428e-a305-e31b2f5a4825",
       "targetKind": "column",
-      "targetId": "341f0d47-d204-4834-8de5-6d57a00fb510"
+      "targetId": "e7bb69ba-da67-45db-b2ab-ac223f80ae65"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "108137a0-4cfc-4ebb-94ff-465e24a975a3",
+      "sourceId": "f9b76012-777c-48ab-b5ea-67f8e99a7755",
       "targetKind": "column",
-      "targetId": "345496a2-61c4-493d-9e03-808a78564d84"
+      "targetId": "06c43fb0-0c95-4e87-b8cc-191b98be6895"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "2c7de9bd-ef65-4cd2-99cf-016e92ddb4ab",
+      "sourceId": "0985df68-b1d6-479b-8c50-987dd981053d",
       "targetKind": "column",
-      "targetId": "d8752d53-de02-4049-afc4-9b04b1277ef0"
+      "targetId": "e9f61a45-a29c-49e6-80b4-00b871258ac0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "2b1c6712-a352-497e-987e-49e1aea8893e",
+      "sourceId": "12688c62-edb7-4729-95b6-dbd2f0cc39e5",
       "targetKind": "column",
-      "targetId": "bb08104d-a117-47ec-9519-873620edb2e1"
+      "targetId": "aa0ea706-9f7d-47fb-b772-3f1350d2926a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "570ef083-f8fc-47ce-a717-dca1f21e015b",
+      "sourceId": "8cb0f3a7-e7ab-439f-b5c8-939d3788d9c2",
       "targetKind": "column",
-      "targetId": "ec99dfea-f775-4f7f-8c29-52c6c2c62946"
+      "targetId": "fb327b80-e10a-464c-a60e-bd097a1dcab6"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d2dea42a-7bff-4f32-a209-ecd095b1d6bd",
+      "sourceId": "eff58e66-cca7-4619-ba80-e9e3eeb58b0b",
       "targetKind": "column",
-      "targetId": "7a0e4b22-8a22-4194-bbcf-c0a538c423c0"
+      "targetId": "cad5d9a3-53c6-4623-83b8-693d5ec94759"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "c6071c18-a4dd-4c3f-90c5-e5174012d672",
+      "sourceId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714",
       "targetKind": "table",
-      "targetId": "cc6b7fee-e343-4675-9e9e-53dc5bcc39a3"
+      "targetId": "80e79ff9-7c4e-4fae-8cf6-8765384fd319"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "cb5fc853-55be-44c4-b1e7-322f596bec3d",
+      "sourceId": "30d48d5e-bded-4fdf-a9e9-7735f433de59",
       "targetKind": "column",
-      "targetId": "5ce908ee-3ed9-448a-a57c-3572a05a5e8d"
+      "targetId": "d7c5ad90-d421-44f8-ba31-34342aea61dd"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "39186f55-620e-4ad3-8cf3-81864a19e508",
+      "sourceId": "75367ff0-c9d8-4dfe-bab8-61fd13fedbdb",
       "targetKind": "column",
-      "targetId": "ce8cbde5-9a31-4138-bfd8-0cbc558e3daf"
+      "targetId": "fbdb0972-c61f-4634-ac0f-1277fc599e36"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "0fc06bbc-9dba-4735-b17b-cf15c7a1397d",
+      "sourceId": "d4825964-8f27-4c76-8905-4ee81ef7a72b",
       "targetKind": "column",
-      "targetId": "9fe846f3-6971-476e-b954-cb43822c067e"
+      "targetId": "ee757555-b24e-4b03-9666-0a2b885f7931"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "c747d7d9-f2a9-4789-a81e-57ac2746b69c",
+      "sourceId": "833d016e-19ef-4640-b74c-122118b76496",
       "targetKind": "column",
-      "targetId": "cb7960eb-69ea-4b03-a7e2-0e5200363731"
+      "targetId": "1c27084a-30d7-414d-b8bc-c0d32e159367"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "e437565d-f3c4-4088-8bf5-d6bde843113f",
+      "sourceId": "52a30a32-4b30-434e-8547-dc0a0ad19d62",
       "targetKind": "table",
-      "targetId": "543aebae-6194-4f5b-8249-ff33925532cb"
+      "targetId": "349723b8-060b-4806-b483-7b3e21a54a3f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "1c968c9d-0b47-475f-a7d1-add6fd2e67e9",
+      "sourceId": "84e14997-8361-4755-9c5d-31d5f6f6a3a8",
       "targetKind": "column",
-      "targetId": "297dba39-add4-46c1-a498-9e13bd48ded5"
+      "targetId": "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4ad89744-e177-4377-a0bc-961231115ad9",
+      "sourceId": "5ba8ee6e-20c1-438c-9ba7-4c36ac481267",
       "targetKind": "column",
-      "targetId": "6f99a738-523a-40f9-a16e-5ad6fe2c72d3"
+      "targetId": "14c54125-63bb-4d67-af1e-abf189ae587f"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f",
+      "sourceId": "466db2a3-1671-4b09-aa3e-4470107ac2e3",
       "targetKind": "table",
-      "targetId": "4d511fda-a474-42ca-a7a3-31319f27e74d"
+      "targetId": "41c56f61-6158-4628-992a-a40edd4e8d19"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "293d700a-e615-4ff0-8001-a0277bacb8a6",
+      "sourceId": "1e6c3f49-a1eb-423c-983b-481feb46929a",
       "targetKind": "column",
-      "targetId": "3e433923-e168-4240-9117-29677f87e4b3"
+      "targetId": "ad6d4035-a713-447f-9070-4ed0f5a875b4"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "f70a55ce-92c7-4ae8-85c8-2ec1163ecc27",
+      "sourceId": "92a85e07-0eef-428e-83d8-b546af30e0be",
       "targetKind": "column",
-      "targetId": "9b4561ec-b789-4b08-b24a-ae0de64f0b01"
+      "targetId": "428df835-09a9-4108-bdc2-5449f7d995b0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "5e4138d9-666e-4931-a0b7-2a43d1dbc3ba",
+      "sourceId": "be9b578c-2382-428d-ab96-33132e1d9002",
       "targetKind": "column",
-      "targetId": "5c891f62-2ff1-43cf-b348-e87a47b6c3f0"
+      "targetId": "d458923a-9962-4860-bce8-2f940ba2857b"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "a71ec9a4-ba68-42df-b33e-05a2f31515bc",
+      "sourceId": "1076e088-04a7-46ea-89fb-1ececc0afb65",
       "targetKind": "column",
-      "targetId": "ad57df2f-3a54-4b70-a872-a2638674ed19"
+      "targetId": "5ce622a5-447e-456a-ae90-cff1f0b7e1c1"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "cd4b0499-9fe0-467f-9e44-e6ba7f7f23c3",
+      "sourceId": "e1f31163-45eb-4781-a9c5-71f4f5b0b124",
       "targetKind": "column",
-      "targetId": "d7b81714-55e9-49f8-839a-22ab1aac6acb"
+      "targetId": "1c32aa14-7de3-4de5-a3bd-4360281d2177"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "94f292fb-ba1e-4d92-98b8-6347e3eccb73",
+      "sourceId": "4a03dace-5d7d-424e-84da-3105b6786687",
       "targetKind": "column",
-      "targetId": "a7393f5b-c213-4899-aaa3-9a475d3a3e6a"
+      "targetId": "d32d7b25-8a81-4d0b-918e-dade70652c8a"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "e1da1066-7014-4c3b-a16c-55fd91d75ca0",
+      "sourceId": "422915b6-6305-4e87-9058-f64005cb55b8",
       "targetKind": "foreign-key",
-      "targetId": "dfd0b44a-6c5d-498f-9410-d80529ab1c38"
+      "targetId": "7676a6f9-ceab-488c-b045-25472fc842f1"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "5fded425-aa06-4d74-902e-bce4ea77e666",
+      "sourceId": "2201cd6b-84ea-4b53-89d6-3a3a28197d64",
       "targetKind": "foreign-key",
-      "targetId": "dfd0b44a-6c5d-498f-9410-d80529ab1c38"
+      "targetId": "7676a6f9-ceab-488c-b045-25472fc842f1"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "1527bc6f-f911-46fe-8155-c8b1afa00fba",
+      "sourceId": "ccc4c34c-36bf-403a-9f22-c72060aecca8",
       "targetKind": "foreign-key",
-      "targetId": "0278530b-839f-477e-ac5f-144a70bbced6"
+      "targetId": "401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "d47d1763-f643-41eb-8b5b-a5175b6cfb3c",
+      "sourceId": "5a489f70-8c52-44bb-8185-b1cc75ed6da8",
       "targetKind": "foreign-key",
-      "targetId": "0278530b-839f-477e-ac5f-144a70bbced6"
+      "targetId": "401a1c8e-aee4-438c-aa08-30ccb5f0f2b0"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "0298f21b-5811-46a2-879d-6a2af2c5f3fe",
+      "sourceId": "40844da8-290c-429f-9e0d-21d66acc652a",
       "targetKind": "table",
-      "targetId": "a42e4621-b856-4e03-b0dc-ae88bd6798cb"
+      "targetId": "d70604e8-0022-4241-8ec3-78aa510af57d"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "b9132339-a71c-4d99-9fcf-2dc2adcb4c24",
+      "sourceId": "bb5cca1a-329a-401f-a338-3978e154d8bd",
       "targetKind": "foreign-key",
-      "targetId": "4cc31fef-ff67-46e0-9e49-5a315c1a5627"
+      "targetId": "059ad437-74d6-48fb-a683-2782754d2bf3"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "251b1f39-855d-41e5-855c-5f3caf7724c9",
+      "sourceId": "4ebe67f9-2f68-45ca-b3bb-d6cdfeeffc27",
       "targetKind": "foreign-key",
-      "targetId": "ea83ef53-9221-4051-8645-bd6f0bc9d005"
+      "targetId": "582b3b47-f4d3-4b32-a0b5-8cda0c7e84a7"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "87c57269-b23a-4ceb-8b80-ea0453387688",
+      "sourceId": "f90ce906-916d-4dd4-b1c4-3f85e1ab4ea7",
       "targetKind": "column",
-      "targetId": "4c5dbf7c-bf42-426b-9d73-5c3a830a7941"
+      "targetId": "fa1aafa7-a671-4bcb-990f-a648cbc4efd2"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4a3a7099-b6d3-4e45-a267-ad028d994e81",
+      "sourceId": "25285c94-d193-42a2-8581-b730ff0b3add",
       "targetKind": "column",
-      "targetId": "a21f13b8-6ac2-4c2d-a20d-1389bc5291af"
+      "targetId": "443d501e-fdb9-4a6d-873a-d1663130a45c"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "c03bc549-4009-4b2e-8e33-6fd5e3c982bc",
+      "sourceId": "538d81f5-c69a-47af-8931-c798cd228852",
       "targetKind": "table",
-      "targetId": "088c86ba-04e4-4a35-9a2c-6351fa54291a"
+      "targetId": "c8a48f12-1482-452e-b2fb-6eb88c3e845c"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "456a2e00-df11-4a6e-84a9-988e45e0d2a8",
+      "sourceId": "7f8d2a18-9e16-4001-8170-ddc49d376322",
       "targetKind": "foreign-key",
-      "targetId": "403dc38e-cccc-4900-832b-132154534f6b"
+      "targetId": "4711641e-31d3-4b2f-bc40-6b5f3a273355"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "0b1387c7-c852-475e-9dbd-f61bfce65f3c",
+      "sourceId": "75b3ec30-1b9d-48af-9ec2-8ff1314644ed",
       "targetKind": "foreign-key",
-      "targetId": "69db9350-a48b-42e7-afa3-1bf6882e351e"
+      "targetId": "9c75dba9-d5ae-42af-8b48-6def98d0894f"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "2b01aaf5-18d9-44f6-bf68-81bd23df39dd",
+      "sourceId": "fa7e90c7-b913-4b97-bf6b-9389467f2df6",
       "targetKind": "column",
-      "targetId": "69f32c12-1444-440b-8601-c883416c41c7"
+      "targetId": "824feae4-832e-4ddf-9b9a-84e2d2529dad"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "13922c13-012e-4f2e-8246-aa8f37252d32",
+      "sourceId": "6b0d315c-d0d1-4f11-94c1-574a8762225e",
       "targetKind": "column",
-      "targetId": "cd637dbc-bc67-4199-8f8a-7ef2e9aa5310"
+      "targetId": "5c65d8c0-2bc7-4842-97df-b5f62a487764"
     }
   ],
   "assumptions": [
     {
-      "id": "eda18456-325d-40f5-a074-8f699c0e3996",
+      "id": "0aa1302a-7ae4-4b1f-a41b-59ea655c1fa6",
       "kind": "enunciado",
       "text": "El paciente se identifica por su número de historia clínica; cada ingreso, por un número de secuencia dentro de ella.",
-      "elementId": "c6071c18-a4dd-4c3f-90c5-e5174012d672"
+      "elementId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714"
     },
     {
-      "id": "0a2f01ae-ff90-480e-a223-9722c1547009",
+      "id": "a90514aa-4050-4dbb-8aa8-2e046ffd4845",
       "kind": "enunciado",
       "text": "Hay consumos por paciente (de un ingreso) y consumos generales de cada servicio con su fecha.",
-      "elementId": "c03bc549-4009-4b2e-8e33-6fd5e3c982bc"
+      "elementId": "538d81f5-c69a-47af-8931-c798cd228852"
     },
     {
-      "id": "cbef11a4-53a9-4bc3-8cd3-ffcd6dd186ec",
+      "id": "18b2fce3-e29c-47ea-9734-ef429f373f0a",
       "kind": "enunciado",
       "text": "El precio total por envase se obtiene de las dosis por envase y el precio por dosis: atributo derivado que no se almacena.",
-      "elementId": "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f"
+      "elementId": "466db2a3-1671-4b09-aa3e-4470107ac2e3"
     },
     {
-      "id": "f460a32b-46b1-4bf1-a0db-a8533391f5a5",
+      "id": "906d70e1-300b-43eb-9c29-bebc65858ac0",
       "kind": "supuesto",
       "text": "El servicio se identifica por un código; su nombre es único.",
-      "elementId": "e437565d-f3c4-4088-8bf5-d6bde843113f"
+      "elementId": "52a30a32-4b30-434e-8547-dc0a0ad19d62"
     },
     {
-      "id": "3799b4f5-b096-4679-9e92-4019a9b895e2",
+      "id": "80acc06b-b9a3-4994-9a7d-bb7e32b614ea",
       "kind": "supuesto",
       "text": "El consumo de un paciente también lleva fecha, que forma parte de la clave: el mismo fármaco puede darse en días distintos del ingreso.",
-      "elementId": "0298f21b-5811-46a2-879d-6a2af2c5f3fe"
+      "elementId": "40844da8-290c-429f-9e0d-21d66acc652a"
     },
     {
-      "id": "52813d49-bae1-4527-ad7b-18c8ad7288f6",
+      "id": "1f48e317-8205-48e9-9909-9f04825c6b12",
       "kind": "supuesto",
       "text": "El número de la Seguridad Social es opcional («si lo tuviera»): no es clave alternativa, que exigiría valor, sino un índice sin duplicados que admite pacientes sin número.",
-      "elementId": "3160c2ad-b128-4335-9a4d-1ff1c1501f8a"
+      "elementId": "858999bf-7171-437f-827a-5b680dbfe2be"
     },
     {
-      "id": "6f0f1c6d-f837-499c-a876-35f7ee335369",
+      "id": "15d2e031-3d36-4c7a-beba-e6d0e3fb1735",
       "kind": "enunciado",
       "text": "Apartado f: el gasto de los pacientes de cada servicio y el total del servicio se calculan a partir de los consumos: atributos derivados de Servicio que no se almacenan.",
-      "elementId": "e437565d-f3c4-4088-8bf5-d6bde843113f"
+      "elementId": "52a30a32-4b30-434e-8547-dc0a0ad19d62"
     },
     {
-      "id": "0aa8f6c9-c5a9-4aff-b6cd-e3526bea840d",
+      "id": "6a9ed8f7-ac56-441b-9d3d-990c88e339aa",
       "kind": "supuesto",
       "text": "El diagnóstico se registra codificado (por ejemplo, con la clasificación CIE-10) para poder agrupar los informes por diagnóstico.",
-      "elementId": "c6071c18-a4dd-4c3f-90c5-e5174012d672"
+      "elementId": "9a4581dd-8347-4fd0-8aad-b0ee61d94714"
     },
     {
-      "id": "43c569ec-3cf3-4098-bffd-908f5e566995",
+      "id": "f7c09b59-57e5-496e-95b2-b915e9a1d546",
       "kind": "perdida",
       "text": "Los informes de gasto por paciente, servicio o diagnóstico y los atributos derivados de Servicio son consultas sobre estas tablas: no se guardan ni se comprueban.",
-      "elementId": "e437565d-f3c4-4088-8bf5-d6bde843113f"
+      "elementId": "52a30a32-4b30-434e-8547-dc0a0ad19d62"
     }
   ],
   "physical": {
@@ -1540,22 +1540,363 @@
     "relationships": {},
     "tables": {}
   },
-  "data": {},
+  "data": {
+    "c8c9b18c-d532-45ff-bd3e-92dbd1cacb31": [
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "1",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Marta Sánchez",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000000296",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ Reina Victoria 4, Valencia",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610000041",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "1993-05-05"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "2",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Pablo Martínez",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000105648",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "Av. de la Libertad 18, Alicante",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610000882",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "2001-08-14"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "3",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Óscar Gómez",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000209890",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "Pl. de España 48, Valencia",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610001707",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "1989-02-17"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "4",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Marta García",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000314748",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ Reina Victoria 49, Torrevieja",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610002516",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "1966-08-06"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "5",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Sara Fernández",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000419063",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ San Vicente 33, Elche",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610003296",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "2000-01-22"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "6",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Hugo Martínez",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000524563",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ del Mar 68, Torrevieja",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610004071",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "1968-07-22"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "7",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Marta García",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "280000628963",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ Mayor 5, Orihuela",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "610004909",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "2002-05-02"
+      },
+      {
+        "e7bb69ba-da67-45db-b2ab-ac223f80ae65": "8",
+        "06c43fb0-0c95-4e87-b8cc-191b98be6895": "Diego Moreno",
+        "e9f61a45-a29c-49e6-80b4-00b871258ac0": "",
+        "aa0ea706-9f7d-47fb-b772-3f1350d2926a": "C/ Reina Victoria 43, Orihuela",
+        "fb327b80-e10a-464c-a60e-bd097a1dcab6": "",
+        "cad5d9a3-53c6-4623-83b8-693d5ec94759": "1983-04-05"
+      }
+    ],
+    "349723b8-060b-4806-b483-7b3e21a54a3f": [
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "1",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Oncología"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "2",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Traumatología"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "3",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Pediatría"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "4",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Cardiología"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "5",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Urgencias"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "6",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Neurología"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "7",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Digestivo"
+      },
+      {
+        "9ef75d5e-6ff1-40b7-9d8c-51af81aae64a": "8",
+        "14c54125-63bb-4d67-af1e-abf189ae587f": "Oncología 2"
+      }
+    ],
+    "41c56f61-6158-4628-992a-a40edd4e8d19": [
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "1",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Paracetamol",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "omeprazol",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Torrevieja",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "14",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "45.58"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "2",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Ibuprofeno",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "paracetamol",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Valencia",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "5",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "53.78"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "3",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Amoxicilina",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "omeprazol",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Orihuela",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "26",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "39.6"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "4",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Omeprazol",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "amoxicilina",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Alicante",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "10",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "49.15"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "5",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Metformina",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "amoxicilina",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Torrevieja",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "11",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "22.14"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "6",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Enalapril",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "paracetamol",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Crevillente",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "4",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "28.25"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "7",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Salbutamol",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "paracetamol",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Elche",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "18",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "25.09"
+      },
+      {
+        "ad6d4035-a713-447f-9070-4ed0f5a875b4": "8",
+        "428df835-09a9-4108-bdc2-5449f7d995b0": "Atorvastatina",
+        "d458923a-9962-4860-bce8-2f940ba2857b": "amoxicilina",
+        "5ce622a5-447e-456a-ae90-cff1f0b7e1c1": "Crevillente",
+        "1c32aa14-7de3-4de5-a3bd-4360281d2177": "24",
+        "d32d7b25-8a81-4d0b-918e-dade70652c8a": "40.89"
+      }
+    ],
+    "80e79ff9-7c4e-4fae-8cf6-8765384fd319": [
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "1",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "E11.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2024-07-07",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2024-08-04",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "4",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "4"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "2",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "E11.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2025-09-03",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "6",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "4"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "3",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "C50.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2024-08-17",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2024-09-01",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "3",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "6"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "4",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "S72.0",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2025-12-17",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2025-12-30",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "2",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "8"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "5",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "K35.8",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2025-01-10",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "7",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "6"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "6",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "C50.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2026-04-23",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2026-06-11",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "4",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "3"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "7",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "J18.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2024-08-27",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2024-09-21",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "4",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "4"
+      },
+      {
+        "d7c5ad90-d421-44f8-ba31-34342aea61dd": "8",
+        "fbdb0972-c61f-4634-ac0f-1277fc599e36": "C50.9",
+        "ee757555-b24e-4b03-9666-0a2b885f7931": "2024-09-07",
+        "1c27084a-30d7-414d-b8bc-c0d32e159367": "2024-09-26",
+        "10f28ba4-dd23-4533-ba6c-07f15af110f1": "2",
+        "eee17626-2cc2-4244-8cfa-25fd95fcaef5": "8"
+      }
+    ],
+    "c8a48f12-1482-452e-b2fb-6eb88c3e845c": [
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "6",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "5",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2025-12-29",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "21"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "6",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "1",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2025-10-03",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "8"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "8",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "4",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2024-01-31",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "17"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "7",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "8",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2026-06-14",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "11"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "1",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "8",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2026-01-07",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "24"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "4",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "1",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2024-04-08",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "1"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "7",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "2",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2026-05-16",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "16"
+      },
+      {
+        "96d0af21-84c1-42fe-99ee-979e3f3df6fd": "2",
+        "6d7b5bb5-0cb7-41cb-be5e-9a42871c405c": "4",
+        "824feae4-832e-4ddf-9b9a-84e2d2529dad": "2025-10-12",
+        "5c65d8c0-2bc7-4842-97df-b5f62a487764": "28"
+      }
+    ],
+    "d70604e8-0022-4241-8ec3-78aa510af57d": [
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "2",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "6",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "5",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2025-04-27",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "3"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "3",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "3",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "8",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2025-10-25",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "22"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "2",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "6",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "7",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2024-08-28",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "27"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "6",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "4",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "7",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2024-01-25",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "29"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "7",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "4",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "8",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2024-01-20",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "5"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "5",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "7",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "6",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2026-02-04",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "5"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "3",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "3",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "2",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2024-05-07",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "3"
+      },
+      {
+        "a8209d61-a878-4c1e-846a-302f11369182": "6",
+        "c77c8d97-b90a-4eaa-b5d3-b8aa0204ceb9": "4",
+        "6cf2c214-f0cb-44fd-be34-da1e9f7863b3": "5",
+        "fa1aafa7-a671-4bcb-990f-a648cbc4efd2": "2024-03-17",
+        "443d501e-fdb9-4a6d-873a-d1663130a45c": "7"
+      }
+    ]
+  },
   "presentation": {
     "chen": {
-      "3160c2ad-b128-4335-9a4d-1ff1c1501f8a": {
+      "858999bf-7171-437f-827a-5b680dbfe2be": {
         "x": 120,
         "y": 140
       },
-      "c6071c18-a4dd-4c3f-90c5-e5174012d672": {
+      "9a4581dd-8347-4fd0-8aad-b0ee61d94714": {
         "x": 1080,
         "y": 140
       },
-      "e437565d-f3c4-4088-8bf5-d6bde843113f": {
+      "52a30a32-4b30-434e-8547-dc0a0ad19d62": {
         "x": 1080,
         "y": 980
       },
-      "bc63d29a-9ee5-4b89-92c1-fe6ea00c404f": {
+      "466db2a3-1671-4b09-aa3e-4470107ac2e3": {
         "x": 2040,
         "y": 140
       }

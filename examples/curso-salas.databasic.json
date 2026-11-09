@@ -5,7 +5,7 @@
   "name": "Salas de un hospital · ejercicio 5 (Tema 2)",
   "tables": [
     {
-      "id": "679e71ec-62be-473b-bd65-7efc79a27e56",
+      "id": "dbf71e06-c2c4-489c-b074-d61d313ac6f0",
       "name": "Personal",
       "conceptualName": "Personal",
       "syncNames": true,
@@ -15,7 +15,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "505364a5-eba0-4c13-8c91-22517bee7e59",
+          "id": "a1c937f7-d40d-420c-ab9b-45c3fbeadea0",
           "name": "num_empleado",
           "type": "NUMBER(6)",
           "required": true,
@@ -25,7 +25,7 @@
           "domain": null
         },
         {
-          "id": "97aa568d-b56f-4263-99c9-32226483dcbb",
+          "id": "26fe139f-089a-4ea2-964f-1a65a1b6a227",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -35,7 +35,7 @@
           "domain": null
         },
         {
-          "id": "46395e3e-2ff2-48bd-8457-a275691ff81d",
+          "id": "b61bcbf1-81f5-4cd5-9cac-cdc38143f344",
           "name": "direccion",
           "type": "VARCHAR(120)",
           "required": false,
@@ -45,7 +45,7 @@
           "domain": null
         },
         {
-          "id": "aeb500a6-8806-47f9-9b03-0e1de75628a2",
+          "id": "43ea89b7-db45-4bc0-88c0-f11fefb4cca2",
           "name": "telefono",
           "type": "VARCHAR(15)",
           "required": false,
@@ -55,7 +55,7 @@
           "domain": null
         },
         {
-          "id": "f9159a57-8390-4850-8fe1-25c8020dcc55",
+          "id": "0fe9ad3a-982a-47e7-95fc-c047e3d79a22",
           "name": "sala_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -69,7 +69,7 @@
       "indexes": []
     },
     {
-      "id": "31f16c12-683d-4577-b419-ded57de83621",
+      "id": "cf748e1c-dd75-4234-ba14-bce8001490f0",
       "name": "Sala",
       "conceptualName": "Sala",
       "syncNames": true,
@@ -79,7 +79,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "009433fa-05bc-4347-a980-a1c74a3e51d1",
+          "id": "89fc0173-c7f9-458d-a397-59403d4da093",
           "name": "nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -89,7 +89,7 @@
           "domain": null
         },
         {
-          "id": "4fd04d90-f038-4f30-bc39-3155c1c5fb1a",
+          "id": "4395f48d-1e8f-4380-8d1d-687f59c7831f",
           "name": "num_camas",
           "type": "NUMBER(3)",
           "required": true,
@@ -109,7 +109,7 @@
       "indexes": []
     },
     {
-      "id": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1",
+      "id": "e246bf39-2473-4001-8f19-8b3fef362938",
       "name": "Paciente",
       "conceptualName": "Paciente",
       "syncNames": true,
@@ -119,7 +119,7 @@
       "y": 140,
       "columns": [
         {
-          "id": "8e0f49b7-6d75-4026-9bb0-20a2a5bab650",
+          "id": "a300a7eb-54df-4c4b-8cd6-79d14435372d",
           "name": "num_registro",
           "type": "NUMBER(8)",
           "required": true,
@@ -129,7 +129,7 @@
           "domain": null
         },
         {
-          "id": "93f12d6c-8e3e-43fc-9090-c139c6a93015",
+          "id": "60459507-790a-4506-873e-93ce598069df",
           "name": "nombre",
           "type": "VARCHAR(80)",
           "required": true,
@@ -139,7 +139,7 @@
           "domain": null
         },
         {
-          "id": "85f9c467-2ea5-4445-aff8-bc4cba32efe5",
+          "id": "4917ad61-c4bf-465f-a76d-650844e36322",
           "name": "sala_nombre",
           "type": "VARCHAR(40)",
           "required": true,
@@ -155,9 +155,9 @@
   ],
   "relationships": [
     {
-      "id": "73831ee3-ae50-4fee-977d-2e50485bdf56",
-      "parentId": "31f16c12-683d-4577-b419-ded57de83621",
-      "childId": "679e71ec-62be-473b-bd65-7efc79a27e56",
+      "id": "42c54962-f70f-4172-988c-06040c2fc99c",
+      "parentId": "cf748e1c-dd75-4234-ba14-bce8001490f0",
+      "childId": "dbf71e06-c2c4-489c-b074-d61d313ac6f0",
       "name": "FK_Trabaja_en_sala",
       "forward": "Trabaja_en",
       "inverse": "sala",
@@ -168,15 +168,15 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "009433fa-05bc-4347-a980-a1c74a3e51d1",
-          "childColumnId": "f9159a57-8390-4850-8fe1-25c8020dcc55"
+          "parentColumnId": "89fc0173-c7f9-458d-a397-59403d4da093",
+          "childColumnId": "0fe9ad3a-982a-47e7-95fc-c047e3d79a22"
         }
       ]
     },
     {
-      "id": "cdff1f89-d40b-4605-8f23-7222e10078a9",
-      "parentId": "31f16c12-683d-4577-b419-ded57de83621",
-      "childId": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1",
+      "id": "2c683466-6c1e-47ef-a9c3-0be6f5917d42",
+      "parentId": "cf748e1c-dd75-4234-ba14-bce8001490f0",
+      "childId": "e246bf39-2473-4001-8f19-8b3fef362938",
       "name": "FK_Internado_en_sala",
       "forward": "Internado_en",
       "inverse": "sala",
@@ -187,8 +187,8 @@
       "onUpdate": "NO ACTION",
       "mappings": [
         {
-          "parentColumnId": "009433fa-05bc-4347-a980-a1c74a3e51d1",
-          "childColumnId": "85f9c467-2ea5-4445-aff8-bc4cba32efe5"
+          "parentColumnId": "89fc0173-c7f9-458d-a397-59403d4da093",
+          "childColumnId": "4917ad61-c4bf-465f-a76d-650844e36322"
         }
       ]
     }
@@ -196,7 +196,7 @@
   "conceptual": {
     "entities": [
       {
-        "id": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+        "id": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
         "name": "Personal",
         "notes": "",
         "weak": false,
@@ -206,7 +206,7 @@
         }
       },
       {
-        "id": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+        "id": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
         "name": "Sala",
         "notes": "",
         "weak": false,
@@ -216,7 +216,7 @@
         }
       },
       {
-        "id": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
+        "id": "c6c4bba9-c570-4689-8c46-28a0204f502c",
         "name": "Paciente",
         "notes": "",
         "weak": false,
@@ -228,9 +228,9 @@
     ],
     "attributes": [
       {
-        "id": "bc998418-eb7a-491f-b0b6-390c69d6f2e6",
+        "id": "bd14a54a-1dc3-47e5-a988-c3cf676c01c6",
         "ownerKind": "entity",
-        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+        "ownerId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
         "name": "num_empleado",
         "type": "NUMBER(6)",
         "required": true,
@@ -249,9 +249,9 @@
         }
       },
       {
-        "id": "88c9a7b5-42af-4792-874c-8bcec580ea7c",
+        "id": "7dcc020a-8510-4a9e-b367-97b7cbc0edc3",
         "ownerKind": "entity",
-        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+        "ownerId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -270,9 +270,9 @@
         }
       },
       {
-        "id": "d7fa652b-db52-4a8e-baa2-8e77c0e53b99",
+        "id": "dd90ddbc-5702-40b1-978b-f730598b7f53",
         "ownerKind": "entity",
-        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+        "ownerId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
         "name": "direccion",
         "type": "VARCHAR(120)",
         "required": false,
@@ -291,9 +291,9 @@
         }
       },
       {
-        "id": "7c19f18b-0973-4e70-94ba-c68f963007f8",
+        "id": "f8e723fc-94c6-4985-b5ce-ac783ff432fd",
         "ownerKind": "entity",
-        "ownerId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+        "ownerId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
         "name": "telefono",
         "type": "VARCHAR(15)",
         "required": false,
@@ -312,9 +312,9 @@
         }
       },
       {
-        "id": "04f3dac4-22a0-41ea-b95b-dcb870ae148a",
+        "id": "0184a2bc-440e-42f5-8675-01351cddf938",
         "ownerKind": "entity",
-        "ownerId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+        "ownerId": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
         "name": "nombre",
         "type": "VARCHAR(40)",
         "required": true,
@@ -333,9 +333,9 @@
         }
       },
       {
-        "id": "cb65f20b-049c-4234-81c2-a90235e41203",
+        "id": "ed39f83d-8a85-42d8-a97a-0582158d2848",
         "ownerKind": "entity",
-        "ownerId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+        "ownerId": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
         "name": "num_camas",
         "type": "NUMBER(3)",
         "required": true,
@@ -359,9 +359,9 @@
         }
       },
       {
-        "id": "f2375842-bce6-4810-921d-33dfa9a9bd3c",
+        "id": "dd62ad18-1f05-42fa-96d2-b23d05b89779",
         "ownerKind": "entity",
-        "ownerId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
+        "ownerId": "c6c4bba9-c570-4689-8c46-28a0204f502c",
         "name": "num_registro",
         "type": "NUMBER(8)",
         "required": true,
@@ -380,9 +380,9 @@
         }
       },
       {
-        "id": "4fbf55ed-b3eb-41ae-a457-79039d1caaa2",
+        "id": "e51d3bfe-39b6-4fe9-a6b0-dced77cbf96c",
         "ownerKind": "entity",
-        "ownerId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
+        "ownerId": "c6c4bba9-c570-4689-8c46-28a0204f502c",
         "name": "nombre",
         "type": "VARCHAR(80)",
         "required": true,
@@ -403,20 +403,20 @@
     ],
     "relationships": [
       {
-        "id": "7b7133e4-b225-404a-838a-cde4fd3528b6",
+        "id": "9777b735-174d-445e-8852-b35a06fe0a8d",
         "name": "Trabaja_en",
         "notes": "",
         "participations": [
           {
-            "id": "64d1a54d-7291-4714-b041-89c0725c3dee",
-            "entityId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+            "id": "ec3dff9e-a4fa-4afe-b379-3e384b31e30c",
+            "entityId": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
             "role": "sala",
             "min": 0,
             "max": null
           },
           {
-            "id": "0639cd33-f340-483e-a4e4-fdc691e7e963",
-            "entityId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+            "id": "9c8a62c6-d619-4d96-b926-63d78c170106",
+            "entityId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
             "role": "empleado",
             "min": 1,
             "max": 1
@@ -424,25 +424,25 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "0639cd33-f340-483e-a4e4-fdc691e7e963",
+          "childParticipationId": "9c8a62c6-d619-4d96-b926-63d78c170106",
           "identifying": false
         }
       },
       {
-        "id": "59fe22b4-a28a-42aa-938d-60842f0e62ab",
+        "id": "e5e6258b-1d98-4529-9447-141fa89efcbd",
         "name": "Internado_en",
         "notes": "",
         "participations": [
           {
-            "id": "bc2dd877-8b84-4274-93fa-487099b4f977",
-            "entityId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+            "id": "37d63454-04d1-445a-9186-740085e065b8",
+            "entityId": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
             "role": "sala",
             "min": 0,
             "max": null
           },
           {
-            "id": "95c2d3ad-9d3c-40c9-9b78-8c60b63f4b57",
-            "entityId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
+            "id": "9183a419-b21c-419c-a36d-7552eb7dd490",
+            "entityId": "c6c4bba9-c570-4689-8c46-28a0204f502c",
             "role": "paciente",
             "min": 1,
             "max": 1
@@ -450,7 +450,7 @@
         ],
         "translation": {
           "kind": "foreign-key",
-          "childParticipationId": "95c2d3ad-9d3c-40c9-9b78-8c60b63f4b57",
+          "childParticipationId": "9183a419-b21c-419c-a36d-7552eb7dd490",
           "identifying": false
         }
       }
@@ -460,113 +460,113 @@
   "traces": [
     {
       "sourceKind": "entity",
-      "sourceId": "ad370df0-f5d5-4a0e-bd5e-9f297c031099",
+      "sourceId": "1883dc2f-7926-4d86-8e0a-209c71f1a24a",
       "targetKind": "table",
-      "targetId": "679e71ec-62be-473b-bd65-7efc79a27e56"
+      "targetId": "dbf71e06-c2c4-489c-b074-d61d313ac6f0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "bc998418-eb7a-491f-b0b6-390c69d6f2e6",
+      "sourceId": "bd14a54a-1dc3-47e5-a988-c3cf676c01c6",
       "targetKind": "column",
-      "targetId": "505364a5-eba0-4c13-8c91-22517bee7e59"
+      "targetId": "a1c937f7-d40d-420c-ab9b-45c3fbeadea0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "88c9a7b5-42af-4792-874c-8bcec580ea7c",
+      "sourceId": "7dcc020a-8510-4a9e-b367-97b7cbc0edc3",
       "targetKind": "column",
-      "targetId": "97aa568d-b56f-4263-99c9-32226483dcbb"
+      "targetId": "26fe139f-089a-4ea2-964f-1a65a1b6a227"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "d7fa652b-db52-4a8e-baa2-8e77c0e53b99",
+      "sourceId": "dd90ddbc-5702-40b1-978b-f730598b7f53",
       "targetKind": "column",
-      "targetId": "46395e3e-2ff2-48bd-8457-a275691ff81d"
+      "targetId": "b61bcbf1-81f5-4cd5-9cac-cdc38143f344"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "7c19f18b-0973-4e70-94ba-c68f963007f8",
+      "sourceId": "f8e723fc-94c6-4985-b5ce-ac783ff432fd",
       "targetKind": "column",
-      "targetId": "aeb500a6-8806-47f9-9b03-0e1de75628a2"
+      "targetId": "43ea89b7-db45-4bc0-88c0-f11fefb4cca2"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515",
+      "sourceId": "1dbf22ac-64c6-493d-b9d8-9314665ba152",
       "targetKind": "table",
-      "targetId": "31f16c12-683d-4577-b419-ded57de83621"
+      "targetId": "cf748e1c-dd75-4234-ba14-bce8001490f0"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "04f3dac4-22a0-41ea-b95b-dcb870ae148a",
+      "sourceId": "0184a2bc-440e-42f5-8675-01351cddf938",
       "targetKind": "column",
-      "targetId": "009433fa-05bc-4347-a980-a1c74a3e51d1"
+      "targetId": "89fc0173-c7f9-458d-a397-59403d4da093"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "cb65f20b-049c-4234-81c2-a90235e41203",
+      "sourceId": "ed39f83d-8a85-42d8-a97a-0582158d2848",
       "targetKind": "column",
-      "targetId": "4fd04d90-f038-4f30-bc39-3155c1c5fb1a"
+      "targetId": "4395f48d-1e8f-4380-8d1d-687f59c7831f"
     },
     {
       "sourceKind": "entity",
-      "sourceId": "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f",
+      "sourceId": "c6c4bba9-c570-4689-8c46-28a0204f502c",
       "targetKind": "table",
-      "targetId": "e1c3dcec-b6ed-4b47-8161-158d1368c6b1"
+      "targetId": "e246bf39-2473-4001-8f19-8b3fef362938"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "f2375842-bce6-4810-921d-33dfa9a9bd3c",
+      "sourceId": "dd62ad18-1f05-42fa-96d2-b23d05b89779",
       "targetKind": "column",
-      "targetId": "8e0f49b7-6d75-4026-9bb0-20a2a5bab650"
+      "targetId": "a300a7eb-54df-4c4b-8cd6-79d14435372d"
     },
     {
       "sourceKind": "attribute",
-      "sourceId": "4fbf55ed-b3eb-41ae-a457-79039d1caaa2",
+      "sourceId": "e51d3bfe-39b6-4fe9-a6b0-dced77cbf96c",
       "targetKind": "column",
-      "targetId": "93f12d6c-8e3e-43fc-9090-c139c6a93015"
+      "targetId": "60459507-790a-4506-873e-93ce598069df"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "64d1a54d-7291-4714-b041-89c0725c3dee",
+      "sourceId": "ec3dff9e-a4fa-4afe-b379-3e384b31e30c",
       "targetKind": "foreign-key",
-      "targetId": "73831ee3-ae50-4fee-977d-2e50485bdf56"
+      "targetId": "42c54962-f70f-4172-988c-06040c2fc99c"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "7b7133e4-b225-404a-838a-cde4fd3528b6",
+      "sourceId": "9777b735-174d-445e-8852-b35a06fe0a8d",
       "targetKind": "foreign-key",
-      "targetId": "73831ee3-ae50-4fee-977d-2e50485bdf56"
+      "targetId": "42c54962-f70f-4172-988c-06040c2fc99c"
     },
     {
       "sourceKind": "participation",
-      "sourceId": "bc2dd877-8b84-4274-93fa-487099b4f977",
+      "sourceId": "37d63454-04d1-445a-9186-740085e065b8",
       "targetKind": "foreign-key",
-      "targetId": "cdff1f89-d40b-4605-8f23-7222e10078a9"
+      "targetId": "2c683466-6c1e-47ef-a9c3-0be6f5917d42"
     },
     {
       "sourceKind": "relationship",
-      "sourceId": "59fe22b4-a28a-42aa-938d-60842f0e62ab",
+      "sourceId": "e5e6258b-1d98-4529-9447-141fa89efcbd",
       "targetKind": "foreign-key",
-      "targetId": "cdff1f89-d40b-4605-8f23-7222e10078a9"
+      "targetId": "2c683466-6c1e-47ef-a9c3-0be6f5917d42"
     }
   ],
   "assumptions": [
     {
-      "id": "d8aaaeb5-2af3-4238-a44e-22e388a53caa",
+      "id": "4083e2e1-5915-4b3e-a81d-346aeb104fb2",
       "kind": "enunciado",
       "text": "Un empleado trabaja en una única sala y un paciente está en una única sala; en una sala hay varios de cada.",
-      "elementId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515"
+      "elementId": "1dbf22ac-64c6-493d-b9d8-9314665ba152"
     },
     {
-      "id": "46d8f02e-b0a5-4a28-91fb-452b9a97ff50",
+      "id": "6b29d628-0d00-4480-873e-b0875b974c8b",
       "kind": "supuesto",
       "text": "Una sala puede no tener todavía personal ni pacientes: participación (0,N).",
-      "elementId": "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515"
+      "elementId": "1dbf22ac-64c6-493d-b9d8-9314665ba152"
     },
     {
-      "id": "d2211d6c-05f8-479c-b0fc-45627a19a06b",
+      "id": "3592b472-6bec-4cd9-b657-f8437ea42233",
       "kind": "perdida",
       "text": "Que los pacientes internados no superen las camas de la sala no se puede expresar con claves.",
-      "elementId": "59fe22b4-a28a-42aa-938d-60842f0e62ab"
+      "elementId": "e5e6258b-1d98-4529-9447-141fa89efcbd"
     }
   ],
   "physical": {
@@ -574,18 +574,153 @@
     "relationships": {},
     "tables": {}
   },
-  "data": {},
+  "data": {
+    "cf748e1c-dd75-4234-ba14-bce8001490f0": [
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Azul",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "18"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Verde",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "7"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Norte",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "22"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Sur",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "9"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Mar",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "13"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Sol",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "23"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Azul 2",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "2"
+      },
+      {
+        "89fc0173-c7f9-458d-a397-59403d4da093": "Sala Verde 2",
+        "4395f48d-1e8f-4380-8d1d-687f59c7831f": "21"
+      }
+    ],
+    "dbf71e06-c2c4-489c-b074-d61d313ac6f0": [
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "1",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Luis Romero",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "Av. de la Libertad 7, Elche",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610000091",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Verde 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "2",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Pablo Sánchez",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "C/ del Mar 65, Crevillente",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610000860",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Azul 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "3",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Hugo Álvarez",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "C/ San Vicente 41, Murcia",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610001643",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Azul 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "4",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Javier Martínez",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "Pl. de España 5, Torrevieja",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610002447",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Azul 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "5",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Paula Torres",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "C/ Reina Victoria 21, Murcia",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610003248",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Azul 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "6",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Nuria Martínez",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "C/ San Vicente 33, Elche",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610004107",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Norte"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "7",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Marta Romero",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "Av. de la Libertad 75, Crevillente",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610004893",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Verde 2"
+      },
+      {
+        "a1c937f7-d40d-420c-ab9b-45c3fbeadea0": "8",
+        "26fe139f-089a-4ea2-964f-1a65a1b6a227": "Irene Fernández",
+        "b61bcbf1-81f5-4cd5-9cac-cdc38143f344": "C/ del Mar 46, Torrevieja",
+        "43ea89b7-db45-4bc0-88c0-f11fefb4cca2": "610005684",
+        "0fe9ad3a-982a-47e7-95fc-c047e3d79a22": "Sala Sol"
+      }
+    ],
+    "e246bf39-2473-4001-8f19-8b3fef362938": [
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "1",
+        "60459507-790a-4506-873e-93ce598069df": "Marta Díaz",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Verde 2"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "2",
+        "60459507-790a-4506-873e-93ce598069df": "Pablo López",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Azul"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "3",
+        "60459507-790a-4506-873e-93ce598069df": "Hugo Navarro",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Sol"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "4",
+        "60459507-790a-4506-873e-93ce598069df": "Luis Sánchez",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Sur"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "5",
+        "60459507-790a-4506-873e-93ce598069df": "Sara Álvarez",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Mar"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "6",
+        "60459507-790a-4506-873e-93ce598069df": "Nuria López",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Azul 2"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "7",
+        "60459507-790a-4506-873e-93ce598069df": "Lucía Gómez",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Azul"
+      },
+      {
+        "a300a7eb-54df-4c4b-8cd6-79d14435372d": "8",
+        "60459507-790a-4506-873e-93ce598069df": "Andrés Torres",
+        "4917ad61-c4bf-465f-a76d-650844e36322": "Sala Verde"
+      }
+    ]
+  },
   "presentation": {
     "chen": {
-      "ad370df0-f5d5-4a0e-bd5e-9f297c031099": {
+      "1883dc2f-7926-4d86-8e0a-209c71f1a24a": {
         "x": 120,
         "y": 140
       },
-      "f8fba50d-3e8f-4aa5-a9c7-5354da2a9515": {
+      "1dbf22ac-64c6-493d-b9d8-9314665ba152": {
         "x": 1080,
         "y": 140
       },
-      "ea0fb3a7-74a4-4c35-af47-fa4c1d252f6f": {
+      "c6c4bba9-c570-4689-8c46-28a0204f502c": {
         "x": 2040,
         "y": 140
       }

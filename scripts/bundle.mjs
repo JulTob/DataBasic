@@ -18,6 +18,7 @@ const modules = [
     'sql/dml.js',
     'sql/ddl.js',
     'sql/console.js',
+    'sql/sample.js',
     'io/sql.js',
     'io/access.js',
     'ui/html.js',
