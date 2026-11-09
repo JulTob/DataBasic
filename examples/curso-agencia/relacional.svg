@@ -1,0 +1,554 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="2312" height="1380"
+        viewBox="84 104 2312 1380">
+        <title>Agencia de viajes · ejercicio 1 (guion ERE)</title>
+        <rect x="84" y="104" width="2312"
+            height="1380" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="0cef966d-b536-4115-bd34-c6ff60b8f8be" data-relation-id="0cef966d-b536-4115-bd34-c6ff60b8f8be"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Telefonos_cliente_Cliente">
+        <title>Cliente  Telefonos_cliente;
+            Telefonos_cliente  Cliente</title>
+        <path class="relation-hit" d="M280,328 L280,530 L280,530 L280,732"/>
+        <path class="relation-line" d="M280,328 L280,530 L280,530 L280,732"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="724" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="22d9dfb8-3dff-49fe-be46-1f74e11d1ec4" data-relation-id="22d9dfb8-3dff-49fe-be46-1f74e11d1ec4"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Agente_Empleado">
+        <title>Empleado  Agente;
+            Agente  Empleado</title>
+        <path class="relation-hit" d="M1468.235294117647,888 L1257.450980392157,888 L1257.450980392157,1292 L1006.6666666666666,1292"/>
+        <path class="relation-line" d="M1468.235294117647,888 L1257.450980392157,888 L1257.450980392157,1292 L1006.6666666666666,1292"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1014.6666666666666" cy="1292" r="4.5"/>
+        <text data-marker="child-cardinality" x="1028.6666666666665"
+            y="1306" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="5e2ffffb-b2de-466b-b40f-82d874c8741e" data-relation-id="5e2ffffb-b2de-466b-b40f-82d874c8741e"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Administrativo_Empleado">
+        <title>Empleado  Administrativo;
+            Administrativo  Empleado</title>
+        <path class="relation-hit" d="M1660.6451612903227,888 L1952.140762463343,888 L1952.140762463343,1292 L2163.6363636363635,1292"/>
+        <path class="relation-line" d="M1660.6451612903227,888 L1952.140762463343,888 L1952.140762463343,1292 L2163.6363636363635,1292"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="2155.6363636363635" cy="1292" r="4.5"/>
+        <text data-marker="child-cardinality" x="2141.6363636363635"
+            y="1286" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb" data-relation-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Realiza_cliente">
+        <title>Cliente Realiza Reserva;
+            Reserva cliente Cliente</title>
+        <path class="relation-hit" d="M440,264 L660,264 L660,300 L760,300"/>
+        <path class="relation-line" d="M440,264 L660,264 L660,300 L760,300"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="752" cy="300" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe" data-relation-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Reserva_de_viaje">
+        <title>Viaje Reserva_de Reserva;
+            Reserva viaje Viaje</title>
+        <path class="relation-hit" d="M1400,282 L1320,282 L1320,306 L1080,306"/>
+        <path class="relation-line" d="M1400,282 L1320,282 L1320,306 L1080,306"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1088" cy="306" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="4bacc306-dd40-4608-ada9-482e0598598b" data-relation-id="4bacc306-dd40-4608-ada9-482e0598598b"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Gestiona_agente">
+        <title>Agente Gestiona Reserva;
+            Reserva agente Agente</title>
+        <path class="relation-hit" d="M920,1292 L920,982 L920,982 L920,472"/>
+        <path class="relation-line" d="M920,1292 L920,982 L920,982 L920,472"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="920" cy="480" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb" data-relation-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+        class="relationship ">
+        <path data-label-leader="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M550,264 L550,246"/>
+                    <circle data-label-anchor="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+                        cx="550" cy="264" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe" data-relation-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+        class="relationship ">
+        <path data-label-leader="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1200,306 L1200,288"/>
+                    <circle data-label-anchor="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+                        cx="1200" cy="306" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="4bacc306-dd40-4608-ada9-482e0598598b" data-relation-id="4bacc306-dd40-4608-ada9-482e0598598b"
+        class="relationship ">
+        <path data-label-leader="4bacc306-dd40-4608-ada9-482e0598598b"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M920,727 L920,709"/>
+                    <circle data-label-anchor="4bacc306-dd40-4608-ada9-482e0598598b"
+                        cx="920" cy="727" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e" data-table-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Cliente">
+        <title>Cliente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Cliente</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="b10511a8-e535-4e33-96b9-1ea7c7d79810" data-column-id="b10511a8-e535-4e33-96b9-1ea7c7d79810" data-owner-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dni, CHAR(9)">
+                    <title>dni: CHAR(9) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="9ca84403-8e7b-4df0-9f59-024f3073c8b9" data-column-id="9ca84403-8e7b-4df0-9f59-024f3073c8b9" data-owner-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="7e35959a-6b46-4e49-a37d-76607fc01b09" data-column-id="7e35959a-6b46-4e49-a37d-76607fc01b09" data-owner-id="76f24d0e-9e74-4be8-bd5b-7f944b7fbb0e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna direccion, VARCHAR(120)">
+                    <title>direccion: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">direccion</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(120)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="7937b541-e44c-4810-9202-07488ab54d9b" data-table-id="7937b541-e44c-4810-9202-07488ab54d9b" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,700)" tabindex="0" role="button"
+        aria-label="Entidad Telefonos_cliente">
+        <title>Telefonos_cliente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Telefonos_cliente</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="7a720fcc-4427-4bdf-b49f-92e4b3128687" data-column-id="7a720fcc-4427-4bdf-b49f-92e4b3128687" data-owner-id="7937b541-e44c-4810-9202-07488ab54d9b"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Cliente_dni, CHAR(9)">
+                    <title>Cliente_dni: CHAR(9) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Cliente_dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e41ef006-69d1-4be2-89d3-8235cc2937ea" data-column-id="e41ef006-69d1-4be2-89d3-8235cc2937ea" data-owner-id="7937b541-e44c-4810-9202-07488ab54d9b"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna telefono, VARCHAR(15)">
+                    <title>telefono: VARCHAR(15) · PK</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text>
+                    <text x="72" y="100"
+                class="field-label field-required">telefono *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(15)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c" data-table-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Reserva">
+        <title>Reserva · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Reserva</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="aeaffc99-2b67-45b6-b57c-5380cabdcc86" data-column-id="aeaffc99-2b67-45b6-b57c-5380cabdcc86" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo_reserva, NUMBER">
+                    <title>codigo_reserva: NUMBER · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigo_reserva *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="b93ba5e9-8911-44c5-9e6d-497c19f04261" data-column-id="b93ba5e9-8911-44c5-9e6d-497c19f04261" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_reserva, DATE">
+                    <title>fecha_reserva: DATE · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">fecha_reserva *</text>
+                    <text x="72" y="119"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="d83f39fb-ed5c-4945-a8c6-745bfba1c760" data-column-id="d83f39fb-ed5c-4945-a8c6-745bfba1c760" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_plazas, NUMBER(3)">
+                    <title>num_plazas: NUMBER(3) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">num_plazas *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c4ce51e4-1bb1-4954-a2d8-2862ec2eb857" data-column-id="c4ce51e4-1bb1-4954-a2d8-2862ec2eb857" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cliente_dni, CHAR(9)">
+                    <title>cliente_dni: CHAR(9) · FK1</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">FK1</text>
+                    <text x="72" y="196"
+                class="field-label field-required">cliente_dni *</text>
+                    <text x="72" y="215"
+                        class="type-label">CHAR(9)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="ab47e247-daec-46c6-a465-8b1565e50596" data-column-id="ab47e247-daec-46c6-a465-8b1565e50596" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna viaje_codigo, NUMBER">
+                    <title>viaje_codigo: NUMBER · FK2</title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    <text x="12" y="240"
+                class="key-label">FK2</text>
+                    <text x="72" y="244"
+                class="field-label field-required">viaje_codigo *</text>
+                    <text x="72" y="263"
+                        class="type-label">NUMBER</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="08f51591-f28d-4ffd-a486-480b5a99bbd4" data-column-id="08f51591-f28d-4ffd-a486-480b5a99bbd4" data-owner-id="6d9d5727-8890-4927-b26d-6a35c8acfe1c"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna agente_Empleado_dni, CHAR(9)">
+                    <title>agente_Empleado_dni: CHAR(9) · FK3</title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    <text x="12" y="288"
+                class="key-label">FK3</text>
+                    <text x="72" y="292"
+                class="field-label field-required">agente_Empleado_dni *</text>
+                    <text x="72" y="311"
+                        class="type-label">CHAR(9)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="8f013aa6-2645-427b-b05a-759348de4ed0" data-table-id="8f013aa6-2645-427b-b05a-759348de4ed0" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Viaje">
+        <title>Viaje · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Viaje</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="cde9e628-8893-4c4f-8380-3991dd046beb" data-column-id="cde9e628-8893-4c4f-8380-3991dd046beb" data-owner-id="8f013aa6-2645-427b-b05a-759348de4ed0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo, NUMBER">
+                    <title>codigo: NUMBER · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigo *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="9b6abaf7-2394-4e86-8ef7-8c63946d0363" data-column-id="9b6abaf7-2394-4e86-8ef7-8c63946d0363" data-owner-id="8f013aa6-2645-427b-b05a-759348de4ed0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna destino, VARCHAR(80)">
+                    <title>destino: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">destino *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="ddd6a1b5-5e10-4f10-9f85-d39897866664" data-column-id="ddd6a1b5-5e10-4f10-9f85-d39897866664" data-owner-id="8f013aa6-2645-427b-b05a-759348de4ed0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_salida, DATE">
+                    <title>fecha_salida: DATE · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">fecha_salida *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="a933d4c0-87f9-4189-bc22-538f6dfd95fa" data-column-id="a933d4c0-87f9-4189-bc22-538f6dfd95fa" data-owner-id="8f013aa6-2645-427b-b05a-759348de4ed0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio, NUMBER(8,2)">
+                    <title>precio: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">precio *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="03d53d5b-2324-4658-8c6f-bb9fb9440981" data-table-id="03d53d5b-2324-4658-8c6f-bb9fb9440981" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,700)" tabindex="0" role="button"
+        aria-label="Entidad Empleado">
+        <title>Empleado · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Empleado</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="9bc96a75-ab10-40bb-a589-b3399f817c05" data-column-id="9bc96a75-ab10-40bb-a589-b3399f817c05" data-owner-id="03d53d5b-2324-4658-8c6f-bb9fb9440981"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dni, CHAR(9)">
+                    <title>dni: CHAR(9) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="193971f0-e476-4fdd-b44b-85737ee52dbf" data-column-id="193971f0-e476-4fdd-b44b-85737ee52dbf" data-owner-id="03d53d5b-2324-4658-8c6f-bb9fb9440981"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e3a760af-a159-4503-9bab-d6051e113f92" data-column-id="e3a760af-a159-4503-9bab-d6051e113f92" data-owner-id="03d53d5b-2324-4658-8c6f-bb9fb9440981"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_contratacion, DATE">
+                    <title>fecha_contratacion: DATE · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">fecha_contratacion *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0" data-table-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,1260)" tabindex="0" role="button"
+        aria-label="Entidad Agente">
+        <title>Agente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Agente</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="263a52ec-6a7c-43df-b8b4-faba987eda3b" data-column-id="263a52ec-6a7c-43df-b8b4-faba987eda3b" data-owner-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Empleado_dni, CHAR(9)">
+                    <title>Empleado_dni: CHAR(9) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Empleado_dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="f1ec27a8-0037-4e3a-8735-ff8acfc67735" data-column-id="f1ec27a8-0037-4e3a-8735-ff8acfc67735" data-owner-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigo_empleado, NUMBER(5)">
+                    <title>codigo_empleado: NUMBER(5) · AK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">AK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">codigo_empleado *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(5)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e84c0549-28fc-4b00-97c0-6cd5e44fdf91" data-column-id="e84c0549-28fc-4b00-97c0-6cd5e44fdf91" data-owner-id="365cb6e8-bd6a-4b5b-a863-5f9dc5ffceb0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna area_especializacion, VARCHAR(40)">
+                    <title>area_especializacion: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">area_especializacion</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(40)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="fad2d180-da6f-4885-87f0-a98b3d03b9ff" data-table-id="fad2d180-da6f-4885-87f0-a98b3d03b9ff" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(2040,1260)" tabindex="0" role="button"
+        aria-label="Entidad Administrativo">
+        <title>Administrativo · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Administrativo</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="60"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="60"/>
+        <g data-diagram-kind="column" data-diagram-id="420316ef-52a7-4d59-b769-4c4ffeea5eca" data-column-id="420316ef-52a7-4d59-b769-4c4ffeea5eca" data-owner-id="fad2d180-da6f-4885-87f0-a98b3d03b9ff"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Empleado_dni, CHAR(9)">
+                    <title>Empleado_dni: CHAR(9) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Empleado_dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb" data-relation-id="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+                data-label-for="b899eee4-8fbe-4a0c-85d0-33a9c19c4abb"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="501.72" y="184"
+                    width="96.56" height="62" rx="4"/>
+                <text x="550" y="206"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Realiza</text><text x="550" y="232"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← cliente</text></g><g data-diagram-kind="relationship" data-diagram-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe" data-relation-id="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+                data-label-for="2a7b474d-8099-4a01-9332-d63ee3bf8cbe"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1133.66" y="226"
+                    width="132.68" height="62" rx="4"/>
+                <text x="1200" y="248"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Reserva_de</text><text x="1200" y="274"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← viaje</text></g><g data-diagram-kind="relationship" data-diagram-id="4bacc306-dd40-4608-ada9-482e0598598b" data-relation-id="4bacc306-dd40-4608-ada9-482e0598598b"
+                data-label-for="4bacc306-dd40-4608-ada9-482e0598598b"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="865" y="647"
+                    width="110" height="62" rx="4"/>
+                <text x="920" y="669"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Gestiona</text><text x="920" y="695"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← agente</text></g></svg>

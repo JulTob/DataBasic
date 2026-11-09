@@ -110,6 +110,10 @@ export async function applicationHarness(
         performance,
         structuredClone,
         Blob,
+        TextEncoder,
+        TextDecoder,
+        Response,
+        DecompressionStream,
         URL: {
             createObjectURL: blob => {
                 downloads.push( blob );

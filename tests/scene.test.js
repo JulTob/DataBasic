@@ -221,8 +221,8 @@ test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro de
 
 test( 'Auxiliares y tablas de clases conservan símbolos Chen y bounds de ambas vistas', async () => {
     for (const [file, semanticKind] of [
-        ['03-multivaluados-resuelto.databasic.json', 'attribute'],
-        ['04-jerarquia-resuelta.databasic.json', 'generalization']
+        ['03-multivaluados-resuelto/proyecto.databasic.json', 'attribute'],
+        ['04-jerarquia-resuelta/proyecto.databasic.json', 'generalization']
         ]) {
         const model = parseDocument( await readFile(
                 new URL( `../examples/${file}`, import.meta.url ),

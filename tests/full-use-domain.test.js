@@ -580,7 +580,7 @@ function referentialPolicyFixture( kind ) {
         }
 
     return parseDocument( readFileSync(
-            new URL( '../examples/00-nucleo.databasic.json', import.meta.url ),
+            new URL( '../examples/00-nucleo/proyecto.databasic.json', import.meta.url ),
             'utf8'
             ) );
     }

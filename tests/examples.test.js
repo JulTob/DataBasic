@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import * as domain from '../src/domain/model.js';
 import {
     parseDocument,
@@ -10,19 +10,17 @@ import { exportSQL } from '../src/io/sql.js';
 import { exportVDX } from '../src/io/visio.js';
 import { exportAccessVBA } from '../src/io/access.js';
 import { buildDiagramScene } from '../src/ui/scene.js';
+import {
+    exampleFolders,
+    exampleText,
+    examplesURL,
+    readExample
+    } from './support/examples.js';
 
-const examplesURL = new URL( '../examples/', import.meta.url );
-const filenames = (await readdir( examplesURL )).filter(
-        name => name.endsWith( '.databasic.json' )
-        );
+const filenames = await exampleFolders();
 
 async function openExample( name ) {
-    return parseDocument(
-            await readFile(
-                    new URL( `${name}.databasic.json`, examplesURL ),
-                    'utf8'
-                    )
-            );
+    return readExample( name );
     }
 
 function tableNamed( model, name ) {
@@ -55,7 +53,7 @@ function attributeNamed( model, name, ownerId ) {
 
 for (const filename of filenames) {
     test( `Ejemplo entregado: ${filename} abre y conserva IDs y decisiones`, async () => {
-        const contents = await readFile( new URL( filename, examplesURL ), 'utf8' );
+        const contents = await exampleText( filename );
         const model = parseDocument( contents );
         const reopened = parseDocument( serializeDocument( model ) );
 
@@ -354,7 +352,7 @@ const courseFiles = filenames.filter( name => name.startsWith( 'curso-' ) );
 const exampleIndex = JSON.parse( await readFile( new URL( 'index.json', examplesURL ), 'utf8' ) );
 
 test( 'Los ejercicios del curso están en Ayuda → Ejemplos', () => {
-    const listed = exampleIndex.examples.map( item => item.file );
+    const listed = exampleIndex.examples.map( item => item.folder );
 
     assert.equal( courseFiles.length, 16 );
 
@@ -365,7 +363,7 @@ test( 'Los ejercicios del curso están en Ayuda → Ejemplos', () => {
 
 for (const filename of courseFiles) {
     test( `Ejercicio del curso ${filename}: tres vistas sin solapes, archivos y supuestos`, async () => {
-        const model = await openExample( filename.replace( '.databasic.json', '' ) );
+        const model = await openExample( filename );
         const kinds = new Set( domain.documentAssumptions( model ).map( item => item.kind ) );
 
         assert.ok( domain.documentAssumptions( model ).length >= 3 );
@@ -493,7 +491,7 @@ test( 'Ejercicios del curso: correcciones de la revisión independiente', async 
     assert.ok( furniture.assumptions.filter( item => item.kind === 'supuesto' ).length >= 3 );
 
     for (const name of filenames.filter( item => item.startsWith( 'curso-' ) )) {
-        const model = await openExample( name.replace( '.databasic.json', '' ) );
+        const model = await openExample( name );
 
         assert.doesNotMatch( exportSQL( model ), /conservada; la FK no impone/, `${name}: sin avisos falsos de semántica perdida` );
         }

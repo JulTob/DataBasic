@@ -225,7 +225,7 @@ test( 'overrides replace single derived properties, null restores them and remov
     assert.deepEqual( [link.cascadeDelete, link.displayColumn, link.derived.cascadeDelete], [false, 'fechaNac', true] );
     assert.equal( schema.tables[0].description, 'Usuarios del sistema' );
 
-    assert.throws( () => updatePhysicalColumn( model, id.id, {accessType: 'Texto'} ), /tipo de datos de Access/ );
+    assert.throws( () => updatePhysicalColumn( model, id.id, {accessType: 'Texto'} ), /tipo de datos físico/ );
     assert.throws( () => updatePhysicalColumn( model, id.id, {fieldSize: 300} ), /tamaño de campo/ );
     assert.throws( () => updatePhysicalColumn( model, id.id, {indexed: 'maybe'} ), /indexado/ );
     assert.throws( () => updatePhysicalColumn( model, 'missing', {caption: 'x'} ), /Columna no encontrada/ );
@@ -268,7 +268,7 @@ test( 'the physical layer survives save and open, and older files open without i
     const malformed = structuredClone( reopened );
 
     malformed.physical.columns[id.id] = {accessType: 'Lo que sea'};
-    assert.throws( () => parseDocument( JSON.stringify( malformed ) ), /tipo de datos de Access/ );
+    assert.throws( () => parseDocument( JSON.stringify( malformed ) ), /tipo de datos físico/ );
     } );
 
 test( 'the VBA module builds tables, keys, relationships and lookups with DAO', () => {

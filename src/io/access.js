@@ -102,14 +102,16 @@ export function exportAccessVBA( model ) {
 
     const schema = accessSchema( model );
     const subNames = vbaSubNames( schema.tables );
+    const forms = vbaForms( model );
     const sections = [
         vbaHeader( schema ),
-        vbaMain( schema, subNames ),
+        vbaMain( schema, subNames, forms.length ),
         vbaBlankCheck( schema ),
         ...schema.tables.map( table => vbaTableSub( schema, table, subNames.get( table.tableId ) ) ),
         vbaRelationsSub( schema ),
         vbaDataSub( model ),
         vbaQueriesSub( schema ),
+        ...vbaFormsSubs( forms ),
         vbaPropertyHelper()
         ];
 
@@ -142,7 +144,8 @@ function vbaHeader( schema ) {
 
 function vbaMain(
         schema,
-        subNames
+        subNames,
+        formCount = 0
         ) {
     const calls = schema.tables.map( table => `    ${subNames.get( table.tableId )} db` );
 
@@ -156,6 +159,7 @@ function vbaMain(
         '    CrearRelaciones db',
         '    CrearDatos db',
         '    CrearConsultas db',
+        ...(formCount ? ['    CrearFormularios'] : []),
         '    Application.RefreshDatabaseWindow',
         `    MsgBox ${vbaString( `DataBasic: ${schema.tables.length} tablas, ${schema.relationships.length} relaciones y ${schema.views.length} consultas creadas. Revisa Herramientas de base de datos → Relaciones.` )}, vbInformation, "DataBasic"`,
         'End Sub'
@@ -490,6 +494,86 @@ function vbaSubNames( tables ) {
         }
 
     return names;
+    }
+
+/* ---------- forms ---------- */
+
+/** The forms of the document with what the module needs: record source, field names and view. */
+function vbaForms( model ) {
+    return (model.forms || []).map(
+            form => {
+                const source = model.tables.find( table => table.id === form.sourceId );
+                const fields = source.kind === 'entity'
+                    ? form.fields.map( id => source.columns.find( column => column.id === id )?.name ).filter( Boolean )
+                    : [...form.fields];
+
+                return {
+                    name: form.name,
+                    title: form.title,
+                    source: source.name,
+                    fields,
+                    view: {columnar: 0, tabular: 1, datasheet: 2}[form.layout],
+                    tabular: form.layout === 'tabular'
+                    };
+                }
+            );
+    }
+
+/*
+ * Each form is built with CreateForm and CreateControl, then saved under its
+ * name. DefaultView: 0 one record, 1 continuous (tabular), 2 datasheet. A
+ * failure is reported and leaves the tables, relations and data in place.
+ */
+function vbaFormsSubs( forms ) {
+    if (!forms.length) {
+        return [];
+        }
+
+    const main = [
+        'Private Sub CrearFormularios()',
+        '    On Error GoTo Fallo',
+        ...forms.map( (form, index) => `    CrearFormulario_${index + 1}` ),
+        '    Exit Sub',
+        'Fallo:',
+        '    MsgBox "DataBasic: las tablas, relaciones y datos están creados, pero un formulario no se pudo crear: " & Err.Description, vbExclamation, "DataBasic"',
+        'End Sub'
+        ].join( '\n' );
+    const builders = forms.map(
+            (form, index) => [
+                `Private Sub CrearFormulario_${index + 1}()`,
+                `    ' ${vbaComment( `«${form.title}» sobre ${form.source}` )}`,
+                '    Dim frm As Form',
+                '    Dim nombreTemporal As String',
+                '',
+                '    Set frm = CreateForm()',
+                `    frm.RecordSource = ${vbaString( form.source )}`,
+                `    frm.Caption = ${vbaString( form.title )}`,
+                `    frm.DefaultView = ${form.view}`,
+                ...(form.tabular ? ['    DoCmd.RunCommand acCmdFormHdrFtr'] : []),
+                ...form.fields.map( (field, position) => `    CampoDeFormulario frm, ${vbaString( field )}, ${position}, ${form.tabular ? 'True' : 'False'}` ),
+                '    nombreTemporal = frm.Name',
+                '    DoCmd.Close acForm, nombreTemporal, acSaveYes',
+                `    DoCmd.Rename ${vbaString( form.name )}, acForm, nombreTemporal`,
+                'End Sub'
+                ].join( '\n' )
+            );
+    const helper = [
+        'Private Sub CampoDeFormulario(frm As Form, campo As String, posicion As Integer, tabular As Boolean)',
+        '    Dim caja As Control',
+        '    Dim etiqueta As Control',
+        '',
+        '    If tabular Then',
+        '        Set caja = CreateControl(frm.Name, acTextBox, acDetail, , campo, 100 + posicion * 1800, 100, 1700, 300)',
+        '        Set etiqueta = CreateControl(frm.Name, acLabel, acHeader, , , 100 + posicion * 1800, 100, 1700, 300)',
+        '    Else',
+        '        Set caja = CreateControl(frm.Name, acTextBox, acDetail, , campo, 2300, 200 + posicion * 450, 3600, 300)',
+        '        Set etiqueta = CreateControl(frm.Name, acLabel, acDetail, caja.Name, , 200, 200 + posicion * 450, 2000, 300)',
+        '    End If',
+        '    etiqueta.Caption = campo',
+        'End Sub'
+        ].join( '\n' );
+
+    return [main, ...builders, helper];
     }
 
 function vbaString( text ) {

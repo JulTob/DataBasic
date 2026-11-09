@@ -1,0 +1,495 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="952" height="1024"
+        viewBox="84 -184 952 1024">
+        <title>Club de observación · compuestos, derivado y recursiva</title>
+        <rect x="84" y="-184" width="952"
+            height="1024" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000030" data-relation-id="00000000-0000-4000-8000-000000000030"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Coordina_coordinadora">
+        <title>Persona Coordina Sesion;
+            Sesion coordinadora Persona</title>
+        <path class="relation-hit" d="M314.6788990825688,280 L314.6788990825688,416 L484.61538461538464,416 L484.61538461538464,552"/>
+        <path class="relation-line" d="M314.6788990825688,280 L314.6788990825688,416 L484.61538461538464,416 L484.61538461538464,552"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="484.61538461538464" cy="544" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000037" data-relation-id="00000000-0000-4000-8000-000000000037"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Habilitacion_persona">
+        <title>Persona Habilitacion Habilitacion;
+            Habilitacion persona Persona</title>
+        <path class="relation-hit" d="M324.8421052631579,280 L324.8421052631579,303.5 L333.8620689655172,303.5 L333.8620689655172,287"/>
+        <path class="relation-line" d="M324.8421052631579,280 L324.8421052631579,303.5 L333.8620689655172,303.5 L333.8620689655172,287"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="333.8620689655172" cy="295" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000039" data-relation-id="00000000-0000-4000-8000-000000000039"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Habilitacion_instrumento">
+        <title>Instrumento Habilitacion Habilitacion;
+            Habilitacion instrumento Instrumento</title>
+        <path class="relation-hit" d="M680,321.08133971291863 L677,321.08133971291863 L677,349.2200956937799 L594,349.2200956937799"/>
+        <path class="relation-line" d="M680,321.08133971291863 L677,321.08133971291863 L677,349.2200956937799 L594,349.2200956937799"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="602" cy="349.2200956937799" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000067" data-relation-id="00000000-0000-4000-8000-000000000067"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Orienta_orientador">
+        <title>Persona Orienta Orientacion;
+            Orientacion orientador Persona</title>
+        <path class="relation-hit" d="M349.6774193548387,280 L427.14640198511165,280 L427.14640198511165,312 L384.61538461538464,312"/>
+        <path class="relation-line" d="M349.6774193548387,280 L427.14640198511165,280 L427.14640198511165,312 L384.61538461538464,312"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="392.61538461538464" cy="312" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000069" data-relation-id="00000000-0000-4000-8000-000000000069"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Orienta_orientado">
+        <title>Persona Orienta Orientacion;
+            Orientacion orientado Persona</title>
+        <path class="relation-hit" d="M349.6774193548387,280 L447.14640198511165,280 L447.14640198511165,312 L384.61538461538464,312"/>
+        <path class="relation-line" d="M349.6774193548387,280 L447.14640198511165,280 L447.14640198511165,312 L384.61538461538464,312"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="392.61538461538464" cy="312" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000030" data-relation-id="00000000-0000-4000-8000-000000000030"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000030"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M399.64714184897673,416 L399.64714184897673,130"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000030"
+                        cx="399.64714184897673" cy="416" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000037" data-relation-id="00000000-0000-4000-8000-000000000037"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000037"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M324.8421052631579,291.75 L324.8421052631579,58"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000037"
+                        cx="324.8421052631579" cy="291.75" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000039" data-relation-id="00000000-0000-4000-8000-000000000039"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000039"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M635.5,349.2200956937799 L635.5,130"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000039"
+                        cx="635.5" cy="349.2200956937799" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000067" data-relation-id="00000000-0000-4000-8000-000000000067"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000067"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M388.4119106699752,280 L388.4119106699752,-14"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000067"
+                        cx="388.4119106699752" cy="280" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000069" data-relation-id="00000000-0000-4000-8000-000000000069"
+        class="relationship ">
+        <path data-label-leader="00000000-0000-4000-8000-000000000069"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M398.4119106699752,280 L398.4119106699752,-86"/>
+                    <circle data-label-anchor="00000000-0000-4000-8000-000000000069"
+                        cx="398.4119106699752" cy="280" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="00000000-0000-4000-8000-000000000001" data-table-id="00000000-0000-4000-8000-000000000001" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Persona">
+        <title>Persona · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Persona</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000005" data-column-id="00000000-0000-4000-8000-000000000005" data-owner-id="00000000-0000-4000-8000-000000000001"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigoPersona, NUMBER">
+                    <title>codigoPersona: NUMBER · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigoPersona *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000017" data-column-id="00000000-0000-4000-8000-000000000017" data-owner-id="00000000-0000-4000-8000-000000000001"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(60)">
+                    <title>nombre: VARCHAR(60) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(60)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="00000000-0000-4000-8000-000000000006" data-table-id="00000000-0000-4000-8000-000000000006" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(680,140)" tabindex="0" role="button"
+        aria-label="Entidad Instrumento">
+        <title>Instrumento · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Instrumento</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000010" data-column-id="00000000-0000-4000-8000-000000000010" data-owner-id="00000000-0000-4000-8000-000000000006"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigoInstrumento, NUMBER">
+                    <title>codigoInstrumento: NUMBER · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigoInstrumento *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000019" data-column-id="00000000-0000-4000-8000-000000000019" data-owner-id="00000000-0000-4000-8000-000000000006"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna serie, CHAR(12)">
+                    <title>serie: CHAR(12) · AK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">AK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">serie *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(12)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000021" data-column-id="00000000-0000-4000-8000-000000000021" data-owner-id="00000000-0000-4000-8000-000000000006"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fechaAlta, DATE">
+                    <title>fechaAlta: DATE · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">fechaAlta *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000023" data-column-id="00000000-0000-4000-8000-000000000023" data-owner-id="00000000-0000-4000-8000-000000000006"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna valor, NUMBER(8,2)">
+                    <title>valor: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">valor *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="00000000-0000-4000-8000-000000000011" data-table-id="00000000-0000-4000-8000-000000000011" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(400,520)" tabindex="0" role="button"
+        aria-label="Entidad Sesion">
+        <title>Sesion · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Sesion</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="252"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000015" data-column-id="00000000-0000-4000-8000-000000000015" data-owner-id="00000000-0000-4000-8000-000000000011"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna codigoSesion, NUMBER">
+                    <title>codigoSesion: NUMBER · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">codigoSesion *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000025" data-column-id="00000000-0000-4000-8000-000000000025" data-owner-id="00000000-0000-4000-8000-000000000011"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha, DATE">
+                    <title>fecha: DATE · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">fecha *</text>
+                    <text x="72" y="119"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000031" data-column-id="00000000-0000-4000-8000-000000000031" data-owner-id="00000000-0000-4000-8000-000000000011"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna coordinadora_codigoPersona, NUMBER">
+                    <title>coordinadora_codigoPersona: NUMBER · FK1</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">FK1</text>
+                    <text x="72" y="148"
+                class="field-label field-required">coordinadora_codigoPersona *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000054" data-column-id="00000000-0000-4000-8000-000000000054" data-owner-id="00000000-0000-4000-8000-000000000011"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna edificio, VARCHAR(30)">
+                    <title>edificio: VARCHAR(30) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">edificio</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(30)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000056" data-column-id="00000000-0000-4000-8000-000000000056" data-owner-id="00000000-0000-4000-8000-000000000011"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna sala, CHAR(8)">
+                    <title>sala: CHAR(8) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">sala</text>
+                    <text x="72" y="263"
+                        class="type-label">CHAR(8)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="00000000-0000-4000-8000-000000000036" data-table-id="00000000-0000-4000-8000-000000000036" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(250,255)" tabindex="0" role="button"
+        aria-label="Entidad Habilitacion">
+        <title>Habilitacion · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Habilitacion</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="344" height="252"/>
+        <rect class="table-body" y="32" rx="12"
+            width="344" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000038" data-column-id="00000000-0000-4000-8000-000000000038" data-owner-id="00000000-0000-4000-8000-000000000036"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna persona_codigoPersona, NUMBER">
+                    <title>persona_codigoPersona: NUMBER · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="342" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">persona_codigoPersona *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000040" data-column-id="00000000-0000-4000-8000-000000000040" data-owner-id="00000000-0000-4000-8000-000000000036"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna instrumento_codigoInstrumento, NUMBER">
+                    <title>instrumento_codigoInstrumento: NUMBER · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="342" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">instrumento_codigoInstrumento *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="344"
+                        y1="128" y2="128"/></g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000041" data-column-id="00000000-0000-4000-8000-000000000041" data-owner-id="00000000-0000-4000-8000-000000000036"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fechaAlta, DATE">
+                    <title>fechaAlta: DATE · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="342" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">fechaAlta *</text>
+                    <text x="72" y="167"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000060" data-column-id="00000000-0000-4000-8000-000000000060" data-owner-id="00000000-0000-4000-8000-000000000036"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna emisor, VARCHAR(30)">
+                    <title>emisor: VARCHAR(30) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="342" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">emisor</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(30)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000062" data-column-id="00000000-0000-4000-8000-000000000062" data-owner-id="00000000-0000-4000-8000-000000000036"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna referencia, CHAR(12)">
+                    <title>referencia: CHAR(12) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="342" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">referencia</text>
+                    <text x="72" y="263"
+                        class="type-label">CHAR(12)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="00000000-0000-4000-8000-000000000066" data-table-id="00000000-0000-4000-8000-000000000066" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(280,280)" tabindex="0" role="button"
+        aria-label="Entidad Orientacion">
+        <title>Orientacion · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Orientacion</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000068" data-column-id="00000000-0000-4000-8000-000000000068" data-owner-id="00000000-0000-4000-8000-000000000066"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna orientador_codigoPersona, NUMBER">
+                    <title>orientador_codigoPersona: NUMBER · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">orientador_codigoPersona *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="00000000-0000-4000-8000-000000000070" data-column-id="00000000-0000-4000-8000-000000000070" data-owner-id="00000000-0000-4000-8000-000000000066"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna orientado_codigoPersona, NUMBER">
+                    <title>orientado_codigoPersona: NUMBER · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">orientado_codigoPersona *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000030" data-relation-id="00000000-0000-4000-8000-000000000030"
+                data-label-for="00000000-0000-4000-8000-000000000030"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="326.1671418489767" y="68"
+                    width="146.95999999999998" height="62" rx="4"/>
+                <text x="399.64714184897673" y="90"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Coordina</text><text x="399.64714184897673" y="116"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← coordinadora</text></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000037" data-relation-id="00000000-0000-4000-8000-000000000037"
+                data-label-for="00000000-0000-4000-8000-000000000037"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="257.6621052631579" y="-4"
+                    width="134.35999999999999" height="62" rx="4"/>
+                <text x="324.8421052631579" y="18"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Habilitacion</text><text x="324.8421052631579" y="44"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← persona</text></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000039" data-relation-id="00000000-0000-4000-8000-000000000039"
+                data-label-for="00000000-0000-4000-8000-000000000039"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="566.64" y="68"
+                    width="137.71999999999997" height="62" rx="4"/>
+                <text x="635.5" y="90"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Habilitacion</text><text x="635.5" y="116"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← instrumento</text></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000067" data-relation-id="00000000-0000-4000-8000-000000000067"
+                data-label-for="00000000-0000-4000-8000-000000000067"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="324.1719106699752" y="-76"
+                    width="128.48" height="62" rx="4"/>
+                <text x="388.4119106699752" y="-54"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Orienta</text><text x="388.4119106699752" y="-28"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← orientador</text></g><g data-diagram-kind="relationship" data-diagram-id="00000000-0000-4000-8000-000000000069" data-relation-id="00000000-0000-4000-8000-000000000069"
+                data-label-for="00000000-0000-4000-8000-000000000069"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="338.7919106699752" y="-148"
+                    width="119.24" height="62" rx="4"/>
+                <text x="398.4119106699752" y="-126"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Orienta</text><text x="398.4119106699752" y="-100"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← orientado</text></g></svg>

@@ -1,0 +1,1008 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Biblioteca · mini-ejercicio 2 (Tema 2)",
+  "tables": [
+    {
+      "id": "abc38837-3017-4bbf-b223-f47482cf2820",
+      "name": "Autor",
+      "conceptualName": "Autor",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "64e243c1-0628-4bed-bd87-2d83feb6599d",
+          "name": "codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "6b7f290b-be19-4dce-8fe0-6820693a555f",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "a4af6031-8a39-4d3e-a509-002ccdac663a",
+      "name": "Libro",
+      "conceptualName": "Libro",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "a263f025-137a-42fc-bdc1-9ec8fb014530",
+          "name": "isbn",
+          "type": "CHAR(13)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "5161774f-badc-475d-a02f-0eea21576959",
+          "name": "titulo",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4",
+          "name": "anio_publicacion",
+          "type": "NUMBER(4)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "d5cd528c-88df-48a1-a256-c99d7ac6fa28",
+      "name": "Usuario",
+      "conceptualName": "Usuario",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "23ead2a5-4394-49fe-88f4-d9dc14a676f3",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "397bbe51-ef84-4966-b4e6-0a68b005ca7c",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "df9eafeb-96b5-40f4-a71f-474eee7361d6",
+      "name": "Autoria",
+      "conceptualName": "Escribe",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "e69b22ac-828a-493a-983d-28785a2e0860",
+          "name": "autor_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "fb5d12a4-39dc-43a7-8328-6148e09dbd71",
+          "name": "libro_isbn",
+          "type": "CHAR(13)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "f18d68c7-1b19-48e5-bcb2-2d23075102d1",
+      "name": "Prestamo",
+      "conceptualName": "Prestamo",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "3bd5371f-4df8-4110-aca3-5351cf0a2c0e",
+          "name": "usuario_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b24879d9-619f-4dfa-bd54-448e75757ee9",
+          "name": "libro_isbn",
+          "type": "CHAR(13)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5",
+          "name": "fecha_prestamo",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f47212c8-1ae8-41c1-8399-68e2b6613e61",
+          "name": "fecha_devolucion",
+          "type": "DATE",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [],
+            "check": "fecha_devolucion >= fecha_prestamo"
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "a6bdf5e7-632c-4e77-85bd-699ee470edcb",
+      "parentId": "abc38837-3017-4bbf-b223-f47482cf2820",
+      "childId": "df9eafeb-96b5-40f4-a71f-474eee7361d6",
+      "name": "FK_Escribe_autor",
+      "forward": "Escribe",
+      "inverse": "autor",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "64e243c1-0628-4bed-bd87-2d83feb6599d",
+          "childColumnId": "e69b22ac-828a-493a-983d-28785a2e0860"
+        }
+      ]
+    },
+    {
+      "id": "555537d6-0519-463f-97ca-7de46e409261",
+      "parentId": "a4af6031-8a39-4d3e-a509-002ccdac663a",
+      "childId": "df9eafeb-96b5-40f4-a71f-474eee7361d6",
+      "name": "FK_Escribe_libro",
+      "forward": "Escribe",
+      "inverse": "libro",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "a263f025-137a-42fc-bdc1-9ec8fb014530",
+          "childColumnId": "fb5d12a4-39dc-43a7-8328-6148e09dbd71"
+        }
+      ]
+    },
+    {
+      "id": "6b16d49d-c576-4a80-8038-b8576752151d",
+      "parentId": "d5cd528c-88df-48a1-a256-c99d7ac6fa28",
+      "childId": "f18d68c7-1b19-48e5-bcb2-2d23075102d1",
+      "name": "FK_Prestamo_usuario",
+      "forward": "Prestamo",
+      "inverse": "usuario",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "23ead2a5-4394-49fe-88f4-d9dc14a676f3",
+          "childColumnId": "3bd5371f-4df8-4110-aca3-5351cf0a2c0e"
+        }
+      ]
+    },
+    {
+      "id": "3f7df0d9-68d6-4124-b62d-23d319142bf6",
+      "parentId": "a4af6031-8a39-4d3e-a509-002ccdac663a",
+      "childId": "f18d68c7-1b19-48e5-bcb2-2d23075102d1",
+      "name": "FK_Prestamo_libro",
+      "forward": "Prestamo",
+      "inverse": "libro",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "a263f025-137a-42fc-bdc1-9ec8fb014530",
+          "childColumnId": "b24879d9-619f-4dfa-bd54-448e75757ee9"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "ccd3804a-eeec-48af-85b7-a5c9c9f593ab",
+        "name": "Autor",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+        "name": "Libro",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+        "name": "Usuario",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "aa0d3622-7145-47a8-bf1c-801eb382cf69",
+        "ownerKind": "entity",
+        "ownerId": "ccd3804a-eeec-48af-85b7-a5c9c9f593ab",
+        "name": "codigo",
+        "type": "NUMBER(6)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "53347ed8-9d76-4b56-86fe-b6d2b899b9a1",
+        "ownerKind": "entity",
+        "ownerId": "ccd3804a-eeec-48af-85b7-a5c9c9f593ab",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "b302911c-c8d5-487a-ae56-0f93097093d8",
+        "ownerKind": "entity",
+        "ownerId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+        "name": "isbn",
+        "type": "CHAR(13)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "60fcddda-fdea-4551-ae6d-63f675f5c7b8",
+        "ownerKind": "entity",
+        "ownerId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+        "name": "titulo",
+        "type": "VARCHAR(120)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "158b3bce-7bef-4bd5-9628-1fc1469e3929",
+        "ownerKind": "entity",
+        "ownerId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+        "name": "anio_publicacion",
+        "type": "NUMBER(4)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0d7d845d-155b-495f-b017-5aec0f92f697",
+        "ownerKind": "entity",
+        "ownerId": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "b96a0e05-3a24-41f8-a515-4f0a70667673",
+        "ownerKind": "entity",
+        "ownerId": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "aad5694d-c75b-41ad-9e81-6211a7c48743",
+        "ownerKind": "entity",
+        "ownerId": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8f26131c-6bcd-45ed-b74a-0aaa9578d571",
+        "ownerKind": "relationship",
+        "ownerId": "3570088b-3c60-43d5-ad24-bec954102de1",
+        "name": "fecha_prestamo",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "7bce0e70-f63e-49e4-aed2-155987c2f2c4",
+        "ownerKind": "relationship",
+        "ownerId": "3570088b-3c60-43d5-ad24-bec954102de1",
+        "name": "fecha_devolucion",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [],
+          "check": "fecha_devolucion >= fecha_prestamo"
+        },
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "0caf0b0a-5fa9-420b-96d3-37680d9ba518",
+        "name": "Escribe",
+        "notes": "",
+        "participations": [
+          {
+            "id": "498210ce-3dc7-480b-a7c4-3a61ff050c66",
+            "entityId": "ccd3804a-eeec-48af-85b7-a5c9c9f593ab",
+            "role": "autor",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "7136cf17-340c-4621-be7e-17f418b337ed",
+            "entityId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+            "role": "libro",
+            "min": 1,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Autoria",
+          "key": {
+            "participationIds": [
+              "498210ce-3dc7-480b-a7c4-3a61ff050c66",
+              "7136cf17-340c-4621-be7e-17f418b337ed"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "3570088b-3c60-43d5-ad24-bec954102de1",
+        "name": "Prestamo",
+        "notes": "",
+        "participations": [
+          {
+            "id": "55c0e80c-9f4c-4852-bf8b-b0b6704f1541",
+            "entityId": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+            "role": "usuario",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "513e4ae7-16da-49ab-af4c-8de8fdab2b27",
+            "entityId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+            "role": "libro",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Prestamo",
+          "key": {
+            "participationIds": [
+              "55c0e80c-9f4c-4852-bf8b-b0b6704f1541",
+              "513e4ae7-16da-49ab-af4c-8de8fdab2b27"
+            ],
+            "attributeIds": [
+              "8f26131c-6bcd-45ed-b74a-0aaa9578d571"
+            ]
+          }
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "ccd3804a-eeec-48af-85b7-a5c9c9f593ab",
+      "targetKind": "table",
+      "targetId": "abc38837-3017-4bbf-b223-f47482cf2820"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "aa0d3622-7145-47a8-bf1c-801eb382cf69",
+      "targetKind": "column",
+      "targetId": "64e243c1-0628-4bed-bd87-2d83feb6599d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "53347ed8-9d76-4b56-86fe-b6d2b899b9a1",
+      "targetKind": "column",
+      "targetId": "6b7f290b-be19-4dce-8fe0-6820693a555f"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "3d01f26e-7ca8-4c02-af0a-c39231be9130",
+      "targetKind": "table",
+      "targetId": "a4af6031-8a39-4d3e-a509-002ccdac663a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "b302911c-c8d5-487a-ae56-0f93097093d8",
+      "targetKind": "column",
+      "targetId": "a263f025-137a-42fc-bdc1-9ec8fb014530"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "60fcddda-fdea-4551-ae6d-63f675f5c7b8",
+      "targetKind": "column",
+      "targetId": "5161774f-badc-475d-a02f-0eea21576959"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "158b3bce-7bef-4bd5-9628-1fc1469e3929",
+      "targetKind": "column",
+      "targetId": "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "5cc4fe47-2cbb-4275-965b-2bbc13334228",
+      "targetKind": "table",
+      "targetId": "d5cd528c-88df-48a1-a256-c99d7ac6fa28"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0d7d845d-155b-495f-b017-5aec0f92f697",
+      "targetKind": "column",
+      "targetId": "23ead2a5-4394-49fe-88f4-d9dc14a676f3"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "b96a0e05-3a24-41f8-a515-4f0a70667673",
+      "targetKind": "column",
+      "targetId": "397bbe51-ef84-4966-b4e6-0a68b005ca7c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "aad5694d-c75b-41ad-9e81-6211a7c48743",
+      "targetKind": "column",
+      "targetId": "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "0caf0b0a-5fa9-420b-96d3-37680d9ba518",
+      "targetKind": "table",
+      "targetId": "df9eafeb-96b5-40f4-a71f-474eee7361d6"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "498210ce-3dc7-480b-a7c4-3a61ff050c66",
+      "targetKind": "foreign-key",
+      "targetId": "a6bdf5e7-632c-4e77-85bd-699ee470edcb"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "7136cf17-340c-4621-be7e-17f418b337ed",
+      "targetKind": "foreign-key",
+      "targetId": "555537d6-0519-463f-97ca-7de46e409261"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "3570088b-3c60-43d5-ad24-bec954102de1",
+      "targetKind": "table",
+      "targetId": "f18d68c7-1b19-48e5-bcb2-2d23075102d1"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "55c0e80c-9f4c-4852-bf8b-b0b6704f1541",
+      "targetKind": "foreign-key",
+      "targetId": "6b16d49d-c576-4a80-8038-b8576752151d"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "513e4ae7-16da-49ab-af4c-8de8fdab2b27",
+      "targetKind": "foreign-key",
+      "targetId": "3f7df0d9-68d6-4124-b62d-23d319142bf6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8f26131c-6bcd-45ed-b74a-0aaa9578d571",
+      "targetKind": "column",
+      "targetId": "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "7bce0e70-f63e-49e4-aed2-155987c2f2c4",
+      "targetKind": "column",
+      "targetId": "f47212c8-1ae8-41c1-8399-68e2b6613e61"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "fa5720b8-9e2a-4119-aa5f-2b9796413b33",
+      "kind": "enunciado",
+      "text": "Entidades: libros, autores y usuarios. Relaciones: un autor escribe libros y un usuario toma libros en préstamo.",
+      "elementId": "3d01f26e-7ca8-4c02-af0a-c39231be9130"
+    },
+    {
+      "id": "af2b65b6-c25c-4089-9e5e-5d9259ebcdad",
+      "kind": "supuesto",
+      "text": "Un libro tiene uno o varios autores y un autor escribe uno o varios libros: N:N.",
+      "elementId": "0caf0b0a-5fa9-420b-96d3-37680d9ba518"
+    },
+    {
+      "id": "f022d4f5-c558-425e-ab4d-bdc6a89a3310",
+      "kind": "supuesto",
+      "text": "El préstamo guarda las fechas; la de préstamo forma parte de la clave para que un usuario pueda volver a tomar el mismo libro.",
+      "elementId": "3570088b-3c60-43d5-ad24-bec954102de1"
+    },
+    {
+      "id": "889d79cc-3922-4d48-bfb2-8d4e62f6ecd7",
+      "kind": "perdida",
+      "text": "Se presta el libro, no un ejemplar concreto: con varios ejemplares haría falta la entidad débil Ejemplar.",
+      "elementId": "3570088b-3c60-43d5-ad24-bec954102de1"
+    },
+    {
+      "id": "ddff33c4-288a-44ce-b5d8-3182a6004b96",
+      "kind": "perdida",
+      "text": "Que un mismo libro no esté prestado a dos usuarios a la vez no se impone con claves.",
+      "elementId": "3570088b-3c60-43d5-ad24-bec954102de1"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {
+    "abc38837-3017-4bbf-b223-f47482cf2820": [
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "1",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Marta Sánchez"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "2",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Diego Gómez"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "3",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Hugo Romero"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "4",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Luis Álvarez"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "5",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Andrés Fernández"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "6",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Alba Fernández"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "7",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Marta García"
+      },
+      {
+        "64e243c1-0628-4bed-bd87-2d83feb6599d": "8",
+        "6b7f290b-be19-4dce-8fe0-6820693a555f": "Diego Sánchez"
+      }
+    ],
+    "a4af6031-8a39-4d3e-a509-002ccdac663a": [
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400000000",
+        "5161774f-badc-475d-a02f-0eea21576959": "Cien años de soledad",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2018"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400001371",
+        "5161774f-badc-475d-a02f-0eea21576959": "La sombra del viento",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2001"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400002742",
+        "5161774f-badc-475d-a02f-0eea21576959": "El Quijote",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2005"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400004113",
+        "5161774f-badc-475d-a02f-0eea21576959": "Nada",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2023"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400005484",
+        "5161774f-badc-475d-a02f-0eea21576959": "Patria",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2010"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400006855",
+        "5161774f-badc-475d-a02f-0eea21576959": "La colmena",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2004"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400008226",
+        "5161774f-badc-475d-a02f-0eea21576959": "Rayuela",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2008"
+      },
+      {
+        "a263f025-137a-42fc-bdc1-9ec8fb014530": "9788400009597",
+        "5161774f-badc-475d-a02f-0eea21576959": "Fortunata y Jacinta",
+        "f38c533f-e0fa-4de7-aadf-b5ebd4e744f4": "2008"
+      }
+    ],
+    "d5cd528c-88df-48a1-a256-c99d7ac6fa28": [
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10000524D",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Marta Sánchez",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": "610000067"
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10008046X",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Diego Fernández",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": ""
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10016706E",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Nuria Martínez",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": "610001675"
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10024626F",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Marta Romero",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": "610002493"
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10031873D",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Sara Fernández",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": "610003258"
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10040573S",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Óscar Fernández",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": ""
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10048129G",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Lucía Torres",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": ""
+      },
+      {
+        "23ead2a5-4394-49fe-88f4-d9dc14a676f3": "10056197E",
+        "397bbe51-ef84-4966-b4e6-0a68b005ca7c": "Diego Martínez",
+        "df8dd64c-a357-4ceb-a2f5-f81a8c0614a5": "610005768"
+      }
+    ],
+    "df9eafeb-96b5-40f4-a71f-474eee7361d6": [
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "6",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400002742"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "6",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400008226"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "3",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400001371"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "3",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400005484"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "7",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400001371"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "1",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400009597"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "5",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400005484"
+      },
+      {
+        "e69b22ac-828a-493a-983d-28785a2e0860": "1",
+        "fb5d12a4-39dc-43a7-8328-6148e09dbd71": "9788400000000"
+      }
+    ],
+    "f18d68c7-1b19-48e5-bcb2-2d23075102d1": [
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10024626F",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400006855",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-01-28",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2025-02-22"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10000524D",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400001371",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-07-12",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": ""
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10040573S",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400008226",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-02-24",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2025-02-25"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10031873D",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400002742",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2024-05-29",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2024-07-22"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10024626F",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400008226",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-02-09",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2025-04-05"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10000524D",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400009597",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-08-15",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2025-10-08"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10040573S",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400008226",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2024-10-28",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2024-12-18"
+      },
+      {
+        "3bd5371f-4df8-4110-aca3-5351cf0a2c0e": "10040573S",
+        "b24879d9-619f-4dfa-bd54-448e75757ee9": "9788400009597",
+        "fc23958d-fae8-49b0-ba51-6a0a4abf6dd5": "2025-07-21",
+        "f47212c8-1ae8-41c1-8399-68e2b6613e61": "2025-08-04"
+      }
+    ]
+  },
+  "presentation": {
+    "chen": {
+      "ccd3804a-eeec-48af-85b7-a5c9c9f593ab": {
+        "x": 120,
+        "y": 140
+      },
+      "3d01f26e-7ca8-4c02-af0a-c39231be9130": {
+        "x": 1080,
+        "y": 140
+      },
+      "5cc4fe47-2cbb-4275-965b-2bbc13334228": {
+        "x": 2040,
+        "y": 140
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

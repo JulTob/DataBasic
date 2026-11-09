@@ -118,8 +118,10 @@ export function openDialog(
         event.preventDefault();
 
         try {
-            onSubmit?.( new FormData( event.currentTarget ) );
-            dialog.close();
+            // A step that opens the next one (a wizard, a form window) returns false to keep the window.
+            if (onSubmit?.( new FormData( event.currentTarget ) ) !== false) {
+                dialog.close();
+                }
             }
         catch (error) {
             const message = dialog.querySelector( '#dialog-error' );
@@ -334,17 +336,17 @@ export function showDeliveryDialog( model ) {
             <ul>
                 <li><strong>Memoria.docx</strong>: portada con tus datos, los diagramas, el diseño conceptual,
                     los supuestos semánticos, la semántica perdida y el esquema relacional (apartado a).</li>
-                <li><strong>Modelo_relacional.vdx</strong>: el relacional para Visio 2010, con leyenda y
-                    una página de diccionario de datos (apartado b).</li>
-                <li><strong>Access/</strong>: el módulo VBA que crea la base de datos, el SQL de Access y el XML
-                    con esquema (apartado c).</li>
-                <li><strong>LEEME.txt</strong> con los pasos para crear la base de datos .accdb, y el proyecto DataBasic.</li>
+                <li><strong>Modelo_relacional.vdx</strong>: el dibujo del relacional, con leyenda y
+                    una página de diccionario de datos (apartado b). ${compatibility( 'Compatible con Visio (2010)' )}</li>
+                <li><strong>BaseDeDatos/</strong>: el módulo VBA que crea la base de datos, su SQL y el XML
+                    con esquema (apartado c). ${compatibility( 'Compatible con Access' )}</li>
+                <li><strong>LEEME.txt</strong> con los pasos para crear el archivo de la base de datos, y el proyecto DataBasic.</li>
             </ul>
-            <p>DataBasic no puede crear el archivo .accdb: ábrelo en Access, ejecuta el módulo y añade la base
+            <p>DataBasic no crea el archivo de la base de datos: sigue el LEEME, ejecuta el módulo y añade la base
                 de datos al .zip antes de entregarlo.</p>
             <div class="dialog-actions">
                 ${command( 'download-delivery', 'Descargar paquete (.zip)', 'package', 'class="primary-button"' )}
-                ${command( 'report-docx', 'Solo la memoria Word', 'file-text' )}
+                ${command( 'report-docx', 'Solo la memoria (.docx)', 'file-text' )}
             </div>
             <p>La memoria también se puede descargar en otros formatos, para revisarla o reutilizar el texto:</p>
             <div class="dialog-actions">
@@ -379,15 +381,14 @@ export function showValidation( model ) {
 export function showHelp() {
     openDialog(
             'DataBasic · Guía de práctica',
-            `<div class="help-content"><p>DataBasic es un modelador educativo independiente.
-            Su guía toma como referencia el flujo de modelado de bases de datos de Visio 2010.</p>
-            <p>No está afiliado a Microsoft ni cuenta con su patrocinio.
-                No se afirma contar con autorización de Microsoft.
-                Visio es una marca de Microsoft.</p>
-            <p><strong>Tres vistas, un documento.</strong> El desplegable Vista cambia entre
+            `<div class="help-content"><p>DataBasic es un modelador educativo independiente,
+            sin afiliación ni patrocinio de los fabricantes de otros programas. Los nombres de los
+            programas compatibles que aparecen al exportar son marcas de sus propietarios.</p>
+            <p><strong>Tres vistas, un documento.</strong> El desplegable de la barra superior cambia entre
                 Diagrama (entidad-relación, con la notación de Chen), Relacional (tablas y
-                claves, como en Visio 2010) y Tablas (como las verá Access). Cambiar de vista no
-                transforma ni reconstruye el significado. El desplegable Tipos decide qué tipos
+                claves, IDEF1X) y Tablas (tablas de datos con sus tipos físicos, filas, consola y
+                formularios). La cinta muestra las acciones de la vista activa. Cambiar de vista no
+                transforma ni reconstruye el significado. Archivo → Propiedades decide qué tipos
                 de datos admiten las columnas: los cuatro del curso o la lista general.</p>
             <p>Los archivos anteriores aparecen en Diagrama como proyección parcial.
                 No se deduce automáticamente una relación N:N de una tabla con dos FKs.</p>
@@ -399,8 +400,11 @@ export function showHelp() {
                 ajena (FK, también llamada foránea).</li>
             <li><strong>Ajusta las reglas.</strong> Selecciona la relación y abre Varios para
                 cambiar cardinalidad, tipo y opcionalidad.</li>
-            <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga un archivo
-                DataBasic. El último ejercicio se recupera también desde este navegador.</li></ol>
+            <li><strong>Guarda tu ejercicio.</strong> Archivo → Guardar descarga la carpeta del
+                proyecto en un .zip: README.md con los supuestos, esquema.sql con tablas y filas,
+                proyecto.databasic.json y los dibujos. Archivo → Abrir la recupera desde el .zip, desde
+                la carpeta descomprimida o desde una carpeta pública de GitHub; si editaste esquema.sql,
+                manda el SQL. El último ejercicio se recupera también desde este navegador.</li></ol>
             <p><strong>Crear una N:N o ternaria.</strong> En Diagrama, pulsa Relación,
                 elige participantes y roles y guarda pendiente. Añade sus atributos en
                 Atributos; en Correspondencias elige la clave y materializa la tabla asociativa.
@@ -419,31 +423,38 @@ export function showHelp() {
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
             <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
-                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria Word descarga
-                el documento (.docx) con los diagramas, las tablas de atributos y relaciones, los
+                perdida; Supuestos las reúne. Archivo → Exportar → Memoria (.docx) descarga
+                el documento con los diagramas, las tablas de atributos y relaciones, los
                 supuestos y las restricciones que el relacional no impone.
                 Archivo → Alumno guarda tu DNI, nombre y apellidos, y Archivo → Paquete de entrega
-                comprueba la práctica y descarga el .zip con la memoria, el Visio y los archivos de Access.
-                Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
-                el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
-                pegados; no lleva las propiedades de base de datos de Visio.</p>
-            <p><strong>Vista Tablas.</strong> El botón Tablas muestra las mismas tablas del relacional
-                como las verá Access: llave en la clave principal, tipos de Access y extremos 1 e ∞.
-                Las categorías Campos de Access, Tabla de Access y Relación en Access editan tipo y
+                comprueba la práctica y descarga el .zip con la memoria, el dibujo relacional y los
+                archivos de la base de datos. Archivo → Exportar reúne todos los formatos e indica con
+                qué programa es compatible cada uno.</p>
+            <p><strong>Vista Tablas.</strong> Muestra las mismas tablas del relacional como tablas de
+                datos: llave en la clave principal, tipos físicos y extremos 1 e ∞.
+                Las categorías Campos de datos, Tabla de datos y Relación de datos editan tipo y
                 tamaño, requerido, indexado, reglas y textos de validación, predeterminado, título,
                 integridad referencial, cascadas y campo de búsqueda. Todo se deriva del relacional;
                 lo que ajustes se marca como «ajustado» y Restablecer vuelve a derivarlo.</p>
+            <p><strong>Consola SQL.</strong> En la columna izquierda (interruptor SQL de la barra superior),
+                escribe SQL y pulsa Ctrl+Intro. SELECT muestra la hoja de datos del resultado y su expresión en
+                álgebra relacional; INSERT, UPDATE y DELETE cambian las filas de ejemplo respetando claves,
+                dominios e integridad referencial; CREATE, ALTER y DROP cambian las tablas. Guardar como
+                consulta la añade al documento como consulta guardada. Deshacer revierte cada ejecución.</p>
             <p><strong>Hoja de datos.</strong> En la vista Tablas, cada tabla tiene una Hoja de datos
-                donde escribir filas de ejemplo como en Access o Excel. DataBasic marca en rojo la
+                donde escribir filas de ejemplo. DataBasic marca en rojo la
                 celda o la fila que incumple una regla: obligatorio, formato del tipo, dominio,
                 clave repetida o referencia a una fila que no existe. Las filas se guardan con el
-                documento, salen en la memoria y viajan a Access en los tres archivos.</p>
-            <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
-                la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
-                claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una
-                instrucción por consulta y un XML con esquema para Datos externos. Los tipos de
-                Access se derivan de los relacionales; el diálogo lista lo que Access expresa de
-                otra manera, como SET NULL.</p>
+                documento, salen en la memoria y viajan a la base de datos exportada.</p>
+            <p><strong>Formularios.</strong> En la vista Tablas, Crear → Asistente para formularios elige
+                tabla o consulta, campos, distribución y título. El formulario recorre los registros uno a uno
+                con las mismas reglas que la consola, se guarda en el documento y se exporta en el módulo VBA.</p>
+            <p><strong>Base de datos.</strong> Archivo → Exportar ofrece tres archivos para crear la
+                base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
+                claves, relaciones con integridad y cascadas, búsquedas, formularios), su SQL de una
+                instrucción por consulta y un XML con esquema. Los tipos físicos se derivan de los
+                relacionales; el selector lista lo que el diseño físico expresa de otra manera,
+                como SET NULL.</p>
             <p><strong>Tipos del curso.</strong> El perfil del curso usa VARCHAR, CHAR,
                 NUMBER y DATE. En Columnas → Editar se eligen familia, parámetros,
                 predeterminado y dominio. El perfil general conserva tipos de documentos anteriores.</p>
@@ -457,7 +468,7 @@ export function showHelp() {
                 Ctrl/⌘ + rueda para ampliar. También puedes usar el control inferior.</p>
             <p><strong>Atajos:</strong> Ctrl/⌘ + S guarda, Ctrl/⌘ + Z deshace,
                 Ctrl/⌘ + Mayús + Z rehace, Supr elimina, Escape cancela un conector.</p>
-            <p>Los archivos VSD de Visio todavía no se pueden abrir ni guardar.
+            <p>Los archivos de dibujo binarios (.vsd) todavía no se pueden abrir ni guardar.
                 Las opciones de impresión permiten obtener un PDF.</p>
             <p>Las contribuciones originales de DataBasic se ofrecen bajo la licencia MIT.
                 Los materiales de terceros conservan sus propios derechos y licencias.
@@ -1100,49 +1111,138 @@ export function showAssumptionDialog(
             );
     }
 
-/** The three files Access turns into the database, and what Access expresses differently. */
-export function showAccessDialog( model ) {
+/** A small mark of the program a file opens in: the only place the interface names it. */
+function compatibility( text ) {
+    return `<span class="compatibility">${escapeHTML( text )}</span>`;
+    }
+
+/*
+ * Archivo → Exportar: every format DataBasic writes, in three groups, each
+ * with what it is for. The program a file is compatible with appears only
+ * here, as a detail of the format.
+ */
+const EXPORT_GROUPS = [
+    {
+        title: 'Proyecto',
+        items: [
+            ['save', 'Carpeta del proyecto (.zip)', 'Lo mismo que Guardar: README.md con los supuestos, esquema.sql con tablas y filas, proyecto.databasic.json, los dibujos y los archivos para otros programas. Descomprímela para trabajar cada archivo, o súbela a GitHub.', null],
+            ['save-json', 'Proyecto en un archivo (.databasic.json)', 'Todo el proyecto en un solo archivo, como en las versiones anteriores. Se abre con Archivo → Abrir.', null]
+            ]
+        },
+    {
+        title: 'Modelo relacional',
+        items: [
+            ['vdx', 'Dibujo relacional (.vdx)', 'El diagrama relacional con notación IDEF1X, una leyenda y una página de diccionario de datos. Se abre como dibujo editable.', 'Compatible con Visio (2010)'],
+            ['svg', 'Imagen (.svg)', 'El diagrama de la vista activa como imagen vectorial.', null],
+            ['download-sql', 'SQL estándar (.sql)', 'CREATE TABLE con claves, CHECK, NOT NULL y DEFAULT, para estudiar o ejecutar en otro gestor.', null]
+            ]
+        },
+    {
+        title: 'Base de datos',
+        items: [
+            ['download-access-vba', 'Módulo VBA con DAO (.bas)', 'Crea la base de datos entera: tablas, tipos y tamaños, requerido, reglas y textos de validación, valores predeterminados, clave principal, índices, relaciones con integridad referencial y cascadas, campos de búsqueda, consultas, filas de ejemplo y formularios. En una base de datos en blanco: Alt+F11 → Archivo → Importar archivo, sitúa el cursor en CrearEsquema y pulsa F5.', 'Compatible con Access'],
+            ['download-access-sql', 'SQL de la base de datos (.sql)', 'Una instrucción por consulta: tablas, claves, índices y relaciones. Las reglas de validación, los valores predeterminados y las búsquedas se listan al final para fijarlos en la vista de diseño.', 'Compatible con Access'],
+            ['download-access-xml', 'XML con esquema (.xml)', 'Crea las tablas con tipos, claves, índices y propiedades de campo al importarlo como datos externos. Las relaciones se dibujan después.', 'Compatible con Access']
+            ]
+        },
+    {
+        title: 'Memoria del diseño',
+        items: [
+            ['report-docx', 'Memoria (.docx)', 'Portada con tus datos, diagramas, diseño conceptual, supuestos, semántica perdida, esquema relacional y diseño físico.', null],
+            ['report-html', 'Memoria (HTML)', 'La misma memoria como página web.', null],
+            ['report-markdown', 'Memoria (Markdown)', 'La misma memoria en texto, para reutilizarla.', null]
+            ]
+        }
+    ];
+
+export function showExportDialog( model ) {
     const issues = accessStatus( model );
-    const routes = [
-        {
-            action: 'download-access-vba',
-            label: 'Módulo VBA con DAO (.bas)',
-            text: 'Crea la base de datos entera: tablas, tipos y tamaños, requerido, reglas y textos de '
-                + 'validación, valores predeterminados, títulos, clave principal, índices únicos, relaciones '
-                + 'con integridad referencial y cascadas, campos de búsqueda y consultas. En una base en '
-                + 'blanco: Alt+F11 → Archivo → Importar archivo → sitúa el cursor en CrearEsquema y pulsa F5.'
-            },
-        {
-            action: 'download-access-sql',
-            label: 'SQL de Access',
-            text: 'Una instrucción por consulta en la Vista SQL: tablas, claves, índices y relaciones. '
-                + 'Las reglas de validación, los valores predeterminados y las búsquedas se fijan en la '
-                + 'vista Diseño; el archivo los lista al final.'
-            },
-        {
-            action: 'download-access-xml',
-            label: 'XML con esquema',
-            text: 'Datos externos → Archivo XML crea las tablas con tipos, claves, índices y propiedades '
-                + 'de campo. Access no importa relaciones: se dibujan después en Herramientas de base de '
-                + 'datos → Relaciones, como enseña el curso.'
-            }
-        ];
 
     openDialog(
-            'Base de datos Access',
-            `<div class="access-routes">
-                <p>Access no abre ningún archivo que lleve las relaciones, así que DataBasic genera
-                    archivos que Access convierte en la base de datos. Tipos, tamaños y propiedades se
-                    derivan de la vista relacional; la vista Tablas permitirá ajustarlos.</p>
-                ${routes.map(
-                        route => `<section class="access-route"><h3>${escapeHTML( route.label )}</h3>
-                            <p>${escapeHTML( route.text )}</p>
-                            ${command( route.action, 'Descargar', 'download' )}</section>`
+            'Exportar',
+            `<div class="export-groups">
+                ${EXPORT_GROUPS.map(
+                        group => `<section class="export-group"><h3>${escapeHTML( group.title )}</h3>
+                            ${group.items.map(
+                                    ([action, label, text, detail]) => `<div class="export-item">
+                                        <div><strong>${escapeHTML( label )}</strong>${detail ? compatibility( detail ) : ''}
+                                            <p>${escapeHTML( text )}</p></div>
+                                        ${command( action, 'Descargar', 'download' )}</div>`
+                                    ).join( '' )}</section>`
                         ).join( '' )}
-                <h3>Lo que Access expresa de otra manera</h3>
+                <h3>Lo que el diseño físico expresa de otra manera</h3>
                 ${issues.length
                     ? `<ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
-                    : '<p>Nada que señalar: todo el modelo tiene equivalente directo en Access.</p>'}</div>`
+                    : '<p>Nada que señalar: todo el modelo tiene equivalente directo en el diseño físico.</p>'}</div>`
+            );
+    }
+
+/**
+ * Abrir: a project comes as the ZIP DataBasic saves (or a lone
+ * .databasic.json), as a folder of the computer, or as a public GitHub
+ * folder. The two first open the file pickers; the link is this form's field.
+ */
+export function showOpenDialog( onLink ) {
+    openDialog(
+            'Abrir un proyecto',
+            `<p>Un proyecto de DataBasic es una carpeta con <code>esquema.sql</code> (tablas y filas),
+                <code>README.md</code> (supuestos) y <code>proyecto.databasic.json</code> (diagramas y lo demás).
+                Su nombre es el de la carpeta.</p>
+            <div class="open-choices">
+                <section class="open-choice"><h3>Archivo</h3>
+                    <p>El .zip que guarda DataBasic, o un .databasic.json suelto.</p>
+                    ${command( 'open-file-pick', 'Elegir archivo…', 'file-archive' )}</section>
+                <section class="open-choice"><h3>Carpeta</h3>
+                    <p>La carpeta del proyecto, descomprimida en tu equipo.</p>
+                    ${command( 'open-folder-pick', 'Elegir carpeta…', 'folder-open' )}</section>
+                <section class="open-choice"><h3>Enlace de GitHub</h3>
+                    <p>Una carpeta de un repositorio público.</p>
+                    <label class="dialog-fields">Enlace<input name="github" type="url" inputmode="url" autocomplete="off"
+                        placeholder="https://github.com/usuario/repositorio/tree/main/carpeta"></label></section>
+            </div>
+            <p class="field-hint">Si los archivos no dicen lo mismo, esquema.sql manda en tablas, claves, relaciones y filas,
+                y README.md en los supuestos. Al abrir verás qué se hizo con cada archivo.</p>`,
+            values => {
+                const link = String( values.get( 'github' ) || '' ).trim();
+
+                if (!link) {
+                    throw new Error( 'Pega el enlace de una carpeta de GitHub, o elige un archivo o una carpeta.' );
+                    }
+
+                onLink( link );
+                },
+            'Abrir enlace'
+            );
+    }
+
+const REPORT_LEVELS = {
+    ok: ['circle-check', 'Bien'],
+    info: ['info', 'Nota'],
+    warning: ['triangle-alert', 'Aviso'],
+    error: ['circle-x', 'Error'],
+    missing: ['circle-dashed', 'Falta']
+    };
+
+function reportRow( file ) {
+    const [iconName, label] = REPORT_LEVELS[file.level];
+
+    return `<tr class="report-${file.level}">
+        <td><code>${escapeHTML( file.name )}</code><small>${file.role === 'source' ? 'se lee' : 'se escribe al guardar'}</small></td>
+        <td><span class="report-level">${icon( iconName )}${label}</span> ${escapeHTML( file.text )}</td></tr>`;
+    }
+
+/** What DataBasic did with each file of the folder it just opened. */
+export function showProjectReport( report ) {
+    openDialog(
+            `Proyecto abierto: ${escapeHTML( report.name )}`,
+            `<p>Las tres primeras son las fuentes del proyecto; las demás se comprueban y se rehacen al guardar.</p>
+            <table class="project-report"><thead><tr><th>Archivo</th><th>Qué se hizo</th></tr></thead>
+                <tbody>${report.files.map( reportRow ).join( '' )}</tbody></table>
+            ${report.notes.length
+                ? `<h3>Además</h3><ul class="project-notes">${report.notes.map(
+                        item => `<li class="report-${item.level}">${escapeHTML( item.text )}</li>`
+                        ).join( '' )}</ul>`
+                : ''}`
             );
     }
 
@@ -1172,7 +1272,7 @@ export function showAssumptionsOverview( model ) {
                     ? `<ul>${documentary.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
                     : '<p>Ninguna restricción documental por ahora.</p>'}
                 ${command( 'assumption', 'Añadir supuesto…', 'message-square-text' )}
-                <p class="field-hint">Archivo → Memoria Word reúne estas entradas con los
+                <p class="field-hint">Archivo → Exportar → Memoria (.docx) reúne estas entradas con los
                     diagramas, las tablas de atributos y relaciones y el esquema relacional.</p></div>`
             );
     }

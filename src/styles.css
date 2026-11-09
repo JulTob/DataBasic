@@ -84,11 +84,11 @@ svg.lucide {
     }
 
 #app {
-    --properties-height: 240px;
-    --sidebar-width: 222px;
+    --properties-height: 200px;
+    --sidebar-width: 240px;
 
     display: grid;
-    grid-template-rows: 56px 40px 48px minmax( 0, 1fr ) 32px;
+    grid-template-rows: 56px 40px minmax( 0, 1fr ) 32px;
     height: 100dvh;
     min-height: 580px;
     min-width: 720px;
@@ -220,8 +220,8 @@ svg.lucide {
 
 .workspace {
     display: grid;
-    grid-template-columns: var( --sidebar-width ) minmax( 0, 1fr );
-    gap: 12px;
+    grid-template-columns: var( --sidebar-width ) 10px minmax( 0, 1fr );
+    gap: 2px;
     min-height: 0;
     padding: 12px 12px 0;
     }
@@ -1506,3 +1506,270 @@ a {
 .datasheet-grid .row-actions svg { width: 14px; height: 14px; }
 .data-issues { margin: 8px 0 0; padding-left: 20px; color: #8a2a24; font-size: 13px; }
 .data-ok { margin: 8px 0 0; color: #16805e; font-size: 13px; }
+
+/* Bottom pane tabs: properties of the selection, or the SQL console. */
+.pane-tabs { display: flex; gap: 4px; min-width: 0; overflow: hidden; }
+.pane-tabs button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var( --color-muted );
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+    }
+.pane-tabs button[aria-selected="true"] {
+    border-color: var( --color-accent-border );
+    background: var( --color-accent-soft );
+    color: var( --color-accent-strong );
+    }
+.pane-tabs svg { width: 14px; height: 14px; }
+
+/* SQL console: the SQL view above, the datasheet of each result below, the database objects at the side. */
+.console-body { overflow: hidden; }
+.console-panel { display: grid; grid-template-rows: auto minmax( 0, 1fr ); height: 100%; min-height: 0; }
+.console-workspace {
+    display: grid;
+    grid-template-columns: minmax( 0, 1fr ) 210px;
+    gap: 10px;
+    padding: 0 12px 8px;
+    border-bottom: 1px solid var( --color-border );
+    }
+.console-editor { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.console-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.console-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 7px;
+    background: white;
+    font-size: 12px;
+    cursor: pointer;
+    }
+.console-toolbar button.primary-button { border-color: var( --color-accent ); background: var( --color-accent ); color: white; }
+.console-toolbar svg { width: 14px; height: 14px; }
+.console-template, .console-algebra-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+.console-template select { max-width: 210px; }
+#sql-input {
+    width: 100%;
+    min-height: 92px;
+    max-height: 260px;
+    padding: 8px 10px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 8px;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.45;
+    resize: vertical;
+    tab-size: 4;
+    }
+#sql-input:focus { outline: 2px solid var( --color-accent-border ); border-color: var( --color-accent ); }
+.console-objects { max-height: 150px; overflow: auto; font-size: 12px; }
+.console-objects h4 { margin: 2px 0 4px; color: var( --color-muted ); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.console-objects details { margin-bottom: 2px; }
+.console-objects summary { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.console-objects summary small { margin-left: auto; color: var( --color-muted ); }
+.console-objects ul { margin: 2px 0 4px 14px; padding: 0; list-style: none; }
+.console-objects button { padding: 1px 3px; border: 0; background: none; color: var( --color-ink ); font: inherit; text-align: left; cursor: pointer; }
+.console-objects button:hover { color: var( --color-accent-strong ); text-decoration: underline; }
+.console-objects .console-saved { display: flex; align-items: center; gap: 4px; }
+.console-objects .console-saved svg { width: 13px; height: 13px; color: var( --color-accent ); }
+.console-empty { margin: 0 0 6px; color: var( --color-muted ); }
+.console-output { overflow: auto; padding: 8px 12px 14px; }
+.console-welcome { display: flex; gap: 10px; align-items: flex-start; color: var( --color-muted ); max-width: 70ch; }
+.console-welcome svg { flex: 0 0 auto; width: 20px; height: 20px; color: var( --color-accent ); }
+.console-welcome p { margin: 0; line-height: 1.5; }
+kbd { padding: 0 4px; border: 1px solid var( --color-border-strong ); border-radius: 4px; background: var( --color-surface-soft ); font-size: 11px; }
+.console-entry { margin-bottom: 14px; }
+.console-statement {
+    margin: 0 0 5px;
+    padding: 5px 8px;
+    border-left: 3px solid var( --color-accent-border );
+    background: var( --color-surface-soft );
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    }
+.console-kind-error .console-statement { border-left-color: #e3a29c; }
+.console-done, .console-error { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: 13px; }
+.console-done svg, .console-error svg { flex: 0 0 auto; width: 16px; height: 16px; margin-top: 1px; }
+.console-done { color: #16805e; }
+.console-error { color: #8a2a24; }
+/* The datasheet of a result, drawn like Access: grey field headers, the record selector column, a record count. */
+.console-datasheet { width: fit-content; max-width: 100%; max-height: 320px; overflow: auto; border: 1px solid #b9c7bf; }
+.console-datasheet table { border-collapse: collapse; font-size: 12px; }
+.console-datasheet th, .console-datasheet td { padding: 3px 8px; border: 1px solid #d3ddd6; text-align: left; white-space: nowrap; }
+.console-datasheet th { position: sticky; top: 0; background: #e9efe9; font-weight: 600; }
+.console-datasheet tbody tr:nth-child( even ) td { background: #f7faf7; }
+.console-datasheet .number { text-align: right; font-variant-numeric: tabular-nums; }
+.console-datasheet .record { width: 26px; padding: 3px 4px; background: #eef2ee; color: #8a9a90; text-align: center; font-size: 11px; }
+.console-datasheet .console-no-rows { color: var( --color-muted ); font-style: italic; }
+.console-records { width: fit-content; min-width: 160px; max-width: 100%; padding: 3px 8px; border: 1px solid #b9c7bf; border-top: 0; background: #eef2ee; color: #4b5f55; font-size: 11px; }
+.console-algebra { margin: 5px 0 0; color: #3b5a4c; font-family: "Cambria Math", "STIX Two Math", Georgia, serif; font-size: 13.5px; line-height: 1.7; overflow-wrap: anywhere; }
+.console-algebra sub { font-size: 0.78em; }
+@media (max-width: 900px) {
+    .console-workspace { grid-template-columns: 1fr; }
+    .console-objects { max-height: 90px; }
+    }
+
+/* Archivo → Exportar: formats by group; the compatible program is only a small detail of a format. */
+.export-groups h3 { margin: 14px 0 6px; font-size: 13px; }
+.export-group { margin-bottom: 6px; }
+.export-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 8px 0; border-top: 1px solid var( --color-border ); }
+.export-item p { margin: 3px 0 0; color: var( --color-muted ); font-size: 12px; max-width: 62ch; }
+.export-item button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; }
+.export-item button svg { width: 14px; height: 14px; }
+.compatibility {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 0 7px;
+    border: 1px solid var( --color-border-strong );
+    border-radius: 999px;
+    color: var( --color-muted );
+    font-size: 11px;
+    font-weight: 500;
+    vertical-align: 1px;
+    }
+
+
+/* Title bar: the view of the document, then the panel toggles. */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect( 0 0 0 0 ); white-space: nowrap; }
+.titlebar .view-select-label { display: flex; align-items: center; }
+.titlebar .view-select-label select { min-width: 210px; padding: 5px 8px; border: 1px solid var( --color-accent-border ); border-radius: 8px; background: var( --color-accent-soft ); }
+.app-brand { flex: 0 0 auto; }
+.document-title { flex: 1 1 auto; }
+.panel-toggles { display: flex; gap: 4px; }
+.panel-toggles button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    border: 1px solid var( --color-border );
+    border-radius: 8px;
+    background: white;
+    color: var( --color-muted );
+    font-size: 12px;
+    cursor: pointer;
+    }
+.panel-toggles button[aria-pressed="true"] { border-color: var( --color-accent-border ); background: var( --color-accent-soft ); color: var( --color-accent-strong ); }
+.panel-toggles svg { width: 14px; height: 14px; }
+.quick-access { flex: 0 0 auto; }
+.statusbar .status-link { border: 0; background: none; color: var( --color-accent-strong ); font-size: 11px; cursor: pointer; }
+.statusbar .status-link:hover { text-decoration: underline; }
+
+/* Side column: Formas, Tablas and Consola SQL fold; the column hides when no panel is shown. */
+.workspace.side-hidden { grid-template-columns: minmax( 0, 1fr ); }
+.workspace.side-hidden > .side-column, .workspace.side-hidden > .side-splitter { display: none; }
+.side-column { display: flex; flex-direction: column; min-height: 0; }
+.side-section { display: flex; flex-direction: column; min-height: 0; border-bottom: 1px solid var( --color-border ); }
+.side-section.folded > .side-body { display: none; }
+.side-heading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    background: transparent;
+    color: var( --color-ink );
+    font-size: 12px;
+    font-weight: 650;
+    text-align: left;
+    cursor: pointer;
+    }
+.side-heading:hover { background: var( --color-surface-soft ); }
+.side-heading svg { width: 14px; height: 14px; color: var( --color-muted ); }
+.side-body { min-height: 0; overflow: auto; }
+.side-shapes { flex: 0 1 auto; }
+.side-shapes > .side-body { max-height: 46vh; }
+.side-tables { flex: 0 1 auto; }
+.side-tables > .side-body { max-height: 30vh; }
+.side-sql:not(.folded) { flex: 1 1 260px; }
+.side-sql > .side-body { display: flex; flex-direction: column; overflow: hidden; }
+#sql-console { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.side-column .shapes-footer { margin-top: auto; }
+.side-splitter { cursor: col-resize; border-radius: 4px; }
+.side-splitter:hover, .side-splitter:focus-visible { background: var( --color-accent-soft ); outline: none; }
+
+/* The console inside the column: editor, objects to insert, then the history. */
+.console-panel { display: flex; flex-direction: column; flex: 1; min-height: 0; height: auto; }
+.console-workspace { display: block; padding: 0 10px 8px; }
+.console-objects { max-height: none; margin-top: 6px; }
+.console-objects summary { cursor: pointer; color: var( --color-muted ); font-size: 12px; }
+.console-objects > h4 { margin-top: 6px; }
+.console-output { flex: 1; min-height: 120px; }
+#sql-input { min-height: 86px; }
+
+/* Form wizard: the four steps, the field list and the layouts with a small preview. */
+.wizard-steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; font-size: 12px; }
+.wizard-steps li { padding: 3px 9px; border: 1px solid var( --color-border ); border-radius: 999px; color: var( --color-muted ); }
+.wizard-steps li.current { border-color: var( --color-accent ); background: var( --color-accent-soft ); color: var( --color-accent-strong ); font-weight: 650; }
+.wizard-steps li.done { color: var( --color-accent ); }
+.wizard-fields { display: grid; grid-template-columns: repeat( auto-fill, minmax( 170px, 1fr ) ); gap: 4px 12px; max-height: 300px; overflow: auto; border: 1px solid var( --color-border ); border-radius: 8px; padding: 8px 10px; }
+.wizard-layouts { display: flex; flex-wrap: wrap; gap: 10px; border: 0; padding: 0; }
+.wizard-layout { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: 170px; padding: 8px; border: 1px solid var( --color-border ); border-radius: 10px; font-size: 12px; cursor: pointer; }
+.wizard-layout:has( input:checked ) { border-color: var( --color-accent ); background: var( --color-accent-soft ); }
+.layout-preview { display: block; width: 100%; height: 54px; border-radius: 6px; background-color: #f4f7f4; background-repeat: no-repeat; }
+.layout-columnar { background-image: linear-gradient( #b9c7bf, #b9c7bf ), linear-gradient( #dfe7e1, #dfe7e1 ), linear-gradient( #b9c7bf, #b9c7bf ), linear-gradient( #dfe7e1, #dfe7e1 ); background-size: 30% 8px, 50% 8px, 30% 8px, 50% 8px; background-position: 8px 12px, 45% 12px, 8px 30px, 45% 30px; }
+.layout-tabular { background-image: repeating-linear-gradient( to bottom, #dfe7e1 0 8px, transparent 8px 14px ); background-size: 86% 44px; background-position: 50% 8px; }
+.layout-datasheet { background-image: linear-gradient( to right, #c6d2ca 1px, transparent 1px ), linear-gradient( to bottom, #c6d2ca 1px, transparent 1px ); background-size: 22% 12px; }
+
+/* Form window: one record with its labels, or a grid of records, and the navigation bar. */
+.form-window { min-width: min( 640px, 80vw ); }
+.form-columnar { display: grid; gap: 8px; }
+.form-columnar label { display: grid; grid-template-columns: 170px minmax( 0, 1fr ); align-items: center; gap: 10px; font-size: 13px; }
+.form-columnar label > span { color: var( --color-muted ); text-align: right; }
+.form-columnar input, .form-columnar select { width: 100%; padding: 5px 8px; }
+.form-grid { max-height: 360px; overflow: auto; border: 1px solid #b9c7bf; }
+.form-grid table { border-collapse: collapse; font-size: 12px; }
+.form-grid th { position: sticky; top: 0; background: #e9efe9; text-align: left; padding: 4px 6px; }
+.form-grid td { padding: 2px 4px; border-top: 1px solid #e0e8e2; }
+.form-grid input, .form-grid select { width: 130px; padding: 3px 5px; font-size: 12px; }
+.form-tabular td { padding: 5px 6px; }
+.form-grid tr.current { background: var( --color-accent-soft ); }
+.form-grid .form-selector button { width: 20px; border: 0; background: none; color: var( --color-accent-strong ); cursor: pointer; }
+.form-grid td button { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 11px; }
+.form-grid td button svg { width: 12px; height: 12px; }
+.form-navigation { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 12px; padding: 6px 8px; border: 1px solid #b9c7bf; border-radius: 6px; background: #eef2ee; font-size: 12px; }
+.form-navigation > span { padding: 0 8px; font-variant-numeric: tabular-nums; }
+.form-navigation button { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; font-size: 12px; }
+.form-navigation button svg { width: 14px; height: 14px; }
+.forms-list { margin: 0 0 8px; padding: 0; list-style: none; }
+.forms-list li { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var( --color-border ); }
+.forms-list li > button:first-child { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; font-weight: 600; cursor: pointer; }
+.forms-list small { color: var( --color-muted ); flex: 1; }
+.forms-list svg { width: 14px; height: 14px; }
+.explorer-subheading { margin: 10px 12px 4px; color: var( --color-muted ); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Archivo → Abrir: three ways to bring a project folder; then what was done with each file. */
+.open-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 10px 0; }
+.open-choice { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid var( --color-border ); border-radius: 8px; background: var( --color-surface-soft ); }
+.open-choice h3 { margin: 0; font-size: 13px; }
+.open-choice p { flex: 1; margin: 0; color: var( --color-muted ); font-size: 12px; }
+.open-choice button { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; }
+.open-choice button svg { width: 14px; height: 14px; }
+.open-choice .dialog-fields { display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+.open-choice .dialog-fields input { box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; }
+@media (max-width: 700px) {
+    .open-choices { grid-template-columns: 1fr; }
+    }
+.project-report { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.project-report th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var( --color-border-strong ); }
+.project-report td { vertical-align: top; padding: 6px; border-bottom: 1px solid var( --color-border ); }
+.project-report td:first-child { white-space: nowrap; }
+.project-report small { display: block; color: var( --color-muted ); font-size: 11px; }
+.report-level { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
+.report-level svg { width: 14px; height: 14px; }
+.report-ok .report-level { color: var( --color-accent ); }
+.report-info .report-level { color: #2f6f9f; }
+.report-warning .report-level, .project-notes .report-warning { color: #9a5b00; }
+.report-error .report-level { color: #b3261e; }
+.report-missing .report-level { color: var( --color-muted ); }
+.project-notes { margin: 4px 0 0; padding-left: 18px; font-size: 12.5px; }

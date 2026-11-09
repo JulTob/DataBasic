@@ -1,0 +1,472 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="1572" height="808"
+        viewBox="124 164 1572 808">
+        <title>Videoclub · ejercicio 3 (Tema 2)</title>
+        <rect x="124" y="164" width="1572"
+            height="808" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="85fe962d-747a-4721-a994-e436a1b8345b" data-relation-id="85fe962d-747a-4721-a994-e436a1b8345b"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Actores_Pelicula">
+        <title>Pelicula  Actores;
+            Actores  Pelicula</title>
+        <path class="relation-hit" d="M320,388 L320,490 L320,490 L320,592"/>
+        <path class="relation-line" d="M320,388 L320,490 L320,490 L320,592"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="320" cy="584" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="cb58796d-8052-4a0e-8880-98bfbac35a65" data-relation-id="cb58796d-8052-4a0e-8880-98bfbac35a65"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Tiene_pelicula">
+        <title>Pelicula Tiene Copia;
+            Copia pelicula Pelicula</title>
+        <path class="relation-hit" d="M480,312.1333333333333 L640,312.1333333333333 L640,323.3333333333333 L760,323.3333333333333"/>
+        <path class="relation-line" d="M480,312.1333333333333 L640,312.1333333333333 L640,323.3333333333333 L760,323.3333333333333"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="752" cy="323.3333333333333" r="4.5"/>
+        <text data-marker="child-cardinality" x="738"
+            y="317.3333333333333" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b" data-relation-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Alquila_cliente">
+        <title>Cliente Alquila Alquiler;
+            Alquiler cliente Cliente</title>
+        <path class="relation-hit" d="M1080,758.9655172413793 L1250,758.9655172413793 L1250,644.2068965517242 L1340,644.2068965517242"/>
+        <path class="relation-line" d="M1080,758.9655172413793 L1250,758.9655172413793 L1250,644.2068965517242 L1340,644.2068965517242"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1332" cy="644.2068965517242" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="9cae8899-f98f-4c60-85b6-48ef9d404f77" data-relation-id="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Alquila_copia">
+        <title>Copia Alquila Alquiler;
+            Alquiler copia Copia</title>
+        <path class="relation-hit" d="M1080,396.8965517241379 L1270,396.8965517241379 L1270,506.2758620689655 L1340,506.2758620689655"/>
+        <path class="relation-line" d="M1080,396.8965517241379 L1270,396.8965517241379 L1270,506.2758620689655 L1340,506.2758620689655"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1332" cy="506.2758620689655" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="cb58796d-8052-4a0e-8880-98bfbac35a65" data-relation-id="cb58796d-8052-4a0e-8880-98bfbac35a65"
+        class="relationship ">
+        <path data-label-leader="cb58796d-8052-4a0e-8880-98bfbac35a65"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M560,312.1333333333333 L560,294.1333333333333"/>
+                    <circle data-label-anchor="cb58796d-8052-4a0e-8880-98bfbac35a65"
+                        cx="560" cy="312.1333333333333" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b" data-relation-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+        class="relationship ">
+        <path data-label-leader="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1165,758.9655172413793 L1165,740.9655172413793"/>
+                    <circle data-label-anchor="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+                        cx="1165" cy="758.9655172413793" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="9cae8899-f98f-4c60-85b6-48ef9d404f77" data-relation-id="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+        class="relationship ">
+        <path data-label-leader="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1175,396.8965517241379 L1175,378.8965517241379"/>
+                    <circle data-label-anchor="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+                        cx="1175" cy="396.8965517241379" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="73340907-935a-463c-9efe-98cc74df7ce8" data-table-id="73340907-935a-463c-9efe-98cc74df7ce8" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(160,200)" tabindex="0" role="button"
+        aria-label="Entidad Pelicula">
+        <title>Pelicula · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Pelicula</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="d5198005-e113-4ea2-8594-37fbc562b6ac" data-column-id="d5198005-e113-4ea2-8594-37fbc562b6ac" data-owner-id="73340907-935a-463c-9efe-98cc74df7ce8"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna titulo, VARCHAR(120)">
+                    <title>titulo: VARCHAR(120) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">titulo *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="efa10322-f26d-43d0-8556-e43dc7009923" data-column-id="efa10322-f26d-43d0-8556-e43dc7009923" data-owner-id="73340907-935a-463c-9efe-98cc74df7ce8"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna anio_estreno, NUMBER(4)">
+                    <title>anio_estreno: NUMBER(4) · PK</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text>
+                    <text x="72" y="100"
+                class="field-label field-required">anio_estreno *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(4)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="128" y2="128"/></g><g data-diagram-kind="column" data-diagram-id="b841f417-f1fb-441b-b1ff-b012ae267561" data-column-id="b841f417-f1fb-441b-b1ff-b012ae267561" data-owner-id="73340907-935a-463c-9efe-98cc74df7ce8"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna tema, VARCHAR(40)">
+                    <title>tema: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">tema</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(40)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="0bb49ce6-045d-4476-badf-386d9cb910a0" data-table-id="0bb49ce6-045d-4476-badf-386d9cb910a0" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(160,560)" tabindex="0" role="button"
+        aria-label="Entidad Actores">
+        <title>Actores · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Actores</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="cdf11da8-afe7-4105-b926-60dde7536436" data-column-id="cdf11da8-afe7-4105-b926-60dde7536436" data-owner-id="0bb49ce6-045d-4476-badf-386d9cb910a0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Pelicula_titulo, VARCHAR(120)">
+                    <title>Pelicula_titulo: VARCHAR(120) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Pelicula_titulo *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="a251b8c2-7880-4122-aa27-0c58765a687c" data-column-id="a251b8c2-7880-4122-aa27-0c58765a687c" data-owner-id="0bb49ce6-045d-4476-badf-386d9cb910a0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Pelicula_anio_estreno, NUMBER(4)">
+                    <title>Pelicula_anio_estreno: NUMBER(4) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">Pelicula_anio_estreno *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(4)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c5818dba-1b43-4a94-b119-90fac6651e7f" data-column-id="c5818dba-1b43-4a94-b119-90fac6651e7f" data-owner-id="0bb49ce6-045d-4476-badf-386d9cb910a0"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna actor_principal, VARCHAR(80)">
+                    <title>actor_principal: VARCHAR(80) · PK</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text>
+                    <text x="72" y="148"
+                class="field-label field-required">actor_principal *</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(80)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="176" y2="176"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4" data-table-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,200)" tabindex="0" role="button"
+        aria-label="Entidad Copia">
+        <title>Copia · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Copia</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="bc8bc273-6be5-4d6e-822b-428c371fda54" data-column-id="bc8bc273-6be5-4d6e-822b-428c371fda54" data-owner-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna numero_copia, NUMBER(3)">
+                    <title>numero_copia: NUMBER(3) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">numero_copia *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="658ebb3a-0b5c-4099-9213-092c5f158d98" data-column-id="658ebb3a-0b5c-4099-9213-092c5f158d98" data-owner-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna pelicula_titulo, VARCHAR(120)">
+                    <title>pelicula_titulo: VARCHAR(120) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">pelicula_titulo *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="93173c15-e288-4a16-a939-5351578e2da6" data-column-id="93173c15-e288-4a16-a939-5351578e2da6" data-owner-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna pelicula_anio_estreno, NUMBER(4)">
+                    <title>pelicula_anio_estreno: NUMBER(4) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text><text x="12" y="157"
+                class="key-label">FK1</text>
+                    <text x="72" y="148"
+                class="field-label field-required">pelicula_anio_estreno *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(4)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="176" y2="176"/></g><g data-diagram-kind="column" data-diagram-id="3025bd9e-b351-4d98-94df-e955578f4735" data-column-id="3025bd9e-b351-4d98-94df-e955578f4735" data-owner-id="fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna formato, CHAR(3)">
+                    <title>formato: CHAR(3) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">formato *</text>
+                    <text x="72" y="215"
+                        class="type-label">CHAR(3)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="206a8c60-3c34-472d-b6f6-993474548355" data-table-id="206a8c60-3c34-472d-b6f6-993474548355" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,700)" tabindex="0" role="button"
+        aria-label="Entidad Cliente">
+        <title>Cliente · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Cliente</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="bc834654-b2cb-474d-9408-7a7ccea472a1" data-column-id="bc834654-b2cb-474d-9408-7a7ccea472a1" data-owner-id="206a8c60-3c34-472d-b6f6-993474548355"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dni, CHAR(9)">
+                    <title>dni: CHAR(9) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">dni *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(9)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="04bd83f8-ac5f-419c-92e8-697849cc474c" data-column-id="04bd83f8-ac5f-419c-92e8-697849cc474c" data-owner-id="206a8c60-3c34-472d-b6f6-993474548355"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(80)">
+                    <title>nombre: VARCHAR(80) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(80)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="9ccc9a00-09c5-4edb-93bd-6371a8aacb7d" data-column-id="9ccc9a00-09c5-4edb-93bd-6371a8aacb7d" data-owner-id="206a8c60-3c34-472d-b6f6-993474548355"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna direccion, VARCHAR(120)">
+                    <title>direccion: VARCHAR(120) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">direccion</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="a609beae-def3-483c-b816-7f15e6d3d047" data-column-id="a609beae-def3-483c-b816-7f15e6d3d047" data-owner-id="206a8c60-3c34-472d-b6f6-993474548355"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna telefono, VARCHAR(15)">
+                    <title>telefono: VARCHAR(15) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">telefono</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(15)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="ed1b455b-6596-47eb-bffb-78b7132af283" data-table-id="ed1b455b-6596-47eb-bffb-78b7132af283" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1340,420)" tabindex="0" role="button"
+        aria-label="Entidad Alquiler">
+        <title>Alquiler · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Alquiler</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="252"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="8c17173f-2445-4361-8665-602846adbbce" data-column-id="8c17173f-2445-4361-8665-602846adbbce" data-owner-id="ed1b455b-6596-47eb-bffb-78b7132af283"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna copia_numero_copia, NUMBER(3)">
+                    <title>copia_numero_copia: NUMBER(3) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK2</text>
+                    <text x="72" y="52"
+                class="field-label field-required">copia_numero_copia *</text>
+                    <text x="72" y="71"
+                        class="type-label">NUMBER(3)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="b9e0a29d-4cfc-4068-99e1-4c5e7659adc9" data-column-id="b9e0a29d-4cfc-4068-99e1-4c5e7659adc9" data-owner-id="ed1b455b-6596-47eb-bffb-78b7132af283"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna copia_pelicula_titulo, VARCHAR(120)">
+                    <title>copia_pelicula_titulo: VARCHAR(120) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">copia_pelicula_titulo *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(120)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="b1e0bb57-8126-4e18-b339-1f704b5f4ed4" data-column-id="b1e0bb57-8126-4e18-b339-1f704b5f4ed4" data-owner-id="ed1b455b-6596-47eb-bffb-78b7132af283"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna copia_pelicula_anio_estreno, NUMBER(4)">
+                    <title>copia_pelicula_anio_estreno: NUMBER(4) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text><text x="12" y="157"
+                class="key-label">FK2</text>
+                    <text x="72" y="148"
+                class="field-label field-required">copia_pelicula_anio_estreno *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(4)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="56e54b28-aa56-4db7-806f-ae78aa969fe7" data-column-id="56e54b28-aa56-4db7-806f-ae78aa969fe7" data-owner-id="ed1b455b-6596-47eb-bffb-78b7132af283"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha, DATE">
+                    <title>fecha: DATE · PK</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">PK</text>
+                    <text x="72" y="196"
+                class="field-label field-required">fecha *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="224" y2="224"/></g><g data-diagram-kind="column" data-diagram-id="9a4500a7-dc92-453c-9f00-20663444c728" data-column-id="9a4500a7-dc92-453c-9f00-20663444c728" data-owner-id="ed1b455b-6596-47eb-bffb-78b7132af283"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cliente_dni, CHAR(9)">
+                    <title>cliente_dni: CHAR(9) · FK1</title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    <text x="12" y="240"
+                class="key-label">FK1</text>
+                    <text x="72" y="244"
+                class="field-label field-required">cliente_dni *</text>
+                    <text x="72" y="263"
+                        class="type-label">CHAR(9)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="cb58796d-8052-4a0e-8880-98bfbac35a65" data-relation-id="cb58796d-8052-4a0e-8880-98bfbac35a65"
+                data-label-for="cb58796d-8052-4a0e-8880-98bfbac35a65"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="509.2" y="232.13333333333333"
+                    width="101.60000000000001" height="62" rx="4"/>
+                <text x="560" y="254.13333333333333"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Tiene</text><text x="560" y="280.1333333333333"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← pelicula</text></g><g data-diagram-kind="relationship" data-diagram-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b" data-relation-id="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+                data-label-for="903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1116.72" y="678.9655172413793"
+                    width="96.56" height="62" rx="4"/>
+                <text x="1165" y="700.9655172413793"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Alquila</text><text x="1165" y="726.9655172413793"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← cliente</text></g><g data-diagram-kind="relationship" data-diagram-id="9cae8899-f98f-4c60-85b6-48ef9d404f77" data-relation-id="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+                data-label-for="9cae8899-f98f-4c60-85b6-48ef9d404f77"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1128.82" y="316.8965517241379"
+                    width="92.36" height="62" rx="4"/>
+                <text x="1175" y="338.8965517241379"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Alquila</text><text x="1175" y="364.8965517241379"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← copia</text></g></svg>

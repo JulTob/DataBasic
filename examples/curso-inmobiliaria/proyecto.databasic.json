@@ -1,0 +1,2621 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Inmobiliaria · ejercicio 5 (guion ERE)",
+  "tables": [
+    {
+      "id": "f576530d-90db-4d50-b822-b527490244de",
+      "name": "Persona",
+      "conceptualName": "Persona",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "ce6f7982-5789-4d32-af48-1473939b771d",
+          "name": "codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "b6382659-8004-4f37-8aaf-4c3e206d35ff",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "ba34de0b-c891-4882-aced-ec7dc3612a1d",
+          "name": "nombre",
+          "type": "VARCHAR(40)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "44870a60-7b62-4f57-93d3-15485e7762d8",
+          "name": "apellidos",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "1fbf6d1b-b931-449c-b3d7-7efbf26f6453",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "d8410034-7b1f-40d1-902f-0508a670da9d",
+          "name": "AK_Persona_dni",
+          "columns": [
+            "b6382659-8004-4f37-8aaf-4c3e206d35ff"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02607785-df35-461d-bcb9-292c9c7dcd4d",
+      "name": "Telefonos_persona",
+      "conceptualName": "telefono",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "0cf4a8ec-2082-4829-baaf-0aee34874a60",
+          "name": "Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "0d9045df-bff9-4586-8677-f7b22c5da34e",
+      "name": "Cliente",
+      "conceptualName": "Cliente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 700,
+      "columns": [
+        {
+          "id": "baa841ee-4480-4f37-8a28-f738fc29372d",
+          "name": "Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "2f7d526b-e9b5-42b7-aa6a-18aaad2f0ef9",
+      "name": "Trabajador",
+      "conceptualName": "Trabajador",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "bd73bee8-59dd-463d-8898-050f5c60ecd7",
+          "name": "fecha_ingreso",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f682352d-80a9-4402-b3d2-879926291f02",
+          "name": "Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "name": "Inmueble",
+      "conceptualName": "Inmueble",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 140,
+      "columns": [
+        {
+          "id": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "name": "codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38",
+          "name": "superficie_m2",
+          "type": "NUMBER(7,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "dd792bf0-900d-4c04-a9ae-d8f93a112c82",
+          "name": "descripcion",
+          "type": "VARCHAR(200)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9b2eb780-3118-49a1-b478-0ba419bc18e9",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "4635fe3a-f4e6-4080-888a-5044fb56357b",
+      "name": "Piso",
+      "conceptualName": "Piso",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 140,
+      "columns": [
+        {
+          "id": "f33e51af-6ac9-4d21-98a2-a6992218373b",
+          "name": "codigo_piso",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "f524da1c-4545-4212-b6e8-ac075a92d137",
+          "name": "Inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "1ab4d9d4-1be7-44d1-bcb4-9dd6a486feb7",
+          "name": "AK_Piso_codigo",
+          "columns": [
+            "f33e51af-6ac9-4d21-98a2-a6992218373b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7c7c0ed9-2bcc-4982-8b27-a858f7051b58",
+      "name": "Local",
+      "conceptualName": "Local",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 700,
+      "columns": [
+        {
+          "id": "854cf4af-001f-41b8-85a7-4224458bc327",
+          "name": "uso",
+          "type": "VARCHAR(40)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "622ca07f-7ffb-40ba-b8d8-d18ab5f6615c",
+          "name": "servicio",
+          "type": "CHAR(1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "'N'",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "S",
+              "N"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "0213d4c2-71c6-4c97-a7e8-50e64d5484da",
+          "name": "Inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "0fb0fead-7cfa-4414-84ec-c82a8b87c318",
+      "name": "Garaje",
+      "conceptualName": "Garaje",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2680,
+      "y": 140,
+      "columns": [
+        {
+          "id": "6d06f793-89d7-4174-9fba-38db9f0bd65c",
+          "name": "numero",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "b9914ca1-185a-4032-a8ad-1e377d1a8663",
+          "name": "planta",
+          "type": "NUMBER(2)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "2581758c-6632-4224-a384-9f5c2b8c77ef",
+          "name": "Inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "ad1e0d64-e6ac-4732-9f88-005cdf2f7334",
+          "name": "piso_Inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": []
+    },
+    {
+      "id": "3de763da-74aa-497d-b860-bec0ff45c943",
+      "name": "Compra",
+      "conceptualName": "Compra",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "75f238db-f88a-4394-8667-4d5cd697ebca",
+          "name": "codigo",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "0b54e449-4149-4425-999b-e3b13c16593c",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "e0e71ed7-b44f-4821-9e60-a6318ed91a92",
+          "name": "valor",
+          "type": "NUMBER(12,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "bfd927ab-fcdf-4474-9b07-cb819a90afc2",
+          "name": "inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "8a8669da-29df-4691-8265-f122d92d17c0",
+      "name": "Alquiler",
+      "conceptualName": "Alquiler",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "bd12f8e3-eb14-4082-8be7-25b0054d5faa",
+          "name": "numero",
+          "type": "NUMBER(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "68ff410d-cc29-4e30-ac22-bdc092aa923c",
+          "name": "inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "64030379-9eab-4206-841d-c78c26c986eb",
+          "name": "inquilino_Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "2eee1595-de61-4679-a856-8c60c216039e",
+          "name": "agente_Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "626a2911-d829-472f-9568-73e4943623d4",
+      "name": "Pago",
+      "conceptualName": "Pago",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1820,
+      "columns": [
+        {
+          "id": "6d943f44-aa06-4155-bad1-b49e552fa672",
+          "name": "anio",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "55d5065a-7342-4842-a054-269e5b79858d",
+          "name": "mes",
+          "type": "NUMBER(2)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": 12,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "81da6763-644b-44a5-81a7-11c26b855448",
+          "name": "valor",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "70a7987b-2fe8-4e8e-8304-db263ed9ef69",
+          "name": "alquiler_numero",
+          "type": "NUMBER(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "a43d9788-418c-4e02-ba25-31574812aa05",
+          "name": "alquiler_inmueble_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "66485a6f-e5b5-43e1-a3b7-725547d61947",
+      "name": "Titulares",
+      "conceptualName": "Titular",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2",
+          "name": "compra_codigo",
+          "type": "NUMBER(8)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b94f2473-2766-4889-8034-1fbf6a70232c",
+          "name": "titular_Persona_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "b20b058b-08dd-4cd0-867c-a24efd63fe1f",
+      "parentId": "f576530d-90db-4d50-b822-b527490244de",
+      "childId": "02607785-df35-461d-bcb9-292c9c7dcd4d",
+      "name": "FK_Telefonos_persona_Persona",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ce6f7982-5789-4d32-af48-1473939b771d",
+          "childColumnId": "0cf4a8ec-2082-4829-baaf-0aee34874a60"
+        }
+      ]
+    },
+    {
+      "id": "fc35734a-d5ff-4180-8cca-c50f4d3d5861",
+      "parentId": "f576530d-90db-4d50-b822-b527490244de",
+      "childId": "0d9045df-bff9-4586-8677-f7b22c5da34e",
+      "name": "FK_Cliente_Persona",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ce6f7982-5789-4d32-af48-1473939b771d",
+          "childColumnId": "baa841ee-4480-4f37-8a28-f738fc29372d"
+        }
+      ]
+    },
+    {
+      "id": "bfe4fb60-f73e-4f7a-bd14-02bd032e79ef",
+      "parentId": "f576530d-90db-4d50-b822-b527490244de",
+      "childId": "2f7d526b-e9b5-42b7-aa6a-18aaad2f0ef9",
+      "name": "FK_Trabajador_Persona",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ce6f7982-5789-4d32-af48-1473939b771d",
+          "childColumnId": "f682352d-80a9-4402-b3d2-879926291f02"
+        }
+      ]
+    },
+    {
+      "id": "7cf1f7d8-a101-4f39-8c2e-1f2ce23725c7",
+      "parentId": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "childId": "4635fe3a-f4e6-4080-888a-5044fb56357b",
+      "name": "FK_Piso_Inmueble",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "childColumnId": "f524da1c-4545-4212-b6e8-ac075a92d137"
+        }
+      ]
+    },
+    {
+      "id": "50b243e7-db8f-4d73-badd-3fed92489191",
+      "parentId": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "childId": "7c7c0ed9-2bcc-4982-8b27-a858f7051b58",
+      "name": "FK_Local_Inmueble",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "childColumnId": "0213d4c2-71c6-4c97-a7e8-50e64d5484da"
+        }
+      ]
+    },
+    {
+      "id": "66d4487f-4720-4b86-a67f-840155bb6a35",
+      "parentId": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "childId": "0fb0fead-7cfa-4414-84ec-c82a8b87c318",
+      "name": "FK_Garaje_Inmueble",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-one",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "childColumnId": "2581758c-6632-4224-a384-9f5c2b8c77ef"
+        }
+      ]
+    },
+    {
+      "id": "8a1ec8e1-93f2-4373-9462-71c28c9a4abc",
+      "parentId": "4635fe3a-f4e6-4080-888a-5044fb56357b",
+      "childId": "0fb0fead-7cfa-4414-84ec-c82a8b87c318",
+      "name": "FK_Asociado_piso",
+      "forward": "Asociado",
+      "inverse": "piso",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": true,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "f524da1c-4545-4212-b6e8-ac075a92d137",
+          "childColumnId": "ad1e0d64-e6ac-4732-9f88-005cdf2f7334"
+        }
+      ]
+    },
+    {
+      "id": "f73518ed-a0f8-4bf9-9c3e-719285631f3c",
+      "parentId": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "childId": "3de763da-74aa-497d-b860-bec0ff45c943",
+      "name": "FK_Se_compra_inmueble",
+      "forward": "Se_compra",
+      "inverse": "inmueble",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "childColumnId": "bfd927ab-fcdf-4474-9b07-cb819a90afc2"
+        }
+      ]
+    },
+    {
+      "id": "43549aec-abb1-4835-9542-612b53d3ab80",
+      "parentId": "3de763da-74aa-497d-b860-bec0ff45c943",
+      "childId": "66485a6f-e5b5-43e1-a3b7-725547d61947",
+      "name": "FK_Titular_compra",
+      "forward": "Titular",
+      "inverse": "compra",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "75f238db-f88a-4394-8667-4d5cd697ebca",
+          "childColumnId": "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2"
+        }
+      ]
+    },
+    {
+      "id": "79480bed-6be9-46a0-bf98-8011230cfccb",
+      "parentId": "0d9045df-bff9-4586-8677-f7b22c5da34e",
+      "childId": "66485a6f-e5b5-43e1-a3b7-725547d61947",
+      "name": "FK_Titular_titular",
+      "forward": "Titular",
+      "inverse": "titular",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "baa841ee-4480-4f37-8a28-f738fc29372d",
+          "childColumnId": "b94f2473-2766-4889-8034-1fbf6a70232c"
+        }
+      ]
+    },
+    {
+      "id": "68c9bfe1-31f0-4bb6-a1db-d8eba0981cad",
+      "parentId": "77040388-59f0-4356-a8ff-0e589a34fa6a",
+      "childId": "8a8669da-29df-4691-8265-f122d92d17c0",
+      "name": "FK_Se_alquila_inmueble",
+      "forward": "Se_alquila",
+      "inverse": "inmueble",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478",
+          "childColumnId": "68ff410d-cc29-4e30-ac22-bdc092aa923c"
+        }
+      ]
+    },
+    {
+      "id": "f7b76865-6b4c-4595-94a9-c6d0dd8d459e",
+      "parentId": "0d9045df-bff9-4586-8677-f7b22c5da34e",
+      "childId": "8a8669da-29df-4691-8265-f122d92d17c0",
+      "name": "FK_Inquilino_inquilino",
+      "forward": "Inquilino",
+      "inverse": "inquilino",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "baa841ee-4480-4f37-8a28-f738fc29372d",
+          "childColumnId": "64030379-9eab-4206-841d-c78c26c986eb"
+        }
+      ]
+    },
+    {
+      "id": "866a0e39-dc0b-4946-bfba-ca07b4ddb99e",
+      "parentId": "2f7d526b-e9b5-42b7-aa6a-18aaad2f0ef9",
+      "childId": "8a8669da-29df-4691-8265-f122d92d17c0",
+      "name": "FK_Gestiona_agente",
+      "forward": "Gestiona",
+      "inverse": "agente",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "f682352d-80a9-4402-b3d2-879926291f02",
+          "childColumnId": "2eee1595-de61-4679-a856-8c60c216039e"
+        }
+      ]
+    },
+    {
+      "id": "a44e9b8a-c565-40a4-9c57-e2438f007f73",
+      "parentId": "8a8669da-29df-4691-8265-f122d92d17c0",
+      "childId": "626a2911-d829-472f-9568-73e4943623d4",
+      "name": "FK_Paga_alquiler",
+      "forward": "Paga",
+      "inverse": "alquiler",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "bd12f8e3-eb14-4082-8be7-25b0054d5faa",
+          "childColumnId": "70a7987b-2fe8-4e8e-8304-db263ed9ef69"
+        },
+        {
+          "parentColumnId": "68ff410d-cc29-4e30-ac22-bdc092aa923c",
+          "childColumnId": "a43d9788-418c-4e02-ba25-31574812aa05"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "Persona",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "bad2e8a8-aa1d-4be7-901a-83b17d8abc08",
+        "name": "Cliente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "e9ed6223-7477-4e4b-be9b-a222de75b2ca",
+        "name": "Trabajador",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "name": "Inmueble",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "a56ddec2-4eee-436f-a65a-cd5f77e9891a",
+        "name": "Piso",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028",
+        "name": "Local",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "1d3735be-5d46-450c-b37c-a01c7a217100",
+        "name": "Garaje",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+        "name": "Compra",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+        "name": "Alquiler",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "87996b5e-fbe1-4e75-abde-b2d20d8473fb"
+        }
+      },
+      {
+        "id": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+        "name": "Pago",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "783f760d-a1fd-43dd-85eb-cf819bec453a"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "1dab8d85-132c-436f-bfa9-995372b24340",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "codigo",
+        "type": "NUMBER(6)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a30520e9-c229-4c9a-8a55-371aa8a138b3",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c47076e7-37fb-40f0-9c6d-8fc58397ca10",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "nombre",
+        "type": "VARCHAR(40)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "386a3149-d135-4ffb-aef2-ba3bf04e7c8e",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "apellidos",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "58251550-3ad7-47ef-b7e2-46a184f29292",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "2c0f3d71-9252-423b-ab59-a29df17e972d",
+        "ownerKind": "entity",
+        "ownerId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Telefonos_persona"
+        }
+      },
+      {
+        "id": "9658f08a-3a71-4107-a72f-5f69ada111b1",
+        "ownerKind": "entity",
+        "ownerId": "e9ed6223-7477-4e4b-be9b-a222de75b2ca",
+        "name": "fecha_ingreso",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "50d5559f-a71f-454c-afa9-f31983489285",
+        "ownerKind": "entity",
+        "ownerId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "name": "codigo",
+        "type": "NUMBER(6)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "12782b76-87fb-4ee9-a582-af9d07868cd2",
+        "ownerKind": "entity",
+        "ownerId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "name": "superficie_m2",
+        "type": "NUMBER(7,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "6d73a3fe-5a44-4321-9e3d-46991ee46201",
+        "ownerKind": "entity",
+        "ownerId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "name": "descripcion",
+        "type": "VARCHAR(200)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "15b7216c-fd85-4511-b7cd-6752f2fed78b",
+        "ownerKind": "entity",
+        "ownerId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "56a59afa-695a-4889-893e-a8e6a8aa165a",
+        "ownerKind": "entity",
+        "ownerId": "a56ddec2-4eee-436f-a65a-cd5f77e9891a",
+        "name": "codigo_piso",
+        "type": "VARCHAR(10)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0f536275-5897-4b99-9d0d-3130d8df68ff",
+        "ownerKind": "entity",
+        "ownerId": "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028",
+        "name": "uso",
+        "type": "VARCHAR(40)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d5ecd764-d189-41f8-b250-a5015be1a6f1",
+        "ownerKind": "entity",
+        "ownerId": "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028",
+        "name": "servicio",
+        "type": "CHAR(1)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "'N'",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "S",
+            "N"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d10bee4a-edbc-4bbb-befd-a6a2922fe5c5",
+        "ownerKind": "entity",
+        "ownerId": "1d3735be-5d46-450c-b37c-a01c7a217100",
+        "name": "numero",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a9315ad9-7fae-4da8-b487-6f4c5b11c25a",
+        "ownerKind": "entity",
+        "ownerId": "1d3735be-5d46-450c-b37c-a01c7a217100",
+        "name": "planta",
+        "type": "NUMBER(2)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "87cecd54-4bf3-4710-a18d-a1e3c0b3a564",
+        "ownerKind": "entity",
+        "ownerId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+        "name": "codigo",
+        "type": "NUMBER(8)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "539339c7-455c-4777-b42e-d7efc8ea57c6",
+        "ownerKind": "entity",
+        "ownerId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "5680c659-a372-4f2c-93cc-522ad1d92801",
+        "ownerKind": "entity",
+        "ownerId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+        "name": "valor",
+        "type": "NUMBER(12,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "609f14ac-e436-4e88-b186-63fa0354540d",
+        "ownerKind": "entity",
+        "ownerId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+        "name": "numero",
+        "type": "NUMBER(5)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "03641da8-4630-4e9d-b9a3-2887ff900d57",
+        "ownerKind": "entity",
+        "ownerId": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+        "name": "anio",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "f8c3380e-4ae3-477b-8e9b-23ca2b19f55a",
+        "ownerKind": "entity",
+        "ownerId": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+        "name": "mes",
+        "type": "NUMBER(2)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": 12,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d14ae4f9-9832-44e3-aed6-a313b9b62c91",
+        "ownerKind": "entity",
+        "ownerId": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+        "name": "valor",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "010ba811-feba-417b-8fef-5c17a7502bdb",
+        "name": "Asociado",
+        "notes": "",
+        "participations": [
+          {
+            "id": "61875119-5d09-45ab-b989-b54d7390386f",
+            "entityId": "a56ddec2-4eee-436f-a65a-cd5f77e9891a",
+            "role": "piso",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "1bf82d74-326f-4f3e-b9ba-12e122fc5fb7",
+            "entityId": "1d3735be-5d46-450c-b37c-a01c7a217100",
+            "role": "garaje",
+            "min": 0,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "1bf82d74-326f-4f3e-b9ba-12e122fc5fb7",
+          "identifying": false
+        }
+      },
+      {
+        "id": "29217238-59bb-404a-abe0-15c20f03fdf8",
+        "name": "Se_compra",
+        "notes": "",
+        "participations": [
+          {
+            "id": "1bf0b465-0b28-4729-acde-b709117864cb",
+            "entityId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+            "role": "inmueble",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "9797422a-e3d8-4a63-a515-cc3b4e73ca4f",
+            "entityId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+            "role": "compra",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "9797422a-e3d8-4a63-a515-cc3b4e73ca4f",
+          "identifying": false
+        }
+      },
+      {
+        "id": "8db99e1b-e0c5-475d-9901-f67ef303186a",
+        "name": "Titular",
+        "notes": "",
+        "participations": [
+          {
+            "id": "6eaa45ec-9121-49cb-a69a-e8e98645682d",
+            "entityId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+            "role": "compra",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "144a59fd-e919-4d21-917d-f83531f278ee",
+            "entityId": "bad2e8a8-aa1d-4be7-901a-83b17d8abc08",
+            "role": "titular",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Titulares",
+          "key": {
+            "participationIds": [
+              "6eaa45ec-9121-49cb-a69a-e8e98645682d",
+              "144a59fd-e919-4d21-917d-f83531f278ee"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "87996b5e-fbe1-4e75-abde-b2d20d8473fb",
+        "name": "Se_alquila",
+        "notes": "",
+        "participations": [
+          {
+            "id": "e168416a-3ea9-4c9f-8421-83133cd20862",
+            "entityId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+            "role": "inmueble",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "649b991e-c97e-4016-a1e2-8c005e03306b",
+            "entityId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+            "role": "alquiler",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "649b991e-c97e-4016-a1e2-8c005e03306b",
+          "identifying": true
+        }
+      },
+      {
+        "id": "4a119b96-bc1f-4d8c-a39d-372cac29f767",
+        "name": "Inquilino",
+        "notes": "",
+        "participations": [
+          {
+            "id": "5d3d21a2-bf6d-4c2b-8e75-91f53e96e846",
+            "entityId": "bad2e8a8-aa1d-4be7-901a-83b17d8abc08",
+            "role": "inquilino",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "99088d62-ea13-463d-8e5a-d882861440b4",
+            "entityId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+            "role": "alquiler",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "99088d62-ea13-463d-8e5a-d882861440b4",
+          "identifying": false
+        }
+      },
+      {
+        "id": "9f00065b-6c92-431a-8ada-4f1007b76013",
+        "name": "Gestiona",
+        "notes": "",
+        "participations": [
+          {
+            "id": "79f97885-e474-4354-bd81-cb5c6dc6c356",
+            "entityId": "e9ed6223-7477-4e4b-be9b-a222de75b2ca",
+            "role": "agente",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "926230d9-9047-42f2-b87f-ae60a637dcd2",
+            "entityId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+            "role": "alquiler",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "926230d9-9047-42f2-b87f-ae60a637dcd2",
+          "identifying": false
+        }
+      },
+      {
+        "id": "783f760d-a1fd-43dd-85eb-cf819bec453a",
+        "name": "Paga",
+        "notes": "",
+        "participations": [
+          {
+            "id": "544d7c0f-6bec-4f42-87fa-26f5d945fad1",
+            "entityId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+            "role": "alquiler",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "c8cb6e19-d2f9-4d61-8206-4250640316d7",
+            "entityId": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+            "role": "pago",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "c8cb6e19-d2f9-4d61-8206-4250640316d7",
+          "identifying": true
+        }
+      }
+    ],
+    "generalizations": [
+      {
+        "id": "18a257e2-4a3f-4330-a8ac-ac5484a2c5e8",
+        "supertypeId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+        "subtypeIds": [
+          "bad2e8a8-aa1d-4be7-901a-83b17d8abc08",
+          "e9ed6223-7477-4e4b-be9b-a222de75b2ca"
+        ],
+        "disjoint": false,
+        "total": true,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      },
+      {
+        "id": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+        "supertypeId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+        "subtypeIds": [
+          "a56ddec2-4eee-436f-a65a-cd5f77e9891a",
+          "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028",
+          "1d3735be-5d46-450c-b37c-a01c7a217100"
+        ],
+        "disjoint": true,
+        "total": false,
+        "notes": "",
+        "translation": {
+          "kind": "class-tables"
+        }
+      }
+    ]
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "af1a655b-0c61-44ee-8e39-3513bb69bb87",
+      "targetKind": "table",
+      "targetId": "f576530d-90db-4d50-b822-b527490244de"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "1dab8d85-132c-436f-bfa9-995372b24340",
+      "targetKind": "column",
+      "targetId": "ce6f7982-5789-4d32-af48-1473939b771d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a30520e9-c229-4c9a-8a55-371aa8a138b3",
+      "targetKind": "column",
+      "targetId": "b6382659-8004-4f37-8aaf-4c3e206d35ff"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c47076e7-37fb-40f0-9c6d-8fc58397ca10",
+      "targetKind": "column",
+      "targetId": "ba34de0b-c891-4882-aced-ec7dc3612a1d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "386a3149-d135-4ffb-aef2-ba3bf04e7c8e",
+      "targetKind": "column",
+      "targetId": "44870a60-7b62-4f57-93d3-15485e7762d8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "58251550-3ad7-47ef-b7e2-46a184f29292",
+      "targetKind": "column",
+      "targetId": "1fbf6d1b-b931-449c-b3d7-7efbf26f6453"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2c0f3d71-9252-423b-ab59-a29df17e972d",
+      "targetKind": "table",
+      "targetId": "02607785-df35-461d-bcb9-292c9c7dcd4d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2c0f3d71-9252-423b-ab59-a29df17e972d",
+      "targetKind": "foreign-key",
+      "targetId": "b20b058b-08dd-4cd0-867c-a24efd63fe1f"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2c0f3d71-9252-423b-ab59-a29df17e972d",
+      "targetKind": "column",
+      "targetId": "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "bad2e8a8-aa1d-4be7-901a-83b17d8abc08",
+      "targetKind": "table",
+      "targetId": "0d9045df-bff9-4586-8677-f7b22c5da34e"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "e9ed6223-7477-4e4b-be9b-a222de75b2ca",
+      "targetKind": "table",
+      "targetId": "2f7d526b-e9b5-42b7-aa6a-18aaad2f0ef9"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "9658f08a-3a71-4107-a72f-5f69ada111b1",
+      "targetKind": "column",
+      "targetId": "bd73bee8-59dd-463d-8898-050f5c60ecd7"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "18a257e2-4a3f-4330-a8ac-ac5484a2c5e8",
+      "targetKind": "foreign-key",
+      "targetId": "fc35734a-d5ff-4180-8cca-c50f4d3d5861"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "18a257e2-4a3f-4330-a8ac-ac5484a2c5e8",
+      "targetKind": "column",
+      "targetId": "baa841ee-4480-4f37-8a28-f738fc29372d"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "18a257e2-4a3f-4330-a8ac-ac5484a2c5e8",
+      "targetKind": "foreign-key",
+      "targetId": "bfe4fb60-f73e-4f7a-bd14-02bd032e79ef"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "18a257e2-4a3f-4330-a8ac-ac5484a2c5e8",
+      "targetKind": "column",
+      "targetId": "f682352d-80a9-4402-b3d2-879926291f02"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5",
+      "targetKind": "table",
+      "targetId": "77040388-59f0-4356-a8ff-0e589a34fa6a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "50d5559f-a71f-454c-afa9-f31983489285",
+      "targetKind": "column",
+      "targetId": "ae40d4c5-9b1c-446a-b118-60ca8ab86478"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "12782b76-87fb-4ee9-a582-af9d07868cd2",
+      "targetKind": "column",
+      "targetId": "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "6d73a3fe-5a44-4321-9e3d-46991ee46201",
+      "targetKind": "column",
+      "targetId": "dd792bf0-900d-4c04-a9ae-d8f93a112c82"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "15b7216c-fd85-4511-b7cd-6752f2fed78b",
+      "targetKind": "column",
+      "targetId": "9b2eb780-3118-49a1-b478-0ba419bc18e9"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "a56ddec2-4eee-436f-a65a-cd5f77e9891a",
+      "targetKind": "table",
+      "targetId": "4635fe3a-f4e6-4080-888a-5044fb56357b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "56a59afa-695a-4889-893e-a8e6a8aa165a",
+      "targetKind": "column",
+      "targetId": "f33e51af-6ac9-4d21-98a2-a6992218373b"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028",
+      "targetKind": "table",
+      "targetId": "7c7c0ed9-2bcc-4982-8b27-a858f7051b58"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0f536275-5897-4b99-9d0d-3130d8df68ff",
+      "targetKind": "column",
+      "targetId": "854cf4af-001f-41b8-85a7-4224458bc327"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d5ecd764-d189-41f8-b250-a5015be1a6f1",
+      "targetKind": "column",
+      "targetId": "622ca07f-7ffb-40ba-b8d8-d18ab5f6615c"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "1d3735be-5d46-450c-b37c-a01c7a217100",
+      "targetKind": "table",
+      "targetId": "0fb0fead-7cfa-4414-84ec-c82a8b87c318"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d10bee4a-edbc-4bbb-befd-a6a2922fe5c5",
+      "targetKind": "column",
+      "targetId": "6d06f793-89d7-4174-9fba-38db9f0bd65c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a9315ad9-7fae-4da8-b487-6f4c5b11c25a",
+      "targetKind": "column",
+      "targetId": "b9914ca1-185a-4032-a8ad-1e377d1a8663"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "foreign-key",
+      "targetId": "7cf1f7d8-a101-4f39-8c2e-1f2ce23725c7"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "column",
+      "targetId": "f524da1c-4545-4212-b6e8-ac075a92d137"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "foreign-key",
+      "targetId": "50b243e7-db8f-4d73-badd-3fed92489191"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "column",
+      "targetId": "0213d4c2-71c6-4c97-a7e8-50e64d5484da"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "foreign-key",
+      "targetId": "66d4487f-4720-4b86-a67f-840155bb6a35"
+    },
+    {
+      "sourceKind": "generalization",
+      "sourceId": "bb555acf-2bdb-4cad-a44d-cb8064946678",
+      "targetKind": "column",
+      "targetId": "2581758c-6632-4224-a384-9f5c2b8c77ef"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "64f81a85-91c5-47ff-b318-ca06de5c7426",
+      "targetKind": "table",
+      "targetId": "3de763da-74aa-497d-b860-bec0ff45c943"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "87cecd54-4bf3-4710-a18d-a1e3c0b3a564",
+      "targetKind": "column",
+      "targetId": "75f238db-f88a-4394-8667-4d5cd697ebca"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "539339c7-455c-4777-b42e-d7efc8ea57c6",
+      "targetKind": "column",
+      "targetId": "0b54e449-4149-4425-999b-e3b13c16593c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "5680c659-a372-4f2c-93cc-522ad1d92801",
+      "targetKind": "column",
+      "targetId": "e0e71ed7-b44f-4821-9e60-a6318ed91a92"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "09939c7b-819c-44c7-be81-e57db67c8b2e",
+      "targetKind": "table",
+      "targetId": "8a8669da-29df-4691-8265-f122d92d17c0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "609f14ac-e436-4e88-b186-63fa0354540d",
+      "targetKind": "column",
+      "targetId": "bd12f8e3-eb14-4082-8be7-25b0054d5faa"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "0bd2605f-08bc-4720-9120-aaa7b24958ed",
+      "targetKind": "table",
+      "targetId": "626a2911-d829-472f-9568-73e4943623d4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "03641da8-4630-4e9d-b9a3-2887ff900d57",
+      "targetKind": "column",
+      "targetId": "6d943f44-aa06-4155-bad1-b49e552fa672"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "f8c3380e-4ae3-477b-8e9b-23ca2b19f55a",
+      "targetKind": "column",
+      "targetId": "55d5065a-7342-4842-a054-269e5b79858d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d14ae4f9-9832-44e3-aed6-a313b9b62c91",
+      "targetKind": "column",
+      "targetId": "81da6763-644b-44a5-81a7-11c26b855448"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "61875119-5d09-45ab-b989-b54d7390386f",
+      "targetKind": "foreign-key",
+      "targetId": "8a1ec8e1-93f2-4373-9462-71c28c9a4abc"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "010ba811-feba-417b-8fef-5c17a7502bdb",
+      "targetKind": "foreign-key",
+      "targetId": "8a1ec8e1-93f2-4373-9462-71c28c9a4abc"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "1bf0b465-0b28-4729-acde-b709117864cb",
+      "targetKind": "foreign-key",
+      "targetId": "f73518ed-a0f8-4bf9-9c3e-719285631f3c"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "29217238-59bb-404a-abe0-15c20f03fdf8",
+      "targetKind": "foreign-key",
+      "targetId": "f73518ed-a0f8-4bf9-9c3e-719285631f3c"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "8db99e1b-e0c5-475d-9901-f67ef303186a",
+      "targetKind": "table",
+      "targetId": "66485a6f-e5b5-43e1-a3b7-725547d61947"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "6eaa45ec-9121-49cb-a69a-e8e98645682d",
+      "targetKind": "foreign-key",
+      "targetId": "43549aec-abb1-4835-9542-612b53d3ab80"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "144a59fd-e919-4d21-917d-f83531f278ee",
+      "targetKind": "foreign-key",
+      "targetId": "79480bed-6be9-46a0-bf98-8011230cfccb"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "e168416a-3ea9-4c9f-8421-83133cd20862",
+      "targetKind": "foreign-key",
+      "targetId": "68c9bfe1-31f0-4bb6-a1db-d8eba0981cad"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "87996b5e-fbe1-4e75-abde-b2d20d8473fb",
+      "targetKind": "foreign-key",
+      "targetId": "68c9bfe1-31f0-4bb6-a1db-d8eba0981cad"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "5d3d21a2-bf6d-4c2b-8e75-91f53e96e846",
+      "targetKind": "foreign-key",
+      "targetId": "f7b76865-6b4c-4595-94a9-c6d0dd8d459e"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "4a119b96-bc1f-4d8c-a39d-372cac29f767",
+      "targetKind": "foreign-key",
+      "targetId": "f7b76865-6b4c-4595-94a9-c6d0dd8d459e"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "79f97885-e474-4354-bd81-cb5c6dc6c356",
+      "targetKind": "foreign-key",
+      "targetId": "866a0e39-dc0b-4946-bfba-ca07b4ddb99e"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "9f00065b-6c92-431a-8ada-4f1007b76013",
+      "targetKind": "foreign-key",
+      "targetId": "866a0e39-dc0b-4946-bfba-ca07b4ddb99e"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "544d7c0f-6bec-4f42-87fa-26f5d945fad1",
+      "targetKind": "foreign-key",
+      "targetId": "a44e9b8a-c565-40a4-9c57-e2438f007f73"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "783f760d-a1fd-43dd-85eb-cf819bec453a",
+      "targetKind": "foreign-key",
+      "targetId": "a44e9b8a-c565-40a4-9c57-e2438f007f73"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "18942cf6-c4a5-4ec9-b515-79bb19545820",
+      "kind": "enunciado",
+      "text": "Clientes y trabajadores comparten datos y un código personal, y un trabajador puede ser también cliente: especialización solapada de Persona.",
+      "elementId": "af1a655b-0c61-44ee-8e39-3513bb69bb87"
+    },
+    {
+      "id": "c3cc21a3-6e4c-4bd2-9e7f-58416b23c460",
+      "kind": "enunciado",
+      "text": "Puede haber inmuebles que no sean ni pisos, ni locales, ni garajes: especialización parcial y disjunta de Inmueble.",
+      "elementId": "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5"
+    },
+    {
+      "id": "dcbe6d4b-aede-4c78-be16-19fe1919e9e6",
+      "kind": "enunciado",
+      "text": "El número de alquiler se repite entre inmuebles pero no en el mismo: Alquiler es entidad débil de Inmueble.",
+      "elementId": "09939c7b-819c-44c7-be81-e57db67c8b2e"
+    },
+    {
+      "id": "9edfd827-7c0d-4da0-952c-93edf59c397a",
+      "kind": "enunciado",
+      "text": "Cada pago de un alquiler se identifica por su año y mes: Pago es entidad débil de Alquiler.",
+      "elementId": "0bd2605f-08bc-4720-9120-aaa7b24958ed"
+    },
+    {
+      "id": "e28bc686-a32d-4cc9-936a-43d7bfd17166",
+      "kind": "enunciado",
+      "text": "Una compra puede tener varios titulares: N:N entre Compra y Cliente.",
+      "elementId": "8db99e1b-e0c5-475d-9901-f67ef303186a"
+    },
+    {
+      "id": "dab3a9db-1085-4f01-8ec0-92a86ff4555b",
+      "kind": "supuesto",
+      "text": "Todo registro de Persona es cliente, trabajador o ambos: especialización total.",
+      "elementId": "af1a655b-0c61-44ee-8e39-3513bb69bb87"
+    },
+    {
+      "id": "3322273d-ce7f-4562-a777-ce3355b00019",
+      "kind": "supuesto",
+      "text": "El DNI es único: clave alternativa. El código de piso, también.",
+      "elementId": "af1a655b-0c61-44ee-8e39-3513bb69bb87"
+    },
+    {
+      "id": "1fe7adcd-f16b-413e-a0b8-33674a973ab4",
+      "kind": "supuesto",
+      "text": "El agente que gestiona el alquiler es un trabajador; su nombre se obtiene de Persona.",
+      "elementId": "9f00065b-6c92-431a-8ada-4f1007b76013"
+    },
+    {
+      "id": "9183d146-35e8-40ca-bf27-61986a28063d",
+      "kind": "supuesto",
+      "text": "Un garaje se asocia como mucho a un piso, y un piso puede tener varios garajes asociados: «el garaje» se lee como cada garaje asociado al piso. Si cada piso tuviera un solo garaje, Piso pasaría a (0,1) y la clave ajena del garaje sería única.",
+      "elementId": "010ba811-feba-417b-8fef-5c17a7502bdb"
+    },
+    {
+      "id": "91204d37-a15c-417f-94fb-5ad35f299f10",
+      "kind": "perdida",
+      "text": "Que al alquilar un piso se incluya su garaje es un comportamiento de la aplicación, no una restricción del modelo.",
+      "elementId": "010ba811-feba-417b-8fef-5c17a7502bdb"
+    },
+    {
+      "id": "e8a734b4-6379-4ae4-b6fb-84b30c45848a",
+      "kind": "perdida",
+      "text": "Que el número de garaje no se repita dentro de un mismo edificio no se puede expresar: no hay entidad Edificio.",
+      "elementId": "1d3735be-5d46-450c-b37c-a01c7a217100"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {
+    "f576530d-90db-4d50-b822-b527490244de": [
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "1",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10000569P",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Ana",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Álvarez Castro",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "Pl. de España 68, Elche"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "2",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10008609K",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Paula",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Fernández Gil",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "C/ del Mar 15, Elche"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "3",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10015923K",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Clara",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Navarro Soler",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "Av. de la Libertad 18, Alicante"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "4",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10024085H",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Javier",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Torres Marín",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "Pl. de España 70, Santa Pola"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "5",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10032378P",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Diego",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Moreno Ortega",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "C/ San Vicente 60, Alicante"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "6",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10040446A",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Óscar",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Martínez Ruiz",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "Pl. de España 5, Torrevieja"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "7",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10048075L",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Marta",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Romero Rubio",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": "C/ Reina Victoria 29, Torrevieja"
+      },
+      {
+        "ce6f7982-5789-4d32-af48-1473939b771d": "8",
+        "b6382659-8004-4f37-8aaf-4c3e206d35ff": "10055662Q",
+        "ba34de0b-c891-4882-aced-ec7dc3612a1d": "Andrés",
+        "44870a60-7b62-4f57-93d3-15485e7762d8": "Sánchez Pérez",
+        "1fbf6d1b-b931-449c-b3d7-7efbf26f6453": ""
+      }
+    ],
+    "77040388-59f0-4356-a8ff-0e589a34fa6a": [
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "1",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "174.52",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "Descripción de inmueble 1",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "Av. de la Libertad 89, Murcia"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "2",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "183.16",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "C/ San Vicente 48, Crevillente"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "3",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "24.45",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "Descripción de inmueble 3",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "Av. de la Libertad 13, Torrevieja"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "4",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "459.89",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "Descripción de inmueble 4",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "C/ del Mar 68, Torrevieja"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "5",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "175.28",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "Descripción de inmueble 5",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "C/ del Mar 46, Torrevieja"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "6",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "94.64",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "Paseo Marítimo 54, Murcia"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "7",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "14.76",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "Pl. de España 57, Orihuela"
+      },
+      {
+        "ae40d4c5-9b1c-446a-b118-60ca8ab86478": "8",
+        "ad4cef19-02ce-4686-9ef0-9dd3cb7dec38": "461.22",
+        "dd792bf0-900d-4c04-a9ae-d8f93a112c82": "Descripción de inmueble 8",
+        "9b2eb780-3118-49a1-b478-0ba419bc18e9": "C/ Mayor 19, Murcia"
+      }
+    ],
+    "02607785-df35-461d-bcb9-292c9c7dcd4d": [
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "1",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610000073"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "7",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610000857"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "4",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610001622"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "5",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610002464"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "2",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610003301"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "8",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610004093"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "7",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610004911"
+      },
+      {
+        "0cf4a8ec-2082-4829-baaf-0aee34874a60": "7",
+        "0c04d79b-6cbe-48c2-a8b3-66d8ba4fc69f": "610005767"
+      }
+    ],
+    "0d9045df-bff9-4586-8677-f7b22c5da34e": [
+      {
+        "baa841ee-4480-4f37-8a28-f738fc29372d": "5"
+      },
+      {
+        "baa841ee-4480-4f37-8a28-f738fc29372d": "3"
+      },
+      {
+        "baa841ee-4480-4f37-8a28-f738fc29372d": "8"
+      },
+      {
+        "baa841ee-4480-4f37-8a28-f738fc29372d": "7"
+      },
+      {
+        "baa841ee-4480-4f37-8a28-f738fc29372d": "1"
+      }
+    ],
+    "2f7d526b-e9b5-42b7-aa6a-18aaad2f0ef9": [
+      {
+        "bd73bee8-59dd-463d-8898-050f5c60ecd7": "2024-10-09",
+        "f682352d-80a9-4402-b3d2-879926291f02": "5"
+      },
+      {
+        "bd73bee8-59dd-463d-8898-050f5c60ecd7": "2026-01-05",
+        "f682352d-80a9-4402-b3d2-879926291f02": "2"
+      },
+      {
+        "bd73bee8-59dd-463d-8898-050f5c60ecd7": "2026-06-03",
+        "f682352d-80a9-4402-b3d2-879926291f02": "6"
+      },
+      {
+        "bd73bee8-59dd-463d-8898-050f5c60ecd7": "2025-09-04",
+        "f682352d-80a9-4402-b3d2-879926291f02": "4"
+      },
+      {
+        "bd73bee8-59dd-463d-8898-050f5c60ecd7": "2025-11-04",
+        "f682352d-80a9-4402-b3d2-879926291f02": "1"
+      }
+    ],
+    "4635fe3a-f4e6-4080-888a-5044fb56357b": [
+      {
+        "f33e51af-6ac9-4d21-98a2-a6992218373b": "PIS0001",
+        "f524da1c-4545-4212-b6e8-ac075a92d137": "5"
+      },
+      {
+        "f33e51af-6ac9-4d21-98a2-a6992218373b": "PIS0002",
+        "f524da1c-4545-4212-b6e8-ac075a92d137": "1"
+      }
+    ],
+    "7c7c0ed9-2bcc-4982-8b27-a858f7051b58": [
+      {
+        "854cf4af-001f-41b8-85a7-4224458bc327": "",
+        "622ca07f-7ffb-40ba-b8d8-d18ab5f6615c": "S",
+        "0213d4c2-71c6-4c97-a7e8-50e64d5484da": "6"
+      },
+      {
+        "854cf4af-001f-41b8-85a7-4224458bc327": "gestión",
+        "622ca07f-7ffb-40ba-b8d8-d18ab5f6615c": "S",
+        "0213d4c2-71c6-4c97-a7e8-50e64d5484da": "4"
+      }
+    ],
+    "3de763da-74aa-497d-b860-bec0ff45c943": [
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "1",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-06-05",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "828.33",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "1"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "2",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-07-03",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "677.6",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "4"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "3",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-11-30",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "1358.77",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "8"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "4",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-02-18",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "1975.44",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "4"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "5",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2026-02-25",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "911.12",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "2"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "6",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-01-06",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "1937.18",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "6"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "7",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2024-03-15",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "622.31",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "6"
+      },
+      {
+        "75f238db-f88a-4394-8667-4d5cd697ebca": "8",
+        "0b54e449-4149-4425-999b-e3b13c16593c": "2025-11-10",
+        "e0e71ed7-b44f-4821-9e60-a6318ed91a92": "524.9",
+        "bfd927ab-fcdf-4474-9b07-cb819a90afc2": "6"
+      }
+    ],
+    "0fb0fead-7cfa-4414-84ec-c82a8b87c318": [
+      {
+        "6d06f793-89d7-4174-9fba-38db9f0bd65c": "24",
+        "b9914ca1-185a-4032-a8ad-1e377d1a8663": "9",
+        "2581758c-6632-4224-a384-9f5c2b8c77ef": "2",
+        "ad1e0d64-e6ac-4732-9f88-005cdf2f7334": "5"
+      },
+      {
+        "6d06f793-89d7-4174-9fba-38db9f0bd65c": "21",
+        "b9914ca1-185a-4032-a8ad-1e377d1a8663": "21",
+        "2581758c-6632-4224-a384-9f5c2b8c77ef": "8",
+        "ad1e0d64-e6ac-4732-9f88-005cdf2f7334": "5"
+      }
+    ],
+    "8a8669da-29df-4691-8265-f122d92d17c0": [
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "1",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "5",
+        "64030379-9eab-4206-841d-c78c26c986eb": "8",
+        "2eee1595-de61-4679-a856-8c60c216039e": "5"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "2",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "4",
+        "64030379-9eab-4206-841d-c78c26c986eb": "3",
+        "2eee1595-de61-4679-a856-8c60c216039e": "1"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "3",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "8",
+        "64030379-9eab-4206-841d-c78c26c986eb": "3",
+        "2eee1595-de61-4679-a856-8c60c216039e": "1"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "4",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "4",
+        "64030379-9eab-4206-841d-c78c26c986eb": "8",
+        "2eee1595-de61-4679-a856-8c60c216039e": "5"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "5",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "3",
+        "64030379-9eab-4206-841d-c78c26c986eb": "8",
+        "2eee1595-de61-4679-a856-8c60c216039e": "6"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "6",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "2",
+        "64030379-9eab-4206-841d-c78c26c986eb": "1",
+        "2eee1595-de61-4679-a856-8c60c216039e": "4"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "7",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "3",
+        "64030379-9eab-4206-841d-c78c26c986eb": "7",
+        "2eee1595-de61-4679-a856-8c60c216039e": "2"
+      },
+      {
+        "bd12f8e3-eb14-4082-8be7-25b0054d5faa": "8",
+        "68ff410d-cc29-4e30-ac22-bdc092aa923c": "6",
+        "64030379-9eab-4206-841d-c78c26c986eb": "8",
+        "2eee1595-de61-4679-a856-8c60c216039e": "1"
+      }
+    ],
+    "66485a6f-e5b5-43e1-a3b7-725547d61947": [
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "6",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "7"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "1",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "7"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "2",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "1"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "4",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "5"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "5",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "7"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "8",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "1"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "3",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "5"
+      },
+      {
+        "8fc42a9e-9c11-4f97-b61c-b7f97973e9c2": "7",
+        "b94f2473-2766-4889-8034-1fbf6a70232c": "8"
+      }
+    ],
+    "626a2911-d829-472f-9568-73e4943623d4": [
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2018",
+        "55d5065a-7342-4842-a054-269e5b79858d": "1",
+        "81da6763-644b-44a5-81a7-11c26b855448": "236.05",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "1",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "5"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2019",
+        "55d5065a-7342-4842-a054-269e5b79858d": "2",
+        "81da6763-644b-44a5-81a7-11c26b855448": "1649.94",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "1",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "5"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2020",
+        "55d5065a-7342-4842-a054-269e5b79858d": "3",
+        "81da6763-644b-44a5-81a7-11c26b855448": "1924.59",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "2",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "4"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2021",
+        "55d5065a-7342-4842-a054-269e5b79858d": "4",
+        "81da6763-644b-44a5-81a7-11c26b855448": "301.65",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "5",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "3"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2022",
+        "55d5065a-7342-4842-a054-269e5b79858d": "5",
+        "81da6763-644b-44a5-81a7-11c26b855448": "1450",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "4",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "4"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2023",
+        "55d5065a-7342-4842-a054-269e5b79858d": "6",
+        "81da6763-644b-44a5-81a7-11c26b855448": "288.82",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "8",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "6"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2024",
+        "55d5065a-7342-4842-a054-269e5b79858d": "7",
+        "81da6763-644b-44a5-81a7-11c26b855448": "1079.36",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "5",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "3"
+      },
+      {
+        "6d943f44-aa06-4155-bad1-b49e552fa672": "2025",
+        "55d5065a-7342-4842-a054-269e5b79858d": "8",
+        "81da6763-644b-44a5-81a7-11c26b855448": "610.72",
+        "70a7987b-2fe8-4e8e-8304-db263ed9ef69": "1",
+        "a43d9788-418c-4e02-ba25-31574812aa05": "5"
+      }
+    ]
+  },
+  "presentation": {
+    "chen": {
+      "af1a655b-0c61-44ee-8e39-3513bb69bb87": {
+        "x": 120,
+        "y": 140
+      },
+      "bad2e8a8-aa1d-4be7-901a-83b17d8abc08": {
+        "x": 120,
+        "y": 980
+      },
+      "e9ed6223-7477-4e4b-be9b-a222de75b2ca": {
+        "x": 120,
+        "y": 1820
+      },
+      "80eb8fca-c99f-4330-9bbd-75e99fbdfcc5": {
+        "x": 2040,
+        "y": 140
+      },
+      "a56ddec2-4eee-436f-a65a-cd5f77e9891a": {
+        "x": 3000,
+        "y": 140
+      },
+      "cd2a05f0-31c7-4ca4-bee5-e0531b4a6028": {
+        "x": 3000,
+        "y": 980
+      },
+      "1d3735be-5d46-450c-b37c-a01c7a217100": {
+        "x": 3960,
+        "y": 140
+      },
+      "64f81a85-91c5-47ff-b318-ca06de5c7426": {
+        "x": 1080,
+        "y": 980
+      },
+      "09939c7b-819c-44c7-be81-e57db67c8b2e": {
+        "x": 2040,
+        "y": 1820
+      },
+      "0bd2605f-08bc-4720-9120-aaa7b24958ed": {
+        "x": 2040,
+        "y": 2660
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

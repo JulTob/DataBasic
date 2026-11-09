@@ -1,0 +1,1150 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Videoclub · ejercicio 3 (Tema 2)",
+  "tables": [
+    {
+      "id": "73340907-935a-463c-9efe-98cc74df7ce8",
+      "name": "Pelicula",
+      "conceptualName": "Pelicula",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 160,
+      "y": 200,
+      "columns": [
+        {
+          "id": "d5198005-e113-4ea2-8594-37fbc562b6ac",
+          "name": "titulo",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "efa10322-f26d-43d0-8556-e43dc7009923",
+          "name": "anio_estreno",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "b841f417-f1fb-441b-b1ff-b012ae267561",
+          "name": "tema",
+          "type": "VARCHAR(40)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "0bb49ce6-045d-4476-badf-386d9cb910a0",
+      "name": "Actores",
+      "conceptualName": "actor_principal",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 160,
+      "y": 560,
+      "columns": [
+        {
+          "id": "cdf11da8-afe7-4105-b926-60dde7536436",
+          "name": "Pelicula_titulo",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "a251b8c2-7880-4122-aa27-0c58765a687c",
+          "name": "Pelicula_anio_estreno",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "c5818dba-1b43-4a94-b119-90fac6651e7f",
+          "name": "actor_principal",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4",
+      "name": "Copia",
+      "conceptualName": "Copia",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 200,
+      "columns": [
+        {
+          "id": "bc8bc273-6be5-4d6e-822b-428c371fda54",
+          "name": "numero_copia",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "3025bd9e-b351-4d98-94df-e955578f4735",
+          "name": "formato",
+          "type": "CHAR(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "DVD",
+              "BR"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "658ebb3a-0b5c-4099-9213-092c5f158d98",
+          "name": "pelicula_titulo",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "93173c15-e288-4a16-a939-5351578e2da6",
+          "name": "pelicula_anio_estreno",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "206a8c60-3c34-472d-b6f6-993474548355",
+      "name": "Cliente",
+      "conceptualName": "Cliente",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "bc834654-b2cb-474d-9408-7a7ccea472a1",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "04bd83f8-ac5f-419c-92e8-697849cc474c",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "a609beae-def3-483c-b816-7f15e6d3d047",
+          "name": "telefono",
+          "type": "VARCHAR(15)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "ed1b455b-6596-47eb-bffb-78b7132af283",
+      "name": "Alquiler",
+      "conceptualName": "Alquila",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1340,
+      "y": 420,
+      "columns": [
+        {
+          "id": "9a4500a7-dc92-453c-9f00-20663444c728",
+          "name": "cliente_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "8c17173f-2445-4361-8665-602846adbbce",
+          "name": "copia_numero_copia",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9",
+          "name": "copia_pelicula_titulo",
+          "type": "VARCHAR(120)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "b1e0bb57-8126-4e18-b339-1f704b5f4ed4",
+          "name": "copia_pelicula_anio_estreno",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "56e54b28-aa56-4db7-806f-ae78aa969fe7",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "85fe962d-747a-4721-a994-e436a1b8345b",
+      "parentId": "73340907-935a-463c-9efe-98cc74df7ce8",
+      "childId": "0bb49ce6-045d-4476-badf-386d9cb910a0",
+      "name": "FK_Actores_Pelicula",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "d5198005-e113-4ea2-8594-37fbc562b6ac",
+          "childColumnId": "cdf11da8-afe7-4105-b926-60dde7536436"
+        },
+        {
+          "parentColumnId": "efa10322-f26d-43d0-8556-e43dc7009923",
+          "childColumnId": "a251b8c2-7880-4122-aa27-0c58765a687c"
+        }
+      ]
+    },
+    {
+      "id": "cb58796d-8052-4a0e-8880-98bfbac35a65",
+      "parentId": "73340907-935a-463c-9efe-98cc74df7ce8",
+      "childId": "fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4",
+      "name": "FK_Tiene_pelicula",
+      "forward": "Tiene",
+      "inverse": "pelicula",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "d5198005-e113-4ea2-8594-37fbc562b6ac",
+          "childColumnId": "658ebb3a-0b5c-4099-9213-092c5f158d98"
+        },
+        {
+          "parentColumnId": "efa10322-f26d-43d0-8556-e43dc7009923",
+          "childColumnId": "93173c15-e288-4a16-a939-5351578e2da6"
+        }
+      ]
+    },
+    {
+      "id": "903f13da-87d3-4be9-a31e-1e3ad7cfb32b",
+      "parentId": "206a8c60-3c34-472d-b6f6-993474548355",
+      "childId": "ed1b455b-6596-47eb-bffb-78b7132af283",
+      "name": "FK_Alquila_cliente",
+      "forward": "Alquila",
+      "inverse": "cliente",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "bc834654-b2cb-474d-9408-7a7ccea472a1",
+          "childColumnId": "9a4500a7-dc92-453c-9f00-20663444c728"
+        }
+      ]
+    },
+    {
+      "id": "9cae8899-f98f-4c60-85b6-48ef9d404f77",
+      "parentId": "fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4",
+      "childId": "ed1b455b-6596-47eb-bffb-78b7132af283",
+      "name": "FK_Alquila_copia",
+      "forward": "Alquila",
+      "inverse": "copia",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "bc8bc273-6be5-4d6e-822b-428c371fda54",
+          "childColumnId": "8c17173f-2445-4361-8665-602846adbbce"
+        },
+        {
+          "parentColumnId": "658ebb3a-0b5c-4099-9213-092c5f158d98",
+          "childColumnId": "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9"
+        },
+        {
+          "parentColumnId": "93173c15-e288-4a16-a939-5351578e2da6",
+          "childColumnId": "b1e0bb57-8126-4e18-b339-1f704b5f4ed4"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "name": "Pelicula",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+        "name": "Copia",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "e489a98f-529a-4b1d-9344-9ee03d3bf83a"
+        }
+      },
+      {
+        "id": "10d5d716-1430-4e11-8977-27686d4a53a8",
+        "name": "Cliente",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "407b9f81-a6ad-442a-8250-f4ab70a43a1d",
+        "ownerKind": "entity",
+        "ownerId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "name": "titulo",
+        "type": "VARCHAR(120)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "eaf655c4-aa79-4fc5-a375-f6f49e80969b",
+        "ownerKind": "entity",
+        "ownerId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "name": "anio_estreno",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c4831e64-6c24-4fc9-8b0a-862f5657f139",
+        "ownerKind": "entity",
+        "ownerId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "name": "tema",
+        "type": "VARCHAR(40)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a0dae377-e657-4bb3-a7ba-6e057038f915",
+        "ownerKind": "entity",
+        "ownerId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+        "name": "actor_principal",
+        "type": "VARCHAR(80)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Actores"
+        }
+      },
+      {
+        "id": "fb2e00b7-8101-483e-87ec-a92fee2ead82",
+        "ownerKind": "entity",
+        "ownerId": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+        "name": "numero_copia",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "1a71751c-a2ed-44be-96dd-517a30fcfcea",
+        "ownerKind": "entity",
+        "ownerId": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+        "name": "formato",
+        "type": "CHAR(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "DVD",
+            "BR"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "8af4a214-5f28-4a7b-b20e-7ab67441703d",
+        "ownerKind": "entity",
+        "ownerId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "e3745d61-b553-4e00-a832-eeca768d7d5c",
+        "ownerKind": "entity",
+        "ownerId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "325043b9-87b4-4926-bfcb-65d3eefe6faf",
+        "ownerKind": "entity",
+        "ownerId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "0aabd3e5-74bf-4d73-9f84-c2bfe84df65d",
+        "ownerKind": "entity",
+        "ownerId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+        "name": "telefono",
+        "type": "VARCHAR(15)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "65b7fd69-f496-426c-8ef3-ec996b5399a1",
+        "ownerKind": "relationship",
+        "ownerId": "687d8c01-b4b9-47bc-b98c-40a18b155eaf",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "e489a98f-529a-4b1d-9344-9ee03d3bf83a",
+        "name": "Tiene",
+        "notes": "",
+        "participations": [
+          {
+            "id": "0156c792-25b1-414a-943b-2a9db89fb0aa",
+            "entityId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+            "role": "pelicula",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "89bad568-c7f2-40e1-8bc2-c1fa931933a8",
+            "entityId": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+            "role": "copia",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "89bad568-c7f2-40e1-8bc2-c1fa931933a8",
+          "identifying": true
+        }
+      },
+      {
+        "id": "687d8c01-b4b9-47bc-b98c-40a18b155eaf",
+        "name": "Alquila",
+        "notes": "",
+        "participations": [
+          {
+            "id": "8a86ba71-7dfc-4104-9e50-cdde35d95521",
+            "entityId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+            "role": "cliente",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "555e5df9-7897-460e-8dfb-46af10eae25f",
+            "entityId": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+            "role": "copia",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Alquiler",
+          "key": {
+            "participationIds": [
+              "555e5df9-7897-460e-8dfb-46af10eae25f"
+            ],
+            "attributeIds": [
+              "65b7fd69-f496-426c-8ef3-ec996b5399a1"
+            ]
+          }
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "b97c02e8-d489-40a2-98d4-9e1697732554",
+      "targetKind": "table",
+      "targetId": "73340907-935a-463c-9efe-98cc74df7ce8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "407b9f81-a6ad-442a-8250-f4ab70a43a1d",
+      "targetKind": "column",
+      "targetId": "d5198005-e113-4ea2-8594-37fbc562b6ac"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "eaf655c4-aa79-4fc5-a375-f6f49e80969b",
+      "targetKind": "column",
+      "targetId": "efa10322-f26d-43d0-8556-e43dc7009923"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c4831e64-6c24-4fc9-8b0a-862f5657f139",
+      "targetKind": "column",
+      "targetId": "b841f417-f1fb-441b-b1ff-b012ae267561"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a0dae377-e657-4bb3-a7ba-6e057038f915",
+      "targetKind": "table",
+      "targetId": "0bb49ce6-045d-4476-badf-386d9cb910a0"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a0dae377-e657-4bb3-a7ba-6e057038f915",
+      "targetKind": "foreign-key",
+      "targetId": "85fe962d-747a-4721-a994-e436a1b8345b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a0dae377-e657-4bb3-a7ba-6e057038f915",
+      "targetKind": "column",
+      "targetId": "c5818dba-1b43-4a94-b119-90fac6651e7f"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "d92963d7-225d-4671-b2a4-e8a8c337491e",
+      "targetKind": "table",
+      "targetId": "fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "fb2e00b7-8101-483e-87ec-a92fee2ead82",
+      "targetKind": "column",
+      "targetId": "bc8bc273-6be5-4d6e-822b-428c371fda54"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "1a71751c-a2ed-44be-96dd-517a30fcfcea",
+      "targetKind": "column",
+      "targetId": "3025bd9e-b351-4d98-94df-e955578f4735"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "10d5d716-1430-4e11-8977-27686d4a53a8",
+      "targetKind": "table",
+      "targetId": "206a8c60-3c34-472d-b6f6-993474548355"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "8af4a214-5f28-4a7b-b20e-7ab67441703d",
+      "targetKind": "column",
+      "targetId": "bc834654-b2cb-474d-9408-7a7ccea472a1"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "e3745d61-b553-4e00-a832-eeca768d7d5c",
+      "targetKind": "column",
+      "targetId": "04bd83f8-ac5f-419c-92e8-697849cc474c"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "325043b9-87b4-4926-bfcb-65d3eefe6faf",
+      "targetKind": "column",
+      "targetId": "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "0aabd3e5-74bf-4d73-9f84-c2bfe84df65d",
+      "targetKind": "column",
+      "targetId": "a609beae-def3-483c-b816-7f15e6d3d047"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "0156c792-25b1-414a-943b-2a9db89fb0aa",
+      "targetKind": "foreign-key",
+      "targetId": "cb58796d-8052-4a0e-8880-98bfbac35a65"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "e489a98f-529a-4b1d-9344-9ee03d3bf83a",
+      "targetKind": "foreign-key",
+      "targetId": "cb58796d-8052-4a0e-8880-98bfbac35a65"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "687d8c01-b4b9-47bc-b98c-40a18b155eaf",
+      "targetKind": "table",
+      "targetId": "ed1b455b-6596-47eb-bffb-78b7132af283"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "8a86ba71-7dfc-4104-9e50-cdde35d95521",
+      "targetKind": "foreign-key",
+      "targetId": "903f13da-87d3-4be9-a31e-1e3ad7cfb32b"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "555e5df9-7897-460e-8dfb-46af10eae25f",
+      "targetKind": "foreign-key",
+      "targetId": "9cae8899-f98f-4c60-85b6-48ef9d404f77"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "65b7fd69-f496-426c-8ef3-ec996b5399a1",
+      "targetKind": "column",
+      "targetId": "56e54b28-aa56-4db7-806f-ae78aa969fe7"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "80bbd2d6-2923-4730-9002-16fc8c934a6c",
+      "kind": "enunciado",
+      "text": "Puede haber películas con igual título pero distinto año: la clave es (título, año de estreno).",
+      "elementId": "b97c02e8-d489-40a2-98d4-9e1697732554"
+    },
+    {
+      "id": "dba268f2-1583-463a-9a06-ef5d72a28e40",
+      "kind": "enunciado",
+      "text": "Las copias se numeran dentro de cada película: entidad débil con clave parcial.",
+      "elementId": "d92963d7-225d-4671-b2a4-e8a8c337491e"
+    },
+    {
+      "id": "8afbd8bc-0966-4f91-ae5b-9750ef07d2f0",
+      "kind": "supuesto",
+      "text": "Los actores principales se guardan como atributo multivaluado, traducido a la tabla Actores.",
+      "elementId": "b97c02e8-d489-40a2-98d4-9e1697732554"
+    },
+    {
+      "id": "8afe9075-ed50-4eec-86eb-f20488009910",
+      "kind": "supuesto",
+      "text": "Una misma copia se alquila como mucho una vez al día: la clave del alquiler es (copia, fecha) y el cliente es una clave ajena obligatoria fuera de la clave.",
+      "elementId": "687d8c01-b4b9-47bc-b98c-40a18b155eaf"
+    },
+    {
+      "id": "c9c23543-474d-4b62-9642-6b2ab5d357de",
+      "kind": "enunciado",
+      "text": "Un cliente puede realizar varios alquileres en un día: el cliente no forma parte de la clave, así que puede repetirse con la misma fecha.",
+      "elementId": "687d8c01-b4b9-47bc-b98c-40a18b155eaf"
+    },
+    {
+      "id": "c881411a-5178-499b-bbbf-c9095838be87",
+      "kind": "perdida",
+      "text": "La devolución del alquiler no figura en el enunciado y no se modela.",
+      "elementId": "687d8c01-b4b9-47bc-b98c-40a18b155eaf"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {
+    "73340907-935a-463c-9efe-98cc74df7ce8": [
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "El sur",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2018",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "comedia"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "Volver",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2019",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "comedia"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "Mar adentro",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2020",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "ciencia ficción"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "La lengua de las mariposas",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2021",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": ""
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "Los otros",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2022",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "animación"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "Ocho apellidos vascos",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2023",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "ciencia ficción"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "El orfanato",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2024",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": "drama"
+      },
+      {
+        "d5198005-e113-4ea2-8594-37fbc562b6ac": "Celda 211",
+        "efa10322-f26d-43d0-8556-e43dc7009923": "2025",
+        "b841f417-f1fb-441b-b1ff-b012ae267561": ""
+      }
+    ],
+    "206a8c60-3c34-472d-b6f6-993474548355": [
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10000085F",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Ana Navarro",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "Av. de la Libertad 18, Alicante",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610000071"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10008829B",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Diego López",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ del Mar 64, Orihuela",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610000855"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10016362T",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Nuria Sánchez",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "Av. de Elche 12, Murcia",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610001626"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10024625Y",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Javier Martínez",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ San Vicente 79, Santa Pola",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610002455"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10032276K",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Sara García",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ del Mar 14, Crevillente",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610003279"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10039659K",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Óscar Díaz",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ Mayor 69, Alicante",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610004138"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10048432P",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Lucía Gómez",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ Reina Victoria 31, Alicante",
+        "a609beae-def3-483c-b816-7f15e6d3d047": "610004916"
+      },
+      {
+        "bc834654-b2cb-474d-9408-7a7ccea472a1": "10056201A",
+        "04bd83f8-ac5f-419c-92e8-697849cc474c": "Diego García",
+        "9ccc9a00-09c5-4edb-93bd-6371a8aacb7d": "C/ San Vicente 48, Elche",
+        "a609beae-def3-483c-b816-7f15e6d3d047": ""
+      }
+    ],
+    "0bb49ce6-045d-4476-badf-386d9cb910a0": [
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "La lengua de las mariposas",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2021",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 1"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "Ocho apellidos vascos",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2023",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 2"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "La lengua de las mariposas",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2021",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 3"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "Celda 211",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2025",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 4"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "La lengua de las mariposas",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2021",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 5"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "El sur",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2018",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 6"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "Volver",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2019",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 7"
+      },
+      {
+        "cdf11da8-afe7-4105-b926-60dde7536436": "Los otros",
+        "a251b8c2-7880-4122-aa27-0c58765a687c": "2022",
+        "c5818dba-1b43-4a94-b119-90fac6651e7f": "actor_principal 8"
+      }
+    ],
+    "fbe5c36f-a94d-42c2-89c2-ecd1d97f8de4": [
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "1",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "BR",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "El sur",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2018"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "2",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "DVD",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "El orfanato",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2024"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "3",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "DVD",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "La lengua de las mariposas",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2021"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "4",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "DVD",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "Los otros",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2022"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "5",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "BR",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "Volver",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2019"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "6",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "DVD",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "Celda 211",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2025"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "7",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "DVD",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "El orfanato",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2024"
+      },
+      {
+        "bc8bc273-6be5-4d6e-822b-428c371fda54": "8",
+        "3025bd9e-b351-4d98-94df-e955578f4735": "BR",
+        "658ebb3a-0b5c-4099-9213-092c5f158d98": "El orfanato",
+        "93173c15-e288-4a16-a939-5351578e2da6": "2024"
+      }
+    ],
+    "ed1b455b-6596-47eb-bffb-78b7132af283": [
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10000085F",
+        "8c17173f-2445-4361-8665-602846adbbce": "8",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "El orfanato",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2024",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2025-08-15"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10008829B",
+        "8c17173f-2445-4361-8665-602846adbbce": "8",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "El orfanato",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2024",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2025-10-05"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10048432P",
+        "8c17173f-2445-4361-8665-602846adbbce": "3",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "La lengua de las mariposas",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2021",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2025-01-12"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10048432P",
+        "8c17173f-2445-4361-8665-602846adbbce": "6",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "Celda 211",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2025",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2026-03-16"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10039659K",
+        "8c17173f-2445-4361-8665-602846adbbce": "3",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "La lengua de las mariposas",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2021",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2024-07-24"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10016362T",
+        "8c17173f-2445-4361-8665-602846adbbce": "7",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "El orfanato",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2024",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2026-06-03"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10039659K",
+        "8c17173f-2445-4361-8665-602846adbbce": "6",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "Celda 211",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2025",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2026-02-21"
+      },
+      {
+        "9a4500a7-dc92-453c-9f00-20663444c728": "10016362T",
+        "8c17173f-2445-4361-8665-602846adbbce": "3",
+        "b9e0a29d-4cfc-4068-99e1-4c5e7659adc9": "La lengua de las mariposas",
+        "b1e0bb57-8126-4e18-b339-1f704b5f4ed4": "2021",
+        "56e54b28-aa56-4db7-806f-ae78aa969fe7": "2025-10-11"
+      }
+    ]
+  },
+  "presentation": {
+    "chen": {
+      "b97c02e8-d489-40a2-98d4-9e1697732554": {
+        "x": 180,
+        "y": 230
+      },
+      "d92963d7-225d-4671-b2a4-e8a8c337491e": {
+        "x": 1080,
+        "y": 230
+      },
+      "10d5d716-1430-4e11-8977-27686d4a53a8": {
+        "x": 1080,
+        "y": 980
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

@@ -50,7 +50,40 @@ import {
     deliveryFilename,
     memoFilename
     } from './io/package.js';
+import {
+    PROJECT_FILES,
+    isProjectFile,
+    openProject,
+    projectFolder,
+    projectZip
+    } from './io/project.js';
+import { readZip } from './io/zipread.js';
+import { fetchGitHubFolder } from './io/github.js';
 import { svgToPNG } from './ui/raster.js';
+import { runSql } from './sql/console.js';
+import {
+    deleteRecord,
+    saveRecord
+    } from './sql/dml.js';
+import {
+    addForm,
+    documentForms,
+    removeForm,
+    suggestedFormName
+    } from './domain/forms.js';
+import {
+    formWindow,
+    formsList,
+    wizardStep
+    } from './ui/forms.js';
+import { createView } from './sql/ddl.js';
+import { parseQuery } from './sql/parser.js';
+import { fillWithSampleData } from './sql/sample.js';
+import {
+    CONSOLE_HISTORY_LIMIT,
+    consoleContents,
+    sqlTemplates
+    } from './ui/console.js';
 import {
     diagramContents,
     exportSVG,
@@ -65,10 +98,13 @@ import {
     escapeHTML
     } from './ui/html.js';
 import {
+    effectiveTab,
     explorerContents,
     initialLayout,
     paletteContents,
-    ribbonContents
+    panelTogglesContents,
+    ribbonContents,
+    ribbonTabsContents
     } from './ui/layout.js';
 import {
     OTHER_TYPE_OPTION,
@@ -91,7 +127,9 @@ import {
     showAlternateKeyDialog,
     showAssumptionDialog,
     showAssumptionsOverview,
-    showAccessDialog
+    showExportDialog,
+    showOpenDialog,
+    showProjectReport
     } from './ui/dialogs.js';
 import {
     buildDesignReport,
@@ -109,16 +147,62 @@ const autosaveKey = independentPractice
     ? validPracticeId ? `databasic.document.v1.practica.${practiceId}` : null
     : 'databasic.document.v1';
 
+/*
+ * What each viewer prefers to see: the panels shown, the sections folded and
+ * the width of the side column. Kept in this browser only; a private window
+ * or blocked storage simply starts from the defaults.
+ */
+const LAYOUT_KEY = 'databasic.layout.v1';
+const LAYOUT_DEFAULTS = {
+    panels: {shapes: true, sql: false},
+    folded: {shapes: false, tables: false, sql: false},
+    sidebarWidth: 240,
+    propertiesShown: true
+    };
+
+function readLayoutPreferences() {
+    try {
+        const stored = JSON.parse( globalThis.localStorage?.getItem( LAYOUT_KEY ) || '{}' );
+
+        return {
+            panels: {...LAYOUT_DEFAULTS.panels, ...(stored.panels || {})},
+            folded: {...LAYOUT_DEFAULTS.folded, ...(stored.folded || {})},
+            sidebarWidth: Number.isFinite( stored.sidebarWidth ) ? stored.sidebarWidth : LAYOUT_DEFAULTS.sidebarWidth,
+            propertiesShown: typeof stored.propertiesShown === 'boolean' ? stored.propertiesShown : LAYOUT_DEFAULTS.propertiesShown
+            };
+        }
+    catch {
+        return structuredClone( LAYOUT_DEFAULTS );
+        }
+    }
+
+function saveLayoutPreferences() {
+    try {
+        globalThis.localStorage?.setItem( LAYOUT_KEY, JSON.stringify( {
+            panels: state.panels,
+            folded: state.folded,
+            sidebarWidth: state.sidebarWidth,
+            propertiesShown: state.propertiesShown
+            } ) );
+        }
+    catch {
+        // Storage unavailable: the layout lasts for this visit only.
+        }
+    }
+
 const state = {
     examples: [],
-    model: exampleDocument(),
+    model: fillWithSampleData( exampleDocument() ),
     selectedId: null,
     selectedColumnId: null,
     category: 'definition',
     tab: 'database',
     tool: 'pointer',
     parentId: null,
-    propertiesShown: true,
+    console: {text: '', history: [], showAlgebra: true},
+    wizard: null,
+    formView: null,
+    ...readLayoutPreferences(),
     past: [],
     future: [],
     clipboard: null,
@@ -290,18 +374,17 @@ function render( preserveEditors = false ) {
         state.model.display.mode === 'chen'
             ? 'Diagrama · entidad-relación (Chen)'
             : state.model.display.mode === 'tables'
-                ? 'Tablas · Access'
+                ? 'Tablas · datos'
                 : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
-    document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Entidades y relaciones'
-            : state.model.display.mode === 'tables' ? 'Tablas de Access' : 'Tablas y vistas';
+            : state.model.display.mode === 'tables' ? 'Tablas de datos' : 'Tablas y vistas';
     document.querySelector( '#stencil-tip' ).textContent =
         state.model.display.mode === 'chen'
             ? 'Crea objetos conceptuales. Las restricciones pendientes también se guardan.'
             : state.model.display.mode === 'tables'
-                ? 'Las mismas tablas del relacional con los tipos y propiedades de Access. Selecciona un campo para ajustarlos.'
+                ? 'Las mismas tablas del relacional con sus tipos y propiedades físicas. Selecciona un campo para ajustarlos.'
                 : 'Arrastra una entidad al lienzo. Doble clic para editar sus columnas.';
 
     const viewSelect = document.querySelector( '#view-select' );
@@ -317,6 +400,8 @@ function render( preserveEditors = false ) {
         : 'Un documento · representaciones vinculadas';
     document.title = `${state.model.name} — DataBasic`;
     if (!preserveEditors) {
+        state.tab = effectiveTab( state.model.display.mode, state.tab );
+        document.querySelector( '#ribbon-tabs' ).innerHTML = ribbonTabsContents( state );
         document.querySelector( '#ribbon' ).innerHTML = ribbonContents( state );
         document.querySelector( '#entity-list' ).innerHTML = explorerContents( state );
         document.querySelector( '.shape-palette' ).innerHTML = paletteContents( state );
@@ -369,10 +454,40 @@ function render( preserveEditors = false ) {
         : state.model.relationships.find( item => item.id === state.selectedId )?.name || 'Listo';
 
     renderDiagram();
+    applyPanels();
     if (!preserveEditors) {
         renderPropertyPane();
+        renderConsole();
         }
     refreshIcons();
+    }
+
+/** Shows the panels and sections the viewer chose, and the width of the side column. */
+function applyPanels() {
+    const workspace = document.querySelector( '.workspace' );
+    const sideVisible = state.panels.shapes || state.panels.sql;
+
+    for (const [id, shown] of [['shapes', state.panels.shapes], ['sql', state.panels.sql]]) {
+        const section = document.querySelector( `.side-section[data-section="${id}"]` );
+
+        if (section) {
+            section.hidden = !shown;
+            }
+        }
+
+    for (const id of ['shapes', 'tables', 'sql']) {
+        const section = document.querySelector( `.side-section[data-section="${id}"]` );
+
+        section?.classList?.toggle( 'folded', Boolean( state.folded[id] ) );
+        section?.querySelector?.( '.side-heading' )?.setAttribute( 'aria-expanded', String( !state.folded[id] ) );
+        }
+
+    workspace?.classList?.toggle( 'side-hidden', !sideVisible );
+    app.style?.setProperty?.( '--sidebar-width', `${state.sidebarWidth}px` );
+    document.querySelector( '#panel-toggles' ).innerHTML = panelTogglesContents( state );
+    document.querySelector( '#properties-pane' ).hidden = !state.propertiesShown;
+    document.querySelector( '#pane-splitter' ).hidden = !state.propertiesShown;
+    document.querySelector( '.drawing-area' ).classList.toggle( 'properties-hidden', !state.propertiesShown );
     }
 
 function showSaveStatus( message ) {
@@ -757,6 +872,370 @@ async function autoLayout() {
     notify( 'Diagrama distribuido. Puedes deshacer para recuperar las posiciones anteriores.' );
     }
 
+/** Archivo → Propiedades: the document's name and the types its columns admit (chosen once per exercise). */
+function showDocumentProperties() {
+    openDialog(
+            'Propiedades del documento',
+            `<div class="dialog-fields">
+                <label>Nombre<input name="name" required maxlength="160" value="${escapeHTML( state.model.name )}"></label>
+                <label>Tipos de datos admitidos<select name="profile">
+                    <option value="course" ${state.model.profile === 'course' ? 'selected' : ''}>Curso · VARCHAR, CHAR, NUMBER, DATE</option>
+                    <option value="general" ${state.model.profile === 'general' ? 'selected' : ''}>General · todos los tipos</option></select></label>
+                <p class="field-hint">El perfil del curso solo admite los cuatro tipos de la práctica. Cambiarlo no convierte
+                    los tipos que ya tengas: si alguna columna usa otro tipo, se te dirá cuál.</p>
+            </div>`,
+            values => {
+                let next = changeDocument( state.model, document => { document.name = values.get( 'name' ).trim(); } );
+
+                if (values.get( 'profile' ) !== next.profile) {
+                    next = setModelProfile( next, values.get( 'profile' ) );
+                    }
+
+                commit( next );
+                }
+            );
+    }
+
+/* ---------- forms ---------- */
+
+/** Crear → Asistente para formularios: four steps over the selected table (or the first one). */
+function startFormWizard() {
+    const source = state.model.tables.find( table => table.id === state.selectedId )
+        || state.model.tables.find( table => table.kind === 'entity' )
+        || state.model.tables[0];
+
+    if (!source) {
+        notify( 'Crea primero una tabla para el formulario.' );
+        return;
+        }
+
+    state.wizard = {
+        step: 1,
+        sourceId: source.id,
+        fields: [],
+        layout: 'columnar',
+        title: source.name,
+        name: suggestedFormName( state.model, source )
+        };
+    showWizardStep();
+    }
+
+function showWizardStep() {
+    const step = wizardStep( state.model, state.wizard );
+
+    openDialog( 'Asistente para formularios', step.content, values => advanceWizard( values ), step.submitLabel );
+    }
+
+function advanceWizard( values ) {
+    const wizard = state.wizard;
+
+    if (wizard.step === 1) {
+        const sourceId = values.get( 'sourceId' );
+        const source = state.model.tables.find( table => table.id === sourceId );
+
+        if (sourceId !== wizard.sourceId && source) {
+            wizard.fields = [];
+            wizard.title = source.name;
+            wizard.name = suggestedFormName( state.model, source );
+            }
+
+        wizard.sourceId = sourceId;
+        }
+    else if (wizard.step === 2) {
+        const fields = values.getAll( 'field' );
+
+        if (!fields.length) {
+            throw new Error( 'Elige al menos un campo para el formulario.' );
+            }
+
+        wizard.fields = fields;
+        }
+    else if (wizard.step === 3) {
+        wizard.layout = values.get( 'layout' ) || 'columnar';
+        }
+    else {
+        const next = addForm( state.model, {
+            name: values.get( 'name' ),
+            title: values.get( 'title' ),
+            sourceId: wizard.sourceId,
+            fields: wizard.fields,
+            layout: wizard.layout
+            } );
+        const form = next.forms.at( -1 );
+
+        state.wizard = null;
+        commit( next );
+        openFormWindow( form.id, 0 );
+        notify( `Formulario ${form.name} creado. Se exporta con el módulo VBA de la base de datos.` );
+        return false;
+        }
+
+    wizard.step += 1;
+    showWizardStep();
+    return false;
+    }
+
+function currentForm() {
+    return documentForms( state.model ).find( form => form.id === state.formView?.formId ) || null;
+    }
+
+/** The window of a form at a record (null: a new, empty record). */
+function openFormWindow(
+        formId,
+        position
+        ) {
+    const form = documentForms( state.model ).find( item => item.id === formId );
+
+    if (!form) {
+        notify( 'Ese formulario ya no existe.' );
+        return;
+        }
+
+    const view = formWindow( state.model, form, position );
+
+    state.formView = {formId, position: view.position};
+    openDialog(
+            form.title,
+            view.content,
+            view.editable ? values => saveFormRecord( form, values ) : null,
+            state.formView.position === null ? 'Agregar registro' : 'Guardar registro'
+            );
+    }
+
+function recordCount( form ) {
+    return (state.model.data?.[form.sourceId] || []).length;
+    }
+
+function saveFormRecord(
+        form,
+        values
+        ) {
+    const adding = state.formView.position === null;
+    const cells = Object.fromEntries( form.fields.map( key => [key, values.get( key ) ?? ''] ) );
+    const result = saveRecord( state.model, form.sourceId, state.formView.position, cells );
+
+    commit( result.model );
+    openFormWindow( form.id, adding ? recordCount( form ) - 1 : state.formView.position );
+    notify( result.message );
+    return false;
+    }
+
+function showDialogError( message ) {
+    const box = document.querySelector( '#dialog #dialog-error' );
+
+    box.textContent = message;
+    box.hidden = false;
+    }
+
+/** Tabular and datasheet forms save one row with its own button. */
+function saveFormRow( row ) {
+    const form = currentForm();
+    const cells = {};
+
+    for (const input of document.querySelectorAll( `[data-form-row="${row}"]` )) {
+        cells[input.dataset.formField] = input.value;
+        }
+
+    try {
+        const result = saveRecord( state.model, form.sourceId, row, cells );
+
+        commit( result.model );
+        openFormWindow( form.id, row );
+        notify( result.message );
+        }
+    catch (error) {
+        showDialogError( error.message );
+        }
+    }
+
+function moveInForm( action ) {
+    const form = currentForm();
+
+    if (!form) {
+        return;
+        }
+
+    const total = recordCount( form );
+    const position = state.formView.position;
+    const target = {
+        'form-first': 0,
+        'form-previous': position === null ? total - 1 : Math.max( 0, position - 1 ),
+        'form-next': position === null ? 0 : Math.min( total - 1, position + 1 ),
+        'form-last': total - 1,
+        'form-new': null
+        }[action];
+
+    openFormWindow( form.id, target );
+    }
+
+function deleteFormRecord() {
+    const form = currentForm();
+
+    try {
+        const result = deleteRecord( state.model, form.sourceId, state.formView.position );
+
+        commit( result.model );
+        openFormWindow( form.id, Math.min( state.formView.position, recordCount( form ) - 1 ) );
+        notify( `${result.message} Deshacer lo recupera.` );
+        }
+    catch (error) {
+        showDialogError( error.message );
+        }
+    }
+
+function showFormsList() {
+    openDialog(
+            'Formularios',
+            `${formsList( state.model )}<div class="dialog-actions">${command( 'form-wizard', 'Asistente para formularios', 'layout-template', 'class="primary-button"' )}</div>`
+            );
+    }
+
+/* ---------- SQL console ---------- */
+
+/** Formas, SQL and Propiedades open or close from the title bar; the choice is remembered here. */
+function togglePanel( panel ) {
+    if (panel === 'properties') {
+        state.propertiesShown = !state.propertiesShown;
+        }
+    else if (panel === 'sql' && !state.panels.sql) {
+        openConsole();
+        return;
+        }
+    else if (['shapes', 'sql'].includes( panel )) {
+        state.panels[panel] = !state.panels[panel];
+        }
+
+    saveLayoutPreferences();
+    render();
+    }
+
+/** The SQL section of the side column: shown, unfolded, and wide enough for a datasheet. */
+function openConsole() {
+    state.panels.sql = true;
+    state.folded.sql = false;
+    state.sidebarWidth = Math.max( state.sidebarWidth, 420 );
+    saveLayoutPreferences();
+    render();
+    document.querySelector( '#sql-input' )?.focus?.();
+    }
+
+function renderConsole() {
+    const host = document.querySelector( '#sql-console' );
+
+    if (!host || !state.panels.sql) {
+        return;
+        }
+
+    const editor = consoleEditorState();
+
+    host.innerHTML = consoleContents( state );
+    restoreConsoleEditor( editor );
+    }
+
+/** The editor keeps its caret and scroll when the pane is drawn again. */
+function consoleEditorState() {
+    const input = document.querySelector( '#sql-input' );
+
+    if (!input || document.activeElement !== input) {
+        return null;
+        }
+
+    return {start: input.selectionStart, end: input.selectionEnd, scroll: input.scrollTop};
+    }
+
+function restoreConsoleEditor( editor ) {
+    const input = document.querySelector( '#sql-input' );
+
+    if (!editor || !input) {
+        return;
+        }
+
+    input.focus?.();
+    input.setSelectionRange?.( editor.start, editor.end );
+    input.scrollTop = editor.scroll;
+    }
+
+/** Runs the editor's SQL; a change to the document is one step of Deshacer. */
+function runConsole() {
+    const text = state.console.text;
+
+    if (!text.trim()) {
+        notify( 'Escribe una instrucción SQL en la consola.' );
+        return;
+        }
+
+    const result = runSql( state.model, text );
+
+    state.console.history = [{outputs: result.outputs}, ...state.console.history].slice( 0, CONSOLE_HISTORY_LIMIT );
+
+    if (result.changed) {
+        commit( result.model );
+        }
+
+    // A statement that changed nothing (UPDATE of no rows) leaves the document equal: commit draws nothing then.
+    renderConsole();
+    refreshIcons();
+
+    const failed = result.outputs.find( output => output.kind === 'error' );
+
+    notify( failed ? 'La consola se detuvo en un error.' : `${result.outputs.length} instrucción${result.outputs.length === 1 ? '' : 'es'} ejecutada${result.outputs.length === 1 ? '' : 's'}.` );
+    }
+
+function insertIntoConsole( text ) {
+    const input = document.querySelector( '#sql-input' );
+    const current = state.console.text;
+    const start = input?.selectionStart ?? current.length;
+    const end = input?.selectionEnd ?? current.length;
+
+    state.console.text = `${current.slice( 0, start )}${text}${current.slice( end )}`;
+    renderConsole();
+    refreshIcons();
+
+    const editor = document.querySelector( '#sql-input' );
+
+    editor?.focus?.();
+    editor?.setSelectionRange?.( start + text.length, start + text.length );
+    }
+
+/** Guardar como consulta: the editor's SELECT becomes a saved query (an Access query, a view of the model). */
+function saveConsoleQuery() {
+    let query;
+
+    try {
+        query = parseQuery( state.console.text );
+        }
+    catch (error) {
+        notify( `Para guardar una consulta, el editor debe tener un solo SELECT. ${error.message}` );
+        return;
+        }
+
+    openDialog(
+            'Guardar como consulta',
+            `<p>La consulta se guarda en el documento: aparece entre las tablas,
+                se puede usar en FROM y viaja a la base de datos exportada como consulta guardada.</p>
+            <label class="dialog-fields">Nombre de la consulta<input name="name" required maxlength="64"
+                pattern="[\\p{L}_][\\p{L}\\p{N}_]*" value="Consulta${state.model.tables.filter( item => item.kind === 'view' ).length + 1}"></label>`,
+            values => {
+                const result = createView( state.model, values.get( 'name' ).trim(), query );
+
+                commit( result.model );
+                notify( result.message );
+                }
+            );
+    }
+
+function fillSampleRows() {
+    const empty = state.model.tables.filter( table => table.kind === 'entity' && !(state.model.data?.[table.id] || []).length );
+
+    if (!empty.length) {
+        notify( 'Todas las tablas tienen ya filas de ejemplo; vacía una tabla para generar las suyas.' );
+        return;
+        }
+
+    commit( fillWithSampleData( state.model ) );
+    notify( `Filas de ejemplo en ${empty.length} tabla${empty.length === 1 ? '' : 's'}; cumplen claves, dominios y referencias.` );
+    }
+
 /** The diagrams of the memo as PNG figures for Word, drawn by the browser. */
 async function designFigures() {
     const figures = [];
@@ -796,7 +1275,7 @@ async function runDeliveryExport(
 
 function downloadMemoDocx() {
     return runDeliveryExport(
-            'la memoria Word',
+            'la memoria (.docx)',
             async () => {
                 const figures = await designFigures();
 
@@ -805,7 +1284,7 @@ function downloadMemoDocx() {
                         memoFilename( state.model ),
                         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                         );
-                notify( 'Memoria Word descargada. Ábrela en Word para revisarla o guardarla como PDF.' );
+                notify( 'Memoria .docx descargada. Ábrela en tu procesador de textos para revisarla o guardarla como PDF.' );
                 }
             );
     }
@@ -824,23 +1303,112 @@ function downloadDeliveryPackage() {
                         deliveryFilename( state.model ),
                         'application/zip'
                         );
-                notify( 'Paquete de entrega descargado. Sigue LEEME.txt para crear la base de datos de Access y añádela al .zip.' );
+                notify( 'Paquete de entrega descargado. Sigue LEEME.txt para crear la base de datos y añádela al .zip.' );
                 }
             );
     }
 
+/** The two drawings of a document: the entity-relationship diagram and the relational model. */
+function projectDiagrams( model ) {
+    return {
+        chen: exportSVG( setDiagramMode( model, 'chen' ) ),
+        relational: exportSVG( setDiagramMode( model, 'relational' ) )
+        };
+    }
+
 /** Both representations, drawn from the same document, illustrate the report. */
 function designDiagrams() {
+    const drawings = projectDiagrams( state.model );
+
     return [
-        {
-            title: 'Diagrama entidad-relación extendido (Chen)',
-            svg: exportSVG( setDiagramMode( state.model, 'chen' ) )
-            },
-        {
-            title: 'Diagrama relacional',
-            svg: exportSVG( setDiagramMode( state.model, 'relational' ) )
-            }
+        {title: 'Diagrama entidad-relación extendido (Chen)', svg: drawings.chen},
+        {title: 'Diagrama relacional', svg: drawings.relational}
         ];
+    }
+
+/* ---------- project folders: save and open ---------- */
+
+/** Guardar: the project folder in a ZIP, named after the project. */
+function saveProject() {
+    const project = projectZip( state.model, {diagrams: projectDiagrams( state.model )} );
+    const missing = project.skipped.map( item => item.name ).join( ', ' );
+
+    download( project.bytes, project.filename, 'application/zip' );
+    notify(
+            missing
+                ? `Proyecto guardado en ${project.filename}, sin ${missing}: ${project.skipped[0].reason}`
+                : `Proyecto guardado en ${project.filename}. Descomprímelo para trabajar sus archivos o súbelo a GitHub.`
+            );
+    }
+
+function reportNeedsAttention( report ) {
+    return report.files.some( file => ['warning', 'error'].includes( file.level ) )
+        || report.notes.some( item => item.level === 'warning' );
+    }
+
+/**
+ * Opens the project found among some files [{name, data}] and shows what
+ * was done with each file. Examples open quietly (with the JSON's name)
+ * unless something needs attention.
+ */
+function openProjectFiles(
+        entries,
+        fallbackName,
+        {name, quiet = false} = {}
+        ) {
+    const folder = projectFolder( entries, fallbackName );
+    const opened = openProject( folder, {diagrams: projectDiagrams, name: name === undefined ? folder.name : name} );
+
+    replaceCurrentDocument( opened.model );
+
+    if (!quiet || reportNeedsAttention( opened.report )) {
+        showProjectReport( opened.report );
+        }
+
+    return opened.model;
+    }
+
+async function openGitHubLink( link ) {
+    notify( 'Leyendo la carpeta de GitHub…' );
+
+    try {
+        const folder = await fetchGitHubFolder( link, isProjectFile );
+        const model = openProjectFiles( folder.files, folder.name );
+
+        notify( `Carpeta de GitHub abierta: ${model.name}.` );
+        }
+    catch (error) {
+        notify( `No se pudo abrir la carpeta de GitHub. ${error.message}` );
+        }
+    }
+
+/** A ZIP: the project folder it holds (DataBasic's, or any with the same files). */
+async function openZipFile( file ) {
+    const entries = await readZip( new Uint8Array( await file.arrayBuffer() ) );
+
+    openProjectFiles( entries, file.name.replace( /\.zip$/i, '' ) );
+    }
+
+/** A lone .databasic.json, as earlier versions saved the project. */
+async function openJSONFile( file ) {
+    if (file.size > 5_000_000) {
+        throw new Error( 'El archivo supera los 5 MB admitidos.' );
+        }
+
+    const model = parseDocument( await file.text() );
+
+    replaceCurrentDocument( model );
+    notify( `Proyecto abierto: ${model.name}` );
+    }
+
+/** A folder of the computer: only the files of the format are read. */
+async function openFolderFiles( files ) {
+    const wanted = files.filter( file => isProjectFile( file.webkitRelativePath || file.name ) );
+    const entries = await Promise.all( wanted.map(
+            async file => ({name: file.webkitRelativePath || file.name, data: new Uint8Array( await file.arrayBuffer() )})
+            ) );
+
+    openProjectFiles( entries, 'Proyecto' );
     }
 
 function showSQL() {
@@ -926,27 +1494,31 @@ async function act(
             render();
             break;
         case 'save':
+            saveProject();
+            break;
+        case 'save-json':
             download( serializeDocument( state.model ), filename( 'databasic.json' ), 'application/json' );
-            notify( 'Copia del ejercicio descargada.' );
+            notify( 'Proyecto descargado en un solo archivo .databasic.json.' );
             break;
         case 'open':
+            showOpenDialog( link => { openGitHubLink( link ); } );
+            break;
+        case 'open-file-pick':
+            closeDialog();
             document.querySelector( '#open-file' ).click();
+            break;
+        case 'open-folder-pick':
+            closeDialog();
+            document.querySelector( '#open-folder' ).click();
             break;
         case 'new':
             replaceCurrentDocument( emptyDocument() );
             break;
         case 'example':
-            replaceCurrentDocument( exampleDocument() );
+            replaceCurrentDocument( fillWithSampleData( exampleDocument() ) );
             break;
         case 'rename':
-            openDialog(
-                    'Nombre del documento',
-                    `<label class="dialog-fields">Nombre<input name="name" required maxlength="160"
-                        value="${escapeHTML( state.model.name )}"></label>`,
-                    values => commit(
-                            changeDocument( state.model, next => { next.name = values.get( 'name' ).trim(); } )
-                            )
-                    );
+            showDocumentProperties();
             break;
         case 'undo':
             undo();
@@ -969,6 +1541,7 @@ async function act(
             break;
         case 'properties':
             state.propertiesShown = !state.propertiesShown;
+            saveLayoutPreferences();
             render();
             break;
         case 'display':
@@ -993,7 +1566,8 @@ async function act(
             download( exportVDX( state.model ), filename( 'vdx' ), 'application/xml' );
             break;
         case 'access':
-            showAccessDialog( state.model );
+        case 'export':
+            showExportDialog( state.model );
             break;
         case 'reset-physical':
             resetPhysical( target.dataset.scope, target.dataset.target );
@@ -1087,11 +1661,64 @@ async function act(
                     filename( 'memoria.html' ),
                     'text/html'
                     );
-            notify( 'Memoria del diseño descargada. Word la abre como documento.' );
+            notify( 'Memoria del diseño descargada en HTML.' );
             break;
         case 'report-docx':
             closeDialog();
             downloadMemoDocx();
+            break;
+        case 'sql-console':
+            openConsole();
+            break;
+        case 'form-wizard':
+            startFormWizard();
+            break;
+        case 'form-wizard-back':
+            state.wizard.step = Math.max( 1, state.wizard.step - 1 );
+            showWizardStep();
+            break;
+        case 'forms':
+            showFormsList();
+            break;
+        case 'form-remove':
+            commit( removeForm( state.model, target.dataset.formId ) );
+            showFormsList();
+            break;
+        case 'form-first':
+        case 'form-previous':
+        case 'form-next':
+        case 'form-last':
+        case 'form-new':
+            moveInForm( action );
+            break;
+        case 'form-delete':
+            deleteFormRecord();
+            break;
+        case 'form-save-row':
+            saveFormRow( Number( target.dataset.row ) );
+            break;
+        case 'toggle-panel':
+            togglePanel( target?.dataset.panel );
+            break;
+        case 'fold-section':
+            state.folded[target?.dataset.section] = !state.folded[target?.dataset.section];
+            saveLayoutPreferences();
+            applyPanels();
+            refreshIcons();
+            break;
+        case 'sql-run':
+            runConsole();
+            break;
+        case 'sql-clear':
+            state.console.history = [];
+            renderConsole();
+            refreshIcons();
+            break;
+        case 'sql-save-view':
+            saveConsoleQuery();
+            break;
+        case 'sample-data':
+            fillSampleRows();
             break;
         case 'author':
             showAuthorDialog( state, commit );
@@ -1129,6 +1756,30 @@ async function act(
     }
 
 function fieldChanged( target ) {
+    if (target.dataset.sqlInput !== undefined) {
+        state.console.text = target.value;
+        return;
+        }
+
+    if (target.dataset.sqlAlgebra !== undefined) {
+        state.console.showAlgebra = Boolean( target.checked );
+        renderConsole();
+        refreshIcons();
+        return;
+        }
+
+    if (target.dataset.sqlTemplate !== undefined) {
+        const template = sqlTemplates( state.model )[Number( target.value )];
+
+        if (template) {
+            state.console.text = state.console.text.trim() ? `${state.console.text.trimEnd()}\n\n${template[1]}` : template[1];
+            renderConsole();
+            refreshIcons();
+            }
+
+        return;
+        }
+
     if (target.dataset.view !== undefined) {
         changeRepresentation( target.value );
         return;
@@ -1377,7 +2028,7 @@ function relationshipPick( tableId ) {
     notify( 'Relación creada. Selecciona Varios para ajustar cardinalidad y opcionalidad.' );
     }
 
-/** Column editing happens in Columnas, or in Campos de Access in the Tablas view. */
+/** Column editing happens in Columnas, or in Campos de datos in the Tablas view. */
 function columnsCategory() {
     return state.model.display.mode === 'tables' ? 'fields' : 'columns';
     }
@@ -1442,6 +2093,7 @@ function changeRepresentation( mode ) {
     state.tool = 'pointer';
     state.parentId = null;
     state.category = categoryForMode( mode, state.category );
+    state.tab = effectiveTab( mode, state.tab );
     commit( setDiagramMode( state.model, mode ) );
 
     if (state.viewports[mode]) {
@@ -1634,8 +2286,16 @@ function keyboard( event ) {
         return;
         }
 
-    const editing = event.target.closest( 'input, textarea, select, [contenteditable]' );
     const modifier = event.ctrlKey || event.metaKey;
+
+    if (event.target.dataset?.sqlInput !== undefined && modifier && event.key === 'Enter') {
+        event.preventDefault();
+        state.console.text = event.target.value;
+        runConsole();
+        return;
+        }
+
+    const editing = event.target.closest( 'input, textarea, select, [contenteditable]' );
     let action = null;
 
     if (modifier && event.key.toLowerCase() === 's') {
@@ -1704,6 +2364,22 @@ document.addEventListener(
                     tab.setAttribute( 'aria-selected', String( tab === button ) );
                     }
                 }
+            else if (button.dataset.formOpen) {
+                openFormWindow( button.dataset.formOpen, 0 );
+                }
+            else if (button.dataset.formGoto !== undefined) {
+                openFormWindow( state.formView.formId, Number( button.dataset.formGoto ) );
+                }
+            else if (button.dataset.sqlInsert !== undefined) {
+                insertIntoConsole( button.dataset.sqlInsert );
+                }
+            else if (button.dataset.sqlLoad) {
+                const view = state.model.tables.find( item => item.id === button.dataset.sqlLoad );
+
+                state.console.text = view ? `${view.definition.trim().replace( /;?$/, ';' )}` : state.console.text;
+                renderConsole();
+                refreshIcons();
+                }
             else if (button.dataset.action) {
                 act( button.dataset.action, button ).catch( error => notify( error.message ) );
                 }
@@ -1745,6 +2421,15 @@ document.addEventListener(
         );
 
 document.querySelector( '#properties-body' ).addEventListener(
+        'input',
+        event => {
+            if (event.target.dataset?.sqlInput !== undefined) {
+                state.console.text = event.target.value;
+                }
+            }
+        );
+
+document.querySelector( '#properties-body' ).addEventListener(
         'focusin',
         event => {
             const row = event.target.closest( '[data-column-row]' );
@@ -1770,21 +2455,29 @@ document.querySelector( '#open-file' ).addEventListener(
                 }
 
             try {
-                if (file.size > 5_000_000) {
-                    throw new Error( 'El archivo supera los 5 MB admitidos.' );
+                if (/\.zip$/i.test( file.name )) {
+                    await openZipFile( file );
                     }
-
-                const model = parseDocument( await file.text() );
-
-                state.selectedId = null;
-                state.parentId = null;
-                state.tool = 'pointer';
-                commit( model );
-                focusDiagram();
-                notify( `Ejercicio abierto: ${model.name}` );
+                else {
+                    await openJSONFile( file );
+                    }
                 }
             catch (error) {
-                notify( `No se pudo abrir el ejercicio. ${error.message}` );
+                notify( `No se pudo abrir el proyecto. ${error.message}` );
+                }
+
+            event.target.value = '';
+            }
+        );
+
+document.querySelector( '#open-folder' )?.addEventListener(
+        'change',
+        async event => {
+            try {
+                await openFolderFiles( [...event.target.files] );
+                }
+            catch (error) {
+                notify( `No se pudo abrir la carpeta. ${error.message}` );
                 }
 
             event.target.value = '';
@@ -1867,6 +2560,48 @@ canvas.addEventListener(
             }
         );
 
+/* The edge between the side column and the drawing: drag it, or use the arrow keys, to change the width. */
+const sideSplitter = document.querySelector( '#side-splitter' );
+let sideResize = null;
+
+function setSidebarWidth( width ) {
+    state.sidebarWidth = Math.round( Math.max( 180, Math.min( (globalThis.innerWidth || 1400) * 0.6, width ) ) );
+    app.style?.setProperty?.( '--sidebar-width', `${state.sidebarWidth}px` );
+    }
+
+sideSplitter.addEventListener(
+        'pointerdown',
+        event => {
+            sideResize = {x: event.clientX, width: state.sidebarWidth};
+            sideSplitter.setPointerCapture?.( event.pointerId );
+            }
+        );
+sideSplitter.addEventListener(
+        'pointermove',
+        event => {
+            if (sideResize) {
+                setSidebarWidth( sideResize.width + event.clientX - sideResize.x );
+                }
+            }
+        );
+sideSplitter.addEventListener(
+        'pointerup',
+        () => {
+            sideResize = null;
+            saveLayoutPreferences();
+            }
+        );
+sideSplitter.addEventListener(
+        'keydown',
+        event => {
+            if (['ArrowLeft', 'ArrowRight'].includes( event.key )) {
+                event.preventDefault();
+                setSidebarWidth( state.sidebarWidth + (event.key === 'ArrowRight' ? 30 : -30) );
+                saveLayoutPreferences();
+                }
+            }
+        );
+
 const splitter = document.querySelector( '#pane-splitter' );
 let resizeStart = null;
 
@@ -1908,36 +2643,42 @@ splitter.addEventListener(
             }
         );
 
-/** The built-in example or one of the files listed in examples/index.json. */
-async function openExample( file ) {
-    if (!file) {
+/** The built-in example or one of the folders listed in examples/index.json. */
+async function openExample( folderName ) {
+    if (!folderName) {
         return;
         }
 
-    if (file === '__biblioteca__') {
-        replaceCurrentDocument( exampleDocument() );
+    if (folderName === '__biblioteca__') {
+        replaceCurrentDocument( fillWithSampleData( exampleDocument() ) );
         notify( 'Ejemplo de biblioteca abierto.' );
         return;
         }
 
-    const entry = state.examples.find( item => item.file === file );
+    const entry = state.examples.find( item => item.folder === folderName );
 
     if (!entry) {
         throw new Error( 'Ese ejemplo no está en la lista.' );
         }
 
-    const response = await fetch( `./examples/${encodeURIComponent( entry.file )}` );
+    const files = await Promise.all( entry.files.map( async name => {
+        const response = await fetch( `./examples/${encodeURIComponent( entry.folder )}/${encodeURIComponent( name )}` );
 
-    if (!response.ok) {
-        throw new Error( `No se pudo cargar el ejemplo ${entry.name}.` );
-        }
+        if (!response.ok) {
+            throw new Error( `No se pudo cargar ${name} del ejemplo ${entry.name}.` );
+            }
 
-    replaceCurrentDocument( parseDocument( await response.text() ) );
+        return {name, data: new Uint8Array( await response.arrayBuffer() )};
+        } ) );
+
+    openProjectFiles( files, entry.folder, {name: null, quiet: true} );
     notify( `Ejemplo abierto: ${entry.name}.` );
     }
 
 /** The list is optional: without it, Ayuda → Ejemplos offers only the built-in one. */
 async function loadExampleIndex() {
+    const known = new Set( PROJECT_FILES.map( file => file.name ) );
+
     try {
         const response = await fetch( './examples/index.json' );
 
@@ -1947,10 +2688,12 @@ async function loadExampleIndex() {
 
         const index = await response.json();
 
-        state.examples = (index.examples || []).filter(
-                item => typeof item.file === 'string' && /^[\w.-]+\.databasic\.json$/.test( item.file )
-                    && typeof item.name === 'string'
-                );
+        state.examples = (index.examples || [])
+            .filter(
+                    item => typeof item.folder === 'string' && /^[\w.-]+$/.test( item.folder )
+                        && typeof item.name === 'string' && Array.isArray( item.files )
+                    )
+            .map( item => ({...item, files: item.files.filter( name => known.has( name ) )}) );
         render();
         }
     catch {

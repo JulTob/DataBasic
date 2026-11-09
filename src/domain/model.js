@@ -196,6 +196,15 @@ function ensurePhysical( model ) {
  * the Access files, but they never change the model.
  */
 export const DATA_ROW_LIMIT = 500;
+
+/*
+ * Forms over a table or a saved query: {id, name, title, sourceId, fields,
+ * layout}. For a table, fields are column ids; for a query, the names of its
+ * result fields. Layouts: columnar (one record), tabular (one row per record)
+ * and datasheet (a grid).
+ */
+export const FORM_LIMIT = 100;
+export const FORM_LAYOUTS = ['columnar', 'tabular', 'datasheet'];
 export const DATA_CELL_LIMIT = 500;
 
 /** Older files have no rows; they read as empty datasheets. */
@@ -359,6 +368,7 @@ export function changeDocument(
 
     operation( next );
     synchronizeMaterializedConcepts( next );
+    removeOrphanFormParts( next );
 
     const errors = validateDocument( next )
         .filter( issue => issue.level === 'error' );
@@ -1268,6 +1278,48 @@ export function setDataRows(
             );
     }
 
+/**
+ * The sample rows of every table at once, as one operation: what a SQL
+ * statement changes in several tables (a cascade) is undone in one step.
+ */
+export function replaceDocumentData(
+        model,
+        data
+        ) {
+    return changeDocument(
+            model,
+            next => {
+                next.data = {};
+
+                for (const [tableId, rows] of Object.entries( data )) {
+                    requireTable( next, tableId );
+
+                    if (rows.length > DATA_ROW_LIMIT) {
+                        throw new Error( `La hoja de datos admite hasta ${DATA_ROW_LIMIT} filas por tabla.` );
+                        }
+
+                    if (rows.length) {
+                        next.data[tableId] = structuredClone( rows );
+                        }
+                    }
+                }
+            );
+    }
+
+/** True when the table comes from the Chen diagram: its structure is edited there, not in the table. */
+export function isGeneratedTable(
+        model,
+        tableId
+        ) {
+    const table = model.tables.find( item => item.id === tableId );
+    const columnIds = new Set( (table?.columns || []).map( column => column.id ) );
+
+    return (model.traces || []).some(
+            trace => trace.targetKind === 'table' && trace.targetId === tableId
+                || trace.targetKind === 'column' && columnIds.has( trace.targetId )
+            );
+    }
+
 export function exampleDocument() {
     let model = emptyDocument();
 
@@ -1775,6 +1827,25 @@ function validateDocumentShape( model ) {
             validateDataShape( model.data, {demand, list} );
             }
 
+        if ('forms' in model) {
+            list( model.forms, FORM_LIMIT, 'Formularios' );
+
+            const formNames = new Set();
+
+            for (const form of model.forms) {
+                identify( form );
+                text( form, 'name', 64 );
+                text( form, 'title', 160 );
+                text( form, 'sourceId', 100 );
+                demand( FORM_LAYOUTS.includes( form.layout ), 'Formulario: la distribución debe ser columnar, tabular o datasheet.' );
+                list( form.fields, 200, 'Campos del formulario' );
+                demand( form.fields.every( field => typeof field === 'string' && field.length <= 160 ), 'Formulario: campos no válidos.' );
+                demand( model.tables.some( table => table.id === form.sourceId ), `Formulario ${form.name}: su tabla o consulta ya no existe.` );
+                demand( !formNames.has( form.name.toLowerCase() ), `Ya hay un formulario llamado ${form.name}.` );
+                formNames.add( form.name.toLowerCase() );
+                }
+            }
+
         list( model.traces, 10000, 'Trazas' );
 
         for (const trace of model.traces) {
@@ -1903,7 +1974,7 @@ function validatePhysicalValue(
             text( overrides, key, 100 );
             break;
         case 'accessType':
-            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos de Access no válido.' );
+            demand( ACCESS_TYPES.includes( value ), 'Capa física: tipo de datos físico no válido.' );
             break;
         case 'fieldSize':
             demand(
@@ -2031,6 +2102,23 @@ function removeOrphanPhysical( model ) {
     }
 
 /** Rows of a removed table, and cells of a removed column, go with them. */
+/** A form whose table or query is gone disappears; a removed column leaves its forms. */
+function removeOrphanFormParts( model ) {
+    if (!model.forms) {
+        return;
+        }
+
+    model.forms = model.forms.filter( form => model.tables.some( table => table.id === form.sourceId ) );
+
+    for (const form of model.forms) {
+        const source = model.tables.find( table => table.id === form.sourceId );
+
+        if (source.kind === 'entity') {
+            form.fields = form.fields.filter( id => source.columns.some( column => column.id === id ) );
+            }
+        }
+    }
+
 function removeOrphanData( model ) {
     if (!model.data) {
         return;

@@ -1,0 +1,1409 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+        width="2312" height="3108"
+        viewBox="84 -456 2312 3108">
+        <title>Lonja de Santa Pola · práctica 1 (2025-2026)</title>
+        <rect x="84" y="-456" width="2312"
+            height="3108" fill="white"/>
+        <style>
+    .table-shadow { fill: #254b3e0c; }
+    .table-body { fill: var(--element-fill, #fff); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .table-title { font: 650 15px system-ui, sans-serif; fill: #234b3e; }
+    .column-hit { fill: transparent; }
+    .column-target { cursor: pointer; outline: none; }
+    .column-target:hover .column-hit,
+    .column-target:focus .column-hit,
+    .selected-column .column-hit { fill: #edf7f2; }
+    .field-label { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .field-required { font-weight: 600; }
+    .key-label { font: 650 10px system-ui, sans-serif; fill: #8a5c14; }
+    .type-label { font: 14px system-ui, sans-serif; fill: #526e60; }
+    .primary-divider { stroke: #b8cec2; stroke-width: 1.4; }
+    .empty-columns { font: italic 13px system-ui, sans-serif; fill: #718379; }
+    .selection-outline { fill: none; stroke: #16805e; stroke-width: 2; }
+    .connect-parent .table-body,
+    .connect-parent .chen-shape { stroke: #bf771c; stroke-width: 3; }
+    .entity { cursor: move; outline: none; }
+    .entity:focus .table-body { stroke: #16805e; stroke-width: 2.5; }
+    .relationship { color: #607e70; cursor: pointer; outline: none; }
+    .relationship-caption { cursor: move; }
+    .relationship.selected, .relationship:focus { color: #147554; }
+    .relation-line { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .selected .relation-line { stroke-width: 2.4; }
+    .relation-hit { fill: none; stroke: transparent; stroke-width: 18; }
+    .relation-label {
+        font: 14px system-ui, sans-serif;
+        fill: currentColor;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        }
+    .label-leader {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2;
+        stroke-dasharray: 3 3;
+        }
+    .label-anchor { fill: currentColor; }
+    .cardinality-letter { font-weight: 650; fill: #243e33; }
+    .subset-marker { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .label-background { fill: white; stroke: #c7d8ce; stroke-width: 0.8; }
+    .access-header { fill: var(--element-header, #dfe9e3); stroke: var(--element-color, #78988b); stroke-width: 1.5; }
+    .access-title { font: 650 14px system-ui, sans-serif; fill: #234b3e; }
+    .access-key { fill: none; stroke: #b58a2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .access-end { font: 700 13px system-ui, sans-serif; fill: #243e33; }
+    .child-dot { fill: currentColor; }
+    .optional-parent { fill: white; stroke: currentColor; stroke-width: 1.7; }
+    .cardinality-code { font: 650 13px system-ui, sans-serif; fill: currentColor; }
+    .chen-node { cursor: move; outline: none; }
+    .chen-shape { fill: var(--element-fill, #fbfefc); stroke: var(--element-color, #6e9482); stroke-width: 1.6; }
+    .chen-inner { fill: none; stroke: var(--element-color, #6e9482); stroke-width: 1.4; }
+    .chen-node.selected .chen-shape,
+    .chen-node:focus .chen-shape { stroke: #16805e; stroke-width: 2.7; }
+    .chen-name { font: 14px system-ui, sans-serif; fill: #243e33; }
+    .chen-entity .chen-name { font-weight: 650; font-size: 15px; }
+    .centered-label { text-anchor: middle; }
+    .attribute-key { text-decoration: underline; }
+    .attribute-partial-key { text-decoration: underline dashed; }
+    .pending-label { font: 12px system-ui, sans-serif; fill: #8a5c14; }
+    </style><g data-diagram-kind="relationship" data-diagram-id="3afd0560-c468-4984-8aa4-2da039d4cd5d" data-relation-id="3afd0560-c468-4984-8aa4-2da039d4cd5d"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Credito_Comprador">
+        <title>Comprador  Credito;
+            Credito  Comprador</title>
+        <path class="relation-hit" d="M1694.4,732 L1889.7352112676056,732 L1889.7352112676056,376 L2085.070422535211,376"/>
+        <path class="relation-line" d="M1694.4,732 L1889.7352112676056,732 L1889.7352112676056,376 L2085.070422535211,376"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="2077.070422535211" cy="376" r="4.5"/>
+        <text data-marker="child-cardinality" x="2063.070422535211"
+            y="370" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="c6760078-c594-426c-9167-0303227b6635" data-relation-id="c6760078-c594-426c-9167-0303227b6635"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Contado_Comprador">
+        <title>Comprador  Contado;
+            Contado  Comprador</title>
+        <path class="relation-hit" d="M1720,830 L1900,830 L1900,782 L2040,782"/>
+        <path class="relation-line" d="M1720,830 L1900,830 L1900,782 L2040,782"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="2032" cy="782" r="4.5"/>
+        <text data-marker="child-cardinality" x="2018"
+            y="776" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="152ea135-f8d5-4503-bec8-75bec38aafe7" data-relation-id="152ea135-f8d5-4503-bec8-75bec38aafe7"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Factura_barco_Factura">
+        <title>Factura  Factura_barco;
+            Factura_barco  Factura</title>
+        <path class="relation-hit" d="M836.8,1852 L628.8225352112676,1852 L628.8225352112676,1400 L340.84507042253523,1400"/>
+        <path class="relation-line" d="M836.8,1852 L628.8225352112676,1852 L628.8225352112676,1400 L340.84507042253523,1400"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="348.84507042253523" cy="1400" r="4.5"/>
+        <text data-marker="child-cardinality" x="362.84507042253523"
+            y="1414" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="df9932f0-fbc6-4a18-bde1-ee155c1bb285" data-relation-id="df9932f0-fbc6-4a18-bde1-ee155c1bb285"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Factura_comprador_Factura">
+        <title>Factura  Factura_comprador;
+            Factura_comprador  Factura</title>
+        <path class="relation-hit" d="M1006.6666666666666,1852 L1297.450980392157,1852 L1297.450980392157,1448 L1468.235294117647,1448"/>
+        <path class="relation-line" d="M1006.6666666666666,1852 L1297.450980392157,1852 L1297.450980392157,1448 L1468.235294117647,1448"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1460.235294117647" cy="1448" r="4.5"/>
+        <text data-marker="child-cardinality" x="1446.235294117647"
+            y="1442" text-anchor="middle" class="cardinality-code">Z</text></g><g data-diagram-kind="relationship" data-diagram-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072" data-relation-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_De_especie_especie">
+        <title>Especie De_especie Lote;
+            Lote especie Especie</title>
+        <path class="relation-hit" d="M920,328 L920,610 L920,610 L920,732"/>
+        <path class="relation-line" d="M920,328 L920,610 L920,610 L920,732"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="920" cy="724" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="8ccf546c-6fca-4674-9b69-450e86d3f66a" data-relation-id="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Capturado_por_barco">
+        <title>Barco Capturado_por Lote;
+            Lote barco Barco</title>
+        <path class="relation-hit" d="M440,890 L700,890 L700,914 L760,914"/>
+        <path class="relation-line" d="M440,890 L700,890 L700,914 L760,914"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="752" cy="914" r="4.5"/>
+        <text data-marker="child-cardinality" x="738"
+            y="908" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="9f623937-3399-426b-8cfc-2d6be174d94e" data-relation-id="9f623937-3399-426b-8cfc-2d6be174d94e"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Faena_barco">
+        <title>Barco Faena Faena;
+            Faena barco Barco</title>
+        <path class="relation-hit" d="M280,732 L280,442 L280,442 L280,-88"/>
+        <path class="relation-line" d="M280,732 L280,442 L280,442 L280,-88"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="-80" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="0384ed95-ba53-4c7f-942a-edc13164108b" data-relation-id="0384ed95-ba53-4c7f-942a-edc13164108b"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Faena_caladero">
+        <title>Caladero Faena Faena;
+            Faena caladero Caladero</title>
+        <path class="relation-hit" d="M280,172 L280,182 L280,182 L280,-88"/>
+        <path class="relation-line" d="M280,172 L280,182 L280,182 L280,-88"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="-80" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="61b32ade-da41-408e-bd5f-5d9579fac058" data-relation-id="61b32ade-da41-408e-bd5f-5d9579fac058"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Faena_especie">
+        <title>Especie Faena Faena;
+            Faena especie Especie</title>
+        <path class="relation-hit" d="M820.952380952381,172 L790.4761904761905,172 L790.4761904761905,-120 L440,-120"/>
+        <path class="relation-line" d="M820.952380952381,172 L790.4761904761905,172 L790.4761904761905,-120 L440,-120"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="448" cy="-120" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="dc95e543-c8c9-4f6b-a089-436d641e3452" data-relation-id="dc95e543-c8c9-4f6b-a089-436d641e3452"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Adjudicacion_lote">
+        <title>Lote Adjudicacion Adjudicacion;
+            Adjudicacion lote Lote</title>
+        <path class="relation-hit" d="M1080,762 L1080,749 L1458,749 L1458,376"/>
+        <path class="relation-line" d="M1080,762 L1080,749 L1458,749 L1458,376"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1458" cy="384" r="4.5"/>
+        <text data-marker="child-cardinality" x="1448"
+            y="402" text-anchor="middle" class="cardinality-code">1</text></g><g data-diagram-kind="relationship" data-diagram-id="a9fba130-5ce3-4eec-8669-53f1df56e26b" data-relation-id="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Adjudicacion_comprador">
+        <title>Comprador Adjudicacion Adjudicacion;
+            Adjudicacion comprador Comprador</title>
+        <path class="relation-hit" d="M1560,732 L1560,754 L1560,754 L1560,376"/>
+        <path class="relation-line" d="M1560,732 L1560,754 L1560,754 L1560,376"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1560" cy="384" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="611b17da-c757-46ee-9499-774c431427db" data-relation-id="611b17da-c757-46ee-9499-774c431427db"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Emitida_a_comprador">
+        <title>Comprador Emitida_a Factura_comprador;
+            Factura_comprador comprador Comprador</title>
+        <path class="relation-hit" d="M1560,984 L1560,1358 L1560,1358 L1560,1292"/>
+        <path class="relation-line" d="M1560,984 L1560,1358 L1560,1358 L1560,1292"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1560" cy="1300" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="d78c2d22-1739-4f03-afba-4bd555bc9738" data-relation-id="d78c2d22-1739-4f03-afba-4bd555bc9738"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Incluye_factura">
+        <title>Factura_comprador Incluye Incluye;
+            Incluye factura Factura_comprador</title>
+        <path class="relation-hit" d="M1561.35,1448 L1561.35,1890 L1568.1195652173913,1890 L1568.1195652173913,1852"/>
+        <path class="relation-line" d="M1561.35,1448 L1561.35,1890 L1568.1195652173913,1890 L1568.1195652173913,1852"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1568.1195652173913" cy="1860" r="4.5"/>
+        <text data-marker="child-cardinality" x="1558.1195652173913"
+            y="1878" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27" data-relation-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Incluye_lote">
+        <title>Lote Incluye Incluye;
+            Incluye lote Lote</title>
+        <path class="relation-hit" d="M1053.85625,1128 L1053.85625,1750 L1533.671370967742,1750 L1533.671370967742,1852"/>
+        <path class="relation-line" d="M1053.85625,1128 L1053.85625,1750 L1533.671370967742,1750 L1533.671370967742,1852"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="1533.671370967742" cy="1844" r="4.5"/>
+        <text data-marker="child-cardinality" x="1543.671370967742"
+            y="1834" text-anchor="middle" class="cardinality-code">1</text></g><g data-diagram-kind="relationship" data-diagram-id="16993a98-2969-4863-9043-a4672dc1fe7d" data-relation-id="16993a98-2969-4863-9043-a4672dc1fe7d"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Emitida_por_barco">
+        <title>Barco Emitida_por Factura_barco;
+            Factura_barco barco Barco</title>
+        <path class="relation-hit" d="M280,1032 L280,1442 L280,1442 L280,1292"/>
+        <path class="relation-line" d="M280,1032 L280,1442 L280,1442 L280,1292"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="280" cy="1300" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df" data-relation-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Provision_factura">
+        <title>Factura_barco Provision Provision;
+            Provision factura Factura_barco</title>
+        <path class="relation-hit" d="M280.89338235294116,1400 L280.89338235294116,1926 L288.15625,1926 L288.15625,1852"/>
+        <path class="relation-line" d="M280.89338235294116,1400 L280.89338235294116,1926 L288.15625,1926 L288.15625,1852"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="288.15625" cy="1860" r="4.5"/>
+        <text data-marker="child-cardinality" x="278.15625"
+            y="1878" text-anchor="middle" class="cardinality-code">P</text></g><g data-diagram-kind="relationship" data-diagram-id="316d8a29-8f80-42f9-adbf-1bab94920909" data-relation-id="316d8a29-8f80-42f9-adbf-1bab94920909"
+        data-notation="idef1x" data-identifying="true"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Provision_lote">
+        <title>Lote Provision Provision;
+            Provision lote Lote</title>
+        <path class="relation-hit" d="M789.85625,1128 L789.85625,1810 L323.34879032258067,1810 L323.34879032258067,1852"/>
+        <path class="relation-line" d="M789.85625,1128 L789.85625,1810 L323.34879032258067,1810 L323.34879032258067,1852"
+            />
+        <circle data-marker="child-dot" class="child-dot"
+        cx="323.34879032258067" cy="1844" r="4.5"/>
+        <text data-marker="child-cardinality" x="333.34879032258067"
+            y="1834" text-anchor="middle" class="cardinality-code">1</text></g><g data-diagram-kind="relationship" data-diagram-id="46aa044f-0c20-4022-b692-f9dcc6ca4835" data-relation-id="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+        data-notation="idef1x" data-identifying="false"
+        class="relationship "
+        role="button" tabindex="0" aria-label="Relación FK_Salda_factura">
+        <title>Factura Salda Pago;
+            Pago factura Factura</title>
+        <path class="relation-hit" d="M920,2008 L920,2550 L920,2550 L920,2412"/>
+        <path class="relation-line" d="M920,2008 L920,2550 L920,2550 L920,2412"
+            stroke-dasharray="7 5"/>
+        <circle data-marker="child-dot" class="child-dot"
+        cx="920" cy="2420" r="4.5"/>
+        </g><g data-diagram-kind="relationship" data-diagram-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072" data-relation-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+        class="relationship ">
+        <path data-label-leader="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M920,469 L920,451"/>
+                    <circle data-label-anchor="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+                        cx="920" cy="469" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="8ccf546c-6fca-4674-9b69-450e86d3f66a" data-relation-id="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+        class="relationship ">
+        <path data-label-leader="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M570,890 L570,872"/>
+                    <circle data-label-anchor="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+                        cx="570" cy="890" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="9f623937-3399-426b-8cfc-2d6be174d94e" data-relation-id="9f623937-3399-426b-8cfc-2d6be174d94e"
+        class="relationship ">
+        <path data-label-leader="9f623937-3399-426b-8cfc-2d6be174d94e"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280,177 L280,130"/>
+                    <circle data-label-anchor="9f623937-3399-426b-8cfc-2d6be174d94e"
+                        cx="280" cy="177" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="0384ed95-ba53-4c7f-942a-edc13164108b" data-relation-id="0384ed95-ba53-4c7f-942a-edc13164108b"
+        class="relationship ">
+        <path data-label-leader="0384ed95-ba53-4c7f-942a-edc13164108b"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280,47 L280,29"/>
+                    <circle data-label-anchor="0384ed95-ba53-4c7f-942a-edc13164108b"
+                        cx="280" cy="47" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="61b32ade-da41-408e-bd5f-5d9579fac058" data-relation-id="61b32ade-da41-408e-bd5f-5d9579fac058"
+        class="relationship ">
+        <path data-label-leader="61b32ade-da41-408e-bd5f-5d9579fac058"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M615.2380952380952,-120 L615.2380952380952,-138"/>
+                    <circle data-label-anchor="61b32ade-da41-408e-bd5f-5d9579fac058"
+                        cx="615.2380952380952" cy="-120" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="dc95e543-c8c9-4f6b-a089-436d641e3452" data-relation-id="dc95e543-c8c9-4f6b-a089-436d641e3452"
+        class="relationship ">
+        <path data-label-leader="dc95e543-c8c9-4f6b-a089-436d641e3452"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1269,749 L1269,731"/>
+                    <circle data-label-anchor="dc95e543-c8c9-4f6b-a089-436d641e3452"
+                        cx="1269" cy="749" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="a9fba130-5ce3-4eec-8669-53f1df56e26b" data-relation-id="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+        class="relationship ">
+        <path data-label-leader="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1560,565 L1560,547"/>
+                    <circle data-label-anchor="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+                        cx="1560" cy="565" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="611b17da-c757-46ee-9499-774c431427db" data-relation-id="611b17da-c757-46ee-9499-774c431427db"
+        class="relationship ">
+        <path data-label-leader="611b17da-c757-46ee-9499-774c431427db"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1560,1171 L1560,1153"/>
+                    <circle data-label-anchor="611b17da-c757-46ee-9499-774c431427db"
+                        cx="1560" cy="1171" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="d78c2d22-1739-4f03-afba-4bd555bc9738" data-relation-id="d78c2d22-1739-4f03-afba-4bd555bc9738"
+        class="relationship ">
+        <path data-label-leader="d78c2d22-1739-4f03-afba-4bd555bc9738"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1561.35,1669 L1561.35,1651"/>
+                    <circle data-label-anchor="d78c2d22-1739-4f03-afba-4bd555bc9738"
+                        cx="1561.35" cy="1669" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27" data-relation-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+        class="relationship ">
+        <path data-label-leader="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M1053.85625,1439 L1053.85625,1421"/>
+                    <circle data-label-anchor="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+                        cx="1053.85625" cy="1439" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="16993a98-2969-4863-9043-a4672dc1fe7d" data-relation-id="16993a98-2969-4863-9043-a4672dc1fe7d"
+        class="relationship ">
+        <path data-label-leader="16993a98-2969-4863-9043-a4672dc1fe7d"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280,1237 L280,1219"/>
+                    <circle data-label-anchor="16993a98-2969-4863-9043-a4672dc1fe7d"
+                        cx="280" cy="1237" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df" data-relation-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+        class="relationship ">
+        <path data-label-leader="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M280.89338235294116,1663 L280.89338235294116,1645"/>
+                    <circle data-label-anchor="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+                        cx="280.89338235294116" cy="1663" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="316d8a29-8f80-42f9-adbf-1bab94920909" data-relation-id="316d8a29-8f80-42f9-adbf-1bab94920909"
+        class="relationship ">
+        <path data-label-leader="316d8a29-8f80-42f9-adbf-1bab94920909"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M789.85625,1469 L789.85625,1451"/>
+                    <circle data-label-anchor="316d8a29-8f80-42f9-adbf-1bab94920909"
+                        cx="789.85625" cy="1469" r="2.8" class="label-anchor"/></g><g data-diagram-kind="relationship" data-diagram-id="46aa044f-0c20-4022-b692-f9dcc6ca4835" data-relation-id="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+        class="relationship ">
+        <path data-label-leader="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+                    data-label-purpose="relationship" class="label-leader"
+                    d="M920,2279 L920,2261"/>
+                    <circle data-label-anchor="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+                        cx="920" cy="2279" r="2.8" class="label-anchor"/></g><g data-diagram-kind="table" data-diagram-id="c28f3dbb-3add-4125-8818-f0849c08a617" data-table-id="c28f3dbb-3add-4125-8818-f0849c08a617" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,140)" tabindex="0" role="button"
+        aria-label="Entidad Caladero">
+        <title>Caladero · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Caladero</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="aa3d2a2a-1e3c-4e0a-a1aa-31bb131886c3" data-column-id="aa3d2a2a-1e3c-4e0a-a1aa-31bb131886c3" data-owner-id="c28f3dbb-3add-4125-8818-f0849c08a617"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(40)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="fc20a780-70f8-4ff3-8bf3-5dfd2fc85f74" data-column-id="fc20a780-70f8-4ff3-8bf3-5dfd2fc85f74" data-owner-id="c28f3dbb-3add-4125-8818-f0849c08a617"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna extension, NUMBER(8,2)">
+                    <title>extension: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label ">extension</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="46d4b36b-9f0e-4d27-b043-2b346c642906" data-column-id="46d4b36b-9f0e-4d27-b043-2b346c642906" data-owner-id="c28f3dbb-3add-4125-8818-f0849c08a617"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna latitud, NUMBER(9,6)">
+                    <title>latitud: NUMBER(9,6) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">latitud *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(9,6)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="499a2e83-e36d-4e8a-9d7e-8a4340da55fc" data-column-id="499a2e83-e36d-4e8a-9d7e-8a4340da55fc" data-owner-id="c28f3dbb-3add-4125-8818-f0849c08a617"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna longitud, NUMBER(9,6)">
+                    <title>longitud: NUMBER(9,6) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">longitud *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(9,6)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="fa63dc3e-bce6-497e-8537-3fd793623e85" data-table-id="fa63dc3e-bce6-497e-8537-3fd793623e85" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,140)" tabindex="0" role="button"
+        aria-label="Entidad Especie">
+        <title>Especie · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Especie</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="1b1debaf-5593-4a52-8b48-8e903a85cd45" data-column-id="1b1debaf-5593-4a52-8b48-8e903a85cd45" data-owner-id="fa63dc3e-bce6-497e-8537-3fd793623e85"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cod_especie, VARCHAR(5)">
+                    <title>cod_especie: VARCHAR(5) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">cod_especie *</text>
+                    <text x="72" y="71"
+                        class="type-label">VARCHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="84cafc7d-9c38-494b-be7e-58551b88b34e" data-column-id="84cafc7d-9c38-494b-be7e-58551b88b34e" data-owner-id="fa63dc3e-bce6-497e-8537-3fd793623e85"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(40)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="68c3ad7e-2ddf-4812-9067-c84fbf6d7170" data-column-id="68c3ad7e-2ddf-4812-9067-c84fbf6d7170" data-owner-id="fa63dc3e-bce6-497e-8537-3fd793623e85"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna tipo, VARCHAR(30)">
+                    <title>tipo: VARCHAR(30) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">tipo *</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(30)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a" data-table-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,700)" tabindex="0" role="button"
+        aria-label="Entidad Barco">
+        <title>Barco · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Barco</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="078a867a-b795-4f17-a455-1009ba2af3c4" data-column-id="078a867a-b795-4f17-a455-1009ba2af3c4" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna matricula, CHAR(10)">
+                    <title>matricula: CHAR(10) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">matricula *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="fde5e35c-2c46-4dd4-981f-9677b0abb292" data-column-id="fde5e35c-2c46-4dd4-981f-9677b0abb292" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(40)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="a4535837-62ae-47d3-8f1e-ed8bb734207f" data-column-id="a4535837-62ae-47d3-8f1e-ed8bb734207f" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna clase, VARCHAR(30)">
+                    <title>clase: VARCHAR(30) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">clase</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(30)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="60ee5e19-d645-4def-bc78-b3c7074760d5" data-column-id="60ee5e19-d645-4def-bc78-b3c7074760d5" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna capitan, VARCHAR(60)">
+                    <title>capitan: VARCHAR(60) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label ">capitan</text>
+                    <text x="72" y="215"
+                        class="type-label">VARCHAR(60)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="319b7b05-82ec-4adf-bc2d-4bb5926c6ee9" data-column-id="319b7b05-82ec-4adf-bc2d-4bb5926c6ee9" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna armador, VARCHAR(60)">
+                    <title>armador: VARCHAR(60) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">armador</text>
+                    <text x="72" y="263"
+                        class="type-label">VARCHAR(60)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="11e11ccd-64bf-417f-893e-e4cb7f90a7ae" data-column-id="11e11ccd-64bf-417f-893e-e4cb7f90a7ae" data-owner-id="a428b8b4-5a9d-4efb-a5b7-6a4568fd773a"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cif, CHAR(9)">
+                    <title>cif: CHAR(9) · </title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="292"
+                class="field-label field-required">cif *</text>
+                    <text x="72" y="311"
+                        class="type-label">CHAR(9)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58" data-table-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,700)" tabindex="0" role="button"
+        aria-label="Entidad Lote">
+        <title>Lote · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Lote</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="396"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="396"/>
+        <g data-diagram-kind="column" data-diagram-id="3477520c-68c9-45af-88d3-782cc71859e9" data-column-id="3477520c-68c9-45af-88d3-782cc71859e9" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cod_lote, CHAR(5)">
+                    <title>cod_lote: CHAR(5) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">cod_lote *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="f7603122-b8e9-408a-923a-2582b5390f3f" data-column-id="f7603122-b8e9-408a-923a-2582b5390f3f" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_cajas, NUMBER(4)">
+                    <title>num_cajas: NUMBER(4) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">num_cajas *</text>
+                    <text x="72" y="119"
+                        class="type-label">NUMBER(4)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="42f4427b-2658-4462-a839-1ad4da402cab" data-column-id="42f4427b-2658-4462-a839-1ad4da402cab" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna kilos_total, NUMBER(8,2)">
+                    <title>kilos_total: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">kilos_total *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="df9e61c2-08cc-42cc-8aa9-17ddc66a1ab0" data-column-id="df9e61c2-08cc-42cc-8aa9-17ddc66a1ab0" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_llegada, DATE">
+                    <title>fecha_llegada: DATE · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">fecha_llegada *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="79f93a8c-6d04-4439-b4ec-5f9f1b9a6be1" data-column-id="79f93a8c-6d04-4439-b4ec-5f9f1b9a6be1" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio_kg_salida, NUMBER(8,2)">
+                    <title>precio_kg_salida: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label field-required">precio_kg_salida *</text>
+                    <text x="72" y="263"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="70d31751-102d-4e43-9168-81b1913bbe4b" data-column-id="70d31751-102d-4e43-9168-81b1913bbe4b" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio_total_salida, NUMBER(10,2)">
+                    <title>precio_total_salida: NUMBER(10,2) · </title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="292"
+                class="field-label field-required">precio_total_salida *</text>
+                    <text x="72" y="311"
+                        class="type-label">NUMBER(10,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e7b497a6-1cf7-4fe6-834f-109cbd49fc43" data-column-id="e7b497a6-1cf7-4fe6-834f-109cbd49fc43" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna especie_cod_especie, VARCHAR(5)">
+                    <title>especie_cod_especie: VARCHAR(5) · FK1</title>
+                    <rect class="column-hit" x="1" y="321"
+                        width="318" height="46"/>
+                    <text x="12" y="336"
+                class="key-label">FK1</text>
+                    <text x="72" y="340"
+                class="field-label field-required">especie_cod_especie *</text>
+                    <text x="72" y="359"
+                        class="type-label">VARCHAR(5)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="74557b17-4a90-4906-a2f7-bdd11ca25e70" data-column-id="74557b17-4a90-4906-a2f7-bdd11ca25e70" data-owner-id="fa3c47ad-ba37-4b6b-b5cb-3ee47e785a58"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna barco_matricula, CHAR(10)">
+                    <title>barco_matricula: CHAR(10) · FK2</title>
+                    <rect class="column-hit" x="1" y="369"
+                        width="318" height="46"/>
+                    <text x="12" y="384"
+                class="key-label">FK2</text>
+                    <text x="72" y="388"
+                class="field-label field-required">barco_matricula *</text>
+                    <text x="72" y="407"
+                        class="type-label">CHAR(10)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa" data-table-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,700)" tabindex="0" role="button"
+        aria-label="Entidad Comprador">
+        <title>Comprador · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Comprador</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="252"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="252"/>
+        <g data-diagram-kind="column" data-diagram-id="3f21cb16-3344-4771-ab29-a21387e70bd2" data-column-id="3f21cb16-3344-4771-ab29-a21387e70bd2" data-owner-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cod_comprador, CHAR(5)">
+                    <title>cod_comprador: CHAR(5) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">cod_comprador *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="7acb14f6-da15-4f7a-a6e2-5ee41a527441" data-column-id="7acb14f6-da15-4f7a-a6e2-5ee41a527441" data-owner-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna nombre, VARCHAR(40)">
+                    <title>nombre: VARCHAR(40) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(40)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="6bc214c8-82ab-418a-8fb5-78c4966b81d7" data-column-id="6bc214c8-82ab-418a-8fb5-78c4966b81d7" data-owner-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna direccion, VARCHAR(60)">
+                    <title>direccion: VARCHAR(60) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label ">direccion</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(60)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="9dddb064-8ddb-4f47-b3e3-4e389653aaf5" data-column-id="9dddb064-8ddb-4f47-b3e3-4e389653aaf5" data-owner-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna dni_cif, CHAR(9)">
+                    <title>dni_cif: CHAR(9) · AK1</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">AK1</text>
+                    <text x="72" y="196"
+                class="field-label field-required">dni_cif *</text>
+                    <text x="72" y="215"
+                        class="type-label">CHAR(9)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="e578b2fd-09d7-40ac-ab9b-3fbf4c9a3c7a" data-column-id="e578b2fd-09d7-40ac-ab9b-3fbf4c9a3c7a" data-owner-id="5b23106b-0a81-4aaa-a569-b25c2a47bffa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cuota_anual, NUMBER(8,2)">
+                    <title>cuota_anual: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label field-required">cuota_anual *</text>
+                    <text x="72" y="263"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="2605477b-d9f7-48ad-949c-9a18813727aa" data-table-id="2605477b-d9f7-48ad-949c-9a18813727aa" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(2040,140)" tabindex="0" role="button"
+        aria-label="Entidad Credito">
+        <title>Credito · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Credito</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="f9d04405-94f0-4338-8a24-13da5f554b0d" data-column-id="f9d04405-94f0-4338-8a24-13da5f554b0d" data-owner-id="2605477b-d9f7-48ad-949c-9a18813727aa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Comprador_cod_comprador, CHAR(5)">
+                    <title>Comprador_cod_comprador: CHAR(5) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Comprador_cod_comprador *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="12019cdb-a797-451e-84d1-7fb05dc4ac25" data-column-id="12019cdb-a797-451e-84d1-7fb05dc4ac25" data-owner-id="2605477b-d9f7-48ad-949c-9a18813727aa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_cuenta, CHAR(24)">
+                    <title>num_cuenta: CHAR(24) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">num_cuenta *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(24)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="6e0e8d98-092d-4f2e-9992-76b9989f00f7" data-column-id="6e0e8d98-092d-4f2e-9992-76b9989f00f7" data-owner-id="2605477b-d9f7-48ad-949c-9a18813727aa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna importe_acumulado, NUMBER(10,2)">
+                    <title>importe_acumulado: NUMBER(10,2) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">importe_acumulado *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(10,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="158977ac-b02e-4be6-8ecd-be510e94fee1" data-column-id="158977ac-b02e-4be6-8ecd-be510e94fee1" data-owner-id="2605477b-d9f7-48ad-949c-9a18813727aa"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_vencimiento, DATE">
+                    <title>fecha_vencimiento: DATE · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">fecha_vencimiento *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="5cf1c87b-6481-4f44-8130-6df319569226" data-table-id="5cf1c87b-6481-4f44-8130-6df319569226" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(2040,700)" tabindex="0" role="button"
+        aria-label="Entidad Contado">
+        <title>Contado · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Contado</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="60"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="60"/>
+        <g data-diagram-kind="column" data-diagram-id="497ce30b-3243-4a4a-a118-a28cdaee4ce0" data-column-id="497ce30b-3243-4a4a-a118-a28cdaee4ce0" data-owner-id="5cf1c87b-6481-4f44-8130-6df319569226"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Comprador_cod_comprador, CHAR(5)">
+                    <title>Comprador_cod_comprador: CHAR(5) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Comprador_cod_comprador *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="19b5ae19-1cf6-4af0-b8cf-db1776de529e" data-table-id="19b5ae19-1cf6-4af0-b8cf-db1776de529e" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,1820)" tabindex="0" role="button"
+        aria-label="Entidad Factura">
+        <title>Factura · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Factura</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="a2c664b4-ad55-4b81-8329-b4a1ab2fc787" data-column-id="a2c664b4-ad55-4b81-8329-b4a1ab2fc787" data-owner-id="19b5ae19-1cf6-4af0-b8cf-db1776de529e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna num_factura, CHAR(10)">
+                    <title>num_factura: CHAR(10) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">num_factura *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="53676005-2620-4f79-ad9b-4660fa12f988" data-column-id="53676005-2620-4f79-ad9b-4660fa12f988" data-owner-id="19b5ae19-1cf6-4af0-b8cf-db1776de529e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_emision, DATE">
+                    <title>fecha_emision: DATE · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">fecha_emision *</text>
+                    <text x="72" y="119"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="5fdad3b3-e841-4174-9cca-6d973c622b81" data-column-id="5fdad3b3-e841-4174-9cca-6d973c622b81" data-owner-id="19b5ae19-1cf6-4af0-b8cf-db1776de529e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna importe_total, NUMBER(10,2)">
+                    <title>importe_total: NUMBER(10,2) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">importe_total *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(10,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="2c5ae4c9-dc6a-4914-8f74-ebd444d2c702" data-table-id="2c5ae4c9-dc6a-4914-8f74-ebd444d2c702" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,1260)" tabindex="0" role="button"
+        aria-label="Entidad Factura_barco">
+        <title>Factura_barco · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Factura_barco</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="5c760d2b-8831-4c7c-91c6-8ac57ea04b69" data-column-id="5c760d2b-8831-4c7c-91c6-8ac57ea04b69" data-owner-id="2c5ae4c9-dc6a-4914-8f74-ebd444d2c702"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Factura_num_factura, CHAR(10)">
+                    <title>Factura_num_factura: CHAR(10) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Factura_num_factura *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="745c0455-50b9-43bf-9755-2aa608eccb0f" data-column-id="745c0455-50b9-43bf-9755-2aa608eccb0f" data-owner-id="2c5ae4c9-dc6a-4914-8f74-ebd444d2c702"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna barco_matricula, CHAR(10)">
+                    <title>barco_matricula: CHAR(10) · FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">barco_matricula *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(10)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="62a54f63-f6b4-4c4c-ba9d-d7e5f139e7df" data-table-id="62a54f63-f6b4-4c4c-ba9d-d7e5f139e7df" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,1260)" tabindex="0" role="button"
+        aria-label="Entidad Factura_comprador">
+        <title>Factura_comprador · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Factura_comprador</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="156"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="156"/>
+        <g data-diagram-kind="column" data-diagram-id="76e46c68-217e-4aec-9c96-3b7da56fbb41" data-column-id="76e46c68-217e-4aec-9c96-3b7da56fbb41" data-owner-id="62a54f63-f6b4-4c4c-ba9d-d7e5f139e7df"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna Factura_num_factura, CHAR(10)">
+                    <title>Factura_num_factura: CHAR(10) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">Factura_num_factura *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="15d66368-2e3f-4658-8071-d279505bf8d4" data-column-id="15d66368-2e3f-4658-8071-d279505bf8d4" data-owner-id="62a54f63-f6b4-4c4c-ba9d-d7e5f139e7df"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna estado, VARCHAR(9)">
+                    <title>estado: VARCHAR(9) · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label ">estado</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(9)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="ca699620-c210-40e4-8fa7-ee6c207aaaf8" data-column-id="ca699620-c210-40e4-8fa7-ee6c207aaaf8" data-owner-id="62a54f63-f6b4-4c4c-ba9d-d7e5f139e7df"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna comprador_cod_comprador, CHAR(5)">
+                    <title>comprador_cod_comprador: CHAR(5) · FK2</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">FK2</text>
+                    <text x="72" y="148"
+                class="field-label field-required">comprador_cod_comprador *</text>
+                    <text x="72" y="167"
+                        class="type-label">CHAR(5)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="77527ec8-192d-42a8-83ad-4bebbe2f228e" data-table-id="77527ec8-192d-42a8-83ad-4bebbe2f228e" 
+        data-dependent="false" data-notation="idef1x"
+        class="entity  "
+        transform="translate(760,2380)" tabindex="0" role="button"
+        aria-label="Entidad Pago">
+        <title>Pago · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Pago</text>
+        <rect class="table-shadow" x="0" y="36" rx="0"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="0"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="67b97008-8b3a-443e-99b7-dffdd167a1ca" data-column-id="67b97008-8b3a-443e-99b7-dffdd167a1ca" data-owner-id="77527ec8-192d-42a8-83ad-4bebbe2f228e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna cod_pago, CHAR(5)">
+                    <title>cod_pago: CHAR(5) · PK</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text>
+                    <text x="72" y="52"
+                class="field-label field-required">cod_pago *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="65297d69-ac7a-4625-8047-fbe1ce7d0c26" data-column-id="65297d69-ac7a-4625-8047-fbe1ce7d0c26" data-owner-id="77527ec8-192d-42a8-83ad-4bebbe2f228e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha, DATE">
+                    <title>fecha: DATE · </title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="100"
+                class="field-label field-required">fecha *</text>
+                    <text x="72" y="119"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="6510d617-af71-4ab4-8966-dc6a6ac9af89" data-column-id="6510d617-af71-4ab4-8966-dc6a6ac9af89" data-owner-id="77527ec8-192d-42a8-83ad-4bebbe2f228e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna importe, NUMBER(10,2)">
+                    <title>importe: NUMBER(10,2) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">importe *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(10,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="ce98af99-25df-4007-929c-0021e7ae9ea0" data-column-id="ce98af99-25df-4007-929c-0021e7ae9ea0" data-owner-id="77527ec8-192d-42a8-83ad-4bebbe2f228e"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna factura_num_factura, CHAR(10)">
+                    <title>factura_num_factura: CHAR(10) · FK1</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">FK1</text>
+                    <text x="72" y="196"
+                class="field-label field-required">factura_num_factura *</text>
+                    <text x="72" y="215"
+                        class="type-label">CHAR(10)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="b2698433-9722-4c61-b69d-659cdead7291" data-table-id="b2698433-9722-4c61-b69d-659cdead7291" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,-420)" tabindex="0" role="button"
+        aria-label="Entidad Faena">
+        <title>Faena · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Faena</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="300"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="300"/>
+        <g data-diagram-kind="column" data-diagram-id="79f6cff4-1b87-44ee-9976-7955977b56c0" data-column-id="79f6cff4-1b87-44ee-9976-7955977b56c0" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna barco_matricula, CHAR(10)">
+                    <title>barco_matricula: CHAR(10) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">barco_matricula *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="79a44eca-b901-4f45-9779-9b434fb2af82" data-column-id="79a44eca-b901-4f45-9779-9b434fb2af82" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna caladero_nombre, VARCHAR(40)">
+                    <title>caladero_nombre: VARCHAR(40) · PK, FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">caladero_nombre *</text>
+                    <text x="72" y="119"
+                        class="type-label">VARCHAR(40)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c5a82d04-b529-4770-90f9-c63465682c87" data-column-id="c5a82d04-b529-4770-90f9-c63465682c87" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna especie_cod_especie, VARCHAR(5)">
+                    <title>especie_cod_especie: VARCHAR(5) · PK, FK3</title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    <text x="12" y="144"
+                class="key-label">PK</text><text x="12" y="157"
+                class="key-label">FK3</text>
+                    <text x="72" y="148"
+                class="field-label field-required">especie_cod_especie *</text>
+                    <text x="72" y="167"
+                        class="type-label">VARCHAR(5)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="48b3559d-f5a6-4ea3-ab01-fffaac2d06da" data-column-id="48b3559d-f5a6-4ea3-ab01-fffaac2d06da" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_inicio, DATE">
+                    <title>fecha_inicio: DATE · PK</title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    <text x="12" y="192"
+                class="key-label">PK</text>
+                    <text x="72" y="196"
+                class="field-label field-required">fecha_inicio *</text>
+                    <text x="72" y="215"
+                        class="type-label">DATE</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="224" y2="224"/></g><g data-diagram-kind="column" data-diagram-id="23f20e26-2289-4aa2-a9f6-068046a25e82" data-column-id="23f20e26-2289-4aa2-a9f6-068046a25e82" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna fecha_fin, DATE">
+                    <title>fecha_fin: DATE · </title>
+                    <rect class="column-hit" x="1" y="225"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="244"
+                class="field-label ">fecha_fin</text>
+                    <text x="72" y="263"
+                        class="type-label">DATE</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="aeae58b2-7dae-44e0-8018-d2d9a373e4f4" data-column-id="aeae58b2-7dae-44e0-8018-d2d9a373e4f4" data-owner-id="b2698433-9722-4c61-b69d-659cdead7291"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna kg_especie, NUMBER(8,2)">
+                    <title>kg_especie: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="273"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="292"
+                class="field-label field-required">kg_especie *</text>
+                    <text x="72" y="311"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518" data-table-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,140)" tabindex="0" role="button"
+        aria-label="Entidad Adjudicacion">
+        <title>Adjudicacion · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Adjudicacion</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="320" height="204"/>
+        <rect class="table-body" y="32" rx="12"
+            width="320" height="204"/>
+        <g data-diagram-kind="column" data-diagram-id="a3a46e86-796e-4b1b-a6aa-0098d3eb7302" data-column-id="a3a46e86-796e-4b1b-a6aa-0098d3eb7302" data-owner-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna lote_cod_lote, CHAR(5)">
+                    <title>lote_cod_lote: CHAR(5) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="318" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">lote_cod_lote *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="320"
+                        y1="80" y2="80"/></g><g data-diagram-kind="column" data-diagram-id="bb92a286-47bc-484d-b78d-ce66a0813fbf" data-column-id="bb92a286-47bc-484d-b78d-ce66a0813fbf" data-owner-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna comprador_cod_comprador, CHAR(5)">
+                    <title>comprador_cod_comprador: CHAR(5) · FK2</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="318" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">FK2</text>
+                    <text x="72" y="100"
+                class="field-label field-required">comprador_cod_comprador *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(5)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="64902fb3-dab8-4dff-b15d-c87324c3be18" data-column-id="64902fb3-dab8-4dff-b15d-c87324c3be18" data-owner-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio_kg_compra, NUMBER(8,2)">
+                    <title>precio_kg_compra: NUMBER(8,2) · </title>
+                    <rect class="column-hit" x="1" y="129"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="148"
+                class="field-label field-required">precio_kg_compra *</text>
+                    <text x="72" y="167"
+                        class="type-label">NUMBER(8,2)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="682241ac-b1cc-42d9-947a-055287790c89" data-column-id="682241ac-b1cc-42d9-947a-055287790c89" data-owner-id="e5f7a73b-7ca9-482a-8e6c-49e40f329518"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna precio_total_adjudicacion, NUMBER(10,2)">
+                    <title>precio_total_adjudicacion: NUMBER(10,2) · </title>
+                    <rect class="column-hit" x="1" y="177"
+                        width="318" height="46"/>
+                    
+                    <text x="72" y="196"
+                class="field-label field-required">precio_total_adjudicacion *</text>
+                    <text x="72" y="215"
+                        class="type-label">NUMBER(10,2)</text>
+                    </g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="5930e31b-0fc0-45ac-b831-50de82f7cf85" data-table-id="5930e31b-0fc0-45ac-b831-50de82f7cf85" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(1400,1820)" tabindex="0" role="button"
+        aria-label="Entidad Incluye">
+        <title>Incluye · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Incluye</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="338" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="338" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="cbf183d7-b6b3-4a7a-b9c2-026f36134ceb" data-column-id="cbf183d7-b6b3-4a7a-b9c2-026f36134ceb" data-owner-id="5930e31b-0fc0-45ac-b831-50de82f7cf85"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna factura_Factura_num_factura, CHAR(10)">
+                    <title>factura_Factura_num_factura: CHAR(10) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="336" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">factura_Factura_num_factura *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c9697fe0-dec6-45f9-adcc-227bfe34d2e4" data-column-id="c9697fe0-dec6-45f9-adcc-227bfe34d2e4" data-owner-id="5930e31b-0fc0-45ac-b831-50de82f7cf85"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna lote_cod_lote, CHAR(5)">
+                    <title>lote_cod_lote: CHAR(5) · PK, FK2, AK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="336" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text><text x="12" y="122"
+                class="key-label">AK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">lote_cod_lote *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="338"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="table" data-diagram-id="01a8db12-e965-4490-9113-4e87c14aa853" data-table-id="01a8db12-e965-4490-9113-4e87c14aa853" 
+        data-dependent="true" data-notation="idef1x"
+        class="entity  "
+        transform="translate(120,1820)" tabindex="0" role="button"
+        aria-label="Entidad Provision">
+        <title>Provision · selecciona una columna para editarla</title>
+        <text x="0" y="21"
+                class="table-title">Provision</text>
+        <rect class="table-shadow" x="0" y="36" rx="12"
+            width="338" height="108"/>
+        <rect class="table-body" y="32" rx="12"
+            width="338" height="108"/>
+        <g data-diagram-kind="column" data-diagram-id="07d7b2ba-df6d-478b-a567-6065d6571f65" data-column-id="07d7b2ba-df6d-478b-a567-6065d6571f65" data-owner-id="01a8db12-e965-4490-9113-4e87c14aa853"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna factura_Factura_num_factura, CHAR(10)">
+                    <title>factura_Factura_num_factura: CHAR(10) · PK, FK1</title>
+                    <rect class="column-hit" x="1" y="33"
+                        width="336" height="46"/>
+                    <text x="12" y="48"
+                class="key-label">PK</text><text x="12" y="61"
+                class="key-label">FK1</text>
+                    <text x="72" y="52"
+                class="field-label field-required">factura_Factura_num_factura *</text>
+                    <text x="72" y="71"
+                        class="type-label">CHAR(10)</text>
+                    </g><g data-diagram-kind="column" data-diagram-id="c635262a-53b1-45d3-bb34-9400ae3b6e96" data-column-id="c635262a-53b1-45d3-bb34-9400ae3b6e96" data-owner-id="01a8db12-e965-4490-9113-4e87c14aa853"
+                    class="column-target "
+                    role="button" tabindex="0" aria-label="Columna lote_cod_lote, CHAR(5)">
+                    <title>lote_cod_lote: CHAR(5) · PK, FK2, AK1</title>
+                    <rect class="column-hit" x="1" y="81"
+                        width="336" height="46"/>
+                    <text x="12" y="96"
+                class="key-label">PK</text><text x="12" y="109"
+                class="key-label">FK2</text><text x="12" y="122"
+                class="key-label">AK1</text>
+                    <text x="72" y="100"
+                class="field-label field-required">lote_cod_lote *</text>
+                    <text x="72" y="119"
+                        class="type-label">CHAR(5)</text>
+                    <line class="primary-divider" x1="0" x2="338"
+                        y1="128" y2="128"/></g>
+        
+        
+        </g><g data-diagram-kind="relationship" data-diagram-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072" data-relation-id="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+                data-label-for="032cee2d-ffa8-4306-b2ac-4f52d4c7d072"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="855.76" y="389"
+                    width="128.48000000000002" height="62" rx="4"/>
+                <text x="920" y="411"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ De_especie</text><text x="920" y="437"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← especie</text></g><g data-diagram-kind="relationship" data-diagram-id="8ccf546c-6fca-4674-9b69-450e86d3f66a" data-relation-id="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+                data-label-for="8ccf546c-6fca-4674-9b69-450e86d3f66a"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="489.8" y="810"
+                    width="160.39999999999998" height="62" rx="4"/>
+                <text x="570" y="832"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Capturado_por</text><text x="570" y="858"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← barco</text></g><g data-diagram-kind="relationship" data-diagram-id="9f623937-3399-426b-8cfc-2d6be174d94e" data-relation-id="9f623937-3399-426b-8cfc-2d6be174d94e"
+                data-label-for="9f623937-3399-426b-8cfc-2d6be174d94e"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="236.76" y="68"
+                    width="86.48000000000002" height="62" rx="4"/>
+                <text x="280" y="90"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Faena</text><text x="280" y="116"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← barco</text></g><g data-diagram-kind="relationship" data-diagram-id="0384ed95-ba53-4c7f-942a-edc13164108b" data-relation-id="0384ed95-ba53-4c7f-942a-edc13164108b"
+                data-label-for="0384ed95-ba53-4c7f-942a-edc13164108b"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="225" y="-33"
+                    width="110" height="62" rx="4"/>
+                <text x="280" y="-11"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Faena</text><text x="280" y="15"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← caladero</text></g><g data-diagram-kind="relationship" data-diagram-id="61b32ade-da41-408e-bd5f-5d9579fac058" data-relation-id="61b32ade-da41-408e-bd5f-5d9579fac058"
+                data-label-for="61b32ade-da41-408e-bd5f-5d9579fac058"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="564.8580952380952" y="-200"
+                    width="100.76" height="62" rx="4"/>
+                <text x="615.2380952380952" y="-178"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Faena</text><text x="615.2380952380952" y="-152"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← especie</text></g><g data-diagram-kind="relationship" data-diagram-id="dc95e543-c8c9-4f6b-a089-436d641e3452" data-relation-id="dc95e543-c8c9-4f6b-a089-436d641e3452"
+                data-label-for="dc95e543-c8c9-4f6b-a089-436d641e3452"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1197.62" y="669"
+                    width="142.76" height="62" rx="4"/>
+                <text x="1269" y="691"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Adjudicacion</text><text x="1269" y="717"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← lote</text></g><g data-diagram-kind="relationship" data-diagram-id="a9fba130-5ce3-4eec-8669-53f1df56e26b" data-relation-id="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+                data-label-for="a9fba130-5ce3-4eec-8669-53f1df56e26b"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1488.62" y="485"
+                    width="142.76" height="62" rx="4"/>
+                <text x="1560" y="507"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Adjudicacion</text><text x="1560" y="533"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← comprador</text></g><g data-diagram-kind="relationship" data-diagram-id="611b17da-c757-46ee-9499-774c431427db" data-relation-id="611b17da-c757-46ee-9499-774c431427db"
+                data-label-for="611b17da-c757-46ee-9499-774c431427db"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1498.28" y="1091"
+                    width="123.44" height="62" rx="4"/>
+                <text x="1560" y="1113"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Emitida_a</text><text x="1560" y="1139"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← comprador</text></g><g data-diagram-kind="relationship" data-diagram-id="d78c2d22-1739-4f03-afba-4bd555bc9738" data-relation-id="d78c2d22-1739-4f03-afba-4bd555bc9738"
+                data-label-for="d78c2d22-1739-4f03-afba-4bd555bc9738"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1508.87" y="1589"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="1561.35" y="1611"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Incluye</text><text x="1561.35" y="1637"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← factura</text></g><g data-diagram-kind="relationship" data-diagram-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27" data-relation-id="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+                data-label-for="387a2af6-22fd-4c8a-bb21-d154a80e5e27"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="1005.5762500000001" y="1359"
+                    width="96.56" height="62" rx="4"/>
+                <text x="1053.85625" y="1381"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Incluye</text><text x="1053.85625" y="1407"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← lote</text></g><g data-diagram-kind="relationship" data-diagram-id="16993a98-2969-4863-9043-a4672dc1fe7d" data-relation-id="16993a98-2969-4863-9043-a4672dc1fe7d"
+                data-label-for="16993a98-2969-4863-9043-a4672dc1fe7d"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="213.24" y="1157"
+                    width="133.51999999999998" height="62" rx="4"/>
+                <text x="280" y="1179"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Emitida_por</text><text x="280" y="1205"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← barco</text></g><g data-diagram-kind="relationship" data-diagram-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df" data-relation-id="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+                data-label-for="d12acf6b-e7cd-4d56-b3d5-d79b0eb4a6df"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="223.37338235294115" y="1583"
+                    width="115.04" height="62" rx="4"/>
+                <text x="280.89338235294116" y="1605"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Provision</text><text x="280.89338235294116" y="1631"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← factura</text></g><g data-diagram-kind="relationship" data-diagram-id="316d8a29-8f80-42f9-adbf-1bab94920909" data-relation-id="316d8a29-8f80-42f9-adbf-1bab94920909"
+                data-label-for="316d8a29-8f80-42f9-adbf-1bab94920909"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="732.3362500000001" y="1389"
+                    width="115.04" height="62" rx="4"/>
+                <text x="789.85625" y="1411"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Provision</text><text x="789.85625" y="1437"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← lote</text></g><g data-diagram-kind="relationship" data-diagram-id="46aa044f-0c20-4022-b692-f9dcc6ca4835" data-relation-id="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+                data-label-for="46aa044f-0c20-4022-b692-f9dcc6ca4835"
+                class="relationship relationship-caption ">
+                <rect class="label-background"
+                    x="867.52" y="2199"
+                    width="104.96000000000001" height="62" rx="4"/>
+                <text x="920" y="2221"
+                    data-reading="forward" class="relation-label "
+                    text-anchor="middle">→ Salda</text><text x="920" y="2247"
+                    data-reading="inverse" class="relation-label "
+                    text-anchor="middle">← factura</text></g></svg>

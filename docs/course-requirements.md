@@ -1,6 +1,6 @@
 # DataBasic y Fundamentos de Bases de Datos
 
-Cobertura de **DataBasic 0.4.4**, revisada el 8 de noviembre de 2026 con los PDF del curso y los enunciados de la práctica 2025-2026 y 2026-2027.
+Cobertura de **DataBasic 0.5.0**, revisada el 9 de noviembre de 2026 con los PDF del curso y los enunciados de la práctica 2025-2026 y 2026-2027.
 La aplicación permite practicar operaciones relacionales y construir ERE
 nativos. La cobertura sigue siendo parcial: guardar una restricción conceptual
 no significa haberla traducido al relacional ni implementado en Access.
@@ -30,7 +30,7 @@ identificar requisitos, sin copiar figuras, ejercicios ni sus soluciones.
 
 ## Cobertura del relacional
 
-| ID | Requisito y fuente | Operación en 0.4.4 | Límite concreto |
+| ID | Requisito y fuente | Operación en 0.5.0 | Límite concreto |
 | --- | --- | --- | --- |
 | FBD-R01 | IDEF1X; práctica p. 3. | Vista → Opciones de visualización → Relaciones → Notación → IDEF1X. Se distinguen cajas, dependencia, líneas y marcadores conforme a FIPS 184. | La prueba de símbolos/SVG no acredita identidad de interfaz ni equivalencia completa con Visio 2010. |
 | FBD-R02 | VARCHAR, CHAR, NUMBER, DATE; práctica p. 3. | Perfil → Curso · 4 tipos; Columnas → Editar… ofrece familia y parámetros. Los nuevos documentos usan este perfil. | General conserva tipos heredados; no hay conversiones silenciosas al cambiar de perfil. |
@@ -47,7 +47,7 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 
 ## Cobertura del conceptual y su transformación
 
-| ID | Requisito y fuente | Operación en 0.4.4 | Situación y carencia |
+| ID | Requisito y fuente | Operación en 0.5.0 | Situación y carencia |
 | --- | --- | --- | --- |
 | FBD-C01 | Fuertes/débiles; Tema 2 p. 5, introducción p. 2. | Entidad nativa; Definición → Entidad débil, propietaria y vínculo identificador; atributo clave parcial; FK binaria identificadora explícita. El vínculo elegido se dibuja con rombo doble. | Transformación de débil disponible mediante decisiones trazadas. No se infiere debilidad de una tabla anterior. |
 | FBD-C02 | Clave y clave parcial; Tema 2 pp. 11–12. | Atributo → Editar: Clave o Clave parcial; PK/AK materializadas en el relacional. | El autor justifica qué identifica cada ocurrencia. |
@@ -58,6 +58,7 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 | FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16 y Tema 3 pp. 31–34. | Chen → Especialización → Tablas de superclase y subclases. Círculo d/s, doble línea si total y arco de subconjunto en cada subclase. PK heredada completa también FK; PK local incompatible exige resolución explícita. | Una sola estrategia implementada. Disyunción/totalidad son restricciones documentales; las otras tres estrategias del tema no se ofrecen. |
 | FBD-D01 | Supuestos y semántica perdida; introducción pp. 5–10, práctica p. 2 y Tema 3 p. 9. | Supuestos por objeto o globales en tres clases (enunciado, supuesto, perdida); Base de datos → Supuestos; Archivo → Memoria HTML/Markdown con diagramas, atributos, relaciones, decisiones, supuestos y restricciones documentales. | La memoria reúne lo que el autor escribió y lo que DataBasic detecta; no redacta la justificación por él ni demuestra fidelidad al enunciado. |
 | FBD-D02 | Entrega en .zip: documento Word o PDF con DNI, nombre y apellidos y el diseño conceptual con supuestos y semántica perdida; Visio del relacional con IDEF1X; base de datos Access; práctica p. 4. | Archivo → Alumno (DNI o NIE con letra comprobada); Archivo → Paquete de entrega comprueba alumno, decisiones pendientes, ternaria, especialización, supuestos y tipos, y descarga memoria .docx, Visio .vdx con leyenda y diccionario de datos, módulo VBA, SQL y XML de Access, diagramas SVG, proyecto y LEEME. | El `.accdb` lo crea el alumno ejecutando el módulo en Access 2010; el .vdx es un dibujo editable, no un diagrama de modelo de base de datos de Visio. |
+| FBD-S01 | SQL de consulta, manipulación y definición sobre la base de datos de la práctica; Access §3. | Consola SQL (botón SQL de la barra de título; columna izquierda): SELECT con combinaciones internas y externas, totales, subconsultas, UNION y TOP; INSERT, UPDATE y DELETE con claves, dominios, CHECK e integridad referencial (CASCADE, SET NULL, SET DEFAULT, NO ACTION); CREATE/ALTER/DROP TABLE, INDEX y VIEW por las reglas del modelo. Cada consulta muestra su expresión de álgebra relacional. Datos de ejemplo genera filas que cumplen las reglas. | Dialecto de Access interpretado por DataBasic, no el motor de Access: no hay consultas de parámetros, de tabla de referencias cruzadas (TRANSFORM) ni CASE; COUNT(DISTINCT) se rechaza como en Access. |
 | FBD-T01 | Transformar sin perder hechos; Tema 3 §3.6 y práctica p. 4. | Correspondencias conservadas; materialización explícita de binarias, asociaciones, débiles, compuestos, multivaluados y tablas de clases; derivados con política. | Las decisiones incompletas quedan pendientes. No hay conversor ERE universal ni reconstrucción de un ERE único desde cualquier relacional. |
 
 La transformación de una ternaria requiere decidir la identidad de sus
@@ -87,15 +88,17 @@ conceptual con el tipo de cada relación, supuestos, semántica perdida, esquema
 relacional con diccionario de datos y diseño físico; `Modelo_relacional.vdx`
 con el diagrama, una leyenda de la notación y una página de diccionario de
 datos (dominios, nulos, predeterminados, PK/AK, FK con dependencia,
-cardinalidad y acciones referenciales); la carpeta `Access/`; los diagramas en
+cardinalidad y acciones referenciales); la carpeta `BaseDeDatos/`; los diagramas en
 SVG; el proyecto y `LEEME.txt`. El módulo VBA se escribe en Windows-1252 con
 saltos CRLF, que es como lo importa el editor de Access 2010. Antes de
 entregar, el alumno crea el `.accdb` siguiendo el LEEME y lo añade al paquete.
-DataBasic guarda JSON y exporta SVG/SQL; __Archivo → Visio
-2010__ escribe el diagrama relacional como dibujo XML `.vdx`, que Visio 2010
-abre y edita (sin las propiedades de base de datos de Visio); la memoria
-también se descarga en HTML y Markdown y la impresión permite obtener PDF
-mediante el navegador. __Archivo → Access__ entrega tres archivos que Access convierte en
+DataBasic guarda el proyecto como carpeta (`esquema.sql`, `README.md` con los
+supuestos, `proyecto.databasic.json` y los dibujos), que puede vivir en un
+repositorio de GitHub y abrirse desde su enlace, y exporta SVG/SQL;
+__Archivo → Exportar__ escribe el diagrama relacional como dibujo XML `.vdx`,
+que Visio 2010 abre y edita (sin las propiedades de base de datos de Visio); la
+memoria también se descarga en HTML y Markdown y la impresión permite obtener
+PDF mediante el navegador. La misma ventana entrega tres archivos que Access convierte en
 la base de datos: el módulo VBA con DAO que la crea entera (tablas, propiedades
 de campo, claves, relaciones con integridad y cascadas, campos de búsqueda), el
 SQL de Access de una instrucción por consulta y el XML con esquema para Datos

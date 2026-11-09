@@ -16,8 +16,10 @@ import {
     } from '../src/domain/model.js';
 import { renderProperties, typeFields } from '../src/ui/properties.js';
 import {
+    effectiveTab,
     initialLayout,
-    ribbonContents
+    ribbonContents,
+    ribbonTabsFor
     } from '../src/ui/layout.js';
 
 function interfaceState() {
@@ -195,14 +197,20 @@ test( 'Los tipos parametrizados rechazan precisión y tamaños inválidos', () =
     } );
 
 
-test( 'Las tres vistas y los tipos son controles visibles del mismo documento', () => {
+test( 'La vista se elige arriba y cada vista tiene sus pestañas; los tipos están en Propiedades', () => {
     const html = initialLayout( interfaceState() );
+    const header = html.slice( 0, html.indexOf( '</header>' ) );
 
-    assert.match( html, /<select id="view-select" data-view[\s\S]*value="chen"[\s\S]*value="relational"\s+selected[\s\S]*value="tables"/ );
-    assert.doesNotMatch( html, /data-mode=/ );
-    assert.match( html, /id="profile-select" data-profile/ );
-    assert.match( html, /Curso · VARCHAR, CHAR, NUMBER, DATE/ );
-    assert.match( html, /Vista SQL/ );
+    assert.match( header, /<select id="view-select" data-view[\s\S]*value="chen"[\s\S]*value="relational"\s+selected[\s\S]*value="tables"/, 'el selector está en la barra superior' );
+    assert.match( header, /data-action="toggle-panel" data-panel="shapes"[\s\S]*data-panel="sql"[\s\S]*data-panel="properties"/ );
+    assert.doesNotMatch( html, /data-mode=|id="profile-select"|model-controls/ );
+    assert.match( html, /<section class="side-section side-sql[^"]*" data-section="sql"/ );
+    assert.match( html, /id="model-status"/, 'el estado del modelo pasa a la barra inferior' );
+    assert.deepEqual( ribbonTabsFor( 'chen' ).map( ([id]) => id ), ['file', 'home', 'insert', 'model', 'design', 'view', 'help'] );
+    assert.deepEqual( ribbonTabsFor( 'relational' ).map( ([id]) => id ), ['file', 'home', 'insert', 'database', 'design', 'view', 'help'] );
+    assert.deepEqual( ribbonTabsFor( 'tables' ).map( ([id]) => id ), ['file', 'home', 'create', 'data', 'design', 'view', 'help'] );
+    assert.equal( effectiveTab( 'tables', 'database' ), 'create', 'una pestaña de otra vista pasa a la primera propia' );
+    assert.match( ribbonContents( {...interfaceState(), tab: 'insert'} ), /Vista SQL/ );
     } );
 
 

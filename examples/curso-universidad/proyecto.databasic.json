@@ -1,0 +1,2302 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Gestión universitaria · ejercicio 8 (Tema 2)",
+  "tables": [
+    {
+      "id": "a2cddc0e-209f-45df-8a96-d3b95876ae16",
+      "name": "Departamento",
+      "conceptualName": "Departamento",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "5d012461-401e-4b57-b4d2-a4b16acbc696",
+          "name": "codigo",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "d97d8ccf-e9f3-4180-8208-11a46b73837b",
+          "name": "nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4a029695-50dd-4bc5-8623-84c63ac56675",
+          "name": "director_nrp",
+          "type": "VARCHAR(16)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "baf4ddba-da1d-4fcd-aa95-73a89475ce64",
+          "name": "AK_Departamento_Dirige",
+          "columns": [
+            "4a029695-50dd-4bc5-8623-84c63ac56675"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4c0bc9af-93a2-4d40-b010-437626f24430",
+      "name": "Profesor",
+      "conceptualName": "Profesor",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 140,
+      "columns": [
+        {
+          "id": "d747fde8-5063-47b2-8aec-faf8f87d29d6",
+          "name": "nrp",
+          "type": "VARCHAR(16)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "8d5d1a18-2962-4d6e-8431-9fadb451b601",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "4933d5e0-61d0-4459-9c38-296885643e58",
+          "name": "area",
+          "type": "VARCHAR(60)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "163916ea-e4ad-47cd-ad69-0167d0e85f2d",
+          "name": "categoria",
+          "type": "VARCHAR(30)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "036c6f1a-1737-4b44-ba5e-09811a84a5d6",
+          "name": "departamento_codigo",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "364876ef-5b9e-444f-b56a-12f60b26aa04",
+      "name": "Asignatura",
+      "conceptualName": "Asignatura",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 140,
+      "columns": [
+        {
+          "id": "ed9f4c2d-78eb-497b-a193-2f70a3982f5b",
+          "name": "codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "86b9e949-d832-412a-9b35-cacb47a866f7",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "9793402f-e33e-4c41-bae1-eaa2fa6bc40a",
+          "name": "creditos",
+          "type": "NUMBER(4,1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "94197286-a01e-4dfc-b641-2c105e604d13",
+          "name": "caracter",
+          "type": "VARCHAR(12)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "basica",
+              "obligatoria",
+              "optativa"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "1df9d442-33ce-44f2-a25d-e9c32a20def7",
+          "name": "curso",
+          "type": "NUMBER(1)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": 6,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "7153dea1-07b7-4264-b9a4-36461ef999ee",
+      "name": "Grupo",
+      "conceptualName": "Grupo",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 700,
+      "columns": [
+        {
+          "id": "0860f78a-f904-47a0-88f2-7616c57abba5",
+          "name": "codigo",
+          "type": "CHAR(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "cfdca9e1-f85f-46fc-b837-7da9d68de7a8",
+          "name": "tipo",
+          "type": "VARCHAR(9)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "teoria",
+              "practicas"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "9ce6f4e5-030a-461e-986c-b85e845fcb33",
+          "name": "max_alumnos",
+          "type": "NUMBER(3)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "127bec84-513a-4e64-b9ef-c0ed0f60ce57",
+          "name": "asignatura_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "3479971c-aa9b-4f00-ad97-4b5b3dae1069",
+      "name": "Aula",
+      "conceptualName": "Aula",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "acecfc51-b81e-4126-9b71-4d56a417e133",
+          "name": "codigo",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "279a54e5-ab86-4f17-85b3-9ab630b11461",
+          "name": "capacidad",
+          "type": "NUMBER(4)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": 1,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "f7aec66a-8069-46c1-9c7f-507b6fcdd2c8",
+      "name": "Alumno",
+      "conceptualName": "Alumno",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "606fa0bd-2750-44ce-b97a-d9867d45cf81",
+          "name": "dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "37b5a81d-064e-40a6-aa54-e59769e658e7",
+          "name": "nombre",
+          "type": "VARCHAR(80)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784",
+          "name": "fecha_nacimiento",
+          "type": "DATE",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "73a4370f-2aba-48c7-94c8-e1602fbedc3a",
+          "name": "direccion",
+          "type": "VARCHAR(120)",
+          "required": false,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "6be61169-b7fe-4b0a-b91c-f4fd120c9e71",
+      "name": "Imparte",
+      "conceptualName": "Imparte",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 760,
+      "y": 700,
+      "columns": [
+        {
+          "id": "ee9bb886-a8ec-493c-9697-4e2074685128",
+          "name": "profesor_nrp",
+          "type": "VARCHAR(16)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "8941c368-5478-42ae-8cf8-eacec8c0fa9b",
+          "name": "grupo_codigo",
+          "type": "CHAR(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "746ce1b8-76e6-4193-b143-c724c3485324",
+          "name": "grupo_asignatura_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "9985dfea-c36b-47a1-b9c7-3c383dd0e7b4",
+      "name": "Horario",
+      "conceptualName": "Clase",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 2040,
+      "y": 700,
+      "columns": [
+        {
+          "id": "7529e2a8-b038-4686-a31e-5b35b6607809",
+          "name": "grupo_codigo",
+          "type": "CHAR(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44",
+          "name": "grupo_asignatura_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "4e8bc97e-1fa8-4609-8e01-aec006500f76",
+          "name": "aula_codigo",
+          "type": "VARCHAR(10)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "9af9f5c2-dc98-42ad-959c-868e573b8311",
+          "name": "dia",
+          "type": "VARCHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": {
+            "minimum": null,
+            "maximum": null,
+            "values": [
+              "lunes",
+              "martes",
+              "miercoles",
+              "jueves",
+              "viernes"
+            ],
+            "check": ""
+          }
+        },
+        {
+          "id": "0bd53694-dde4-4023-a3ba-06ef48cb8e50",
+          "name": "hora",
+          "type": "CHAR(5)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "bde65d3b-6f55-46d7-b4be-43f6a41c1fa7",
+          "name": "AK_Horario_aula_dia_hora",
+          "columns": [
+            "4e8bc97e-1fa8-4609-8e01-aec006500f76",
+            "9af9f5c2-dc98-42ad-959c-868e573b8311",
+            "0bd53694-dde4-4023-a3ba-06ef48cb8e50"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "93a6404d-b5d1-4596-8744-54ac6e615603",
+      "name": "Matricula",
+      "conceptualName": "Matricula",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 1400,
+      "y": 1260,
+      "columns": [
+        {
+          "id": "ad3a8db0-3173-438c-b533-1b707e2b4814",
+          "name": "alumno_dni",
+          "type": "CHAR(9)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "00e1277d-9e60-484c-bcaf-fd99a41595cf",
+          "name": "grupo_codigo",
+          "type": "CHAR(3)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "83d1b891-768c-45db-864e-80b84aa540af",
+          "name": "grupo_asignatura_codigo",
+          "type": "NUMBER(6)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "82add703-37d9-417a-9fb0-f41bab667d20",
+      "parentId": "a2cddc0e-209f-45df-8a96-d3b95876ae16",
+      "childId": "4c0bc9af-93a2-4d40-b010-437626f24430",
+      "name": "FK_Pertenece_departamento",
+      "forward": "Pertenece",
+      "inverse": "departamento",
+      "cardinality": "one-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "5d012461-401e-4b57-b4d2-a4b16acbc696",
+          "childColumnId": "036c6f1a-1737-4b44-ba5e-09811a84a5d6"
+        }
+      ]
+    },
+    {
+      "id": "2c3d3f1c-1fbe-4177-89f0-10e4ee523aa0",
+      "parentId": "4c0bc9af-93a2-4d40-b010-437626f24430",
+      "childId": "a2cddc0e-209f-45df-8a96-d3b95876ae16",
+      "name": "FK_Dirige_director",
+      "forward": "Dirige",
+      "inverse": "director",
+      "cardinality": "zero-one",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "d747fde8-5063-47b2-8aec-faf8f87d29d6",
+          "childColumnId": "4a029695-50dd-4bc5-8623-84c63ac56675"
+        }
+      ]
+    },
+    {
+      "id": "e1823525-6ae3-413c-a7bd-d84bbbbeaeb1",
+      "parentId": "364876ef-5b9e-444f-b56a-12f60b26aa04",
+      "childId": "7153dea1-07b7-4264-b9a4-36461ef999ee",
+      "name": "FK_Tiene_asignatura",
+      "forward": "Tiene",
+      "inverse": "asignatura",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "ed9f4c2d-78eb-497b-a193-2f70a3982f5b",
+          "childColumnId": "127bec84-513a-4e64-b9ef-c0ed0f60ce57"
+        }
+      ]
+    },
+    {
+      "id": "1bfc299e-087d-46b7-90b3-777331ed3321",
+      "parentId": "4c0bc9af-93a2-4d40-b010-437626f24430",
+      "childId": "6be61169-b7fe-4b0a-b91c-f4fd120c9e71",
+      "name": "FK_Imparte_profesor",
+      "forward": "Imparte",
+      "inverse": "profesor",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "d747fde8-5063-47b2-8aec-faf8f87d29d6",
+          "childColumnId": "ee9bb886-a8ec-493c-9697-4e2074685128"
+        }
+      ]
+    },
+    {
+      "id": "9c2011e3-f8e9-4362-b144-a6710a16ac09",
+      "parentId": "7153dea1-07b7-4264-b9a4-36461ef999ee",
+      "childId": "6be61169-b7fe-4b0a-b91c-f4fd120c9e71",
+      "name": "FK_Imparte_grupo",
+      "forward": "Imparte",
+      "inverse": "grupo",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "0860f78a-f904-47a0-88f2-7616c57abba5",
+          "childColumnId": "8941c368-5478-42ae-8cf8-eacec8c0fa9b"
+        },
+        {
+          "parentColumnId": "127bec84-513a-4e64-b9ef-c0ed0f60ce57",
+          "childColumnId": "746ce1b8-76e6-4193-b143-c724c3485324"
+        }
+      ]
+    },
+    {
+      "id": "feb6ab41-137b-4387-97fc-a6bacaac0211",
+      "parentId": "7153dea1-07b7-4264-b9a4-36461ef999ee",
+      "childId": "9985dfea-c36b-47a1-b9c7-3c383dd0e7b4",
+      "name": "FK_Clase_grupo",
+      "forward": "Clase",
+      "inverse": "grupo",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "0860f78a-f904-47a0-88f2-7616c57abba5",
+          "childColumnId": "7529e2a8-b038-4686-a31e-5b35b6607809"
+        },
+        {
+          "parentColumnId": "127bec84-513a-4e64-b9ef-c0ed0f60ce57",
+          "childColumnId": "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44"
+        }
+      ]
+    },
+    {
+      "id": "d10fb226-b24a-48d8-9166-9857730572d1",
+      "parentId": "3479971c-aa9b-4f00-ad97-4b5b3dae1069",
+      "childId": "9985dfea-c36b-47a1-b9c7-3c383dd0e7b4",
+      "name": "FK_Clase_aula",
+      "forward": "Clase",
+      "inverse": "aula",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "acecfc51-b81e-4126-9b71-4d56a417e133",
+          "childColumnId": "4e8bc97e-1fa8-4609-8e01-aec006500f76"
+        }
+      ]
+    },
+    {
+      "id": "42643638-7e6d-44c0-8e30-982ebdb1d831",
+      "parentId": "f7aec66a-8069-46c1-9c7f-507b6fcdd2c8",
+      "childId": "93a6404d-b5d1-4596-8744-54ac6e615603",
+      "name": "FK_Matricula_alumno",
+      "forward": "Matricula",
+      "inverse": "alumno",
+      "cardinality": "one-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "606fa0bd-2750-44ce-b97a-d9867d45cf81",
+          "childColumnId": "ad3a8db0-3173-438c-b533-1b707e2b4814"
+        }
+      ]
+    },
+    {
+      "id": "abd889e0-7d5a-490f-bea2-0bfcaaa8a51a",
+      "parentId": "7153dea1-07b7-4264-b9a4-36461ef999ee",
+      "childId": "93a6404d-b5d1-4596-8744-54ac6e615603",
+      "name": "FK_Matricula_grupo",
+      "forward": "Matricula",
+      "inverse": "grupo",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "0860f78a-f904-47a0-88f2-7616c57abba5",
+          "childColumnId": "00e1277d-9e60-484c-bcaf-fd99a41595cf"
+        },
+        {
+          "parentColumnId": "127bec84-513a-4e64-b9ef-c0ed0f60ce57",
+          "childColumnId": "83d1b891-768c-45db-864e-80b84aa540af"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+        "name": "Departamento",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "9de49ef2-786d-481e-b522-d3d43249a88e",
+        "name": "Profesor",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "Asignatura",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+        "name": "Grupo",
+        "notes": "",
+        "weak": true,
+        "ownerEntityId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "translation": {
+          "kind": "weak",
+          "relationshipId": "4d1e4a89-50d7-4e73-b078-c0fea9779d4c"
+        }
+      },
+      {
+        "id": "6a109777-40d7-4d73-8edf-97e981b852bd",
+        "name": "Aula",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+        "name": "Alumno",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "2726b515-0adc-4540-8297-252e1d3b67a7",
+        "ownerKind": "entity",
+        "ownerId": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+        "name": "codigo",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "a74aae2a-8223-4b82-888d-458d608ce526",
+        "ownerKind": "entity",
+        "ownerId": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+        "name": "nombre",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "01401ba4-63e7-4e50-a116-a01745f2eef7",
+        "ownerKind": "entity",
+        "ownerId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+        "name": "nrp",
+        "type": "VARCHAR(16)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "5f3a3106-8b0c-4d6c-b20c-ea1ba2e1fbdf",
+        "ownerKind": "entity",
+        "ownerId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "51f27da7-7d37-4c11-a5a5-20a9a0b4c6b2",
+        "ownerKind": "entity",
+        "ownerId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+        "name": "area",
+        "type": "VARCHAR(60)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "79706f11-20a0-4fb6-82e4-5e18248cdb1c",
+        "ownerKind": "entity",
+        "ownerId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+        "name": "categoria",
+        "type": "VARCHAR(30)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "733e8baa-9e41-4791-a434-d45cb3da8b09",
+        "ownerKind": "entity",
+        "ownerId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "codigo",
+        "type": "NUMBER(6)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "48086c62-c821-4b37-9698-b7ade2403442",
+        "ownerKind": "entity",
+        "ownerId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "92059202-ca97-4076-bfcc-5ec215c47cc6",
+        "ownerKind": "entity",
+        "ownerId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "creditos",
+        "type": "NUMBER(4,1)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "65a3f7d8-fb0e-4879-8abc-df1019bf5ef7",
+        "ownerKind": "entity",
+        "ownerId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "caracter",
+        "type": "VARCHAR(12)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "basica",
+            "obligatoria",
+            "optativa"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "bbed0a22-e805-4610-b41a-537644574379",
+        "ownerKind": "entity",
+        "ownerId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+        "name": "curso",
+        "type": "NUMBER(1)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": 6,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "4e976631-83ba-423e-a6fd-0a5e0556c497",
+        "ownerKind": "entity",
+        "ownerId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+        "name": "codigo",
+        "type": "CHAR(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": true,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "de174cdf-88c8-4e28-9864-7535d3bcc247",
+        "ownerKind": "entity",
+        "ownerId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+        "name": "tipo",
+        "type": "VARCHAR(9)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "teoria",
+            "practicas"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "c7efcbe3-5159-433a-a99d-183fbf8589f4",
+        "ownerKind": "entity",
+        "ownerId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+        "name": "max_alumnos",
+        "type": "NUMBER(3)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "d4007562-e8db-402c-847e-5506d4dae4d8",
+        "ownerKind": "entity",
+        "ownerId": "6a109777-40d7-4d73-8edf-97e981b852bd",
+        "name": "codigo",
+        "type": "VARCHAR(10)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "ed8e8eb1-60b1-4484-b6d7-1d3d2f83350d",
+        "ownerKind": "entity",
+        "ownerId": "6a109777-40d7-4d73-8edf-97e981b852bd",
+        "name": "capacidad",
+        "type": "NUMBER(4)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 1,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "7b844238-7c8e-4daa-a471-3d8062bd6b35",
+        "ownerKind": "entity",
+        "ownerId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+        "name": "dni",
+        "type": "CHAR(9)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "03cd1cc2-77c7-4d5f-b6ce-d608f75cc7ee",
+        "ownerKind": "entity",
+        "ownerId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+        "name": "nombre",
+        "type": "VARCHAR(80)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "aaffdf5a-fc35-4d29-95e0-0d1bbff6507e",
+        "ownerKind": "entity",
+        "ownerId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+        "name": "fecha_nacimiento",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "e00be7d7-fced-477a-8dd2-7e033dc35530",
+        "ownerKind": "entity",
+        "ownerId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+        "name": "direccion",
+        "type": "VARCHAR(120)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "23566435-28ba-404b-ad2c-188d88505a57",
+        "ownerKind": "relationship",
+        "ownerId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803",
+        "name": "dia",
+        "type": "VARCHAR(9)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": null,
+          "maximum": null,
+          "values": [
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes"
+          ],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "2f2a0161-9fd8-4787-ae1c-ca4a9a6afec7",
+        "ownerKind": "relationship",
+        "ownerId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803",
+        "name": "hora",
+        "type": "CHAR(5)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "4edd3866-e2c7-40e1-9b86-2c1ffe7bda5a",
+        "name": "Pertenece",
+        "notes": "",
+        "participations": [
+          {
+            "id": "ebde4284-dc2d-4cd9-b23a-a3ca8541fecc",
+            "entityId": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+            "role": "departamento",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "444d4570-43ad-4da7-84e6-f410148c90c2",
+            "entityId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+            "role": "profesor",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "444d4570-43ad-4da7-84e6-f410148c90c2",
+          "identifying": false
+        }
+      },
+      {
+        "id": "1db257a5-753f-4199-a9e0-1758e485b7a1",
+        "name": "Dirige",
+        "notes": "",
+        "participations": [
+          {
+            "id": "93ada142-a13b-4deb-b5b4-e74f86e363a5",
+            "entityId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+            "role": "director",
+            "min": 0,
+            "max": 1
+          },
+          {
+            "id": "8c903798-7dff-4124-8a24-1926c994f6ac",
+            "entityId": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+            "role": "departamento",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "8c903798-7dff-4124-8a24-1926c994f6ac",
+          "identifying": false
+        }
+      },
+      {
+        "id": "4d1e4a89-50d7-4e73-b078-c0fea9779d4c",
+        "name": "Tiene",
+        "notes": "",
+        "participations": [
+          {
+            "id": "49def5d0-f1a6-496f-9027-95b37f559d07",
+            "entityId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+            "role": "asignatura",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "df5f8ee3-2949-4469-8061-a08740271030",
+            "entityId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+            "role": "grupo",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "df5f8ee3-2949-4469-8061-a08740271030",
+          "identifying": true
+        }
+      },
+      {
+        "id": "d170d151-b891-4e7f-b17b-35c0b7cb708a",
+        "name": "Imparte",
+        "notes": "",
+        "participations": [
+          {
+            "id": "3a99be09-88f1-442e-9b17-5692fb3dfebb",
+            "entityId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+            "role": "profesor",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "00db13b2-55e9-4ca0-9323-94bcd1d10e7f",
+            "entityId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+            "role": "grupo",
+            "min": 1,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Imparte",
+          "key": {
+            "participationIds": [
+              "3a99be09-88f1-442e-9b17-5692fb3dfebb",
+              "00db13b2-55e9-4ca0-9323-94bcd1d10e7f"
+            ],
+            "attributeIds": []
+          }
+        }
+      },
+      {
+        "id": "4f5105e7-c15a-4a76-a4c9-c98a8e452803",
+        "name": "Clase",
+        "notes": "",
+        "participations": [
+          {
+            "id": "e6662ec3-f69b-4f14-8e41-62be8e50c5fe",
+            "entityId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+            "role": "grupo",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "1161e0b6-eef6-490c-be65-84d3997fb968",
+            "entityId": "6a109777-40d7-4d73-8edf-97e981b852bd",
+            "role": "aula",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Horario",
+          "key": {
+            "participationIds": [
+              "e6662ec3-f69b-4f14-8e41-62be8e50c5fe"
+            ],
+            "attributeIds": [
+              "23566435-28ba-404b-ad2c-188d88505a57",
+              "2f2a0161-9fd8-4787-ae1c-ca4a9a6afec7"
+            ]
+          }
+        }
+      },
+      {
+        "id": "e5229f94-0cca-4ddf-82f7-59cda64e4840",
+        "name": "Matricula",
+        "notes": "",
+        "participations": [
+          {
+            "id": "bf66246c-1dc4-4f96-8bb1-d8d67cc975fe",
+            "entityId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+            "role": "alumno",
+            "min": 1,
+            "max": null
+          },
+          {
+            "id": "f292f200-9107-4a25-ab8b-83a8ce69e155",
+            "entityId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+            "role": "grupo",
+            "min": 0,
+            "max": null
+          }
+        ],
+        "translation": {
+          "kind": "association",
+          "tableName": "Matricula",
+          "key": {
+            "participationIds": [
+              "bf66246c-1dc4-4f96-8bb1-d8d67cc975fe",
+              "f292f200-9107-4a25-ab8b-83a8ce69e155"
+            ],
+            "attributeIds": []
+          }
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "d7abfcbc-765e-4bf9-9110-1e007d1b58e6",
+      "targetKind": "table",
+      "targetId": "a2cddc0e-209f-45df-8a96-d3b95876ae16"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2726b515-0adc-4540-8297-252e1d3b67a7",
+      "targetKind": "column",
+      "targetId": "5d012461-401e-4b57-b4d2-a4b16acbc696"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "a74aae2a-8223-4b82-888d-458d608ce526",
+      "targetKind": "column",
+      "targetId": "d97d8ccf-e9f3-4180-8208-11a46b73837b"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "9de49ef2-786d-481e-b522-d3d43249a88e",
+      "targetKind": "table",
+      "targetId": "4c0bc9af-93a2-4d40-b010-437626f24430"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "01401ba4-63e7-4e50-a116-a01745f2eef7",
+      "targetKind": "column",
+      "targetId": "d747fde8-5063-47b2-8aec-faf8f87d29d6"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "5f3a3106-8b0c-4d6c-b20c-ea1ba2e1fbdf",
+      "targetKind": "column",
+      "targetId": "8d5d1a18-2962-4d6e-8431-9fadb451b601"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "51f27da7-7d37-4c11-a5a5-20a9a0b4c6b2",
+      "targetKind": "column",
+      "targetId": "4933d5e0-61d0-4459-9c38-296885643e58"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "79706f11-20a0-4fb6-82e4-5e18248cdb1c",
+      "targetKind": "column",
+      "targetId": "163916ea-e4ad-47cd-ad69-0167d0e85f2d"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57",
+      "targetKind": "table",
+      "targetId": "364876ef-5b9e-444f-b56a-12f60b26aa04"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "733e8baa-9e41-4791-a434-d45cb3da8b09",
+      "targetKind": "column",
+      "targetId": "ed9f4c2d-78eb-497b-a193-2f70a3982f5b"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "48086c62-c821-4b37-9698-b7ade2403442",
+      "targetKind": "column",
+      "targetId": "86b9e949-d832-412a-9b35-cacb47a866f7"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "92059202-ca97-4076-bfcc-5ec215c47cc6",
+      "targetKind": "column",
+      "targetId": "9793402f-e33e-4c41-bae1-eaa2fa6bc40a"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "65a3f7d8-fb0e-4879-8abc-df1019bf5ef7",
+      "targetKind": "column",
+      "targetId": "94197286-a01e-4dfc-b641-2c105e604d13"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "bbed0a22-e805-4610-b41a-537644574379",
+      "targetKind": "column",
+      "targetId": "1df9d442-33ce-44f2-a25d-e9c32a20def7"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "8d05e42b-45a9-4836-a1b9-74a506f3e869",
+      "targetKind": "table",
+      "targetId": "7153dea1-07b7-4264-b9a4-36461ef999ee"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "4e976631-83ba-423e-a6fd-0a5e0556c497",
+      "targetKind": "column",
+      "targetId": "0860f78a-f904-47a0-88f2-7616c57abba5"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "de174cdf-88c8-4e28-9864-7535d3bcc247",
+      "targetKind": "column",
+      "targetId": "cfdca9e1-f85f-46fc-b837-7da9d68de7a8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "c7efcbe3-5159-433a-a99d-183fbf8589f4",
+      "targetKind": "column",
+      "targetId": "9ce6f4e5-030a-461e-986c-b85e845fcb33"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "6a109777-40d7-4d73-8edf-97e981b852bd",
+      "targetKind": "table",
+      "targetId": "3479971c-aa9b-4f00-ad97-4b5b3dae1069"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "d4007562-e8db-402c-847e-5506d4dae4d8",
+      "targetKind": "column",
+      "targetId": "acecfc51-b81e-4126-9b71-4d56a417e133"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "ed8e8eb1-60b1-4484-b6d7-1d3d2f83350d",
+      "targetKind": "column",
+      "targetId": "279a54e5-ab86-4f17-85b3-9ab630b11461"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d",
+      "targetKind": "table",
+      "targetId": "f7aec66a-8069-46c1-9c7f-507b6fcdd2c8"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "7b844238-7c8e-4daa-a471-3d8062bd6b35",
+      "targetKind": "column",
+      "targetId": "606fa0bd-2750-44ce-b97a-d9867d45cf81"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "03cd1cc2-77c7-4d5f-b6ce-d608f75cc7ee",
+      "targetKind": "column",
+      "targetId": "37b5a81d-064e-40a6-aa54-e59769e658e7"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "aaffdf5a-fc35-4d29-95e0-0d1bbff6507e",
+      "targetKind": "column",
+      "targetId": "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "e00be7d7-fced-477a-8dd2-7e033dc35530",
+      "targetKind": "column",
+      "targetId": "73a4370f-2aba-48c7-94c8-e1602fbedc3a"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "ebde4284-dc2d-4cd9-b23a-a3ca8541fecc",
+      "targetKind": "foreign-key",
+      "targetId": "82add703-37d9-417a-9fb0-f41bab667d20"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "4edd3866-e2c7-40e1-9b86-2c1ffe7bda5a",
+      "targetKind": "foreign-key",
+      "targetId": "82add703-37d9-417a-9fb0-f41bab667d20"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "93ada142-a13b-4deb-b5b4-e74f86e363a5",
+      "targetKind": "foreign-key",
+      "targetId": "2c3d3f1c-1fbe-4177-89f0-10e4ee523aa0"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "1db257a5-753f-4199-a9e0-1758e485b7a1",
+      "targetKind": "foreign-key",
+      "targetId": "2c3d3f1c-1fbe-4177-89f0-10e4ee523aa0"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "1db257a5-753f-4199-a9e0-1758e485b7a1",
+      "targetKind": "alternate-key",
+      "targetId": "baf4ddba-da1d-4fcd-aa95-73a89475ce64"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "49def5d0-f1a6-496f-9027-95b37f559d07",
+      "targetKind": "foreign-key",
+      "targetId": "e1823525-6ae3-413c-a7bd-d84bbbbeaeb1"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "4d1e4a89-50d7-4e73-b078-c0fea9779d4c",
+      "targetKind": "foreign-key",
+      "targetId": "e1823525-6ae3-413c-a7bd-d84bbbbeaeb1"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "d170d151-b891-4e7f-b17b-35c0b7cb708a",
+      "targetKind": "table",
+      "targetId": "6be61169-b7fe-4b0a-b91c-f4fd120c9e71"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "3a99be09-88f1-442e-9b17-5692fb3dfebb",
+      "targetKind": "foreign-key",
+      "targetId": "1bfc299e-087d-46b7-90b3-777331ed3321"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "00db13b2-55e9-4ca0-9323-94bcd1d10e7f",
+      "targetKind": "foreign-key",
+      "targetId": "9c2011e3-f8e9-4362-b144-a6710a16ac09"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803",
+      "targetKind": "table",
+      "targetId": "9985dfea-c36b-47a1-b9c7-3c383dd0e7b4"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "e6662ec3-f69b-4f14-8e41-62be8e50c5fe",
+      "targetKind": "foreign-key",
+      "targetId": "feb6ab41-137b-4387-97fc-a6bacaac0211"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "1161e0b6-eef6-490c-be65-84d3997fb968",
+      "targetKind": "foreign-key",
+      "targetId": "d10fb226-b24a-48d8-9166-9857730572d1"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "23566435-28ba-404b-ad2c-188d88505a57",
+      "targetKind": "column",
+      "targetId": "9af9f5c2-dc98-42ad-959c-868e573b8311"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "2f2a0161-9fd8-4787-ae1c-ca4a9a6afec7",
+      "targetKind": "column",
+      "targetId": "0bd53694-dde4-4023-a3ba-06ef48cb8e50"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "e5229f94-0cca-4ddf-82f7-59cda64e4840",
+      "targetKind": "table",
+      "targetId": "93a6404d-b5d1-4596-8744-54ac6e615603"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "bf66246c-1dc4-4f96-8bb1-d8d67cc975fe",
+      "targetKind": "foreign-key",
+      "targetId": "42643638-7e6d-44c0-8e30-982ebdb1d831"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "f292f200-9107-4a25-ab8b-83a8ce69e155",
+      "targetKind": "foreign-key",
+      "targetId": "abd889e0-7d5a-490f-bea2-0bfcaaa8a51a"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "2078ff31-0616-4b03-87f0-a5297e879423",
+      "kind": "enunciado",
+      "text": "Un profesor pertenece a un solo departamento y todo departamento tiene un director, que es un profesor.",
+      "elementId": "1db257a5-753f-4199-a9e0-1758e485b7a1"
+    },
+    {
+      "id": "54f5e4d4-ecea-43c4-9bd4-9a7d22cd8670",
+      "kind": "enunciado",
+      "text": "Un grupo lo imparte al menos un profesor y un profesor imparte varios grupos.",
+      "elementId": "d170d151-b891-4e7f-b17b-35c0b7cb708a"
+    },
+    {
+      "id": "3769a4ef-995c-4b44-8605-c95dc7635abc",
+      "kind": "supuesto",
+      "text": "El grupo se identifica por su código dentro de la asignatura: entidad débil de Asignatura.",
+      "elementId": "8d05e42b-45a9-4836-a1b9-74a506f3e869"
+    },
+    {
+      "id": "4d0033a6-2a9d-4161-b009-ca090f9f2ad1",
+      "kind": "supuesto",
+      "text": "Teoría y prácticas no tienen atributos propios: el tipo de grupo es un dominio, no una especialización.",
+      "elementId": "8d05e42b-45a9-4836-a1b9-74a506f3e869"
+    },
+    {
+      "id": "4a395d02-fe44-44ab-b19e-c261d3590c31",
+      "kind": "supuesto",
+      "text": "Las clases se dan en un día de la semana y una hora; ambos forman parte de la clave del horario.",
+      "elementId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803"
+    },
+    {
+      "id": "65c2f293-d5c2-4551-abda-89513d018bdd",
+      "kind": "supuesto",
+      "text": "Un grupo está en una sola aula a la vez y un aula acoge un solo grupo a la vez: la clave de Horario es (grupo, día, hora), el aula es una clave ajena obligatoria fuera de la clave y (aula, día, hora) es clave alternativa.",
+      "elementId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803"
+    },
+    {
+      "id": "91e9a731-3dcf-4561-b0cd-b48e879c6297",
+      "kind": "enunciado",
+      "text": "A los grupos se les imparten clases en días, horas y aulas determinadas: todo grupo participa en Clase (1,N).",
+      "elementId": "4f5105e7-c15a-4a76-a4c9-c98a8e452803"
+    },
+    {
+      "id": "88a019ae-2170-4885-984c-682d6ae1b175",
+      "kind": "enunciado",
+      "text": "Los alumnos se matriculan de varias asignaturas (al menos una), siempre en un grupo: Matricula N:N entre Alumno (1,N) y Grupo.",
+      "elementId": "e5229f94-0cca-4ddf-82f7-59cda64e4840"
+    },
+    {
+      "id": "66229d89-06fc-4de2-be2b-c7d881e072f6",
+      "kind": "perdida",
+      "text": "Que el alumno esté en un solo grupo por asignatura no se impone: con la clave (alumno, grupo) una restricción UNIQUE (alumno, asignatura) dejaría la clave primaria sin ser mínima. El diseño que sí lo impone es Matricula(alumno, asignatura, grupo) con clave (alumno, asignatura); si hubiera grupos de teoría y de prácticas, la regla sería uno por asignatura y tipo.",
+      "elementId": "e5229f94-0cca-4ddf-82f7-59cda64e4840"
+    },
+    {
+      "id": "7ef745ef-ea9f-47d7-8de9-5a0d4ca859dc",
+      "kind": "supuesto",
+      "text": "El número de registro personal es un código con letras y cifras: se guarda como texto (VARCHAR).",
+      "elementId": "9de49ef2-786d-481e-b522-d3d43249a88e"
+    },
+    {
+      "id": "6cf70377-c4b6-4863-af44-4d1b040b8b13",
+      "kind": "perdida",
+      "text": "Que el grupo no supere su máximo de alumnos ni la capacidad del aula, y que el director pertenezca a su departamento, no se imponen con claves.",
+      "elementId": "e5229f94-0cca-4ddf-82f7-59cda64e4840"
+    },
+    {
+      "id": "94dab84c-b304-42a2-bdfd-3a5167208b93",
+      "kind": "perdida",
+      "text": "Departamento y Profesor se referencian mutuamente con claves ajenas obligatorias: al cargar datos hay que insertar uno con la referencia pendiente.",
+      "elementId": "1db257a5-753f-4199-a9e0-1758e485b7a1"
+    }
+  ],
+  "physical": {
+    "columns": {},
+    "relationships": {},
+    "tables": {}
+  },
+  "data": {
+    "364876ef-5b9e-444f-b56a-12f60b26aa04": [
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "1",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Bases de datos",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "17.5",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "basica",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "5"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "2",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Programación",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "9.6",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "obligatoria",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "5"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "3",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Redes",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "2.1",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "optativa",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "6"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "4",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Estadística",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "12.9",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "optativa",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "3"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "5",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Sistemas operativos",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "5.6",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "basica",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "1"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "6",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Matemáticas",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "8.1",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "optativa",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "5"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "7",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Física",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "7.7",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "basica",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "2"
+      },
+      {
+        "ed9f4c2d-78eb-497b-a193-2f70a3982f5b": "8",
+        "86b9e949-d832-412a-9b35-cacb47a866f7": "Ingeniería del software",
+        "9793402f-e33e-4c41-bae1-eaa2fa6bc40a": "10.5",
+        "94197286-a01e-4dfc-b641-2c105e604d13": "optativa",
+        "1df9d442-33ce-44f2-a25d-e9c32a20def7": "6"
+      }
+    ],
+    "3479971c-aa9b-4f00-ad97-4b5b3dae1069": [
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0001",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "297"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0002",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "251"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0003",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "388"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0004",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "161"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0005",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "353"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0006",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "219"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0007",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "298"
+      },
+      {
+        "acecfc51-b81e-4126-9b71-4d56a417e133": "AUL0008",
+        "279a54e5-ab86-4f17-85b3-9ab630b11461": "227"
+      }
+    ],
+    "f7aec66a-8069-46c1-9c7f-507b6fcdd2c8": [
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10000524D",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Marta Sánchez",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "1989-02-17",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "C/ Mayor 79, Murcia"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10008062A",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Paula Díaz",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "1970-10-07",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "Av. de la Libertad 4, Santa Pola"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10016134W",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Clara Navarro",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "1973-01-18",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "Paseo Marítimo 4, Torrevieja"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10023888M",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Luis Romero",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "1990-04-21",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "C/ del Mar 15, Santa Pola"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10032178S",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Andrés Sánchez",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "C/ San Vicente 48, Elche"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10039647D",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Nuria Moreno",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "2002-05-02",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "C/ San Vicente 4, Valencia"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10048283C",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Javier López",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "C/ del Mar 15, Murcia"
+      },
+      {
+        "606fa0bd-2750-44ce-b97a-d9867d45cf81": "10056322D",
+        "37b5a81d-064e-40a6-aa54-e59769e658e7": "Paula Romero",
+        "40d7b27f-b55b-4e2c-8c4b-9d5ecd9d2784": "1993-11-03",
+        "73a4370f-2aba-48c7-94c8-e1602fbedc3a": "Av. de Elche 15, Crevillente"
+      }
+    ],
+    "7153dea1-07b7-4264-b9a4-36461ef999ee": [
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "001",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "practicas",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "34",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "6"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "002",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "practicas",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "66",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "4"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "003",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "practicas",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "37",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "8"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "004",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "teoria",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "82",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "2"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "005",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "practicas",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "75",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "8"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "006",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "teoria",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "36",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "7"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "007",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "teoria",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "60",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "6"
+      },
+      {
+        "0860f78a-f904-47a0-88f2-7616c57abba5": "008",
+        "cfdca9e1-f85f-46fc-b837-7da9d68de7a8": "teoria",
+        "9ce6f4e5-030a-461e-986c-b85e845fcb33": "47",
+        "127bec84-513a-4e64-b9ef-c0ed0f60ce57": "8"
+      }
+    ],
+    "9985dfea-c36b-47a1-b9c7-3c383dd0e7b4": [
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "007",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "6",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0002",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "miercoles",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "08:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "001",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "6",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0005",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "miercoles",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "09:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "004",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "2",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0005",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "martes",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "10:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "008",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "8",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0007",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "jueves",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "11:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "004",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "2",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0004",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "viernes",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "12:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "002",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "4",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0007",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "miercoles",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "13:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "006",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "7",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0004",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "viernes",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "14:00"
+      },
+      {
+        "7529e2a8-b038-4686-a31e-5b35b6607809": "006",
+        "6fd4a6cc-331d-4fa2-bea3-9e4c3e985f44": "7",
+        "4e8bc97e-1fa8-4609-8e01-aec006500f76": "AUL0001",
+        "9af9f5c2-dc98-42ad-959c-868e573b8311": "martes",
+        "0bd53694-dde4-4023-a3ba-06ef48cb8e50": "15:00"
+      }
+    ],
+    "93a6404d-b5d1-4596-8744-54ac6e615603": [
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10039647D",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "007",
+        "83d1b891-768c-45db-864e-80b84aa540af": "6"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10016134W",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "006",
+        "83d1b891-768c-45db-864e-80b84aa540af": "7"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10008062A",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "002",
+        "83d1b891-768c-45db-864e-80b84aa540af": "4"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10056322D",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "003",
+        "83d1b891-768c-45db-864e-80b84aa540af": "8"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10048283C",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "003",
+        "83d1b891-768c-45db-864e-80b84aa540af": "8"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10008062A",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "007",
+        "83d1b891-768c-45db-864e-80b84aa540af": "6"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10039647D",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "005",
+        "83d1b891-768c-45db-864e-80b84aa540af": "8"
+      },
+      {
+        "ad3a8db0-3173-438c-b533-1b707e2b4814": "10023888M",
+        "00e1277d-9e60-484c-bcaf-fd99a41595cf": "001",
+        "83d1b891-768c-45db-864e-80b84aa540af": "6"
+      }
+    ],
+    "a2cddc0e-209f-45df-8a96-d3b95876ae16": [
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "1",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Logística",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 6"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "2",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Administración",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 4"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "3",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Mantenimiento",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 7"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "4",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Ventas",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 3"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "5",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Recursos Humanos",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 1"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "6",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Informática",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 5"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "7",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Calidad",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 8"
+      },
+      {
+        "5d012461-401e-4b57-b4d2-a4b16acbc696": "8",
+        "d97d8ccf-e9f3-4180-8208-11a46b73837b": "Compras",
+        "4a029695-50dd-4bc5-8623-84c63ac56675": "nrp 2"
+      }
+    ],
+    "4c0bc9af-93a2-4d40-b010-437626f24430": [
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 1",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Luis Romero",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "docencia",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "asociado",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "4"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 2",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Pablo Gómez",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "investigación",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "catedrático",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "4"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 3",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Hugo Álvarez",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "atención al público",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "catedrático",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "7"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 4",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Javier García",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "docencia",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "asociado",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "6"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 5",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Paula Romero",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "mantenimiento",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "titular",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "1"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 6",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Alba Romero",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "gestión",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "8"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 7",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Carlos Sánchez",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "investigación",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "asociado",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "1"
+      },
+      {
+        "d747fde8-5063-47b2-8aec-faf8f87d29d6": "nrp 8",
+        "8d5d1a18-2962-4d6e-8431-9fadb451b601": "Irene Martínez",
+        "4933d5e0-61d0-4459-9c38-296885643e58": "investigación",
+        "163916ea-e4ad-47cd-ad69-0167d0e85f2d": "",
+        "036c6f1a-1737-4b44-ba5e-09811a84a5d6": "6"
+      }
+    ],
+    "6be61169-b7fe-4b0a-b91c-f4fd120c9e71": [
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 3",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "008",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "8"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 6",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "006",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "7"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 2",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "007",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "6"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 6",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "007",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "6"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 1",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "008",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "8"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 7",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "008",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "8"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 1",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "002",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "4"
+      },
+      {
+        "ee9bb886-a8ec-493c-9697-4e2074685128": "nrp 5",
+        "8941c368-5478-42ae-8cf8-eacec8c0fa9b": "006",
+        "746ce1b8-76e6-4193-b143-c724c3485324": "7"
+      }
+    ]
+  },
+  "presentation": {
+    "chen": {
+      "d7abfcbc-765e-4bf9-9110-1e007d1b58e6": {
+        "x": 120,
+        "y": 140
+      },
+      "9de49ef2-786d-481e-b522-d3d43249a88e": {
+        "x": 1080,
+        "y": 140
+      },
+      "7ffc9c39-3e34-4bce-9f3e-2f89cd2fec57": {
+        "x": 3000,
+        "y": 140
+      },
+      "8d05e42b-45a9-4836-a1b9-74a506f3e869": {
+        "x": 2040,
+        "y": 980
+      },
+      "6a109777-40d7-4d73-8edf-97e981b852bd": {
+        "x": 3000,
+        "y": 1820
+      },
+      "cf00f5aa-ab68-4647-8c84-0f17c3eb1e8d": {
+        "x": 1080,
+        "y": 1820
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  }
+}

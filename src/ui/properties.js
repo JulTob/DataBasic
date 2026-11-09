@@ -98,7 +98,7 @@ function accessFieldsGrid(
     return `<div class="property-grid-wrap"><table class="property-grid access-grid"><thead><tr>
         <th></th><th>Nombre del campo</th><th>Tipo de datos</th><th>Tamaño</th><th>Descripción</th><th></th>
         </tr></thead><tbody>${rows}</tbody></table>
-        ${rows ? '' : '<div class="no-fields">Añade columnas en la vista relacional; aquí se ven como campos de Access.</div>'}
+        ${rows ? '' : '<div class="no-fields">Añade columnas en la vista relacional; aquí se ven como campos de datos.</div>'}
         </div>`;
     }
 
@@ -151,7 +151,7 @@ function accessFieldsPanel(
     const field = table.columns.find( item => item.id === selectedColumnId );
 
     return `<div class="columns-panel access-fields">${accessFieldsGrid( model, table, selectedColumnId )}
-        ${field ? accessFieldProperties( model, table, field ) : '<p class="field-hint">Selecciona un campo para ver sus propiedades, como en la vista Diseño de Access.</p>'}</div>`;
+        ${field ? accessFieldProperties( model, table, field ) : '<p class="field-hint">Selecciona un campo para ver sus propiedades, como en una vista de diseño de tabla.</p>'}</div>`;
     }
 
 /** Hoja de datos: sample rows typed like in Access, with the rule each cell breaks. */
@@ -204,7 +204,7 @@ function datasheetPanel(
             : (rows.length ? '<p class="data-ok">Las filas cumplen obligatoriedad, tipos, dominios, claves y referencias.</p>' : '')}
         <p class="field-hint">Se comprueban: campos obligatorios, el formato del tipo (números, longitud, fechas
             AAAA-MM-DD), el dominio, la unicidad de la clave primaria, las claves alternativas y los índices únicos,
-            y que cada clave ajena exista en la tabla referenciada. Las filas viajan a Access con los tres archivos.</p></div>`;
+            y que cada clave ajena exista en la tabla referenciada. Las filas viajan a la base de datos con los archivos exportados.</p></div>`;
     }
 
 function accessTablePanel(
@@ -260,7 +260,7 @@ function accessRelationshipPanel(
                     )}</select>
             ${physicalState( definition.overridden, 'displayColumnId' )}</label>
         ${flag( 'Ocultar la columna clave', 'hideKey', composite || !definition.lookup ? 'disabled' : '' )}
-        ${composite ? '<p class="field-hint">Clave ajena compuesta: Access crea la relación directamente, sin campo de búsqueda.</p>' : ''}
+        ${composite ? '<p class="field-hint">Clave ajena compuesta: la relación se crea directamente, sin campo de búsqueda.</p>' : ''}
         </fieldset>
         ${physicalResetButton( 'relationship', relation.id, definition.overridden )}</div>`;
     }
@@ -497,9 +497,9 @@ export function renderProperties(
     const categories = table
         ? [
             ...(access ? [
-                ['fields', 'Campos de Access'],
+                ['fields', 'Campos de datos'],
                 ...(table.kind === 'entity' ? [['datasheet', 'Hoja de datos']] : []),
-                ['access-table', 'Tabla de Access']
+                ['access-table', 'Tabla de datos']
                 ] : []),
             ['definition', 'Definición'],
             ...(table.kind === 'view' ? [['query', 'Definición SQL']] : []),
@@ -509,7 +509,7 @@ export function renderProperties(
             ['notes', 'Notas']
             ]
         : [
-            ...(access ? [['access-relationship', 'Relación en Access']] : []),
+            ...(access ? [['access-relationship', 'Relación de datos']] : []),
             ['definition', 'Definición'],
             ['name', 'Nombre'],
             ['misc', 'Varios'],

@@ -1,0 +1,1059 @@
+{
+  "format": "databasic",
+  "version": 2,
+  "profile": "course",
+  "name": "Club de observación · tablas de valores múltiples",
+  "tables": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "name": "Persona",
+      "conceptualName": "Persona",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 120,
+      "y": 140,
+      "columns": [
+        {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "name": "codigoPersona",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000017",
+          "name": "nombre",
+          "type": "VARCHAR(60)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "name": "Instrumento",
+      "conceptualName": "Instrumento",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 680,
+      "y": 140,
+      "columns": [
+        {
+          "id": "00000000-0000-4000-8000-000000000010",
+          "name": "codigoInstrumento",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000019",
+          "name": "serie",
+          "type": "CHAR(12)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000021",
+          "name": "fechaAlta",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000023",
+          "name": "valor",
+          "type": "NUMBER(8,2)",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "0",
+          "domain": {
+            "minimum": 0,
+            "maximum": null,
+            "values": [],
+            "check": ""
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000088",
+          "name": "sede",
+          "type": "CHAR(4)",
+          "required": true,
+          "primary": true,
+          "notes": "Variante del módulo: el código de instrumento es local a cada sede; PK conjunta codigoInstrumento+sede.",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": [],
+      "alternateKeys": [
+        {
+          "id": "00000000-0000-4000-8000-000000000026",
+          "name": "AK_Instrumento_serie",
+          "columns": [
+            "00000000-0000-4000-8000-000000000019"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000011",
+      "name": "Sesion",
+      "conceptualName": "Sesion",
+      "syncNames": true,
+      "namespace": "",
+      "kind": "entity",
+      "x": 400,
+      "y": 520,
+      "columns": [
+        {
+          "id": "00000000-0000-4000-8000-000000000015",
+          "name": "codigoSesion",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000025",
+          "name": "fecha",
+          "type": "DATE",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000031",
+          "name": "coordinadora_codigoPersona",
+          "type": "NUMBER",
+          "required": true,
+          "primary": false,
+          "notes": "",
+          "defaultValue": ""
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000093",
+      "name": "Etiquetas",
+      "conceptualName": "etiqueta",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 250,
+      "y": 255,
+      "columns": [
+        {
+          "id": "00000000-0000-4000-8000-000000000095",
+          "name": "Instrumento_codigoInstrumento",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000096",
+          "name": "Instrumento_sede",
+          "type": "CHAR(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000097",
+          "name": "etiqueta",
+          "type": "VARCHAR(20)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000098",
+      "name": "Calibraciones",
+      "conceptualName": "calibracion",
+      "syncNames": false,
+      "namespace": "",
+      "kind": "entity",
+      "x": 280,
+      "y": 280,
+      "columns": [
+        {
+          "id": "00000000-0000-4000-8000-000000000100",
+          "name": "Instrumento_codigoInstrumento",
+          "type": "NUMBER",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000101",
+          "name": "Instrumento_sede",
+          "type": "CHAR(4)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": ""
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000102",
+          "name": "fechaCalibracion",
+          "type": "DATE",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000103",
+          "name": "patron",
+          "type": "CHAR(10)",
+          "required": true,
+          "primary": true,
+          "notes": "",
+          "defaultValue": "",
+          "domain": null
+        }
+      ],
+      "notes": "",
+      "definition": "",
+      "indexes": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "00000000-0000-4000-8000-000000000030",
+      "parentId": "00000000-0000-4000-8000-000000000001",
+      "childId": "00000000-0000-4000-8000-000000000011",
+      "name": "FK_Coordina_coordinadora",
+      "forward": "Coordina",
+      "inverse": "coordinadora",
+      "cardinality": "zero-many",
+      "identifying": false,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "00000000-0000-4000-8000-000000000005",
+          "childColumnId": "00000000-0000-4000-8000-000000000031"
+        }
+      ]
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000094",
+      "parentId": "00000000-0000-4000-8000-000000000006",
+      "childId": "00000000-0000-4000-8000-000000000093",
+      "name": "FK_Etiquetas_Instrumento",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "00000000-0000-4000-8000-000000000010",
+          "childColumnId": "00000000-0000-4000-8000-000000000095"
+        },
+        {
+          "parentColumnId": "00000000-0000-4000-8000-000000000088",
+          "childColumnId": "00000000-0000-4000-8000-000000000096"
+        }
+      ]
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000099",
+      "parentId": "00000000-0000-4000-8000-000000000006",
+      "childId": "00000000-0000-4000-8000-000000000098",
+      "name": "FK_Calibraciones_Instrumento",
+      "forward": "",
+      "inverse": "",
+      "cardinality": "zero-many",
+      "identifying": true,
+      "optional": false,
+      "onDelete": "NO ACTION",
+      "onUpdate": "NO ACTION",
+      "mappings": [
+        {
+          "parentColumnId": "00000000-0000-4000-8000-000000000010",
+          "childColumnId": "00000000-0000-4000-8000-000000000100"
+        },
+        {
+          "parentColumnId": "00000000-0000-4000-8000-000000000088",
+          "childColumnId": "00000000-0000-4000-8000-000000000101"
+        }
+      ]
+    }
+  ],
+  "conceptual": {
+    "entities": [
+      {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "name": "Persona",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000008",
+        "name": "Instrumento",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000013",
+        "name": "Sesion",
+        "notes": "",
+        "weak": false,
+        "ownerEntityId": null,
+        "translation": {
+          "kind": "table"
+        }
+      }
+    ],
+    "attributes": [
+      {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000003",
+        "name": "codigoPersona",
+        "type": "NUMBER",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000009",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "codigoInstrumento",
+        "type": "NUMBER",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000014",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000013",
+        "name": "codigoSesion",
+        "type": "NUMBER",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000016",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000003",
+        "name": "nombre",
+        "type": "VARCHAR(60)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000018",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "serie",
+        "type": "CHAR(12)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000020",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "fechaAlta",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000022",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "valor",
+        "type": "NUMBER(8,2)",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "0",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": {
+          "minimum": 0,
+          "maximum": null,
+          "values": [],
+          "check": ""
+        },
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000024",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000013",
+        "name": "fecha",
+        "type": "DATE",
+        "required": true,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000087",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "sede",
+        "type": "CHAR(4)",
+        "required": true,
+        "primary": true,
+        "partialKey": false,
+        "notes": "Variante del módulo: el código de instrumento es local a cada sede; PK conjunta codigoInstrumento+sede.",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000089",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "etiqueta",
+        "type": "VARCHAR(20)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Etiquetas"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000090",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "calibracion",
+        "type": "VARCHAR(50)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "composite",
+        "multivalued": true,
+        "derived": false,
+        "parentAttributeId": null,
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "multivalued-table",
+          "tableName": "Calibraciones"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000091",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "fechaCalibracion",
+        "type": "DATE",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": "00000000-0000-4000-8000-000000000090",
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000092",
+        "ownerKind": "entity",
+        "ownerId": "00000000-0000-4000-8000-000000000008",
+        "name": "patron",
+        "type": "CHAR(10)",
+        "required": false,
+        "primary": false,
+        "partialKey": false,
+        "notes": "",
+        "defaultValue": "",
+        "structure": "simple",
+        "multivalued": false,
+        "derived": false,
+        "parentAttributeId": "00000000-0000-4000-8000-000000000090",
+        "derivation": "",
+        "domain": null,
+        "translation": {
+          "kind": "column"
+        }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "00000000-0000-4000-8000-000000000027",
+        "name": "Coordina",
+        "notes": "Cada sesión tiene una persona coordinadora; una persona puede coordinar ninguna o varias sesiones.",
+        "participations": [
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "entityId": "00000000-0000-4000-8000-000000000003",
+            "role": "coordinadora",
+            "min": 0,
+            "max": null
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "entityId": "00000000-0000-4000-8000-000000000013",
+            "role": "sesion",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "translation": {
+          "kind": "foreign-key",
+          "childParticipationId": "00000000-0000-4000-8000-000000000029",
+          "identifying": false
+        }
+      }
+    ],
+    "generalizations": []
+  },
+  "traces": [
+    {
+      "sourceKind": "entity",
+      "sourceId": "00000000-0000-4000-8000-000000000003",
+      "targetKind": "table",
+      "targetId": "00000000-0000-4000-8000-000000000001"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000004",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000005"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "00000000-0000-4000-8000-000000000008",
+      "targetKind": "table",
+      "targetId": "00000000-0000-4000-8000-000000000006"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000009",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000010"
+    },
+    {
+      "sourceKind": "entity",
+      "sourceId": "00000000-0000-4000-8000-000000000013",
+      "targetKind": "table",
+      "targetId": "00000000-0000-4000-8000-000000000011"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000014",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000015"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000016",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000017"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000018",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000019"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000020",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000021"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000022",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000023"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000024",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000025"
+    },
+    {
+      "sourceKind": "participation",
+      "sourceId": "00000000-0000-4000-8000-000000000028",
+      "targetKind": "foreign-key",
+      "targetId": "00000000-0000-4000-8000-000000000030"
+    },
+    {
+      "sourceKind": "relationship",
+      "sourceId": "00000000-0000-4000-8000-000000000027",
+      "targetKind": "foreign-key",
+      "targetId": "00000000-0000-4000-8000-000000000030"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000087",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000088"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000089",
+      "targetKind": "table",
+      "targetId": "00000000-0000-4000-8000-000000000093"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000089",
+      "targetKind": "foreign-key",
+      "targetId": "00000000-0000-4000-8000-000000000094"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000089",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000097"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000090",
+      "targetKind": "table",
+      "targetId": "00000000-0000-4000-8000-000000000098"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000090",
+      "targetKind": "foreign-key",
+      "targetId": "00000000-0000-4000-8000-000000000099"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000091",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000102"
+    },
+    {
+      "sourceKind": "attribute",
+      "sourceId": "00000000-0000-4000-8000-000000000092",
+      "targetKind": "column",
+      "targetId": "00000000-0000-4000-8000-000000000103"
+    }
+  ],
+  "presentation": {
+    "chen": {
+      "00000000-0000-4000-8000-000000000003": {
+        "x": 120,
+        "y": 140
+      },
+      "00000000-0000-4000-8000-000000000008": {
+        "x": 680,
+        "y": 140
+      },
+      "00000000-0000-4000-8000-000000000013": {
+        "x": 400,
+        "y": 520
+      }
+    },
+    "relational": {}
+  },
+  "display": {
+    "mode": "chen",
+    "notation": "idef1x",
+    "conceptual": false,
+    "types": true,
+    "keys": true,
+    "required": true,
+    "crowsFeet": true,
+    "cardinality": false,
+    "relationshipNames": true,
+    "grid": true
+  },
+  "data": {
+    "00000000-0000-4000-8000-000000000001": [
+      {
+        "00000000-0000-4000-8000-000000000005": "1",
+        "00000000-0000-4000-8000-000000000017": "Marta Sánchez"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "2",
+        "00000000-0000-4000-8000-000000000017": "Diego Gómez"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "3",
+        "00000000-0000-4000-8000-000000000017": "Hugo Romero"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "4",
+        "00000000-0000-4000-8000-000000000017": "Luis Álvarez"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "5",
+        "00000000-0000-4000-8000-000000000017": "Andrés Fernández"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "6",
+        "00000000-0000-4000-8000-000000000017": "Alba Fernández"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "7",
+        "00000000-0000-4000-8000-000000000017": "Marta García"
+      },
+      {
+        "00000000-0000-4000-8000-000000000005": "8",
+        "00000000-0000-4000-8000-000000000017": "Diego Sánchez"
+      }
+    ],
+    "00000000-0000-4000-8000-000000000006": [
+      {
+        "00000000-0000-4000-8000-000000000010": "1",
+        "00000000-0000-4000-8000-000000000019": "INS0001",
+        "00000000-0000-4000-8000-000000000021": "2026-04-08",
+        "00000000-0000-4000-8000-000000000023": "1523.14",
+        "00000000-0000-4000-8000-000000000088": "Alic"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "2",
+        "00000000-0000-4000-8000-000000000019": "INS0002",
+        "00000000-0000-4000-8000-000000000021": "2024-06-27",
+        "00000000-0000-4000-8000-000000000023": "465.22",
+        "00000000-0000-4000-8000-000000000088": "Sant"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "3",
+        "00000000-0000-4000-8000-000000000019": "INS0003",
+        "00000000-0000-4000-8000-000000000021": "2025-10-06",
+        "00000000-0000-4000-8000-000000000023": "1823.09",
+        "00000000-0000-4000-8000-000000000088": "Murc"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "4",
+        "00000000-0000-4000-8000-000000000019": "INS0004",
+        "00000000-0000-4000-8000-000000000021": "2025-03-24",
+        "00000000-0000-4000-8000-000000000023": "1552.89",
+        "00000000-0000-4000-8000-000000000088": "Sant"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "5",
+        "00000000-0000-4000-8000-000000000019": "INS0005",
+        "00000000-0000-4000-8000-000000000021": "2025-09-24",
+        "00000000-0000-4000-8000-000000000023": "875.41",
+        "00000000-0000-4000-8000-000000000088": "Murc"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "6",
+        "00000000-0000-4000-8000-000000000019": "INS0006",
+        "00000000-0000-4000-8000-000000000021": "2025-02-07",
+        "00000000-0000-4000-8000-000000000023": "1058.89",
+        "00000000-0000-4000-8000-000000000088": "Vale"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "7",
+        "00000000-0000-4000-8000-000000000019": "INS0007",
+        "00000000-0000-4000-8000-000000000021": "2024-07-15",
+        "00000000-0000-4000-8000-000000000023": "1706.09",
+        "00000000-0000-4000-8000-000000000088": "Vale"
+      },
+      {
+        "00000000-0000-4000-8000-000000000010": "8",
+        "00000000-0000-4000-8000-000000000019": "INS0008",
+        "00000000-0000-4000-8000-000000000021": "2024-04-25",
+        "00000000-0000-4000-8000-000000000023": "1156.37",
+        "00000000-0000-4000-8000-000000000088": "Orih"
+      }
+    ],
+    "00000000-0000-4000-8000-000000000011": [
+      {
+        "00000000-0000-4000-8000-000000000015": "1",
+        "00000000-0000-4000-8000-000000000025": "2026-02-21",
+        "00000000-0000-4000-8000-000000000031": "1"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "2",
+        "00000000-0000-4000-8000-000000000025": "2024-05-09",
+        "00000000-0000-4000-8000-000000000031": "5"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "3",
+        "00000000-0000-4000-8000-000000000025": "2025-04-26",
+        "00000000-0000-4000-8000-000000000031": "7"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "4",
+        "00000000-0000-4000-8000-000000000025": "2024-10-09",
+        "00000000-0000-4000-8000-000000000031": "7"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "5",
+        "00000000-0000-4000-8000-000000000025": "2024-07-25",
+        "00000000-0000-4000-8000-000000000031": "7"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "6",
+        "00000000-0000-4000-8000-000000000025": "2024-06-26",
+        "00000000-0000-4000-8000-000000000031": "5"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "7",
+        "00000000-0000-4000-8000-000000000025": "2024-11-04",
+        "00000000-0000-4000-8000-000000000031": "1"
+      },
+      {
+        "00000000-0000-4000-8000-000000000015": "8",
+        "00000000-0000-4000-8000-000000000025": "2024-05-13",
+        "00000000-0000-4000-8000-000000000031": "3"
+      }
+    ],
+    "00000000-0000-4000-8000-000000000093": [
+      {
+        "00000000-0000-4000-8000-000000000095": "8",
+        "00000000-0000-4000-8000-000000000096": "Orih",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 1"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "5",
+        "00000000-0000-4000-8000-000000000096": "Murc",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 2"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "3",
+        "00000000-0000-4000-8000-000000000096": "Murc",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 3"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "1",
+        "00000000-0000-4000-8000-000000000096": "Alic",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 4"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "5",
+        "00000000-0000-4000-8000-000000000096": "Murc",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 5"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "5",
+        "00000000-0000-4000-8000-000000000096": "Murc",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 6"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "8",
+        "00000000-0000-4000-8000-000000000096": "Orih",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 7"
+      },
+      {
+        "00000000-0000-4000-8000-000000000095": "1",
+        "00000000-0000-4000-8000-000000000096": "Alic",
+        "00000000-0000-4000-8000-000000000097": "etiqueta 8"
+      }
+    ],
+    "00000000-0000-4000-8000-000000000098": [
+      {
+        "00000000-0000-4000-8000-000000000100": "7",
+        "00000000-0000-4000-8000-000000000101": "Vale",
+        "00000000-0000-4000-8000-000000000102": "2024-04-28",
+        "00000000-0000-4000-8000-000000000103": "CAL0001"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "2",
+        "00000000-0000-4000-8000-000000000101": "Sant",
+        "00000000-0000-4000-8000-000000000102": "2026-01-20",
+        "00000000-0000-4000-8000-000000000103": "CAL0002"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "8",
+        "00000000-0000-4000-8000-000000000101": "Orih",
+        "00000000-0000-4000-8000-000000000102": "2025-09-11",
+        "00000000-0000-4000-8000-000000000103": "CAL0003"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "3",
+        "00000000-0000-4000-8000-000000000101": "Murc",
+        "00000000-0000-4000-8000-000000000102": "2025-11-06",
+        "00000000-0000-4000-8000-000000000103": "CAL0004"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "7",
+        "00000000-0000-4000-8000-000000000101": "Vale",
+        "00000000-0000-4000-8000-000000000102": "2024-11-05",
+        "00000000-0000-4000-8000-000000000103": "CAL0005"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "2",
+        "00000000-0000-4000-8000-000000000101": "Sant",
+        "00000000-0000-4000-8000-000000000102": "2024-08-19",
+        "00000000-0000-4000-8000-000000000103": "CAL0006"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "5",
+        "00000000-0000-4000-8000-000000000101": "Murc",
+        "00000000-0000-4000-8000-000000000102": "2025-11-23",
+        "00000000-0000-4000-8000-000000000103": "CAL0007"
+      },
+      {
+        "00000000-0000-4000-8000-000000000100": "2",
+        "00000000-0000-4000-8000-000000000101": "Sant",
+        "00000000-0000-4000-8000-000000000102": "2024-03-06",
+        "00000000-0000-4000-8000-000000000103": "CAL0008"
+      }
+    ]
+  }
+}
