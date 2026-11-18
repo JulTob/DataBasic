@@ -1090,14 +1090,13 @@ function visioTextLine(
         line,
         options
         ) {
-    const chars = options.chars.map( (style, index) => visioCharRow( index, style ) ).join( '' );
     const sections = visioXForm( region.pin, region.width, region.height )
         + visioLineSection( {color: VISIO_COLORS.text, visible: false} )
         + visioFillSection( VISIO_COLORS.white, false )
         + visioTextBlock( {left: visioInches( options.left ?? 0 ), vertical: 1} )
         + visioParaRow( 0, options.align )
-        + chars
-        + visioTextSection( [line] );
+        + visioCharRow( 0, options.chars[line.char] )
+        + visioTextSection( [{text: line.text, char: 0}] );
 
     return visioShape( id, 'Shape', sections );
     }

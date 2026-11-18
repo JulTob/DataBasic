@@ -196,6 +196,21 @@ test( 'a Chen document still exports the relational diagram', () => {
     assert.ok( xml.includes( 'VARCHAR(100)' ), 'column types are listed' );
     } );
 
+test( 'each editable text line declares exactly the character styles its text selects', () => {
+    const xml = exportVDX( exampleDocument() );
+    const lines = shapesWith( xml, '<Text>' )
+        .filter( shape => !shape.includes( '<Shapes>' ) );
+
+    assert.ok( lines.length > 0 );
+    for (const line of lines) {
+        const declared = [...line.matchAll( /<Char IX="(\d+)">/g )].map( match => match[1] );
+        const selected = [...line.matchAll( /<cp IX="(\d+)"\/>/g )].map( match => match[1] );
+
+        assert.deepEqual( declared, ['0'] );
+        assert.deepEqual( selected, declared );
+        }
+    } );
+
 test( 'names with XML characters are escaped and the drawing stays well formed', () => {
     let model = exampleDocument();
     const socio = model.tables.find( table => table.name === 'Socio' );
