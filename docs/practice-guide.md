@@ -61,7 +61,7 @@ coordinar ninguna o varias sesiones. Cada instrumento tiene código, serie
    en una binaria la letra es el máximo de la otra rama. En
    __Correspondencias__, el receptor FK es `Sesion`.
 6. Vuelve a Relacional. La columna `coordinadora_codigoPersona` es FK requerida;
-   no forma parte de la PK de Sesion. Abre __Archivo → SQL__.
+   no forma parte de la PK de Sesion. Abre __Consultas → Herramientas → SQL del esquema__.
 
 _Resultado esperado._ Hay tres tablas y una FK Persona→Sesion. El SQL contiene
 PK, `UNIQUE ("serie")`, `DEFAULT 0`, `CHECK ("valor" >= 0)` y `NOT NULL`.
@@ -80,7 +80,7 @@ según una política explícita, sin cambiar la estructura de la relación.
 1. Guarda una copia del núcleo. En __Relacional__, selecciona el conector FK
    de `Coordina`, desde Persona hacia Sesion, y abre __Acción referencial__.
 2. En __Al eliminar la fila referenciada__, elige __CASCADE__. En __Al actualizar su
-   clave__, conserva __NO ACTION__. Revisa __Archivo → SQL__: debe contener
+   clave__, conserva __NO ACTION__. Revisa __Consultas → Herramientas → SQL del esquema__: debe contener
    `ON DELETE CASCADE` y `ON UPDATE NO ACTION` para esa FK.
 3. En la misma FK, intenta __SET NULL__. Debe rechazarse: la coordinadora
    es obligatoria y su FK no admite nulos. CASCADE debe seguir elegido.
@@ -299,13 +299,13 @@ cambiar de vista no cambia sus reglas.
 4. Usa __Distribuir__, __Ajustar__ y zoom; deshaz Distribuir. En
    __Vista → Opciones de visualización__, compara IDEF1X, patas de cuervo y
    flecha relacional; activa tipos completos, claves y cardinalidad numérica.
-5. Pon nombre con __Archivo → Nombre__, descarga __Archivo → Guardar__ y
+5. Pon nombre con __Archivo → Documento → Cambiar nombre__, descarga __Archivo → Guardar__ y
    reabre ese JSON con __Archivo → Abrir__. Revisa ambos modos y propiedades.
-6. Descarga __Archivo → Imagen SVG__ en cada representación. Abre el SVG:
+6. Descarga __Archivo → Exportar → Diagrama SVG__ en cada representación. Abre el SVG:
    comprueba textos completos, roles y bordes sin recortes. Descarga
-   __Archivo → Visio 2010__ y abre el `.vdx` en Visio 2010: mueve una tabla y
+   __Archivo → Exportar → Dibujo Visio (.vdx)__ y abre el `.vdx` en Visio 2010: mueve una tabla y
    comprueba que el conector la sigue; el dibujo no trae la ventana
-   Propiedades de base de datos de Visio. Descarga __Archivo → Access →
+   Propiedades de base de datos de Visio. Descarga __Archivo → Exportar → Base de datos Access →
    Módulo VBA__, crea una base de datos en blanco en Access, importa el módulo
    con Alt+F11 → Archivo → Importar archivo y ejecuta `CrearEsquema`; abre
    Herramientas de base de datos → Relaciones y compara con el relacional.
@@ -316,7 +316,7 @@ cambiar de vista no cambia sus reglas.
    pida (por ejemplo Autonumeración en un identificador interno).
 7. Abre __Imprimir / PDF__. En la vista previa comprueba márgenes y que todas
    las formas quepan; guarda PDF si el navegador lo permite.
-8. Usa __Archivo → SQL__, revisa los comentarios documentales y descarga.
+8. Usa __Consultas → Herramientas → SQL del esquema__, revisa los comentarios documentales y descarga.
    Un pendiente debe impedir presentar un SQL completo sin resolverlo.
 
 9. Selecciona una entidad o relación y abre __Supuestos__. Registra lo que
@@ -324,11 +324,11 @@ cambiar de vista no cambia sus reglas.
    __Insertar → Supuesto__ para una entrada global. __Base de datos →
    Supuestos__ muestra todas las entradas y la semántica perdida que detecta
    DataBasic.
-10. Escribe tus datos en __Archivo → Alumno__ y descarga __Archivo → Memoria
+10. Escribe tus datos en __Archivo → Entrega → Datos del alumno__ y descarga __Archivo → Exportar → Memoria
     Word__: portada con DNI, nombre y apellidos, los dos diagramas, las tablas
     de atributos y relaciones con su tipo, letras y pares, las decisiones, los
     supuestos, la semántica perdida y el diccionario de datos. Completa ahí la
-    justificación que pide la práctica. __Archivo → Paquete de entrega__
+    justificación que pide la práctica. __Archivo → Entrega → Paquete de entrega__
     comprueba lo que pide el enunciado y descarga el .zip con la memoria, el
     Visio del relacional y los archivos de Access; su `LEEME.txt` explica cómo
     crear el `.accdb` antes de entregar. La memoria también está en HTML y
@@ -341,8 +341,7 @@ no sincroniza equipos. Para otra práctica, usa otro nombre en `?practica=`.
 El SQL exportado usa sintaxis tipo PostgreSQL/SQL estándar y `ALTER TABLE ADD
 CONSTRAINT`; no se ha acreditado su ejecución en un SGBD. SQLite no admite esa
 forma de añadir restricciones. No se modifica el DDL para presentar otro script
-como si fuera el export original. DataBasic no abre/genera VSD, VDX, VSDX ni
-Access; tampoco reconstruye un ERE único desde cualquier esquema relacional.
+como si fuera el export original. La edición local genera el ACCDB y prepara el kit para construir el VSD en la plantilla de Visio 2010. [Formatos y comprobaciones](course-requirements.md#formatos-de-entrega-académica).
 
 ## Transferencia y evidencia
 

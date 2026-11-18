@@ -28,6 +28,18 @@ function versionedAssetURL(
     return `./${name}?v=${version}`;
     }
 
+// file:// pages cannot construct a worker from another file. A lazy classic
+// script supplies the same two sources as a blob, including SQLite's WASM.
+async function offlineQueryBootstrap() {
+    const names = ['vendor/sql-wasm-inline.js', 'query-worker.js'];
+    const parts = await Promise.all(
+            names.map( name => readFile( resolve( root, 'public', name ), 'utf8' ) )
+            );
+    const source = JSON.stringify( parts.join( '\n' ) );
+    return 'globalThis.dataBasicQueryWorkerURL = URL.createObjectURL('
+        + 'new Blob([' + source + '], {type: "text/javascript"}));\n';
+    }
+
 const bundle = await bundleSource( root );
 const stylesheet = await readFile(
         resolve( root, 'src/styles.css' ),
@@ -84,6 +96,7 @@ for (const name of [
             );
     }
 
+await writeFile( resolve( output, 'offline-query-worker.js' ), await offlineQueryBootstrap() );
 await writeFile( resolve( output, 'app.bundle.js' ), bundle );
 await writeFile(
         resolve( output, 'styles.css' ),

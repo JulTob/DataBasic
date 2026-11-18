@@ -1,5 +1,13 @@
 # Verificación de DataBasic
 
+## Biblioteca UMH y Consultas en 0.6.0
+
+El proyecto de inicio contiene 12 obras, 11 autores, 13 ediciones, 16 ejemplares, 8 materias y los 4 campus de la UMH. Las tres tablas de asociación contienen 14 autorías, 16 clasificaciones y 12 intereses temáticos. Se recuperaron las 106 filas de las nueve tablas al leer con MDB Tools el ACCDB generado. Las ubicaciones y perfiles temáticos pertenecen al ejercicio. [Bibliotecas de los campus](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/).
+
+Se ejecutaron las 116 variantes de reto del catálogo, pertenecientes a 14 familias. Para cada una se compararon los encabezados, los valores y las multiplicidades de la consulta de álgebra compilada y de su SQL de referencia escrito por separado. El recuento por autor recuperó dos obras para Antonio Machado, Charles Darwin y Santiago Ramón y Cajal. La división por todos los campus recuperó una única edición de *Campos de Castilla*. La misma generación se ejercitó con tablas ajenas al catálogo, nombres cualificados y claves compuestas.
+
+En Chrome se cambió entre las cuatro vistas, se ejecutaron ambos editores y se comprobó la devolución de resultados y discrepancias. Tras guardar y recargar se recuperaron el texto y el reto de división. Se comprobó también la navegación a 390 px de anchura. La consola funciona sobre HTTP y al abrir desde disco la distribución compilada. Las consultas se evalúan en SQLite. Los ensayos de las versiones anteriores documentan las operaciones nativas que se comprobaron en Microsoft Office.
+
 ## Selección de Visio 2010 y consulta de Access en 0.5.2
 
 El puesto Windows de la UMH tenía Visio 2010 (14.0.7266.5000) y otra

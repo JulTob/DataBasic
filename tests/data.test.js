@@ -252,9 +252,8 @@ test( 'the Hoja de datos panel shows the grid, the broken cells and the findings
     } );
 
 test( 'the application adds, edits and removes sample rows in the Tablas view', async () => {
-    const app = await applicationHarness( 500 );
+    const app = await applicationHarness( 500, JSON.stringify( exampleDocument() ) );
 
-    await app.click({action: 'example'});
     await app.click({mode: 'tables'});
     await app.flushTimers();
 

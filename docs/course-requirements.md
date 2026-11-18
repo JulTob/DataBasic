@@ -1,6 +1,6 @@
 # DataBasic y Fundamentos de Bases de Datos
 
-Cobertura de **DataBasic 0.4.4**, revisada el 8 de noviembre de 2026 con los PDF del curso y los enunciados de la práctica 2025-2026 y 2026-2027.
+Matriz elaborada con los PDF del curso el 8 de noviembre de 2026 y actualizada para los formatos y la consola de **DataBasic 0.6.0**.
 La aplicación permite practicar operaciones relacionales y construir ERE
 nativos. La cobertura sigue siendo parcial: guardar una restricción conceptual
 no significa haberla traducido al relacional ni implementado en Access.
@@ -35,7 +35,7 @@ identificar requisitos, sin copiar figuras, ejercicios ni sus soluciones.
 | FBD-R01 | IDEF1X; práctica p. 3. | Vista → Opciones de visualización → Relaciones → Notación → IDEF1X. Se distinguen cajas, dependencia, líneas y marcadores conforme a FIPS 184. | La prueba de símbolos/SVG no acredita identidad de interfaz ni equivalencia completa con Visio 2010. |
 | FBD-R02 | VARCHAR, CHAR, NUMBER, DATE; práctica p. 3. | Perfil → Curso · 4 tipos; Columnas → Editar… ofrece familia y parámetros. Los nuevos documentos usan este perfil. | General conserva tipos heredados; no hay conversiones silenciosas al cambiar de perfil. |
 | FBD-R03 | PK, AK y FK; práctica p. 3 y Tema 3 pp. 6–8. | Identificador principal; Índices / Claves alternativas; Relación de la tabla referenciada a la que recibe la FK con migración de PK completa. | Una FK no puede elegir AK como destino. La minimalidad semántica de una candidata la decide el autor. |
-| FBD-R04 | Dominio, nulos y predeterminados; práctica p. 3 y Tema 3 p. 5. | Columnas → Editar…: rango, valores y condición; requerido/PK; expresión predeterminada. SQL conserva CHECK, NOT NULL y DEFAULT. | No se evalúan datos ni expresiones. La compatibilidad con el motor elegido necesita revisión. |
+| FBD-R04 | Dominio, nulos y predeterminados; práctica p. 3 y Tema 3 p. 5. | Columnas → Editar…: rango, valores y condición; requerido/PK; expresión predeterminada. SQL conserva CHECK, NOT NULL y DEFAULT. | La hoja de datos valida filas de ejemplo. Las consultas se ejecutan en SQLite. Los dominios y expresiones propios del destino se comprueban en Access. |
 | FBD-R05 | Cardinalidad e integridad referencial; práctica p. 3 y Tema 3 pp. 8–9, 16–19. | FK → Varios: 0..N, 1..N, 0..1, 1..1 y opcionalidad; Acción referencial: NO ACTION, CASCADE, SET NULL, SET DEFAULT. | Una FK no impone mínimos de hijos. No se ejecutan acciones sobre registros reales. |
 | FBD-R06 | Dependencia y correspondencia de claves; práctica p. 3. | Definición muestra componentes PK/FK; identificación incorpora la FK a la PK de la tabla que referencia. Se evita reutilizar una PK hija homónima como FK por accidente. | Dependencia de identidad relacional y entidad débil ERE son hechos relacionados, no sinónimos deducibles automáticamente. |
 
@@ -57,7 +57,7 @@ NUMBER a NUMERIC; las escalas negativas requieren PostgreSQL 15 o posterior.
 | FBD-C06 | Participación, mín./máx., letras 1/N y roles; Tema 2 pp. 8, 12 e introducción pp. 4, 10; práctica p. 3. | Varios separa participación absoluta y cardinalidad ternaria por combinación; junto al rombo se dibuja la letra 1/N de cada rama. Correspondencias separa identidad y contexto global/temporal. Una recursiva conserva participaciones distintas. | En binarias la letra es el máximo de la otra rama; en ternarias es la cardinalidad por combinación elegida. Algunos límites permanecen documentales. La rama one genera AK sobre los otros roles y contexto elegido; no equivale a máximo absoluto 1. |
 | FBD-C07 | Jerarquía disjunta/solapada, total/parcial; Tema 2 pp. 15–16 y Tema 3 pp. 31–34. | Chen → Especialización → Tablas de superclase y subclases. Círculo d/s, doble línea si total y arco de subconjunto en cada subclase. PK heredada completa también FK; PK local incompatible exige resolución explícita. | Una sola estrategia implementada. Disyunción/totalidad son restricciones documentales; las otras tres estrategias del tema no se ofrecen. |
 | FBD-D01 | Supuestos y semántica perdida; introducción pp. 5–10, práctica p. 2 y Tema 3 p. 9. | Supuestos por objeto o globales en tres clases (enunciado, supuesto, perdida); Base de datos → Supuestos; Archivo → Memoria HTML/Markdown con diagramas, atributos, relaciones, decisiones, supuestos y restricciones documentales. | La memoria reúne lo que el autor escribió y lo que DataBasic detecta; no redacta la justificación por él ni demuestra fidelidad al enunciado. |
-| FBD-D02 | Entrega en .zip: documento Word o PDF con DNI, nombre y apellidos y el diseño conceptual con supuestos y semántica perdida; Visio del relacional con IDEF1X; base de datos Access; práctica p. 4. | Archivo → Alumno (DNI o NIE con letra comprobada); Archivo → Paquete de entrega comprueba alumno, decisiones pendientes, ternaria, especialización, supuestos y tipos, y descarga memoria .docx, Visio .vdx con leyenda y diccionario de datos, módulo VBA, SQL y XML de Access, diagramas SVG, proyecto y LEEME. | El `.accdb` lo crea el alumno ejecutando el módulo en Access 2010; el .vdx es un dibujo editable, no un diagrama de modelo de base de datos de Visio. |
+| FBD-D02 | Entrega en .zip: documento Word o PDF con DNI, nombre y apellidos y el diseño conceptual con supuestos y semántica perdida; Visio del relacional con IDEF1X; base de datos Access; práctica p. 4. | Archivo → Alumno (DNI o NIE con letra comprobada); Archivo → Paquete de entrega comprueba alumno, decisiones pendientes, ternaria, especialización, supuestos y tipos, y descarga memoria .docx, Visio .vdx con leyenda y diccionario de datos, módulo VBA, SQL y XML de Access, diagramas SVG, proyecto y LEEME. | La edición local genera ACCDB directamente. Para un VSD con propiedades nativas se completa el kit en Visio 2010 para Windows. El VDX contiene las formas del dibujo. |
 | FBD-T01 | Transformar sin perder hechos; Tema 3 §3.6 y práctica p. 4. | Correspondencias conservadas; materialización explícita de binarias, asociaciones, débiles, compuestos, multivaluados y tablas de clases; derivados con política. | Las decisiones incompletas quedan pendientes. No hay conversor ERE universal ni reconstrucción de un ERE único desde cualquier relacional. |
 
 La transformación de una ternaria requiere decidir la identidad de sus
@@ -78,34 +78,16 @@ esas decisiones.
 
 ## Formatos de entrega académica
 
-La práctica pide un .zip con (a) un documento Word o PDF con el DNI, el nombre
-y los apellidos del alumno y el diseño conceptual con los supuestos semánticos
-y la semántica perdida, (b) el archivo Visio del relacional con IDEF1X y (c) la
-base de datos Access. __Archivo → Paquete de entrega__ prepara ese .zip:
-`Memoria.docx` con portada (datos de __Archivo → Alumno__), diagramas, diseño
-conceptual con el tipo de cada relación, supuestos, semántica perdida, esquema
-relacional con diccionario de datos y diseño físico; `Modelo_relacional.vdx`
-con el diagrama, una leyenda de la notación y una página de diccionario de
-datos (dominios, nulos, predeterminados, PK/AK, FK con dependencia,
-cardinalidad y acciones referenciales); la carpeta `Access/`; los diagramas en
-SVG; el proyecto y `LEEME.txt`. El módulo VBA se escribe en Windows-1252 con
-saltos CRLF, que es como lo importa el editor de Access 2010. Antes de
-entregar, el alumno crea el `.accdb` siguiendo el LEEME y lo añade al paquete.
-DataBasic guarda JSON y exporta SVG/SQL; __Archivo → Visio
-2010__ escribe el diagrama relacional como dibujo XML `.vdx`, que Visio 2010
-abre y edita (sin las propiedades de base de datos de Visio); la memoria
-también se descarga en HTML y Markdown y la impresión permite obtener PDF
-mediante el navegador. __Archivo → Access__ entrega tres archivos que Access convierte en
-la base de datos: el módulo VBA con DAO que la crea entera (tablas, propiedades
-de campo, claves, relaciones con integridad y cascadas, campos de búsqueda), el
-SQL de Access de una instrucción por consulta y el XML con esquema para Datos
-externos, con los tipos de Access derivados del relacional y la lista de lo que
-Access expresa de otra manera. La vista __Tablas__ muestra y ajusta esas
-propiedades con el vocabulario de la vista Diseño de Access. **No genera VSD
-binario, VSDX ni `.accdb`**; los
-archivos de Access no se han ejecutado en Access desde el entorno de revisión.
-Estos resultados no se presentan como sustitutos ya aceptados de los formatos
-académicos.
+La práctica solicita un ZIP con la memoria conceptual, el modelo relacional en Visio y la base de Access. La memoria incluye identificación del alumno, supuestos y semántica perdida.
+
+| Archivo buscado | Ruta en DataBasic | Comprobación |
+| --- | --- | --- |
+| Base de datos Access | Edición local → Archivo → Exportar → Base de datos Access → Descargar base de datos | Abrir el ACCDB, inspeccionar las claves y ejecutar las consultas guardadas. La edición web ofrece también los recursos VBA, SQL y XML. |
+| Dibujo editable VDX | Archivo → Exportar → Dibujo Visio (.vdx) | Abrir el dibujo y revisar sus formas y conectores. |
+| VSD de la plantilla de bases de datos | Edición local → Archivo → Exportar → Plantilla Visio 2010 | Completar la importación en Visio 2010 Professional o Premium para Windows. Reabrir el VSD y comprobar claves, cardinalidades y propiedades. En las vistas, cotejar definición, tipos y nulabilidad inferidos por ODBC. |
+| Memoria y paquete | Archivo → Exportar → Memoria Word o Archivo → Entrega → Paquete de entrega | Revisar las páginas renderizadas y el contenido del ZIP. Cuando la entrega requiera la plantilla nativa, incorporar el VSD verificado. |
+
+[Ensayos en Access y Visio 2010](verification.md).
 
 ## Fuentes
 

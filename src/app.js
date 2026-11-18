@@ -1,3 +1,5 @@
+import { libraryDocument } from './domain/library.js';
+import { createQueryWorkspace } from './ui/query-workspace.js';
 import {
     addColumn,
     addConceptualEntity,
@@ -16,7 +18,6 @@ import {
     addTable,
     changeDocument,
     emptyDocument,
-    exampleDocument,
     moveColumn,
     newId,
     removeColumn,
@@ -71,7 +72,8 @@ import {
     explorerContents,
     initialLayout,
     paletteContents,
-    ribbonContents
+    ribbonContents,
+    ribbonTabs
     } from './ui/layout.js';
 import {
     OTHER_TYPE_OPTION,
@@ -114,7 +116,8 @@ const autosaveKey = independentPractice
 
 const state = {
     examples: [],
-    model: exampleDocument(),
+    model: libraryDocument(),
+    queryOpen: false,
     selectedId: null,
     selectedColumnId: null,
     category: 'definition',
@@ -140,6 +143,22 @@ const app = document.querySelector( '#app' );
 app.innerHTML = initialLayout( state );
 
 const canvas = document.querySelector( '#canvas' );
+const queryHost = document.querySelector( '#query-workspace' );
+const queries = createQueryWorkspace(
+        queryHost,
+        () => state.model,
+        draft => {
+            state.model = {...state.model, queryDraft: draft};
+            scheduleSave();
+            }
+        );
+
+function defaultTab() {
+    if (state.queryOpen) return 'query';
+    if (state.model.display.mode === 'chen') return 'concept';
+    if (state.model.display.mode === 'tables') return 'table';
+    return 'database';
+    }
 
 function refreshIcons() {
     globalThis.lucide?.createIcons({
@@ -294,7 +313,7 @@ function render( preserveEditors = false ) {
             ? 'Diagrama · entidad-relación (Chen)'
             : state.model.display.mode === 'tables'
                 ? 'Tablas · Access'
-                : `Relacional · ${state.model.display.notation === 'idef1x' ? 'IDEF1X' : 'Patas de cuervo'}`;
+                : 'Relacional';
     document.querySelector( '#profile-select' ).value = state.model.profile;
     document.querySelector( '#explorer-heading' ).textContent =
         state.model.display.mode === 'chen'
@@ -310,16 +329,25 @@ function render( preserveEditors = false ) {
     const viewSelect = document.querySelector( '#view-select' );
 
     if (viewSelect) {
-        viewSelect.value = state.model.display.mode;
+        viewSelect.value = state.queryOpen ? 'queries' : state.model.display.mode;
         }
 
+    document.querySelector( '#assignment' ).hidden =
+        !(state.model.assumptions || []).some( item => item.kind === 'enunciado' );
     const statuses = conceptualStatus( state.model );
 
     document.querySelector( '#model-status' ).textContent = statuses.length
         ? `${statuses.length} restricciones pendientes/documentales · Revisar modelo`
         : 'Un documento · representaciones vinculadas';
     document.title = `${state.model.name} — DataBasic`;
+    queryHost.hidden = !state.queryOpen;
+    document.querySelector( '.workspace' ).hidden = state.queryOpen;
+    document.querySelector( '.statusbar' ).hidden = state.queryOpen;
+    for (const button of document.querySelectorAll( '[data-mode]' )) {
+        button.setAttribute( 'aria-pressed', String( button.dataset.mode === viewSelect.value ) );
+        }
     if (!preserveEditors) {
+        document.querySelector( '#ribbon-tabs' ).innerHTML = ribbonTabs( state );
         document.querySelector( '#ribbon' ).innerHTML = ribbonContents( state );
         document.querySelector( '#entity-list' ).innerHTML = explorerContents( state );
         document.querySelector( '.shape-palette' ).innerHTML = paletteContents( state );
@@ -371,6 +399,11 @@ function render( preserveEditors = false ) {
         ? `${table.name} · ${table.columns.length} columnas`
         : state.model.relationships.find( item => item.id === state.selectedId )?.name || 'Listo';
 
+    if (state.queryOpen) {
+        queries.show();
+        refreshIcons();
+        return;
+        }
     renderDiagram();
     if (!preserveEditors) {
         renderPropertyPane();
@@ -585,7 +618,9 @@ function undo() {
         }
 
     state.future.push( structuredClone( state.model ) );
+    const oldMode = state.model.display.mode;
     state.model = state.past.pop();
+    if (state.model.display.mode !== oldMode) state.tab = defaultTab();
     state.selectedId = null;
     scheduleSave();
     render();
@@ -597,7 +632,9 @@ function redo() {
         }
 
     state.past.push( structuredClone( state.model ) );
+    const oldMode = state.model.display.mode;
     state.model = state.future.pop();
+    if (state.model.display.mode !== oldMode) state.tab = defaultTab();
     state.selectedId = null;
     scheduleSave();
     render();
@@ -850,7 +887,7 @@ function showSQL() {
     const sql = exportSQL( state.model );
 
     openDialog(
-            'SQL del modelo',
+            'SQL del esquema',
             `<p>SQL de estudio. Revisa la sintaxis para el motor que utilices en clase.</p>
             <textarea class="sql-output" readonly aria-label="SQL generado">${escapeHTML( sql )}</textarea>
             ${command( 'download-sql', 'Descargar SQL', 'download' )}`
@@ -872,6 +909,9 @@ function removeIndex() {
     }
 
 function replaceCurrentDocument( model ) {
+    queries.reset();
+    state.queryOpen = false;
+    state.tab = model.display.mode === 'chen' ? 'concept' : model.display.mode === 'tables' ? 'table' : 'database';
     state.selectedId = null;
     state.parentId = null;
     state.tool = 'pointer';
@@ -889,6 +929,21 @@ async function act(
         }
 
     switch (action) {
+        case 'assignment':
+            openDialog( 'Enunciado', (state.model.assumptions || []).filter( item => item.kind === 'enunciado' ).map(
+                    item => '<p>' + escapeHTML( item.text ) + '</p>'
+                    ).join( '' ) );
+            break;
+        case 'query-new':
+            queries.next();
+            break;
+        case 'query-example':
+            queries.solution( true );
+            break;
+        case 'rows-pane':
+        case 'fields-pane':
+            selectElement( state.selectedId, action === 'rows-pane' ? 'datasheet' : 'fields' );
+            break;
         case 'entity':
             createEntity();
             break;
@@ -939,7 +994,7 @@ async function act(
             replaceCurrentDocument( emptyDocument() );
             break;
         case 'example':
-            replaceCurrentDocument( exampleDocument() );
+            replaceCurrentDocument( libraryDocument() );
             break;
         case 'rename':
             openDialog(
@@ -1460,8 +1515,20 @@ function categoryForMode(
 
 function changeRepresentation( mode ) {
     const previous = state.model.display.mode;
+    if (mode === 'queries') {
+        state.queryOpen = true;
+        state.tab = 'query';
+        state.tool = 'pointer';
+        state.parentId = null;
+        render();
+        return;
+        }
+    const fromQueries = state.queryOpen;
+    state.queryOpen = false;
+    state.tab = mode === 'chen' ? 'concept' : mode === 'tables' ? 'table' : 'database';
 
     if (mode === previous) {
+        if (fromQueries) render();
         return;
         }
 
@@ -1691,6 +1758,9 @@ function keyboard( event ) {
 
         action = 'save';
         }
+    else if (state.queryOpen) {
+        return;
+        }
     else if (!editing && modifier && event.key.toLowerCase() === 'z') {
         action = event.shiftKey ? 'redo' : 'undo';
         }
@@ -1719,6 +1789,10 @@ document.addEventListener(
                 return;
                 }
 
+            if (button.dataset.action) {
+                const menu = button.closest?.( 'details.ribbon-menu, details.model-settings' );
+                if (menu) menu.open = false;
+                }
             if (button.dataset.origin) {
                 closeDialog();
                 commit( setDiagramMode( state.model, 'chen' ) );
@@ -1961,7 +2035,7 @@ async function openExample( file ) {
         }
 
     if (file === '__biblioteca__') {
-        replaceCurrentDocument( exampleDocument() );
+        replaceCurrentDocument( libraryDocument() );
         notify( 'Ejemplo de biblioteca abierto.' );
         return;
         }
@@ -2028,6 +2102,7 @@ async function restoreDocument() {
         }
 
     state.selectedId = state.model.tables[0]?.id || null;
+    state.tab = defaultTab();
     render();
     focusDiagram();
     }

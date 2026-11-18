@@ -5,15 +5,18 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.5.2** permite editar un documento con tres representaciones
-progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
-**Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
-Access, con sus tipos y propiedades. El desplegable Vista cambia la
-representación; las transformaciones se eligen por separado y conservan sus
-correspondencias. Ayuda → Ejemplos abre los ejercicios de la carpeta
-`examples/`, y cada tabla o elemento del diagrama puede llevar un color. En la
-vista Tablas, la Hoja de datos admite filas de ejemplo y señala la celda o la
-fila que incumple una regla de la tabla; las filas viajan a Access.
+La versión **0.6.0** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
+
+### Biblioteca UMH antes de abrir
+
+[Abre la práctica de la biblioteca](https://jultob.github.io/DataBasic/?practica=biblioteca-umh). El catálogo distingue la obra, su autoría, sus ediciones y la ubicación de cada ejemplar. **CampusMateria** registra los intereses temáticos de un campus y **LibroMateria**, las materias asignadas a cada obra. Una copia puede estar en un campus con otros intereses. El nombre de los cuatro campus procede de la universidad. El inventario, las signaturas y los perfiles temáticos se han preparado para la práctica. [Ubicación de las bibliotecas de la UMH](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/) · [Catalogación en la convocatoria estatal](https://www.boe.es/buscar/doc.php?id=BOE-A-2025-26893).
+
+1. Lee **Enunciado**. Crea socios y préstamos en Diagrama. Decide cómo distinguir dos préstamos sucesivos de la misma copia y materializa la decisión en **Correspondencias**.
+2. En **Tablas → Hoja de datos**, comprueba los registros del catálogo y añade los tuyos. El ejercicio y los editores de consultas se guardan en el documento.
+3. En **Consultas**, escribe una expresión a la izquierda o una consulta SQL a la derecha. Se pueden insertar campos y operadores con teclado, clic o arrastre. En **Operadores**, activa **Rellenar con mis tablas** para insertar una fórmula con nombres y valores de tu proyecto cuando haya un ejemplo compatible. **Ejecutar selección** evalúa una subexpresión completa. El resultado conserva los duplicados de SQL y distingue el valor nulo.
+4. **Nuevo reto** elige una fórmula y la vincula a los campos, datos y relaciones actuales. En **Familia de retos** se puede elegir una operación. Ambas respuestas se contrastan con el resultado de referencia sobre esas filas. **Consulta libre** permite explorar y comparar resultados propios. **Herramientas → SQL del esquema** abre las declaraciones de creación.
+
+La consola ejecuta consultas de lectura en SQLite, dentro del navegador y en una copia temporal de los datos. Las operaciones de conjuntos, las fechas y algunas funciones se escriben de manera diferente en Access. El archivo ACCDB se verifica en Access cuando el objetivo del ejercicio es el comportamiento de ese motor.
 
 Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
 dominios, valores predeterminados, acciones referenciales y relaciones N:N
@@ -215,8 +218,8 @@ rechazada conserva el estado anterior y explica la causa.
   todos los mínimos o máximos conceptuales. Las decisiones nuevas incompletas
   bloquean el SQL completo. Un archivo ternario anterior sin cardinalidad por
   combinación conserva su SQL; ese dato permanece desconocido documental.
-- No hay ingeniería inversa, ODBC, ejecución SQL, triggers ni tipos objeto.
-- El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
+- La aplicación de navegador ejecuta SQL de consulta mediante SQLite. La ingeniería inversa de Access para el VSD se completa en Visio 2010.
+- El SQL de creación del esquema sigue sintaxis tipo PostgreSQL/SQL estándar;
   debe revisarse para el motor de clase. Una FK no obliga a que cada fila
   referenciada tenga filas que la referencien.
 - El VDX conserva formas editables, conectores IDEF1X y diccionario.

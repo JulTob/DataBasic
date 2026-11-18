@@ -7,6 +7,7 @@ ninguna petición a un CDN durante el uso normal de la aplicación.
 | --- | --- | --- | --- |
 | `lucide.js` | lucide | 1.8.0 | ISC; los avisos adicionales se conservan en `lucide.js.LICENSE`. |
 | `idb-keyval.js` | idb-keyval | 6.3.0 | Apache-2.0, texto en `idb-keyval.js.LICENSE`. |
+| `sql-wasm-inline.js` | sql.js | 1.16.0 | MIT, avisos de la distribución original en `sql.js.LICENSE`. |
 | `viz.js` | @viz-js/viz | 3.25.0 | MIT, texto en `viz.js.LICENSE`. |
 | Incluido en `viz.js` | Graphviz | 14.1.3 | EPL-2.0, texto en `graphviz.EPL-2.0.txt`. |
 | Incluido en `viz.js` | Expat | 2.7.4 | MIT, texto en `expat.LICENSE`. |
@@ -27,6 +28,7 @@ bajo Apache-2.0. El JAR contiene la licencia y el aviso de Jackcess en
 Java 17 a partir de la revisión indicada y omite el lector opcional de
 documentos OLE compuestos. [Fuentes de Jackcess](https://github.com/jahlborn/jackcess/tree/be0a2139b087a227d14cafd4ea231306a5a3a862)
 
+- sql.js 1.16.0: https://github.com/sql-js/sql.js/tree/v1.16.0
 - Lucide: https://github.com/lucide-icons/lucide
 - idb-keyval: https://github.com/jakearchibald/idb-keyval
 - Viz.js: https://github.com/mdaines/viz-js/tree/v3

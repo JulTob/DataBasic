@@ -8,6 +8,10 @@ const modules = [
     'domain/model.js',
     'domain/data.js',
     'domain/access.js',
+    'domain/library.js',
+    'domain/query-engine.js',
+    'domain/query-algebra.js',
+    'domain/query-challenges.js',
     'domain/delivery.js',
     'domain/serialization.js',
     'io/sql.js',
@@ -26,6 +30,7 @@ const modules = [
     'ui/raster.js',
     'ui/properties.js',
     'ui/layout.js',
+    'ui/query-workspace.js',
     'ui/dialogs.js',
     'app.js'
     ];

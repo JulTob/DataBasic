@@ -7,15 +7,32 @@ import {
     options
     } from './html.js';
 
-const RIBBON_TABS = [
-    ['file', 'Archivo'],
-    ['home', 'Inicio'],
-    ['insert', 'Insertar'],
-    ['design', 'Diseño'],
-    ['database', 'Base de datos'],
-    ['view', 'Vista'],
-    ['help', 'Ayuda']
-    ];
+const TAB_LABELS = {
+    file: 'Archivo', home: 'Inicio', insert: 'Insertar', design: 'Diseño',
+    database: 'Base de datos', view: 'Vista', help: 'Ayuda',
+    concept: 'Diagrama', create: 'Crear', table: 'Tabla', query: 'Diseño de consulta'
+    };
+
+const MODE_TABS = {
+    chen: ['file', 'concept', 'design', 'view', 'help'],
+    relational: ['file', 'home', 'insert', 'design', 'database', 'view', 'help'],
+    tables: ['file', 'home', 'create', 'table', 'help'],
+    queries: ['file', 'query', 'help']
+    };
+
+export function ribbonTabs( state ) {
+    const tabs = MODE_TABS[state.queryOpen ? 'queries' : state.model.display.mode];
+
+    return tabs.map( id =>
+        `<button data-tab="${id}" class="${id === 'file' ? 'file-tab' : ''}"
+            aria-pressed="${id === state.tab}">${TAB_LABELS[id]}</button>`
+        ).join( '' );
+    }
+
+function ribbonMenu( title, content ) {
+    return `<details class="ribbon-menu" name="ribbon-menu"><summary>${title}</summary>
+        <div class="ribbon-dropdown">${content}</div></details>`;
+    }
 
 function ribbonGroup(
         title,
@@ -25,11 +42,11 @@ function ribbonGroup(
         <div class="ribbon-group-title">${title}</div></div>`;
     }
 
-/** The three progressive views of one document, named for someone new to databases. */
 export const VIEW_OPTIONS = [
-    ['chen', 'Diagrama · entidad-relación'],
-    ['relational', 'Relacional · tablas y claves'],
-    ['tables', 'Tablas · Access']
+    ['chen', 'Diagrama'],
+    ['relational', 'Relacional'],
+    ['tables', 'Tablas'],
+    ['queries', 'Consultas']
     ];
 
 /** The built-in example plus the files of examples/index.json once they are loaded. */
@@ -38,7 +55,7 @@ function exampleSelect( state ) {
 
     return `<label class="ribbon-select">${icon( 'book-open' )}<span>Ejemplos</span>
         <select data-example aria-label="Abrir un ejemplo">${options(
-                [['', 'Elegir un ejemplo…'], ['__biblioteca__', 'Biblioteca — práctica de relaciones'], ...files],
+                [['', 'Elegir un ejemplo…'], ['__biblioteca__', 'Biblioteca UMH antes de abrir'], ...files],
                 ''
                 )}</select></label>`;
     }
@@ -69,32 +86,60 @@ export function ribbonContents( state ) {
 
     switch (state.tab) {
         case 'file':
-            return ribbonGroup(
-                    'Documento',
-                    command( 'new', 'Nuevo', 'file-plus-2', 'class="ribbon-large"' )
-                        + command( 'open', 'Abrir', 'folder-open', 'class="ribbon-large"' )
-                        + command( 'save', 'Guardar', 'save', 'class="ribbon-large"' )
-                        + command( 'rename', 'Nombre', 'pencil' )
+            return ribbonGroup( 'Documento',
+                    command( 'new', 'Nuevo', 'file-plus-2' )
+                    + command( 'open', 'Abrir', 'folder-open' )
+                    + command( 'save', 'Guardar', 'save' )
+                    + ribbonMenu( 'Documento', command( 'rename', 'Cambiar nombre', 'pencil' )
+                        + command( 'example', 'Biblioteca UMH antes de abrir', 'book-open' ) )
                     )
-                + ribbonGroup(
-                        'Exportar',
-                        command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
-                            + command( 'vdx', 'Dibujo Visio (.vdx)', 'file-box', 'class="ribbon-large"' )
-                            + (localAccessAvailable()
-                                ? command( 'visio-native', 'Plantilla Visio 2010', 'database', 'class="ribbon-large"' )
-                                : '')
-                            + command( 'access', 'Access', 'database-zap', 'class="ribbon-large"' )
-                            + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
-                            + command( 'report-docx', 'Memoria Word', 'file-text', 'class="ribbon-large"' )
-                            + command( 'print', 'Imprimir / PDF', 'printer', 'class="ribbon-large"' )
-                        )
-                + ribbonGroup(
-                        'Entrega',
-                        command( 'author', 'Alumno', 'id-card', 'class="ribbon-large"' )
-                            + command( 'delivery', 'Paquete de entrega', 'package', 'class="ribbon-large"' )
-                        )
-                + ribbonGroup( 'Practicar', command( 'example', 'Abrir ejemplo', 'book-open', 'class="ribbon-large"' ) );
+                + ribbonGroup( 'Archivos', ribbonMenu( 'Exportar',
+                        command( 'access', 'Base de datos Access', 'database-zap' )
+                        + command( 'vdx', 'Dibujo Visio (.vdx)', 'file-box' )
+                        + (localAccessAvailable() ? command( 'visio-native', 'Plantilla Visio 2010', 'database' ) : '')
+                        + command( 'svg', 'Diagrama SVG', 'image' )
+                        + command( 'report-docx', 'Memoria Word', 'file-text' )
+                        + command( 'print', 'Imprimir / PDF', 'printer' ) )
+                    + ribbonMenu( 'Entrega', command( 'author', 'Datos del alumno', 'id-card' )
+                        + command( 'delivery', 'Paquete de entrega', 'package' ) )
+                    );
+        case 'query':
+            return ribbonGroup( 'Consultas',
+                    command( 'query-new', 'Nuevo reto', 'shuffle' )
+                    + ribbonMenu( 'Herramientas', command( 'sql', 'SQL del esquema', 'file-code-2' )
+                        + command( 'query-example', 'Mostrar solución del reto', 'book-open' ) )
+                    );
+        case 'concept':
+            return ribbonGroup( 'Conceptual',
+                    command( 'entity', 'Entidad', 'square' )
+                    + command( 'conceptual-relationship', 'Relación', 'diamond' )
+                    + command( 'conceptual-attribute', 'Atributo', 'circle' )
+                    + ribbonMenu( 'Modelo', command( 'generalization', 'Especialización', 'git-fork' )
+                        + command( 'assumptions', 'Supuestos', 'notebook-pen' )
+                        + command( 'validate', 'Revisar modelo', 'list-checks' ) )
+                    );
+        case 'create':
+            return ribbonGroup( 'Crear',
+                    command( 'entity', 'Tabla', 'table-2' )
+                    + command( 'view-shape', 'Consulta guardada', 'panels-top-left' )
+                    + command( 'relationship', 'Relación', 'git-branch' )
+                    );
+        case 'table':
+            return ribbonGroup( 'Tabla',
+                    command( 'fields-pane', 'Diseño de tabla', 'columns-3', tableDisabled )
+                    + command( 'rows-pane', 'Hoja de datos', 'table-2', tableDisabled )
+                    + command( 'add-column', 'Agregar campo', 'list-plus', tableDisabled )
+                    + ribbonMenu( 'Herramientas', command( 'access', 'Exportar a Access', 'database' )
+                        + command( 'validate', 'Revisar modelo', 'list-checks' ) )
+                    );
         case 'home':
+            if (state.model.display.mode === 'tables') {
+                return ribbonGroup( 'Registros',
+                        command( 'rows-pane', 'Hoja de datos', 'table-2', tableDisabled )
+                        + command( 'fields-pane', 'Diseño de tabla', 'columns-3', tableDisabled )
+                        + ribbonMenu( 'Edición', history )
+                        );
+                }
             return ribbonGroup(
                     'Portapapeles',
                     command( 'paste', 'Pegar', 'clipboard-paste', `class="ribbon-large" ${state.clipboard ? '' : 'disabled'}` )
@@ -137,12 +182,13 @@ export function ribbonContents( state ) {
                         + command( 'validate', 'Revisar modelo', 'list-checks', 'class="ribbon-large"' )
                     );
         default:
-            return windows + shapes + ribbonGroup(
-                    'Modelo de base de datos',
-                    command( 'validate', 'Comprobar', 'list-checks', 'class="ribbon-large"' )
-                        + command( 'assumptions', 'Supuestos', 'clipboard-list', 'class="ribbon-large"' )
-                        + command( 'sql', 'Ver SQL', 'file-code-2', 'class="ribbon-large"' )
-                        + command( 'layout', 'Distribuir', 'network', 'class="ribbon-large"' )
+            return ribbonGroup( 'Modelo',
+                    command( 'entity', 'Entidad', 'table-2' )
+                    + command( 'relationship', 'Relación', 'git-branch' )
+                    + command( 'properties', 'Propiedades', 'panel-bottom' )
+                    + ribbonMenu( 'Modelo', command( 'validate', 'Revisar modelo', 'list-checks' )
+                        + command( 'assumptions', 'Supuestos', 'clipboard-list' )
+                        + command( 'layout', 'Distribuir', 'network' ) )
                     );
         }
     }
@@ -158,21 +204,22 @@ export function initialLayout( state ) {
         ${command( 'redo', 'Rehacer', 'redo-2', 'title="Rehacer · ⌘/Ctrl+Mayús+Z"' )}
         ${command( 'save', 'Guardar', 'save', 'class="save-button" title="Guardar archivo · ⌘/Ctrl+S"' )}
         </nav></header>
-        <nav class="ribbon-tabs" aria-label="Cinta de comandos">
-        ${RIBBON_TABS.map(
-                ([id, label]) => `<button data-tab="${id}" class="${id === 'file' ? 'file-tab' : ''}"
-                    aria-pressed="${id === state.tab}">${label}</button>`
-                ).join( '' )}
-        <span class="ribbon-spacer"></span>
-        <button data-action="help" class="help-button" title="Ayuda">${icon( 'circle-help' )}</button></nav>
-        <section class="model-controls" aria-label="Vista y tipos de datos">
+        <section class="model-controls" aria-label="Vistas del documento">
+        <nav class="mode-switch" aria-label="Representación del documento">
+            ${VIEW_OPTIONS.map( ([id, label]) => `<button data-mode="${id}"
+                aria-pressed="${id === state.model.display.mode}">${label}</button>` ).join( '' )}
+        </nav>
         <label class="view-select-label">Vista<select id="view-select" data-view
             aria-label="Representación del documento">${options( VIEW_OPTIONS, state.model.display.mode )}</select></label>
-        <label title="Qué tipos de datos admiten las columnas: los cuatro del curso o la lista general">Tipos<select id="profile-select" data-profile>
+        <button id="assignment" data-action="assignment" hidden>Enunciado</button>
+        <details class="model-settings"><summary>Opciones del modelo</summary>
+        <div><label>Tipos de datos <select id="profile-select" data-profile>
             <option value="course">Curso · VARCHAR, CHAR, NUMBER, DATE</option>
             <option value="general">General · todos los tipos</option></select></label>
-        <button data-action="validate" id="model-status">Un documento · representaciones vinculadas</button>
-        </section>
+        <button data-action="validate" id="model-status">Revisar modelo</button></div></details></section>
+        <nav class="ribbon-tabs" aria-label="Cinta de comandos" id="ribbon-tabs">${ribbonTabs( state )}</nav>
+        <section id="ribbon" class="ribbon" aria-label="Herramientas"></section>
+        <main id="query-workspace" aria-label="Consultas" hidden></main>
         <main class="workspace"><aside class="shapes-panel" aria-label="Formas">
         <div class="pane-heading">Formas ${icon( 'panel-left' )}</div>
         <div class="stencil-heading">Construye tu modelo</div>
@@ -184,7 +231,6 @@ export function initialLayout( state ) {
         </aside>
         <section class="drawing-area" aria-label="Área de dibujo">
         <div class="canvas-host">
-        <section id="ribbon" class="ribbon" aria-label="Herramientas"></section>
         <div class="drawing-heading"><span>${icon( 'file-spreadsheet' )}<span id="diagram-mode-label">Diagrama relacional</span></span>
             <span id="save-status">Recuperando ejercicio…</span></div>
         <svg id="canvas" xmlns="http://www.w3.org/2000/svg" aria-label="Lienzo del modelo de base de datos">

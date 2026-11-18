@@ -388,11 +388,12 @@ export function showHelp() {
             <p>No está afiliado a Microsoft ni cuenta con su patrocinio.
                 No se afirma contar con autorización de Microsoft.
                 Visio es una marca de Microsoft.</p>
-            <p><strong>Tres vistas, un documento.</strong> El desplegable Vista cambia entre
-                Diagrama (entidad-relación, con la notación de Chen), Relacional (tablas y
-                claves, como en Visio 2010) y Tablas (como las verá Access). Cambiar de vista no
-                transforma ni reconstruye el significado. El desplegable Tipos decide qué tipos
-                de datos admiten las columnas: los cuatro del curso o la lista general.</p>
+            <p><strong>Cuatro vistas de un documento.</strong> Diagrama contiene el modelo de Chen.
+                Relacional presenta sus claves y relaciones. Tablas muestra los campos y las filas como en Access.
+                En Consultas se ejecutan fórmulas de álgebra y consultas SQL de lectura con SQLite.</p>
+            <p>En la biblioteca, abre Enunciado para preparar el servicio de préstamos.
+                Nuevo reto usa las tablas y filas actuales. En Familia de retos puedes elegir una operación.
+                Consulta libre permite explorar tus propios datos. Las opciones de tipos están en Opciones del modelo.</p>
             <p>Los archivos anteriores aparecen en Diagrama como proyección parcial.
                 No se deduce automáticamente una relación N:N de una tabla con dos FKs.</p>
             <ol><li><strong>Crea entidades.</strong> Arrastra Entidad desde Formas al lienzo.</li>
@@ -423,7 +424,7 @@ export function showHelp() {
                 Cada subclase hereda la PK como PK/FK; exclusión y cobertura siguen documentales.</p>
             <p><strong>Supuestos y memoria.</strong> En cualquier objeto, la categoría
                 Supuestos guarda afirmaciones del enunciado, supuestos propios y semántica
-                perdida; Base de datos → Supuestos las reúne. Archivo → Memoria Word descarga
+                perdida; Base de datos → Modelo → Supuestos las reúne. Archivo → Exportar → Memoria Word descarga
                 el documento (.docx) con los diagramas, las tablas de atributos y relaciones, los
                 supuestos y las restricciones que el relacional no impone.
                 Archivo → Alumno guarda tu DNI, nombre y apellidos, y Archivo → Paquete de entrega

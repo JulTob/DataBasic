@@ -242,9 +242,8 @@ test( 'El tamaño de la imagen de un diagrama es el doble, sin pasar de 6000 pí
 
 test( 'La aplicación guarda el alumno y muestra la lista de entrega', async () => {
     const { applicationHarness } = await import( './support/application.js' );
-    const app = await applicationHarness( 500 );
+    const app = await applicationHarness( 500, serializeDocument( domain.exampleDocument() ) );
 
-    await app.click({action: 'example'});
     await app.click({action: 'author'});
     assert.match( app.element( '#dialog' ).innerHTML, /Datos del alumno/ );
     app.submit( {dni: '12345678A', nombre: 'Ana', apellidos: 'Pérez'}, /debería ser Z/ );
@@ -257,7 +256,7 @@ test( 'La aplicación guarda el alumno y muestra la lista de entrega', async () 
     const dialog = app.element( '#dialog' ).innerHTML;
 
     assert.match( dialog, /Paquete de entrega/ );
-    assert.match( dialog, /El diagrama entidad-relación no tiene entidades/, 'el ejemplo del club es solo relacional' );
+    assert.match( dialog, /El diagrama entidad-relación no tiene entidades/, 'el proyecto recuperado contiene solo el esquema relacional' );
     assert.match( dialog, /data-action="download-delivery"/ );
     assert.match( dialog, /data-action="report-html"/ );
     assert.doesNotMatch( dialog, /Faltan el nombre/ );

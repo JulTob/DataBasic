@@ -195,11 +195,11 @@ test( 'Los tipos parametrizados rechazan precisión y tamaños inválidos', () =
     } );
 
 
-test( 'Las tres vistas y los tipos son controles visibles del mismo documento', () => {
+test( 'Las cuatro vistas comparten documento y ofrecen un selector de tipos', () => {
     const html = initialLayout( interfaceState() );
 
     assert.match( html, /<select id="view-select" data-view[\s\S]*value="chen"[\s\S]*value="relational"\s+selected[\s\S]*value="tables"/ );
-    assert.doesNotMatch( html, /data-mode=/ );
+    assert.match( html, /data-mode="queries"/ );
     assert.match( html, /id="profile-select" data-profile/ );
     assert.match( html, /Curso · VARCHAR, CHAR, NUMBER, DATE/ );
     assert.match( html, /Vista SQL/ );

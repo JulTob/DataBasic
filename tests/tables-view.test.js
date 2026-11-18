@@ -121,11 +121,11 @@ test( 'the properties pane speaks Access for fields, tables and relationships in
     assert.doesNotMatch( relational, /data-category="fields"/ );
     } );
 
-test( 'the layout offers the three views and an Access palette', () => {
+test( 'the layout offers the four views and an Access palette', () => {
     const model = exampleDocument();
     const html = initialLayout( tablesState( model ) );
 
-    assert.match( html, /id="view-select"[\s\S]*Diagrama · entidad-relación[\s\S]*Relacional · tablas y claves[\s\S]*Tablas · Access/ );
+    assert.match( html, /id="view-select"[\s\S]*Diagrama[\s\S]*Relacional[\s\S]*Tablas[\s\S]*Consultas/ );
     assert.match( paletteContents( {model: setDiagramMode( model, 'tables' )} ), /Campos con tipos de Access/ );
     assert.match( paletteContents( {model} ), /Tabla y columnas/ );
     } );
@@ -155,26 +155,26 @@ test( 'the application switches to the Tablas view, edits Access properties and 
     assert.equal( app.element( '#diagram-mode-label' ).textContent, 'Tablas · Access' );
 
     let saved = JSON.parse( app.saved() );
-    const socio = saved.tables[0];
+    const libro = saved.tables.find( table => table.name === 'Libro' );
 
-    await app.click({select: socio.id});
+    await app.click({select: libro.id});
     assert.match( app.element( '#properties-body' ).innerHTML, /Campos de Access/ );
 
-    app.change( {physical: 'column', colId: socio.columns[0].id, field: 'accessType'}, 'Autonumeración' );
+    app.change( {physical: 'column', colId: libro.columns[0].id, field: 'accessType'}, 'Autonumeración' );
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.deepEqual( saved.physical.columns[socio.columns[0].id], {accessType: 'Autonumeración'} );
+    assert.deepEqual( saved.physical.columns[libro.columns[0].id], {accessType: 'Autonumeración'} );
     assert.match( app.element( '#properties-body' ).innerHTML, /Restablecer lo derivado/ );
 
-    app.change( {physical: 'column', colId: socio.columns[1].id, field: 'fieldSize'}, '80', 'number' );
+    app.change( {physical: 'column', colId: libro.columns[1].id, field: 'fieldSize'}, '80', 'number' );
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.deepEqual( saved.physical.columns[socio.columns[1].id], {fieldSize: 80} );
+    assert.deepEqual( saved.physical.columns[libro.columns[1].id], {fieldSize: 80} );
 
-    await app.click({action: 'reset-physical', scope: 'column', target: socio.columns[0].id});
+    await app.click({action: 'reset-physical', scope: 'column', target: libro.columns[0].id});
     await app.flushTimers();
     saved = JSON.parse( app.saved() );
-    assert.equal( saved.physical.columns[socio.columns[0].id], undefined );
+    assert.equal( saved.physical.columns[libro.columns[0].id], undefined );
 
     await app.click({select: saved.relationships[0].id});
     app.change( {physical: 'relationship', field: 'cascadeDelete'}, true, 'checkbox' );
@@ -193,5 +193,5 @@ test( 'the application switches to the Tablas view, edits Access properties and 
 
     app.change( {example: ''}, '__biblioteca__' );
     await app.flushTimers();
-    assert.equal( JSON.parse( app.saved() ).name, 'Biblioteca — práctica de relaciones' );
+    assert.equal( JSON.parse( app.saved() ).name, 'Biblioteca UMH antes de abrir' );
     } );

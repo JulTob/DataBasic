@@ -16,5 +16,11 @@
     "package": "@viz-js/viz",
     "version": "3.25.0",
     "sha256": "2e4fe91072268d06387a7b91d7ba11db9a235280df764d49399519faa5f5368d"
+  },
+  {
+    "file": "sql-wasm-inline.js",
+    "package": "sql.js",
+    "version": "1.16.0",
+    "sha256": "3dbb4026a62c9e7acdbbc713e2f9009c4902ea624295fc3bb0aab4b1ad0e6ee8"
   }
 ]

@@ -10,6 +10,7 @@ import {
     moveDiagramElement,
     setDiagramMode
     } from '../src/domain/model.js';
+import { libraryDocument } from '../src/domain/library.js';
 import { tableHeight, diagramScene } from '../src/ui/diagram.js';
 
 test( 'Arrastrar un rótulo FK conserva posición, historial y semántica con pan y zoom', async () => {
@@ -633,12 +634,13 @@ test( 'Distribuir vuelve a colocar los rótulos manuales y permite deshacerlo', 
 test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guardar', async () => {
     const app = await applicationHarness();
 
-    assert.match( app.element( '#model-count' ).textContent, /^3 tablas/ );
-    assert.match( app.element( '#viewport' ).innerHTML, /Socio/ );
+    assert.match( app.element( '#model-count' ).textContent, /^9 tablas/ );
+    assert.match( app.element( '#viewport' ).innerHTML, /Ejemplar/ );
+    assert.doesNotMatch( app.element( '#viewport' ).innerHTML, /Socio|Prestamo/ );
 
     await app.click({action: 'entity'});
 
-    assert.match( app.element( '#model-count' ).textContent, /^4 tablas/ );
+    assert.match( app.element( '#model-count' ).textContent, /^10 tablas/ );
 
     await app.click({category: 'columns'});
     await app.click({action: 'add-column'});
@@ -654,7 +656,7 @@ test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guard
 
     const saved = JSON.parse( app.saved() );
 
-    assert.equal( saved.tables.length, 4 );
+    assert.equal( saved.tables.length, 10 );
     assert.equal( saved.tables.at( -1 ).columns.length, 2 );
     assert.match( app.element( '#save-status' ).textContent, /Guardado/ );
     } );
@@ -680,7 +682,7 @@ test(
             const offsetY = Number( match[2] );
             const zoom = Number( match[3] );
 
-            for (const table of exampleDocument().tables) {
+            for (const table of libraryDocument().tables) {
                 const top = offsetY + table.y * zoom;
                 const bottom = top + tableHeight( table ) * zoom;
 
@@ -720,7 +722,7 @@ test( 'La selección del lienzo permite crear una relación y abrir sus propieda
             });
         }
 
-    assert.match( app.element( '#model-count' ).textContent, /3 relaciones/ );
+    assert.match( app.element( '#model-count' ).textContent, /10 relaciones/ );
     assert.match( app.element( '#properties-body' ).innerHTML, /Columna secundaria/ );
 
     await app.click({category: 'misc'});
