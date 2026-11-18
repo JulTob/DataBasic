@@ -7,7 +7,7 @@ import { zipArchive, zipBytes } from './zip.js';
  * Windows Script Host uses classic JScript; keep this function ES3 compatible.
  * The return value of the browser exporter is a transfer kit, not a .vsd.
  */
-function visioNativeWindowsImport( tables, relations ) {
+function visioNativeWindowsImport( objects, relations ) {
     var files = new ActiveXObject( 'Scripting.FileSystemObject' );
     var shell = new ActiveXObject( 'WScript.Shell' );
     var root = files.GetParentFolderName( WScript.ScriptFullName );
@@ -90,8 +90,9 @@ function visioNativeWindowsImport( tables, relations ) {
                 var shape = page.Shapes.Item( s );
                 if (shape.OneD || !shape.Master) continue;
                 var text = shapeWords( shape );
-                for (var t = 0; t < tables.length; t++) {
-                    if (covers( text, tables[t] )) {
+                var master = String( shape.Master.NameU );
+                for (var t = 0; t < objects.length; t++) {
+                    if (master === objects[t].master && covers( text, objects[t] )) {
                         ids['s' + shape.ID] = t;
                         found[t] = true;
                         break;
@@ -100,13 +101,13 @@ function visioNativeWindowsImport( tables, relations ) {
             }
             pageRelations( page, ids, edges );
         }
-        for (var k = 0; k < tables.length; k++) {
-            if (!found[k]) missing.push( tables[k].name );
+        for (var k = 0; k < objects.length; k++) {
+            if (!found[k]) missing.push( objects[k].name );
         }
         for (var n = 0; n < relations.length; n++) {
             var relation = relations[n], pair = pairKey( relation[0], relation[1] );
             if (edges[pair] > 0) edges[pair]--;
-            else missing.push( tables[relation[0]].name + ' / ' + tables[relation[1]].name );
+            else missing.push( objects[relation[0]].name + ' / ' + objects[relation[1]].name );
         }
         return missing;
     }
@@ -132,10 +133,11 @@ function visioNativeWindowsImport( tables, relations ) {
         var instructions = 'En la ventana de Visio abierta, usa Base de datos > Ingeniería inversa.\n'
             + 'Selecciona el controlador de Access y el archivo de origen de datos:\n' + dsn + '\n'
             + 'También puedes elegir el origen MS Access Database y examinar Origen.accdb.\n\n'
-            + 'Extrae todas las tablas, claves primarias, índices y claves externas. '
+            + 'Extrae todas las tablas y vistas, claves primarias, índices y claves externas. '
             + 'Marca la opción de añadir automáticamente las formas a la página.\n\n'
             + 'En las opciones de documento selecciona IDEF1X, nombres físicos y todas las columnas. '
-            + 'Revisa Propiedades de base de datos con Diccionario.txt.\n\n'
+            + 'En Propiedades de base de datos, contrasta las cardinalidades con Diccionario.txt. '
+            + 'Para cada vista, comprueba el SQL y el orden de las columnas con la consulta de Access.\n\n'
             + 'Al terminar la importación, vuelve a esta ventana y pulsa Aceptar.';
         while (notice( instructions, 1 ) === 1) {
             var absent = missingObjects( doc );
@@ -146,7 +148,7 @@ function visioNativeWindowsImport( tables, relations ) {
                 notice( 'Modelo de la plantilla guardado en:\n' + output, 64 );
                 return;
             }
-            instructions = 'Faltan tablas con todas sus columnas visibles o conexiones entre sus formas:\n'
+            instructions = 'Faltan tablas o vistas con sus columnas visibles, o conexiones entre tablas:\n'
                 + absent.join( ', ' ) + '\n\nCompleta el diagrama en Visio y pulsa Aceptar para reintentar. '
                 + 'Cancelar termina el asistente.';
         }
@@ -159,11 +161,23 @@ function visioNativeWindowsImport( tables, relations ) {
 
 // Windows Script Host can read ASCII consistently across regional settings.
 // Encode every non-ASCII UTF-16 code unit, including JavaScript line separators.
-function visioNativeScript( tables, relationships ) {
-    const manifest = tables.map( table => ({
-        name: table.name,
-        columns: table.columns.map( column => column.name )
-        }) );
+function visioNativeScript(
+        tables,
+        views,
+        relationships
+        ) {
+    function entry( object, master ) {
+        return {
+            name: object.name,
+            master,
+            columns: object.columns.map( column => column.name )
+            };
+        }
+
+    const manifest = [
+        ...tables.map( table => entry( table, 'Entity' ) ),
+        ...views.map( view => entry( view, 'View' ) )
+        ];
     const parameters = [manifest, relationships].map( item => JSON.stringify( item ) ).join( ', ' );
     const source = '(' + visioNativeWindowsImport.toString() + ')(' + parameters + ');\n';
 
@@ -179,26 +193,42 @@ const VISIO_NATIVE_GUIDE = [
     'En Windows con Visio 2010 Professional o Premium y el controlador ODBC de Access de la misma',
     'arquitectura que Visio, ejecuta CrearModelo.js con Windows Script Host. El asistente prepara un DSN',
     'de archivo y abre la plantilla de bases de datos. Completa las selecciones en la cinta de Visio.',
-    'Al final revisa las propiedades y el asistente coteja los nombres visibles y las conexiones antes',
-    'de guardar Modelo_nativo.vsd en una carpeta nueva junto a Origen.accdb.',
+    'Antes de guardar Modelo_nativo.vsd, el asistente comprueba que cada tabla use el maestro Entity',
+    'y cada vista el maestro View, que se lean sus nombres y columnas declaradas y que las tablas',
+    'estén conectadas. El orden de las columnas, el SQL y las cardinalidades se revisan en las',
+    'propiedades de Visio según los pasos 5 y 6.',
     '',
     'IMPORTACIÓN MANUAL',
     '1. Archivo > Nuevo > Software y bases de datos > Diagrama de modelo de base de datos.',
     '2. Base de datos > Ingeniería inversa. Elige Microsoft Access y el origen MS Access Database.',
     '   Selecciona Origen.accdb. Si no aparece el controlador *.accdb, comprueba la arquitectura de ODBC.',
-    '3. Incluye tablas, claves primarias, índices y claves externas. Selecciona todas las tablas y',
-    '   activa la creación del dibujo. Completa el asistente.',
+    '3. Incluye tablas, vistas, claves primarias, índices y claves externas. Selecciona todas las tablas',
+    '   y vistas. Activa la creación del dibujo y completa el asistente.',
     '4. Base de datos > Opciones de presentación del documento > General > IDEF1X. Muestra los',
     '   nombres físicos, columnas y claves. Abre Propiedades de base de datos en entidades y relaciones.',
     '5. Contrasta los campos, dominios, claves, participaciones y acciones con Diccionario.txt.',
     '   Access y ODBC exponen tipos físicos. Ajusta los tipos portables del curso en Visio y verifica',
-    '   las restricciones que no se deducen de una base vacía, como la participación mínima del padre.',
-    '6. Guarda el documento de la plantilla como Visio Drawing (*.vsd). Ábrelo otra vez y revisa',
+    '   en cada relación, el número de hijos que admite cada padre y la obligatoriedad de la referencia.',
+    '6. En las propiedades de cada vista, coteja el SELECT y el orden de las columnas con la consulta',
+    '   guardada de Origen.accdb. Compara los tipos y la nulabilidad inferidos por ODBC con la declaración',
+    '   lógica de Diccionario.txt. Si no hay columnas declaradas, usa la proyección de la consulta de Access.',
+    '7. Guarda el documento de la plantilla como Visio Drawing (*.vsd). Ábrelo otra vez y revisa',
     '   Propiedades de base de datos. Para entregar, utiliza ese archivo y la base/documento solicitados.',
     '',
     'Microsoft: https://support.microsoft.com/es-es/visio/reverse-engineer-an-existing-database-into-a-database-model',
     ''
     ];
+
+function visioViewLines( view ) {
+    return [
+        `VISTA ${view.name}`,
+        ...view.columns.map( column =>
+            `${column.name} ${column.type} · ${column.required || column.primary ? 'NOT NULL' : 'NULL'}`
+            ),
+        'SELECT del modelo:',
+        view.definition
+        ].join( '\r\n' );
+    }
 
 /** Prepare the ACE catalog and the bridge to the native, installed DBMODL solution. */
 export function buildVisioNativeKit(
@@ -217,14 +247,18 @@ export function buildVisioNativeKit(
     const relationships = tables.flatMap(
             (table, index) => table.foreignKeys.map( key => [indexes.get( key.parent ), index] )
             );
-    const dictionary = tables.map( table => [
-        table.name,
-        ...dictionaryTableLines( table )
-        ].join( '\r\n' ) ).join( '\r\n\r\n' );
+    const views = model.tables.filter( table => table.kind === 'view' );
+    const dictionary = [
+        ...tables.map( table => [
+            table.name,
+            ...dictionaryTableLines( table )
+            ].join( '\r\n' ) ),
+        ...views.map( visioViewLines )
+        ].join( '\r\n\r\n' );
 
     return zipArchive( [
         {name: 'Origen.accdb', data: access},
-        {name: 'CrearModelo.js', data: visioNativeScript( tables, relationships )},
+        {name: 'CrearModelo.js', data: visioNativeScript( tables, views, relationships )},
         {name: 'Diccionario.txt', data: '\uFEFF' + dictionary},
         {name: 'LEEME.txt', data: '\uFEFF' + VISIO_NATIVE_GUIDE.join( '\r\n' )}
         ] );

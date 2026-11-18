@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import vm from 'node:vm';
-import { emptyDocument, exampleDocument } from '../src/domain/model.js';
+import { addTable, column, emptyDocument, exampleDocument } from '../src/domain/model.js';
 import { buildVisioNativeKit } from '../src/io/visio-native.js';
 import { readStoredZip, zipText } from './support/zip.js';
 
@@ -23,7 +23,7 @@ function nativeDrawing( model ) {
     const tables = model.tables.map( (table, index) => ({
         ID: index + 1,
         Characters: {Text: table.name},
-        Master: {NameU: 'Entity'},
+        Master: {NameU: table.kind === 'view' ? 'View' : 'Entity'},
         Shapes: collection( table.columns.map( column => ({
             Characters: {Text: column.name},
             Shapes: collection( [] )
@@ -113,6 +113,56 @@ test( 'a missing relationship, field or empty page cannot produce a native resul
         assert.deepEqual( run.outputs, [] );
         assert.ok( run.messages.some( message => message.includes( 'Faltan' ) ) );
         }
+    } );
+
+test( 'the native bridge requires each saved view and its declared projection', () => {
+    const model = addTable( exampleDocument(), 'view' );
+    const view = model.tables.pop();
+    model.tables.unshift( view );
+    view.name = 'Directorio';
+    view.definition = 'SELECT id_socio AS codigo, nombre AS persona FROM Socio';
+    view.columns = [
+        {...column( 'codigo', 'INTEGER' ), required: true},
+        column( 'persona', 'VARCHAR(60)' )
+        ];
+
+    const kit = kitFor( model );
+    const bridge = zipText( kit['CrearModelo.js'] );
+    const dictionary = zipText( kit['Diccionario.txt'] );
+    assert.ok( dictionary.includes( [
+        'VISTA Directorio',
+        'codigo INTEGER · NOT NULL',
+        'persona VARCHAR(60) · NULL',
+        'SELECT del modelo:',
+        view.definition
+        ].join( '\r\n' ) ) );
+
+    for (const defect of ['missing', 'wrong master', 'missing column']) {
+        const drawing = nativeDrawing( model );
+        if (defect === 'missing') drawing.shift();
+        if (defect === 'wrong master') drawing[0].Master.NameU = 'Entity';
+        if (defect === 'missing column') {
+            drawing[0].Shapes = collection( [drawing[0].Shapes.Item( 1 )] );
+            }
+        const run = runBridge( bridge, drawing, [1, 2] );
+        assert.deepEqual( run.outputs, [], defect );
+        assert.ok( run.messages.some( message => message.includes( view.name ) ), defect );
+        }
+
+    const complete = runBridge( bridge, nativeDrawing( model ), [1] );
+    assert.equal( complete.outputs.length, 1 );
+    } );
+
+test( 'views with columns inferred from the SELECT still need a native view shape', () => {
+    const model = addTable( exampleDocument(), 'view' );
+    const view = model.tables.at( -1 );
+    view.definition = 'SELECT * FROM Socio';
+    const bridge = zipText( kitFor( model )['CrearModelo.js'] );
+    const drawing = nativeDrawing( model );
+
+    assert.equal( runBridge( bridge, drawing, [1] ).outputs.length, 1 );
+    drawing.splice( model.tables.indexOf( view ), 1 );
+    assert.deepEqual( runBridge( bridge, drawing, [1, 2] ).outputs, [] );
     } );
 
 test( 'the native workflow rejects text disguised as Access and empty models', () => {

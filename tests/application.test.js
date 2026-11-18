@@ -292,6 +292,7 @@ test( 'Ternaria GUI separa límites, identidad y contexto global o por período'
     const incomplete = JSON.parse( app.saved() );
 
     assert.equal( (incomplete.tables.at( -1 ).alternateKeys || []).length, 0 );
+    assert.match( app.element( '#viewport' ).innerHTML, /Ámbito pendiente/ );
     await app.click({action: 'sql'});
     assert.match( app.element( '#toast' ).textContent, /contexto global o temporal/ );
 
@@ -309,7 +310,7 @@ test( 'Ternaria GUI separa límites, identidad y contexto global o por período'
     assert.equal( globalKey.columns.length, 2 );
     assert.deepEqual( global.conceptual.relationships[0].translation.cardinalityContextAttributeIds, [] );
     assert.equal( global.conceptual.relationships[0].participations[0].max, null );
-    assert.match( app.element( '#viewport' ).innerHTML, /1 · combinación global/ );
+    assert.match( app.element( '#viewport' ).innerHTML, /Ámbito global/ );
 
     await app.click({action: 'materialize'});
     app.submit({
@@ -330,7 +331,7 @@ test( 'Ternaria GUI separa límites, identidad y contexto global o por período'
                 attributeIds: identity.attributeIds
                 }
             );
-    assert.match( app.element( '#viewport' ).innerHTML, /1 · combinación \+ periodo/ );
+    assert.match( app.element( '#viewport' ).innerHTML, /Ámbito por periodo/ );
     await app.click({action: 'undo'});
     await app.flushTimers();
     assert.deepEqual( JSON.parse( app.saved() ), global );
@@ -1400,12 +1401,11 @@ test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', as
     await app.flushTimers();
 
     const relation = JSON.parse( app.saved() ).conceptual.relationships[0];
-    // A ternary draws its letter inside the combination-cardinality caption.
     const letters = () => diagramScene( JSON.parse( app.saved() ) ).edges
         .filter( edge => edge.kind === 'participation' )
         .map( edge => edge.labels.find(
-                label => ['cardinality', 'combination-cardinality'].includes( label.purpose )
-                )?.text.charAt( 0 ) ?? null );
+                label => label.purpose === 'cardinality'
+                )?.text ?? null );
 
     // Undecided ternary: no letter yet; Varios decides the combination cardinality.
     assert.deepEqual( relation.participations.map( part => part.cardinality ), [null, null, null] );

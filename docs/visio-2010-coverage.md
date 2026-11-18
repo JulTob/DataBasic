@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.5.0 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.5.1 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -107,7 +107,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-01 · ERE p. 2 | Entidad: rectángulo; entidad débil: rectángulo doble. | Disponible | C-13 | — |
 | C-02 · ERE p. 2 | Relación: rombo; vínculo identificador de entidades débiles: rombo doble. | Disponible (0.4.1) | «El vínculo identificador dibuja rombo doble…» | El rombo doble aparece cuando la débil elige ese vínculo o la estrategia FK es identificadora. |
 | C-03 · ERE p. 3 | Atributo, clave (subrayado), clave parcial (subrayado discontinuo), multivaluado (elipse doble), compuesto (componentes), derivado (discontinuo). | Disponible | C-03, C-13, C-14 | — |
-| C-04 · ERE p. 4, P1 p. 3 | Letras 1/N de cardinalidad en cada rama, junto al rombo. | Disponible (0.4.1) | «Cada rama Chen lleva la letra 1/N…»; «La letra junto al rombo se elige…» | En una binaria es el máximo de la otra rama y se dibuja sola. En una ternaria es la cardinalidad por combinación de los otros roles (`one`/`many`) elegida en Varios; la rama sin decidir no muestra letra. |
+| C-04 · ERE p. 4, P1 p. 3 | Letras 1/N de cardinalidad en cada rama, junto al rombo. | Disponible | Escena, Aplicación y recorrido en Chrome con el club de observación. | En binaria, la letra procede del máximo de la otra rama. En ternaria, expresa la cardinalidad elegida al fijar los otros dos participantes. Con máximo uno, el ámbito figura aparte. La rama sin decidir conserva su par (mín,máx) y deja pendiente la letra. |
 | C-05 · ERE p. 4, T2 p. 12 | Restricción estructural (mín,máx) en cada participación. | Disponible | C-05 | — |
 | C-06 · ERE p. 4 | Participación total: doble línea entre entidad y rombo. | Disponible | C-05, C-13 | Se dibuja cuando el mínimo es mayor que cero. |
 | C-07 · T2 p. 8 | Roles en las relaciones, incluidas las recursivas. | Disponible | C-04, C-05; «La recursiva mantiene dos puertos…» | — |
@@ -117,7 +117,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | Se genera un dibujo VDX editable. La ruta de la plantilla se describe en C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
 | C-13 · P1 p. 4 | Ternaria N:N:N: tabla con las tres FK y sus atributos; la clave se adapta cuando se repite la combinación en distintos períodos. | Disponible | C-12 | Clave elegida explícitamente, incluido el período. |
-| C-14 · P1 p. 4 | Entrega de memoria, modelo Visio y base Access. | Parcial | Edición local 0.5.0 | El ZIP incluye DOCX, VDX y un ACCDB real. El kit de plantilla usa el ACCDB para crear el VSD mediante ingeniería inversa en Visio 2010 Professional/Premium. La ejecución de la plantilla en Windows queda por verificar. |
+| C-14 · P1 p. 4 | Entrega de memoria, modelo Visio y base Access. | Parcial | Edición local 0.5.1 y registro de verificación. | El ZIP incluye DOCX, VDX y ACCDB. El kit usa ese ACCDB con la plantilla de bases de datos de Visio 2010 Professional/Premium. Comprueba maestros y columnas visibles de tablas y vistas, y conexiones entre tablas. Las propiedades de cardinalidad, el SQL y el orden de proyección se cotejan en Visio. |
 | C-16 · P1 p. 2 §3.1, ERE p. 7 | Supuestos semánticos y semántica perdida razonados junto al grafo ERE. | Disponible (0.4.2) | A-01 a A-07; «La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida» | Tres clases de entrada por objeto o globales; la memoria añade las restricciones documentales detectadas. La argumentación sigue siendo del autor. |
 | C-15 · T2 p. 19 | Patrones incorrectos: entidad con entidad sin rombo, rombo con rombo, atributo sobre la línea. | Disponible | C-04, C-07 | Las relaciones siempre pasan por un rombo y los atributos cuelgan de la entidad o del rombo. |
 

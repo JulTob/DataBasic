@@ -1,8 +1,29 @@
 # Verificación de DataBasic
 
-Comprobación local, publicación y prueba online: 3 de noviembre de 2026.
+## Comprobaciones de 0.5.1
 
-## Resultados
+El 18 de noviembre de 2026 se abrió el ejemplo **Club de observación · ternaria
+temporal** desde el control de archivos en Chrome 158. La relación Utiliza
+mostraba N–1–N y tres pares (0,N). La rama con máximo uno indicaba «Ámbito
+por instante». Las cajas de las tres letras quedaron libres de intersecciones
+con los nodos y los demás rótulos. La recarga recuperó el mismo modelo desde
+el guardado local. El SVG exportado se renderizó en Chrome con las mismas marcas.
+
+Las pruebas del kit ejecutan el asistente generado contra un doble del modelo
+de objetos de Visio. Una vista ausente, una vista representada con el maestro
+de entidad o una columna declarada que falta impiden guardar. La guía del kit
+explica cómo contrastar la cardinalidad, el orden de columnas y el SQL en
+las propiedades del modelo de base de datos.
+
+En un ensayo anterior se reabrió un VSD de la plantilla DBMODL_M.VST en
+Microsoft Visio Professional 2010 (14.0). Se contrastaron las tablas, las
+claves, las cardinalidades y el orden y el SQL de una vista con la base de
+Access. Los tipos y la nulabilidad que ODBC atribuyó a la vista diferían de
+los declarados en el diseño. Ese ensayo documenta el recorrido nativo.
+
+## Verificación y publicación del 3 de noviembre de 2026
+
+### Resultados
 
 | Comprobación | Estado | Evidencia y alcance |
 | --- | --- | --- |

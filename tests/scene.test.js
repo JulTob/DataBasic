@@ -148,7 +148,7 @@ test( 'Tipos completos y nombres largos ocupan líneas separadas y ancho propio'
     assert.match( svg, /\.type-label \{ font: 14px/ );
     } );
 
-test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro del SVG', () => {
+test( 'Chen separa la letra ternaria del par absoluto y del ámbito del máximo uno', () => {
     let model = sceneNativeFixture();
     const relation = model.conceptual.relationships[0];
     const period = model.conceptual.attributes.find( attribute => attribute.ownerId === relation.id );
@@ -183,9 +183,13 @@ test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro de
     const branches = scene.edges.filter( edge => edge.kind === 'participation' );
 
     for (const branch of branches) {
-        const cardinality = branch.labels.find( label => label.purpose === 'combination-cardinality' );
+        const cardinality = branch.labels.find( label => label.purpose === 'cardinality' );
+        const scope = branch.labels.find( label => label.purpose === 'cardinality-scope' );
+        const unique = branch.participation.cardinality === 'one';
 
-        assert.match( cardinality.text, /combinación \+ fecha_inicio/ );
+        assert.equal( cardinality.plain, true );
+        assert.equal( cardinality.text, unique ? '1' : 'N' );
+        assert.equal( scope?.text, unique ? 'Ámbito por fecha_inicio' : undefined );
         assert.equal( branch.labels[0].text, `(${branch.participation.min},N)` );
         sceneAssertContained( scene.bounds, cardinality.bounds );
 
@@ -198,8 +202,10 @@ test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro de
 
     const svg = exportSVG( model );
 
-    assert.match( svg, /data-label-purpose="combination-cardinality"/ );
-    assert.match( svg, /1 · combinación \+ fecha_inicio/ );
+    assert.equal( svg.match( /data-reading="cardinality"/g ).length, 3 );
+    assert.equal( svg.match( /data-reading="cardinality-scope"/g ).length, 1 );
+    assert.match( svg, /Ámbito por fecha_inicio/ );
+    assert.doesNotMatch( svg, /data-label-leader="[^"]+"\s+data-label-purpose="cardinality"/ );
     assert.deepEqual( diagramBounds( model ), scene.bounds );
 
     model = updateConceptualParticipation(
@@ -216,7 +222,10 @@ test( 'La nueva cardinalidad ternaria tiene rótulo y contexto propios dentro de
                 cardinalityContextAttributeIds: null
                 }}
             );
-    assert.doesNotMatch( exportSVG( model ), /contexto pendiente/ );
+    const allMany = exportSVG( model );
+
+    assert.equal( allMany.match( /text-anchor="middle">N<\/text>/g ).length, 3 );
+    assert.doesNotMatch( allMany, /data-reading="cardinality-scope"/ );
     } );
 
 test( 'Auxiliares y tablas de clases conservan símbolos Chen y bounds de ambas vistas', async () => {

@@ -857,13 +857,15 @@ function sceneParticipationEdge(
                 ) );
         }
 
-    // Course notation for a binary relationship: the 1/N letter sits by the
-    // diamond, opposite the (min,max) pair, and is the maximum of the other branch.
-    // A ternary shows its combination cardinality below instead.
-    if (relationNode.relation.participations.length === 2) {
+    const letter = participationCardinalityLetter(
+            relationNode.relation,
+            participation
+            );
+
+    if (letter) {
         labels.push({
             ...sceneBranchLabel(
-                    participationCardinalityLetter( relationNode.relation, participation ),
+                    letter,
                     'cardinality',
                     {x: start.x - dx * 0.18, y: start.y - dy * 0.18},
                     {x: -outward.x, y: -outward.y},
@@ -873,19 +875,17 @@ function sceneParticipationEdge(
             });
         }
 
-    if (relationNode.relation.participations.length === 3 && participation.cardinality) {
+    if (relationNode.relation.participations.length === 3 && letter === '1') {
         const names = relationNode.cardinalityContextNames;
-        const needsContext = relationNode.relation.participations.some(
-                part => part.cardinality === 'one'
-                );
-        const context = names
-            ? names.length ? ` + ${names.join( ', ' )}` : ' global'
-            : needsContext ? ' · contexto pendiente' : '';
-        const maximum = participation.cardinality === 'one' ? '1' : 'N';
+        let scope = 'Ámbito pendiente';
+
+        if (names) {
+            scope = names.length ? `Ámbito por ${names.join( ', ' )}` : 'Ámbito global';
+            }
 
         labels.push( sceneBranchLabel(
-                `${maximum} · combinación${context}`,
-                'combination-cardinality',
+                scope,
+                'cardinality-scope',
                 {x: end.x + dx * 0.8, y: end.y + dy * 0.8},
                 outward,
                 [...obstacles, ...labels.map( label => label.bounds )]
