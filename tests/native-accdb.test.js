@@ -8,6 +8,7 @@ import test from 'node:test';
 import {exampleDocument} from '../src/domain/model.js';
 import {exportAccdb} from '../scripts/export-accdb.mjs';
 import {nativeSchema} from '../scripts/access/schema.mjs';
+import {selectRows} from '../scripts/access/select.mjs';
 
 function library() {
     const model = exampleDocument();
@@ -106,4 +107,27 @@ test( 'unsupported SELECT syntax and external sources do not produce misleading 
         view.definition = sql;
         assert.throws( () => nativeSchema( model ), /SELECT local/ );
         }
+    } );
+
+test( 'ACE exports zero-filled column sums for ODBC without rewriting other expressions', () => {
+    const sum = 'sUm( S.[importe neto] )';
+    const legacy = `nz ( ${sum}, 0 )`;
+    const ready = `IIf(${sum} Is Null, 0, ${sum})`;
+    const untouched = [
+        "'Nz(Sum(x), 0)'",
+        '[Nz(Sum(x), 0)]',
+        'Nz(Sum(x), 1)',
+        'Nz(Sum(Rnd()), 0)',
+        'Nz(Sum(x))'
+        ];
+    const expressions = [`${legacy} + ${legacy}`, ...untouched];
+    const sql = `SELECT ${expressions.join( ', ' )} FROM Socio AS S HAVING ${legacy} > 0`;
+    const rows = selectRows( sql, ['Socio'] );
+
+    assert.deepEqual(
+            rows.filter( row => row.attribute === 6 ).map( row => row.expr ),
+            [`${ready} + ${ready}`, ...untouched]
+            );
+    assert.equal( rows.find( row => row.attribute === 10 ).expr, `${ready} > 0` );
+    assert.deepEqual( selectRows( sql.replaceAll( legacy, ready ), ['Socio'] ), rows );
     } );

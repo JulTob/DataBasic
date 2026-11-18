@@ -9,6 +9,34 @@ const unquote = s => s.startsWith( '[' ) ? s.slice( 1, -1 ).replaceAll( ']]', ']
 const upper = t => t?.value.toUpperCase();
 const keywords = new Set( 'SELECT FROM WHERE GROUP BY HAVING ORDER UNION PARAMETERS TRANSFORM INTO IN JOIN ON DISTINCT DISTINCTROW TOP'.split( ' ' ) );
 
+/** Visio's ACE ODBC driver cannot resolve the Access application function Nz. */
+function odbcExpression(
+        source,
+        tokens
+        ) {
+    let start = tokens[0].start;
+    let result = '';
+
+    for (let i = 0; i < tokens.length; i++) {
+        if (upper( tokens[i] ) !== 'NZ' || tokens[i - 1]?.value === '.') continue;
+        const value = offset => upper( tokens[i + offset] );
+        if (value( 1 ) !== '(' || value( 2 ) !== 'SUM' || value( 3 ) !== '(') continue;
+        if (!name.test( tokens[i + 4]?.value ?? '' )) continue;
+
+        let close = 5;
+        if (value( close ) === '.' && name.test( tokens[i + close + 1]?.value ?? '' )) close += 2;
+        if (value( close ) !== ')' || value( close + 1 ) !== ','
+                || value( close + 2 ) !== '0' || value( close + 3 ) !== ')') continue;
+
+        // Repeating a sum of a column is safe; leave arbitrary expressions untouched.
+        const sum = source.slice( tokens[i + 2].start, tokens[i + close].end );
+        result += source.slice( start, tokens[i].start ) + `IIf(${sum} Is Null, 0, ${sum})`;
+        i += close + 3;
+        start = tokens[i].end;
+        }
+    return result + source.slice( start, tokens.at( -1 ).end );
+    }
+
 export function selectRows( sql, tableNames ) {
     function invalid() {
         throw new Error( 'Esta consulta no pertenece al subconjunto SELECT local admitido por ACCDB. Use la exportación VBA/DAO.' );
@@ -44,7 +72,7 @@ export function selectRows( sql, tableNames ) {
             pos++;
             }
         if (depth || pos === start) invalid();
-        return raw( start, pos );
+        return odbcExpression( source, tokens.slice( start, pos ) );
         }
     function row( attribute, fields = {} ) {rows.push( {attribute, ...fields} );}
     need( 'SELECT' );
