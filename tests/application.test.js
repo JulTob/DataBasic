@@ -1447,6 +1447,34 @@ test( 'La letra junto al rombo se elige en el diálogo y se edita en Varios', as
     assert.equal( JSON.parse( app.saved() ).conceptual.relationships[0].participations[1].cardinality, null );
     } );
 
+test( 'El diálogo y la memoria muestran el apartado de Access solo si hay avisos', async () => {
+    for (const needsReview of [false, true]) {
+        const model = exampleDocument();
+        if (needsReview) {
+            model.tables[0].columns[0].domain = {
+                minimum: null,
+                maximum: null,
+                values: [],
+                check: 'id_socio > 0'
+                };
+            }
+
+        const app = await applicationHarness( 500, JSON.stringify( model ) );
+        await app.click({action: 'access'});
+        const dialog = app.element( '#dialog' ).innerHTML;
+
+        await app.click({action: 'close-dialog'});
+        await app.click({action: 'report-markdown'});
+        const report = await app.downloads.at( -1 ).text();
+
+        for (const text of [dialog, report]) {
+            assert.equal( text.includes( 'Lo que Access expresa de otra manera' ), needsReview );
+            assert.equal( text.includes( 'Socio: la regla de validación de tabla se copia del CHECK' ), needsReview );
+            assert.doesNotMatch( text, /equivalente directo en Access/ );
+            }
+        }
+    } );
+
 test( 'El diálogo de supuesto guarda, edita y elimina; la memoria se descarga', async () => {
     const initial = exampleDocument();
     const app = await applicationHarness( 500, JSON.stringify( initial ) );

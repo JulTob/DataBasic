@@ -384,8 +384,10 @@ function reportLostSemanticsSection( model ) {
 
     const access = accessStatus( model ).map( item => item.message );
 
-    blocks.push( reportParagraph( 'Lo que Access expresa de otra manera:' ) );
-    blocks.push( access.length ? reportList( access ) : reportParagraph( 'Nada: todo tiene equivalente directo en Access.' ) );
+    if (access.length) {
+        blocks.push( reportParagraph( 'Lo que Access expresa de otra manera:' ) );
+        blocks.push( reportList( access ) );
+        }
 
     return {heading: 'Semántica perdida', blocks};
     }

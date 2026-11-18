@@ -1146,10 +1146,10 @@ export function showAccessDialog( model ) {
                             <p>${escapeHTML( route.text )}</p>
                             ${command( route.action, 'Descargar', 'download' )}</section>`
                         ).join( '' )}
-                <h3>Lo que Access expresa de otra manera</h3>
                 ${issues.length
-                    ? `<ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
-                    : '<p>Nada que señalar: todo el modelo tiene equivalente directo en Access.</p>'}</div>`
+                    ? `<h3>Lo que Access expresa de otra manera</h3>
+                        <ul>${issues.map( item => `<li>${escapeHTML( item.message )}</li>` ).join( '' )}</ul>`
+                    : ''}</div>`
             );
     }
 
