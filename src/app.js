@@ -1,4 +1,4 @@
-import { libraryDocument } from './domain/library.js';
+import { libraryDocument, restoredLibraryTitle } from './domain/library.js';
 import { createQueryWorkspace } from './ui/query-workspace.js';
 import {
     addColumn,
@@ -2086,6 +2086,9 @@ async function restoreDocument() {
 
         if (contents && !state.past.length) {
             state.model = parseDocument( contents );
+            if (practiceId === 'biblioteca-umh-catalogo') {
+                state.model.name = restoredLibraryTitle( state.model );
+                }
             }
 
         showSaveStatus(

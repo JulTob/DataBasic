@@ -10,6 +10,21 @@ import {
     updateConceptualRelationship
     } from './model.js';
 
+export const LIBRARY_TITLE = 'Biblioteca UMH';
+
+const libraryAssignment = 'El catálogo ya está preparado. Antes de abrir al público, '
+    + 'diseña el carné de socio y el préstamo de cada ejemplar. '
+    + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.';
+
+export function restoredLibraryTitle( model ) {
+    if (model.name !== 'Biblioteca UMH antes de abrir') return model.name;
+
+    const originalAssignment = model.assumptions?.some(
+            item => item.kind === 'enunciado' && item.text === libraryAssignment
+            );
+    return originalAssignment ? LIBRARY_TITLE : model.name;
+    }
+
 const catalogEntities = [
     {
         name: 'Libro',
@@ -173,7 +188,7 @@ function addCatalogRows(
 /** A populated catalogue awaiting its first member and loan; every opening gets fresh domain IDs. */
 export function libraryDocument() {
     let model = emptyDocument();
-    model.name = 'Biblioteca UMH antes de abrir';
+    model.name = LIBRARY_TITLE;
 
     for (const entity of catalogEntities) {
         model = addCatalogEntity( model, entity );
@@ -207,6 +222,6 @@ export function libraryDocument() {
 
     return addAssumption( model, {
         kind: 'enunciado',
-        text: 'El catálogo ya está preparado. Antes de abrir al público, diseña el carné de socio y el préstamo de cada ejemplar. Conserva el historial cuando una persona vuelva a pedir la misma copia.'
+        text: libraryAssignment
         } );
     }

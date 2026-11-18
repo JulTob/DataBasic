@@ -1271,6 +1271,29 @@ test( 'Dos prácticas comparten almacén sin leer ni sobrescribir el ejercicio p
     assert.equal( store.get( 'databasic.document.v1' ), original );
     } );
 
+test( 'La biblioteca recuperada actualiza únicamente el título original de su práctica', async () => {
+    const practice = 'biblioteca-umh-catalogo';
+    const oldTitle = 'Biblioteca UMH antes de abrir';
+    const library = libraryDocument();
+    library.name = oldTitle;
+
+    for (const [id, model, expected] of [
+        [practice, library, 'Biblioteca UMH'],
+        [practice, {...library, name: 'Mi biblioteca'}, 'Mi biblioteca'],
+        [practice, {...emptyDocument(), name: oldTitle}, oldTitle],
+        ['otro-ejercicio', library, oldTitle]
+        ]) {
+        const key = 'databasic.document.v1.practica.' + id;
+        const store = new Map( [[key, JSON.stringify( model )]] );
+        const app = await applicationHarness(
+                500, null, {}, {store, search: '?practica=' + id}
+                );
+
+        assert.equal( app.element( '#document-name' ).textContent, expected );
+        assert.deepEqual( app.writes, [] );
+        }
+    } );
+
 test( 'Una práctica inválida no cae sobre la clave principal', async () => {
     const original = JSON.stringify( emptyDocument() );
     const store = new Map( [['databasic.document.v1', original]] );

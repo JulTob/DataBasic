@@ -1,4 +1,5 @@
 import { localAccessAvailable } from '../io/local-access.js';
+import { LIBRARY_TITLE } from '../domain/library.js';
 import { getConceptualProjection } from '../domain/model.js';
 import {
     command,
@@ -55,7 +56,7 @@ function exampleSelect( state ) {
 
     return `<label class="ribbon-select">${icon( 'book-open' )}<span>Ejemplos</span>
         <select data-example aria-label="Abrir un ejemplo">${options(
-                [['', 'Elegir un ejemplo…'], ['__biblioteca__', 'Biblioteca UMH antes de abrir'], ...files],
+                [['', 'Elegir un ejemplo…'], ['__biblioteca__', LIBRARY_TITLE], ...files],
                 ''
                 )}</select></label>`;
     }
@@ -91,7 +92,7 @@ export function ribbonContents( state ) {
                     + command( 'open', 'Abrir', 'folder-open' )
                     + command( 'save', 'Guardar', 'save' )
                     + ribbonMenu( 'Documento', command( 'rename', 'Cambiar nombre', 'pencil' )
-                        + command( 'example', 'Biblioteca UMH antes de abrir', 'book-open' ) )
+                        + command( 'example', LIBRARY_TITLE, 'book-open' ) )
                     )
                 + ribbonGroup( 'Archivos', ribbonMenu( 'Exportar',
                         command( 'access', 'Base de datos Access', 'database-zap' )

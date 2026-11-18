@@ -7,7 +7,7 @@ ha servido como referencia funcional y visual para esta implementación independ
 
 La versión **0.6.2** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
 
-### Biblioteca UMH antes de abrir
+### Biblioteca UMH
 
 [Abre la práctica de la biblioteca](https://jultob.github.io/DataBasic/?practica=biblioteca-umh-catalogo). El catálogo contiene **65 obras, 55 autores, 66 ediciones y 88 ejemplares** repartidos entre los cuatro campus. Se describen por separado la autoría de la obra, cada edición y la ubicación física de sus copias. **CampusMateria** registra los intereses temáticos de un campus y **LibroMateria**, las materias asignadas a cada obra. Una copia puede estar en un campus con otros intereses. El nombre de los cuatro campus procede de la universidad. El inventario, las signaturas y los perfiles temáticos se han preparado para la práctica. [Ubicación de las bibliotecas de la UMH](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/) · [Catalogación en la convocatoria estatal](https://www.boe.es/buscar/doc.php?id=BOE-A-2025-26893).
 
