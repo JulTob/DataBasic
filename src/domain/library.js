@@ -12,17 +12,30 @@ import {
 
 export const LIBRARY_TITLE = 'Biblioteca UMH';
 
-const libraryAssignment = 'El catálogo ya está preparado. Antes de abrir al público, '
+const originalLibraryAssignment = 'El catálogo ya está preparado. Antes de abrir al público, '
     + 'diseña el carné de socio y el préstamo de cada ejemplar. '
     + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.';
 
-export function restoredLibraryTitle( model ) {
-    if (model.name !== 'Biblioteca UMH antes de abrir') return model.name;
+const libraryAssignment = 'La Universidad Miguel Hernández (UMH) necesita una base de datos '
+    + 'para gestionar los ejemplares de sus cuatro campus. El catálogo ya recoge las obras, '
+    + 'sus autores y sus ediciones, e indica en qué campus y estante se guarda cada ejemplar.'
+    + '\n\n'
+    + 'La biblioteca te encarga ampliar ese modelo para poner en marcha el servicio de préstamo. '
+    + 'Cada socio se identifica con un número de carné único. El personal debe poder consultar '
+    + 'qué ejemplares tiene en préstamo cada socio y reconstruir el historial de cada ejemplar '
+    + 'con las fechas de préstamo y devolución, incluso si el mismo socio lo pide varias veces.';
 
-    const originalAssignment = model.assumptions?.some(
-            item => item.kind === 'enunciado' && item.text === libraryAssignment
+/** Refreshes the supplied brief in a recovered practice while preserving student-authored text. */
+export function restoreLibraryDefaults( model ) {
+    const assignment = model.assumptions?.find(
+            item => item.kind === 'enunciado'
+                && !item.elementId
+                && (item.text === originalLibraryAssignment || item.text === libraryAssignment)
             );
-    return originalAssignment ? LIBRARY_TITLE : model.name;
+    if (!assignment) return;
+
+    assignment.text = libraryAssignment;
+    if (model.name === 'Biblioteca UMH antes de abrir') model.name = LIBRARY_TITLE;
     }
 
 const catalogEntities = [

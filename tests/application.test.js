@@ -1294,6 +1294,41 @@ test( 'La biblioteca recuperada actualiza únicamente el título original de su 
         }
     } );
 
+test( 'Enunciado presenta el encargo de la UMH al recuperar la práctica original', async () => {
+    const practice = 'biblioteca-umh-catalogo';
+    const original = 'El catálogo ya está preparado. Antes de abrir al público, '
+        + 'diseña el carné de socio y el préstamo de cada ejemplar. '
+        + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.';
+    const edited = original + ' Incluye una reserva por ejemplar.';
+    const opening = 'La Universidad Miguel Hernández (UMH) necesita';
+
+    for (const [id, text, expected] of [
+        [practice, original, opening],
+        [practice, edited, edited],
+        ['otro-ejercicio', original, original]
+        ]) {
+        const model = libraryDocument();
+        model.name = 'Mi biblioteca';
+        model.assumptions.find( item => item.kind === 'enunciado' ).text = text;
+        const key = 'databasic.document.v1.practica.' + id;
+        const store = new Map( [[key, JSON.stringify( model )]] );
+        const app = await applicationHarness(
+                500, null, {}, {store, search: '?practica=' + id}
+                );
+
+        await app.click({action: 'assignment'});
+        const dialog = app.element( '#dialog' ).innerHTML;
+        assert.ok( dialog.includes( expected ) );
+        if (expected === opening) {
+            assert.match( dialog, /historial/i );
+            assert.match( dialog, /fechas de préstamo y devolución/ );
+            assert.ok( !dialog.includes( original ) );
+            }
+        assert.equal( app.element( '#document-name' ).textContent, model.name );
+        assert.deepEqual( app.writes, [] );
+        }
+    } );
+
 test( 'Una práctica inválida no cae sobre la clave principal', async () => {
     const original = JSON.stringify( emptyDocument() );
     const store = new Map( [['databasic.document.v1', original]] );

@@ -1,4 +1,4 @@
-import { libraryDocument, restoredLibraryTitle } from './domain/library.js';
+import { libraryDocument, restoreLibraryDefaults } from './domain/library.js';
 import { createQueryWorkspace } from './ui/query-workspace.js';
 import {
     addColumn,
@@ -930,9 +930,11 @@ async function act(
 
     switch (action) {
         case 'assignment':
-            openDialog( 'Enunciado', (state.model.assumptions || []).filter( item => item.kind === 'enunciado' ).map(
-                    item => '<p>' + escapeHTML( item.text ) + '</p>'
-                    ).join( '' ) );
+            openDialog( 'Enunciado', (state.model.assumptions || [])
+                .filter( item => item.kind === 'enunciado' )
+                .flatMap( item => item.text.split( /\r?\n\s*\r?\n/ ) )
+                .map( paragraph => '<p>' + escapeHTML( paragraph ) + '</p>' )
+                .join( '' ) );
             break;
         case 'query-new':
             queries.next();
@@ -2087,7 +2089,7 @@ async function restoreDocument() {
         if (contents && !state.past.length) {
             state.model = parseDocument( contents );
             if (practiceId === 'biblioteca-umh-catalogo') {
-                state.model.name = restoredLibraryTitle( state.model );
+                restoreLibraryDefaults( state.model );
                 }
             }
 
