@@ -45,16 +45,18 @@ function nativeDrawing( model ) {
 function runBridge(
         source,
         shapes,
-        answers
+        answers,
+        {activeVersion, registeredVersion = '14.0'} = {}
         ) {
     const history = {messages: [], outputs: [], template: '', dsn: []};
+    history.launches = 0;
     const doc = {
         Pages: collection( [{Shapes: collection( shapes )}] ),
         SaveAs: name => history.outputs.push( name )
         };
     const automation = {
         'Visio.Application': {
-            Version: '14.0',
+            Version: registeredVersion,
             Documents: {Add: name => {
                 history.template = name;
                 return doc;
@@ -80,8 +82,17 @@ function runBridge(
             }
         };
     vm.runInNewContext( source, {
-        ActiveXObject: function( name ) { return automation[name]; },
-        WScript: {ScriptFullName: 'CrearModelo.js', Quit: code => assert.fail( 'WSH exit ' + code )}
+        GetObject( path, name ) {
+            assert.equal( path, '' );
+            assert.equal( name, 'Visio.Application' );
+            if (!activeVersion) throw new Error( 'No active instance' );
+            return {...automation[name], Version: activeVersion};
+            },
+        ActiveXObject: function( name ) {
+            if (name === 'Visio.Application') history.launches++;
+            return automation[name];
+            },
+        WScript: {ScriptFullName: 'CrearModelo.js', Quit: code => {history.exit = code;}}
         } );
     return history;
     }
@@ -99,6 +110,38 @@ test( 'native Visio transfer carries the ACE catalog, project-specific dictionar
     assert.equal( run.template, 'DBMODL_M.VST' );
     assert.deepEqual( run.outputs, ['C:/Práctica/Visio-estudio/Modelo_nativo.vsd'] );
     assert.ok( run.dsn.includes( 'DBQ=C:/Práctica/Origen.accdb' ) );
+    assert.equal( run.launches, 1 );
+    } );
+
+test( 'the bridge uses the active 2010 instance when another release is registered', () => {
+    const model = exampleDocument();
+    const bridge = zipText( kitFor( model )['CrearModelo.js'] );
+    const run = runBridge(
+            bridge,
+            nativeDrawing( model ),
+            [1],
+            {activeVersion: '14.0', registeredVersion: '15.0'}
+            );
+
+    assert.equal( run.launches, 0 );
+    assert.equal( run.outputs.length, 1 );
+    } );
+
+test( 'another active Visio version prompts for 2010 before opening a template or launching Visio', () => {
+    const model = exampleDocument();
+    const bridge = zipText( kitFor( model )['CrearModelo.js'] );
+    const run = runBridge(
+            bridge,
+            nativeDrawing( model ),
+            [],
+            {activeVersion: '15.0'}
+            );
+
+    assert.equal( run.launches, 0 );
+    assert.equal( run.template, '' );
+    assert.deepEqual( run.outputs, [] );
+    assert.equal( run.exit, 1 );
+    assert.match( run.messages[0], /Visio 15\.0.*Visio 2010.*activa su ventana/ );
     } );
 
 test( 'a missing relationship, field or empty page cannot produce a native result', () => {

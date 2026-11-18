@@ -1,5 +1,29 @@
 # Verificación de DataBasic
 
+## Selección de Visio 2010 y consulta de Access en 0.5.2
+
+El puesto Windows de la UMH tenía Visio 2010 (14.0.7266.5000) y otra
+edición de Visio. La creación de una instancia mediante `Visio.Application`
+seleccionó la versión 15.0. Tras abrir Visio 2010, Windows Script Host con
+JScript recuperó la instancia 14 mediante `GetObject('', 'Visio.Application')`.
+La versión y el identificador del proceso coincidieron con los obtenidos
+por un segundo script en VBScript.
+
+En ese puesto, el asistente generado por 0.5.2 abrió la plantilla de bases
+de datos en Visio Professional 2010. Se importaron la tabla LIBRO y la vista
+CATALOGO desde Origen.accdb con el controlador Microsoft Access. Con solo la
+tabla en la página, el asistente impidió guardar e identificó CATALOGO como
+único objeto pendiente. Al añadir la vista, se pudo guardar Modelo_nativo.vsd
+con notación IDEF1X y nombres físicos.
+
+Tras cerrar y reabrir el VSD en Visio 2010, las propiedades de la vista
+mostraban `referencia INTEGER` y `nombre VARCHAR(60)`, en ese orden. Su SQL
+era `SELECT codigo AS referencia, titulo AS nombre FROM LIBRO;`. En Microsoft
+Access se abrió el mismo ACCDB y se ejecutó CATALOGO. La fila obtenida fue
+`1, Atlas`. Este ejemplo de una tabla y una vista ejercita el control de
+importación y la reapertura. El ensayo anterior de varias tablas descrito
+más abajo documenta la comprobación de cardinalidades.
+
 ## Comprobaciones de 0.5.1
 
 El 18 de noviembre de 2026 se abrió el ejemplo **Club de observación · ternaria

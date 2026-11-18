@@ -17,6 +17,22 @@ function visioNativeWindowsImport( objects, relations ) {
         return shell.Popup( message, 0, 'DataBasic - Visio 2010', buttons );
     }
 
+    function openVisio2010() {
+        var visio;
+        try {
+            // JScript uses an empty path to bind to the active Visio instance.
+            visio = GetObject( '', 'Visio.Application' );
+        } catch (noActiveInstance) {
+            visio = new ActiveXObject( 'Visio.Application' );
+        }
+        if (parseInt( visio.Version, 10 ) !== 14) {
+            throw new Error( 'Windows ha seleccionado Visio ' + visio.Version + '. '
+                + 'Abre Visio 2010 Professional o Premium desde Inicio, activa su ventana '
+                + 'y vuelve a ejecutar CrearModelo.js.' );
+        }
+        return visio;
+    }
+
     function openTemplate( visio ) {
         try {
             return visio.Documents.Add( 'DBMODL_M.VST' );
@@ -115,11 +131,8 @@ function visioNativeWindowsImport( objects, relations ) {
     try {
         if (!files.FileExists( source )) throw new Error( 'Extrae primero todo el ZIP, incluido Origen.accdb.' );
 
-        var visio = new ActiveXObject( 'Visio.Application' );
+        var visio = openVisio2010();
         visio.Visible = true;
-        if (parseInt( visio.Version, 10 ) !== 14) {
-            throw new Error( 'Este asistente requiere Visio 2010 Professional o Premium (versión 14).' );
-        }
         var doc = openTemplate( visio );
         var folder = files.CreateFolder( files.BuildPath( root, 'Visio-' + files.GetBaseName( files.GetTempName() ) ) ).Path;
         var dsn = files.BuildPath( folder, 'Origen.dsn' );
@@ -193,6 +206,8 @@ const VISIO_NATIVE_GUIDE = [
     'En Windows con Visio 2010 Professional o Premium y el controlador ODBC de Access de la misma',
     'arquitectura que Visio, ejecuta CrearModelo.js con Windows Script Host. El asistente prepara un DSN',
     'de archivo y abre la plantilla de bases de datos. Completa las selecciones en la cinta de Visio.',
+    'Si hay varias ediciones de Visio, abre Microsoft Visio 2010 desde Inicio y activa su ventana',
+    'antes de ejecutar CrearModelo.js. El asistente comprueba la versión antes de abrir la plantilla.',
     'Antes de guardar Modelo_nativo.vsd, el asistente comprueba que cada tabla use el maestro Entity',
     'y cada vista el maestro View, que se lean sus nombres y columnas declaradas y que las tablas',
     'estén conectadas. El orden de las columnas, el SQL y las cardinalidades se revisan en las',

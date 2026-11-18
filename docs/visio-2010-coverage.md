@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.5.1 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.5.2 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -117,7 +117,7 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | Se genera un dibujo VDX editable. La ruta de la plantilla se describe en C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
 | C-13 · P1 p. 4 | Ternaria N:N:N: tabla con las tres FK y sus atributos; la clave se adapta cuando se repite la combinación en distintos períodos. | Disponible | C-12 | Clave elegida explícitamente, incluido el período. |
-| C-14 · P1 p. 4 | Entrega de memoria, modelo Visio y base Access. | Parcial | Edición local 0.5.1 y registro de verificación. | El ZIP incluye DOCX, VDX y ACCDB. El kit usa ese ACCDB con la plantilla de bases de datos de Visio 2010 Professional/Premium. Comprueba maestros y columnas visibles de tablas y vistas, y conexiones entre tablas. Las propiedades de cardinalidad, el SQL y el orden de proyección se cotejan en Visio. |
+| C-14 · P1 p. 4 | Entrega de memoria, modelo Visio y base Access. | Parcial | Edición local 0.5.2 y registro de verificación. | El ZIP incluye DOCX, VDX y ACCDB. El kit usa ese ACCDB con la plantilla de bases de datos de Visio 2010 Professional/Premium. Admite la instancia 2010 abierta cuando conviven varias versiones. Comprueba maestros y columnas visibles de tablas y vistas, y conexiones entre tablas. Las propiedades de cardinalidad, el SQL y el orden de proyección se cotejan en Visio. |
 | C-16 · P1 p. 2 §3.1, ERE p. 7 | Supuestos semánticos y semántica perdida razonados junto al grafo ERE. | Disponible (0.4.2) | A-01 a A-07; «La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida» | Tres clases de entrada por objeto o globales; la memoria añade las restricciones documentales detectadas. La argumentación sigue siendo del autor. |
 | C-15 · T2 p. 19 | Patrones incorrectos: entidad con entidad sin rombo, rombo con rombo, atributo sobre la línea. | Disponible | C-04, C-07 | Las relaciones siempre pasan por un rombo y los atributos cuelgan de la entidad o del rombo. |
 

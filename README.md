@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.5.1** permite editar un documento con tres representaciones
+La versión **0.5.2** permite editar un documento con tres representaciones
 progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 **Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
 Access, con sus tipos y propiedades. El desplegable Vista cambia la
@@ -30,7 +30,8 @@ pares (mín,máx) junto a cada entidad, doble línea de participación total,
 rombo doble del vínculo identificador y arcos de subconjunto en las subclases.
 En una ternaria, la letra indica cuántos participantes de esa rama pueden
 asociarse con una pareja fija de los otros dos. Si el máximo es uno, una
-anotación indica si se aplica globalmente, por período o con un ámbito pendiente.
+anotación indica si se aplica globalmente o al fijar atributos adicionales
+como el período. También identifica un ámbito pendiente de decidir.
 
 Cada objeto tiene una categoría **Supuestos** para anotar la semántica del
 enunciado, los supuestos propios y la semántica perdida; **Base de datos →
@@ -58,8 +59,9 @@ reúne además los diagramas SVG, el proyecto y los exportadores VBA, SQL y XML.
 3. **Dibujo Visio (.vdx)** genera el dibujo editable con su diccionario.
    **Plantilla Visio 2010** prepara en el equipo local un kit para la plantilla
    **Diagrama de modelo de base de datos**. Extráelo en Windows con Visio 2010
-   Professional o Premium y sigue sus instrucciones para importar la base, ajustar
-   la notación IDEF1X, comprobar las propiedades de base de datos y guardar el VSD.
+   Professional o Premium. Si conviven varias versiones, abre primero Visio
+   2010 y después ejecuta el asistente. Sigue sus instrucciones para importar
+   la base, elegir IDEF1X, comprobar las propiedades y guardar el VSD.
    El asistente coteja las formas de entidad y vista, sus columnas declaradas
    visibles y las conexiones entre tablas. En las propiedades de Visio,
    comprueba las cardinalidades y contrasta el SQL y el orden de las columnas
