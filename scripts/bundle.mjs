@@ -8,6 +8,7 @@ const modules = [
     'domain/model.js',
     'domain/data.js',
     'domain/access.js',
+    'domain/library-collection.js',
     'domain/library.js',
     'domain/query-engine.js',
     'domain/query-algebra.js',

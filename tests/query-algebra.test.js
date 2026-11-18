@@ -46,7 +46,9 @@ test( 'La proyección elimina duplicados y la selección distingue texto, NULL y
         model,
         compileAlgebra( 'π[id](σ[isbn IS NULL AND (anio < 1700 OR anio = 1929)](Edicion))', model )
         );
-    allRowsMatch( isbn, {columns: ['id'], rows: [[21], [31]]} );
+    const reference = await queryModel( model, 'SELECT DISTINCT id FROM Edicion WHERE isbn IS NULL AND (anio < 1700 OR anio = 1929)' );
+    allRowsMatch( isbn, reference );
+    assert.ok( [21, 31].every( id => isbn.rows.some( row => row[0] === id ) ) );
     } );
 
 test( 'La división comprueba todas las obligaciones y admite un divisor vacío', async () => {
@@ -55,7 +57,12 @@ test( 'La división comprueba todas las obligaciones y admite un divisor vacío'
     const incomplete = await queryModel(
         model, compileAlgebra( '÷(' + offered + ', π[estante](Ejemplar))', model )
         );
-    allRowsMatch( incomplete, {columns: ['edicion_id'], rows: [[11]]} );
+    const allShelves = await queryModel( model,
+        'SELECT edicion_id FROM Ejemplar GROUP BY edicion_id '
+            + 'HAVING COUNT(DISTINCT estante) = (SELECT COUNT(DISTINCT estante) FROM Ejemplar)'
+        );
+    allRowsMatch( incomplete, allShelves );
+    assert.ok( incomplete.rows.some( ([id]) => id === 11 ) );
     const vacuous = await queryModel(
         model, compileAlgebra( "÷(" + offered + ", π[estante](σ[estante = 'Z'](Ejemplar)))", model )
         );
@@ -73,6 +80,31 @@ test( 'Una división descubre desde ambas FK las ediciones disponibles en los cu
     allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
     } );
 
+test( 'El reto de los cuatro campus sigue disponible al añadir doscientos ejemplares al fondo', async () => {
+    const model = libraryDocument();
+    const table = model.tables.find( item => item.name === 'Ejemplar' );
+    const register = table.columns.find( column => column.name === 'registro' );
+    const examples = model.data[table.id];
+    const source = examples.at( -1 );
+    for (let i = 0; i < 200; i++) {
+        examples.push( {...source, [register.id]: String( 700000 + i )} );
+        }
+
+    const challenges = compatibleChallenges( model );
+    assert.deepEqual(
+        new Set( challenges.map( item => item.family ) ),
+        new Set( algebraOperators.map( item => item.id ) )
+        );
+    const division = challenges.find( item =>
+        item.id.startsWith( 'divide:coverage-' ) && item.prompt.includes( 'registros de Campus' )
+        );
+    assert.ok( division );
+    allRowsMatch(
+        await queryModel( model, compileAlgebra( division.algebra, model ) ),
+        {columns: ['edicion_id'], rows: [[11]]}
+        );
+    } );
+
 test( 'Los retos del catálogo relacionan nombres bibliográficos y campus con su referencia', async () => {
     const model = libraryDocument();
     const exercises = compatibleChallenges( model );
@@ -85,6 +117,47 @@ test( 'Los retos del catálogo relacionan nombres bibliográficos y campus con s
         const expected = {columns: ['nombre'], rows: names.map( name => [name] )};
         allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
         allRowsMatch( await queryModel( model, exercise.sql ), expected );
+        }
+    } );
+
+test( 'El reto de autores cuenta obras distintas con coautoría aunque se duplique una acreditación', async () => {
+    const model = libraryDocument();
+    const credits = model.tables.find( item => item.name === 'Autoria' );
+    const rows = model.data[credits.id];
+    rows.push( {...rows[0]} );
+    const exercise = compatibleChallenges( model ).find( item => item.id.startsWith( 'group:biblioteca-obras-' ) );
+    assert.ok( exercise );
+    const actual = await queryModel( model, compileAlgebra( exercise.algebra, model ) );
+    allRowsMatch( actual, await queryModel( model, exercise.sql ) );
+
+    // Count distinct titled records directly from the three datasheets.
+    const table = name => model.tables.find( item => item.name === name );
+    const field = (entity, name) => entity.columns.find( column => column.name === name ).id;
+    const authors = table( 'Autor' );
+    const books = table( 'Libro' );
+    const ids = new Set( model.data[books.id].map( row => row[field( books, 'id' )] ) );
+    const expected = [];
+    for (const author of model.data[authors.id]) {
+        const authored = new Set();
+        for (const row of rows) {
+            const book = row[field( credits, 'libro_id' )];
+            if (row[field( credits, 'autor_id' )] === author[field( authors, 'id' )] && ids.has( book )) {
+                authored.add( book );
+                }
+            }
+        if (authored.size > 1) {
+            expected.push( [author[field( authors, 'nombre' )], authored.size] );
+            }
+        }
+    allRowsMatch( actual, {columns: ['nombre', 'obras'], rows: expected} );
+    const totals = new Map( actual.rows );
+    for (const [name, total] of [
+        ['Richard P. Feynman', 5],
+        ['J. Robert Oppenheimer', 2],
+        ['Tom M. Apostol', 4],
+        ['Andrei N. Kolmogorov', 2]
+        ]) {
+        assert.equal( totals.get( name ), total, name );
         }
     } );
 
@@ -127,6 +200,21 @@ test( 'Reconoce un diseño de alumno con claves compuestas, espacios, comillas y
         allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
         allRowsMatch( await queryModel( model, exercise.sql ), expected );
         }
+    } );
+
+test( 'El producto elige dos campos categóricos si las claves producirían demasiadas parejas', async () => {
+    const model = {tables: [], relationships: [], data: {}};
+    for (const [name, category] of [['Fondo', 'idioma'], ['Estantes', 'sala']]) {
+        model.tables.push( {
+            id: name, kind: 'entity', name,
+            columns: [{id: 'id', name: 'id', type: 'INT'}, {id: 'valor', name: category, type: 'VARCHAR(5)'}]
+            } );
+        model.data[name] = Array.from( {length: 100}, (_, i) => ({id: String( i ), valor: i % 2 ? 'x' : 'y'} ) );
+        }
+    const exercise = compatibleChallenges( model ).find( item => item.family === 'product' );
+    assert.ok( exercise );
+    const result = await queryModel( model, compileAlgebra( exercise.algebra, model ) );
+    allRowsMatch( result, {columns: ['idioma', 'sala'], rows: [['x', 'x'], ['x', 'y'], ['y', 'x'], ['y', 'y']]} );
     } );
 
 test( 'Los esquemas vacíos y poco poblados tienen una salida finita', () => {

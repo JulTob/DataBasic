@@ -11,12 +11,14 @@ function challengeLiteral( value ) {
     }
 
 // Sample only to discover useful questions. Both answer queries always see the entire database.
-function challengeSample( items, limit ) {
+function challengeSample( items, limit, prefix = 0 ) {
     if (items.length <= limit) {
         return items;
         }
+    const last = items.length - prefix - 1;
+    const intervals = limit - prefix - 1;
     return Array.from( {length: limit}, (_, i) =>
-        items[Math.floor( i * (items.length - 1) / (limit - 1) )]
+        items[i < prefix ? i : prefix + Math.floor( (i - prefix) * last / intervals )]
         );
     }
 
@@ -27,7 +29,8 @@ function challengeExamples( model ) {
     return challengeSample( tables, 16 ).map( table => ({
         table,
         columns: challengeSample( table.columns, 16 ),
-        rows: challengeSample( tableRows( model, table.id ), 80 ),
+        // Retain an exercise’s initial witnesses when the learner appends a larger collection.
+        rows: challengeSample( tableRows( model, table.id ), 80, 16 ),
         variants: new Map(),
         name: [table.namespace, table.name].filter( Boolean ).map( challengeName ).join( '.' ),
         quoted: [table.namespace, table.name].filter( Boolean ).map( algebraIdentifier ).join( '.' )
@@ -375,7 +378,7 @@ function challengeCoverage( model, sources, add ) {
         }
     }
 
-// These two worded catalog tasks augment the schema-driven families when their actual roles are present.
+// Catalog tasks use familiar words once their required tables, columns and references are identified.
 function challengeLibrary( model, sources, add ) {
     const named = name => sources.find( source => source.table.name === name && !source.table.namespace );
     function link( from, to ) {
@@ -438,6 +441,31 @@ function challengeLibrary( model, sources, add ) {
         }
     const coauthors = challengeGroups( credits.rows, book.ref, author.ref );
     const validAuthors = challengeVariants( authors, author.key );
+    const validBooks = challengeVariants( books, book.key );
+    const worksByAuthor = challengeGroups( credits.rows, author.ref, book.ref );
+    const repeated = [...worksByAuthor].some( ([id, works]) =>
+        validAuthors.has( id ) && [...works].filter( work => validBooks.has( work ) ).length > 1
+        );
+    if (repeated) {
+        const authorKey = credits.name + '.' + challengeName( author.ref.name );
+        const bookKey = credits.name + '.' + challengeName( book.ref.name );
+        const signed = '⋈[' + book.condition + '](' + books.name + ', ' + credits.name + ')';
+        const distinctWorks = 'π[' + authorKey + ', ' + bookKey + '](' + signed + ')';
+        const counts = 'ℱ[' + authorKey + '; COUNT(*) AS obras](' + distinctWorks + ')';
+        const selected = 'σ[obras > 1](' + counts + ')';
+        const withNames = '⋈[' + author.condition + '](' + authors.name + ', ' + selected + ')';
+        const name = algebraIdentifier( person.name );
+        const tally = 'COUNT(DISTINCT l.' + algebraIdentifier( book.key.name ) + ')';
+        add( 'group', 'biblioteca-obras-' + author.ref.id,
+            '¿Qué autores firman más de una obra? Devuelve su nombre y el número de obras distintas '
+                + 'en la columna obras.',
+            'π[' + authors.name + '.' + challengeName( person.name ) + ', obras](' + withNames + ')',
+            'SELECT DISTINCT a.' + name + ', ' + tally + ' AS obras FROM ' + authors.quoted
+                + ' AS a JOIN ' + credits.quoted + ' AS c ON ' + author.on( 'a', 'c' )
+                + ' JOIN ' + books.quoted + ' AS l ON ' + book.on( 'l', 'c' )
+                + ' GROUP BY a.' + algebraIdentifier( author.key.name ) + ', a.' + name
+                + ' HAVING ' + tally + ' > 1' );
+        }
     const shared = books.rows.find( row => {
         const set = coauthors.get( challengeCell( row, book.key ) ) || [];
         return challengeCell( row, title ) !== null && [...set].filter( value => validAuthors.has( value ) ).length >= 2;
@@ -457,15 +485,31 @@ function challengeLibrary( model, sources, add ) {
         }
     }
 
+function challengeProductFields( left, right ) {
+    for (const x of left.columns) {
+        const width = challengeVariants( left, x ).size;
+        if (width < 2 || width > 40) {
+            continue;
+            }
+        const y = right.columns.find( field => {
+            const height = challengeVariants( right, field ).size;
+            return field.name.toLowerCase() !== x.name.toLowerCase() && height > 1 && width * height <= 80;
+            } );
+        if (y) {
+            return [x, y];
+            }
+        }
+    return [];
+    }
+
 function challengeCross( sources, add ) {
     for (const a of sources) {
         for (const b of sources) {
             if (a === b) {
                 continue;
                 }
-            const x = a.columns.find( c => challengeVariants( a, c ).size > 1 );
-            const y = b.columns.find( c => challengeVariants( b, c ).size > 1 && (!x || c.name.toLowerCase() !== x.name.toLowerCase()) );
-            if (!x || !y || challengeVariants( a, x ).size * challengeVariants( b, y ).size > 80) {
+            const [x, y] = challengeProductFields( a, b );
+            if (!x) {
                 continue;
                 }
             const left = 'π[' + challengeName( x.name ) + '](' + a.name + ')';

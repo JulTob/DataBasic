@@ -73,10 +73,6 @@ test( 'Cuatro campus comparten obras y materias y tienen colecciones distintas',
             campuses.map( campus => campus.nombre ),
             ['Altea', 'Elche', 'Orihuela', 'Sant Joan d’Alacant']
             );
-    for (const table of catalog.tables.filter( item => item.name !== 'Campus' )) {
-        assert.ok( catalog.data[table.id].length >= 8 && catalog.data[table.id].length <= 16, table.name );
-        }
-
     assert.deepEqual(
             editions.filter( edition => campusesWith( edition.id ).size === campuses.length )
                 .map( edition => edition.id ),
@@ -92,6 +88,83 @@ test( 'Cuatro campus comparten obras y materias y tienen colecciones distintas',
         }
     for (const campus of campuses) {
         assert.ok( profiles.some( link => link.campus_id === campus.id ) );
+        }
+    } );
+
+test( 'Un recuento de ejemplares y uno de obras dan resultados diferentes en dos campus', () => {
+    const catalog = libraryDocument();
+    const copies = sampleRows( catalog, 'Ejemplar' );
+    const editions = sampleRows( catalog, 'Edicion' );
+    const bookForEdition = new Map( editions.map( item => [item.id, item.libro_id] ) );
+
+    const totals = sampleRows( catalog, 'Campus' ).map( campus => {
+        const holdings = copies.filter( item => item.campus_id === campus.id );
+        const uniqueBooks = new Set( holdings.map( item => bookForEdition.get( item.edicion_id ) ) );
+        return [campus.nombre, holdings.length, uniqueBooks.size];
+        } );
+
+    assert.deepEqual( totals, [
+        ['Altea', 22, 21],
+        ['Elche', 25, 25],
+        ['Orihuela', 22, 22],
+        ['Sant Joan d’Alacant', 19, 18]
+        ] );
+    } );
+
+test( 'Cada obra distinta dispone de edición y ejemplar; los autores pueden volver a aparecer', () => {
+    const catalog = libraryDocument();
+    const books = sampleRows( catalog, 'Libro' );
+    const editions = sampleRows( catalog, 'Edicion' );
+    const copies = sampleRows( catalog, 'Ejemplar' );
+    const authors = sampleRows( catalog, 'Autor' );
+    const authorships = sampleRows( catalog, 'Autoria' );
+    const booksWithCopies = new Set( copies.map( copy =>
+        editions.find( edition => edition.id === copy.edicion_id ).libro_id
+        ) );
+
+    assert.ok( books.length >= 60 );
+    assert.equal( new Set( books.map( book => book.titulo ) ).size, books.length );
+    assert.deepEqual( booksWithCopies, new Set( books.map( book => book.id ) ) );
+
+    for (const name of [
+        'J. Robert Oppenheimer',
+        'Alan V. Oppenheim',
+        'Richard P. Feynman',
+        'Andrei N. Kolmogorov',
+        'Tom M. Apostol'
+        ]) {
+        const author = authors.find( person => person.nombre === name );
+        assert.ok( author, name );
+        const works = authorships.filter( link => link.autor_id === author.id );
+        assert.ok( works.length >= 2, name );
+        }
+
+    for (const {isbn} of editions.filter( edition => edition.isbn !== null )) {
+        assert.match( isbn, /^[0-9]{13}$/ );
+        const sum = [...isbn].reduce(
+                (total, digit, index) => total + Number( digit ) * (index % 2 === 0 ? 1 : 3),
+                0
+                );
+        assert.equal( sum % 10, 0, isbn );
+        }
+    } );
+
+test( 'Las materias distinguen física, probabilidad, señales y humanidades', () => {
+    const catalog = libraryDocument();
+    const subjects = sampleRows( catalog, 'Materia' );
+    const books = sampleRows( catalog, 'Libro' );
+    const links = sampleRows( catalog, 'LibroMateria' );
+
+    for (const [title, subjectName] of [
+        ['The Feynman Lectures on Physics', 'Física'],
+        ['Foundations of the Theory of Probability', 'Probabilidad y estadística'],
+        ['New Horizons in Geometry', 'Matemáticas'],
+        ['Signals and Systems', 'Ingeniería de señales'],
+        ['Lazarillo de Tormes', 'Literatura']
+        ]) {
+        const {id: subject} = subjects.find( item => item.nombre === subjectName );
+        const {id: book} = books.find( item => item.titulo === title );
+        assert.ok( links.some( link => link.libro_id === book && link.materia_id === subject ), title );
         }
     } );
 

@@ -1630,3 +1630,6 @@ a {
 
 .query-insert > label { display: block; margin: 10px 0 5px; font-size: 12px; }
 #assignment { border-color: transparent; color: var(--color-accent-strong); }
+
+.query-reference select { max-width: 100%; }
+.query-reference label { min-width: 0; }

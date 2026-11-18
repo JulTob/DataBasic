@@ -1,3 +1,4 @@
+import {libraryContents} from './library-collection.js';
 import {
     addAssumption,
     addConceptualAttribute,
@@ -18,7 +19,7 @@ const catalogEntities = [
         attributesY: 35,
         fields: [
             ['id', 'NUMBER(4)'],
-            ['titulo', 'VARCHAR(100)'],
+            ['titulo', 'VARCHAR(160)'],
             ['genero', 'VARCHAR(24)'],
             ['cdu', 'VARCHAR(24)']
             ]
@@ -78,170 +79,6 @@ const catalogEntities = [
         fields: [
             ['id', 'NUMBER(4)'],
             ['nombre', 'VARCHAR(40)']
-            ]
-        }
-    ];
-
-// Real titles and authors; local identifiers, classifications, holdings and collecting interests are examples.
-const catalogContents = [
-    {
-        table: 'Libro',
-        fields: ['id', 'titulo', 'genero', 'cdu'],
-        rows: [
-            [1, 'Campos de Castilla', 'Poesía', '821.134.2-1'],
-            [2, 'La Lola se va a los puertos', 'Teatro', '821.134.2-2'],
-            [3, 'Don Quijote de la Mancha, primera parte', 'Novela', '821.134.2-3'],
-            [4, 'Lazarillo de Tormes', 'Novela', '821.134.2-3'],
-            [5, 'The Story of Art', 'Ensayo', '7'],
-            [6, 'La fotografía como documento social', 'Ensayo', '77'],
-            [7, 'On the Origin of Species', 'Tratado', '57'],
-            [8, 'The Variation of Animals and Plants under Domestication', 'Tratado', '63'],
-            [9, 'Reglas y consejos sobre investigación científica', 'Ensayo', '001.8'],
-            [10, 'Textura del sistema nervioso del hombre y de los vertebrados', 'Tratado', '611.8'],
-            [11, 'Fundamentos de bases de datos', 'Manual', '004.65'],
-            [12, 'Notes on Nursing: What It Is, and What It Is Not', 'Manual', '616-083']
-            ]
-        },
-    {
-        table: 'Autor',
-        fields: ['id', 'nombre'],
-        rows: [
-            [1, 'Antonio Machado'],
-            [2, 'Manuel Machado'],
-            [3, 'Miguel de Cervantes'],
-            [4, 'Ernst H. Gombrich'],
-            [5, 'Gisèle Freund'],
-            [6, 'Charles Darwin'],
-            [7, 'Santiago Ramón y Cajal'],
-            [8, 'Abraham Silberschatz'],
-            [9, 'Henry F. Korth'],
-            [10, 'S. Sudarshan'],
-            [11, 'Florence Nightingale']
-            ]
-        },
-    {
-        table: 'Autoria',
-        fields: ['autor_id', 'libro_id'],
-        rows: [
-            [1, 1],
-            [2, 2],
-            [1, 2],
-            [3, 3],
-            [4, 5],
-            [5, 6],
-            [6, 7],
-            [6, 8],
-            [7, 9],
-            [7, 10],
-            [8, 11],
-            [9, 11],
-            [10, 11],
-            [11, 12]
-            ]
-        },
-    {
-        table: 'Edicion',
-        fields: ['id', 'libro_id', 'anio', 'isbn'],
-        rows: [
-            [11, 1, 2006, '9788437608662'],
-            [12, 1, 1912, null],
-            [21, 2, 1929, null],
-            [31, 3, 1605, null],
-            [41, 4, 2006, '9788437606606'],
-            [51, 5, 1950, null],
-            [61, 6, 2017, '9788425229947'],
-            [71, 7, 1859, null],
-            [81, 8, 1868, null],
-            [91, 9, 1923, null],
-            [101, 10, 1899, null],
-            [111, 11, 2006, '9788448146443'],
-            [121, 12, 1860, null]
-            ]
-        },
-    {
-        table: 'Campus',
-        fields: ['id', 'nombre'],
-        rows: [
-            [1, 'Altea'],
-            [2, 'Elche'],
-            [3, 'Orihuela'],
-            [4, 'Sant Joan d’Alacant']
-            ]
-        },
-    {
-        table: 'Materia',
-        fields: ['id', 'nombre'],
-        rows: [
-            [1, 'Literatura'],
-            [2, 'Bellas artes'],
-            [3, 'Comunicación'],
-            [4, 'Biología'],
-            [5, 'Agronomía'],
-            [6, 'Ciencias de la salud'],
-            [7, 'Metodología de la investigación'],
-            [8, 'Informática']
-            ]
-        },
-    {
-        table: 'LibroMateria',
-        fields: ['libro_id', 'materia_id'],
-        rows: [
-            [1, 1],
-            [2, 1],
-            [2, 2],
-            [3, 1],
-            [4, 1],
-            [5, 2],
-            [6, 2],
-            [6, 3],
-            [7, 4],
-            [8, 4],
-            [8, 5],
-            [9, 7],
-            [9, 6],
-            [10, 6],
-            [11, 8],
-            [12, 6]
-            ]
-        },
-    {
-        table: 'CampusMateria',
-        fields: ['campus_id', 'materia_id'],
-        rows: [
-            [1, 1],
-            [1, 2],
-            [1, 3],
-            [2, 3],
-            [2, 4],
-            [2, 7],
-            [2, 8],
-            [3, 4],
-            [3, 5],
-            [4, 4],
-            [4, 6],
-            [4, 7]
-            ]
-        },
-    {
-        table: 'Ejemplar',
-        fields: ['registro', 'edicion_id', 'campus_id', 'signatura', 'estante'],
-        rows: [
-            [101, 11, 1, 'P MAC cam', 'A'],
-            [102, 11, 2, 'P MAC cam', 'A'],
-            [103, 11, 3, 'P MAC cam', 'B'],
-            [104, 21, 1, 'T MAC lol', 'A'],
-            [105, 41, 3, 'N laz', 'B'],
-            [106, 31, 2, 'N CER don', 'B'],
-            [107, 51, 1, '7 GOM sto', 'A'],
-            [108, 61, 1, '77 FRE fot', 'B'],
-            [109, 71, 2, '57 DAR ori', 'A'],
-            [110, 81, 3, '63 DAR var', 'A'],
-            [111, 91, 4, '001 CAJ reg', 'A'],
-            [112, 101, 4, '611 CAJ tex', 'B'],
-            [113, 111, 2, '004 SIL fun', 'A'],
-            [114, 121, 4, '616 NIG not', 'B'],
-            [115, 11, 4, 'P MAC cam', 'B'],
-            [116, 111, 3, '004 SIL fun', 'A']
             ]
         }
     ];
@@ -359,7 +196,7 @@ export function libraryDocument() {
         model = moveDiagramElement( model, table.id, {x, y}, 'relational' );
         }
 
-    for (const contents of catalogContents) {
+    for (const contents of libraryContents()) {
         model = addCatalogRows( model, contents );
         }
 

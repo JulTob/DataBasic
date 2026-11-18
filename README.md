@@ -1,15 +1,15 @@
 # DataBasic
 
 Un modelador educativo de bases de datos que funciona en el navegador.
-Su espacio de trabajo combina menús superiores, herramientas flotantes,
+Su espacio de trabajo combina una cinta de herramientas propia de cada vista,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.6.0** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
+La versión **0.6.1** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
 
 ### Biblioteca UMH antes de abrir
 
-[Abre la práctica de la biblioteca](https://jultob.github.io/DataBasic/?practica=biblioteca-umh). El catálogo distingue la obra, su autoría, sus ediciones y la ubicación de cada ejemplar. **CampusMateria** registra los intereses temáticos de un campus y **LibroMateria**, las materias asignadas a cada obra. Una copia puede estar en un campus con otros intereses. El nombre de los cuatro campus procede de la universidad. El inventario, las signaturas y los perfiles temáticos se han preparado para la práctica. [Ubicación de las bibliotecas de la UMH](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/) · [Catalogación en la convocatoria estatal](https://www.boe.es/buscar/doc.php?id=BOE-A-2025-26893).
+[Abre la práctica de la biblioteca](https://jultob.github.io/DataBasic/?practica=biblioteca-umh-catalogo). El catálogo contiene **65 obras, 55 autores, 66 ediciones y 88 ejemplares** repartidos entre los cuatro campus. Se describen por separado la autoría de la obra, cada edición y la ubicación física de sus copias. **CampusMateria** registra los intereses temáticos de un campus y **LibroMateria**, las materias asignadas a cada obra. Una copia puede estar en un campus con otros intereses. El nombre de los cuatro campus procede de la universidad. El inventario, las signaturas y los perfiles temáticos se han preparado para la práctica. [Ubicación de las bibliotecas de la UMH](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/) · [Catalogación en la convocatoria estatal](https://www.boe.es/buscar/doc.php?id=BOE-A-2025-26893).
 
 1. Lee **Enunciado**. Crea socios y préstamos en Diagrama. Decide cómo distinguir dos préstamos sucesivos de la misma copia y materializa la decisión en **Correspondencias**.
 2. En **Tablas → Hoja de datos**, comprueba los registros del catálogo y añade los tuyos. El ejercicio y los editores de consultas se guardan en el documento.
@@ -17,6 +17,20 @@ La versión **0.6.0** reúne cuatro vistas del mismo proyecto. **Diagrama** perm
 4. **Nuevo reto** elige una fórmula y la vincula a los campos, datos y relaciones actuales. En **Familia de retos** se puede elegir una operación. Ambas respuestas se contrastan con el resultado de referencia sobre esas filas. **Consulta libre** permite explorar y comparar resultados propios. **Herramientas → SQL del esquema** abre las declaraciones de creación.
 
 La consola ejecuta consultas de lectura en SQLite, dentro del navegador y en una copia temporal de los datos. Las operaciones de conjuntos, las fechas y algunas funciones se escriben de manera diferente en Access. El archivo ACCDB se verifica en Access cuando el objetivo del ejercicio es el comportamiento de ese motor.
+
+Para averiguar qué autores firman más de una obra, abre **Consultas → Familia de retos → Preguntas de la biblioteca** o ejecuta esta consulta en el editor SQL. Cuenta las obras asociadas a cada persona una sola vez aunque haya varios ejemplares o ediciones de un libro.
+
+```sql
+SELECT Autor.nombre, COUNT(DISTINCT Autoria.libro_id) AS obras
+FROM Autor
+JOIN Autoria ON Autoria.autor_id = Autor.id
+GROUP BY Autor.id, Autor.nombre
+HAVING COUNT(DISTINCT Autoria.libro_id) > 1
+ORDER BY obras DESC, Autor.nombre
+```
+
+Los registros científicos incluyen sus coautorías y conservan los títulos de la edición consultada. [Fuentes del catálogo](docs/catalogo-fuentes.md).
+
 
 Incluye PK y claves alternativas, FKs compuestas, tipos parametrizados,
 dominios, valores predeterminados, acciones referenciales y relaciones N:N

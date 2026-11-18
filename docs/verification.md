@@ -1,5 +1,11 @@
 # Verificación de DataBasic
 
+## Catálogo bibliográfico ampliado en 0.6.1
+
+El catálogo tiene 65 títulos distintos, 55 autores, 66 ediciones y 88 ejemplares. Las nueve tablas contienen 505 filas. Se generó el ACCDB, se abrió con MDB Tools y se compararon todos los valores exportados, campo a campo y con multiplicidad, con los del documento guardado y reabierto. Los ejemplares se distribuyen entre Altea (22), Elche (25), Orihuela (22) y Sant Joan d’Alacant (19). Las existencias son simuladas. Altea cuenta 22 ejemplares de 21 obras distintas y Sant Joan, 19 ejemplares de 18 obras. Esta diferencia permite comprobar el efecto de `COUNT(DISTINCT …)`.
+
+La consulta de autorías múltiples devuelve 18 personas. Entre ellas figuran Richard P. Feynman con 5 obras, Tom M. Apostol con 4, y A. N. Kolmogorov, J. Robert Oppenheimer y Alan V. Oppenheim con 2 cada uno. La división por todos los campus sigue identificando una única edición de *Campos de Castilla*. Las 130 variantes de los retos cubren las 14 familias y se contrastan con SQL independiente sobre el catálogo íntegro. El generador también se probó sobre una tabla con 200 ejemplares adicionales. [Referencias de las obras y sus ediciones](catalogo-fuentes.md).
+
 ## Biblioteca UMH y Consultas en 0.6.0
 
 El proyecto de inicio contiene 12 obras, 11 autores, 13 ediciones, 16 ejemplares, 8 materias y los 4 campus de la UMH. Las tres tablas de asociación contienen 14 autorías, 16 clasificaciones y 12 intereses temáticos. Se recuperaron las 106 filas de las nueve tablas al leer con MDB Tools el ACCDB generado. Las ubicaciones y perfiles temáticos pertenecen al ejercicio. [Bibliotecas de los campus](https://biblioteca.umh.es/presentacion/informacion-general/localizacion/).

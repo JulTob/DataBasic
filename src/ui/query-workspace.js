@@ -83,6 +83,15 @@ function querySchema( model ) {
             ).join( '' )}</details>`;
     }
 
+function bibliographyExercises( candidates ) {
+    const examples = candidates.filter( item => item.id.includes( ':biblioteca-' ) );
+    if (!examples.length) return '';
+    return `<div><label>Preguntas de la biblioteca
+        <select data-catalog-exercise><option value="">Elige una pregunta…</option>
+        ${examples.map( item => `<option value="${escapeHTML( item.id )}">${escapeHTML( item.prompt )}</option>`).join( '' )}
+        </select></label></div>`;
+    }
+
 /** Holds transient results for the active project; only editor text belongs to its document. */
 export function createQueryWorkspace( host, getModel, saveDraft ) {
     let challenge = null;
@@ -127,7 +136,7 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
         expectedRows = null;
         const model = getModel();
         const pool = available.filter( item => !family || item.family === family );
-        const remaining = pool.filter( item => item.id !== previous?.id );
+        const remaining = pool.filter( item => item.id === preferred?.id || item.id !== previous?.id );
         if (!remaining.length && previous && pool.length) remaining.push( previous );
         const triedFamilies = new Set();
         finding = remaining.length > 0;
@@ -202,7 +211,8 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
             <label>Operación <select data-query-family><option value="">Todas las disponibles</option>
             ${algebraOperators.map( op => `<option value="${op.id}"
                 ${available.some( item => item.family === op.id ) ? '' : 'disabled'}>${op.symbol} ${op.label}</option>` ).join( '' )}
-            </select></label></div></details></div>`;
+            </select></label></div>
+            ${bibliographyExercises( available )}</details></div>`;
         host.querySelector( '[data-query-family]' ).value = family;
         const saved = available.find( item => item.id === draft.challengeId );
         if (saved) choose( saved );
@@ -323,7 +333,17 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
             }
         } );
     host.addEventListener( 'change', event => {
-        if (event.target.hasAttribute( 'data-query-family' )) {
+        if (event.target.hasAttribute( 'data-catalog-exercise' )) {
+            const item = available.find( candidate => candidate.id === event.target.value );
+            if (item) {
+                family = item.family;
+                host.querySelector( '[data-query-family]' ).value = family;
+                clearResults();
+                choose( item );
+                }
+            event.target.value = '';
+            }
+        else if (event.target.hasAttribute( 'data-query-family' )) {
             family = event.target.value;
             next();
             }
