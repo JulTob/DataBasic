@@ -26,7 +26,7 @@ import { zipArchive } from './zip.js';
  *   Diagramas/                 the full-size drawings (SVG);
  *   Proyecto.databasic.json    the project, to open it again in DataBasic;
  *   LEEME.txt                  what each file is and the steps left to the student.
- * DataBasic cannot write the .accdb itself; LEEME.txt explains how to build it.
+ * This source bundle remains available in the static browser edition.
  */
 
 export const DELIVERY_FILES = {
@@ -127,4 +127,19 @@ export function memoFilename( model ) {
     const student = deliveryNamePart( authorFullName( model ) );
 
     return student ? `Memoria_${student}.docx` : `${deliveryNamePart( model.name ) || 'Memoria'}.docx`;
+    }
+
+/** Three assessed files, with the database written by the local ACE exporter. */
+export function buildCoursePackage(
+        model,
+        figures,
+        access
+        ) {
+    return zipArchive(
+            [
+                {name: DELIVERY_FILES.memo, data: reportToDocx( buildDesignReport( model ), figures )},
+                {name: DELIVERY_FILES.visio, data: exportVDX( model )},
+                {name: 'Base_de_datos.accdb', data: access}
+                ]
+            );
     }

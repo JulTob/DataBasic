@@ -9,6 +9,7 @@ import {
     updateTable
     } from '../src/domain/model.js';
 import {
+    buildDiagramScene,
     sceneTableHeight,
     sceneTableWidth
     } from '../src/ui/scene.js';
@@ -261,5 +262,28 @@ test( 'the Visio file carries a legend and a data dictionary page with what the 
     assert.match( dictionary, /importe_acumulado NUMBER\(10,2\) · NOT NULL · DEFAULT 0 · mínimo 0/, 'nulos, predeterminado y dominio' );
     assert.match( dictionary, /estado VARCHAR\(9\) · NULL · DEFAULT &apos;pendiente&apos; · valores pendiente, pagada|estado VARCHAR\(9\) · NULL · DEFAULT 'pendiente' · valores pendiente, pagada/ );
     assert.match( dictionary, /AK1 AK_Comprador_dni_cif: UNIQUE \(dni_cif\), NOT NULL/ );
-    assert.match( dictionary, /FK1 \(especie_cod_especie\) → Especie\(cod_especie\): Especie 1 — 0\.\.N Lote, no identificadora, obligatoria, ON DELETE NO ACTION, ON UPDATE NO ACTION/ );
+    const readable = [...dictionary.matchAll( /<Text>(.*?)<\/Text>/g )]
+        .map( match => match[1].replace( /<[^>]+>/g, '' ) ).join( ' ' );
+
+    assert.match( readable, /FK1 \(especie_cod_especie\) → Especie\(cod_especie\): Especie 1 — 0\.\.N Lote, no identificadora, obligatoria, ON DELETE NO ACTION, ON UPDATE NO ACTION/ );
+    } );
+
+
+test( 'every field name and type has its own readable VDX text frame', () => {
+    const model = exampleDocument();
+    const drawing = exportVDX( model ).split( '</Page>' )[0];
+    const text = [...drawing.matchAll( /<Text>(.*?)<\/Text>/g )].map( match => match[1] );
+
+    assert.ok( text.every( line => !line.includes( '&#10;' ) ) );
+    assert.ok( text.some( line => line.endsWith( '/>VARCHAR(100)' ) ) );
+    } );
+
+test( 'unrelated foreign keys leave route bends and IDEF1X markers at their original positions', () => {
+    const model = exampleDocument();
+    const relation = model.relationships[1];
+    const all = buildDiagramScene( model ).edges[1];
+    const isolated = buildDiagramScene( {...model, relationships: [relation]} ).edges[0];
+
+    assert.deepEqual( all.points, isolated.points );
+    assert.deepEqual( all.markers, isolated.markers );
     } );

@@ -1,6 +1,6 @@
 # Bibliotecas incluidas
 
-Se redistribuyen sin modificar sus archivos de distribución. No se realiza
+Las bibliotecas del navegador se redistribuyen sin modificar sus archivos de distribución. No se realiza
 ninguna petición a un CDN durante el uso normal de la aplicación.
 
 | Archivo | Paquete | Versión | Licencia |
@@ -20,6 +20,12 @@ licencias y sus limitaciones de responsabilidad. Cualquier redistribución de
 Graphviz debe conservar las obligaciones de EPL-2.0.
 
 ## Código fuente original
+
+El motor local `scripts/access/databasic-access.jar` incluye Jackcess
+bajo Apache-2.0. El JAR contiene la licencia y el aviso de Jackcess en
+`META-INF`. El script `scripts/access/build-engine.mjs` lo reconstruye con
+Java 17 a partir de la revisión indicada y omite el lector opcional de
+documentos OLE compuestos. [Fuentes de Jackcess](https://github.com/jahlborn/jackcess/tree/be0a2139b087a227d14cafd4ea231306a5a3a862)
 
 - Lucide: https://github.com/lucide-icons/lucide
 - idb-keyval: https://github.com/jakearchibald/idb-keyval

@@ -343,8 +343,8 @@ test( 'Las lecturas relacionales del ejemplo Graphviz no colisionan y conservan 
             ],
         [
             {x: 350, y: 224},
-            {x: 423, y: 224},
-            {x: 423, y: 204.67487684729065},
+            {x: 403, y: 224},
+            {x: 403, y: 204.67487684729065},
             {x: 456, y: 204.67487684729065}
             ]
         ];

@@ -1,3 +1,4 @@
+import { localAccessAvailable } from '../io/local-access.js';
 import {
     changeDocument,
     setAlternateKey,
@@ -340,10 +341,13 @@ export function showDeliveryDialog( model ) {
                     con esquema (apartado c).</li>
                 <li><strong>LEEME.txt</strong> con los pasos para crear la base de datos .accdb, y el proyecto DataBasic.</li>
             </ul>
-            <p>DataBasic no puede crear el archivo .accdb: ábrelo en Access, ejecuta el módulo y añade la base
-                de datos al .zip antes de entregarlo.</p>
+            <p>Para obtener el archivo .accdb directamente, usa la edición local con Java y Node.
+                El ZIP de tres archivos contiene la memoria Word, el dibujo VDX y la base Access.</p>
             <div class="dialog-actions">
-                ${command( 'download-delivery', 'Descargar paquete (.zip)', 'package', 'class="primary-button"' )}
+                ${localAccessAvailable()
+                    ? command( 'download-course-package', 'Word, VDX y ACCDB (.zip)', 'package', 'class="primary-button"' )
+                    : ''}
+                ${command( 'download-delivery', 'Descargar fuentes (.zip)', 'package' )}
                 ${command( 'report-docx', 'Solo la memoria Word', 'file-text' )}
             </div>
             <p>La memoria también se puede descargar en otros formatos, para revisarla o reutilizar el texto:</p>
@@ -424,9 +428,9 @@ export function showHelp() {
                 supuestos y las restricciones que el relacional no impone.
                 Archivo → Alumno guarda tu DNI, nombre y apellidos, y Archivo → Paquete de entrega
                 comprueba la práctica y descarga el .zip con la memoria, el Visio y los archivos de Access.
-                Archivo → Visio 2010 descarga el diagrama relacional como dibujo .vdx,
+                Archivo → Dibujo Visio descarga el diagrama relacional como dibujo .vdx,
                 el XML nativo de Visio 2010, con las tablas agrupadas y los conectores
-                pegados; no lleva las propiedades de base de datos de Visio.</p>
+                pegados. En la edición local, Archivo → Plantilla Visio 2010 prepara la base y el asistente para crear un modelo con propiedades nativas en Visio Professional o Premium para Windows.</p>
             <p><strong>Vista Tablas.</strong> El botón Tablas muestra las mismas tablas del relacional
                 como las verá Access: llave en la clave principal, tipos de Access y extremos 1 e ∞.
                 Las categorías Campos de Access, Tabla de Access y Relación en Access editan tipo y
@@ -438,7 +442,7 @@ export function showHelp() {
                 celda o la fila que incumple una regla: obligatorio, formato del tipo, dominio,
                 clave repetida o referencia a una fila que no existe. Las filas se guardan con el
                 documento, salen en la memoria y viajan a Access en los tres archivos.</p>
-            <p><strong>Access.</strong> Archivo → Access ofrece tres archivos que Access convierte en
+            <p><strong>Access.</strong> Archivo → Access permite crear un .accdb en la edición local. También ofrece tres archivos que Access convierte en
                 la base de datos: un módulo VBA con DAO que la crea entera (tablas, propiedades,
                 claves, relaciones con integridad y cascadas, búsquedas), un SQL de Access de una
                 instrucción por consulta y un XML con esquema para Datos externos. Los tipos de
@@ -1131,9 +1135,11 @@ export function showAccessDialog( model ) {
     openDialog(
             'Base de datos Access',
             `<div class="access-routes">
-                <p>Access no abre ningún archivo que lleve las relaciones, así que DataBasic genera
-                    archivos que Access convierte en la base de datos. Tipos, tamaños y propiedades se
-                    derivan de la vista relacional; la vista Tablas permitirá ajustarlos.</p>
+                <section class="access-route"><h3>Base de datos Access (.accdb)</h3>
+                    ${localAccessAvailable()
+                        ? command( 'download-accdb', 'Descargar base de datos', 'download' )
+                        : '<p>Abre la edición local con npm start y Java 17 o posterior para generar el archivo en tu equipo.</p>'}
+                </section>
                 ${routes.map(
                         route => `<section class="access-route"><h3>${escapeHTML( route.label )}</h3>
                             <p>${escapeHTML( route.text )}</p>

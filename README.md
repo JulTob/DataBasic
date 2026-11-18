@@ -5,7 +5,7 @@ Su espacio de trabajo combina menús superiores, herramientas flotantes,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.4.4** permite editar un documento con tres representaciones
+La versión **0.5.0** permite editar un documento con tres representaciones
 progresivas: **Diagrama**, el entidad-relación con la notación de Chen;
 **Relacional**, con IDEF1X; y **Tablas**, las mismas tablas como las verá
 Access, con sus tipos y propiedades. El desplegable Vista cambia la
@@ -37,12 +37,31 @@ relaciones con su tipo (1:1, 1:N, N:N, N:N:N), los supuestos, las restricciones
 que el relacional no impone y el diccionario de datos. También hay versión HTML
 y Markdown.
 
-**Archivo → Alumno** guarda el DNI o NIE (con su letra comprobada), el nombre y
-los apellidos, y **Archivo → Paquete de entrega** comprueba el documento frente
-al enunciado de la práctica y descarga `Practica_Apellidos_Nombre.zip` con la
-memoria Word, el Visio del relacional (con leyenda y diccionario de datos), los
-archivos de Access, los diagramas en SVG, el proyecto y un `LEEME.txt` con los
-pasos para crear la base de datos `.accdb`, que DataBasic no puede escribir.
+**Archivo → Alumno** conserva la identificación para la portada.
+En **Archivo → Paquete de entrega**, la edición local genera un ZIP con la memoria
+Word, el dibujo IDEF1X en VDX y la base Access en ACCDB. La descarga de fuentes
+reúne además los diagramas SVG, el proyecto y los exportadores VBA, SQL y XML.
+
+### Crear archivos de Microsoft Office en la edición local
+
+1. Instala Node.js 22 o posterior y Java 17 o posterior. Desde la carpeta
+   de DataBasic ejecuta `npm start` y abre la dirección local que se indica.
+2. Abre tu proyecto. En **Archivo → Access → Descargar base de datos** puedes
+   guardar un ACCDB. Para generarlo desde la línea de órdenes ejecuta
+   `node scripts/export-accdb.mjs modelo.databasic.json salida.accdb`.
+   El exportador guarda consultas SELECT sobre las tablas locales, con alias,
+   combinaciones por igualdad, filtros y agrupaciones. Si una consulta requiere
+   otra construcción SQL, el exportador indica cómo continuar mediante VBA/DAO.
+3. **Dibujo Visio (.vdx)** genera el dibujo editable con su diccionario.
+   **Plantilla Visio 2010** prepara en el equipo local un kit para la plantilla
+   **Diagrama de modelo de base de datos**. Extráelo en Windows con Visio 2010
+   Professional o Premium y sigue sus instrucciones para importar la base, ajustar
+   la notación IDEF1X, comprobar las propiedades de base de datos y guardar el VSD.
+   El modelo con propiedades nativas se materializa al completar ese paso en Visio.
+
+La aplicación estática y GitHub Pages mantienen los exportadores de navegador.
+El servidor de la edición local usa la interfaz de bucle local. La generación del
+ACCDB y del kit se realiza en el equipo que contiene el proyecto.
 
 Arrastra las tablas desde su título o sus filas, los rombos en Chen o los
 bloques de lectura en Relacional para recolocar las formas y relaciones. El arrastre busca hueco entre formas y rótulos;
@@ -191,20 +210,13 @@ rechazada conserva el estado anterior y explica la causa.
 - El SQL es una ayuda de estudio con sintaxis tipo PostgreSQL/SQL estándar;
   debe revisarse para el motor de clase. Una FK no obliga a que cada fila
   referenciada tenga filas que la referencien.
-- __Archivo → Visio 2010__ escribe el diagrama relacional como dibujo XML de
-  Visio 2010 (`.vdx`): grupos por tabla, conectores pegados y marcas IDEF1X o
-  patas de cuervo. Es un dibujo editable, no un «Diagrama de modelo de base de
-  datos» con las propiedades de Visio. No se abren archivos de Visio ni se
-  generan VSD binario, VSDX o bases de datos Access. JSON, SVG, SQL y la
-  impresión/PDF sirven para practicar y conservar trabajo; no sustituyen por
-  sí solos los formatos de la entrega académica.
-- __Archivo → Access__ entrega tres archivos que Access convierte en la base
-  de datos, derivados del relacional con el vocabulario de la vista Diseño de
-  Access: un módulo VBA con DAO que la crea entera (tablas, propiedades,
-  claves, relaciones con integridad y cascadas, campos de búsqueda), un SQL de
-  Access de una instrucción por consulta y un XML con esquema para Datos
-  externos. No se genera `.accdb`; los archivos no se han ejecutado en Access
-  desde el entorno de desarrollo.
+- El VDX conserva formas editables, conectores IDEF1X y diccionario.
+  La plantilla relacional y sus propiedades requieren completar la importación
+  en Visio para Windows.
+- La edición local produce ACCDB mediante Jackcess. El archivo puede comprobarse
+  con un segundo lector como MDB Tools. Las rutas VBA, SQL y XML siguen disponibles
+  en la edición estática.
+
 - La [especificación](docs/specification.md) concreta los contratos y límites;
   la verificación automatizada no acredita equivalencia total con Visio 2010.
 

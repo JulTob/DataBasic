@@ -47,6 +47,25 @@ test( 'El ejemplo de biblioteca cumple las invariantes del modelo', () => {
     assert.deepEqual( validateDocument( exampleDocument() ), [] );
     } );
 
+test( 'Una FK compuesta requiere una restricción única completa en su destino', () => {
+    const model = linked( true );
+    const parent = model.tables[0];
+    const columns = parent.columns.map( field => field.id );
+    const index = {id: 'titular', name: 'UQ_TITULAR', columns, unique: true};
+
+    parent.columns[1].primary = false;
+    parent.indexes.push( index );
+    assert.deepEqual( validateDocument( model ), [] );
+
+    index.unique = false;
+    assert.ok( validateDocument( model ).some(
+            issue => issue.elementId === model.relationships[0].id && issue.level === 'error'
+            ) );
+
+    parent.alternateKeys = [{id: 'alternativa', name: 'AK_TITULAR', columns}];
+    assert.deepEqual( validateDocument( model ), [] );
+    } );
+
 test( 'Crear una entidad es inmutable y genera nombres distintos', () => {
     const original = emptyDocument();
     const first = addTable( original );

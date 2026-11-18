@@ -927,7 +927,6 @@ export function validateDocument( model ) {
             continue;
             }
 
-        const keys = parent.columns.filter( field => field.primary );
         const referenced = relation.mappings.map( pair => pair.parentColumnId );
         const childIds = relation.mappings.map( pair => pair.childColumnId );
 
@@ -940,11 +939,18 @@ export function validateDocument( model ) {
                     );
             }
 
-        if (!keys.length || referenced.length !== keys.length
-            || new Set( referenced ).size !== referenced.length
-            || new Set( childIds ).size !== childIds.length
-            || keys.some( key => !referenced.includes( key.id ) )) {
-            add( 'error', `${relation.name}: la relación debe incluir toda la clave primaria de la tabla referenciada.`, relation.id );
+        const referencesUniqueKey = uniqueColumnSets( parent ).some(
+                key => key.length > 0
+                    && key.length === referenced.length
+                    && key.every( id => referenced.includes( id ) )
+                );
+
+        if (!referencesUniqueKey || new Set( childIds ).size !== childIds.length) {
+            add(
+                    'error',
+                    `${relation.name}: la FK debe corresponder a una clave primaria, alternativa o índice único completo de la tabla referenciada.`,
+                    relation.id
+                    );
             }
 
         for (const pair of relation.mappings) {
@@ -1426,17 +1432,19 @@ function uniqueColumnName(
     return name;
     }
 
-export function hasUniqueColumns(
-        table,
-        columnIds
-        ) {
-    const keys = [
+function uniqueColumnSets( table ) {
+    return [
         table.columns.filter( item => item.primary ).map( item => item.id ),
         ...(table.alternateKeys || []).map( item => item.columns ),
         ...table.indexes.filter( item => item.unique ).map( item => item.columns )
         ];
+    }
 
-    return keys.some(
+export function hasUniqueColumns(
+        table,
+        columnIds
+        ) {
+    return uniqueColumnSets( table ).some(
             key => key.length > 0 && key.every( id => columnIds.includes( id ) )
             );
     }

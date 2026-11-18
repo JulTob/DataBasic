@@ -556,7 +556,7 @@ function reportDictionaryBlocks( model ) {
                 ...(table.alternateKeys.length || table.uniqueIndexes.length || table.foreignKeys.length
                     ? [reportList( [
                         ...table.alternateKeys.map( key => `${key.label} ${key.name}: única y obligatoria sobre (${key.columns.join( ', ' )}).` ),
-                        ...table.uniqueIndexes.map( index => `Índice único ${index.name} sobre (${index.columns.join( ', ' )}); admite nulos.` ),
+                        ...table.uniqueIndexes.map( index => `Índice único ${index.name} sobre (${index.columns.join( ', ' )}).` ),
                         ...table.foreignKeys.map( foreignKey => `${dictionaryForeignKeyLine( table, foreignKey )}.` )
                         ] )]
                     : [])

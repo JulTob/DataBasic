@@ -1,4 +1,4 @@
-# Cobertura de DataBasic 0.4.4 frente a Visio 2010 y al curso
+# Cobertura de DataBasic 0.5.0 frente a Visio 2010 y al curso
 
 Revisión realizada el 3 de noviembre de 2026 sobre la base 0.3.1 e integrada
 después con la versión 0.4.0 (transformaciones de multivaluados y jerarquías,
@@ -114,10 +114,10 @@ los nombres entre comillas son pruebas de `tests/`.
 | C-08 · T2 p. 8, P1 p. 3 | Relaciones binarias, ternarias y con atributos propios. | Disponible | C-07, C-12 | — |
 | C-09 · ERE p. 5, T2 p. 16 | Especialización con círculo d/s, doble línea si total, arcos de subconjunto en las subclases. | Disponible (0.4.1) | C-15; «El vínculo identificador dibuja rombo doble y las subclases llevan el arco»; Ejemplos 04 | La transformación usa tablas de superclase y subclases; disyunción y totalidad quedan documentales. |
 | C-10 · T2 pp. 11–13 | Restricciones de entidades, atributos, claves, estructurales y de integridad. | Disponible | R-07, R-08, R-13, R-15, C-06 | Las restricciones conceptuales no traducibles quedan documentales. |
-| C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | El archivo de Visio no se genera; véase C-14. |
+| C-11 · P1 p. 3 | Relacional en Visio 2010 con IDEF1X: tablas, dominios, PK y AK, FK con dependencia, nulos, predeterminados, cardinalidades y acción referencial. | Disponible | R-03 a R-17 | Se genera un dibujo VDX editable. La ruta de la plantilla se describe en C-14. |
 | C-12 · P1 p. 3 | Sólo VARCHAR, CHAR, NUMBER y DATE. | Disponible | R-04, R-35 | Perfil Curso · 4 tipos por defecto. |
 | C-13 · P1 p. 4 | Ternaria N:N:N: tabla con las tres FK y sus atributos; la clave se adapta cuando se repite la combinación en distintos períodos. | Disponible | C-12 | Clave elegida explícitamente, incluido el período. |
-| C-14 · P1 p. 4 | Entrega: documento del conceptual, archivo Visio del relacional y base de datos Access. | Parcial (0.4.4) | R-18, R-19, R-32, A-06; Visio; Access; Entrega | Archivo → Paquete de entrega reúne en un .zip la memoria Word con los datos del alumno, el .vdx del relacional con leyenda y página de diccionario de datos, y el módulo VBA, el SQL y el XML que Access convierte en la base de datos, con un LEEME de los pasos. Ni el .vdx lleva las propiedades de Visio ni se genera `.accdb`; la ejecución en Access y Visio 2010 reales queda por comprobar. |
+| C-14 · P1 p. 4 | Entrega de memoria, modelo Visio y base Access. | Parcial | Edición local 0.5.0 | El ZIP incluye DOCX, VDX y un ACCDB real. El kit de plantilla usa el ACCDB para crear el VSD mediante ingeniería inversa en Visio 2010 Professional/Premium. La ejecución de la plantilla en Windows queda por verificar. |
 | C-16 · P1 p. 2 §3.1, ERE p. 7 | Supuestos semánticos y semántica perdida razonados junto al grafo ERE. | Disponible (0.4.2) | A-01 a A-07; «La memoria reúne entidades, relaciones con letras, supuestos y semántica perdida» | Tres clases de entrada por objeto o globales; la memoria añade las restricciones documentales detectadas. La argumentación sigue siendo del autor. |
 | C-15 · T2 p. 19 | Patrones incorrectos: entidad con entidad sin rombo, rombo con rombo, atributo sobre la línea. | Disponible | C-04, C-07 | Las relaciones siempre pasan por un rombo y los atributos cuelgan de la entidad o del rombo. |
 

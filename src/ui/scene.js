@@ -1039,8 +1039,17 @@ export function buildDiagramScene( model ) {
         };
 
     if (mode !== 'chen') {
+        // Parallel links share a routing lane family; unrelated links must not displace them.
+        const pairCounts = new Map();
+
         contents.edges = model.relationships.map(
-                (relation, index) => sceneRelationalEdge( model, relation, contents.nodes, index )
+                relation => {
+                    const pair = JSON.stringify( [relation.parentId, relation.childId].sort() );
+                    const lane = pairCounts.get( pair ) || 0;
+
+                    pairCounts.set( pair, lane + 1 );
+                    return sceneRelationalEdge( model, relation, contents.nodes, lane );
+                    }
                 );
         scenePlaceRelationalCaptions( model, contents.nodes, contents.edges );
         }

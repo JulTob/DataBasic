@@ -1,3 +1,4 @@
+import { localAccessAvailable } from '../io/local-access.js';
 import { getConceptualProjection } from '../domain/model.js';
 import {
     command,
@@ -78,7 +79,10 @@ export function ribbonContents( state ) {
                 + ribbonGroup(
                         'Exportar',
                         command( 'svg', 'Imagen SVG', 'image', 'class="ribbon-large"' )
-                            + command( 'vdx', 'Visio 2010', 'file-box', 'class="ribbon-large"' )
+                            + command( 'vdx', 'Dibujo Visio (.vdx)', 'file-box', 'class="ribbon-large"' )
+                            + (localAccessAvailable()
+                                ? command( 'visio-native', 'Plantilla Visio 2010', 'database', 'class="ribbon-large"' )
+                                : '')
                             + command( 'access', 'Access', 'database-zap', 'class="ribbon-large"' )
                             + command( 'sql', 'SQL', 'file-code-2', 'class="ribbon-large"' )
                             + command( 'report-docx', 'Memoria Word', 'file-text', 'class="ribbon-large"' )

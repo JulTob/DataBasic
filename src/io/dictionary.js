@@ -136,7 +136,7 @@ export function dictionaryTableLines( table ) {
     return [
         ...table.columns.map( dictionaryColumnLine ),
         ...table.alternateKeys.map( key => `${key.label} ${key.name}: UNIQUE (${key.columns.join( ', ' )}), NOT NULL` ),
-        ...table.uniqueIndexes.map( index => `UNIQUE ${index.name} (${index.columns.join( ', ' )}), admite nulos` ),
+        ...table.uniqueIndexes.map( index => `UNIQUE ${index.name} (${index.columns.join( ', ' )})` ),
         ...table.foreignKeys.map( foreignKey => dictionaryForeignKeyLine( table, foreignKey ) )
         ];
     }

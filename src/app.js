@@ -37,7 +37,9 @@ import {
     parseDocument,
     serializeDocument
     } from './domain/serialization.js';
+import { requestLocalAccess } from './io/local-access.js';
 import { exportSQL } from './io/sql.js';
+import { buildVisioNativeKit } from './io/visio-native.js';
 import { exportVDX } from './io/visio.js';
 import {
     accessModuleBytes,
@@ -47,6 +49,7 @@ import {
 import { reportToDocx } from './io/docx.js';
 import {
     buildDeliveryPackage,
+    buildCoursePackage,
     deliveryFilename,
     memoFilename
     } from './io/package.js';
@@ -758,10 +761,10 @@ async function autoLayout() {
     }
 
 /** The diagrams of the memo as PNG figures for Word, drawn by the browser. */
-async function designFigures() {
+async function designFigures( model = state.model ) {
     const figures = [];
 
-    for (const diagram of designDiagrams()) {
+    for (const diagram of designDiagrams( model )) {
         figures.push( {title: diagram.title, png: await svgToPNG( diagram.svg )} );
         }
 
@@ -830,15 +833,15 @@ function downloadDeliveryPackage() {
     }
 
 /** Both representations, drawn from the same document, illustrate the report. */
-function designDiagrams() {
+function designDiagrams( model = state.model ) {
     return [
         {
             title: 'Diagrama entidad-relación extendido (Chen)',
-            svg: exportSVG( setDiagramMode( state.model, 'chen' ) )
+            svg: exportSVG( setDiagramMode( model, 'chen' ) )
             },
         {
             title: 'Diagrama relacional',
-            svg: exportSVG( setDiagramMode( state.model, 'relational' ) )
+            svg: exportSVG( setDiagramMode( model, 'relational' ) )
             }
         ];
     }
@@ -1006,6 +1009,49 @@ async function act(
             break;
         case 'remove-data-row':
             commit( removeDataRow( state.model, state.selectedId, Number( target.dataset.row ) ) );
+            break;
+        case 'visio-native':
+            await runDeliveryExport(
+                    'el asistente para la plantilla de Visio',
+                    async () => {
+                        const model = state.model;
+                        const name = filename( 'visio-2010.zip' );
+                        const access = await requestLocalAccess( model );
+
+                        download( buildVisioNativeKit( model, access ), name, 'application/zip' );
+                        notify( 'Abre el kit en Windows para materializar el modelo con Visio 2010.' );
+                        }
+                    );
+            break;
+        case 'download-accdb':
+            await runDeliveryExport(
+                    'la base de datos Access',
+                    async () => {
+                        const model = state.model;
+                        const name = filename( 'accdb' );
+                        const bytes = await requestLocalAccess( model );
+
+                        download( bytes, name, 'application/octet-stream' );
+                        notify( 'Base de datos Access descargada.' );
+                        }
+                    );
+            break;
+        case 'download-course-package':
+            await runDeliveryExport(
+                    'el ZIP de la práctica',
+                    async () => {
+                        const model = state.model;
+                        const access = await requestLocalAccess( model );
+                        const figures = await designFigures( model );
+
+                        download(
+                                buildCoursePackage( model, figures, access ),
+                                deliveryFilename( model ),
+                                'application/zip'
+                                );
+                        notify( 'ZIP descargado con la memoria, el dibujo VDX y la base Access.' );
+                        }
+                    );
             break;
         case 'download-access-vba':
             download( accessModuleBytes( state.model ), filename( 'access.bas' ), 'text/plain;charset=windows-1252' );

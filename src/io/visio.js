@@ -100,25 +100,67 @@ const VISIO_NOTE = {
     margin: 0.4,
     padding: 0.12,
     lineHeight: 0.165,
-    titleHeight: 0.24,
-    charWidth: 0.058
+    titleHeight: 0.24
     };
 
-/** Lines a text needs once Visio wraps it inside the given width. */
-function visioWrappedLines(
-        lines,
-        width
-        ) {
-    const perLine = Math.max( 10, Math.floor( (width - 2 * VISIO_NOTE.padding) / VISIO_NOTE.charWidth ) );
+// Estimated proportional glyph widths in em, with clearance for font substitution.
+function visioGlyphWidth( character ) {
+    if (/[ilI1.,:;'!| ]/.test( character )) {
+        return 0.34;
+        }
 
-    return lines.reduce( (sum, line) => sum + Math.max( 1, Math.ceil( line.length / perLine ) ), 0 );
+    return /[MW@#%]|[^\u0000-\u02ff]/u.test( character ) ? 1 : 0.62;
     }
 
-function visioNoteHeight(
-        lines,
+/** Wrap by words, splitting an identifier only when it cannot fit on a single line. */
+function visioNoteLines(
+        paragraphs,
         width
         ) {
-    return VISIO_NOTE.titleHeight + visioWrappedLines( lines, width ) * VISIO_NOTE.lineHeight + 2 * VISIO_NOTE.padding;
+    const limit = (width - 2 * VISIO_NOTE.padding) * VISIO_POINTS_PER_INCH / VISIO_SIZES.type;
+    const lines = [];
+
+    for (const paragraph of paragraphs) {
+        let line = '';
+        let used = 0;
+
+        for (const word of paragraph.split( /\s+/ )) {
+            const characters = Array.from( word );
+            const wordWidth = characters.reduce( (sum, char) => sum + visioGlyphWidth( char ), 0 );
+
+            if (line && used + visioGlyphWidth( ' ' ) + wordWidth > limit) {
+                lines.push( line );
+                line = '';
+                used = 0;
+                }
+
+            if (line) {
+                line += ' ';
+                used += visioGlyphWidth( ' ' );
+                }
+
+            for (const char of characters) {
+                const advance = visioGlyphWidth( char );
+
+                if (line && used + advance > limit) {
+                    lines.push( line );
+                    line = '';
+                    used = 0;
+                    }
+
+                line += char;
+                used += advance;
+                }
+            }
+
+        lines.push( line );
+        }
+
+    return lines;
+    }
+
+function visioNoteHeight( lines ) {
+    return VISIO_NOTE.titleHeight + lines.length * VISIO_NOTE.lineHeight + 2 * VISIO_NOTE.padding;
     }
 
 /** What each mark of the drawing means, in the notation the document uses. */
@@ -148,9 +190,9 @@ function visioLegendBox(
         drawingWidth,
         drawingHeight
         ) {
-    const lines = visioLegendLines( model );
     const width = 3.6;
-    const height = visioNoteHeight( lines, width );
+    const lines = visioNoteLines( visioLegendLines( model ), width );
+    const height = visioNoteHeight( lines );
     const pageWidth = drawingWidth + VISIO_NOTE.margin + width + VISIO_NOTE.margin;
     const pageHeight = Math.max( drawingHeight, height + 2 * VISIO_NOTE.margin );
 
@@ -186,7 +228,7 @@ function visioTextBox(
     return [
         visioBoxShape( visioNextId( ids ), note.region, {line: VISIO_COLORS.border, fill: VISIO_COLORS.white} ),
         visioTextShape(
-                visioNextId( ids ),
+                ids,
                 {
                     pin: {x: inner.left + inner.width / 2, y: inner.top - VISIO_NOTE.titleHeight / 2},
                     width: inner.width,
@@ -196,7 +238,7 @@ function visioTextBox(
                 {chars: [{size: VISIO_SIZES.title, color: VISIO_COLORS.title, bold: true}], align: 0}
                 ),
         visioTextShape(
-                visioNextId( ids ),
+                ids,
                 {
                     pin: {x: inner.left + inner.width / 2, y: inner.top - VISIO_NOTE.titleHeight - bodyHeight / 2},
                     width: inner.width,
@@ -220,8 +262,8 @@ function visioDictionaryPage( model ) {
     const columnTops = Array( VISIO_DICTIONARY.columns ).fill( VISIO_NOTE.margin + VISIO_NOTE.titleHeight + VISIO_NOTE.padding );
     const placed = relationalDictionary( model ).map(
             table => {
-                const lines = dictionaryTableLines( table );
-                const height = visioNoteHeight( lines, width );
+                const lines = visioNoteLines( dictionaryTableLines( table ), width );
+                const height = visioNoteHeight( lines );
                 const column = columnTops.indexOf( Math.min( ...columnTops ) );
                 const top = columnTops[column];
 
@@ -240,7 +282,7 @@ function visioDictionaryPage( model ) {
         + (VISIO_DICTIONARY.columns - 1) * VISIO_DICTIONARY.gap;
     const pageHeight = Math.max( ...columnTops ) + VISIO_NOTE.margin;
     const heading = visioTextShape(
-            visioNextId( ids ),
+            ids,
             {
                 pin: {x: pageWidth / 2, y: pageHeight - VISIO_NOTE.margin - VISIO_NOTE.titleHeight / 2},
                 width: pageWidth - 2 * VISIO_NOTE.margin,
@@ -381,7 +423,7 @@ function visioTableTitle(
             );
 
     return visioTextShape(
-            visioNextId( ids ),
+            ids,
             region,
             [{text: lines.join( '\n' ), char: 0}],
             {
@@ -489,7 +531,7 @@ function visioTableRow(
 
     if (keyLines.length) {
         shapes.push( visioTextShape(
-                visioNextId( ids ),
+                ids,
                 visioLocalRegion( node, {x: 8, y: row.y, width: 60, height: row.height} ),
                 [{text: keyLines.join( '\n' ), char: 0}],
                 {chars: [{size: VISIO_SIZES.key, color: VISIO_COLORS.key, bold: true}], align: 0}
@@ -499,11 +541,11 @@ function visioTableRow(
     const runs = [{text: names.join( '\n' ), char: 0}];
 
     if (model.display.types) {
-        runs.push( {text: `\n${field.type}`, char: 1} );
+        runs.push( {text: field.type, char: 1} );
         }
 
     shapes.push( visioTextShape(
-            visioNextId( ids ),
+            ids,
             visioLocalRegion( node, {x: 72, y: row.y, width: node.width - 80, height: row.height} ),
             runs,
             {
@@ -523,7 +565,7 @@ function visioTableEmptyNote(
         ids
         ) {
     return visioTextShape(
-            visioNextId( ids ),
+            ids,
             visioLocalRegion(
                     node,
                     {x: 18, y: node.headerHeight, width: node.width - 18, height: 40}
@@ -663,7 +705,7 @@ function visioEdgeCaption(
 
     for (const label of edge.labels) {
         shapes.push( visioTextShape(
-                visioNextId( ids ),
+                ids,
                 visioPageRegion( bounds, label.bounds ),
                 [{text: label.text, char: 0}],
                 {chars: [{size: VISIO_SIZES.label, color: VISIO_COLORS.text}], align: 1}
@@ -1008,21 +1050,54 @@ function visioShape(
         + `${sections}${children}</Shape>`;
     }
 
-/** A text block without border: runs are {text, char} and chars give the Char rows. */
+/** Give each editable line its own frame; VDX readers differ on embedded line breaks. */
 function visioTextShape(
-        id,
+        ids,
         region,
         runs,
+        options
+        ) {
+    const lines = runs.flatMap(
+            run => run.text.split( '\n' ).map( text => ({text, char: run.char}) )
+            );
+    if (lines.length === 1) {
+        return visioTextLine( visioNextId( ids ), region, lines[0], options );
+        }
+
+    const step = Math.min(
+            region.height / lines.length,
+            options.vertical === 0 ? VISIO_NOTE.lineHeight : 0.18
+            );
+    const top = region.pin.y + (options.vertical === 0 ? region.height : step * lines.length) / 2;
+
+    return lines.map(
+            (line, index) => visioTextLine(
+                    visioNextId( ids ),
+                    {
+                        pin: {x: region.pin.x, y: top - step * (index + 0.5)},
+                        width: region.width,
+                        height: step
+                        },
+                    line,
+                    options
+                    )
+            ).join( '' );
+    }
+
+function visioTextLine(
+        id,
+        region,
+        line,
         options
         ) {
     const chars = options.chars.map( (style, index) => visioCharRow( index, style ) ).join( '' );
     const sections = visioXForm( region.pin, region.width, region.height )
         + visioLineSection( {color: VISIO_COLORS.text, visible: false} )
         + visioFillSection( VISIO_COLORS.white, false )
-        + visioTextBlock( {left: visioInches( options.left ?? 0 ), vertical: options.vertical ?? 1} )
+        + visioTextBlock( {left: visioInches( options.left ?? 0 ), vertical: 1} )
         + visioParaRow( 0, options.align )
         + chars
-        + visioTextSection( runs );
+        + visioTextSection( [line] );
 
     return visioShape( id, 'Shape', sections );
     }
