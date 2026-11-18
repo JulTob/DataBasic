@@ -5,7 +5,7 @@ Su espacio de trabajo combina una cinta de herramientas propia de cada vista,
 formas a la izquierda y un panel de propiedades inferior. Microsoft Visio 2010
 ha servido como referencia funcional y visual para esta implementación independiente.
 
-La versión **0.6.1** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
+La versión **0.6.2** reúne cuatro vistas del mismo proyecto. **Diagrama** permite construir el modelo conceptual en notación de Chen. **Relacional** muestra sus tablas, claves y relaciones con las convenciones de Visio. **Tablas** permite editar campos y filas con el vocabulario de Access. **Consultas** ejecuta álgebra relacional y SQL sobre esas filas. Al cambiar de vista, la cinta muestra las herramientas de ese entorno.
 
 ### Biblioteca UMH antes de abrir
 
@@ -14,7 +14,7 @@ La versión **0.6.1** reúne cuatro vistas del mismo proyecto. **Diagrama** perm
 1. Lee **Enunciado**. Crea socios y préstamos en Diagrama. Decide cómo distinguir dos préstamos sucesivos de la misma copia y materializa la decisión en **Correspondencias**.
 2. En **Tablas → Hoja de datos**, comprueba los registros del catálogo y añade los tuyos. El ejercicio y los editores de consultas se guardan en el documento.
 3. En **Consultas**, escribe una expresión a la izquierda o una consulta SQL a la derecha. Se pueden insertar campos y operadores con teclado, clic o arrastre. En **Operadores**, activa **Rellenar con mis tablas** para insertar una fórmula con nombres y valores de tu proyecto cuando haya un ejemplo compatible. **Ejecutar selección** evalúa una subexpresión completa. El resultado conserva los duplicados de SQL y distingue el valor nulo.
-4. **Nuevo reto** elige una fórmula y la vincula a los campos, datos y relaciones actuales. En **Familia de retos** se puede elegir una operación. Ambas respuestas se contrastan con el resultado de referencia sobre esas filas. **Consulta libre** permite explorar y comparar resultados propios. **Herramientas → SQL del esquema** abre las declaraciones de creación.
+4. **Nuevo reto** elige una fórmula y la vincula a los campos, datos y relaciones actuales. En **Familia de retos** se puede elegir una operación. El botón **Mostrar llamada SQL** revela la consulta de referencia junto al editor y conserva tu borrador. Ambas respuestas se contrastan con el resultado de referencia sobre esas filas. **Consulta libre** permite explorar y comparar resultados propios. **Herramientas → SQL del esquema** abre las declaraciones de creación.
 
 La consola ejecuta consultas de lectura en SQLite, dentro del navegador y en una copia temporal de los datos. Las operaciones de conjuntos, las fechas y algunas funciones se escriben de manera diferente en Access. El archivo ACCDB se verifica en Access cuando el objetivo del ejercicio es el comportamiento de ese motor.
 

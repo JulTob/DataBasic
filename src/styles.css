@@ -1614,7 +1614,12 @@ a {
     #app { display: block; }
     #ribbon.ribbon, #query-workspace { display: none; }
     }
-.query-prompt pre { flex-basis: 100%; white-space: pre-wrap; overflow-wrap: anywhere; margin: 8px 0 0; }
+.query-prompt pre { flex-basis: 100%; }
+.query-prompt pre, #query-sql-reference {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    margin: 8px 0 0;
+    }
 @media (max-width: 760px) {
     #app { min-width: 0; grid-template-columns: minmax(0,1fr); --sidebar-width: 116px; }
     .titlebar, .model-controls { min-width: 0; }

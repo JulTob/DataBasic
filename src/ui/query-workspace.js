@@ -60,7 +60,10 @@ function queryEditor( language, draft ) {
         <textarea id="query-${language}" data-editor="${language}" aria-label="${name}"
             spellcheck="false" maxlength="${algebra ? 16000 : 20000}">${escapeHTML( draft || '' )}</textarea>
         <div class="query-commands"><button class="query-run" data-query-run="${language}">Ejecutar</button>
-        ${algebra ? '<button data-query-step>Ejecutar selección</button>' : ''}</div>
+        ${algebra ? '<button data-query-step>Ejecutar selección</button>'
+            : `<button type="button" data-query-show-sql aria-controls="query-sql-reference"
+                aria-expanded="false" hidden>Mostrar llamada SQL</button>`}</div>
+        ${algebra ? '' : '<pre id="query-sql-reference" hidden></pre>'}
         <details class="query-insert"><summary>${algebra ? 'Operadores' : 'Cláusulas SQL'}</summary>
         ${algebra ? '<label><input type="checkbox" data-bind-operator> Rellenar con mis tablas</label>' : ''}
         <div>
@@ -175,8 +178,19 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
         setPrompt();
         }
 
+    function setSqlReference( visible ) {
+        const button = host.querySelector( '[data-query-show-sql]' );
+        const sample = host.querySelector( '#query-sql-reference' );
+        button.hidden = !challenge;
+        button.setAttribute( 'aria-expanded', String( visible ) );
+        button.textContent = visible ? 'Ocultar llamada SQL' : 'Mostrar llamada SQL';
+        sample.hidden = !visible;
+        sample.textContent = visible ? challenge.sql : '';
+        }
+
     function setPrompt() {
         const prompt = host.querySelector( '#query-prompt' );
+        setSqlReference( false );
         const message = free ? 'Consulta libre. Usa las tablas del proyecto o pulsa Nuevo reto.'
             : finding ? 'Comprobando un reto con tus datos…'
             : family ? 'Esta operación necesita otra combinación de campos o filas. Puedes practicar libremente.'
@@ -236,8 +250,9 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
         const prompt = host.querySelector( '#query-prompt' );
         prompt.querySelector( 'pre' )?.remove();
         const sample = document.createElement( 'pre' );
-        sample.textContent = challenge.algebra + (includeSQL ? '\n\n' + challenge.sql : '');
+        sample.textContent = challenge.algebra;
         prompt.append( sample );
+        if (includeSQL) setSqlReference( true );
         }
 
     async function execute( language, selectionOnly = false ) {
@@ -311,6 +326,9 @@ export function createQueryWorkspace( host, getModel, saveDraft ) {
         if (data.queryRun) execute( data.queryRun );
         else if (data.queryStep !== undefined) execute( 'algebra', true );
         else if (data.queryHint !== undefined) solution( false );
+        else if (data.queryShowSql !== undefined && challenge) {
+            setSqlReference( host.querySelector( '#query-sql-reference' ).hidden );
+            }
         else if (data.queryCompare !== undefined && results.sql && results.algebra) {
             host.querySelector( '#query-comparison span' ).textContent =
                 queryResultDifference( results.sql, results.algebra ) || 'Mismas filas y multiplicidades.';
