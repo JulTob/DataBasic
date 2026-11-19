@@ -17,7 +17,7 @@ function sampleRows(
             ) );
     }
 
-test( 'El catálogo inicial conserva Chen, las claves y las existencias al reabrirlo', () => {
+test( 'El catálogo inicial conserva Chen, las claves y sus datos al reabrirlo', () => {
     const catalog = libraryDocument();
     const restored = parseDocument( serializeDocument( catalog ) );
 
@@ -27,104 +27,58 @@ test( 'El catálogo inicial conserva Chen, las claves y las existencias al reabr
     assert.deepEqual( dataStatus( restored ), [] );
     assert.deepEqual(
             restored.tables.map( table => table.name ).sort(),
-            ['Autor', 'Autoria', 'Campus', 'CampusMateria', 'Edicion', 'Ejemplar', 'Libro', 'LibroMateria', 'Materia']
+            ['Autor', 'Autoria', 'Libro', 'LibroTema', 'Tema']
             );
 
-    const authorship = restored.tables.find( table => table.name === 'Autoria' );
     assert.deepEqual(
-            authorship.columns.filter( field => field.primary ).map( field => field.name ).sort(),
-            ['autor_id', 'libro_id']
+            restored.conceptual.relationships.map( relation => relation.name ).sort(),
+            ['Escribe', 'Trata']
             );
-    assert.equal( restored.conceptual.entities.length, 6 );
-    assert.equal( restored.conceptual.relationships.length, 6 );
+    assert.deepEqual(
+            restored.conceptual.entities.map( entity => entity.name ).sort(),
+            ['Autor', 'Libro', 'Tema']
+            );
+
+    for (const [name, keys] of [
+        ['Autoria', ['autor_id', 'libro_id']],
+        ['LibroTema', ['libro_id', 'tema_id']]
+        ]) {
+        const link = restored.tables.find( table => table.name === name );
+        const primary = link.columns.filter( field => field.primary );
+        const parents = restored.relationships.filter( fk => fk.childId === link.id );
+        assert.deepEqual( primary.map( field => field.name ).sort(), keys );
+        assert.deepEqual(
+                new Set( parents.flatMap( fk => fk.mappings.map( mapping => mapping.childColumnId ) ) ),
+                new Set( primary.map( field => field.id ) )
+                );
+        }
     } );
 
-test( 'Las filas distinguen conteo, división, duplicados, nulos y reunión externa', () => {
+test( 'El catálogo incluye coautoría, libros anónimos y clasificaciones múltiples', () => {
     const catalog = libraryDocument();
-    const copies = sampleRows( catalog, 'Ejemplar' );
-    const editions = sampleRows( catalog, 'Edicion' );
     const authorships = sampleRows( catalog, 'Autoria' );
-    const shelves = edition => copies
-        .filter( row => row.edicion_id === edition )
-        .map( row => row.estante );
+    const topics = sampleRows( catalog, 'LibroTema' );
+    const books = sampleRows( catalog, 'Libro' );
 
-    assert.deepEqual( shelves( '11' ), ['A', 'A', 'B', 'B'] );
-    assert.deepEqual( shelves( '21' ), ['A'] );
-    assert.deepEqual( shelves( '41' ), ['B'] );
-    assert.ok( editions.some( edition => shelves( edition.id ).length === 0 ) );
-    assert.ok( editions.some( edition => edition.isbn === null ) );
-    assert.ok( editions.some( edition => edition.isbn !== null ) );
     assert.equal( authorships.filter( row => row.libro_id === '2' ).length, 2 );
     assert.ok( !authorships.some( row => row.libro_id === '4' ) );
-    } );
-
-test( 'Cuatro campus comparten obras y materias y tienen colecciones distintas', () => {
-    const catalog = libraryDocument();
-    const campuses = sampleRows( catalog, 'Campus' );
-    const copies = sampleRows( catalog, 'Ejemplar' );
-    const profiles = sampleRows( catalog, 'CampusMateria' );
-    const classifications = sampleRows( catalog, 'LibroMateria' );
-    const editions = sampleRows( catalog, 'Edicion' );
-    const campusesWith = id => new Set(
-            copies.filter( copy => copy.edicion_id === id ).map( copy => copy.campus_id )
-            );
-
+    assert.equal( topics.filter( row => row.libro_id === '6' ).length, 2 );
     assert.deepEqual(
-            campuses.map( campus => campus.nombre ),
-            ['Altea', 'Elche', 'Orihuela', 'Sant Joan d’Alacant']
+            new Set( topics.map( link => link.libro_id ) ),
+            new Set( books.map( book => book.id ) )
             );
-    assert.deepEqual(
-            editions.filter( edition => campusesWith( edition.id ).size === campuses.length )
-                .map( edition => edition.id ),
-            ['11']
-            );
-    assert.deepEqual( campusesWith( '111' ), new Set( ['2', '3'] ) );
-    assert.deepEqual( campusesWith( '12' ), new Set() );
-    assert.equal( classifications.filter( link => link.libro_id === '6' ).length, 2 );
-    assert.equal( profiles.filter( link => link.materia_id === '4' ).length, 3 );
-
-    for (const book of sampleRows( catalog, 'Libro' )) {
-        assert.ok( classifications.some( link => link.libro_id === book.id ) );
-        }
-    for (const campus of campuses) {
-        assert.ok( profiles.some( link => link.campus_id === campus.id ) );
-        }
     } );
 
-test( 'Un recuento de ejemplares y uno de obras dan resultados diferentes en dos campus', () => {
-    const catalog = libraryDocument();
-    const copies = sampleRows( catalog, 'Ejemplar' );
-    const editions = sampleRows( catalog, 'Edicion' );
-    const bookForEdition = new Map( editions.map( item => [item.id, item.libro_id] ) );
-
-    const totals = sampleRows( catalog, 'Campus' ).map( campus => {
-        const holdings = copies.filter( item => item.campus_id === campus.id );
-        const uniqueBooks = new Set( holdings.map( item => bookForEdition.get( item.edicion_id ) ) );
-        return [campus.nombre, holdings.length, uniqueBooks.size];
-        } );
-
-    assert.deepEqual( totals, [
-        ['Altea', 22, 21],
-        ['Elche', 25, 25],
-        ['Orihuela', 22, 22],
-        ['Sant Joan d’Alacant', 19, 18]
-        ] );
-    } );
-
-test( 'Cada obra distinta dispone de edición y ejemplar; los autores pueden volver a aparecer', () => {
+test( 'Las obras tienen títulos distintos, autores recurrentes y datos de su edición de referencia', () => {
     const catalog = libraryDocument();
     const books = sampleRows( catalog, 'Libro' );
-    const editions = sampleRows( catalog, 'Edicion' );
-    const copies = sampleRows( catalog, 'Ejemplar' );
     const authors = sampleRows( catalog, 'Autor' );
     const authorships = sampleRows( catalog, 'Autoria' );
-    const booksWithCopies = new Set( copies.map( copy =>
-        editions.find( edition => edition.id === copy.edicion_id ).libro_id
-        ) );
 
     assert.ok( books.length >= 60 );
     assert.equal( new Set( books.map( book => book.titulo ) ).size, books.length );
-    assert.deepEqual( booksWithCopies, new Set( books.map( book => book.id ) ) );
+    assert.ok( books.some( book => book.isbn === null ) );
+    assert.ok( books.some( book => book.isbn !== null ) );
 
     for (const name of [
         'J. Robert Oppenheimer',
@@ -139,7 +93,7 @@ test( 'Cada obra distinta dispone de edición y ejemplar; los autores pueden vol
         assert.ok( works.length >= 2, name );
         }
 
-    for (const {isbn} of editions.filter( edition => edition.isbn !== null )) {
+    for (const {isbn} of books.filter( book => book.isbn !== null )) {
         assert.match( isbn, /^[0-9]{13}$/ );
         const sum = [...isbn].reduce(
                 (total, digit, index) => total + Number( digit ) * (index % 2 === 0 ? 1 : 3),
@@ -149,11 +103,11 @@ test( 'Cada obra distinta dispone de edición y ejemplar; los autores pueden vol
         }
     } );
 
-test( 'Las materias distinguen física, probabilidad, señales y humanidades', () => {
+test( 'Los temas distinguen física, probabilidad, señales y humanidades', () => {
     const catalog = libraryDocument();
-    const subjects = sampleRows( catalog, 'Materia' );
+    const subjects = sampleRows( catalog, 'Tema' );
     const books = sampleRows( catalog, 'Libro' );
-    const links = sampleRows( catalog, 'LibroMateria' );
+    const links = sampleRows( catalog, 'LibroTema' );
 
     for (const [title, subjectName] of [
         ['The Feynman Lectures on Physics', 'Física'],
@@ -164,7 +118,7 @@ test( 'Las materias distinguen física, probabilidad, señales y humanidades', (
         ]) {
         const {id: subject} = subjects.find( item => item.nombre === subjectName );
         const {id: book} = books.find( item => item.titulo === title );
-        assert.ok( links.some( link => link.libro_id === book && link.materia_id === subject ), title );
+        assert.ok( links.some( link => link.libro_id === book && link.tema_id === subject ), title );
         }
     } );
 

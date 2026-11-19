@@ -1,6 +1,6 @@
 # Fuentes bibliográficas del catálogo docente
 
-El año y el ISBN corresponden a la edición impresa elegida para el ejercicio. Los títulos se conservan en la lengua de esa edición. La columna **Autoría** recoge a quienes escribieron la obra. Las copias, sus números de registro, sus estantes y su distribución entre campus son datos simulados de DataBasic.
+El año y el ISBN corresponden a la edición impresa elegida para el ejercicio. Los títulos se conservan en la lengua de esa edición. La columna **Autoría** recoge a quienes escribieron la obra. Una obra puede figurar en varios temas del catálogo docente.
 
 Las tres tablas identifican quince obras de física, matemáticas e ingeniería. La última sección recoge repertorios y facsímiles para consultar una selección del resto del catálogo.
 

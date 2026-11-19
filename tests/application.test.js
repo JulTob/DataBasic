@@ -5,6 +5,7 @@ import { applicationHarness } from './support/application.js';
 import {
     exampleDocument,
     emptyDocument,
+    addAssumption,
     addConceptualEntity,
     addConceptualRelationship,
     moveDiagramElement,
@@ -634,13 +635,13 @@ test( 'Distribuir vuelve a colocar los rótulos manuales y permite deshacerlo', 
 test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guardar', async () => {
     const app = await applicationHarness();
 
-    assert.match( app.element( '#model-count' ).textContent, /^9 tablas/ );
-    assert.match( app.element( '#viewport' ).innerHTML, /Ejemplar/ );
-    assert.doesNotMatch( app.element( '#viewport' ).innerHTML, /Socio|Prestamo/ );
+    assert.match( app.element( '#model-count' ).textContent, /^5 tablas/ );
+    assert.match( app.element( '#viewport' ).innerHTML, /LibroTema/ );
+    assert.doesNotMatch( app.element( '#viewport' ).innerHTML, /Usuario|Socio|Prestamo/ );
 
     await app.click({action: 'entity'});
 
-    assert.match( app.element( '#model-count' ).textContent, /^10 tablas/ );
+    assert.match( app.element( '#model-count' ).textContent, /^6 tablas/ );
 
     await app.click({category: 'columns'});
     await app.click({action: 'add-column'});
@@ -656,7 +657,7 @@ test( 'La aplicación arranca y permite crear, editar, deshacer, rehacer y guard
 
     const saved = JSON.parse( app.saved() );
 
-    assert.equal( saved.tables.length, 10 );
+    assert.equal( saved.tables.length, 6 );
     assert.equal( saved.tables.at( -1 ).columns.length, 2 );
     assert.match( app.element( '#save-status' ).textContent, /Guardado/ );
     } );
@@ -722,7 +723,7 @@ test( 'La selección del lienzo permite crear una relación y abrir sus propieda
             });
         }
 
-    assert.match( app.element( '#model-count' ).textContent, /10 relaciones/ );
+    assert.match( app.element( '#model-count' ).textContent, /5 relaciones/ );
     assert.match( app.element( '#properties-body' ).innerHTML, /Columna secundaria/ );
 
     await app.click({category: 'misc'});
@@ -1271,62 +1272,43 @@ test( 'Dos prácticas comparten almacén sin leer ni sobrescribir el ejercicio p
     assert.equal( store.get( 'databasic.document.v1' ), original );
     } );
 
-test( 'La biblioteca recuperada actualiza únicamente el título original de su práctica', async () => {
-    const practice = 'biblioteca-umh-catalogo';
-    const oldTitle = 'Biblioteca UMH antes de abrir';
-    const library = libraryDocument();
-    library.name = oldTitle;
+test( 'La biblioteca nueva y el trabajo de la práctica UMH se abren por separado', async () => {
+    const legacy = addAssumption( exampleDocument(), {
+        kind: 'enunciado',
+        text: 'El catálogo ya está preparado. Antes de abrir al público, '
+            + 'diseña el carné de socio y el préstamo de cada ejemplar. '
+            + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.'
+        } );
+    legacy.name = 'Biblioteca UMH antes de abrir';
+    const key = 'databasic.document.v1.practica.biblioteca-umh-catalogo';
+    const original = JSON.stringify( legacy );
+    const store = new Map( [[key, original]] );
 
-    for (const [id, model, expected] of [
-        [practice, library, 'Biblioteca UMH'],
-        [practice, {...library, name: 'Mi biblioteca'}, 'Mi biblioteca'],
-        [practice, {...emptyDocument(), name: oldTitle}, oldTitle],
-        ['otro-ejercicio', library, oldTitle]
-        ]) {
-        const key = 'databasic.document.v1.practica.' + id;
-        const store = new Map( [[key, JSON.stringify( model )]] );
-        const app = await applicationHarness(
-                500, null, {}, {store, search: '?practica=' + id}
-                );
+    const options = {store, search: '?practica=biblioteca'};
+    const current = await applicationHarness( 500, null, {}, options );
+    assert.equal( current.element( '#document-name' ).textContent, 'Biblioteca' );
+    assert.match( current.element( '#diagram-mode-label' ).textContent, /Chen/ );
+    await current.click({action: 'assignment'});
+    const brief = current.element( '#dialog' ).innerHTML;
+    assert.match( brief, /usuarios/i );
+    assert.match( brief, /carné/i );
+    assert.doesNotMatch( brief, /campus|UMH|préstamo/i );
+    assert.deepEqual( current.writes, [] );
 
-        assert.equal( app.element( '#document-name' ).textContent, expected );
-        assert.deepEqual( app.writes, [] );
-        }
-    } );
+    await current.click({action: 'close-dialog'});
+    await current.click({mode: 'tables'});
+    await current.flushTimers();
+    const resumed = await applicationHarness( 500, null, {}, options );
+    assert.match( resumed.element( '#diagram-mode-label' ).textContent, /Tablas/ );
 
-test( 'Enunciado presenta el encargo de la UMH al recuperar la práctica original', async () => {
-    const practice = 'biblioteca-umh-catalogo';
-    const original = 'El catálogo ya está preparado. Antes de abrir al público, '
-        + 'diseña el carné de socio y el préstamo de cada ejemplar. '
-        + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.';
-    const edited = original + ' Incluye una reserva por ejemplar.';
-    const opening = 'La Universidad Miguel Hernández (UMH) necesita';
-
-    for (const [id, text, expected] of [
-        [practice, original, opening],
-        [practice, edited, edited],
-        ['otro-ejercicio', original, original]
-        ]) {
-        const model = libraryDocument();
-        model.name = 'Mi biblioteca';
-        model.assumptions.find( item => item.kind === 'enunciado' ).text = text;
-        const key = 'databasic.document.v1.practica.' + id;
-        const store = new Map( [[key, JSON.stringify( model )]] );
-        const app = await applicationHarness(
-                500, null, {}, {store, search: '?practica=' + id}
-                );
-
-        await app.click({action: 'assignment'});
-        const dialog = app.element( '#dialog' ).innerHTML;
-        assert.ok( dialog.includes( expected ) );
-        if (expected === opening) {
-            assert.match( dialog, /historial/i );
-            assert.match( dialog, /fechas de préstamo y devolución/ );
-            assert.ok( !dialog.includes( original ) );
-            }
-        assert.equal( app.element( '#document-name' ).textContent, model.name );
-        assert.deepEqual( app.writes, [] );
-        }
+    const previous = await applicationHarness(
+            500, null, {}, {store, search: '?practica=biblioteca-umh-catalogo'}
+            );
+    await previous.click({action: 'save'});
+    const downloaded = await previous.downloads.at( -1 ).text();
+    assert.deepEqual( JSON.parse( downloaded ), legacy );
+    assert.deepEqual( previous.writes, [] );
+    assert.equal( store.get( key ), original );
     } );
 
 test( 'Una práctica inválida no cae sobre la clave principal', async () => {

@@ -193,5 +193,5 @@ test( 'the application switches to the Tablas view, edits Access properties and 
 
     app.change( {example: ''}, '__biblioteca__' );
     await app.flushTimers();
-    assert.equal( JSON.parse( app.saved() ).name, 'Biblioteca UMH' );
+    assert.equal( JSON.parse( app.saved() ).name, 'Biblioteca' );
     } );

@@ -391,7 +391,7 @@ export function showHelp() {
             <p><strong>Cuatro vistas de un documento.</strong> Diagrama contiene el modelo de Chen.
                 Relacional presenta sus claves y relaciones. Tablas muestra los campos y las filas como en Access.
                 En Consultas se ejecutan fórmulas de álgebra y consultas SQL de lectura con SQLite.</p>
-            <p>En la biblioteca, abre Enunciado para preparar el servicio de préstamos.
+            <p>En la biblioteca, abre Enunciado para diseñar el registro de usuarios.
                 Nuevo reto usa las tablas y filas actuales. En Familia de retos puedes elegir una operación.
                 Consulta libre permite explorar tus propios datos. Las opciones de tipos están en Opciones del modelo.</p>
             <p>Los archivos anteriores aparecen en Diagrama como proyección parcial.

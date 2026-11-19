@@ -10,103 +10,53 @@ import {
     updateConceptualRelationship
     } from './model.js';
 
-export const LIBRARY_TITLE = 'Biblioteca UMH';
+export const LIBRARY_TITLE = 'Biblioteca';
 
-const originalLibraryAssignment = 'El catálogo ya está preparado. Antes de abrir al público, '
-    + 'diseña el carné de socio y el préstamo de cada ejemplar. '
-    + 'Conserva el historial cuando una persona vuelva a pedir la misma copia.';
-
-const libraryAssignment = 'La Universidad Miguel Hernández (UMH) necesita una base de datos '
-    + 'para gestionar los ejemplares de sus cuatro campus. El catálogo ya recoge las obras, '
-    + 'sus autores y sus ediciones, e indica en qué campus y estante se guarda cada ejemplar.'
+const libraryAssignment = 'Una biblioteca necesita organizar su catálogo. El personal quiere consultar '
+    + 'quién escribió cada libro y encontrar otros libros sobre el mismo tema. Un libro puede tener '
+    + 'varios autores y tratar varios temas. Un autor puede escribir varios libros y un tema puede '
+    + 'aparecer en libros de distintos autores.'
     + '\n\n'
-    + 'La biblioteca te encarga ampliar ese modelo para poner en marcha el servicio de préstamo. '
-    + 'Cada socio se identifica con un número de carné único. El personal debe poder consultar '
-    + 'qué ejemplares tiene en préstamo cada socio y reconstruir el historial de cada ejemplar '
-    + 'con las fechas de préstamo y devolución, incluso si el mismo socio lo pide varias veces.';
-
-/** Refreshes the supplied brief in a recovered practice while preserving student-authored text. */
-export function restoreLibraryDefaults( model ) {
-    const assignment = model.assumptions?.find(
-            item => item.kind === 'enunciado'
-                && !item.elementId
-                && (item.text === originalLibraryAssignment || item.text === libraryAssignment)
-            );
-    if (!assignment) return;
-
-    assignment.text = libraryAssignment;
-    if (model.name === 'Biblioteca UMH antes de abrir') model.name = LIBRARY_TITLE;
-    }
+    + 'El catálogo ya está cargado. La biblioteca quiere dar de alta a sus usuarios y entregar '
+    + 'a cada uno un carné con un número único. Amplía el modelo para que el personal pueda '
+    + 'registrar a un usuario y encontrarlo por su número de carné. Decide qué datos deben '
+    + 'conservarse de cada persona.';
 
 const catalogEntities = [
     {
         name: 'Libro',
-        notes: 'La obra que se cataloga, con independencia de sus ediciones.',
-        position: {x: 70, y: 100},
-        chenPosition: {x: 870, y: 230},
-        attributesY: 35,
+        notes: 'Cada libro tiene una ficha. El año y el ISBN corresponden a la edición de referencia.',
+        position: {x: 530, y: 70},
+        chenPosition: {x: 665, y: 225},
+        attributesY: 40,
         fields: [
             ['id', 'NUMBER(4)'],
             ['titulo', 'VARCHAR(160)'],
             ['genero', 'VARCHAR(24)'],
-            ['cdu', 'VARCHAR(24)']
+            ['anio_edicion', 'NUMBER(4)'],
+            ['isbn', 'CHAR(13)', {required: false}]
             ]
         },
     {
         name: 'Autor',
-        notes: 'Una persona puede firmar varios libros o compartir la autoría.',
-        position: {x: 70, y: 805},
-        chenPosition: {x: 220, y: 230},
-        attributesY: 35,
+        notes: 'El catálogo conserva la coautoría y admite libros anónimos.',
+        position: {x: 70, y: 70},
+        chenPosition: {x: 120, y: 225},
+        attributesY: 380,
         fields: [
             ['id', 'NUMBER(4)'],
             ['nombre', 'VARCHAR(80)']
             ]
         },
     {
-        name: 'Edicion',
-        notes: 'Cada publicación se describe por separado. Las ediciones antiguas carecen de ISBN.',
-        position: {x: 540, y: 450},
-        chenPosition: {x: 220, y: 780},
-        attributesY: 935,
-        fields: [
-            ['id', 'NUMBER(4)'],
-            ['anio', 'NUMBER(4)'],
-            ['isbn', 'CHAR(13)', {required: false}]
-            ]
-        },
-    {
-        name: 'Ejemplar',
-        notes: 'El registro identifica cada copia. La signatura y el estante la localizan dentro de su campus.',
-        position: {x: 540, y: 805},
-        chenPosition: {x: 870, y: 780},
-        attributesY: 935,
-        fields: [
-            ['registro', 'NUMBER(6)'],
-            ['signatura', 'VARCHAR(20)'],
-            ['estante', 'VARCHAR(12)']
-            ]
-        },
-    {
-        name: 'Materia',
-        notes: 'Término temático del catálogo didáctico. Una obra puede tratar varias materias.',
-        position: {x: 1010, y: 100},
-        chenPosition: {x: 1520, y: 230},
-        attributesY: 35,
+        name: 'Tema',
+        notes: 'Un tema agrupa los libros que tratan una misma materia.',
+        position: {x: 990, y: 70},
+        chenPosition: {x: 1210, y: 225},
+        attributesY: 380,
         fields: [
             ['id', 'NUMBER(4)'],
             ['nombre', 'VARCHAR(60)']
-            ]
-        },
-    {
-        name: 'Campus',
-        notes: 'La ubicación se agrupa por campus. Orihuela reúne las bibliotecas de la EPSO y de Las Salesas.',
-        position: {x: 1010, y: 805},
-        chenPosition: {x: 1520, y: 780},
-        attributesY: 935,
-        fields: [
-            ['id', 'NUMBER(4)'],
-            ['nombre', 'VARCHAR(40)']
             ]
         }
     ];
@@ -144,38 +94,29 @@ function addCatalogEntity(
     return next;
     }
 
-function addCatalogRelationship(
+function addCatalogAssociation(
         model,
         name,
-        parent,
-        child,
-        associationTable
+        participants,
+        tableName
         ) {
-    const participations = [parent, child].map( (entityName, index) => {
+    const participations = participants.map( entityName => {
         const entity = model.conceptual.entities.find( item => item.name === entityName );
-        const requiredOwner = index === 1 && !associationTable;
-
-        return {
-            entityId: entity.id,
-            role: entityName.toLowerCase(),
-            min: requiredOwner ? 1 : 0,
-            max: requiredOwner ? 1 : null
-            };
+        return {entityId: entity.id, role: entityName.toLowerCase(), min: 0, max: null};
         } );
     const next = addConceptualRelationship( model, {name, participations} );
     const relation = next.conceptual.relationships.at( -1 );
-    const translation = associationTable
-        ? {
-            kind: 'association',
-            tableName: associationTable,
-            key: {participationIds: relation.participations.map( part => part.id ), attributeIds: []}
-            }
-        : {
-            kind: 'foreign-key',
-            childParticipationId: relation.participations[1].id
-            };
 
-    return updateConceptualRelationship( next, relation.id, {translation} );
+    return updateConceptualRelationship( next, relation.id, {
+        translation: {
+            kind: 'association',
+            tableName,
+            key: {
+                participationIds: relation.participations.map( part => part.id ),
+                attributeIds: []
+                }
+            }
+        } );
     }
 
 function addCatalogRows(
@@ -198,7 +139,7 @@ function addCatalogRows(
     return setDataRows( model, table.id, rows );
     }
 
-/** A populated catalogue awaiting its first member and loan; every opening gets fresh domain IDs. */
+/** Every new library starts with the same catalogue and fresh model identifiers. */
 export function libraryDocument() {
     let model = emptyDocument();
     model.name = LIBRARY_TITLE;
@@ -207,18 +148,12 @@ export function libraryDocument() {
         model = addCatalogEntity( model, entity );
         }
 
-    model = addCatalogRelationship( model, 'Escribe', 'Autor', 'Libro', 'Autoria' );
-    model = addCatalogRelationship( model, 'Se publica en', 'Libro', 'Edicion' );
-    model = addCatalogRelationship( model, 'Tiene copias', 'Edicion', 'Ejemplar' );
-
-    model = addCatalogRelationship( model, 'Se clasifica en', 'Libro', 'Materia', 'LibroMateria' );
-    model = addCatalogRelationship( model, 'Desarrolla', 'Campus', 'Materia', 'CampusMateria' );
-    model = addCatalogRelationship( model, 'Custodia', 'Campus', 'Ejemplar' );
+    model = addCatalogAssociation( model, 'Escribe', ['Autor', 'Libro'], 'Autoria' );
+    model = addCatalogAssociation( model, 'Trata', ['Libro', 'Tema'], 'LibroTema' );
 
     for (const [name, x, y] of [
-        ['Autoria', 70, 450],
-        ['LibroMateria', 540, 100],
-        ['CampusMateria', 1010, 450]
+        ['Autoria', 300, 420],
+        ['LibroTema', 760, 420]
         ]) {
         const table = model.tables.find( item => item.name === name );
         model = moveDiagramElement( model, table.id, {x, y}, 'relational' );
@@ -227,11 +162,6 @@ export function libraryDocument() {
     for (const contents of libraryContents()) {
         model = addCatalogRows( model, contents );
         }
-
-    model = addAssumption( model, {
-        kind: 'supuesto',
-        text: 'El ejercicio usa los cuatro campus de la Universidad Miguel Hernández. Los ejemplares, las signaturas y los perfiles de materias son datos de práctica. Un campus puede custodiar libros sobre cualquier materia.'
-        } );
 
     return addAssumption( model, {
         kind: 'enunciado',

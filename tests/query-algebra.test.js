@@ -40,80 +40,94 @@ test( 'El catálogo inicial genera y resuelve todas las familias y agregados de 
 
 test( 'La proyección elimina duplicados y la selección distingue texto, NULL y disyunción', async () => {
     const model = libraryDocument();
-    const shelf = await queryModel( model, compileAlgebra( 'π[estante](Ejemplar)', model ) );
-    allRowsMatch( shelf, {columns: ['estante'], rows: [['A'], ['B']]} );
-    const isbn = await queryModel(
-        model,
-        compileAlgebra( 'π[id](σ[isbn IS NULL AND (anio < 1700 OR anio = 1929)](Edicion))', model )
-        );
-    const reference = await queryModel( model, 'SELECT DISTINCT id FROM Edicion WHERE isbn IS NULL AND (anio < 1700 OR anio = 1929)' );
-    allRowsMatch( isbn, reference );
-    assert.ok( [21, 31].every( id => isbn.rows.some( row => row[0] === id ) ) );
+    const genres = await queryModel( model, compileAlgebra( 'π[genero](Libro)', model ) );
+    allRowsMatch( genres, await queryModel( model, 'SELECT DISTINCT genero FROM Libro' ) );
+    assert.ok( genres.rows.length > 1 && genres.rows.length < 65 );
+    const selected = await queryModel(
+            model,
+            compileAlgebra( 'π[id](σ[isbn IS NULL AND (anio_edicion < 1700 OR anio_edicion = 1929)](Libro))', model )
+            );
+    const reference = await queryModel(
+            model,
+            'SELECT DISTINCT id FROM Libro WHERE isbn IS NULL AND (anio_edicion < 1700 OR anio_edicion = 1929)'
+            );
+    allRowsMatch( selected, reference );
+    assert.ok( [2, 3].every( id => selected.rows.some( row => row[0] === id ) ) );
     } );
 
-test( 'La división comprueba todas las obligaciones y admite un divisor vacío', async () => {
+test( 'La división encuentra los libros que tratan dos temas y admite un divisor vacío', async () => {
     const model = libraryDocument();
-    const offered = 'π[edicion_id, estante](Ejemplar)';
-    const incomplete = await queryModel(
-        model, compileAlgebra( '÷(' + offered + ', π[estante](Ejemplar))', model )
-        );
-    const allShelves = await queryModel( model,
-        'SELECT edicion_id FROM Ejemplar GROUP BY edicion_id '
-            + 'HAVING COUNT(DISTINCT estante) = (SELECT COUNT(DISTINCT estante) FROM Ejemplar)'
-        );
-    allRowsMatch( incomplete, allShelves );
-    assert.ok( incomplete.rows.some( ([id]) => id === 11 ) );
-    const vacuous = await queryModel(
-        model, compileAlgebra( "÷(" + offered + ", π[estante](σ[estante = 'Z'](Ejemplar)))", model )
-        );
-    allRowsMatch( vacuous, await queryModel( model, 'SELECT DISTINCT edicion_id FROM Ejemplar' ) );
+    const pairs = 'π[libro_id, tema_id](LibroTema)';
+    const both = 'π[tema_id](σ[tema_id = 1 OR tema_id = 2](LibroTema))';
+    const covered = await queryModel( model, compileAlgebra( '÷(' + pairs + ', ' + both + ')', model ) );
+    const reference = await queryModel(
+            model,
+            'SELECT libro_id FROM LibroTema WHERE tema_id IN (1, 2) GROUP BY libro_id '
+                + 'HAVING COUNT(DISTINCT tema_id) = 2'
+            );
+    allRowsMatch( covered, reference );
+    assert.ok( covered.rows.some( ([id]) => id === 2 ) );
+
+    const empty = 'π[tema_id](σ[tema_id = 0](LibroTema))';
+    const vacuous = await queryModel( model, compileAlgebra( '÷(' + pairs + ', ' + empty + ')', model ) );
+    allRowsMatch( vacuous, await queryModel( model, 'SELECT DISTINCT libro_id FROM LibroTema' ) );
     } );
 
-test( 'Una división descubre desde ambas FK las ediciones disponibles en los cuatro campus', async () => {
+test( 'El reto de cobertura por dos claves externas se mantiene al ampliar la biblioteca', async () => {
     const model = libraryDocument();
-    const exercise = compatibleChallenges( model ).find( item =>
-        item.id.startsWith( 'divide:coverage-' ) && item.prompt.includes( 'registros de Campus' )
-        );
-    assert.ok( exercise, 'La biblioteca debe permitir el reto sin identificar tablas por su nombre en el generador.' );
-    const expected = {columns: ['edicion_id'], rows: [[11]]};
-    allRowsMatch( await queryModel( model, exercise.sql ), expected );
-    allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
-    } );
+    const table = name => model.tables.find( item => item.name === name );
+    const field = (table, name) => table.columns.find( item => item.name === name ).id;
+    const books = table( 'Libro' );
+    const topics = table( 'Tema' );
+    const links = table( 'LibroTema' );
+    const bookKey = field( books, 'id' );
+    const topicKey = field( topics, 'id' );
+    const bookRef = field( links, 'libro_id' );
+    const topicRef = field( links, 'tema_id' );
 
-test( 'El reto de los cuatro campus sigue disponible al añadir doscientos ejemplares al fondo', async () => {
-    const model = libraryDocument();
-    const table = model.tables.find( item => item.name === 'Ejemplar' );
-    const register = table.columns.find( column => column.name === 'registro' );
-    const examples = model.data[table.id];
-    const source = examples.at( -1 );
-    for (let i = 0; i < 200; i++) {
-        examples.push( {...source, [register.id]: String( 700000 + i )} );
+    // This model catalogs literature and fine arts; some books span both subjects.
+    const selected = new Set( ['1', '2'] );
+    model.data[topics.id] = model.data[topics.id].filter( row => selected.has( row[topicKey] ) );
+    model.data[links.id] = model.data[links.id].filter( row => selected.has( row[topicRef] ) );
+
+    async function verifyCoverage() {
+        const challenges = compatibleChallenges( model );
+        assert.deepEqual(
+                new Set( challenges.map( item => item.family ) ),
+                new Set( algebraOperators.map( item => item.id ) )
+                );
+        const exercise = challenges.find( item =>
+            item.id.startsWith( 'divide:coverage-' ) && item.prompt.includes( 'registros de Tema' )
+            );
+        assert.ok( exercise );
+        const expected = await queryModel(
+                model,
+                'SELECT libro_id FROM LibroTema GROUP BY libro_id HAVING COUNT(DISTINCT tema_id) = 2'
+                );
+        assert.ok( expected.rows.some( ([id]) => id === 2 ) );
+        allRowsMatch( await queryModel( model, exercise.sql ), expected );
+        allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
         }
 
-    const challenges = compatibleChallenges( model );
-    assert.deepEqual(
-        new Set( challenges.map( item => item.family ) ),
-        new Set( algebraOperators.map( item => item.id ) )
-        );
-    const division = challenges.find( item =>
-        item.id.startsWith( 'divide:coverage-' ) && item.prompt.includes( 'registros de Campus' )
-        );
-    assert.ok( division );
-    allRowsMatch(
-        await queryModel( model, compileAlgebra( division.algebra, model ) ),
-        {columns: ['edicion_id'], rows: [[11]]}
-        );
+    await verifyCoverage();
+    for (let i = 0; i < 200; i++) {
+        const id = String( 1000 + i );
+        model.data[books.id].push( {...model.data[books.id][0], [bookKey]: id} );
+        model.data[links.id].push( {[bookRef]: id, [topicRef]: '1'} );
+        }
+    await verifyCoverage();
     } );
 
-test( 'Los retos del catálogo relacionan nombres bibliográficos y campus con su referencia', async () => {
+test( 'Los retos del catálogo recuperan los autores y temas de un título', async () => {
     const model = libraryDocument();
     const exercises = compatibleChallenges( model );
     for (const [role, names] of [
         ['autores', ['Antonio Machado', 'Manuel Machado']],
-        ['campus', ['Altea', 'Elche', 'Orihuela', 'Sant Joan d’Alacant']]
+        ['temas', ['Literatura', 'Bellas artes']]
         ]) {
         const exercise = exercises.find( item => item.id.startsWith( 'join:biblioteca-' + role ) );
         assert.ok( exercise );
+        assert.match( exercise.prompt, /La Lola se va a los puertos/ );
         const expected = {columns: ['nombre'], rows: names.map( name => [name] )};
         allRowsMatch( await queryModel( model, compileAlgebra( exercise.algebra, model ) ), expected );
         allRowsMatch( await queryModel( model, exercise.sql ), expected );
@@ -161,17 +175,17 @@ test( 'El reto de autores cuenta obras distintas con coautoría aunque se dupliq
         }
     } );
 
-test( 'La reunión externa conserva una edición sin ejemplar y la reunión interna la descarta', async () => {
+test( 'La reunión externa conserva el libro sin autor conocido y la reunión interna lo descarta', async () => {
     const model = libraryDocument();
-    const expression = 'π[Edicion.id](σ[Ejemplar.registro IS NULL]('
-        + '⟕[Edicion.id = Ejemplar.edicion_id](Edicion, Ejemplar)))';
+    const expression = 'π[Libro.titulo](σ[Autoria.autor_id IS NULL]('
+        + '⟕[Libro.id = Autoria.libro_id](Libro, Autoria)))';
     allRowsMatch(
         await queryModel( model, compileAlgebra( expression, model ) ),
-        {columns: ['id'], rows: [[12]]}
+        {columns: ['titulo'], rows: [['Lazarillo de Tormes']]}
         );
     allRowsMatch(
         await queryModel( model, compileAlgebra( expression.replace( '⟕', '⋈' ), model ) ),
-        {columns: ['id'], rows: []}
+        {columns: ['titulo'], rows: []}
         );
     } );
 
@@ -232,9 +246,9 @@ test( 'Explica errores de tipos, ambigüedad y operandos y conserva SELECT como 
     for (const [input, message] of [
         ['∪(π[titulo](Libro), π[id](Libro))', /dominios/],
         ['π[inexistente](Libro)', /desconocido/],
-        ['⋈[id = id](Edicion, Libro)', /ambiguo/],
+        ['⋈[id = id](Autor, Libro)', /ambiguo/],
         ['ℱ[; SUM(titulo) AS importe](Libro)', /numérico/],
-        ['÷(π[titulo](Libro), π[isbn](Edicion))', /divisor/],
+        ['÷(π[titulo](Libro), π[nombre](Tema))', /divisor/],
         ['σ[id = 1; DROP TABLE Libro](Libro)', /expresión/],
         ['π[titulo](Libro) SELECT 1', /expresión/],
         ['ρ[id ← titulo](Libro)', /repetido/]

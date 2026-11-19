@@ -404,42 +404,68 @@ function challengeLibrary( model, sources, add ) {
             };
         }
 
-    const copies = named( 'Ejemplar' );
-    const campus = named( 'Campus' );
-    const editions = named( 'Edicion' );
-    const place = link( campus, copies );
-    const edition = link( editions, copies );
-    const campusName = campus?.table.columns.find( field => field.name === 'nombre' );
-    if (place && edition && campusName) {
-        const sites = challengeGroups( copies.rows, edition.ref, place.ref );
-        const validCampus = challengeVariants( campus, place.key );
-        const chosen = [...sites].find( ([, set]) => [...set].filter( value => validCampus.has( value ) ).length >= 2 );
-        if (chosen && challengeVariants( editions, edition.key ).has( chosen[0] )) {
-            const constant = challengeSqlValue( chosen[0] );
-            const expression = 'π[' + campus.name + '.' + challengeName( campusName.name ) + '](⋈['
-                + place.condition + '](' + campus.name + ', σ['
-                + challengeName( edition.ref.name ) + ' = ' + constant + '](' + copies.name + ')))';
-            add( 'join', 'biblioteca-campus-' + edition.ref.id,
-                '¿En qué campus hay ejemplares de la edición ' + constant
-                    + '? Muestra el nombre de cada campus una sola vez.',
-                expression,
-                'SELECT DISTINCT c.' + algebraIdentifier( campusName.name ) + ' FROM ' + campus.quoted
-                    + ' AS c JOIN ' + copies.quoted + ' AS e ON ' + place.on( 'c', 'e' )
-                    + ' WHERE e.' + algebraIdentifier( edition.ref.name ) + ' = ' + constant );
-            }
+    const books = named( 'Libro' );
+    const title = books?.table.columns.find( field => field.name === 'titulo' );
+    if (!title) return;
+
+    function addBookNames(
+            names,
+            association,
+            variant,
+            question
+            ) {
+        const bookLink = link( books, association );
+        const nameLink = link( names, association );
+        const field = names?.table.columns.find( column => column.name === 'nombre' );
+        if (!bookLink || !nameLink || !field) return;
+
+        const groups = challengeGroups( association.rows, bookLink.ref, nameLink.ref );
+        const known = challengeVariants( names, nameLink.key );
+        const shared = books.rows.find( row => {
+            const members = groups.get( challengeCell( row, bookLink.key ) ) || [];
+            return challengeCell( row, title ) !== null
+                && [...members].filter( value => known.has( value ) ).length >= 2;
+            } );
+        if (!shared) return;
+
+        const value = challengeCell( shared, title );
+        const literal = challengeSqlValue( value );
+        const selected = 'σ[' + challengeName( title.name ) + ' = ' + literal + '](' + books.name + ')';
+        const linked = '⋈[' + bookLink.condition + '](' + selected + ', ' + association.name + ')';
+        add(
+                'join',
+                'biblioteca-' + variant + '-' + bookLink.ref.id,
+                question( value ),
+                'π[' + names.name + '.' + challengeName( field.name ) + '](⋈[' + nameLink.condition
+                    + '](' + names.name + ', ' + linked + '))',
+                'SELECT DISTINCT n.' + algebraIdentifier( field.name ) + ' FROM ' + names.quoted
+                    + ' AS n JOIN ' + association.quoted + ' AS c ON ' + nameLink.on( 'n', 'c' )
+                    + ' JOIN ' + books.quoted + ' AS l ON ' + bookLink.on( 'l', 'c' )
+                    + ' WHERE l.' + algebraIdentifier( title.name ) + ' = ' + literal
+                );
         }
 
-    const books = named( 'Libro' );
     const authors = named( 'Autor' );
     const credits = named( 'Autoria' );
+    addBookNames(
+            authors,
+            credits,
+            'autores',
+            value => '¿Quiénes escribieron «' + value + '»? Devuelve el nombre de cada autor.'
+            );
+    addBookNames(
+            named( 'Tema' ),
+            named( 'LibroTema' ),
+            'temas',
+            value => '¿Qué temas trata «' + value + '»? Devuelve el nombre de cada tema.'
+            );
+
     const book = link( books, credits );
     const author = link( authors, credits );
-    const title = books?.table.columns.find( field => field.name === 'titulo' );
     const person = authors?.table.columns.find( field => field.name === 'nombre' );
-    if (!book || !author || !title || !person) {
+    if (!book || !author || !person) {
         return;
         }
-    const coauthors = challengeGroups( credits.rows, book.ref, author.ref );
     const validAuthors = challengeVariants( authors, author.key );
     const validBooks = challengeVariants( books, book.key );
     const worksByAuthor = challengeGroups( credits.rows, author.ref, book.ref );
@@ -466,23 +492,6 @@ function challengeLibrary( model, sources, add ) {
                 + ' GROUP BY a.' + algebraIdentifier( author.key.name ) + ', a.' + name
                 + ' HAVING ' + tally + ' > 1' );
         }
-    const shared = books.rows.find( row => {
-        const set = coauthors.get( challengeCell( row, book.key ) ) || [];
-        return challengeCell( row, title ) !== null && [...set].filter( value => validAuthors.has( value ) ).length >= 2;
-        } );
-    if (shared) {
-        const value = challengeCell( shared, title );
-        const selected = 'σ[' + challengeName( title.name ) + ' = ' + challengeSqlValue( value ) + '](' + books.name + ')';
-        const signed = '⋈[' + book.condition + '](' + selected + ', ' + credits.name + ')';
-        add( 'join', 'biblioteca-autores-' + book.ref.id,
-            '¿Quiénes escribieron «' + value + '»? Devuelve una fila con el nombre de cada autor.',
-            'π[' + authors.name + '.' + challengeName( person.name ) + '](⋈[' + author.condition
-                + '](' + authors.name + ', ' + signed + '))',
-            'SELECT DISTINCT a.' + algebraIdentifier( person.name ) + ' FROM ' + authors.quoted
-                + ' AS a JOIN ' + credits.quoted + ' AS c ON ' + author.on( 'a', 'c' )
-                + ' JOIN ' + books.quoted + ' AS l ON ' + book.on( 'l', 'c' )
-                + ' WHERE l.' + algebraIdentifier( title.name ) + ' = ' + challengeSqlValue( value ) );
-        }
     }
 
 function challengeProductFields( left, right ) {
@@ -493,7 +502,7 @@ function challengeProductFields( left, right ) {
             }
         const y = right.columns.find( field => {
             const height = challengeVariants( right, field ).size;
-            return field.name.toLowerCase() !== x.name.toLowerCase() && height > 1 && width * height <= 80;
+            return field.name.toLowerCase() !== x.name.toLowerCase() && height > 1 && width * height <= 150;
             } );
         if (y) {
             return [x, y];

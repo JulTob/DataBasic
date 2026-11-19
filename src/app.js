@@ -1,4 +1,4 @@
-import { libraryDocument, restoreLibraryDefaults } from './domain/library.js';
+import { libraryDocument } from './domain/library.js';
 import { createQueryWorkspace } from './ui/query-workspace.js';
 import {
     addColumn,
@@ -2081,6 +2081,7 @@ async function loadExampleIndex() {
     }
 
 async function restoreDocument() {
+    let showCatalogOverview = false;
     try {
         const contents = autosaveKey
             ? await globalThis.idbKeyval.get( autosaveKey )
@@ -2088,9 +2089,11 @@ async function restoreDocument() {
 
         if (contents && !state.past.length) {
             state.model = parseDocument( contents );
-            if (practiceId === 'biblioteca-umh-catalogo') {
-                restoreLibraryDefaults( state.model );
-                }
+            }
+        else if (!contents && !state.past.length && practiceId === 'biblioteca') {
+            state.model = setDiagramMode( state.model, 'chen' );
+            state.propertiesShown = false;
+            showCatalogOverview = true;
             }
 
         showSaveStatus(
@@ -2109,7 +2112,8 @@ async function restoreDocument() {
     state.selectedId = state.model.tables[0]?.id || null;
     state.tab = defaultTab();
     render();
-    focusDiagram();
+    if (showCatalogOverview) fitDiagram();
+    else focusDiagram();
     }
 
 render();

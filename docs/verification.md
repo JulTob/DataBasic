@@ -1,5 +1,16 @@
 # Verificación de DataBasic
 
+## Biblioteca en 0.6.3
+
+El nuevo catálogo contiene 65 libros, 55 autores y 15 temas. Las tablas de asociación
+registran 86 autorías y 104 asignaciones de tema. Las 325 filas coinciden, campo a campo,
+con las que se leyeron mediante MDB Tools del ACCDB exportado.
+
+Se ejecutaron las 70 variantes de las 14 familias de retos sobre el catálogo.
+El álgebra y el SQL de referencia produjeron las mismas columnas, filas y multiplicidades.
+Por ejemplo, al consultar *La Lola se va a los puertos* se recuperan Antonio y Manuel
+Machado como autores y Literatura y Bellas artes como temas.
+
 ## Catálogo bibliográfico ampliado en 0.6.1
 
 El catálogo tiene 65 títulos distintos, 55 autores, 66 ediciones y 88 ejemplares. Las nueve tablas contienen 505 filas. Se generó el ACCDB, se abrió con MDB Tools y se compararon todos los valores exportados, campo a campo y con multiplicidad, con los del documento guardado y reabierto. Los ejemplares se distribuyen entre Altea (22), Elche (25), Orihuela (22) y Sant Joan d’Alacant (19). Las existencias son simuladas. Altea cuenta 22 ejemplares de 21 obras distintas y Sant Joan, 19 ejemplares de 18 obras. Esta diferencia permite comprobar el efecto de `COUNT(DISTINCT …)`.
